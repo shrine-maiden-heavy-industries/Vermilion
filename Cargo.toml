@@ -1,0 +1,65 @@
+[workspace]
+resolver = '3'
+members  = [
+	"crates/*"
+]
+
+[workspace.package]
+edition       = "2024"
+license       = "BSD-3-Clause"
+rust-version  = "1.89"
+repository    = "https://github.com/shrine-maiden-heavy-industries/vermilion"
+homepage      = "https://github.com/shrine-maiden-heavy-industries/vermilion"
+documentation = "https://github.com/shrine-maiden-heavy-industries/vermilion"
+
+[workspace.dependencies]
+# Core Vermilion Crates
+vermilion             = { path = "crates/vermilion"             }
+vermilion-core        = { path = "crates/vermilion-core"        }
+vermilion-diagnostics = { path = "crates/vermilion-diagnostics" }
+vermilion-fmt         = { path = "crates/vermilion-fmt"         }
+vermilion-lang        = { path = "crates/vermilion-lang"        }
+vermilion-lsp         = { path = "crates/vermilion-lsp"         }
+vermilion-verilog     = { path = "crates/vermilion-verilog"     }
+vermilion-vhdl        = { path = "crates/vermilion-vhdl"        }
+
+# External Deps
+ariadne            = { version = "0.5.1", features = ["auto-color"] }
+chumsky            = { version = "0.11.1", features = ["extension", "regex", "memoization", "stacker"] }
+clap               = { version = "4.5.50" }
+clap_complete      = { version = "4.5.59" }
+color-print        = { version = "0.3.7" }
+colorchoice        = { version = "1.0.4" }
+console-subscriber = { version = "0.4.1" }
+criterion          = { version = "0.7" }
+directories        = { version = "6.0.0" }
+eyre               = { version = "0.6.12", default-features = false }
+schemars           = { version = "1.0.4", features = [ "derive" ] }
+serde              = { version = "1.0.228", features = [ "derive" ] }
+serde_json         = { version = "1.0.145" }
+serde_repr         = { version = "0.1.20" }
+tendril            = { version = "0.4.3" }
+test-log           = { version = "0.2.18", features = ["trace", "color"] }
+tokio              = { version = "1.48.0", features = [ "rt", "rt-multi-thread", "net", "time", "macros", "sync", "tracing" ] }
+tokio-stream       = { version = "0.1.17", features = [ "full" ] }
+tokio-util         = { version = "0.7.16", features = [ "tracing" ] }
+toml               = { version = "0.9.8" }
+tracing            = { version = "0.1.41", features = [ "async-await" ] }
+tracing-subscriber = { version = "0.3.20", features = [ "env-filter", "fmt", "ansi", "registry" ] }
+
+[workspace.lints.clippy]
+allow_attributes_without_reason = "warn"
+cast_lossless = "warn"
+use_self = "warn"
+wildcard_dependencies = "warn"
+
+[profile.release]
+lto           = true
+codegen-units = 1
+
+[profile.devopt]
+inherits = "release"
+debug    = 1
+
+[profile.dist]
+inherits = "release"

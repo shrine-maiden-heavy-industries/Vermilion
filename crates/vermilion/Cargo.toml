@@ -1,0 +1,46 @@
+# SPDX-License-Identifier: BSD-3-Clause
+[package]
+name          = "vermilion"
+version       = "0.1.0"
+description   = "Verilog, SystemVerilog, and VHDL code linter, formatter, and language server"
+publish       = false
+edition       = { workspace = true }
+license       = { workspace = true }
+rust-version  = { workspace = true }
+repository    = { workspace = true }
+homepage      = { workspace = true }
+documentation = { workspace = true }
+default-run   = "vermilion"
+
+[dependencies]
+vermilion-core        = { workspace = true, features = [ "schema" ] }
+vermilion-fmt         = { workspace = true, features = [ "schema" ] }
+vermilion-lang        = { workspace = true }
+vermilion-diagnostics = { workspace = true, features = [ "schema" ] }
+vermilion-lsp         = { workspace = true }
+vermilion-verilog     = { workspace = true, features = [ "schema", "vermilion-cli" ] }
+vermilion-vhdl        = { workspace = true, features = [ "schema", "vermilion-cli" ] }
+
+clap                  = { workspace = true }
+clap_complete         = { workspace = true }
+color-print           = { workspace = true }
+colorchoice           = { workspace = true }
+console-subscriber    = { workspace = true }
+directories           = { workspace = true }
+eyre                  = { workspace = true }
+schemars              = { workspace = true }
+serde                 = { workspace = true }
+serde_json            = { workspace = true }
+tokio                 = { workspace = true }
+toml                  = { workspace = true }
+tracing               = { workspace = true }
+tracing-subscriber    = { workspace = true }
+
+[dev-dependencies]
+criterion = { workspace = true }
+test-log  = { workspace = true }
+
+[features]
+default = []
+
+# async-debug = [ "dep:console-subscriber" ]
