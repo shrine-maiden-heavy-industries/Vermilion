@@ -1,0 +1,30 @@
+# SPDX-License-Identifier: BSD-3-Clause
+[package]
+name          = "vermilion-lang"
+version       = "0.1.0"
+description   = ""
+publish       = false
+edition       = { workspace = true }
+license       = { workspace = true }
+rust-version  = { workspace = true }
+repository    = { workspace = true }
+homepage      = { workspace = true }
+documentation = { workspace = true }
+
+[dependencies]
+vermilion-core        = { workspace = true }
+vermilion-diagnostics = { workspace = true }
+vermilion-fmt         = { workspace = true }
+
+ariadne               = { workspace = true }
+chumsky               = { workspace = true }
+tendril               = { workspace = true, optional = true }
+
+[dev-dependencies]
+criterion = { workspace = true }
+test-log  = { workspace = true }
+
+[features]
+default = []
+
+tendril = [ "dep:tendril" ]
