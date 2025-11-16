@@ -1,0 +1,27 @@
+[book]
+title       = "Vermilion"
+description = "Vermilion Verilog, SystemVerilog, and VHDL Language Server, Linter, and Formatter"
+authors     = [
+	"Aki Van Ness"
+]
+language    = "en"
+src         = "src"
+
+[build]
+build-dir = "../target/book"
+
+[output.html]
+default-theme        = "dark"
+preferred-dark-theme = "coal"
+git-repository-url   = "https://github.com/shrine-maiden-heavy-industries/vermilion"
+git-repository-icon  = "fa-github"
+edit-url-template    = "https://github.com/shrine-maiden-heavy-industries/vermilion/edit/main/docs/{path}"
+additional-css       = [
+	"./assets/css/mdbook-admonish.css"
+]
+
+[preprocessor]
+
+[preprocessor.admonish]
+command = "mdbook-admonish"
+assets_version = "3.0.3" # do not edit: managed by `mdbook-admonish install`

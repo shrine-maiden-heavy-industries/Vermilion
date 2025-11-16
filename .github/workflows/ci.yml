@@ -1,0 +1,49 @@
+name: 'Vermilion CI'
+on: [ push, pull_request ]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  lint-vermilion:
+    name: 'Lint Vermilion'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: 'Setup Rust'
+        shell: bash
+        run: |
+          rustup update
+
+      - name: 'Run Clippy'
+        shell: bash
+        run: |
+          cargo clippy
+
+  build-vermilion:
+    name: 'Build Vermilion'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: 'Setup Rust'
+        shell: bash
+        run: |
+          rustup update
+
+      - name: 'Build Vermilion'
+        shell: bash
+        run: |
+          cargo build --verbose
+
+      - name: 'Test Vermilion'
+        shell: bash
+        run: |
+          cargo test --verbose
