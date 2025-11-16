@@ -1,0 +1,21 @@
+# SPDX-License-Identifier: BSD-3-Clause
+[package]
+name          = "vermilion-lsp"
+version       = "0.1.0"
+description   = "Types and machinery for LSP servers"
+publish       = false
+edition       = { workspace = true }
+license       = { workspace = true }
+rust-version  = { workspace = true }
+repository    = { workspace = true }
+homepage      = { workspace = true }
+documentation = { workspace = true }
+
+[dependencies]
+
+[dev-dependencies]
+criterion = { workspace = true }
+test-log  = { workspace = true }
+
+[features]
+default = []
