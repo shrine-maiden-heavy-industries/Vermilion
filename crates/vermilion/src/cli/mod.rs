@@ -100,8 +100,8 @@ pub(crate) fn exec_command(command: &str) -> Option<CmdExec> {
 	}
 }
 
-fn lang_common(command: Command) -> Command {
-	command
+fn lang_common(command: Command, with_files: bool) -> Command {
+	let cmd = command
 		.arg(
 			Arg::new("std")
 				.long("std")
@@ -167,8 +167,10 @@ fn lang_common(command: Command) -> Command {
 				.help("Undefine the provided compiler macro")
 				.action(ArgAction::Append)
 				.value_name("NAME"),
-		)
-		.arg(
+		);
+
+	if with_files {
+		cmd.arg(
 			Arg::new("files")
 				.help("HDL files")
 				.action(ArgAction::Append)
@@ -176,4 +178,7 @@ fn lang_common(command: Command) -> Command {
 				.value_delimiter(',')
 				.required(true),
 		)
+	} else {
+		cmd
+	}
 }
