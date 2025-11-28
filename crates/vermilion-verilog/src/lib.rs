@@ -34,6 +34,14 @@ pub enum SystemVerilogStd {
 	Sv23,
 }
 
+#[derive(Debug, Clone, Copy, PartialEq, PartialOrd, Eq, Ord)]
+#[cfg_attr(feature = "serde", derive(::serde::Serialize, ::serde::Deserialize))]
+#[cfg_attr(feature = "schema", derive(::schemars::JsonSchema))]
+pub enum VerilogVariant {
+	Verilog(VerilogStd),
+	SystemVerilog(SystemVerilogStd),
+}
+
 impl Display for VerilogStd {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
 		match self {
@@ -52,6 +60,15 @@ impl Display for SystemVerilogStd {
 			Self::Sv12 => write!(f, "SystemVerilog 2012 (IEEE 1800-2012)"),
 			Self::Sv17 => write!(f, "SystemVerilog 2017 (IEEE 1800-2017)"),
 			Self::Sv23 => write!(f, "SystemVerilog 2023 (IEEE 1800-2023)"),
+		}
+	}
+}
+
+impl Display for VerilogVariant {
+	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+		match self {
+			Self::Verilog(verilog_std) => write!(f, "{}", verilog_std),
+			Self::SystemVerilog(system_verilog_std) => write!(f, "{}", system_verilog_std),
 		}
 	}
 }
