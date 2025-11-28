@@ -28,3 +28,4 @@ test-log  = { workspace = true }
 default = []
 
 tendril = [ "dep:tendril" ]
+graphviz-output = []

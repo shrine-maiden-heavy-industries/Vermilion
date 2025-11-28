@@ -30,7 +30,8 @@ test-log  = { workspace = true }
 [features]
 default = []
 
-schema        = [ "serde", "dep:schemars", "vermilion-fmt/schema", "vermilion-diagnostics/schema" ]
-serde         = [ "dep:serde", "vermilion-fmt/serde", "vermilion-diagnostics/serde" ]
-tendril       = [ "dep:tendril", "vermilion-lang/tendril" ]
-vermilion-cli = [ "dep:clap" ]
+graphviz-output = [ "vermilion-lang/graphviz-output" ]
+schema          = [ "serde", "dep:schemars", "vermilion-fmt/schema", "vermilion-diagnostics/schema" ]
+serde           = [ "dep:serde", "vermilion-fmt/serde", "vermilion-diagnostics/serde" ]
+tendril         = [ "dep:tendril", "vermilion-lang/tendril" ]
+vermilion-cli   = [ "dep:clap" ]
