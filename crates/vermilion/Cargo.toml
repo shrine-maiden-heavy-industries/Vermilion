@@ -16,7 +16,7 @@ default-run   = "vermilion"
 vermilion-core        = { workspace = true, features = [ "schema" ] }
 vermilion-fmt         = { workspace = true, features = [ "schema" ] }
 vermilion-lang        = { workspace = true }
-vermilion-diagnostics = { workspace = true, features = [ "schema" ] }
+vermilion-diagnostics = { workspace = true, features = [ "schema", "pretty-diagnostics" ] }
 vermilion-lsp         = { workspace = true }
 vermilion-verilog     = { workspace = true, features = [ "schema", "vermilion-cli" ] }
 vermilion-vhdl        = { workspace = true, features = [ "schema", "vermilion-cli" ] }
@@ -26,11 +26,15 @@ clap_complete         = { workspace = true }
 color-print           = { workspace = true }
 colorchoice           = { workspace = true }
 console-subscriber    = { workspace = true }
+crossterm             = { workspace = true }
 directories           = { workspace = true }
 eyre                  = { workspace = true }
+pulldown-cmark        = { workspace = true }
+ratatui               = { workspace = true }
 schemars              = { workspace = true }
 serde                 = { workspace = true }
 serde_json            = { workspace = true }
+syntect               = { workspace = true }
 tokio                 = { workspace = true }
 toml                  = { workspace = true }
 tracing               = { workspace = true }
