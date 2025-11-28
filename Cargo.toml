@@ -59,13 +59,15 @@ cast_lossless = "warn"
 use_self = "warn"
 wildcard_dependencies = "warn"
 
-[profile.release]
-lto           = true
-codegen-units = 1
-
 [profile.devopt]
-inherits = "release"
-debug    = 1
+inherits      = "dev"
+codegen-units = 1
+lto           = "fat"
+opt-level     = 3
 
+# TODO(aki): Wiggle this a bit and combine with PGO build steps eventually
 [profile.dist]
-inherits = "release"
+inherits      = "release"
+codegen-units = 1
+lto           = "fat"
+strip         = "debuginfo"
