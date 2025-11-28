@@ -12,6 +12,7 @@ homepage      = { workspace = true }
 documentation = { workspace = true }
 
 [dependencies]
+chumsky    = { workspace = true, optional = true }
 serde      = { workspace = true }
 serde_json = { workspace = true }
 serde_repr = { workspace = true }
@@ -24,3 +25,5 @@ test-log  = { workspace = true }
 
 [features]
 default = []
+
+chumsky = [ "dep:chumsky" ]

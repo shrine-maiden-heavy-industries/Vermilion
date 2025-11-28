@@ -2514,6 +2514,7 @@ dependencies = [
 name = "vermilion-lsp"
 version = "0.1.0"
 dependencies = [
+ "chumsky",
  "criterion",
  "serde",
  "serde_json",
@@ -2549,6 +2550,7 @@ dependencies = [
  "criterion",
  "schemars",
  "serde",
+ "tendril",
  "test-log",
  "vermilion-core",
  "vermilion-diagnostics",
