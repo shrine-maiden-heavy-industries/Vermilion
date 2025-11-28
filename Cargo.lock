@@ -2532,6 +2532,7 @@ dependencies = [
  "criterion",
  "schemars",
  "serde",
+ "tendril",
  "test-log",
  "vermilion-core",
  "vermilion-diagnostics",
