@@ -84,8 +84,10 @@ pub(crate) fn init() -> eyre::Result<Command> {
 fn init_commands() -> eyre::Result<Vec<Command>> {
 	Ok(vec![
 		commands::explain::init()?,
-		lang_common(commands::fmt::init()?),
-		lang_common(commands::lint::init()?),
+		lang_common(commands::fmt::init()?, true),
+		lang_common(commands::lint::init()?, true),
+		#[cfg(debug_assertions)]
+		lang_common(commands::dbg::init()?, false),
 		commands::lsp::init()?,
 	])
 }
@@ -96,6 +98,8 @@ pub(crate) fn exec_command(command: &str) -> Option<CmdExec> {
 		commands::fmt::COMMAND_NAME => Some(commands::fmt::exec),
 		commands::lint::COMMAND_NAME => Some(commands::lint::exec),
 		commands::lsp::COMMAND_NAME => Some(commands::lsp::exec),
+		#[cfg(debug_assertions)]
+		commands::dbg::COMMAND_NAME => Some(commands::dbg::exec),
 		_ => None,
 	}
 }
