@@ -5,6 +5,8 @@ members  = [
 ]
 
 [workspace.package]
+version       = "0.0.0"
+publish       = false
 edition       = "2024"
 license       = "BSD-3-Clause"
 rust-version  = "1.89"

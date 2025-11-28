@@ -1,16 +1,16 @@
 # SPDX-License-Identifier: BSD-3-Clause
 [package]
 name          = "vermilion"
-version       = "0.1.0"
 description   = "Verilog, SystemVerilog, and VHDL code linter, formatter, and language server"
-publish       = false
-edition       = { workspace = true }
-license       = { workspace = true }
-rust-version  = { workspace = true }
-repository    = { workspace = true }
-homepage      = { workspace = true }
-documentation = { workspace = true }
 default-run   = "vermilion"
+documentation = { workspace = true }
+edition       = { workspace = true }
+homepage      = { workspace = true }
+license       = { workspace = true }
+publish       = { workspace = true }
+repository    = { workspace = true }
+rust-version  = { workspace = true }
+version       = { workspace = true }
 
 [dependencies]
 vermilion-core        = { workspace = true, features = [ "schema" ] }
