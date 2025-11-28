@@ -2,7 +2,7 @@
 [package]
 name          = "vermilion-core"
 version       = "0.1.0"
-description   = ""
+description   = "Core types and utilities for use with Vermilion"
 publish       = false
 edition       = { workspace = true }
 license       = { workspace = true }

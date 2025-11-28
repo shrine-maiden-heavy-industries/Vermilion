@@ -2,7 +2,7 @@
 [package]
 name          = "vermilion-diagnostics"
 version       = "0.1.0"
-description   = ""
+description   = "Common diagnostic infrastructure for Vermillion supported languages"
 publish       = false
 edition       = { workspace = true }
 license       = { workspace = true }

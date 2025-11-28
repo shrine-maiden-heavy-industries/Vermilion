@@ -2,7 +2,7 @@
 [package]
 name          = "vermilion-verilog"
 version       = "0.1.0"
-description   = ""
+description   = "Verilog and SystemVerilog support for Vermilion"
 publish       = false
 edition       = { workspace = true }
 license       = { workspace = true }

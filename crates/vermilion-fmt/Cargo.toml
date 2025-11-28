@@ -2,7 +2,7 @@
 [package]
 name          = "vermilion-fmt"
 version       = "0.1.0"
-description   = ""
+description   = "Common formatting infrastructure for Vermilion supported languages"
 publish       = false
 edition       = { workspace = true }
 license       = { workspace = true }

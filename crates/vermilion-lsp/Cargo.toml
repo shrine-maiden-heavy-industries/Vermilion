@@ -2,7 +2,7 @@
 [package]
 name          = "vermilion-lsp"
 version       = "0.1.0"
-description   = "Types and machinery for LSP servers"
+description   = "Types and machinery for LSP support in Vermilion"
 publish       = false
 edition       = { workspace = true }
 license       = { workspace = true }
