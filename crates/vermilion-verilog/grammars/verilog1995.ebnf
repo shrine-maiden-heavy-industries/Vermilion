@@ -1,2 +1,1101 @@
 (* SPDX-License-ident: BSD-3-Clause *)
 (* EBNF grammar for Verilog 1995 (IEEE 1364-1995) *)
+
+whitespace =
+	" " | "\t" | "\n"
+	;
+
+sign =
+	"+" | "-"
+	;
+
+unknown_digit =
+	"x" | "X"
+	;
+
+highz_digit =
+	"z" | "Z"
+	;
+
+binary_digit =
+	"0" | "1"
+	;
+
+octal_digit =
+	"0" | "1" | "2" | "3" | "4" | "5" | "6" | "7"
+	;
+
+decimal_digit =
+	"0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
+	;
+
+hex_digit =
+	"0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" |
+	"a" | "b" | "c" | "d" | "e" | "f" |
+	"A" | "B" | "C" | "D" | "E" | "F"
+	;
+
+binary_base =
+	"'", ("b" | "B")
+	;
+
+octal_base =
+	"'", ("o" | "O")
+	;
+
+decimal_base =
+	"'", ("d" | "D")
+	;
+
+hex_base =
+	"'", ("h" | "H")
+	;
+
+unary_op =
+	"+" | "-" | "!" | "~" | "&" | "~&" | "|" | "~|" | "^" | "~^" | "^~"
+	;
+
+binary_op =
+	"+" | "-" | "*" | "/" | "%" | "==" | "!=" | "===" | "!==" | "&&" | "||" |
+	"<" | "<=" | ">" | "=>" | "&" | "|" | "^" | "^~" | "~^" | ">>" | "<<"
+	;
+
+net_type =
+	"wire" | "tri" | "tri0" | "tri1" | "supply0" | "supply1" | "wand" | "wor" | "triand" | "trior"
+	;
+
+strength0 =
+	"supply0" | "strong0" | "pull0" | "weak0"
+	;
+
+strength1 =
+	"supply1" | "strong1" | "pull1" | "weak1"
+	;
+
+drive_strength =
+	"(", strength0, ",", strength1, ")" |
+	"(", strength1, ",", strength0, ")" |
+	"(", strength0, ",", "highz1",  ")" |
+	"(", strength1, ",", "highz0",  ")" |
+	"(", "highz1",  ",", strength0, ")" |
+	"(", "highz0",  ",", strength1, ")"
+	;
+
+pullup_strength =
+	"(", strength0, strength1, ")" |
+	"(", strength1, strength0, ")" |
+	"(", strength1, ")"
+	;
+
+pulldown_strength =
+	"(", strength0, strength1, ")" |
+	"(", strength1, strength0, ")" |
+	"(", strength0, ")"
+	;
+
+charge_strength =
+	"(", ( "small" | "medium" | "large" ), ")"
+	;
+
+output_symbol =
+	binary_digit | unknown_digit
+	;
+
+level_symbol =
+	binary_digit | unknown_digit | "?" | "b" | "B"
+	;
+
+edge_symbol =
+	"r" | "R" | "f" | "F" | "p" | "P" | "n" | "N" | "*"
+	;
+
+next_state =
+	output_symbol | "-"
+	;
+
+current_state =
+	level_symbol
+	;
+
+ascii_letter_lower =
+	"a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "i" | "j" | "k" | "l" | "m" |
+	"n" | "o" | "p" | "q" | "r" | "s" | "t" | "u" | "v" | "w" | "x" | "y" | "z"
+	;
+
+ascii_letter_upper =
+	"A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I" | "J" | "K" | "L" | "M" |
+	"N" | "O" | "P" | "Q" | "R" | "S" | "T" | "U" | "V" | "W" | "X" | "Y" | "Z"
+	;
+
+ascii_letter =
+	ascii_letter_lower | ascii_letter_upper
+	;
+
+ascii_number =
+	"0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
+	;
+
+ascii_symbol =
+	"!" | '"' | "#" | "$" | "%" | "&" | "'" | "(" | ")" | "*" | "+" | "," | "-" |
+	"." | "/" | "@" | "[" | "\\" | "]" | "^" | "_" | "`"
+	;
+
+ascii_printable =
+	ascii_letter | ascii_number | ascii_symbol
+	;
+
+normal_ident =
+	(ascii_letter | "_"), { ascii_letter | ascii_number | "_" | "$" }
+	;
+
+escaped_ident =
+	"\\", ascii_printable, { ascii_printable }, whitespace
+	;
+
+ident_literal =
+	normal_ident |
+	escaped_ident
+	;
+
+ident =
+	ident_literal, [ ".", ident_literal]
+	;
+
+comment_text =
+	{ ascii_printable }
+	;
+
+line_comment =
+	"//", comment_text, "\n"
+	;
+
+block_comment =
+	"/*", comment_text - "/*", "*/"
+	;
+
+comment =
+	line_comment |
+	block_comment
+	;
+
+string_octal_escape =
+	octal_digit | octal_digit, octal_digit | octal_digit, octal_digit, octal_digit
+	;
+
+string_escape =
+	"\\", ("n" | "t" | "\\" | '"' | string_octal_escape )
+	;
+
+string =
+	'"', { string_escape | ascii_printable | " " | "\t" }, '"'
+	;
+
+binary_literal =
+	unknown_digit | highz_digit | binary_digit
+	;
+
+octal_literal =
+	unknown_digit | highz_digit | octal_digit
+	;
+
+hex_literal =
+	unknown_digit | highz_digit | hex_digit
+	;
+
+unsigned_number =
+	decimal_digit, { "_" | decimal_digit }
+	;
+
+size =
+	unsigned_number
+	;
+
+binary_number =
+	[ size ], binary_base, binary_literal, { "_" | binary_literal }
+	;
+
+octal_number =
+	[ size ], octal_base, octal_literal, { "_" | octal_literal }
+	;
+
+decimal_number =
+	[ sign ], unsigned_number | [ size ], decimal_base, unsigned_number
+	;
+
+hex_number =
+	[ size ], hex_base, hex_literal, { "_" | hex_literal }
+	;
+
+real_number =
+	[ sign ], unsigned_number, ".", unsigned_number |
+	[ sign ], unsigned_number, [ ".", unsigned_number ], ("e" | "E"), [ sign ], unsigned_number
+	;
+
+number =
+	binary_number | octal_number | decimal_number | hex_number | real_number
+	;
+
+delay_value =
+	unsigned_number | parameter_ident | const_mintypmax_expr
+	;
+
+delay =
+	"#", delay_value
+	;
+
+delay2 =
+	"#", delay_value, [",", delay_value ]
+	;
+
+delay3 =
+	"#", delay_value, [",", delay_value, [ ",", delay_value ] ]
+	;
+
+scalar_const =
+	[ [ "1" ], binary_base ], ( "0" | "1" )
+	;
+
+init_val =
+	"1", binary_base, (binary_digit | unknown_digit) | "1" | "0"
+	;
+
+edge_descriptor =
+	"01" | "10" | "0x" | "1x" | "x0" | "x1"
+	;
+
+edge_ident =
+	"posedge" | "negedge"
+	;
+
+edge_control_specifier =
+	"edge", "[", edge_descriptor, [ ",", edge_descriptor ], "]"
+	;
+
+timing_check_event_control =
+	edge_ident | edge_control_specifier
+	;
+
+range =
+	"[", msb_const_expr, ":", lsb_const_expr, "]"
+	;
+
+range_or_type =
+	range | "integer" | "real" | "realtime" | "time"
+	;
+
+net_decl_std =
+	net_type, [ "vectored" | "scalared" ],
+	;
+
+net_decl_tri =
+	"trireg", [ "vectored" | "scalared" ], [ charge_strength ]
+	;
+
+net_decl_assignment =
+	net_ident, "=", expr
+	;
+
+net_decl =
+	net_decl_std, [ range ], [ delay3 ], ( net_ident, { ",", net_ident } ), ";" |
+	net_decl_std, [ drive_strength ], [ range ], [ delay3 ], ( net_decl_assignment, { ",", net_decl_assignment } ), ";" |
+	net_decl_tri, [ range ], [ delay3 ], ( net_ident, { ",", net_ident } ), ";"
+	;
+
+
+
+
+
+
+
+
+
+
+
+
+port_ref =
+	port_ident |
+	port_ident, "[", const_expr, "]" |
+	port_ident, range
+	;
+
+port =
+	[ port_expr ] |
+	".", port_ident, "(", [ port_expr ], ")"
+	;
+
+port_expr =
+	port_ref |
+	{ port_ref, { ",", port_ref } }
+	;
+
+
+module_item =
+	module_item_decl |
+	parameter_override |
+	continuous_assign |
+	gate_inst |
+	udp_inst |
+	module_inst |
+	specify_block |
+	initial_construct |
+	always_construct
+	;
+
+module_item_decl =
+	parameter_decl |
+	input_decl |
+	output_decl |
+	inout_decl |
+	net_decl |
+	reg_decl |
+	integer_decl |
+	real_decl |
+	time_decl |
+	realtime_decl |
+	event_decl |
+	task_decl |
+	function_decl
+	;
+
+parameter_override =
+	"defparam", list_of_param_assignments, ";"
+	;
+
+parameter_decl =
+	"parameter", list_of_param_assignments, ";"
+	;
+
+list_of_param_assignments =
+	param_assignment, { ",", param_assignment }
+	;
+
+param_assignment =
+	parameter_ident, "=", const_expr
+	;
+
+input_decl =
+	"input", [ range ], list_of_port_idents, ";"
+	;
+
+output_decl =
+	"output", [ range ], list_of_port_idents, ";"
+	;
+
+inout_decl =
+	"inout", [ range ], list_of_port_idents, ";"
+	;
+
+list_of_port_idents =
+	port_ident, { ",", port_ident }
+	;
+
+reg_decl =
+	"reg", [ range ], list_of_register_idents, ";"
+	;
+
+time_decl =
+	"time", list_of_register_idents, ";"
+	;
+
+integer_decl =
+	"integer", list_of_register_idents, ";"
+	;
+
+real_decl =
+	"real", list_of_real_idents, ";"
+	;
+
+realtime_decl =
+	"realtime", list_of_real_idents, ";"
+	;
+
+event_decl =
+	"event", event_ident, { ",", event_ident }, ";"
+	;
+
+list_of_real_idents =
+	real_ident, { ",", real_ident }
+	;
+
+list_of_register_idents =
+	register_name, { ",", register_name }
+	;
+
+register_name =
+	register_ident |
+	memory_ident, "[", upper_limit_const_expr, ":", lower_limit_const_expr, "]"
+	;
+
+
+
+list_of_net_decl_assignments =
+	net_decl_assignment, { ",", net_decl_assignment }
+	;
+
+net_decl_assignment =
+	net_ident, "=", expr
+	;
+
+function_decl =
+	"function", [ range_or_type ], function_ident, ";",
+	function_item_decl, { function_item_decl },
+	statement,
+	"endfunction"
+	;
+
+
+function_item_decl =
+	block_item_decl |
+	input_decl
+	;
+
+task_decl =
+	"task", task_ident, ";",
+	{ task_item_decl },
+	statement_or_null,
+	"endtask"
+	;
+
+task_argument_decl =
+	block_item_decl |
+	output_decl |
+	inout_decl
+	;
+
+block_item_decl =
+	parameter_decl |
+	reg_decl |
+	integer_decl |
+	real_decl |
+	time_decl |
+	realtime_decl |
+	event_decl
+	;
+
+gate_inst =
+	n_in_gate_type, [ drive_strength ], [ delay2 ], n_input_gate_instance, { ",", n_input_gate_instance }, ";" |
+	n_out_gate_type, [ drive_strength ], [ delay2 ], n_output_gate_instance, { ",", n_output_gate_instance }, ";" |
+	en_gate_type, [ drive_strength ], [ delay3 ], enable_gate_instance, { ",", enable_gate_instance }, ";" |
+	mos_switch_type, [ delay3 ], mos_switch_instance, { ",", mos_switch_instance }, ";" |
+	pass_switch_type, pass_switch_type, { ",", pass_switch_type }, ";" |
+	pass_en_switch_type, [ delay3 ], pass_en_switch_instance, { ",", pass_en_switch_instance }, ";" |
+	cmos_switch_type, [ delay3 ], cmos_switch_instance, { ",", cmos_switch_instance }, ";" |
+	"pullup", [ pullup_strength ], pull_gate_instance, { ",", pull_gate_instance }, ";" |
+	"pulldown", [ pulldown_strength ], pull_gate_instance, { ",", pull_gate_instance }, ";"
+	;
+
+n_input_gate_instance =
+	[ name_of_gate_instance ], "(", out_term, ",", in_term, { ",", in_term }, ")"
+	;
+
+n_output_gate_instance =
+	[ name_of_gate_instance ], "(", out_term, { ",", out_term }, ",", in_term, ")"
+	;
+
+enable_gate_instance =
+	[ name_of_gate_instance ], "(", out_term, ",", in_term, ",", en_term, ")"
+	;
+
+mos_switch_instance =
+	[ name_of_gate_instance ], "(", out_term, ",", in_term, ",", en_term, ")"
+	;
+
+pass_switch_instance =
+	[ name_of_gate_instance ], "(", inout_term, ",", inout_term, ",", ")"
+	;
+
+pass_enable_switch_instance =
+	[ name_of_gate_instance ], "(", inout_term, ",", inout_term, ",", en_term, ")"
+	;
+
+cmos_switch_instance =
+	[ name_of_gate_instance ], "(", out_term, ",", in_term, ",", nctrl_term, ",", pctrl_term, ")"
+	;
+
+pull_gate_instance =
+	[ name_of_gate_instance ], "(", out_term, ")"
+	;
+
+name_of_gate_instance =
+	gate_instance_ident, [ range ]
+	;
+
+
+
+in_term =
+	scalar_expr
+	;
+
+en_term =
+	scalar_expr
+	;
+
+nctrl_term =
+	scalar_expr
+	;
+
+pctrl_term =
+	scalar_expr
+	;
+
+
+out_term =
+	terminal_ident | terminal_ident, "[", const_expr, "]"
+	;
+
+inout_term =
+	terminal_ident | terminal_ident, "[", const_expr, "]"
+	;
+
+n_in_gate_type =
+	"and" | "nand" | "or" | "nor" | "xor" | "xnor"
+	;
+
+n_out_gate_type =
+	"buf" | "not"
+	;
+
+en_gate_type =
+	"bufif0" | "bufif1" | "notif0" | "notif1"
+	;
+
+mos_switch_type =
+	"nmos" | "pmos" | "rnmos" | "rpmos"
+	;
+
+pass_switch_type =
+	"tran" | "rtran"
+	;
+
+pass_en_switch_type =
+	"tranif0" | "tranif1" | "rtranif0" | "rtranif1"
+	;
+
+cmos_switch_type =
+	"cmos" | "rcmos"
+	;
+
+module_inst =
+	module_ident, [ parameter_value_assignment ], module_instance, { ",", module_instance }, ";"
+	;
+
+parameter_value_assignment =
+	"#", "(", expr, { ",", expr }, ")"
+	;
+
+module_instance =
+	name_of_instance, "(", [ list_of_module_connections ], ")"
+	;
+
+name_of_instance =
+	module_instance_ident, [ range ]
+	;
+
+list_of_module_connections =
+	expr, { ",", expr } |
+	named_port_connection, { ",", named_port_connection }
+	;
+
+named_port_connection =
+	".", port_ident, "(", [ expr ], ")"
+	;
+
+
+
+udp_port_list =
+	output_port_ident, ",", input_port_ident, { ",", input_port_ident }
+	;
+
+udp_port_decl =
+	output_decl |
+	input_decl |
+	reg_decl
+	;
+
+udp_body =
+	comb_body |
+	seq_body
+	;
+
+comb_body =
+	"table", comb_entry, { comb_entry }, "endtable"
+	;
+
+comb_entry =
+	level_input_list, ":", output_symbol, ";"
+	;
+
+seq_body =
+	[ udp_initial_statement ], "table", seq_entry, { seq_entry }, "endtable"
+	;
+
+udp_initial_statement =
+	"initial", udp_output_port_ident, "=", init_val, ";"
+	;
+
+
+
+seq_entry =
+	seq_input_list, ":", current_state, ":", next_state, ";"
+	;
+
+seq_input_list =
+	level_input_list | edge_input_list
+	;
+
+level_input_list =
+	level_symbol, { level_symbol }
+	;
+
+edge_input_list =
+	{ level_symbol }, edge_indicator, { level_symbol }
+	;
+
+edge_indicator =
+	"(", level_symbol, level_symbol, ")" | edge_symbol
+	;
+
+
+
+
+
+udp_inst =
+	udp_ident, [ drive_strength ], [ delay2 ], udp_instance, { ",", udp_instance }, ";"
+	;
+
+udp_instance =
+	[ name_of_udp_instance ], "(", output_port_connection, ",", input_port_connection, { ",", input_port_connection }, ")"
+	;
+
+name_of_udp_instance =
+	udp_instance_ident, [ range ]
+	;
+
+continuous_assign =
+	"assign", [ drive_strength ], [ delay3 ], list_of_net_assignments, ";"
+	;
+
+list_of_net_assignments =
+	net_assignment, { ",", net_assignment }
+	;
+
+net_assignment =
+	net_lvalue, "=", expr
+	;
+
+initial_construct =
+	"initial", statement
+	;
+
+always_construct =
+	"always", statement
+	;
+
+statement =
+	blocking_assignment, ";" |
+	non_blocking_assignment, ";" |
+	procedural_continuous_assignments, ";" |
+	procedural_timing_control_statement |
+	conditional_statement |
+	case_statement |
+	loop_statement |
+	wait_statement |
+	disable_statement |
+	event_trigger |
+	seq_block |
+	par_block |
+	task_enable |
+	system_task_enable
+	;
+
+statement_or_null =
+	statement | ";"
+	;
+
+blocking_assignment =
+	reg_lvalue, "=", [ delay_or_event_control ], expr
+	;
+
+non_blocking_assignment =
+	reg_lvalue, "<=", [ delay_or_event_control ], expr
+	;
+
+procedural_continuous_assignment =
+	"assign", reg_assignment, ";" |
+	"deassign", reg_lvalue, ";" |
+	"force", reg_assignment, ";" |
+	"force", net_assignment, ";" |
+	"release", reg_lvalue, ";" |
+	"release", net_lvalue, ";"
+	;
+
+procedural_timing_control_statement =
+	delay_or_event_control, statement_or_null
+	;
+
+delay_or_event_control =
+	delay_control |
+	event_control |
+	"repeat", "(", expr, ")", event_control
+	;
+
+delay_control =
+	"#", delay_value |
+	"#", "(", mintypmax_expr, ")"
+	;
+
+event_control =
+	"@", event_ident |
+	"@", "(", event_expr, ")"
+	;
+
+event_expr =
+	expr |
+	event_ident |
+	"posedge", expr |
+	"negedge", expr |
+	event_expr, "or", event_expr
+	;
+
+conditional_statement =
+	"if", "(", expr, ")", statement_or_null, [ "else", statement_or_null ]
+	;
+
+case_statement =
+	"case", "(", expr, ")", case_item, { case_item }, "endcase" |
+	"casex", "(", expr, ")", case_item, { case_item }, "endcase" |
+	"casez", "(", expr, ")", case_item, { case_item }, "endcase"
+	;
+
+case_item =
+	expr, { ",", expr }, ":", statement_or_null |
+	"default", [ ":" ], statement_or_null
+	;
+
+loop_statement =
+	"forever", statement |
+	"repeat", "(", expr, ")", statement |
+	"while", "(", expr, ")", statement |
+	"for", "(", reg_assignment, ";", expr, ";", reg_assignment, ")", statement
+	;
+
+reg_assignment =
+	reg_lvalue, "=", expr
+	;
+
+wait_statement =
+	"wait", "(", expr, ")", statement_or_null
+	;
+
+event_trigger =
+	"->", event_ident, ";"
+	;
+
+disable_statement =
+	"disable", task_ident, ";" |
+	"disable", block_ident, ";"
+	;
+
+seq_block =
+	"begin", [ ":", block_ident, { block_item_decl } ], { statement }, "end"
+	;
+
+par_block =
+	"fork", [ ":", block_ident, { block_item_decl } ], { statement }, "join"
+	;
+
+task_enable =
+	task_ident, [ "(", expr, { ",", expr }, ")" ], ";"
+	;
+
+system_task_enable =
+	system_task_name, [ "(", expr, { ",", expr }, ")" ], ";"
+	;
+
+(* NOTE(aki) No space after `$` *)
+system_task_name =
+	"$", ident
+	;
+
+specify_block =
+	"speicfy", [ specify_item ], "endspecify"
+	;
+
+specify_item =
+	specparam_decl |
+	path_decl |
+	system_timing_check
+	;
+
+specparam_decl =
+	"specparam", list_of_specparam_assignments, ";"
+	;
+
+list_of_specparam_assignments =
+	specparam_assignment, { ",", specparam_assignment }
+	;
+
+specparam_assignment =
+	specparam_ident, "=", const_expr |
+	pulse_control_specparam
+	;
+
+pulse_control_specparam =
+	"PATHPULSE$", "=", "(", reject_limit_value, [ ",", error_limit_value ], ")", ";" |
+	"PATHPULSE$", specify_input_terminal_descriptor, "$", specify_output_terminal_descriptor, "=", "(", reject_limit_value, [ ",", error_limit_value ], ")", ";"
+	;
+
+limit_value =
+	const_mintypmax_expr
+	;
+
+path_decl =
+	simple_path_decl, ";" |
+	edge_sensitive_path_decl, ";" |
+	state_dependent_path_decl, ";"
+	;
+
+simple_path_decl =
+	parallel_path_description, "=", path_delay_value |
+	full_path_description, "=", path_delay_value
+	;
+
+parallel_path_description =
+	"(", specify_input_terminal_descriptor, [ polarity_operator ], "=>", specify_output_terminal_descriptor, ")"
+	;
+
+full_path_description =
+	"(", list_of_path_inputs, [ polarity_operator ], "*>", list_of_path_outputs, ")"
+	;
+
+list_of_path_inputs =
+	specify_input_terminal_descriptor, { ",", specify_input_terminal_descriptor }
+	;
+
+list_of_path_outputs =
+	specify_output_terminal_descriptor, { ",", specify_output_terminal_descriptor }
+	;
+
+specify_input_terminal_descriptor =
+	input_ident |
+	input_ident, "[", const_expr, "]" |
+	input_ident, "[", msb_const_expr, ":", lsb_const_expr, "]"
+	;
+
+specify_output_terminal_descriptor =
+	output_ident |
+	output_ident, "[", const_expr, "]" |
+	output_ident, "[", msb_const_expr, ":", lsb_const_expr, "]"
+	;
+
+input_ident =
+	input_port_ident | input_port_ident
+	;
+
+output_ident =
+	output_port_ident | input_port_ident
+	;
+
+polarity_operator =
+	"+" | "-"
+	;
+
+path_delay_value =
+	list_of_path_delay_exprs |
+	"(", list_of_path_delay_exprs, ")"
+	;
+
+list_of_path_delay_exprs =
+	t_path_delay_expr |
+	trise_path_delay_expr, ",", tfall_path_delay_expr |
+	trise_path_delay_expr, ",", tfall_path_delay_expr, ",", tz_path_delay_expr |
+	t01_path_delay_expr, ",", t10_path_delay_expr, ",", t0z_path_delay_expr, ",",
+	tz1_path_delay_expr, ",", t1z_path_delay_expr, ",", tz0_path_delay_expr |
+	t01_path_delay_expr, ",", t10_path_delay_expr, ",", t0z_path_delay_expr, ",",
+	tz1_path_delay_expr, ",", t1z_path_delay_expr, ",", tz0_path_delay_expr, ",",
+	t0x_path_delay_expr, ",", tx1_path_delay_expr, ",", t1x_path_delay_expr, ",",
+	tx0_path_delay_expr, ",", txz_path_delay_expr, ",", tzx_path_delay_expr, ","
+	;
+
+path_delay_expr =
+	const_mintypmax_expr
+	;
+
+edge_sensitive_path_decl =
+	parallel_edge_sensitive_path_description, "=", path_delay_value |
+	full_edge_sensitive_path_description, "=", path_delay_value
+	;
+
+parallel_edge_sensitive_path_description =
+	"(", [ edge_ident ], specify_input_terminal_descriptor, "=>", specify_output_terminal_descriptor, [ polarity_operator ], ":", data_source_expr, ")"
+	;
+
+full_edge_sensitive_path_description =
+	"(", [ edge_ident ], list_of_path_inputs, "*>", list_of_path_outputs, [ polarity_operator ], ":", data_source_expr, ")"
+	;
+
+data_source_expr =
+	expr
+	;
+
+
+
+state_dependent_path_decl =
+	"if", "(", conditional_expr, ")", simple_path_decl |
+	"if", "(", conditional_expr, ")", edge_sensitive_path_decl |
+	"ifnone", simple_path_decl
+	;
+
+system_timing_check =
+	"$setup", "(", timing_check_event, ",", timing_check_event, ",", timing_check_limit, [ ",", notify_register ], ")", ";" |
+	"$hold", "(", timing_check_event, ",", timing_check_event, ",", timing_check_limit, [ ",", notify_register ], ")", ";" |
+	"$period", "(", controlled_timing_check_event, ",", ",", timing_check_limit, [ ",", notify_register ], ")", ";" |
+	"$width", "(", controlled_timing_check_event, ",", timing_check_limit, ",", const_expr, [ ",", notify_register ], ")", ";" |
+	"$skew", "(", timing_check_event, ",", timing_check_event, ",", timing_check_limit, [ ",", notify_register ], ")", ";" |
+	"$recovery", "(", controlled_timing_check_event, ",", timing_check_event, ",", timing_check_limit, [ ",", notify_register ], ")", ";" |
+	"$setuphold", "(", timing_check_event, ",", timing_check_event, ",", timing_check_limit, ",", timing_check_limit, [ ",", notify_register ], ")", ";"
+	;
+
+timing_check_event =
+	[ time_check_event_control ], specify_terminal_descriptor, [ "&&&", timing_check_condition ]
+	;
+
+specify_terminal_descriptor =
+	specify_input_terminal_descriptor |
+	specify_output_terminal_descriptor
+	;
+
+controlled_timing_check_event =
+	timing_check_event_control, specify_terminal_descriptor, [ "&&&", timing_check_condition ]
+	;
+
+
+
+timing_check_condition =
+	scalar_timing_check_condition |
+	"(", scalar_timing_check_condition, ")"
+	;
+
+scalar_timing_check_condition =
+	expr |
+	"~", expr |
+	expr, "==", scalar_const |
+	expr, "===", scalar_const |
+	expr, "!=", scalar_const |
+	expr, "!==", scalar_const
+	;
+
+timing_check_limit =
+	expr
+	;
+
+
+notify_register =
+	register_ident
+	;
+
+net_lvalue =
+	net_ident |
+	net_ident, "[", expr, "]" |
+	net_ident, range |
+	net_expr_cat
+	;
+
+reg_lvalue =
+	reg_ident |
+	reg_ident, "[", expr, "]" |
+	reg_ident, range |
+	reg_expr_cat
+	;
+
+const_expr =
+	constant_primary |
+	unary_op, constant_primary |
+	const_expr, binary_op, const_expr |
+	const_expr, "?", const_expr, ":", const_expr |
+	string
+	;
+
+constant_primary =
+	number |
+	parameter_ident |
+	const_expr_cat |
+	constant_multi_expr_cat
+	;
+
+const_mintypmax_expr =
+	const_expr |
+	const_expr, ":", const_expr, ":", const_expr
+	;
+
+mintypmax_expr =
+	expr |
+	expr, ":", expr, ":", expr
+	;
+
+expr =
+	primary |
+	unary_op, primary |
+	expr, binary_op, expr |
+	expr, "?", expr, ":", expr |
+	string
+	;
+
+
+primary =
+	number |
+	ident |
+	ident, "[", expr, "]" |
+	ident, "[", msb_const_expr, ":", lsb_const_expr, "]" |
+	expr_cat |
+	multi_expr_cat |
+	func_cat |
+	"(", mintypmax_expr, ")"
+	;
+
+expr_cat =
+	"{", expr, { ",", expr }, "}"
+	;
+
+multi_expr_cat =
+	"{", expr, "{", expr, { ",", expr }, "}", "}"
+	;
+
+func_cat =
+	function_ident, "(", expr, { ",", expr }, ")" |
+	"$", ident, [ "(", expr, { ",", expr }, ")" ]
+	;
+
+
+
+
+
+
+
+udp_decl_prologue =
+	"primitive", udp_ident, "(", udp_port_list, ")", ";"
+	;
+
+udp_decl_epilogue =
+	"endprimitive"
+	;
+
+udp_decl =
+	udp_decl_prologue, udp_port_decl, { udp_port_decl }, udp_body, udp_decl_epilogue
+	;
+
+module_decl_prologue =
+	"module" | "macromodule", module_ident, [ "(", port, { ",", port }, ")" ], ";"
+	;
+
+module_decl_epilogue =
+	"endmodule"
+	;
+
+module_decl =
+	module_decl_prologue, { module_item }, module_decl_epilogue
+	;
+
+source =
+	{ module_decl | udp_decl }
+	;
