@@ -29,6 +29,7 @@ console-subscriber    = { workspace = true }
 crossterm             = { workspace = true }
 directories           = { workspace = true }
 eyre                  = { workspace = true }
+notify                = { workspace = true }
 pulldown-cmark        = { workspace = true }
 ratatui               = { workspace = true }
 schemars              = { workspace = true }
