@@ -110,8 +110,10 @@ fn lang_common(command: Command, with_files: bool) -> Command {
 			Arg::new("std")
 				.long("std")
 				.value_parser([
-					"vl95", "vl01", "vl05", "sv05", "sv09", "sv12", "sv17", "sv23", "vh87", "vh93",
-					"vh2k", "vh02", "vh07", "vh08", "vh11", "vh19", "vh23",
+					"vl95", "vl01", "vl05",
+					"sv05", "sv09", "sv12", "sv17", "sv23",
+					"vams09", "vams14", "vams23",
+					"vh87", "vh93", "vh2k", "vh02", "vh07", "vh08", "vh11", "vh19", "vh23",
 				])
 				.help("Set the language standard to use")
 				.long_help(cstr!(
@@ -132,6 +134,12 @@ fn lang_common(command: Command, with_files: bool) -> Command {
 				 \tSet Language and standard to <cyan>SystemVerilog</> 2017 (<blue>IEEE</> 1800-2017)\n\n\
 				 --std=sv23\n\
 				 \tSet Language and standard to <cyan>SystemVerilog</> 2023 (<blue>IEEE</> 1800-2023)\n\n\
+				 --std=vams09\n\
+				 \tSet Language and standard to <yellow>Verilog-AMS</> 2009 (<yellow>Accellera</> Verilog-AMS 2.3.1)\n\n\
+				 --std=vams14\n\
+				 \tSet Language and standard to <yellow>Verilog-AMS</> 2014 (<yellow>Accellera</> Verilog-AMS 2.4)\n\n\
+				 --std=vams23\n\
+				 \tSet Language and standard to <yellow>Verilog-AMS</> 2023 (<yellow>Accellera</> Verilog-AMS 2023)\n\n\
 				 --std=vh87\n\
 				 \tSet Language and standard to <green>VHDL</> 1987 (<blue>IEEE</> 1076-1987)\n\n\
 				 --std=vh93\n\

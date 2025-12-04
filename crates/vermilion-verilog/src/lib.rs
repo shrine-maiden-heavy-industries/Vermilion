@@ -34,12 +34,23 @@ pub enum SystemVerilogStd {
 	Sv23,
 }
 
+#[derive(Debug, Default, Clone, Copy, PartialEq, PartialOrd, Eq, Ord)]
+#[cfg_attr(feature = "serde", derive(::serde::Serialize, ::serde::Deserialize))]
+#[cfg_attr(feature = "schema", derive(::schemars::JsonSchema))]
+pub enum VerilogAmsStd {
+	#[default]
+	Vams09,
+	Vams14,
+	Vams23,
+}
+
 #[derive(Debug, Clone, Copy, PartialEq, PartialOrd, Eq, Ord)]
 #[cfg_attr(feature = "serde", derive(::serde::Serialize, ::serde::Deserialize))]
 #[cfg_attr(feature = "schema", derive(::schemars::JsonSchema))]
 pub enum VerilogVariant {
 	Verilog(VerilogStd),
 	SystemVerilog(SystemVerilogStd),
+	VerilogAms(VerilogAmsStd),
 }
 
 impl Display for VerilogStd {
@@ -64,11 +75,22 @@ impl Display for SystemVerilogStd {
 	}
 }
 
+impl Display for VerilogAmsStd {
+	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+		match self {
+			Self::Vams09 => write!(f, "Verilog-AMS 2009 (Accellera Verilog-AMS 2.3.1)"),
+			Self::Vams14 => write!(f, "Verilog-AMS 2014 (Accellera Verilog-AMS 2.4)"),
+			Self::Vams23 => write!(f, "Verilog-AMS 2023 (Accellera Verilog-AMS 2023)"),
+		}
+	}
+}
+
 impl Display for VerilogVariant {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
 		match self {
 			Self::Verilog(verilog_std) => write!(f, "{}", verilog_std),
 			Self::SystemVerilog(system_verilog_std) => write!(f, "{}", system_verilog_std),
+			Self::VerilogAms(verilog_ams_std) => write!(f, "{}", verilog_ams_std),
 		}
 	}
 }
