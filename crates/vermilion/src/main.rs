@@ -65,6 +65,22 @@ fn main() -> eyre::Result<()> {
 		return Ok(());
 	}
 
+	// If the user wants us to print completions, then do so
+	if let Some(shell) = args
+		.get_one::<clap_complete::Shell>("dump-completions")
+		.copied()
+	{
+		let mut comp_cli = cli.clone();
+		clap_complete::generate(
+			shell,
+			&mut comp_cli,
+			env!("CARGO_PKG_NAME"),
+			&mut std::io::stdout(),
+		);
+
+		return Ok(());
+	}
+
 	// Initialize tracing with the appropriate log level
 	initialize_tracing({
 		if args.get_flag("quiet") {

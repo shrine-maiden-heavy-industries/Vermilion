@@ -1,6 +1,8 @@
 /* SPDX-License-Identifier: BSD-3-Clause */
 
-use clap::{Arg, ArgAction, ArgMatches, ColorChoice, Command, builder::styling};
+use clap::{
+	Arg, ArgAction, ArgMatches, ColorChoice, Command, ValueHint, builder::styling, value_parser,
+};
 use color_print::{cformat, cstr};
 use vermilion_core::vars::VERMILION_LOG_LEVEL;
 
@@ -67,17 +69,28 @@ pub(crate) fn init() -> eyre::Result<Command> {
 				.long("config")
 				.help("The specific configuration file to use")
 				.action(ArgAction::Set)
+				.value_hint(ValueHint::FilePath)
 				.value_name("CONFIG_FILE"),
 		).arg(
 			Arg::new("dump-schema")
 				.long("dump-schema")
 				.action(ArgAction::SetTrue)
 				.help("Dump the Vermilion configuration schema to stdout")
+				.hide_short_help(true)
 		).arg(
 			Arg::new("dump-config")
 				.long("dump-config")
 				.action(ArgAction::SetTrue)
 				.help("Dump the default Vermilion configuration to stdout")
+				.hide_short_help(true)
+		).arg(
+			Arg::new("dump-completions")
+				.long("dump-completions")
+				.action(ArgAction::Set)
+				.help("Dump shell completion file for the given shell to stdout")
+				.hide_short_help(true)
+				.value_parser(value_parser!(clap_complete::Shell))
+				.value_name("SHELL")
 		).subcommands(init_commands()?))
 }
 
@@ -188,6 +201,7 @@ fn lang_common(command: Command, with_files: bool) -> Command {
 				.action(ArgAction::Append)
 				.value_name("FILE")
 				.value_delimiter(',')
+				.value_hint(ValueHint::FilePath)
 				.required(true),
 		)
 	} else {
