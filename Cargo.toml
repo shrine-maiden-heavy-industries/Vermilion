@@ -61,6 +61,8 @@ allow_attributes_without_reason = "warn"
 cast_lossless = "warn"
 use_self = "warn"
 wildcard_dependencies = "warn"
+unwrap_used = "deny"
+expect_used = "deny"
 
 [profile.devopt]
 inherits      = "dev"
