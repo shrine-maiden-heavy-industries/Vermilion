@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: BSD-3-Clause
 
 * text=auto eol=lf
+*.ebnf linguist-detectable=false
 
 # Documentation
 
