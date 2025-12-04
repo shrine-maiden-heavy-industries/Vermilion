@@ -120,13 +120,16 @@ pub(crate) fn exec_command(command: &str) -> Option<CmdExec> {
 fn lang_common(command: Command, with_files: bool) -> Command {
 	let cmd = command
 		.arg(
+			// TODO(aki):
+			// I would like a more flexible way to generate the values & help documentation for
+			// the language standards so they can be kept in-sync
 			Arg::new("std")
 				.long("std")
 				.value_parser([
 					"vl95", "vl01", "vl05",
 					"sv05", "sv09", "sv12", "sv17", "sv23",
 					"vams09", "vams14", "vams23",
-					"vh87", "vh93", "vh2k", "vh02", "vh07", "vh08", "vh11", "vh19", "vh23",
+					"vhd87", "vhd93", "vhd2k", "vhd02", "vhd07", "vhd08", "vhd11", "vhd19", "vhd23",
 				])
 				.help("Set the language standard to use")
 				.long_help(cstr!(
@@ -153,23 +156,23 @@ fn lang_common(command: Command, with_files: bool) -> Command {
 				 \tSet Language and standard to <yellow>Verilog-AMS</> 2014 (<yellow>Accellera</> Verilog-AMS 2.4)\n\n\
 				 --std=vams23\n\
 				 \tSet Language and standard to <yellow>Verilog-AMS</> 2023 (<yellow>Accellera</> Verilog-AMS 2023)\n\n\
-				 --std=vh87\n\
+				 --std=vhd87\n\
 				 \tSet Language and standard to <green>VHDL</> 1987 (<blue>IEEE</> 1076-1987)\n\n\
-				 --std=vh93\n\
+				 --std=vhd93\n\
 				 \tSet Language and standard to <green>VHDL</> 1993 (<blue>IEEE</> 1076-1993)\n\n\
-				 --std=vh2k\n\
+				 --std=vhd2k\n\
 				 \tSet Language and standard to <green>VHDL</> 2000 (<blue>IEEE</> 1076-2000)\n\n\
-				 --std=vh02\n\
+				 --std=vhd02\n\
 				 \tSet Language and standard to <green>VHDL</> 2002 (<blue>IEEE</> 1076-2002)\n\n\
-				 --std=vh07\n\
+				 --std=vhd07\n\
 				 \tSet Language and standard to <green>VHDL</> 2007 (<blue>IEEE</> 1076-2007)\n\n\
-				 --std=vh08\n\
+				 --std=vhd08\n\
 				 \tSet Language and standard to <green>VHDL</> 2008 (<blue>IEEE</> 1076-2008)\n\n\
-				 --std=vh11\n\
+				 --std=vhd11\n\
 				 \tSet Language and standard to <green>VHDL</> 2011 (<blue>IEEE</> 1076-2011)\n\n\
-				 --std=vh19\n\
+				 --std=vhd19\n\
 				 \tSet Language and standard to <green>VHDL</> 2019 (<blue>IEEE</> 1076-2019)\n\n\
-				 --std=vh23\n\
+				 --std=vhd23\n\
 				 \tSet Language and standard to <green>VHDL</> 2023 (<blue>IEEE</> 1076-2023)\n\
 				"
 				))
