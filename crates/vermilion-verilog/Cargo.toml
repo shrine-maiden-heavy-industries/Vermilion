@@ -25,6 +25,7 @@ tendril               = { workspace = true, optional = true }
 
 [dev-dependencies]
 criterion = { workspace = true }
+proptest  = { workspace = true }
 test-log  = { workspace = true }
 
 [features]
