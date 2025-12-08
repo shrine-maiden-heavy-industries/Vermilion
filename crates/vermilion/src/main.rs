@@ -16,6 +16,7 @@ use crate::settings::Config;
 
 mod cli;
 pub(crate) mod lang;
+pub(crate) mod paths;
 pub(crate) mod settings;
 
 fn initialize_tracing(level: LevelFilter) -> eyre::Result<()> {
