@@ -23,6 +23,7 @@ vermilion-vhdl        = { workspace = true, features = [ "schema", "vermilion-cl
 
 clap                  = { workspace = true }
 clap_complete         = { workspace = true }
+color-eyre            = { workspace = true }
 color-print           = { workspace = true }
 colorchoice           = { workspace = true }
 console-subscriber    = { workspace = true }

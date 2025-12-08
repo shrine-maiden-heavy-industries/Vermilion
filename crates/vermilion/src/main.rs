@@ -43,6 +43,8 @@ fn initialize_tracing(level: LevelFilter) -> eyre::Result<()> {
 }
 
 fn main() -> eyre::Result<()> {
+	color_eyre::install()?;
+
 	let mut cli = cli::init()?;
 
 	// XXX(aki): We need to clone the Command here because we need it still

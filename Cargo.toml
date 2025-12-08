@@ -30,6 +30,7 @@ ariadne            = { version = "0.5.1", features = ["auto-color"] }
 chumsky            = { version = "0.11.1", features = ["extension", "regex", "memoization", "stacker"] }
 clap               = { version = "4.5.50" }
 clap_complete      = { version = "4.5.59" }
+color-eyre         = { version = "0.6.5" }
 color-print        = { version = "0.3.7" }
 colorchoice        = { version = "1.0.4" }
 console-subscriber = { version = "0.4.1" }
