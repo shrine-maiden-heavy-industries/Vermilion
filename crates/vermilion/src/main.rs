@@ -100,7 +100,7 @@ fn main() -> eyre::Result<()> {
 	// Try to invoke the command
 	match args.subcommand() {
 		Some((cmd, args)) => {
-			let cfg = settings::load_config(args);
+			let cfg = settings::load_config(args)?;
 
 			cli::exec_command(cmd)
 				.ok_or_eyre(format!("Unable to find command entry point for `{}`!", cmd))?(args, cfg)
