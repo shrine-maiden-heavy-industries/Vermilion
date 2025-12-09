@@ -65,6 +65,9 @@ wildcard_dependencies = "warn"
 unwrap_used = "deny"
 expect_used = "deny"
 
+[profile.dev.package.backtrace]
+opt-level = 3
+
 [profile.devopt]
 inherits      = "dev"
 codegen-units = 1
