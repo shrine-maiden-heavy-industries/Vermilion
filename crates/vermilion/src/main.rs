@@ -15,6 +15,7 @@ use vermilion_core::vars::VERMILION_LOG_LEVEL;
 use crate::settings::Config;
 
 mod cli;
+mod eyre_hook;
 pub(crate) mod lang;
 pub(crate) mod paths;
 pub(crate) mod settings;
@@ -44,7 +45,7 @@ fn initialize_tracing(level: LevelFilter) -> eyre::Result<()> {
 }
 
 fn main() -> eyre::Result<()> {
-	color_eyre::install()?;
+	eyre_hook::install()?;
 
 	let mut cli = cli::init()?;
 
