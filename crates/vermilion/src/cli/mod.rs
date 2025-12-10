@@ -96,23 +96,25 @@ pub(crate) fn init() -> eyre::Result<Command> {
 
 fn init_commands() -> eyre::Result<Vec<Command>> {
 	Ok(vec![
-		commands::explain::init()?,
-		lang_common(commands::fmt::init()?, true),
-		lang_common(commands::lint::init()?, true),
 		#[cfg(debug_assertions)]
 		lang_common(commands::dbg::init()?, false),
+		commands::explain::init()?,
+		commands::init::init()?,
+		lang_common(commands::fmt::init()?, true),
+		lang_common(commands::lint::init()?, true),
 		commands::lsp::init()?,
 	])
 }
 
 pub(crate) fn exec_command(command: &str) -> Option<CmdExec> {
 	match command {
-		commands::explain::COMMAND_NAME => Some(commands::explain::exec),
-		commands::fmt::COMMAND_NAME => Some(commands::fmt::exec),
-		commands::lint::COMMAND_NAME => Some(commands::lint::exec),
-		commands::lsp::COMMAND_NAME => Some(commands::lsp::exec),
 		#[cfg(debug_assertions)]
 		commands::dbg::COMMAND_NAME => Some(commands::dbg::exec),
+		commands::explain::COMMAND_NAME => Some(commands::explain::exec),
+		commands::fmt::COMMAND_NAME => Some(commands::fmt::exec),
+		commands::init::COMMAND_NAME => Some(commands::init::exec),
+		commands::lint::COMMAND_NAME => Some(commands::lint::exec),
+		commands::lsp::COMMAND_NAME => Some(commands::lsp::exec),
 		_ => None,
 	}
 }

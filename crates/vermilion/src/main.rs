@@ -101,6 +101,7 @@ fn main() -> eyre::Result<()> {
 	// Try to invoke the command
 	match args.subcommand() {
 		Some((cmd, args)) => {
+			// TODO(aki): Not all commands need the config
 			let cfg = settings::load_config(args)?;
 
 			cli::exec_command(cmd)
