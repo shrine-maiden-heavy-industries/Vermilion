@@ -2,7 +2,7 @@
 
 use color_eyre::config::HookBuilder;
 use color_eyre::eyre::{EyreHandler, InstallError};
-use color_print::{cformat, cstr};
+use color_print::cformat;
 use std::sync::OnceLock;
 
 type EyreHookFunc =
