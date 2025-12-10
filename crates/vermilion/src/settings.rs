@@ -1,12 +1,12 @@
 /* SPDX-License-Identifier: BSD-3-Clause */
 
-use std::{fs, path::PathBuf};
+use std::{fs, path::PathBuf, str::FromStr};
 
 use clap::ArgMatches;
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
-use tracing::warn;
+use tracing::{debug, trace, warn};
 use vermilion_core::settings::VermilionConfig;
 use vermilion_verilog::settings::{SystemVerilogConfig, VerilogConfig};
 use vermilion_vhdl::settings::VhdlConfig;
@@ -35,9 +35,7 @@ pub struct Config {
 /// 2. If the `-c`/`--config` option is passed, use that
 /// 3. If `${USER_CFG_DIR}/vermilion/config.toml` exists, overlay that
 /// 4. Starting from the current working directory:
-///    1. Look for one of the following:
-///       1. `.vermilion.toml`
-///       2. `vermilion.toml` (preferred if both exist)
+///    1. Look for `vermilion.toml`:
 ///    2. If found, overlay and return, otherwise...
 ///    3. If the next upper directory is on the same file-system mount, move up and try again, otherwise return
 ///
@@ -45,37 +43,52 @@ pub struct Config {
 /// per-project.
 ///
 pub fn load_config(args: &ArgMatches) -> eyre::Result<Config> {
-	const VERMILION_CONFIG_NAMES: [&str; 2] = ["vermilion.toml", ".vermilion.toml"];
-
-	fn _load_cfg_file(file: PathBuf) -> eyre::Result<Config> {
+	fn _load_cfg_file(file: &PathBuf) -> eyre::Result<Config> {
+		trace!("Loading configuration file from {:#?}", file);
+		warn!("TODO(aki): Config file merging");
 		let cfg = fs::read(file)?;
 		Ok(toml::from_slice::<Config>(&cfg)?)
 	}
 
 	if let Ok(Some(cfg_file)) = args.try_get_one::<String>("config") {
-		return _load_cfg_file(cfg_file.into());
+		return _load_cfg_file(&PathBuf::from_str(cfg_file.as_str())?);
 	};
 
 	let user_cfg = paths::config_file();
 	if user_cfg.exists() {
-		return _load_cfg_file(user_cfg);
+		return _load_cfg_file(&user_cfg);
 	}
 
 	let current_dir = std::env::current_dir()?;
+	let mut search_dir = current_dir.clone();
 
-	fn _check_cfg_files(dir: &PathBuf) -> Option<PathBuf> {
-		None
-	}
-
-	// let f = current_dir
-	// 	.read_dir()?
-	// 	.flatten()
-	// 	.map(|f| f.file_name().to_string_lossy())
-	// 	.filter(|f| VERMILION_CONFIG_NAMES.contains(&f.as_ref()));
-
+	let mut cfg_file: Option<PathBuf> = None;
 	let mut cfg = Config::default();
 
-	warn!("TODO(aki): Config file loading/merging");
+	// Search up to either the root or the upper-most mount-point for a valid configuration file.
+	while paths::same_fs(&current_dir, &search_dir)? && cfg_file.is_none() {
+		cfg_file = current_dir
+			.read_dir()?
+			.flatten()
+			.filter(|f| f.file_name() == "vermilion.toml")
+			.map(|f| f.path())
+			.next();
+
+		// Check to see if we found a configuration file, if not try to go up a directory if possible
+		if let Some(ref path) = cfg_file {
+			cfg = _load_cfg_file(path)?;
+			break;
+		} else if let Some(parent) = search_dir.parent() {
+			search_dir = parent.to_path_buf();
+		} else {
+			break;
+		}
+	}
+
+	// Emit a debug diagnostic saying we couldn't find a configuration file
+	if cfg_file.is_none() {
+		debug!("Unable to find valid Vermilion configuration file, using default values");
+	}
 
 	Ok(cfg)
 }
