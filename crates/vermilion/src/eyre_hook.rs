@@ -60,7 +60,7 @@ impl EyreHandler for VermilionEyreHander {
 	) -> core::fmt::Result {
 		writeln!(f, "{}", HOOK_PROLOGUE.get().unwrap())?;
 		self.inner.debug(error, f)?;
-		writeln!(f, "{}", HOOK_EPILOGUE.get().unwrap())
+		writeln!(f, "\n{}", HOOK_EPILOGUE.get().unwrap())
 	}
 
 	fn track_caller(&mut self, location: &'static std::panic::Location<'static>) {
@@ -75,8 +75,8 @@ pub(crate) fn install() -> eyre::Result<()> {
 	HOOK_PROLOGUE.get_or_init(|| {
 		cformat!(
 			"\
-			\n\t<blue>{}</> v{} has encountered an unhandled error\n\n\
-			<bright-black>------------[ ✂ cut here ✂ ]------------</>\
+			\n\n<blue>{}</> v{} has encountered an unhandled error\n\n\
+			<bright-black>------------[ ✂ cut here ✂ ]------------</>\n\
 			",
 			env!("CARGO_PKG_NAME"),
 			env!("CARGO_PKG_VERSION")
@@ -85,7 +85,7 @@ pub(crate) fn install() -> eyre::Result<()> {
 	HOOK_EPILOGUE.get_or_init(|| {
 		cformat!(
 			"\
-			\n\n<bright-black>------------[ ✂ cut here ✂ ]------------</>\n\n\
+			\n<bright-black>------------[ ✂ cut here ✂ ]------------</>\n\n\
 			Please report this issue at: <red>{}/issues</>\
 			",
 			env!("CARGO_PKG_REPOSITORY")
