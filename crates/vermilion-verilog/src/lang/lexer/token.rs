@@ -21,16 +21,7 @@ pub(crate) enum Number<'src> {
 }
 
 #[derive(Clone, Debug, PartialEq)]
-pub(crate) enum Token<'src> {
-	Whitespace(Whitespace),
-	Comment(&'src str),
-	CompilerDirective(&'src str),
-	Ctrl(char),
-	Str(&'src str),
-	Op(&'src str),
-	Number(Number<'src>),
-	Ident(&'src str),
-	/* Keywords */
+pub(crate) enum Keyword {
 	Always,
 	And,
 	Assign,
@@ -135,6 +126,19 @@ pub(crate) enum Token<'src> {
 	Xor,
 }
 
+#[derive(Clone, Debug, PartialEq)]
+pub(crate) enum Token<'src> {
+	Whitespace(Whitespace),
+	Comment(&'src str),
+	CompilerDirective(&'src str),
+	Ctrl(char),
+	Str(&'src str),
+	Op(&'src str),
+	Number(Number<'src>),
+	Ident(&'src str),
+	Keyword(Keyword),
+}
+
 impl Display for Whitespace {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
 		match self {
@@ -180,17 +184,9 @@ impl<'src> Display for Number<'src> {
 	}
 }
 
-impl<'src> Display for Token<'src> {
+impl Display for Keyword {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
 		match self {
-			Self::Whitespace(whitespace) => write!(f, "{whitespace}"),
-			Self::Comment(text) => write!(f, "{text}"),
-			Self::CompilerDirective(directive) => write!(f, "{directive}"),
-			Self::Ctrl(ctrl) => write!(f, "{ctrl}"),
-			Self::Str(text) => write!(f, "\"{text}\""),
-			Self::Op(op) => write!(f, "{op}"),
-			Self::Number(number) => write!(f, "{number}"),
-			Self::Ident(ident) => write!(f, "{ident}"),
 			Self::Always => write!(f, "always"),
 			Self::And => write!(f, "and"),
 			Self::Assign => write!(f, "assign"),
@@ -293,6 +289,22 @@ impl<'src> Display for Token<'src> {
 			Self::Wor => write!(f, "wor"),
 			Self::Xnor => write!(f, "xnor"),
 			Self::Xor => write!(f, "xor"),
+		}
+	}
+}
+
+impl<'src> Display for Token<'src> {
+	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+		match self {
+			Self::Whitespace(whitespace) => write!(f, "{whitespace}"),
+			Self::Comment(text) => write!(f, "{text}"),
+			Self::CompilerDirective(directive) => write!(f, "{directive}"),
+			Self::Ctrl(ctrl) => write!(f, "{ctrl}"),
+			Self::Str(text) => write!(f, "\"{text}\""),
+			Self::Op(op) => write!(f, "{op}"),
+			Self::Number(number) => write!(f, "{number}"),
+			Self::Ident(ident) => write!(f, "{ident}"),
+			Self::Keyword(kw) => write!(f, "{kw}"),
 		}
 	}
 }
