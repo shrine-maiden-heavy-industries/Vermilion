@@ -312,5 +312,47 @@ mod tests {
 	#[test]
 	fn test_lexer() {
 		let lexer = lexer(VerilogVariant::Verilog(VerilogStd::Vl95));
+
+		assert_eq!(lexer.parse("").into_output(), Some(Vec::new()));
+
+		assert_eq!(
+			lexer.parse("// Test").into_output().unwrap(),
+			vec![Token::Comment(" Test")]
+		);
+
+		assert_eq!(
+			lexer.parse("`default_nettype wire").into_output().unwrap(),
+			vec![
+				Token::CompilerDirective("default_nettype"),
+				Token::Whitespace(Whitespace::Indentation(" ".into())),
+				Token::Keyword(Keyword::Wire)
+			]
+		);
+
+		assert_eq!(
+			lexer
+				.parse(
+					r#"
+module foo();
+
+endmodule
+"#,
+				)
+				.into_output()
+				.unwrap(),
+			vec![
+				Token::Whitespace(Whitespace::Newline),
+				Token::Keyword(Keyword::Module),
+				Token::Whitespace(Whitespace::Indentation(" ".into())),
+				Token::Ident("foo"),
+				Token::Ctrl('('),
+				Token::Ctrl(')'),
+				Token::Ctrl(';'),
+				Token::Whitespace(Whitespace::Newline),
+				Token::Whitespace(Whitespace::Newline),
+				Token::Keyword(Keyword::EndModule),
+				Token::Whitespace(Whitespace::Newline),
+			]
+		);
 	}
 }
