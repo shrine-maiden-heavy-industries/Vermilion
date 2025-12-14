@@ -9,7 +9,7 @@ version       = "0.0.0"
 publish       = false
 edition       = "2024"
 license       = "BSD-3-Clause"
-rust-version  = "1.89"
+rust-version  = "1.92"
 repository    = "https://github.com/shrine-maiden-heavy-industries/vermilion"
 homepage      = "https://github.com/shrine-maiden-heavy-industries/vermilion"
 documentation = "https://github.com/shrine-maiden-heavy-industries/vermilion"
@@ -26,36 +26,36 @@ vermilion-verilog     = { path = "crates/vermilion-verilog"     }
 vermilion-vhdl        = { path = "crates/vermilion-vhdl"        }
 
 # External Deps
-ariadne            = { version = "0.5.1", features = ["auto-color"] }
-chumsky            = { version = "0.11.1", features = ["extension", "regex", "memoization", "stacker"] }
-clap               = { version = "4.5.50" }
-clap_complete      = { version = "4.5.59" }
-color-eyre         = { version = "0.6.5" }
-color-print        = { version = "0.3.7" }
-colorchoice        = { version = "1.0.4" }
-console-subscriber = { version = "0.4.1" }
-criterion          = { version = "0.7" }
-crossterm          = { version = "0.29.0" }
-directories        = { version = "6.0.0" }
-eyre               = { version = "0.6.12", default-features = false }
-fluent-uri         = { version = "0.4.1", features = [ "serde" ] }
-notify             = { version = "8.2.0" }
-proptest           = { version = "1.9.0" }
-pulldown-cmark     = { version = "0.13.0", default-features = false }
-ratatui            = { version = "0.29.0" }
-schemars           = { version = "1.0.4", features = [ "derive" ] }
-serde              = { version = "1.0.228", features = [ "derive" ] }
-serde_json         = { version = "1.0.145" }
-serde_repr         = { version = "0.1.20" }
-syntect            = { version = "5.3.0" }
-tendril            = { version = "0.4.3" }
-test-log           = { version = "0.2.18", features = ["trace", "color"] }
-tokio              = { version = "1.48.0", features = [ "rt", "rt-multi-thread", "net", "time", "macros", "sync", "tracing" ] }
-tokio-stream       = { version = "0.1.17", features = [ "full" ] }
-tokio-util         = { version = "0.7.16", features = [ "tracing" ] }
-toml               = { version = "0.9.8" }
-tracing            = { version = "0.1.41", features = [ "async-await" ] }
-tracing-subscriber = { version = "0.3.20", features = [ "env-filter", "fmt", "ansi", "registry" ] }
+ariadne            = { version = "0.6", features = ["auto-color"] }
+chumsky            = { version = "0.11", features = ["extension", "regex", "memoization", "stacker"] }
+clap               = { version = "4.5" }
+clap_complete      = { version = "4.5" }
+color-eyre         = { version = "0.6" }
+color-print        = { version = "0.3" }
+colorchoice        = { version = "1.0" }
+console-subscriber = { version = "0.5" }
+criterion          = { version = "0.8" }
+crossterm          = { version = "0.29" }
+directories        = { version = "6.0" }
+eyre               = { version = "0.6", default-features = false }
+fluent-uri         = { version = "0.4", features = [ "serde" ] }
+notify             = { version = "8.2" }
+proptest           = { version = "1.9" }
+pulldown-cmark     = { version = "0.13", default-features = false }
+ratatui            = { version = "0.29" }
+schemars           = { version = "1.1", features = [ "derive" ] }
+serde              = { version = "1.0", features = [ "derive" ] }
+serde_json         = { version = "1.0" }
+serde_repr         = { version = "0.1" }
+syntect            = { version = "5.3" }
+tendril            = { version = "0.4" }
+test-log           = { version = "0.2", features = ["trace", "color"] }
+tokio              = { version = "1.48", features = [ "rt", "rt-multi-thread", "net", "time", "macros", "sync", "tracing" ] }
+tokio-stream       = { version = "0.1", features = [ "full" ] }
+tokio-util         = { version = "0.7", features = [ "tracing" ] }
+toml               = { version = "0.9" }
+tracing            = { version = "0.1", features = [ "async-await" ] }
+tracing-subscriber = { version = "0.3", features = [ "env-filter", "fmt", "ansi", "registry" ] }
 
 [workspace.lints.clippy]
 allow_attributes_without_reason = "warn"
