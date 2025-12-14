@@ -44,6 +44,7 @@ pub(crate) fn lexer<'src>(
 
 fn lex_whitespace<'src>() -> impl Parser<'src, &'src str, Token<'src>, LexErr<'src>> {
 	just("\r\n")
+		.or(just("\n"))
 		.map(|_| Token::Whitespace(Whitespace::Newline))
 		.or(one_of("\x20\t")
 			.repeated()
@@ -205,6 +206,11 @@ mod tests {
 
 		assert_eq!(
 			ws.parse("\r\n").into_output(),
+			Some(Token::Whitespace(Whitespace::Newline))
+		);
+
+		assert_eq!(
+			ws.parse("\n").into_output(),
 			Some(Token::Whitespace(Whitespace::Newline))
 		);
 
