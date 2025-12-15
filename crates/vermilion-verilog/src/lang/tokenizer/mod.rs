@@ -5,7 +5,7 @@ use tendril::ByteTendril;
 use crate::VerilogVariant;
 use self::token::Token;
 
-use vermilion_lang::parser::Spanned;
+use vermilion_lang::parser::{Span, Spanned};
 
 pub(crate) mod token;
 
@@ -59,6 +59,47 @@ impl Tokenizer {
 		self.context.next_char();
 		self.current_char = self.file[self.position];
 		value
+	}
+
+	fn read_token(&mut self) {
+		if !self.token_stream.is_empty() {
+			// This has to work or the stream is empty, thus the if condition fails.
+			self.token = self.token_stream.pop().unwrap();
+			return;
+		}
+		let context = self.context;
+		let begin = self.position;
+		match self.current_char {
+			b'@' => self.token = Token::Control(token::Control::At).into(),
+			b'#' => self.token = Token::Control(token::Control::Octothorp).into(),
+			b'(' => self.token = Token::Control(token::Control::ParenOpen).into(),
+			b')' => self.token = Token::Control(token::Control::ParenClose).into(),
+			b'[' => self.token = Token::Control(token::Control::BracketOpen).into(),
+			b']' => self.token = Token::Control(token::Control::BracketClose).into(),
+			b'{' => self.token = Token::Control(token::Control::BraceOpen).into(),
+			b'}' => self.token = Token::Control(token::Control::BraceClose).into(),
+			b':' => self.token = Token::Control(token::Control::Colon).into(),
+			b';' => self.token = Token::Control(token::Control::Semicolon).into(),
+			b',' => self.token = Token::Control(token::Control::Comma).into(),
+			b'.' => self.token = Token::Control(token::Control::Dot).into(),
+			b'$' => self.token = Token::Control(token::Control::Dollar).into(),
+		}
+		self.next_char();
+		let end = self.position;
+		self.token.attach_span(Span::new(begin..end, context));
+	}
+}
+
+impl Iterator for Tokenizer {
+	type Item = Spanned<Token, Position>;
+
+	fn next(&mut self) -> Option<Self::Item> {
+		// If we hit the end of the file, we've nothing more to give
+		if self.eof {
+			return None
+		}
+		self.read_token();
+		Some(self.token.clone())
 	}
 }
 
