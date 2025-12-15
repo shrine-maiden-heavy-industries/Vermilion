@@ -127,6 +127,10 @@ impl Tokenizer {
 				self.read_compiler_directive_token();
 				return;
 			},
+			b'"' => {
+				self.read_string_token();
+				return;
+			},
 			_ => {
 				self.read_extended_token();
 				return;
@@ -135,6 +139,15 @@ impl Tokenizer {
 		self.next_char();
 		let end = self.position;
 		self.token.attach_span(Span::new(begin..end, context));
+	}
+
+	fn read_string_token(&mut self) {
+		let context = self.context;
+		let begin = self.position;
+		self.next_char();
+		let end = self.position;
+
+		todo!("String tokenization")
 	}
 
 	fn read_minus_token(&mut self) {
