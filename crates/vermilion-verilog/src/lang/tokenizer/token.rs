@@ -27,7 +27,7 @@ pub(crate) enum Token {
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub(crate) enum Sign {
 	Positive,
-	Negative
+	Negative,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
