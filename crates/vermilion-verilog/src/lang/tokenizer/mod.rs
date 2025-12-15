@@ -695,40 +695,44 @@ mod tests {
 			VerilogVariant::Verilog(VerilogStd::Vl95),
 			" \r\n \t\n\t\n\r".as_bytes().into(),
 		);
-		let tokens = tokenizer.collect::<Vec<_>>();
+
+		let parsed = tokenizer.collect::<Vec<_>>();
+		let expected = vec![
+			Spanned::new(
+				Token::Whitespace(" ".as_bytes().into()),
+				Some(Span::new(0..1, Position::new(0, 0))),
+			),
+			Spanned::new(
+				Token::Newline("\r\n".as_bytes().into()),
+				Some(Span::new(1..3, Position::new(0, 1))),
+			),
+			Spanned::new(
+				Token::Whitespace(" \t".as_bytes().into()),
+				Some(Span::new(3..5, Position::new(1, 0))),
+			),
+			Spanned::new(
+				Token::Newline("\n".as_bytes().into()),
+				Some(Span::new(5..6, Position::new(1, 2))),
+			),
+			Spanned::new(
+				Token::Whitespace("\t".as_bytes().into()),
+				Some(Span::new(6..7, Position::new(2, 0))),
+			),
+			Spanned::new(
+				Token::Newline("\n".as_bytes().into()),
+				Some(Span::new(7..8, Position::new(2, 1))),
+			),
+			Spanned::new(
+				Token::Newline("\r".as_bytes().into()),
+				Some(Span::new(8..9, Position::new(3, 0))),
+			),
+		];
 
 		assert_eq!(
-			tokens,
-			vec![
-				Spanned::new(
-					Token::Whitespace(" ".as_bytes().into()),
-					Some(Span::new(0..1, Position::new(0, 0)))
-				),
-				Spanned::new(
-					Token::Newline("\r\n".as_bytes().into()),
-					Some(Span::new(1..3, Position::new(0, 1)))
-				),
-				Spanned::new(
-					Token::Whitespace(" \t".as_bytes().into()),
-					Some(Span::new(3..5, Position::new(1, 0)))
-				),
-				Spanned::new(
-					Token::Newline("\n".as_bytes().into()),
-					Some(Span::new(5..6, Position::new(1, 2)))
-				),
-				Spanned::new(
-					Token::Whitespace("\t".as_bytes().into()),
-					Some(Span::new(6..7, Position::new(2, 0)))
-				),
-				Spanned::new(
-					Token::Newline("\n".as_bytes().into()),
-					Some(Span::new(7..8, Position::new(2, 1)))
-				),
-				Spanned::new(
-					Token::Newline("\r".as_bytes().into()),
-					Some(Span::new(8..9, Position::new(3, 0)))
-				),
-			]
+			parsed, expected,
+			"Parsed: {parsed:#?}\nExpected: {expected:#?}"
+		);
+	}
 		);
 	}
 
