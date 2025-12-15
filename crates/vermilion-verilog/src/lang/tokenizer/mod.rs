@@ -42,6 +42,24 @@ impl Tokenizer {
 
 		tokenizer
 	}
+
+	fn next_char(&mut self) -> u8 {
+		// Copy the current character value to return at the end
+		let value = self.current_char;
+		// Check for EOF and handle
+		if self.position + 1 == self.file.len() {
+			self.eof = true;
+			self.current_char = 0;
+			return value;
+		}
+
+		// If we're not at the end of the file, get the next character from Tendril and step forward
+		// in the file - both position and contextually.
+		self.position += 1;
+		self.context.next_char();
+		self.current_char = self.file[self.position];
+		value
+	}
 }
 
 impl Position {
