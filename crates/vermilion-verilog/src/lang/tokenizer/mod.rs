@@ -1,6 +1,6 @@
 /* SPDX-License-Identifier: BSD-3-Clause */
 
-use std::{fmt::Display, ops::Range};
+use std::{collections::VecDeque, fmt::Display, ops::Range};
 
 use tendril::ByteTendril;
 
@@ -19,7 +19,7 @@ pub(crate) struct Tokenizer {
 	context: Position,
 	eof: bool,
 	token: Spanned<Token, Position>,
-	token_stream: Vec<Spanned<Token, Position>>,
+	token_stream: VecDeque<Spanned<Token, Position>>,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
@@ -38,7 +38,7 @@ impl Tokenizer {
 			context: Position { line: 0, character: 0 },
 			eof: false,
 			token: Spanned::new(Token::default(), None),
-			token_stream: Vec::new(),
+			token_stream: VecDeque::new(),
 		};
 		tokenizer.current_char = tokenizer.file[tokenizer.position];
 
@@ -72,7 +72,7 @@ impl Tokenizer {
 	fn read_token(&mut self) {
 		if !self.token_stream.is_empty() {
 			// This has to work or the stream is empty, thus the if condition fails.
-			self.token = self.token_stream.pop().unwrap();
+			self.token = self.token_stream.pop_front().unwrap();
 			return;
 		}
 		let context = self.context;
@@ -175,7 +175,7 @@ impl Tokenizer {
 
 		// If that got us to a number, this was a sign token
 		if self.current_char.is_ascii_digit() {
-			self.token_stream.push(
+			self.token_stream.push_back(
 				Spanned::new(
 					Token::Sign(token::Sign::Positive),
 					Some(Span::new(begin..end, context))
@@ -202,7 +202,7 @@ impl Tokenizer {
 				self.next_char();
 			}
 			// Stuff the unsigned number token onto the token stack
-			self.token_stream.push(
+			self.token_stream.push_back(
 				Spanned::new(
 					Token::UnsignedNumber(
 						self.file.subtendril(begin as u32, (self.position - begin) as u32)
@@ -214,12 +214,12 @@ impl Tokenizer {
 		// Deal with any whitespace that comes after the size
 		if self.current_is_whitespace() {
 			self.read_whitespace();
-			self.token_stream.push(self.token.clone())
+			self.token_stream.push_back(self.token.clone())
 		}
 		// If we get here and we don't yet have a `'`,  we've consumed a decimal number - we're done.
 		if self.current_char != b'\'' {
 			// If we're here, we have to have pushed stuff to the token stream, so this is always okay.
-			self.token = self.token_stream.pop().unwrap();
+			self.token = self.token_stream.pop_front().unwrap();
 			return;
 		}
 
@@ -235,7 +235,7 @@ impl Tokenizer {
 			b'd' | b'D' => self.read_decimal_token(context, begin),
 			b'h' | b'H' => self.read_hexadecimal_token(context, begin),
 			_ => {
-				self.token_stream.push(
+				self.token_stream.push_back(
 					Spanned::new(
 						Token::Invalid(
 							Some(self.file.subtendril(begin as u32, (self.position - begin) as u32))
@@ -247,12 +247,12 @@ impl Tokenizer {
 		};
 		// Having processed all of the number tokens, pop the first as the result token.
 		// The only way we get here is having pushed at least something onto the token stream.
-		self.token = self.token_stream.pop().unwrap();
+		self.token = self.token_stream.pop_front().unwrap();
 	}
 
 	fn read_binary_token(&mut self, context: Position, begin: usize) {
 		let upper_case = self.next_char() == b'B';
-		self.token_stream.push(
+		self.token_stream.push_back(
 			Spanned::new(
 				Token::BaseSpecifier(token::BaseSpecifier::Binary, upper_case),
 				Some(Span::new(begin..self.position, context))
@@ -261,7 +261,7 @@ impl Tokenizer {
 		// Deal with any whitespace that comes after the base specifier
 		if self.current_is_whitespace() {
 			self.read_whitespace();
-			self.token_stream.push(self.token.clone())
+			self.token_stream.push_back(self.token.clone())
 		}
 
 		fn is_binary_digit(current_char: u8) -> bool {
@@ -283,7 +283,7 @@ impl Tokenizer {
 			}
 
 			// Turn whatever we got into an invalid token
-			self.token_stream.push(
+			self.token_stream.push_back(
 				Spanned::new(
 					Token::Invalid(
 						Some(self.file.subtendril(begin as u32, (self.position - begin) as u32))
@@ -298,7 +298,7 @@ impl Tokenizer {
 			}
 
 			// Turn the consumed number into a Number token
-			self.token_stream.push(
+			self.token_stream.push_back(
 				Spanned::new(
 					Token::Number(
 						self.file.subtendril(begin as u32, (self.position - begin) as u32)
@@ -311,7 +311,7 @@ impl Tokenizer {
 
 	fn read_octal_token(&mut self, context: Position, begin: usize) {
 		let upper_case = self.next_char() == b'O';
-		self.token_stream.push(
+		self.token_stream.push_back(
 			Spanned::new(
 				Token::BaseSpecifier(token::BaseSpecifier::Octal, upper_case),
 				Some(Span::new(begin..self.position, context))
@@ -320,7 +320,7 @@ impl Tokenizer {
 		// Deal with any whitespace that comes after the base specifier
 		if self.current_is_whitespace() {
 			self.read_whitespace();
-			self.token_stream.push(self.token.clone())
+			self.token_stream.push_back(self.token.clone())
 		}
 
 		fn is_octal_digit(current_char: u8) -> bool {
@@ -342,7 +342,7 @@ impl Tokenizer {
 			}
 
 			// Turn whatever we got into an invalid token
-			self.token_stream.push(
+			self.token_stream.push_back(
 				Spanned::new(
 					Token::Invalid(
 						Some(self.file.subtendril(begin as u32, (self.position - begin) as u32))
@@ -357,7 +357,7 @@ impl Tokenizer {
 			}
 
 			// Turn the consumed number into a Number token
-			self.token_stream.push(
+			self.token_stream.push_back(
 				Spanned::new(
 					Token::Number(
 						self.file.subtendril(begin as u32, (self.position - begin) as u32)
@@ -370,7 +370,7 @@ impl Tokenizer {
 
 	fn read_decimal_token(&mut self, context: Position, begin: usize) {
 		let upper_case = self.next_char() == b'D';
-		self.token_stream.push(
+		self.token_stream.push_back(
 			Spanned::new(
 				Token::BaseSpecifier(token::BaseSpecifier::Decimal, upper_case),
 				Some(Span::new(begin..self.position, context))
@@ -379,7 +379,7 @@ impl Tokenizer {
 		// Deal with any whitespace that comes after the base specifier
 		if self.current_is_whitespace() {
 			self.read_whitespace();
-			self.token_stream.push(self.token.clone())
+			self.token_stream.push_back(self.token.clone())
 		}
 
 		fn is_decimal_digit(current_char: u8) -> bool {
@@ -399,7 +399,7 @@ impl Tokenizer {
 			}
 
 			// Turn whatever we got into an invalid token
-			self.token_stream.push(
+			self.token_stream.push_back(
 				Spanned::new(
 					Token::Invalid(
 						Some(self.file.subtendril(begin as u32, (self.position - begin) as u32))
@@ -414,7 +414,7 @@ impl Tokenizer {
 			}
 
 			// Turn the consumed number into a Number token
-			self.token_stream.push(
+			self.token_stream.push_back(
 				Spanned::new(
 					Token::Number(
 						self.file.subtendril(begin as u32, (self.position - begin) as u32)
@@ -427,7 +427,7 @@ impl Tokenizer {
 
 	fn read_hexadecimal_token(&mut self, context: Position, begin: usize) {
 		let upper_case = self.next_char() == b'H';
-		self.token_stream.push(
+		self.token_stream.push_back(
 			Spanned::new(
 				Token::BaseSpecifier(token::BaseSpecifier::Hexadecimal, upper_case),
 				Some(Span::new(begin..self.position, context))
@@ -436,7 +436,7 @@ impl Tokenizer {
 		// Deal with any whitespace that comes after the base specifier
 		if self.current_is_whitespace() {
 			self.read_whitespace();
-			self.token_stream.push(self.token.clone())
+			self.token_stream.push_back(self.token.clone())
 		}
 
 		fn is_hexadecimal_digit(current_char: u8) -> bool {
@@ -460,7 +460,7 @@ impl Tokenizer {
 			}
 
 			// Turn whatever we got into an invalid token
-			self.token_stream.push(
+			self.token_stream.push_back(
 				Spanned::new(
 					Token::Invalid(
 						Some(self.file.subtendril(begin as u32, (self.position - begin) as u32))
@@ -475,7 +475,7 @@ impl Tokenizer {
 			}
 
 			// Turn the consumed number into a Number token
-			self.token_stream.push(
+			self.token_stream.push_back(
 				Spanned::new(
 					Token::Number(
 						self.file.subtendril(begin as u32, (self.position - begin) as u32)
@@ -588,6 +588,81 @@ mod tests {
 				Spanned::new(
 					Token::Newline("\r".as_bytes().into()),
 					Some(Span::new(8..9, Position { line: 3, character: 0 }))
+				),
+			]
+		);
+	}
+
+	#[test]
+	fn test_tokenize_binary_number() {
+		let tokenizer = Tokenizer::new(
+			VerilogVariant::Verilog(VerilogStd::Vl95),
+			"4 'b01zx\n+1'B ?\n2'bZX\n".as_bytes().into()
+		);
+		let tokens = tokenizer.collect::<Vec<_>>();
+
+		assert_eq!(
+			tokens,
+			vec![
+				Spanned::new(
+					Token::UnsignedNumber("4".as_bytes().into()),
+					Some(Span::new(0..1, Position { line: 0, character: 0 }))
+				),
+				Spanned::new(
+					Token::Whitespace(" ".as_bytes().into()),
+					Some(Span::new(1..2, Position { line: 0, character: 1 }))
+				),
+				Spanned::new(
+					Token::BaseSpecifier(token::BaseSpecifier::Binary, false),
+					Some(Span::new(2..4, Position { line: 0, character: 2 }))
+				),
+				Spanned::new(
+					Token::Number("01zx".as_bytes().into()),
+					Some(Span::new(4..8, Position { line: 0, character: 4 }))
+				),
+				Spanned::new(
+					Token::Newline("\n".as_bytes().into()),
+					Some(Span::new(8..9, Position { line: 0, character: 8 }))
+				),
+				Spanned::new(
+					Token::Sign(token::Sign::Positive),
+					Some(Span::new(9..10, Position { line: 1, character: 0 }))
+				),
+				Spanned::new(
+					Token::UnsignedNumber("1".as_bytes().into()),
+					Some(Span::new(10..11, Position { line: 1, character: 1 }))
+				),
+				Spanned::new(
+					Token::BaseSpecifier(token::BaseSpecifier::Binary, true),
+					Some(Span::new(11..13, Position { line: 1, character: 2 }))
+				),
+				Spanned::new(
+					Token::Whitespace(" ".as_bytes().into()),
+					Some(Span::new(13..14, Position { line: 1, character: 4 }))
+				),
+				Spanned::new(
+					Token::Number("?".as_bytes().into()),
+					Some(Span::new(14..15, Position { line: 1, character: 5 }))
+				),
+				Spanned::new(
+					Token::Newline("\n".as_bytes().into()),
+					Some(Span::new(15..16, Position { line: 1, character: 6 }))
+				),
+				Spanned::new(
+					Token::UnsignedNumber("2".as_bytes().into()),
+					Some(Span::new(16..17, Position { line: 2, character: 0 }))
+				),
+				Spanned::new(
+					Token::BaseSpecifier(token::BaseSpecifier::Binary, false),
+					Some(Span::new(17..19, Position { line: 2, character: 1 }))
+				),
+				Spanned::new(
+					Token::Number("ZX".as_bytes().into()),
+					Some(Span::new(19..21, Position { line: 2, character: 3 }))
+				),
+				Spanned::new(
+					Token::Newline("\n".as_bytes().into()),
+					Some(Span::new(21..22, Position { line: 2, character: 5 }))
 				),
 			]
 		);
