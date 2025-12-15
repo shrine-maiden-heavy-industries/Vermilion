@@ -12,12 +12,11 @@ pub(crate) enum Whitespace {
 }
 
 #[derive(Clone, Debug, PartialEq)]
-pub(crate) enum Number<'src> {
-	Binary(Option<isize>, &'src str),
-	Octal(Option<isize>, &'src str),
-	Dec(Option<isize>, &'src str),
-	Hex(Option<isize>, &'src str),
-	Real(f64),
+pub(crate) enum NumericBase {
+	Binary,
+	Octal,
+	Dec,
+	Hex,
 }
 
 #[derive(Clone, Debug, PartialEq)]
@@ -134,7 +133,9 @@ pub(crate) enum Token<'src> {
 	Ctrl(char),
 	Str(&'src str),
 	Op(&'src str),
-	Number(Number<'src>),
+	NumericBase(NumericBase),
+	Real(f64),
+	NumericLiteral(&'src str),
 	Ident(&'src str),
 	Keyword(Keyword),
 }
@@ -148,38 +149,13 @@ impl Display for Whitespace {
 	}
 }
 
-impl<'src> Display for Number<'src> {
+impl Display for NumericBase {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
 		match self {
-			Number::Binary(size, number) => {
-				if let Some(size) = size {
-					write!(f, "{size}'b{number}")
-				} else {
-					write!(f, "'b{number}")
-				}
-			},
-			Number::Octal(size, number) => {
-				if let Some(size) = size {
-					write!(f, "{size}'o{number}")
-				} else {
-					write!(f, "'o{number}")
-				}
-			},
-			Number::Dec(size, number) => {
-				if let Some(size) = size {
-					write!(f, "{size}'d{number}")
-				} else {
-					write!(f, "'d{number}")
-				}
-			},
-			Number::Hex(size, number) => {
-				if let Some(size) = size {
-					write!(f, "{size}'h{number}")
-				} else {
-					write!(f, "'h{number}")
-				}
-			},
-			Number::Real(num) => write!(f, "{num}"),
+			Self::Binary => write!(f, "'b"),
+			Self::Octal => write!(f, "'o"),
+			Self::Dec => write!(f, "'d"),
+			Self::Hex => write!(f, "'h"),
 		}
 	}
 }
@@ -302,7 +278,9 @@ impl<'src> Display for Token<'src> {
 			Self::Ctrl(ctrl) => write!(f, "{ctrl}"),
 			Self::Str(text) => write!(f, "\"{text}\""),
 			Self::Op(op) => write!(f, "{op}"),
-			Self::Number(number) => write!(f, "{number}"),
+			Self::NumericBase(base) => write!(f, "{base}"),
+			Self::NumericLiteral(number) => write!(f, "{number}"),
+			Self::Real(real) => write!(f, "{real}"),
 			Self::Ident(ident) => write!(f, "{ident}"),
 			Self::Keyword(kw) => write!(f, "{kw}"),
 		}
