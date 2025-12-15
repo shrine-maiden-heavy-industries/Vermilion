@@ -11,7 +11,7 @@ impl VerilogParser {
 	pub fn new(std: VerilogVariant, content: &str) -> Self {
 		Self {
 			std,
-			tokenizer: Tokenizer::new(std, content.as_bytes().into())
+			tokenizer: Tokenizer::new(std, content.as_bytes().into()),
 		}
 	}
 }
