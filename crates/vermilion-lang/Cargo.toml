@@ -18,7 +18,7 @@ vermilion-fmt         = { workspace = true }
 
 ariadne               = { workspace = true }
 chumsky               = { workspace = true }
-tendril               = { workspace = true, optional = true }
+tendril               = { workspace = true }
 
 [dev-dependencies]
 criterion = { workspace = true }
@@ -28,5 +28,4 @@ test-log  = { workspace = true }
 [features]
 default = []
 
-tendril = [ "dep:tendril" ]
 graphviz-output = []

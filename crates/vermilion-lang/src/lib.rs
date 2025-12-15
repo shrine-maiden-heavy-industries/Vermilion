@@ -6,8 +6,6 @@
 
 pub mod lexer;
 pub mod parser;
-#[cfg(feature = "tendril")]
-pub mod tendril;
 
 fn print_errors() {
 	// 	let _: Vec<_> = args

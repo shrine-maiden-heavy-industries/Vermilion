@@ -21,7 +21,7 @@ chumsky               = { workspace = true }
 clap                  = { workspace = true, optional = true }
 schemars              = { workspace = true, optional = true }
 serde                 = { workspace = true, optional = true }
-tendril               = { workspace = true, optional = true }
+tendril               = { workspace = true }
 
 [dev-dependencies]
 criterion = { workspace = true }
@@ -35,4 +35,3 @@ graphviz-output = [ "vermilion-lang/graphviz-output" ]
 vermilion-cli   = [ "dep:clap" ]
 serde           = [ "dep:serde", "vermilion-fmt/serde", "vermilion-diagnostics/serde" ]
 schema          = [ "serde", "dep:schemars", "vermilion-fmt/schema", "vermilion-diagnostics/schema" ]
-tendril         = [ "dep:tendril", "vermilion-lang/tendril" ]
