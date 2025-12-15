@@ -10,16 +10,19 @@ pub(crate) enum Token {
 	Invalid(Option<ByteTendril>),
 	/// Hold the verilog variant for when this token would become valid
 	ContextuallyInvalid(ByteTendril, VerilogVariant),
-	Whitespace(ByteTendril),
-	Newline(ByteTendril),
-	Identifier(ByteTendril),
-	Sign(Sign),
-	UnsignedNumber(ByteTendril),
 	BaseSpecifier(BaseSpecifier, bool),
-	Number(ByteTendril),
+	Comment(ByteTendril),
+	CompilerDirective(ByteTendril),
 	Control(Control),
+	Identifier(ByteTendril),
 	Keyword(Keyword),
+	Newline(ByteTendril),
+	Number(ByteTendril),
 	Operator(Operator),
+	Sign(Sign),
+	String(ByteTendril),
+	UnsignedNumber(ByteTendril),
+	Whitespace(ByteTendril),
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
