@@ -733,6 +733,56 @@ mod tests {
 			"Parsed: {parsed:#?}\nExpected: {expected:#?}"
 		);
 	}
+
+	#[test]
+	fn test_equality_operators() {
+		let tokenizer = Tokenizer::new(
+			VerilogVariant::Verilog(VerilogStd::Vl95),
+			"!= \n===\t!==\n\n==".as_bytes().into(),
+		);
+		let parsed = tokenizer.collect::<Vec<_>>();
+		let expected = vec![
+			Spanned::new(
+				Token::Operator(Operator::LogicalInequality),
+				Some(Span::new(0..2, Position::new(0, 0))),
+			),
+			Spanned::new(
+				Token::Whitespace(" ".as_bytes().into()),
+				Some(Span::new(2..3, Position::new(0, 2))),
+			),
+			Spanned::new(
+				Token::Newline("\n".as_bytes().into()),
+				Some(Span::new(3..4, Position::new(0, 3))),
+			),
+			Spanned::new(
+				Token::Operator(Operator::CaseEquality),
+				Some(Span::new(4..7, Position::new(1, 0))),
+			),
+			Spanned::new(
+				Token::Whitespace("\t".as_bytes().into()),
+				Some(Span::new(7..8, Position::new(1, 3))),
+			),
+			Spanned::new(
+				Token::Operator(Operator::CaseInequality),
+				Some(Span::new(8..11, Position::new(1, 4))),
+			),
+			Spanned::new(
+				Token::Newline("\n".as_bytes().into()),
+				Some(Span::new(11..12, Position::new(1, 7))),
+			),
+			Spanned::new(
+				Token::Newline("\n".as_bytes().into()),
+				Some(Span::new(12..13, Position::new(2, 0))),
+			),
+			Spanned::new(
+				Token::Operator(Operator::LogicalEquality),
+				Some(Span::new(13..15, Position::new(3, 0))),
+			),
+		];
+
+		assert_eq!(
+			parsed, expected,
+			"Parsed: {parsed:#?}\nExpected: {expected:#?}"
 		);
 	}
 
