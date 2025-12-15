@@ -364,6 +364,7 @@ impl Tokenizer {
 			self.read_whitespace();
 			self.token_stream.push_back(self.token.clone())
 		}
+		// TODO(aki): We need to think about `Real` numbers here too, at this point,
 		// If we get here and we don't yet have a `'`,  we've consumed a decimal number - we're done.
 		if self.current_char != b'\'' {
 			// SAFETY:
