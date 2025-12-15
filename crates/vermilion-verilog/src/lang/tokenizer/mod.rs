@@ -1,11 +1,47 @@
 /* SPDX-License-Identifier: BSD-3-Clause */
 
+use tendril::ByteTendril;
+
+use crate::VerilogVariant;
+use self::token::Token;
+
+use vermilion_lang::parser::Spanned;
+
 pub(crate) mod token;
+
+pub(crate) struct Tokenizer {
+	standard: VerilogVariant,
+	file: ByteTendril,
+	current_char: u8,
+	position: usize,
+	context: Position,
+	eof: bool,
+	token: Spanned<Token, Position>,
+	token_stream: Vec<Spanned<Token, Position>>,
+}
 
 #[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Position {
 	line: usize,
 	character: usize,
+}
+
+impl Tokenizer {
+	pub fn new(standard: VerilogVariant, file: ByteTendril) -> Tokenizer {
+		let mut tokenizer = Self {
+			standard,
+			file,
+			current_char: 0,
+			position: 0,
+			context: Position { line: 0, character: 0 },
+			eof: false,
+			token: Spanned::new(Token::default(), None),
+			token_stream: Vec::new(),
+		};
+		tokenizer.current_char = tokenizer.file[tokenizer.position];
+
+		tokenizer
+	}
 }
 
 impl Position {
