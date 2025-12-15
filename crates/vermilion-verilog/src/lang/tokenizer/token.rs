@@ -42,18 +42,19 @@ pub(crate) enum BaseSpecifier {
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub(crate) enum Control {
 	At,
-	Octothorp,
-	ParenOpen,
-	ParenClose,
-	BracketOpen,
-	BracketClose,
-	BraceOpen,
 	BraceClose,
+	BraceOpen,
+	BracketClose,
+	BracketOpen,
 	Colon,
-	Semicolon,
 	Comma,
-	Dot,
 	Dollar,
+	Dot,
+	Octothorp,
+	ParenClose,
+	ParenOpen,
+	Question,
+	Semicolon,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
