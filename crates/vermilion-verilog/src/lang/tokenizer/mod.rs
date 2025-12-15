@@ -1,5 +1,7 @@
 /* SPDX-License-Identifier: BSD-3-Clause */
 
+use std::{fmt::Display, ops::Range};
+
 use tendril::ByteTendril;
 
 use crate::VerilogVariant;
@@ -91,10 +93,36 @@ impl Tokenizer {
 			b',' => self.token = Token::Control(token::Control::Comma).into(),
 			b'.' => self.token = Token::Control(token::Control::Dot).into(),
 			b'$' => self.token = Token::Control(token::Control::Dollar).into(),
+			_ => {
+				self.read_extended_token();
+				return;
+			}
 		}
 		self.next_char();
 		let end = self.position;
 		self.token.attach_span(Span::new(begin..end, context));
+	}
+
+	fn read_extended_token(&mut self) {
+		let context = self.context;
+		if self.current_char.is_ascii_alphabetic() || self.current_char == b'_' {
+			let range = self.read_normal_ident();
+			// We've already validated via the above read, that the entire token is valid UTF-8. Just make it a string.
+			let ident = unsafe { str::from_utf8_unchecked(&self.file[range.clone()]) };
+			let token = match ident {
+				"always" => Token::Keyword(token::Keyword::Always),
+				"assign" => Token::Keyword(token::Keyword::Assign),
+				_ => Token::Identifier(self.file.subtendril(range.start as u32, range.len() as u32)),
+			};
+			// Turn the result into the final token to return
+			self.token = Spanned::new(token, Some(Span::new(range, context)));
+		} else if self.current_char == b'\\' {
+			let range = self.read_escaped_ident();
+			self.token = Spanned::new(
+				Token::Identifier(self.file.subtendril(range.start as u32, range.len() as u32)),
+				Some(Span::new(range, context))
+			);
+		}
 	}
 
 	fn read_whitespace(&mut self) {
@@ -124,6 +152,33 @@ impl Tokenizer {
 			Token::Newline(self.file.subtendril(begin as u32, (end - begin) as u32)),
 			Some(Span::new(begin..end, context))
 		)
+	}
+
+	#[inline]
+	fn read_normal_ident(&mut self) -> Range<usize> {
+		let begin = self.position;
+		// Scan through till we get something that's not a-zA-Z0-9_$
+		while self.current_char.is_ascii_alphanumeric() || self.current_char == b'_' || self.current_char == b'$' {
+			self.next_char();
+		}
+		// Return the range consumed
+		begin..self.position
+	}
+
+	#[inline]
+	fn read_escaped_ident(&mut self) -> Range<usize> {
+		let begin = self.position;
+		// Scan through till we get something that's not ASCII printable
+		while match self.current_char as char {
+			'a'..='z' | 'A'..='Z' | '0'..='9' | '!' | '"' | '#' | '$' | '%' | '&' | '\'' |
+			'(' | ')' | '*' | '+' | ',' | '-' | '.' | '/' | '@' | '[' | ']' | '^' | '_' |
+			'`' | '\\' => true,
+			_ => false,
+		} {
+			self.next_char();
+		}
+		// Return the range consumed
+		begin..self.position
 	}
 }
 
