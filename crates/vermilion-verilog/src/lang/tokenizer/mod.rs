@@ -4,8 +4,8 @@ use std::{collections::VecDeque, fmt::Display, ops::Range};
 
 use tendril::ByteTendril;
 
+use self::token::{Keyword, Token};
 use crate::VerilogVariant;
-use self::token::Token;
 
 use vermilion_lang::parser::{Span, Spanned};
 
@@ -106,7 +106,7 @@ impl Tokenizer {
 			_ => {
 				self.read_extended_token();
 				return;
-			}
+			},
 		}
 		self.next_char();
 		let end = self.position;
@@ -232,7 +232,7 @@ impl Tokenizer {
 			let range = self.read_escaped_ident();
 			self.token = Spanned::new(
 				Token::Identifier(self.file.subtendril(range.start as u32, range.len() as u32)),
-				Some(Span::new(range, context))
+				Some(Span::new(range, context)),
 			);
 		} else if self.current_char.is_ascii_digit() || self.current_char == b'\'' {
 			self.read_number_token();
@@ -242,13 +242,16 @@ impl Tokenizer {
 	fn read_whitespace(&mut self) {
 		let context = self.context;
 		let begin = self.position;
-		while match self.current_char { b' ' | b'\t' => true, _ => false } {
+		while match self.current_char {
+			b' ' | b'\t' => true,
+			_ => false,
+		} {
 			self.next_char();
 		}
 		let end = self.position;
 		self.token = Spanned::new(
 			Token::Whitespace(self.file.subtendril(begin as u32, (end - begin) as u32)),
-			Some(Span::new(begin..end, context))
+			Some(Span::new(begin..end, context)),
 		)
 	}
 
@@ -264,7 +267,7 @@ impl Tokenizer {
 		self.context.next_line();
 		self.token = Spanned::new(
 			Token::Newline(self.file.subtendril(begin as u32, (end - begin) as u32)),
-			Some(Span::new(begin..end, context))
+			Some(Span::new(begin..end, context)),
 		)
 	}
 
@@ -277,19 +280,17 @@ impl Tokenizer {
 
 		// If that got us to a number, this was a sign token
 		if self.current_char.is_ascii_digit() {
-			self.token_stream.push_back(
-				Spanned::new(
-					Token::Sign(token::Sign::Positive),
-					Some(Span::new(begin..end, context))
-				)
-			);
+			self.token_stream.push_back(Spanned::new(
+				Token::Sign(token::Sign::Positive),
+				Some(Span::new(begin..end, context)),
+			));
 			// Shunt into the number token subparser to handle number things
 			self.read_number_token();
 		} else {
 			// Otherwise we got a simple unary or binary `+` operator
 			self.token = Spanned::new(
 				Token::Operator(token::Operator::Plus),
-				Some(Span::new(begin..end, context))
+				Some(Span::new(begin..end, context)),
 			);
 		}
 	}
@@ -304,14 +305,13 @@ impl Tokenizer {
 				self.next_char();
 			}
 			// Stuff the unsigned number token onto the token stack
-			self.token_stream.push_back(
-				Spanned::new(
-					Token::UnsignedNumber(
-						self.file.subtendril(begin as u32, (self.position - begin) as u32)
-					),
-					Some(Span::new(begin..self.position, context))
-				)
-			);
+			self.token_stream.push_back(Spanned::new(
+				Token::UnsignedNumber(
+					self.file
+						.subtendril(begin as u32, (self.position - begin) as u32),
+				),
+				Some(Span::new(begin..self.position, context)),
+			));
 		};
 		// Deal with any whitespace that comes after the size
 		if self.current_is_whitespace() {
@@ -337,14 +337,13 @@ impl Tokenizer {
 			b'd' | b'D' => self.read_decimal_token(context, begin),
 			b'h' | b'H' => self.read_hexadecimal_token(context, begin),
 			_ => {
-				self.token_stream.push_back(
-					Spanned::new(
-						Token::Invalid(
-							Some(self.file.subtendril(begin as u32, (self.position - begin) as u32))
-						),
-						Some(Span::new(begin..self.position, context))
-					)
-				);
+				self.token_stream.push_back(Spanned::new(
+					Token::Invalid(Some(
+						self.file
+							.subtendril(begin as u32, (self.position - begin) as u32),
+					)),
+					Some(Span::new(begin..self.position, context)),
+				));
 			},
 		};
 		// Having processed all of the number tokens, pop the first as the result token.
@@ -354,12 +353,10 @@ impl Tokenizer {
 
 	fn read_binary_token(&mut self, context: Position, begin: usize) {
 		let upper_case = self.next_char() == b'B';
-		self.token_stream.push_back(
-			Spanned::new(
-				Token::BaseSpecifier(token::BaseSpecifier::Binary, upper_case),
-				Some(Span::new(begin..self.position, context))
-			)
-		);
+		self.token_stream.push_back(Spanned::new(
+			Token::BaseSpecifier(token::BaseSpecifier::Binary, upper_case),
+			Some(Span::new(begin..self.position, context)),
+		));
 		// Deal with any whitespace that comes after the base specifier
 		if self.current_is_whitespace() {
 			self.read_whitespace();
@@ -368,9 +365,7 @@ impl Tokenizer {
 
 		fn is_binary_digit(current_char: u8) -> bool {
 			match current_char {
-				b'x' | b'X' |
-				b'z' | b'Z' | b'?' |
-				b'0' | b'1' => true,
+				b'x' | b'X' | b'z' | b'Z' | b'?' | b'0' | b'1' => true,
 				_ => false,
 			}
 		}
@@ -385,14 +380,13 @@ impl Tokenizer {
 			}
 
 			// Turn whatever we got into an invalid token
-			self.token_stream.push_back(
-				Spanned::new(
-					Token::Invalid(
-						Some(self.file.subtendril(begin as u32, (self.position - begin) as u32))
-					),
-					Some(Span::new(begin..self.position, context))
-				)
-			);
+			self.token_stream.push_back(Spanned::new(
+				Token::Invalid(Some(
+					self.file
+						.subtendril(begin as u32, (self.position - begin) as u32),
+				)),
+				Some(Span::new(begin..self.position, context)),
+			));
 		} else {
 			// Monch digits till we don't find no more.
 			while is_binary_digit(self.current_char) || self.current_char == b'_' {
@@ -400,25 +394,22 @@ impl Tokenizer {
 			}
 
 			// Turn the consumed number into a Number token
-			self.token_stream.push_back(
-				Spanned::new(
-					Token::Number(
-						self.file.subtendril(begin as u32, (self.position - begin) as u32)
-					),
-					Some(Span::new(begin..self.position, context))
-				)
-			);
+			self.token_stream.push_back(Spanned::new(
+				Token::Number(
+					self.file
+						.subtendril(begin as u32, (self.position - begin) as u32),
+				),
+				Some(Span::new(begin..self.position, context)),
+			));
 		}
 	}
 
 	fn read_octal_token(&mut self, context: Position, begin: usize) {
 		let upper_case = self.next_char() == b'O';
-		self.token_stream.push_back(
-			Spanned::new(
-				Token::BaseSpecifier(token::BaseSpecifier::Octal, upper_case),
-				Some(Span::new(begin..self.position, context))
-			)
-		);
+		self.token_stream.push_back(Spanned::new(
+			Token::BaseSpecifier(token::BaseSpecifier::Octal, upper_case),
+			Some(Span::new(begin..self.position, context)),
+		));
 		// Deal with any whitespace that comes after the base specifier
 		if self.current_is_whitespace() {
 			self.read_whitespace();
@@ -426,12 +417,7 @@ impl Tokenizer {
 		}
 
 		fn is_octal_digit(current_char: u8) -> bool {
-			matches!(
-				current_char,
-				b'x' | b'X' |
-				b'z' | b'Z' | b'?' |
-				b'0'..=b'7'
-			)
+			matches!(current_char, b'x' | b'X' | b'z' | b'Z' | b'?' | b'0'..=b'7')
 		}
 
 		let context = self.context;
@@ -444,14 +430,13 @@ impl Tokenizer {
 			}
 
 			// Turn whatever we got into an invalid token
-			self.token_stream.push_back(
-				Spanned::new(
-					Token::Invalid(
-						Some(self.file.subtendril(begin as u32, (self.position - begin) as u32))
-					),
-					Some(Span::new(begin..self.position, context))
-				)
-			);
+			self.token_stream.push_back(Spanned::new(
+				Token::Invalid(Some(
+					self.file
+						.subtendril(begin as u32, (self.position - begin) as u32),
+				)),
+				Some(Span::new(begin..self.position, context)),
+			));
 		} else {
 			// Monch digits till we don't find no more.
 			while is_octal_digit(self.current_char) || self.current_char == b'_' {
@@ -459,25 +444,22 @@ impl Tokenizer {
 			}
 
 			// Turn the consumed number into a Number token
-			self.token_stream.push_back(
-				Spanned::new(
-					Token::Number(
-						self.file.subtendril(begin as u32, (self.position - begin) as u32)
-					),
-					Some(Span::new(begin..self.position, context))
-				)
-			);
+			self.token_stream.push_back(Spanned::new(
+				Token::Number(
+					self.file
+						.subtendril(begin as u32, (self.position - begin) as u32),
+				),
+				Some(Span::new(begin..self.position, context)),
+			));
 		}
 	}
 
 	fn read_decimal_token(&mut self, context: Position, begin: usize) {
 		let upper_case = self.next_char() == b'D';
-		self.token_stream.push_back(
-			Spanned::new(
-				Token::BaseSpecifier(token::BaseSpecifier::Decimal, upper_case),
-				Some(Span::new(begin..self.position, context))
-			)
-		);
+		self.token_stream.push_back(Spanned::new(
+			Token::BaseSpecifier(token::BaseSpecifier::Decimal, upper_case),
+			Some(Span::new(begin..self.position, context)),
+		));
 		// Deal with any whitespace that comes after the base specifier
 		if self.current_is_whitespace() {
 			self.read_whitespace();
@@ -501,14 +483,13 @@ impl Tokenizer {
 			}
 
 			// Turn whatever we got into an invalid token
-			self.token_stream.push_back(
-				Spanned::new(
-					Token::Invalid(
-						Some(self.file.subtendril(begin as u32, (self.position - begin) as u32))
-					),
-					Some(Span::new(begin..self.position, context))
-				)
-			);
+			self.token_stream.push_back(Spanned::new(
+				Token::Invalid(Some(
+					self.file
+						.subtendril(begin as u32, (self.position - begin) as u32),
+				)),
+				Some(Span::new(begin..self.position, context)),
+			));
 		} else {
 			// Monch digits till we don't find no more.
 			while is_decimal_digit(self.current_char) || self.current_char == b'_' {
@@ -516,25 +497,22 @@ impl Tokenizer {
 			}
 
 			// Turn the consumed number into a Number token
-			self.token_stream.push_back(
-				Spanned::new(
-					Token::Number(
-						self.file.subtendril(begin as u32, (self.position - begin) as u32)
-					),
-					Some(Span::new(begin..self.position, context))
-				)
-			);
+			self.token_stream.push_back(Spanned::new(
+				Token::Number(
+					self.file
+						.subtendril(begin as u32, (self.position - begin) as u32),
+				),
+				Some(Span::new(begin..self.position, context)),
+			));
 		}
 	}
 
 	fn read_hexadecimal_token(&mut self, context: Position, begin: usize) {
 		let upper_case = self.next_char() == b'H';
-		self.token_stream.push_back(
-			Spanned::new(
-				Token::BaseSpecifier(token::BaseSpecifier::Hexadecimal, upper_case),
-				Some(Span::new(begin..self.position, context))
-			)
-		);
+		self.token_stream.push_back(Spanned::new(
+			Token::BaseSpecifier(token::BaseSpecifier::Hexadecimal, upper_case),
+			Some(Span::new(begin..self.position, context)),
+		));
 		// Deal with any whitespace that comes after the base specifier
 		if self.current_is_whitespace() {
 			self.read_whitespace();
@@ -543,11 +521,7 @@ impl Tokenizer {
 
 		fn is_hexadecimal_digit(current_char: u8) -> bool {
 			match current_char {
-				b'x' | b'X' |
-				b'z' | b'Z' | b'?' |
-				b'0'..=b'9' |
-				b'a'..=b'f' |
-				b'A'..=b'F'  => true,
+				b'x' | b'X' | b'z' | b'Z' | b'?' | b'0'..=b'9' | b'a'..=b'f' | b'A'..=b'F' => true,
 				_ => false,
 			}
 		}
@@ -562,14 +536,13 @@ impl Tokenizer {
 			}
 
 			// Turn whatever we got into an invalid token
-			self.token_stream.push_back(
-				Spanned::new(
-					Token::Invalid(
-						Some(self.file.subtendril(begin as u32, (self.position - begin) as u32))
-					),
-					Some(Span::new(begin..self.position, context))
-				)
-			);
+			self.token_stream.push_back(Spanned::new(
+				Token::Invalid(Some(
+					self.file
+						.subtendril(begin as u32, (self.position - begin) as u32),
+				)),
+				Some(Span::new(begin..self.position, context)),
+			));
 		} else {
 			// Monch digits till we don't find no more.
 			while is_hexadecimal_digit(self.current_char) || self.current_char == b'_' {
@@ -577,14 +550,13 @@ impl Tokenizer {
 			}
 
 			// Turn the consumed number into a Number token
-			self.token_stream.push_back(
-				Spanned::new(
-					Token::Number(
-						self.file.subtendril(begin as u32, (self.position - begin) as u32)
-					),
-					Some(Span::new(begin..self.position, context))
-				)
-			);
+			self.token_stream.push_back(Spanned::new(
+				Token::Number(
+					self.file
+						.subtendril(begin as u32, (self.position - begin) as u32),
+				),
+				Some(Span::new(begin..self.position, context)),
+			));
 		}
 	}
 
@@ -592,7 +564,10 @@ impl Tokenizer {
 	fn read_normal_ident(&mut self) -> Range<usize> {
 		let begin = self.position;
 		// Scan through till we get something that's not a-zA-Z0-9_$
-		while self.current_char.is_ascii_alphanumeric() || self.current_char == b'_' || self.current_char == b'$' {
+		while self.current_char.is_ascii_alphanumeric()
+			|| self.current_char == b'_'
+			|| self.current_char == b'$'
+		{
 			self.next_char();
 		}
 		// Return the range consumed
@@ -604,9 +579,31 @@ impl Tokenizer {
 		let begin = self.position;
 		// Scan through till we get something that's not ASCII printable
 		while match self.current_char as char {
-			'a'..='z' | 'A'..='Z' | '0'..='9' | '!' | '"' | '#' | '$' | '%' | '&' | '\'' |
-			'(' | ')' | '*' | '+' | ',' | '-' | '.' | '/' | '@' | '[' | ']' | '^' | '_' |
-			'`' | '\\' => true,
+			'a'..='z'
+			| 'A'..='Z'
+			| '0'..='9'
+			| '!'
+			| '"'
+			| '#'
+			| '$'
+			| '%'
+			| '&'
+			| '\''
+			| '('
+			| ')'
+			| '*'
+			| '+'
+			| ','
+			| '-'
+			| '.'
+			| '/'
+			| '@'
+			| '['
+			| ']'
+			| '^'
+			| '_'
+			| '`'
+			| '\\' => true,
 			_ => false,
 		} {
 			self.next_char();
@@ -622,7 +619,7 @@ impl Iterator for Tokenizer {
 	fn next(&mut self) -> Option<Self::Item> {
 		// If we hit the end of the file, we've nothing more to give
 		if self.eof {
-			return None
+			return None;
 		}
 		self.read_token();
 		Some(self.token.clone())
@@ -648,15 +645,15 @@ impl Display for Position {
 
 #[cfg(test)]
 mod tests {
-	use crate::VerilogStd;
-	use super::*;
 	use super::token::Token;
+	use super::*;
+	use crate::VerilogStd;
 
 	#[test]
 	fn test_tokenize_whitespace() {
 		let tokenizer = Tokenizer::new(
 			VerilogVariant::Verilog(VerilogStd::Vl95),
-			" \r\n \t\n\t\n\r".as_bytes().into()
+			" \r\n \t\n\t\n\r".as_bytes().into(),
 		);
 		let tokens = tokenizer.collect::<Vec<_>>();
 
@@ -699,7 +696,7 @@ mod tests {
 	fn test_tokenize_binary_number() {
 		let tokenizer = Tokenizer::new(
 			VerilogVariant::Verilog(VerilogStd::Vl95),
-			"4 'b01zx\n+1'B ?\n2'bZX\n".as_bytes().into()
+			"4 'b01zx\n+1'B ?\n2'bZX\n".as_bytes().into(),
 		);
 		let tokens = tokenizer.collect::<Vec<_>>();
 
