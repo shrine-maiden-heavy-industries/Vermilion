@@ -7,6 +7,9 @@
 
 pub mod lexer;
 pub mod parser;
+pub mod position;
+
+pub use position::Position;
 
 fn print_errors() {
 	// 	let _: Vec<_> = args
