@@ -162,6 +162,35 @@ impl Tokenizer {
 		self.token.attach_span(Span::new(begin..end, context));
 	}
 
+	fn read_whitespace(&mut self) {
+		let context = self.context;
+		let begin = self.position;
+		while matches!(self.current_char, b' ' | b'\t') {
+			self.next_char();
+		}
+		let end = self.position;
+		self.token = Spanned::new(
+			Token::Whitespace(self.file.subtendril(begin as u32, (end - begin) as u32)),
+			Some(Span::new(begin..end, context)),
+		)
+	}
+
+	fn read_newline(&mut self) {
+		let context = self.context;
+		let begin = self.position;
+		// Handle \r\n sequences
+		if self.next_char() == b'\r' && self.current_char == b'\n' {
+			self.next_char();
+		}
+		let end = self.position;
+		// Newlines reset the position context for the next token
+		self.context.next_line();
+		self.token = Spanned::new(
+			Token::Newline(self.file.subtendril(begin as u32, (end - begin) as u32)),
+			Some(Span::new(begin..end, context)),
+		)
+	}
+
 	fn read_exclame_token(&mut self) {
 		let context = self.context;
 		let begin = self.position;
@@ -379,35 +408,6 @@ impl Tokenizer {
 		} else if self.current_char.is_ascii_digit() || self.current_char == b'\'' {
 			self.read_number_token();
 		}
-	}
-
-	fn read_whitespace(&mut self) {
-		let context = self.context;
-		let begin = self.position;
-		while matches!(self.current_char, b' ' | b'\t') {
-			self.next_char();
-		}
-		let end = self.position;
-		self.token = Spanned::new(
-			Token::Whitespace(self.file.subtendril(begin as u32, (end - begin) as u32)),
-			Some(Span::new(begin..end, context)),
-		)
-	}
-
-	fn read_newline(&mut self) {
-		let context = self.context;
-		let begin = self.position;
-		// Handle \r\n sequences
-		if self.next_char() == b'\r' && self.current_char == b'\n' {
-			self.next_char();
-		}
-		let end = self.position;
-		// Newlines reset the position context for the next token
-		self.context.next_line();
-		self.token = Spanned::new(
-			Token::Newline(self.file.subtendril(begin as u32, (end - begin) as u32)),
-			Some(Span::new(begin..end, context)),
-		)
 	}
 
 	fn read_plus_token(&mut self) {
