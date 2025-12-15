@@ -136,59 +136,59 @@ pub enum Number<'src> {
 }
 
 #[derive(Debug)]
-pub struct Range<'src>(Box<Spanned<ConstExpr<'src>>>, Box<Spanned<ConstExpr<'src>>>);
+pub struct Range<'src>(Box<Spanned<ConstExpr<'src>, ()>>, Box<Spanned<ConstExpr<'src>, ()>>);
 
 #[derive(Debug)]
 pub enum Value<'src> {
-	Number(Spanned<Number<'src>>),
+	Number(Spanned<Number<'src>, ()>),
 	Ident(&'src str),
 	Str(&'src str),
-	Index(&'src str, Box<Spanned<Expr<'src>>>),
-	Range(Spanned<Range<'src>>),
+	Index(&'src str, Box<Spanned<Expr<'src>, ()>>),
+	Range(Spanned<Range<'src>, ()>),
 }
 
 #[derive(Debug)]
 pub enum Expr<'src> {
-	Value(Spanned<Value<'src>>),
-	Unary(UnaryOp, Spanned<Value<'src>>),
-	Binary(Box<Spanned<Self>>, BinaryOp, Box<Spanned<Self>>),
-	Ternary(Box<Spanned<Self>>, Box<Spanned<Self>>, Box<Spanned<Self>>),
-	Cat(Vec<Spanned<Self>>),
-	MultiCat(Box<Self>, Vec<Spanned<Self>>),
+	Value(Spanned<Value<'src>, ()>),
+	Unary(UnaryOp, Spanned<Value<'src>, ()>),
+	Binary(Box<Spanned<Self, ()>>, BinaryOp, Box<Spanned<Self, ()>>),
+	Ternary(Box<Spanned<Self, ()>>, Box<Spanned<Self, ()>>, Box<Spanned<Self, ()>>),
+	Cat(Vec<Spanned<Self, ()>>),
+	MultiCat(Box<Self>, Vec<Spanned<Self, ()>>),
 	MinTypMax(
-		Box<Spanned<Expr<'src>>>,
-		Box<Spanned<Expr<'src>>>,
-		Box<Spanned<Expr<'src>>>,
+		Box<Spanned<Expr<'src>, ()>>,
+		Box<Spanned<Expr<'src>, ()>>,
+		Box<Spanned<Expr<'src>, ()>>,
 	),
 }
 
 #[derive(Debug)]
 pub enum ConstValue<'src> {
-	Number(Spanned<Number<'src>>),
+	Number(Spanned<Number<'src>, ()>),
 	Ident(&'src str),
 	Str(&'src str),
 }
 
 #[derive(Debug)]
 pub enum ConstExpr<'src> {
-	Value(Spanned<ConstValue<'src>>),
-	Unary(UnaryOp, Spanned<ConstValue<'src>>),
-	Binary(Box<Spanned<Self>>, BinaryOp, Box<Spanned<Self>>),
-	Ternary(Box<Spanned<Self>>, Box<Spanned<Self>>, Box<Spanned<Self>>),
-	Cat(Vec<Spanned<Self>>),
-	MultiCat(Box<Self>, Vec<Spanned<Self>>),
+	Value(Spanned<ConstValue<'src>, ()>),
+	Unary(UnaryOp, Spanned<ConstValue<'src>, ()>),
+	Binary(Box<Spanned<Self, ()>>, BinaryOp, Box<Spanned<Self, ()>>),
+	Ternary(Box<Spanned<Self, ()>>, Box<Spanned<Self, ()>>, Box<Spanned<Self, ()>>),
+	Cat(Vec<Spanned<Self, ()>>),
+	MultiCat(Box<Self>, Vec<Spanned<Self, ()>>),
 	MinTypMax(
-		Box<Spanned<ConstExpr<'src>>>,
-		Box<Spanned<ConstExpr<'src>>>,
-		Box<Spanned<ConstExpr<'src>>>,
+		Box<Spanned<ConstExpr<'src>, ()>>,
+		Box<Spanned<ConstExpr<'src>, ()>>,
+		Box<Spanned<ConstExpr<'src>, ()>>,
 	),
 }
 
 #[derive(Debug)]
 pub struct Primitive<'src> {
 	name: &'src str,
-	directives: Vec<Spanned<CompilerDirective<'src>>>,
-	comments: Vec<Spanned<Comment<'src>>>,
+	directives: Vec<Spanned<CompilerDirective<'src>, ()>>,
+	comments: Vec<Spanned<Comment<'src>, ()>>,
 }
 
 #[derive(Debug)]
@@ -206,25 +206,25 @@ pub enum ModuleType {
 pub struct Module<'src> {
 	name: &'src str,
 	typ: ModuleType,
-	ports: Vec<Spanned<Port<'src>>>,
-	directives: Vec<Spanned<CompilerDirective<'src>>>,
-	comments: Vec<Spanned<Comment<'src>>>,
+	ports: Vec<Spanned<Port<'src>, ()>>,
+	directives: Vec<Spanned<CompilerDirective<'src>, ()>>,
+	comments: Vec<Spanned<Comment<'src>, ()>>,
 }
 
 #[derive(Debug)]
 pub enum RootExpr<'src> {
-	Module(Spanned<Module<'src>>),
-	Primitive(Spanned<Primitive<'src>>),
-	Directive(Spanned<CompilerDirective<'src>>),
-	Comment(Spanned<Comment<'src>>),
+	Module(Spanned<Module<'src>, ()>),
+	Primitive(Spanned<Primitive<'src>, ()>),
+	Directive(Spanned<CompilerDirective<'src>, ()>),
+	Comment(Spanned<Comment<'src>, ()>),
 }
 
 #[derive(Debug, Default)]
 pub struct Ast<'src> {
-	modules: HashMap<&'src str, Spanned<Module<'src>>>,
-	primitives: HashMap<&'src str, Spanned<Primitive<'src>>>,
-	directives: Vec<Spanned<CompilerDirective<'src>>>,
-	comments: Vec<Spanned<Comment<'src>>>,
+	modules: HashMap<&'src str, Spanned<Module<'src>, ()>>,
+	primitives: HashMap<&'src str, Spanned<Primitive<'src>, ()>>,
+	directives: Vec<Spanned<CompilerDirective<'src>, ()>>,
+	comments: Vec<Spanned<Comment<'src>, ()>>,
 }
 
 impl<'src> Primitive<'src> {
@@ -236,7 +236,7 @@ impl<'src> Primitive<'src> {
 		self.name
 	}
 
-	pub fn directives(&mut self) -> &mut Vec<Spanned<CompilerDirective<'src>>> {
+	pub fn directives(&mut self) -> &mut Vec<Spanned<CompilerDirective<'src>, ()>> {
 		&mut self.directives
 	}
 
@@ -244,7 +244,7 @@ impl<'src> Primitive<'src> {
 		!self.directives.is_empty()
 	}
 
-	pub fn comments(&mut self) -> &mut Vec<Spanned<Comment<'src>>> {
+	pub fn comments(&mut self) -> &mut Vec<Spanned<Comment<'src>, ()>> {
 		&mut self.comments
 	}
 
@@ -264,7 +264,7 @@ impl<'src> Module<'src> {
 		}
 	}
 
-	pub fn with_span(self, span: Span) -> (Self, Span) {
+	pub fn with_span(self, span: Span<()>) -> (Self, Span<()>) {
 		(self, span)
 	}
 
@@ -276,7 +276,7 @@ impl<'src> Module<'src> {
 		&self.typ
 	}
 
-	pub fn ports(&mut self) -> &Vec<Spanned<Port<'src>>> {
+	pub fn ports(&mut self) -> &Vec<Spanned<Port<'src>, ()>> {
 		&self.ports
 	}
 
@@ -284,7 +284,7 @@ impl<'src> Module<'src> {
 		!self.ports.is_empty()
 	}
 
-	pub fn directives(&mut self) -> &mut Vec<Spanned<CompilerDirective<'src>>> {
+	pub fn directives(&mut self) -> &mut Vec<Spanned<CompilerDirective<'src>, ()>> {
 		&mut self.directives
 	}
 
@@ -292,7 +292,7 @@ impl<'src> Module<'src> {
 		!self.directives.is_empty()
 	}
 
-	pub fn comments(&mut self) -> &mut Vec<Spanned<Comment<'src>>> {
+	pub fn comments(&mut self) -> &mut Vec<Spanned<Comment<'src>, ()>> {
 		&mut self.comments
 	}
 
@@ -306,7 +306,7 @@ impl<'src> CompilerDirective<'src> {
 		Self { typ, value }
 	}
 
-	pub fn with_span(self, span: Span) -> (Self, Span) {
+	pub fn with_span<C>(self, span: Span<C>) -> (Self, Span<C>) {
 		(self, span)
 	}
 
@@ -328,7 +328,7 @@ impl<'src> Comment<'src> {
 		Self(text)
 	}
 
-	pub fn with_span(self, span: Span) -> (Self, Span) {
+	pub fn with_span<C>(self, span: Span<C>) -> (Self, Span<C>) {
 		(self, span)
 	}
 
@@ -342,7 +342,7 @@ impl<'src> Ast<'src> {
 		Self::default()
 	}
 
-	pub fn modules(&mut self) -> &mut HashMap<&'src str, Spanned<Module<'src>>> {
+	pub fn modules(&mut self) -> &mut HashMap<&'src str, Spanned<Module<'src>, ()>> {
 		&mut self.modules
 	}
 
@@ -350,7 +350,7 @@ impl<'src> Ast<'src> {
 		!self.modules.is_empty()
 	}
 
-	pub fn primitives(&mut self) -> &mut HashMap<&'src str, Spanned<Primitive<'src>>> {
+	pub fn primitives(&mut self) -> &mut HashMap<&'src str, Spanned<Primitive<'src>, ()>> {
 		&mut self.primitives
 	}
 
@@ -358,7 +358,7 @@ impl<'src> Ast<'src> {
 		!self.primitives.is_empty()
 	}
 
-	pub fn directives(&mut self) -> &mut Vec<Spanned<CompilerDirective<'src>>> {
+	pub fn directives(&mut self) -> &mut Vec<Spanned<CompilerDirective<'src>, ()>> {
 		&mut self.directives
 	}
 
@@ -366,7 +366,7 @@ impl<'src> Ast<'src> {
 		!self.directives.is_empty()
 	}
 
-	pub fn comments(&mut self) -> &mut Vec<Spanned<Comment<'src>>> {
+	pub fn comments(&mut self) -> &mut Vec<Spanned<Comment<'src>, ()>> {
 		&mut self.comments
 	}
 
