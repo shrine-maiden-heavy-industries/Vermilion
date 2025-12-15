@@ -1,11 +1,9 @@
 /* SPDX-License-Identifier: BSD-3-Clause */
 
 use tendril::ByteTendril;
-use vermilion_lang::parser::Spanned;
+use vermilion_lang::{Position, Spanned};
 
 use crate::VerilogVariant;
-
-use super::Position;
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub(crate) enum Token {

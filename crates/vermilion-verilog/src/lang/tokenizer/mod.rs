@@ -1,13 +1,13 @@
 /* SPDX-License-Identifier: BSD-3-Clause */
 
-use std::{collections::VecDeque, fmt::Display, ops::Range};
+use std::{collections::VecDeque, ops::Range};
 
 use tendril::ByteTendril;
 
 use self::token::{BaseSpecifier, Control, Keyword, Operator, Token};
 use crate::VerilogVariant;
 
-use vermilion_lang::parser::{Span, Spanned};
+use vermilion_lang::{Position, Span, Spanned};
 
 pub(crate) mod token;
 
@@ -22,12 +22,6 @@ pub(crate) struct Tokenizer {
 	token_stream: VecDeque<Spanned<Token, Position>>,
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
-pub struct Position {
-	line: usize,
-	character: usize,
-}
-
 impl Tokenizer {
 	pub fn new(standard: VerilogVariant, file: ByteTendril) -> Tokenizer {
 		let mut tokenizer = Self {
@@ -35,7 +29,7 @@ impl Tokenizer {
 			file,
 			current_char: 0,
 			position: 0,
-			context: Position { line: 0, character: 0 },
+			context: Position::sof(),
 			eof: false,
 			token: Spanned::new(Token::default(), None),
 			token_stream: VecDeque::new(),
@@ -545,23 +539,6 @@ impl Iterator for Tokenizer {
 	}
 }
 
-impl Position {
-	pub fn next_line(&mut self) {
-		self.character = 0;
-		self.line += 1;
-	}
-
-	pub fn next_char(&mut self) {
-		self.character += 1;
-	}
-}
-
-impl Display for Position {
-	fn fmt(&self, fmt: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-		write!(fmt, "line {}, character {}", self.line, self.character)
-	}
-}
-
 #[cfg(test)]
 mod tests {
 	use super::token::Token;
@@ -581,31 +558,31 @@ mod tests {
 			vec![
 				Spanned::new(
 					Token::Whitespace(" ".as_bytes().into()),
-					Some(Span::new(0..1, Position { line: 0, character: 0 }))
+					Some(Span::new(0..1, Position::new(0, 0)))
 				),
 				Spanned::new(
 					Token::Newline("\r\n".as_bytes().into()),
-					Some(Span::new(1..3, Position { line: 0, character: 1 }))
+					Some(Span::new(1..3, Position::new(0, 1)))
 				),
 				Spanned::new(
 					Token::Whitespace(" \t".as_bytes().into()),
-					Some(Span::new(3..5, Position { line: 1, character: 0 }))
+					Some(Span::new(3..5, Position::new(1, 0)))
 				),
 				Spanned::new(
 					Token::Newline("\n".as_bytes().into()),
-					Some(Span::new(5..6, Position { line: 1, character: 2 }))
+					Some(Span::new(5..6, Position::new(1, 2)))
 				),
 				Spanned::new(
 					Token::Whitespace("\t".as_bytes().into()),
-					Some(Span::new(6..7, Position { line: 2, character: 0 }))
+					Some(Span::new(6..7, Position::new(2, 0)))
 				),
 				Spanned::new(
 					Token::Newline("\n".as_bytes().into()),
-					Some(Span::new(7..8, Position { line: 2, character: 1 }))
+					Some(Span::new(7..8, Position::new(2, 1)))
 				),
 				Spanned::new(
 					Token::Newline("\r".as_bytes().into()),
-					Some(Span::new(8..9, Position { line: 3, character: 0 }))
+					Some(Span::new(8..9, Position::new(3, 0)))
 				),
 			]
 		);
@@ -624,63 +601,63 @@ mod tests {
 			vec![
 				Spanned::new(
 					Token::UnsignedNumber("4".as_bytes().into()),
-					Some(Span::new(0..1, Position { line: 0, character: 0 }))
+					Some(Span::new(0..1, Position::new(0, 0)))
 				),
 				Spanned::new(
 					Token::Whitespace(" ".as_bytes().into()),
-					Some(Span::new(1..2, Position { line: 0, character: 1 }))
+					Some(Span::new(1..2, Position::new(0, 1)))
 				),
 				Spanned::new(
 					Token::BaseSpecifier(token::BaseSpecifier::Binary, false),
-					Some(Span::new(2..4, Position { line: 0, character: 2 }))
+					Some(Span::new(2..4, Position::new(0, 2)))
 				),
 				Spanned::new(
 					Token::Number("01zx".as_bytes().into()),
-					Some(Span::new(4..8, Position { line: 0, character: 4 }))
+					Some(Span::new(4..8, Position::new(0, 4)))
 				),
 				Spanned::new(
 					Token::Newline("\n".as_bytes().into()),
-					Some(Span::new(8..9, Position { line: 0, character: 8 }))
+					Some(Span::new(8..9, Position::new(0, 8)))
 				),
 				Spanned::new(
 					Token::Sign(token::Sign::Positive),
-					Some(Span::new(9..10, Position { line: 1, character: 0 }))
+					Some(Span::new(9..10, Position::new(1, 0)))
 				),
 				Spanned::new(
 					Token::UnsignedNumber("1".as_bytes().into()),
-					Some(Span::new(10..11, Position { line: 1, character: 1 }))
+					Some(Span::new(10..11, Position::new(1, 1)))
 				),
 				Spanned::new(
 					Token::BaseSpecifier(token::BaseSpecifier::Binary, true),
-					Some(Span::new(11..13, Position { line: 1, character: 2 }))
+					Some(Span::new(11..13, Position::new(1, 2)))
 				),
 				Spanned::new(
 					Token::Whitespace(" ".as_bytes().into()),
-					Some(Span::new(13..14, Position { line: 1, character: 4 }))
+					Some(Span::new(13..14, Position::new(1, 4)))
 				),
 				Spanned::new(
 					Token::Number("?".as_bytes().into()),
-					Some(Span::new(14..15, Position { line: 1, character: 5 }))
+					Some(Span::new(14..15, Position::new(1, 5)))
 				),
 				Spanned::new(
 					Token::Newline("\n".as_bytes().into()),
-					Some(Span::new(15..16, Position { line: 1, character: 6 }))
+					Some(Span::new(15..16, Position::new(1, 6)))
 				),
 				Spanned::new(
 					Token::UnsignedNumber("2".as_bytes().into()),
-					Some(Span::new(16..17, Position { line: 2, character: 0 }))
+					Some(Span::new(16..17, Position::new(2, 0)))
 				),
 				Spanned::new(
 					Token::BaseSpecifier(token::BaseSpecifier::Binary, false),
-					Some(Span::new(17..19, Position { line: 2, character: 1 }))
+					Some(Span::new(17..19, Position::new(2, 1)))
 				),
 				Spanned::new(
 					Token::Number("ZX".as_bytes().into()),
-					Some(Span::new(19..21, Position { line: 2, character: 3 }))
+					Some(Span::new(19..21, Position::new(2, 3)))
 				),
 				Spanned::new(
 					Token::Newline("\n".as_bytes().into()),
-					Some(Span::new(21..22, Position { line: 2, character: 5 }))
+					Some(Span::new(21..22, Position::new(2, 5)))
 				),
 			]
 		);
