@@ -2,7 +2,7 @@
 
 use std::collections::HashMap;
 
-use vermilion_lang::parser::{Span, Spanned};
+use vermilion_lang::{Span, Spanned};
 
 #[derive(Debug, PartialEq)]
 pub enum NetType {
