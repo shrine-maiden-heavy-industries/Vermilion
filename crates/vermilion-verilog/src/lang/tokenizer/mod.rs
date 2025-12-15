@@ -99,15 +99,38 @@ impl Tokenizer {
 			b')' => self.token = Token::Control(Control::ParenClose).into(),
 			b'[' => self.token = Token::Control(Control::BracketOpen).into(),
 			b']' => self.token = Token::Control(Control::BracketClose).into(),
-			b'{' => self.token = Token::Control(Control::BraceOpen).into(),
-			b'}' => self.token = Token::Control(Control::BraceClose).into(),
+			b'{' => self.token = Token::Control(Control::BraceOpen).into(), // TODO(aki): '{{'
+			b'}' => self.token = Token::Control(Control::BraceClose).into(), // TODO(aki): '}}'
 			b':' => self.token = Token::Control(Control::Colon).into(),
 			b';' => self.token = Token::Control(Control::Semicolon).into(),
 			b',' => self.token = Token::Control(Control::Comma).into(),
 			b'.' => self.token = Token::Control(Control::Dot).into(),
 			b'$' => self.token = Token::Control(Control::Dollar).into(),
+			b'?' => self.token = Token::Control(Control::Question).into(),
+			b'!' => todo!("! != !== tokenization"),
+			b'&' => todo!("& && tokenization"),
+			b'=' => todo!(" == === tokenization"),
+			b'~' => todo!("~ ~^ ~& ~| tokenization"),
+			b'^' => todo!("^ ^~ tokenization"),
+			b'|' => todo!("| tokenization"),
+			b'>' => todo!("> >= >> tokenization"),
+			b'<' => todo!("< <= << tokenization"),
+			b'%' => todo!("% tokenization"),
+			b'*' => todo!("* tokenization"),
 			b'+' => {
 				self.read_plus_token();
+				return;
+			},
+			b'-' => {
+				self.read_minus_token();
+				return;
+			},
+			b'/' => {
+				self.read_solidus_token();
+				return;
+			},
+			b'`' => {
+				self.read_compiler_directive_token();
 				return;
 			},
 			_ => {
@@ -118,6 +141,31 @@ impl Tokenizer {
 		self.next_char();
 		let end = self.position;
 		self.token.attach_span(Span::new(begin..end, context));
+	}
+
+	fn read_minus_token(&mut self) {
+		let context = self.context;
+		let begin = self.position;
+		self.next_char();
+		let end = self.position;
+
+		todo!("minus tokenization")
+	}
+
+	fn read_solidus_token(&mut self) {
+		let context = self.context;
+		let begin = self.position;
+		self.next_char();
+		let end = self.position;
+
+		todo!("Division + Comment tokenization")
+	}
+
+	fn read_compiler_directive_token(&mut self) {
+		let context = self.context;
+		let begin = self.position;
+
+		todo!("Compiler Directive tokenization")
 	}
 
 	fn read_extended_token(&mut self) {
