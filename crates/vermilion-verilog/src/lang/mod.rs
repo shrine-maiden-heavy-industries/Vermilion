@@ -2,8 +2,8 @@
 
 pub mod ast;
 // pub mod lexer;
-pub mod tokenizer;
 pub mod parser;
+pub mod tokenizer;
 
 #[cfg(test)]
 mod tests {

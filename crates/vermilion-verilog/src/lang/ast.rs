@@ -136,7 +136,10 @@ pub enum Number<'src> {
 }
 
 #[derive(Debug)]
-pub struct Range<'src>(Box<Spanned<ConstExpr<'src>, ()>>, Box<Spanned<ConstExpr<'src>, ()>>);
+pub struct Range<'src>(
+	Box<Spanned<ConstExpr<'src>, ()>>,
+	Box<Spanned<ConstExpr<'src>, ()>>,
+);
 
 #[derive(Debug)]
 pub enum Value<'src> {
@@ -152,7 +155,11 @@ pub enum Expr<'src> {
 	Value(Spanned<Value<'src>, ()>),
 	Unary(UnaryOp, Spanned<Value<'src>, ()>),
 	Binary(Box<Spanned<Self, ()>>, BinaryOp, Box<Spanned<Self, ()>>),
-	Ternary(Box<Spanned<Self, ()>>, Box<Spanned<Self, ()>>, Box<Spanned<Self, ()>>),
+	Ternary(
+		Box<Spanned<Self, ()>>,
+		Box<Spanned<Self, ()>>,
+		Box<Spanned<Self, ()>>,
+	),
 	Cat(Vec<Spanned<Self, ()>>),
 	MultiCat(Box<Self>, Vec<Spanned<Self, ()>>),
 	MinTypMax(
@@ -174,7 +181,11 @@ pub enum ConstExpr<'src> {
 	Value(Spanned<ConstValue<'src>, ()>),
 	Unary(UnaryOp, Spanned<ConstValue<'src>, ()>),
 	Binary(Box<Spanned<Self, ()>>, BinaryOp, Box<Spanned<Self, ()>>),
-	Ternary(Box<Spanned<Self, ()>>, Box<Spanned<Self, ()>>, Box<Spanned<Self, ()>>),
+	Ternary(
+		Box<Spanned<Self, ()>>,
+		Box<Spanned<Self, ()>>,
+		Box<Spanned<Self, ()>>,
+	),
 	Cat(Vec<Spanned<Self, ()>>),
 	MultiCat(Box<Self>, Vec<Spanned<Self, ()>>),
 	MinTypMax(
