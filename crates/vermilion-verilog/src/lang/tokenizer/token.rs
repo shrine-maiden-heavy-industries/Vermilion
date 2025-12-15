@@ -7,7 +7,7 @@ use crate::VerilogVariant;
 
 use super::Position;
 
-#[derive(Clone)]
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub(crate) enum Token {
 	Invalid(Option<ByteTendril>),
 	/// Hold the verilog variant for when this token would become valid
@@ -24,13 +24,13 @@ pub(crate) enum Token {
 	Operator(Operator),
 }
 
-#[derive(Clone, Copy)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub(crate) enum Sign {
 	Positive,
 	Negative
 }
 
-#[derive(Clone, Copy)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub(crate) enum BaseSpecifier {
 	Binary,
 	Octal,
@@ -38,7 +38,7 @@ pub(crate) enum BaseSpecifier {
 	Hexadecimal,
 }
 
-#[derive(Clone, Copy)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub(crate) enum Control {
 	At,
 	Octothorp,
@@ -55,7 +55,7 @@ pub(crate) enum Control {
 	Dollar,
 }
 
-#[derive(Clone, Copy)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub(crate) enum Keyword {
 	Always,
 	And,
@@ -161,7 +161,7 @@ pub(crate) enum Keyword {
 	Xor,
 }
 
-#[derive(Clone, Copy)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub(crate) enum Operator {
 	Plus,
 	Minus,

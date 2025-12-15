@@ -22,7 +22,7 @@ pub(crate) struct Tokenizer {
 	token_stream: Vec<Spanned<Token, Position>>,
 }
 
-#[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Position {
 	line: usize,
 	character: usize,
@@ -49,7 +49,8 @@ impl Tokenizer {
 		// Copy the current character value to return at the end
 		let value = self.current_char;
 		// Check for EOF and handle
-		if self.position + 1 == self.file.len() {
+		if self.position + 1 >= self.file.len() {
+			self.position = self.file.len();
 			self.eof = true;
 			self.current_char = 0;
 			return value;
@@ -540,5 +541,55 @@ impl Position {
 impl Display for Position {
 	fn fmt(&self, fmt: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
 		write!(fmt, "line {}, character {}", self.line, self.character)
+	}
+}
+
+#[cfg(test)]
+mod tests {
+	use crate::VerilogStd;
+	use super::*;
+	use super::token::Token;
+
+	#[test]
+	fn test_tokenize_whitespace() {
+		let tokenizer = Tokenizer::new(
+			VerilogVariant::Verilog(VerilogStd::Vl95),
+			" \r\n \t\n\t\n\r".as_bytes().into()
+		);
+		let tokens = tokenizer.collect::<Vec<_>>();
+
+		assert_eq!(
+			tokens,
+			vec![
+				Spanned::new(
+					Token::Whitespace(" ".as_bytes().into()),
+					Some(Span::new(0..1, Position { line: 0, character: 0 }))
+				),
+				Spanned::new(
+					Token::Newline("\r\n".as_bytes().into()),
+					Some(Span::new(1..3, Position { line: 0, character: 1 }))
+				),
+				Spanned::new(
+					Token::Whitespace(" \t".as_bytes().into()),
+					Some(Span::new(3..5, Position { line: 1, character: 0 }))
+				),
+				Spanned::new(
+					Token::Newline("\n".as_bytes().into()),
+					Some(Span::new(5..6, Position { line: 1, character: 2 }))
+				),
+				Spanned::new(
+					Token::Whitespace("\t".as_bytes().into()),
+					Some(Span::new(6..7, Position { line: 2, character: 0 }))
+				),
+				Spanned::new(
+					Token::Newline("\n".as_bytes().into()),
+					Some(Span::new(7..8, Position { line: 2, character: 1 }))
+				),
+				Spanned::new(
+					Token::Newline("\r".as_bytes().into()),
+					Some(Span::new(8..9, Position { line: 3, character: 0 }))
+				),
+			]
+		);
 	}
 }
