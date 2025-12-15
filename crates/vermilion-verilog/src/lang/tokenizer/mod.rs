@@ -324,12 +324,12 @@ impl Tokenizer {
 		}
 
 		fn is_octal_digit(current_char: u8) -> bool {
-			match current_char {
+			matches!(
+				current_char,
 				b'x' | b'X' |
 				b'z' | b'Z' | b'?' |
-				b'0'..=b'7' => true,
-				_ => false,
-			}
+				b'0'..=b'7'
+			)
 		}
 
 		let context = self.context;
