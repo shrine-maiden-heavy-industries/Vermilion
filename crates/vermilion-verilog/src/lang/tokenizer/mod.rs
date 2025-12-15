@@ -93,22 +93,43 @@ impl Tokenizer {
 			b')' => self.token = Token::Control(Control::ParenClose).into(),
 			b'[' => self.token = Token::Control(Control::BracketOpen).into(),
 			b']' => self.token = Token::Control(Control::BracketClose).into(),
-			b'{' => self.token = Token::Control(Control::BraceOpen).into(), // TODO(aki): '{{'
-			b'}' => self.token = Token::Control(Control::BraceClose).into(), // TODO(aki): '}}'
+			b'{' => self.token = Token::Control(Control::BraceOpen).into(),
+			b'}' => self.token = Token::Control(Control::BraceClose).into(),
 			b':' => self.token = Token::Control(Control::Colon).into(),
 			b';' => self.token = Token::Control(Control::Semicolon).into(),
 			b',' => self.token = Token::Control(Control::Comma).into(),
 			b'.' => self.token = Token::Control(Control::Dot).into(),
 			b'$' => self.token = Token::Control(Control::Dollar).into(),
 			b'?' => self.token = Token::Control(Control::Question).into(),
-			b'!' => todo!("! != !== tokenization"), // Exclamation, LogicalInequality, CaseInequality
-			b'&' => todo!("& && tokenization"),     // Ampersand, LogicalAnd
-			b'=' => todo!(" == === tokenization"),  // LogicalEquality, CaseEquality
-			b'~' => todo!("~ ~^ ~& ~| tokenization"), // Tilde, ReductionXor/Bit-wise Equivalence (Left-handed chirality)
-			b'^' => todo!("^ ^~ tokenization"), // Circumflex, ReductionXor/Bit-wise Equivalence (Right-handed chirality)
+			b'!' => {
+				self.read_exclame_token();
+				return;
+			},
+			b'=' => {
+				self.read_equals_token();
+				return;
+			},
+			b'&' => {
+				self.read_ampersand_token();
+				return;
+			},
+			b'~' => {
+				self.read_tilde_token();
+				return;
+			},
+			b'^' => {
+				self.read_circumflex_token();
+				return;
+			},
 			b'|' => self.token = Token::Operator(Operator::Pipe).into(),
-			b'>' => todo!("> >= >> tokenization"), // Lt, Lte, ShiftRight
-			b'<' => todo!("< <= << tokenization"), // Gt, Gte, ShiftLeft
+			b'>' => {
+				self.read_less_than_token();
+				return;
+			},
+			b'<' => {
+				self.read_greater_than_token();
+				return;
+			},
 			b'%' => self.token = Token::Operator(Operator::Percent).into(),
 			b'*' => self.token = Token::Operator(Operator::Asterisk).into(),
 			b'+' => {
@@ -139,6 +160,65 @@ impl Tokenizer {
 		self.next_char();
 		let end = self.position;
 		self.token.attach_span(Span::new(begin..end, context));
+	}
+
+	fn read_exclame_token(&mut self) {
+		let context = self.context;
+		let begin = self.position;
+		self.next_char();
+		let end = self.position;
+	}
+
+	fn read_equals_token(&mut self) {
+		let context = self.context;
+		let begin = self.position;
+		self.next_char();
+		let end = self.position;
+	}
+
+	fn read_ampersand_token(&mut self) {
+		let context = self.context;
+		let begin = self.position;
+		self.next_char();
+		let end = self.position;
+
+		todo!("& && tokenization") // Ampersand, LogicalAnd
+	}
+
+	fn read_tilde_token(&mut self) {
+		let context = self.context;
+		let begin = self.position;
+		self.next_char();
+		let end = self.position;
+
+		todo!("~ ~^ ~& ~| tokenization") // Tilde, ReductionXor/Bit-wise Equivalence (Left-handed chirality)
+	}
+
+	fn read_circumflex_token(&mut self) {
+		let context = self.context;
+		let begin = self.position;
+		self.next_char();
+		let end = self.position;
+
+		todo!("^ ^~ tokenization") // Circumflex, ReductionXor/Bit-wise Equivalence (Right-handed chirality)
+	}
+
+	fn read_less_than_token(&mut self) {
+		let context = self.context;
+		let begin = self.position;
+		self.next_char();
+		let end = self.position;
+
+		todo!("> >= >> tokenization") // Lt, Lte, ShiftRight
+	}
+
+	fn read_greater_than_token(&mut self) {
+		let context = self.context;
+		let begin = self.position;
+		self.next_char();
+		let end = self.position;
+
+		todo!("< <= << tokenization") // Gt, Gte, ShiftLeft
 	}
 
 	fn read_string_token(&mut self) {
