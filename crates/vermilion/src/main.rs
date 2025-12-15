@@ -25,6 +25,10 @@ fn initialize_tracing(level: LevelFilter) -> eyre::Result<()> {
 	Ok(tracing_subscriber::registry()
 		.with(cfg!(debug_assertions).then(|| {
 			console_subscriber::spawn().with_filter(
+				// SAFETY:
+				// These `Directive` strings are hard-coded and as correct as we can ensure,
+				// and there is no way to construct them in a more-safe manner other than `.parse()`
+				#[allow(clippy::unwrap_used)]
 				EnvFilter::builder()
 					.with_default_directive(LevelFilter::OFF.into())
 					.from_env_lossy()
@@ -34,6 +38,10 @@ fn initialize_tracing(level: LevelFilter) -> eyre::Result<()> {
 		}))
 		.with(
 			fmt::layer().with_filter(
+				// SAFETY:
+				// These `Directive` strings are hard-coded and as correct as we can ensure,
+				// and there is no way to construct them in a more-safe manner other than `.parse()`
+				#[allow(clippy::unwrap_used)]
 				EnvFilter::builder()
 					.with_default_directive(level.into())
 					.with_env_var(VERMILION_LOG_LEVEL)
