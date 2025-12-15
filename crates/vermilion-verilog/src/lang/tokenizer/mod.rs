@@ -4,7 +4,7 @@ use std::{collections::VecDeque, fmt::Display, ops::Range};
 
 use tendril::ByteTendril;
 
-use self::token::{Keyword, Token};
+use self::token::{BaseSpecifier, Control, Keyword, Operator, Token};
 use crate::VerilogVariant;
 
 use vermilion_lang::parser::{Span, Spanned};
@@ -86,19 +86,19 @@ impl Tokenizer {
 				self.read_newline();
 				return;
 			},
-			b'@' => self.token = Token::Control(token::Control::At).into(),
-			b'#' => self.token = Token::Control(token::Control::Octothorp).into(),
-			b'(' => self.token = Token::Control(token::Control::ParenOpen).into(),
-			b')' => self.token = Token::Control(token::Control::ParenClose).into(),
-			b'[' => self.token = Token::Control(token::Control::BracketOpen).into(),
-			b']' => self.token = Token::Control(token::Control::BracketClose).into(),
-			b'{' => self.token = Token::Control(token::Control::BraceOpen).into(),
-			b'}' => self.token = Token::Control(token::Control::BraceClose).into(),
-			b':' => self.token = Token::Control(token::Control::Colon).into(),
-			b';' => self.token = Token::Control(token::Control::Semicolon).into(),
-			b',' => self.token = Token::Control(token::Control::Comma).into(),
-			b'.' => self.token = Token::Control(token::Control::Dot).into(),
-			b'$' => self.token = Token::Control(token::Control::Dollar).into(),
+			b'@' => self.token = Token::Control(Control::At).into(),
+			b'#' => self.token = Token::Control(Control::Octothorp).into(),
+			b'(' => self.token = Token::Control(Control::ParenOpen).into(),
+			b')' => self.token = Token::Control(Control::ParenClose).into(),
+			b'[' => self.token = Token::Control(Control::BracketOpen).into(),
+			b']' => self.token = Token::Control(Control::BracketClose).into(),
+			b'{' => self.token = Token::Control(Control::BraceOpen).into(),
+			b'}' => self.token = Token::Control(Control::BraceClose).into(),
+			b':' => self.token = Token::Control(Control::Colon).into(),
+			b';' => self.token = Token::Control(Control::Semicolon).into(),
+			b',' => self.token = Token::Control(Control::Comma).into(),
+			b'.' => self.token = Token::Control(Control::Dot).into(),
+			b'$' => self.token = Token::Control(Control::Dollar).into(),
 			b'+' => {
 				self.read_plus_token();
 				return;
@@ -286,7 +286,7 @@ impl Tokenizer {
 		} else {
 			// Otherwise we got a simple unary or binary `+` operator
 			self.token = Spanned::new(
-				Token::Operator(token::Operator::Plus),
+				Token::Operator(Operator::Plus),
 				Some(Span::new(begin..end, context)),
 			);
 		}
@@ -329,25 +329,19 @@ impl Tokenizer {
 		// Having consumed the `'` we should now be left with a base specifier, and if not then
 		// this is an invalid token.
 		match self.current_char {
-			b'b' | b'B' => {
-				self.read_based_token(context, begin, token::BaseSpecifier::Binary, |c| {
-					matches!(c, b'x' | b'X' | b'z' | b'Z' | b'?' | b'0' | b'1')
-				})
-			},
-			b'o' | b'O' => {
-				self.read_based_token(context, begin, token::BaseSpecifier::Octal, |c| {
-					matches!(c, b'x' | b'X' | b'z' | b'Z' | b'?' | b'0'..=b'7')
-				})
-			},
-			b'd' | b'D' => {
-				self.read_based_token(context, begin, token::BaseSpecifier::Decimal, |c| {
-					c.is_ascii_digit()
-				})
-			},
+			b'b' | b'B' => self.read_based_token(context, begin, BaseSpecifier::Binary, |c| {
+				matches!(c, b'x' | b'X' | b'z' | b'Z' | b'?' | b'0' | b'1')
+			}),
+			b'o' | b'O' => self.read_based_token(context, begin, BaseSpecifier::Octal, |c| {
+				matches!(c, b'x' | b'X' | b'z' | b'Z' | b'?' | b'0'..=b'7')
+			}),
+			b'd' | b'D' => self.read_based_token(context, begin, BaseSpecifier::Decimal, |c| {
+				c.is_ascii_digit()
+			}),
 			b'h' | b'H' => self.read_based_token(
 				context,
 				begin,
-				token::BaseSpecifier::Hexadecimal,
+				BaseSpecifier::Hexadecimal,
 				|c| matches!(c, b'x' | b'X' | b'z' | b'Z' | b'?' | b'0'..=b'9' | b'a'..=b'f' | b'A'..=b'F'),
 			),
 			_ => {
@@ -369,7 +363,7 @@ impl Tokenizer {
 		&mut self,
 		context: Position,
 		begin: usize,
-		spec: token::BaseSpecifier,
+		spec: BaseSpecifier,
 		digit_filter: fn(u8) -> bool,
 	) {
 		let upper_case = self.next_char().is_ascii_uppercase();
