@@ -8,8 +8,10 @@
 pub mod lexer;
 pub mod parser;
 pub mod position;
+pub mod span;
 
 pub use position::Position;
+pub use span::{Span, Spanned};
 
 fn print_errors() {
 	// 	let _: Vec<_> = args
