@@ -63,6 +63,11 @@ impl Tokenizer {
 		value
 	}
 
+	#[inline]
+	fn current_is_whitespace(&self) -> bool {
+		self.current_char == b' ' || self.current_char == b'\t'
+	}
+
 	fn read_token(&mut self) {
 		if !self.token_stream.is_empty() {
 			// This has to work or the stream is empty, thus the if condition fails.
@@ -122,6 +127,8 @@ impl Tokenizer {
 				Token::Identifier(self.file.subtendril(range.start as u32, range.len() as u32)),
 				Some(Span::new(range, context))
 			);
+		} else if self.current_char.is_ascii_digit() || self.current_char == b'\'' {
+			self.read_number_token();
 		}
 	}
 
@@ -152,6 +159,300 @@ impl Tokenizer {
 			Token::Newline(self.file.subtendril(begin as u32, (end - begin) as u32)),
 			Some(Span::new(begin..end, context))
 		)
+	}
+
+	fn read_number_token(&mut self) {
+		// Pop out a size if available
+		if self.current_char.is_ascii_digit() {
+			let context = self.context;
+			let begin = self.position;
+			// Consume digits while we find valid unsigned number digits
+			while self.current_char.is_ascii_digit() || self.current_char == b'_' {
+				self.next_char();
+			}
+			// Stuff the unsigned number token onto the token stack
+			self.token_stream.push(
+				Spanned::new(
+					Token::UnsignedNumber(
+						self.file.subtendril(begin as u32, (self.position - begin) as u32)
+					),
+					Some(Span::new(begin..self.position, context))
+				)
+			);
+		};
+		// Deal with any whitespace that comes after the size
+		if self.current_is_whitespace() {
+			self.read_whitespace();
+			self.token_stream.push(self.token.clone())
+		}
+		// If we get here and we don't yet have a `'`,  we've consumed a decimal number - we're done.
+		if self.current_char != b'\'' {
+			// If we're here, we have to have pushed stuff to the token stream, so this is always okay.
+			self.token = self.token_stream.pop().unwrap();
+			return;
+		}
+
+		// Grab the position for and start matching a base specifier
+		let context = self.context;
+		let begin = self.position;
+		self.next_char();
+		// Having consumed the `'` we should now be left with a base specifier, and if not then
+		// this is an invalid token.
+		match self.current_char {
+			b'b' | b'B' => self.read_binary_token(context, begin),
+			b'o' | b'O' => self.read_octal_token(context, begin),
+			b'd' | b'D' => self.read_decimal_token(context, begin),
+			b'h' | b'H' => self.read_hexadecimal_token(context, begin),
+			_ => {
+				self.token_stream.push(
+					Spanned::new(
+						Token::Invalid(
+							Some(self.file.subtendril(begin as u32, (self.position - begin) as u32))
+						),
+						Some(Span::new(begin..self.position, context))
+					)
+				);
+			},
+		};
+		// Having processed all of the number tokens, pop the first as the result token.
+		// The only way we get here is having pushed at least something onto the token stream.
+		self.token = self.token_stream.pop().unwrap();
+	}
+
+	fn read_binary_token(&mut self, context: Position, begin: usize) {
+		let upper_case = self.next_char() == b'B';
+		self.token_stream.push(
+			Spanned::new(
+				Token::BaseSpecifier(token::BaseSpecifier::Binary, upper_case),
+				Some(Span::new(begin..self.position, context))
+			)
+		);
+		// Deal with any whitespace that comes after the base specifier
+		if self.current_is_whitespace() {
+			self.read_whitespace();
+			self.token_stream.push(self.token.clone())
+		}
+
+		fn is_binary_digit(current_char: u8) -> bool {
+			match current_char {
+				b'x' | b'X' |
+				b'z' | b'Z' | b'?' |
+				b'0' | b'1' => true,
+				_ => false,
+			}
+		}
+
+		let context = self.context;
+		let begin = self.position;
+		// Make sure we've got a valid number - if we have not, eat the content and turn it into an Invalid token.
+		if !is_binary_digit(self.current_char) {
+			// Keep monching until we find whitespace.
+			while !self.current_is_whitespace() {
+				self.next_char();
+			}
+
+			// Turn whatever we got into an invalid token
+			self.token_stream.push(
+				Spanned::new(
+					Token::Invalid(
+						Some(self.file.subtendril(begin as u32, (self.position - begin) as u32))
+					),
+					Some(Span::new(begin..self.position, context))
+				)
+			);
+		} else {
+			// Monch digits till we don't find no more.
+			while is_binary_digit(self.current_char) || self.current_char == b'_' {
+				self.next_char();
+			}
+
+			// Turn the consumed number into a Number token
+			self.token_stream.push(
+				Spanned::new(
+					Token::Number(
+						self.file.subtendril(begin as u32, (self.position - begin) as u32)
+					),
+					Some(Span::new(begin..self.position, context))
+				)
+			);
+		}
+	}
+
+	fn read_octal_token(&mut self, context: Position, begin: usize) {
+		let upper_case = self.next_char() == b'O';
+		self.token_stream.push(
+			Spanned::new(
+				Token::BaseSpecifier(token::BaseSpecifier::Octal, upper_case),
+				Some(Span::new(begin..self.position, context))
+			)
+		);
+		// Deal with any whitespace that comes after the base specifier
+		if self.current_is_whitespace() {
+			self.read_whitespace();
+			self.token_stream.push(self.token.clone())
+		}
+
+		fn is_octal_digit(current_char: u8) -> bool {
+			match current_char {
+				b'x' | b'X' |
+				b'z' | b'Z' | b'?' |
+				b'0'..=b'7' => true,
+				_ => false,
+			}
+		}
+
+		let context = self.context;
+		let begin = self.position;
+		// Make sure we've got a valid number - if we have not, eat the content and turn it into an Invalid token.
+		if !is_octal_digit(self.current_char) {
+			// Keep monching until we find whitespace.
+			while !self.current_is_whitespace() {
+				self.next_char();
+			}
+
+			// Turn whatever we got into an invalid token
+			self.token_stream.push(
+				Spanned::new(
+					Token::Invalid(
+						Some(self.file.subtendril(begin as u32, (self.position - begin) as u32))
+					),
+					Some(Span::new(begin..self.position, context))
+				)
+			);
+		} else {
+			// Monch digits till we don't find no more.
+			while is_octal_digit(self.current_char) || self.current_char == b'_' {
+				self.next_char();
+			}
+
+			// Turn the consumed number into a Number token
+			self.token_stream.push(
+				Spanned::new(
+					Token::Number(
+						self.file.subtendril(begin as u32, (self.position - begin) as u32)
+					),
+					Some(Span::new(begin..self.position, context))
+				)
+			);
+		}
+	}
+
+	fn read_decimal_token(&mut self, context: Position, begin: usize) {
+		let upper_case = self.next_char() == b'D';
+		self.token_stream.push(
+			Spanned::new(
+				Token::BaseSpecifier(token::BaseSpecifier::Decimal, upper_case),
+				Some(Span::new(begin..self.position, context))
+			)
+		);
+		// Deal with any whitespace that comes after the base specifier
+		if self.current_is_whitespace() {
+			self.read_whitespace();
+			self.token_stream.push(self.token.clone())
+		}
+
+		fn is_decimal_digit(current_char: u8) -> bool {
+			match current_char {
+				b'0'..=b'9' => true,
+				_ => false,
+			}
+		}
+
+		let context = self.context;
+		let begin = self.position;
+		// Make sure we've got a valid number - if we have not, eat the content and turn it into an Invalid token.
+		if !is_decimal_digit(self.current_char) {
+			// Keep monching until we find whitespace.
+			while !self.current_is_whitespace() {
+				self.next_char();
+			}
+
+			// Turn whatever we got into an invalid token
+			self.token_stream.push(
+				Spanned::new(
+					Token::Invalid(
+						Some(self.file.subtendril(begin as u32, (self.position - begin) as u32))
+					),
+					Some(Span::new(begin..self.position, context))
+				)
+			);
+		} else {
+			// Monch digits till we don't find no more.
+			while is_decimal_digit(self.current_char) || self.current_char == b'_' {
+				self.next_char();
+			}
+
+			// Turn the consumed number into a Number token
+			self.token_stream.push(
+				Spanned::new(
+					Token::Number(
+						self.file.subtendril(begin as u32, (self.position - begin) as u32)
+					),
+					Some(Span::new(begin..self.position, context))
+				)
+			);
+		}
+	}
+
+	fn read_hexadecimal_token(&mut self, context: Position, begin: usize) {
+		let upper_case = self.next_char() == b'H';
+		self.token_stream.push(
+			Spanned::new(
+				Token::BaseSpecifier(token::BaseSpecifier::Hexadecimal, upper_case),
+				Some(Span::new(begin..self.position, context))
+			)
+		);
+		// Deal with any whitespace that comes after the base specifier
+		if self.current_is_whitespace() {
+			self.read_whitespace();
+			self.token_stream.push(self.token.clone())
+		}
+
+		fn is_hexadecimal_digit(current_char: u8) -> bool {
+			match current_char {
+				b'x' | b'X' |
+				b'z' | b'Z' | b'?' |
+				b'0'..=b'9' |
+				b'a'..=b'f' |
+				b'A'..=b'F'  => true,
+				_ => false,
+			}
+		}
+
+		let context = self.context;
+		let begin = self.position;
+		// Make sure we've got a valid number - if we have not, eat the content and turn it into an Invalid token.
+		if !is_hexadecimal_digit(self.current_char) {
+			// Keep monching until we find whitespace.
+			while !self.current_is_whitespace() {
+				self.next_char();
+			}
+
+			// Turn whatever we got into an invalid token
+			self.token_stream.push(
+				Spanned::new(
+					Token::Invalid(
+						Some(self.file.subtendril(begin as u32, (self.position - begin) as u32))
+					),
+					Some(Span::new(begin..self.position, context))
+				)
+			);
+		} else {
+			// Monch digits till we don't find no more.
+			while is_hexadecimal_digit(self.current_char) || self.current_char == b'_' {
+				self.next_char();
+			}
+
+			// Turn the consumed number into a Number token
+			self.token_stream.push(
+				Spanned::new(
+					Token::Number(
+						self.file.subtendril(begin as u32, (self.position - begin) as u32)
+					),
+					Some(Span::new(begin..self.position, context))
+				)
+			);
+		}
 	}
 
 	#[inline]
