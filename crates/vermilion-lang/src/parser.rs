@@ -1,6 +1,9 @@
 /* SPDX-License-Identifier: BSD-3-Clause */
 
-use std::{fmt::{Debug, Display}, ops::Range};
+use std::{
+	fmt::{Debug, Display},
+	ops::Range,
+};
 
 use chumsky::span::SimpleSpan;
 
