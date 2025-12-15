@@ -196,6 +196,31 @@ impl Tokenizer {
 		let begin = self.position;
 		self.next_char();
 		let end = self.position;
+
+		if self.current_char == b'=' {
+			self.next_char();
+			let end = self.position;
+
+			if self.current_char == b'=' {
+				self.next_char();
+				let end = self.position;
+
+				self.token = Spanned::new(
+					Token::Operator(Operator::CaseInequality),
+					Some(Span::new(begin..end, context)),
+				)
+			} else {
+				self.token = Spanned::new(
+					Token::Operator(Operator::LogicalInequality),
+					Some(Span::new(begin..end, context)),
+				)
+			}
+		} else {
+			self.token = Spanned::new(
+				Token::Operator(Operator::Exclamation),
+				Some(Span::new(begin..end, context)),
+			)
+		}
 	}
 
 	fn read_equals_token(&mut self) {
