@@ -242,10 +242,7 @@ impl Tokenizer {
 	fn read_whitespace(&mut self) {
 		let context = self.context;
 		let begin = self.position;
-		while match self.current_char {
-			b' ' | b'\t' => true,
-			_ => false,
-		} {
+		while matches!(self.current_char, b' ' | b'\t') {
 			self.next_char();
 		}
 		let end = self.position;
@@ -364,10 +361,7 @@ impl Tokenizer {
 		}
 
 		fn is_binary_digit(current_char: u8) -> bool {
-			match current_char {
-				b'x' | b'X' | b'z' | b'Z' | b'?' | b'0' | b'1' => true,
-				_ => false,
-			}
+			matches!(current_char, b'x' | b'X' | b'z' | b'Z' | b'?' | b'0' | b'1')
 		}
 
 		let context = self.context;
@@ -467,10 +461,7 @@ impl Tokenizer {
 		}
 
 		fn is_decimal_digit(current_char: u8) -> bool {
-			match current_char {
-				b'0'..=b'9' => true,
-				_ => false,
-			}
+			current_char.is_ascii_digit()
 		}
 
 		let context = self.context;
@@ -520,10 +511,7 @@ impl Tokenizer {
 		}
 
 		fn is_hexadecimal_digit(current_char: u8) -> bool {
-			match current_char {
-				b'x' | b'X' | b'z' | b'Z' | b'?' | b'0'..=b'9' | b'a'..=b'f' | b'A'..=b'F' => true,
-				_ => false,
-			}
+			matches!(current_char, b'x' | b'X' | b'z' | b'Z' | b'?' | b'0'..=b'9' | b'a'..=b'f' | b'A'..=b'F')
 		}
 
 		let context = self.context;
@@ -578,8 +566,7 @@ impl Tokenizer {
 	fn read_escaped_ident(&mut self) -> Range<usize> {
 		let begin = self.position;
 		// Scan through till we get something that's not ASCII printable
-		while match self.current_char as char {
-			'a'..='z'
+		while matches!(self.current_char as char, 'a'..='z'
 			| 'A'..='Z'
 			| '0'..='9'
 			| '!'
@@ -603,9 +590,8 @@ impl Tokenizer {
 			| '^'
 			| '_'
 			| '`'
-			| '\\' => true,
-			_ => false,
-		} {
+			| '\\')
+		{
 			self.next_char();
 		}
 		// Return the range consumed
