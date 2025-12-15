@@ -70,6 +70,14 @@ impl Tokenizer {
 		let context = self.context;
 		let begin = self.position;
 		match self.current_char {
+			b' ' | b'\t' => {
+				self.read_whitespace();
+				return;
+			},
+			b'\r' | b'\n' => {
+				self.read_newline();
+				return;
+			},
 			b'@' => self.token = Token::Control(token::Control::At).into(),
 			b'#' => self.token = Token::Control(token::Control::Octothorp).into(),
 			b'(' => self.token = Token::Control(token::Control::ParenOpen).into(),
@@ -87,6 +95,35 @@ impl Tokenizer {
 		self.next_char();
 		let end = self.position;
 		self.token.attach_span(Span::new(begin..end, context));
+	}
+
+	fn read_whitespace(&mut self) {
+		let context = self.context;
+		let begin = self.position;
+		while match self.current_char { b' ' | b'\t' => true, _ => false } {
+			self.next_char();
+		}
+		let end = self.position;
+		self.token = Spanned::new(
+			Token::Whitespace(self.file.subtendril(begin as u32, (end - begin) as u32)),
+			Some(Span::new(begin..end, context))
+		)
+	}
+
+	fn read_newline(&mut self) {
+		let context = self.context;
+		let begin = self.position;
+		// Handle \r\n sequences
+		if self.next_char() == b'\r' && self.current_char == b'\n' {
+			self.next_char();
+		}
+		let end = self.position;
+		// Newlines reset the position context for the next token
+		self.context.next_line();
+		self.token = Spanned::new(
+			Token::Newline(self.file.subtendril(begin as u32, (end - begin) as u32)),
+			Some(Span::new(begin..end, context))
+		)
 	}
 }
 
