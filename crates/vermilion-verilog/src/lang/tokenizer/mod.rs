@@ -71,8 +71,15 @@ impl Tokenizer {
 
 	fn read_token(&mut self) {
 		if !self.token_stream.is_empty() {
+			// SAFETY:
 			// This has to work or the stream is empty, thus the if condition fails.
-			self.token = self.token_stream.pop_front().unwrap();
+			#[allow(clippy::expect_used)]
+			let tok = self
+				.token_stream
+				.pop_front()
+				.expect("Unable to pop token from token stream");
+
+			self.token = tok;
 			return;
 		}
 		let context = self.context;
@@ -317,8 +324,15 @@ impl Tokenizer {
 		}
 		// If we get here and we don't yet have a `'`,  we've consumed a decimal number - we're done.
 		if self.current_char != b'\'' {
+			// SAFETY:
 			// If we're here, we have to have pushed stuff to the token stream, so this is always okay.
-			self.token = self.token_stream.pop_front().unwrap();
+			#[allow(clippy::expect_used)]
+			let tok = self
+				.token_stream
+				.pop_front()
+				.expect("Unable to pop token from token stream");
+
+			self.token = tok;
 			return;
 		}
 
@@ -355,8 +369,16 @@ impl Tokenizer {
 			},
 		};
 		// Having processed all of the number tokens, pop the first as the result token.
+
+		// SAFETY:
 		// The only way we get here is having pushed at least something onto the token stream.
-		self.token = self.token_stream.pop_front().unwrap();
+		#[allow(clippy::expect_used)]
+		let tok = self
+			.token_stream
+			.pop_front()
+			.expect("Unable to pop token from token stream");
+
+		self.token = tok;
 	}
 
 	fn read_based_token(
