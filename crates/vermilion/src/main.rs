@@ -1,4 +1,5 @@
 /* SPDX-License-Identifier: BSD-3-Clause */
+#![deny(clippy::unwrap_used, clippy::expect_used)]
 
 use eyre::{Context, OptionExt};
 use schemars::schema_for;

@@ -3,6 +3,7 @@
 #![doc = include_str!("../README.md")]
 // #![warn(missing_docs)]
 // #![warn(clippy::missing_docs_in_private_items)]
+#![deny(clippy::unwrap_used, clippy::expect_used)]
 
 pub mod settings;
 
