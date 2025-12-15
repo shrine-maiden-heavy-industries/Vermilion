@@ -98,6 +98,10 @@ impl Tokenizer {
 			b',' => self.token = Token::Control(token::Control::Comma).into(),
 			b'.' => self.token = Token::Control(token::Control::Dot).into(),
 			b'$' => self.token = Token::Control(token::Control::Dollar).into(),
+			b'+' => {
+				self.read_plus_token();
+				return;
+			},
 			_ => {
 				self.read_extended_token();
 				return;
@@ -159,6 +163,32 @@ impl Tokenizer {
 			Token::Newline(self.file.subtendril(begin as u32, (end - begin) as u32)),
 			Some(Span::new(begin..end, context))
 		)
+	}
+
+	fn read_plus_token(&mut self) {
+		// Grab the context for and consume the `+` character
+		let context = self.context;
+		let begin = self.position;
+		self.next_char();
+		let end = self.position;
+
+		// If that got us to a number, this was a sign token
+		if self.current_char.is_ascii_digit() {
+			self.token_stream.push(
+				Spanned::new(
+					Token::Sign(token::Sign::Positive),
+					Some(Span::new(begin..end, context))
+				)
+			);
+			// Shunt into the number token subparser to handle number things
+			self.read_number_token();
+		} else {
+			// Otherwise we got a simple unary or binary `+` operator
+			self.token = Spanned::new(
+				Token::Operator(token::Operator::Plus),
+				Some(Span::new(begin..end, context))
+			);
+		}
 	}
 
 	fn read_number_token(&mut self) {
