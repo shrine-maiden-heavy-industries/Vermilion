@@ -101,16 +101,16 @@ impl Tokenizer {
 			b'.' => self.token = Token::Control(Control::Dot).into(),
 			b'$' => self.token = Token::Control(Control::Dollar).into(),
 			b'?' => self.token = Token::Control(Control::Question).into(),
-			b'!' => todo!("! != !== tokenization"),
-			b'&' => todo!("& && tokenization"),
-			b'=' => todo!(" == === tokenization"),
-			b'~' => todo!("~ ~^ ~& ~| tokenization"),
-			b'^' => todo!("^ ^~ tokenization"),
-			b'|' => todo!("| tokenization"),
-			b'>' => todo!("> >= >> tokenization"),
-			b'<' => todo!("< <= << tokenization"),
-			b'%' => todo!("% tokenization"),
-			b'*' => todo!("* tokenization"),
+			b'!' => todo!("! != !== tokenization"), // Exclamation, LogicalInequality, CaseInequality
+			b'&' => todo!("& && tokenization"),     // Ampersand, LogicalAnd
+			b'=' => todo!(" == === tokenization"),  // LogicalEquality, CaseEquality
+			b'~' => todo!("~ ~^ ~& ~| tokenization"), // Tilde, ReductionXor/Bit-wise Equivalence (Left-handed chirality)
+			b'^' => todo!("^ ^~ tokenization"), // Circumflex, ReductionXor/Bit-wise Equivalence (Right-handed chirality)
+			b'|' => self.token = Token::Operator(Operator::Pipe).into(),
+			b'>' => todo!("> >= >> tokenization"), // Lt, Lte, ShiftRight
+			b'<' => todo!("< <= << tokenization"), // Gt, Gte, ShiftLeft
+			b'%' => self.token = Token::Operator(Operator::Percent).into(),
+			b'*' => self.token = Token::Operator(Operator::Asterisk).into(),
 			b'+' => {
 				self.read_plus_token();
 				return;

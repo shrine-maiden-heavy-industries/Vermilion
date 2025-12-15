@@ -165,8 +165,29 @@ pub(crate) enum Keyword {
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub(crate) enum Operator {
-	Plus,
+	Ampersand,
+	Asterisk,
+	CaseEquality,
+	CaseInequality,
+	Circumflex,
+	Equals,
+	Exclamation,
+	GreaterThan,
+	GreaterThanEqual,
+	LessThan,
+	LessThanEqual,
+	LogicalAnd,
+	LogicalEquality,
+	LogicalInequality,
 	Minus,
+	Percent,
+	Pipe,
+	Plus,
+	ReductionNor,
+	ShiftLeft,
+	ShiftRight,
+	Tilde,
+	TildeCircumflex(bool), // NOTE(aki): this is the chirality of the `^~`/`~^` operator
 }
 
 impl Default for Token {
