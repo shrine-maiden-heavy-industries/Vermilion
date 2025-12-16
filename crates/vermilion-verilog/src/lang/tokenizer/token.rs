@@ -12,8 +12,7 @@ pub(crate) enum Token {
 	ContextuallyInvalid(ByteTendril, VerilogVariant),
 	BaseSpecifier(BaseSpecifier, bool),
 	Comment(Comment),
-	CompilerDirective(ByteTendril),
-	CompilerDirectiveArg(ByteTendril),
+	CompilerDirective(CompilerDirective),
 	Control(Control),
 	Identifier(ByteTendril),
 	Keyword(Keyword),
@@ -28,6 +27,12 @@ pub(crate) enum Token {
 	String(ByteTendril),
 	UnsignedNumber(ByteTendril),
 	Whitespace(ByteTendril),
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
+pub(crate) enum CompilerDirective {
+	Name(ByteTendril),
+	Arg(ByteTendril),
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
