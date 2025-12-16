@@ -303,6 +303,19 @@ impl Tokenizer {
 		self.next_char();
 		let end = self.position;
 
+		if self.current_char == b'|' {
+			self.next_char();
+			let end = self.position;
+			self.token = Spanned::new(
+				Token::Operator(Operator::LogicalOr),
+				Some(Span::new(begin..end, context)),
+			)
+		} else {
+			self.token = Spanned::new(
+				Token::Operator(Operator::Pipe),
+				Some(Span::new(begin..end, context)),
+			)
+		}
 	}
 
 	fn read_less_than_token(&mut self) {
@@ -819,6 +832,25 @@ mod tests {
 					Some(Span::new(8..9, Position::new(3, 0))),
 				),
 			]
+		);
+	}
+
+	#[test]
+	fn test_pipe_operators() {
+		assert_tokenized!(
+			"|",
+			vec![Spanned::new(
+				Token::Operator(Operator::Pipe),
+				Some(Span::new(0..1, Position::new(0, 0)))
+			)]
+		);
+
+		assert_tokenized!(
+			"||",
+			vec![Spanned::new(
+				Token::Operator(Operator::LogicalOr),
+				Some(Span::new(0..2, Position::new(0, 0)))
+			)]
 		);
 	}
 
