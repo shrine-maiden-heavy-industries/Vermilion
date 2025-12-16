@@ -13,6 +13,7 @@ pub(crate) enum Token {
 	BaseSpecifier(BaseSpecifier, bool),
 	Comment(Comment),
 	CompilerDirective(ByteTendril),
+	CompilerDirectiveArg(ByteTendril),
 	Control(Control),
 	Identifier(ByteTendril),
 	Keyword(Keyword),
