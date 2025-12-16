@@ -11,7 +11,7 @@ pub(crate) enum Token {
 	/// Hold the verilog variant for when this token would become valid
 	ContextuallyInvalid(ByteTendril, VerilogVariant),
 	BaseSpecifier(BaseSpecifier, bool),
-	Comment(ByteTendril),
+	Comment(Comment),
 	CompilerDirective(ByteTendril),
 	Control(Control),
 	Identifier(ByteTendril),
@@ -23,6 +23,12 @@ pub(crate) enum Token {
 	String(ByteTendril),
 	UnsignedNumber(ByteTendril),
 	Whitespace(ByteTendril),
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
+pub(crate) enum Comment {
+	SingleLine(ByteTendril),
+	Block(ByteTendril),
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
