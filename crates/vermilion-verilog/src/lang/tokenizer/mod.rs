@@ -34,7 +34,13 @@ impl Tokenizer {
 			token: Spanned::new(Token::default(), None),
 			token_stream: VecDeque::new(),
 		};
-		tokenizer.current_char = tokenizer.file[tokenizer.position];
+
+		// If we somehow created a tokenizer on an empty input, make sure we set EOF right away
+		if tokenizer.file.is_empty() {
+			tokenizer.eof = true;
+		} else {
+			tokenizer.current_char = tokenizer.file[tokenizer.position];
+		}
 
 		tokenizer
 	}
