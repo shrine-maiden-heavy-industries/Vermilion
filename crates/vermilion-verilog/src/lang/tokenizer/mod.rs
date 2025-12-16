@@ -135,14 +135,8 @@ impl Tokenizer {
 			},
 			b'%' => self.token = Token::Operator(Operator::Percent).into(),
 			b'*' => self.token = Token::Operator(Operator::Asterisk).into(),
-			b'+' => {
-				self.read_plus_token();
-				return;
-			},
-			b'-' => {
-				self.read_minus_token();
-				return;
-			},
+			b'+' => self.token = Token::Operator(Operator::Plus).into(),
+			b'-' => self.token = Token::Operator(Operator::Minus).into(),
 			b'/' => {
 				self.read_solidus_token();
 				return;
@@ -446,26 +440,6 @@ impl Tokenizer {
 		)
 	}
 
-	fn read_minus_token(&mut self) {
-		let context = self.context;
-		let begin = self.position;
-		self.next_char();
-		let end = self.position;
-
-		if self.current_char.is_ascii_digit() {
-			self.token_stream.push_back(Spanned::new(
-				Token::Sign(token::Sign::Negative),
-				Some(Span::new(begin..end, context)),
-			));
-			self.read_number_token();
-		} else {
-			self.token = Spanned::new(
-				Token::Operator(Operator::Minus),
-				Some(Span::new(begin..end, context)),
-			);
-		}
-	}
-
 	fn read_multiline_comment(&mut self, context: Position, begin: usize) {
 		let mut invalid_comment = false;
 
@@ -682,30 +656,6 @@ impl Tokenizer {
 			);
 		} else if self.current_char.is_ascii_digit() || self.current_char == b'\'' {
 			self.read_number_token();
-		}
-	}
-
-	fn read_plus_token(&mut self) {
-		// Grab the context for and consume the `+` character
-		let context = self.context;
-		let begin = self.position;
-		self.next_char();
-		let end = self.position;
-
-		// If that got us to a number, this was a sign token
-		if self.current_char.is_ascii_digit() {
-			self.token_stream.push_back(Spanned::new(
-				Token::Sign(token::Sign::Positive),
-				Some(Span::new(begin..end, context)),
-			));
-			// Shunt into the number token subparser to handle number things
-			self.read_number_token();
-		} else {
-			// Otherwise we got a simple unary or binary `+` operator
-			self.token = Spanned::new(
-				Token::Operator(Operator::Plus),
-				Some(Span::new(begin..end, context)),
-			);
 		}
 	}
 
@@ -1411,7 +1361,7 @@ mod tests {
 				Some(Span::new(1..2, Position::new(0, 1)))
 			),
 			Spanned::new(
-				Token::BaseSpecifier(token::BaseSpecifier::Binary, false),
+				Token::BaseSpecifier(BaseSpecifier::Binary, false),
 				Some(Span::new(2..4, Position::new(0, 2)))
 			),
 			Spanned::new(
@@ -1423,7 +1373,7 @@ mod tests {
 				Some(Span::new(8..9, Position::new(0, 8)))
 			),
 			Spanned::new(
-				Token::Sign(token::Sign::Positive),
+				Token::Operator(Operator::Plus),
 				Some(Span::new(9..10, Position::new(1, 0)))
 			),
 			Spanned::new(
@@ -1431,7 +1381,7 @@ mod tests {
 				Some(Span::new(10..11, Position::new(1, 1)))
 			),
 			Spanned::new(
-				Token::BaseSpecifier(token::BaseSpecifier::Binary, true),
+				Token::BaseSpecifier(BaseSpecifier::Binary, true),
 				Some(Span::new(11..13, Position::new(1, 2)))
 			),
 			Spanned::new(
@@ -1451,7 +1401,7 @@ mod tests {
 				Some(Span::new(16..17, Position::new(2, 0)))
 			),
 			Spanned::new(
-				Token::BaseSpecifier(token::BaseSpecifier::Binary, false),
+				Token::BaseSpecifier(BaseSpecifier::Binary, false),
 				Some(Span::new(17..19, Position::new(2, 1)))
 			),
 			Spanned::new(

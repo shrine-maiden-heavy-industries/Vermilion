@@ -23,7 +23,6 @@ pub(crate) enum Token {
 		exponent: Option<ByteTendril>,
 	},
 	Operator(Operator),
-	Sign(Sign),
 	String(ByteTendril),
 	UnsignedNumber(ByteTendril),
 	Whitespace(ByteTendril),
@@ -40,12 +39,6 @@ pub(crate) enum Comment {
 	Invalid(ByteTendril),
 	SingleLine(ByteTendril),
 	MultiLine(ByteTendril),
-}
-
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
-pub(crate) enum Sign {
-	Positive,
-	Negative,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
