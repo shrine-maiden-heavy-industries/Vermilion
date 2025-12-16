@@ -29,7 +29,7 @@ pub(crate) enum Token {
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub(crate) enum Comment {
 	SingleLine(ByteTendril),
-	Block(ByteTendril),
+	MultiLine(ByteTendril),
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
