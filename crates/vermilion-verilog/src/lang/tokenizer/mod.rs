@@ -433,7 +433,18 @@ impl Tokenizer {
 		self.next_char();
 		let end = self.position;
 
-		todo!("minus tokenization")
+		if self.current_char.is_ascii_digit() {
+			self.token_stream.push_back(Spanned::new(
+				Token::Sign(token::Sign::Negative),
+				Some(Span::new(begin..end, context)),
+			));
+			self.read_number_token();
+		} else {
+			self.token = Spanned::new(
+				Token::Operator(Operator::Minus),
+				Some(Span::new(begin..end, context)),
+			);
+		}
 	}
 
 	fn read_solidus_token(&mut self) {
