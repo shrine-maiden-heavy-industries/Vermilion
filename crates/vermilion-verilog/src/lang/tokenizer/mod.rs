@@ -4,7 +4,7 @@ use std::{collections::VecDeque, ops::Range};
 
 use tendril::ByteTendril;
 
-use self::token::{BaseSpecifier, Control, Keyword, Operator, Token};
+use self::token::{BaseSpecifier, Comment, Control, Keyword, Operator, Token};
 use crate::VerilogVariant;
 
 use vermilion_lang::{Position, Span, Spanned};
