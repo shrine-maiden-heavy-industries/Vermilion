@@ -528,9 +528,77 @@ impl Tokenizer {
 	fn read_compiler_directive_token(&mut self) {
 		let context = self.context;
 		let begin = self.position;
+		self.next_char(); // Skip the '`'
+
+		// Check to make sure the character right after the ` is valid
+		if !matches!(self.current_char, b'a'..=b'z' | b'A'..=b'Z' | b'_') {
+			self.token = Spanned::new(
+				Token::Invalid(Some(
+					self.file
+						.subtendril(begin as u32, (self.position - begin) as u32),
+				)),
+				Some(Span::new(begin..self.position, context)),
+			);
+
+			return;
+		}
+
+		// We validated the first char, consume it and ingest the rest of the identifier
 		self.next_char();
 
-		todo!("Compiler Directive tokenization")
+		while (self.current_char.is_ascii_alphanumeric() || self.current_char == b'_') && !self.eof
+		{
+			self.next_char();
+		}
+
+		// The current character is no longer a valid identifier, push the token back onto the token stream
+		self.token_stream.push_back(Spanned::new(
+			Token::CompilerDirective(CompilerDirective::Name(
+				self.file
+					.subtendril((begin + 1) as u32, (self.position - (begin + 1)) as u32),
+			)),
+			Some(Span::new(begin..self.position, context)),
+		));
+
+		if self.current_is_whitespace() {
+			self.read_whitespace();
+			self.token_stream.push_back(self.token.clone())
+		}
+
+		// Consume arguments up until we get to a newline
+		while !matches!(self.current_char, b'\r' | b'\n') && !self.eof {
+			// Deal with  whitespace
+			if self.current_is_whitespace() {
+				self.read_whitespace();
+				self.token_stream.push_back(self.token.clone())
+			}
+
+			let begin = self.position;
+			let context = self.context;
+
+			// Consume argument
+			while self.is_ascii_printable() && !self.eof {
+				self.next_char();
+			}
+
+			self.token_stream.push_back(Spanned::new(
+				Token::CompilerDirective(CompilerDirective::Arg(
+					self.file
+						.subtendril(begin as u32, (self.position - begin) as u32),
+				)),
+				Some(Span::new(begin..self.position, context)),
+			));
+		}
+
+		// Stuff the compiler directive name back front and center
+		// SAFETY:
+		// If we're here, we have to have pushed stuff to the token stream, so this is always okay.
+		#[allow(clippy::expect_used)]
+		let token = self
+			.token_stream
+			.pop_front()
+			.expect("Unable to pop token from token stream");
+		self.token = token;
 	}
 
 	fn read_extended_token(&mut self) {
@@ -1182,6 +1250,61 @@ mod tests {
 			Token::Comment(Comment::Invalid("/*\nThis Is A\n".as_bytes().into())),
 			Some(Span::new(0..13, Position::new(0, 0)))
 		)]
+	);
+
+	tokenizer_test!(
+		test_tokenize_compiler_directive_standalone,
+		"`meow",
+		vec![Spanned::new(
+			Token::CompilerDirective(CompilerDirective::Name("meow".as_bytes().into())),
+			Some(Span::new(0..5, Position::new(0, 0)))
+		)]
+	);
+
+	tokenizer_test!(
+		test_tokenize_compiler_directive_arg,
+		"`define meow",
+		vec![
+			Spanned::new(
+				Token::CompilerDirective(CompilerDirective::Name("define".as_bytes().into())),
+				Some(Span::new(0..7, Position::new(0, 0)))
+			),
+			Spanned::new(
+				Token::Whitespace(" ".as_bytes().into()),
+				Some(Span::new(7..8, Position::new(0, 7)))
+			),
+			Spanned::new(
+				Token::CompilerDirective(CompilerDirective::Arg("meow".as_bytes().into())),
+				Some(Span::new(8..12, Position::new(0, 8)))
+			)
+		]
+	);
+
+	tokenizer_test!(
+		test_tokenize_compiler_directive_multi_arg,
+		"`define nya 8",
+		vec![
+			Spanned::new(
+				Token::CompilerDirective(CompilerDirective::Name("define".as_bytes().into())),
+				Some(Span::new(0..7, Position::new(0, 0)))
+			),
+			Spanned::new(
+				Token::Whitespace(" ".as_bytes().into()),
+				Some(Span::new(7..8, Position::new(0, 7)))
+			),
+			Spanned::new(
+				Token::CompilerDirective(CompilerDirective::Arg("nya".as_bytes().into())),
+				Some(Span::new(8..11, Position::new(0, 8)))
+			),
+			Spanned::new(
+				Token::Whitespace(" ".as_bytes().into()),
+				Some(Span::new(11..12, Position::new(0, 11)))
+			),
+			Spanned::new(
+				Token::CompilerDirective(CompilerDirective::Arg("8".as_bytes().into())),
+				Some(Span::new(12..13, Position::new(0, 12)))
+			),
+		]
 	);
 
 	tokenizer_test!(
