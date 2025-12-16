@@ -659,7 +659,7 @@ impl Tokenizer {
 				.pop_front()
 				.expect("Unable to pop token from token stream");
 
-			self.token = tok;
+			self.token = token;
 			return;
 		}
 
@@ -670,14 +670,14 @@ impl Tokenizer {
 		// Having consumed the `'` we should now be left with a base specifier, and if not then
 		// this is an invalid token.
 		match self.current_char {
-			b'b' | b'B' => self.read_based_token(context, begin, BaseSpecifier::Binary, |c| {
-				matches!(c, b'x' | b'X' | b'z' | b'Z' | b'?' | b'0' | b'1')
+			b'b' | b'B' => self.read_based_token(context, begin, BaseSpecifier::Binary, |char| {
+				matches!(char, b'x' | b'X' | b'z' | b'Z' | b'?' | b'0' | b'1')
 			}),
-			b'o' | b'O' => self.read_based_token(context, begin, BaseSpecifier::Octal, |c| {
-				matches!(c, b'x' | b'X' | b'z' | b'Z' | b'?' | b'0'..=b'7')
+			b'o' | b'O' => self.read_based_token(context, begin, BaseSpecifier::Octal, |char| {
+				matches!(char, b'x' | b'X' | b'z' | b'Z' | b'?' | b'0'..=b'7')
 			}),
-			b'd' | b'D' => self.read_based_token(context, begin, BaseSpecifier::Decimal, |c| {
-				c.is_ascii_digit()
+			b'd' | b'D' => self.read_based_token(context, begin, BaseSpecifier::Decimal, |char| {
+				char.is_ascii_digit()
 			}),
 			b'h' | b'H' => self.read_based_token(
 				context,
@@ -700,12 +700,12 @@ impl Tokenizer {
 		// SAFETY:
 		// The only way we get here is having pushed at least something onto the token stream.
 		#[allow(clippy::expect_used)]
-		let tok = self
+		let token = self
 			.token_stream
 			.pop_front()
 			.expect("Unable to pop token from token stream");
 
-		self.token = tok;
+		self.token = token;
 	}
 
 	fn read_based_token(
