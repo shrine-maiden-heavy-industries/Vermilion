@@ -28,6 +28,7 @@ pub(crate) enum Token {
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub(crate) enum Comment {
+	Invalid(ByteTendril),
 	SingleLine(ByteTendril),
 	MultiLine(ByteTendril),
 }

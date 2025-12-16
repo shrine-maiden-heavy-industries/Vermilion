@@ -447,21 +447,87 @@ impl Tokenizer {
 		}
 	}
 
+	fn read_multiline_comment(&mut self, context: Position, begin: usize) {
+		let mut invalid_comment = false;
+
+		// Consume the multiline comment
+		loop {
+			if self.eof {
+				invalid_comment = true;
+				break;
+			}
+
+			match self.current_char {
+				b'*' => {
+					self.next_char();
+					// Check if we are ending the comment
+					if self.current_char == b'/' {
+						self.next_char();
+						break;
+					}
+				},
+				b'/' => {
+					self.next_char();
+
+					// Check to see if it's an illegal start of a new multiline comment
+					if self.current_char == b'*' {
+						invalid_comment = true;
+					}
+				},
+				_ => {
+					self.next_char();
+				},
+			}
+		}
+
+		if invalid_comment {
+			self.token = Spanned::new(
+				Token::Comment(Comment::Invalid(
+					self.file
+						.subtendril(begin as u32, (self.position - begin) as u32),
+				)),
+				Some(Span::new(begin..self.position, context)),
+			);
+		} else {
+			self.token = Spanned::new(
+				Token::Comment(Comment::MultiLine(
+					self.file
+						.subtendril(begin as u32, (self.position - begin) as u32),
+				)),
+				Some(Span::new(begin..self.position, context)),
+			);
+		}
+	}
+
+	fn read_singleline_comment(&mut self, context: Position, begin: usize) {
+		while !matches!(self.current_char, b'\r' | b'\n') && !self.eof {
+			self.next_char();
+		}
+
+		self.token = Spanned::new(
+			Token::Comment(Comment::SingleLine(
+				self.file
+					.subtendril((begin + 2) as u32, (self.position - (begin + 2)) as u32),
+			)),
+			Some(Span::new(begin..self.position, context)),
+		);
+	}
+
 	fn read_solidus_token(&mut self) {
 		let context = self.context;
 		let begin = self.position;
-		self.next_char();
-		let end = self.position;
+		self.next_char(); // Consume the opening `/`
 
 		if matches!(self.current_char, b'*' | b'/') {
-			let multiline = self.current_char == b'*';
-			self.next_char();
-
-			todo!("Comment tokenization")
+			if self.next_char() == b'*' {
+				self.read_multiline_comment(context, begin);
+			} else {
+				self.read_singleline_comment(context, begin);
+			}
 		} else {
 			self.token = Spanned::new(
 				Token::Operator(Operator::Solidus),
-				Some(Span::new(begin..end, context)),
+				Some(Span::new(begin..self.position, context)),
 			);
 		}
 	}
@@ -1039,6 +1105,46 @@ mod tests {
 		vec![Spanned::new(
 			Token::Operator(Operator::Solidus),
 			Some(Span::new(0..1, Position::new(0, 0)))
+		)]
+	);
+
+	tokenizer_test!(
+		test_tokenize_comment_single_line,
+		"// This Is A Test",
+		vec![Spanned::new(
+			Token::Comment(Comment::SingleLine(" This Is A Test".as_bytes().into())),
+			Some(Span::new(0..17, Position::new(0, 0)))
+		)]
+	);
+
+	tokenizer_test!(
+		test_tokenize_comment_multi_line,
+		"/*\nThis Is A\n\tMulti Line Comment\n*/",
+		vec![Spanned::new(
+			Token::Comment(Comment::MultiLine(
+				"/*\nThis Is A\n\tMulti Line Comment\n*/".as_bytes().into()
+			)),
+			Some(Span::new(0..35, Position::new(0, 0)))
+		)]
+	);
+
+	tokenizer_test!(
+		test_tokenize_comment_multi_line_invalid,
+		"/*\nThis Is A\n/*Multi Line Comment\n*/",
+		vec![Spanned::new(
+			Token::Comment(Comment::Invalid(
+				"/*\nThis Is A\n/*Multi Line Comment\n*/".as_bytes().into()
+			)),
+			Some(Span::new(0..36, Position::new(0, 0)))
+		)]
+	);
+
+	tokenizer_test!(
+		test_tokenize_comment_multi_line_truncated,
+		"/*\nThis Is A\n",
+		vec![Spanned::new(
+			Token::Comment(Comment::Invalid("/*\nThis Is A\n".as_bytes().into())),
+			Some(Span::new(0..13, Position::new(0, 0)))
 		)]
 	);
 
