@@ -2002,3 +2002,356 @@ tokenizer_test!(
 		),
 	]
 );
+
+tokenizer_test!(
+	test_tokenize_octal_prefixed,
+	"3'o666",
+	vec![
+		Spanned::new(
+			Token::UnsignedNumber("3".as_bytes().into()),
+			Some(Span::new(0..1, Position::new(0, 0)))
+		),
+		Spanned::new(
+			Token::BaseSpecifier(token::BaseSpecifier::Octal, false),
+			Some(Span::new(1..3, Position::new(0, 1)))
+		),
+		Spanned::new(
+			Token::Number("666".as_bytes().into()),
+			Some(Span::new(3..6, Position::new(0, 3)))
+		),
+	]
+);
+
+tokenizer_test!(
+	test_tokenize_octal_prefixed_dont_care,
+	"3'ox3x",
+	vec![
+		Spanned::new(
+			Token::UnsignedNumber("3".as_bytes().into()),
+			Some(Span::new(0..1, Position::new(0, 0)))
+		),
+		Spanned::new(
+			Token::BaseSpecifier(token::BaseSpecifier::Octal, false),
+			Some(Span::new(1..3, Position::new(0, 1)))
+		),
+		Spanned::new(
+			Token::Number("x3x".as_bytes().into()),
+			Some(Span::new(3..6, Position::new(0, 3)))
+		),
+	]
+);
+tokenizer_test!(
+	test_tokenize_octal_prefixed_all_dont_care,
+	"1'ox",
+	vec![
+		Spanned::new(
+			Token::UnsignedNumber("1".as_bytes().into()),
+			Some(Span::new(0..1, Position::new(0, 0)))
+		),
+		Spanned::new(
+			Token::BaseSpecifier(token::BaseSpecifier::Octal, false),
+			Some(Span::new(1..3, Position::new(0, 1)))
+		),
+		Spanned::new(
+			Token::Number("x".as_bytes().into()),
+			Some(Span::new(3..4, Position::new(0, 3)))
+		),
+	]
+);
+
+tokenizer_test!(
+	test_tokenize_octal_prefixed_high_z,
+	"3'ozz4",
+	vec![
+		Spanned::new(
+			Token::UnsignedNumber("3".as_bytes().into()),
+			Some(Span::new(0..1, Position::new(0, 0)))
+		),
+		Spanned::new(
+			Token::BaseSpecifier(token::BaseSpecifier::Octal, false),
+			Some(Span::new(1..3, Position::new(0, 1)))
+		),
+		Spanned::new(
+			Token::Number("zz4".as_bytes().into()),
+			Some(Span::new(3..6, Position::new(0, 3)))
+		),
+	]
+);
+
+tokenizer_test!(
+	test_tokenize_octal_prefixed_all_high_z,
+	"1'oz",
+	vec![
+		Spanned::new(
+			Token::UnsignedNumber("1".as_bytes().into()),
+			Some(Span::new(0..1, Position::new(0, 0)))
+		),
+		Spanned::new(
+			Token::BaseSpecifier(token::BaseSpecifier::Octal, false),
+			Some(Span::new(1..3, Position::new(0, 1)))
+		),
+		Spanned::new(
+			Token::Number("z".as_bytes().into()),
+			Some(Span::new(3..4, Position::new(0, 3)))
+		),
+	]
+);
+
+tokenizer_test!(
+	test_tokenize_octal_prefixed_padded,
+	"3 'o464",
+	vec![
+		Spanned::new(
+			Token::UnsignedNumber("3".as_bytes().into()),
+			Some(Span::new(0..1, Position::new(0, 0)))
+		),
+		Spanned::new(
+			Token::Whitespace(" ".as_bytes().into()),
+			Some(Span::new(1..2, Position::new(0, 1)))
+		),
+		Spanned::new(
+			Token::BaseSpecifier(token::BaseSpecifier::Octal, false),
+			Some(Span::new(2..4, Position::new(0, 2)))
+		),
+		Spanned::new(
+			Token::Number("464".as_bytes().into()),
+			Some(Span::new(4..7, Position::new(0, 4)))
+		),
+	]
+);
+
+tokenizer_test!(
+	test_tokenize_octal_prefixed_padded_dont_care,
+	"3 'ox2x",
+	vec![
+		Spanned::new(
+			Token::UnsignedNumber("3".as_bytes().into()),
+			Some(Span::new(0..1, Position::new(0, 0)))
+		),
+		Spanned::new(
+			Token::Whitespace(" ".as_bytes().into()),
+			Some(Span::new(1..2, Position::new(0, 1)))
+		),
+		Spanned::new(
+			Token::BaseSpecifier(token::BaseSpecifier::Octal, false),
+			Some(Span::new(2..4, Position::new(0, 2)))
+		),
+		Spanned::new(
+			Token::Number("x2x".as_bytes().into()),
+			Some(Span::new(4..7, Position::new(0, 4)))
+		),
+	]
+);
+tokenizer_test!(
+	test_tokenize_octal_prefixed_padded_all_dont_care,
+	"1 'ox",
+	vec![
+		Spanned::new(
+			Token::UnsignedNumber("1".as_bytes().into()),
+			Some(Span::new(0..1, Position::new(0, 0)))
+		),
+		Spanned::new(
+			Token::Whitespace(" ".as_bytes().into()),
+			Some(Span::new(1..2, Position::new(0, 1)))
+		),
+		Spanned::new(
+			Token::BaseSpecifier(token::BaseSpecifier::Octal, false),
+			Some(Span::new(2..4, Position::new(0, 2)))
+		),
+		Spanned::new(
+			Token::Number("x".as_bytes().into()),
+			Some(Span::new(4..5, Position::new(0, 4)))
+		),
+	]
+);
+
+tokenizer_test!(
+	test_tokenize_octal_prefixed_padded_high_z,
+	"3 'ozz1",
+	vec![
+		Spanned::new(
+			Token::UnsignedNumber("3".as_bytes().into()),
+			Some(Span::new(0..1, Position::new(0, 0)))
+		),
+		Spanned::new(
+			Token::Whitespace(" ".as_bytes().into()),
+			Some(Span::new(1..2, Position::new(0, 1)))
+		),
+		Spanned::new(
+			Token::BaseSpecifier(token::BaseSpecifier::Octal, false),
+			Some(Span::new(2..4, Position::new(0, 2)))
+		),
+		Spanned::new(
+			Token::Number("zz1".as_bytes().into()),
+			Some(Span::new(4..7, Position::new(0, 4)))
+		),
+	]
+);
+
+tokenizer_test!(
+	test_tokenize_octal_prefixed_padded_all_high_z,
+	"1 'oz",
+	vec![
+		Spanned::new(
+			Token::UnsignedNumber("1".as_bytes().into()),
+			Some(Span::new(0..1, Position::new(0, 0)))
+		),
+		Spanned::new(
+			Token::Whitespace(" ".as_bytes().into()),
+			Some(Span::new(1..2, Position::new(0, 1)))
+		),
+		Spanned::new(
+			Token::BaseSpecifier(token::BaseSpecifier::Octal, false),
+			Some(Span::new(2..4, Position::new(0, 2)))
+		),
+		Spanned::new(
+			Token::Number("z".as_bytes().into()),
+			Some(Span::new(4..5, Position::new(0, 4)))
+		),
+	]
+);
+
+tokenizer_test!(
+	test_tokenize_octal_naked,
+	"'o66",
+	vec![
+		Spanned::new(
+			Token::BaseSpecifier(token::BaseSpecifier::Octal, false),
+			Some(Span::new(0..2, Position::new(0, 0)))
+		),
+		Spanned::new(
+			Token::Number("66".as_bytes().into()),
+			Some(Span::new(2..4, Position::new(0, 2)))
+		),
+	]
+);
+
+tokenizer_test!(
+	test_tokenize_octal_naked_dont_care,
+	"'ox3x",
+	vec![
+		Spanned::new(
+			Token::BaseSpecifier(token::BaseSpecifier::Octal, false),
+			Some(Span::new(0..2, Position::new(0, 0)))
+		),
+		Spanned::new(
+			Token::Number("x3x".as_bytes().into()),
+			Some(Span::new(2..5, Position::new(0, 2)))
+		),
+	]
+);
+
+tokenizer_test!(
+	test_tokenize_octal_naked_all_dont_care,
+	"'ox",
+	vec![
+		Spanned::new(
+			Token::BaseSpecifier(token::BaseSpecifier::Octal, false),
+			Some(Span::new(0..2, Position::new(0, 0)))
+		),
+		Spanned::new(
+			Token::Number("x".as_bytes().into()),
+			Some(Span::new(2..3, Position::new(0, 2)))
+		),
+	]
+);
+
+tokenizer_test!(
+	test_tokenize_octal_naked_high_z,
+	"'ozz7",
+	vec![
+		Spanned::new(
+			Token::BaseSpecifier(token::BaseSpecifier::Octal, false),
+			Some(Span::new(0..2, Position::new(0, 0)))
+		),
+		Spanned::new(
+			Token::Number("zz7".as_bytes().into()),
+			Some(Span::new(2..5, Position::new(0, 2)))
+		),
+	]
+);
+
+tokenizer_test!(
+	test_tokenize_octal_naked_all_high_z,
+	"'oz",
+	vec![
+		Spanned::new(
+			Token::BaseSpecifier(token::BaseSpecifier::Octal, false),
+			Some(Span::new(0..2, Position::new(0, 0)))
+		),
+		Spanned::new(
+			Token::Number("z".as_bytes().into()),
+			Some(Span::new(2..3, Position::new(0, 2)))
+		),
+	]
+);
+
+// TODO(aki): Invalid Digits
+
+tokenizer_test!(
+	test_tokenize_octal_lump,
+	"4 'o06zx\n+1'O ?\n2'oZX\n",
+	vec![
+		Spanned::new(
+			Token::UnsignedNumber("4".as_bytes().into()),
+			Some(Span::new(0..1, Position::new(0, 0)))
+		),
+		Spanned::new(
+			Token::Whitespace(" ".as_bytes().into()),
+			Some(Span::new(1..2, Position::new(0, 1)))
+		),
+		Spanned::new(
+			Token::BaseSpecifier(BaseSpecifier::Octal, false),
+			Some(Span::new(2..4, Position::new(0, 2)))
+		),
+		Spanned::new(
+			Token::Number("06zx".as_bytes().into()),
+			Some(Span::new(4..8, Position::new(0, 4)))
+		),
+		Spanned::new(
+			Token::Newline("\n".as_bytes().into()),
+			Some(Span::new(8..9, Position::new(0, 8)))
+		),
+		Spanned::new(
+			Token::Operator(Operator::Plus),
+			Some(Span::new(9..10, Position::new(1, 0)))
+		),
+		Spanned::new(
+			Token::UnsignedNumber("1".as_bytes().into()),
+			Some(Span::new(10..11, Position::new(1, 1)))
+		),
+		Spanned::new(
+			Token::BaseSpecifier(BaseSpecifier::Octal, true),
+			Some(Span::new(11..13, Position::new(1, 2)))
+		),
+		Spanned::new(
+			Token::Whitespace(" ".as_bytes().into()),
+			Some(Span::new(13..14, Position::new(1, 4)))
+		),
+		Spanned::new(
+			Token::Number("?".as_bytes().into()),
+			Some(Span::new(14..15, Position::new(1, 5)))
+		),
+		Spanned::new(
+			Token::Newline("\n".as_bytes().into()),
+			Some(Span::new(15..16, Position::new(1, 6)))
+		),
+		Spanned::new(
+			Token::UnsignedNumber("2".as_bytes().into()),
+			Some(Span::new(16..17, Position::new(2, 0)))
+		),
+		Spanned::new(
+			Token::BaseSpecifier(BaseSpecifier::Octal, false),
+			Some(Span::new(17..19, Position::new(2, 1)))
+		),
+		Spanned::new(
+			Token::Number("ZX".as_bytes().into()),
+			Some(Span::new(19..21, Position::new(2, 3)))
+		),
+		Spanned::new(
+			Token::Newline("\n".as_bytes().into()),
+			Some(Span::new(21..22, Position::new(2, 5)))
+		),
+	]
+);
+
