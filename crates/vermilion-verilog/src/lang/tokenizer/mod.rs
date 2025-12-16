@@ -264,7 +264,20 @@ impl Tokenizer {
 		self.next_char();
 		let end = self.position;
 
-		todo!("& && tokenization") // Ampersand, LogicalAnd
+		if self.current_char == b'&' {
+			self.next_char();
+			let end = self.position;
+
+			self.token = Spanned::new(
+				Token::Operator(Operator::LogicalAnd),
+				Some(Span::new(begin..end, context)),
+			)
+		} else {
+			self.token = Spanned::new(
+				Token::Operator(Operator::Ampersand),
+				Some(Span::new(begin..end, context)),
+			)
+		}
 	}
 
 	fn read_tilde_token(&mut self) {
@@ -750,6 +763,25 @@ mod tests {
 					Some(Span::new(8..9, Position::new(3, 0))),
 				),
 			]
+		);
+	}
+
+	#[test]
+	fn test_ampersand_operators() {
+		assert_tokenized!(
+			"&",
+			vec![Spanned::new(
+				Token::Operator(Operator::Ampersand),
+				Some(Span::new(0..1, Position::new(0, 0)))
+			)]
+		);
+
+		assert_tokenized!(
+			"&&",
+			vec![Spanned::new(
+				Token::Operator(Operator::LogicalAnd),
+				Some(Span::new(0..2, Position::new(0, 0)))
+			)]
 		);
 	}
 
