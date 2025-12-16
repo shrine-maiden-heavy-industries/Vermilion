@@ -68,12 +68,12 @@ impl Tokenizer {
 			// SAFETY:
 			// This has to work or the stream is empty, thus the if condition fails.
 			#[allow(clippy::expect_used)]
-			let tok = self
+			let token = self
 				.token_stream
 				.pop_front()
 				.expect("Unable to pop token from token stream");
 
-			self.token = tok;
+			self.token = token;
 			return;
 		}
 		let context = self.context;
@@ -820,7 +820,7 @@ impl Iterator for Tokenizer {
 
 	fn next(&mut self) -> Option<Self::Item> {
 		// If we hit the end of the file, we've nothing more to give
-		if self.eof {
+		if self.eof && self.token_stream.is_empty() {
 			return None;
 		}
 		self.read_token();
