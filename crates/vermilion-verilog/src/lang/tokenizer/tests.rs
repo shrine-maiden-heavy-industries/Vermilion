@@ -2355,3 +2355,370 @@ tokenizer_test!(
 	]
 );
 
+tokenizer_test!(
+	test_tokenize_decimal_prefixed,
+	"2'd69",
+	vec![
+		Spanned::new(
+			Token::UnsignedNumber("2".as_bytes().into()),
+			Some(Span::new(0..1, Position::new(0, 0)))
+		),
+		Spanned::new(
+			Token::BaseSpecifier(token::BaseSpecifier::Decimal, false),
+			Some(Span::new(1..3, Position::new(0, 1)))
+		),
+		Spanned::new(
+			Token::Number("69".as_bytes().into()),
+			Some(Span::new(3..5, Position::new(0, 3)))
+		),
+	]
+);
+
+// BUG(aki): Spins
+// tokenizer_test!(
+// 	test_tokenize_decimal_prefixed_dont_care,
+// 	"3'dx3x",
+// 	vec![
+// 		Spanned::new(
+// 			Token::UnsignedNumber("3".as_bytes().into()),
+// 			Some(Span::new(0..1, Position::new(0, 0)))
+// 		),
+// 		Spanned::new(
+// 			Token::BaseSpecifier(token::BaseSpecifier::Decimal, false),
+// 			Some(Span::new(1..3, Position::new(0, 1)))
+// 		),
+// 		Spanned::new(
+// 			Token::Number("x3x".as_bytes().into()),
+// 			Some(Span::new(3..6, Position::new(0, 3)))
+// 		),
+// 	]
+// );
+
+// BUG(aki): Spins
+// tokenizer_test!(
+// 	test_tokenize_decimal_prefixed_all_dont_care,
+// 	"1'dx",
+// 	vec![
+// 		Spanned::new(
+// 			Token::UnsignedNumber("1".as_bytes().into()),
+// 			Some(Span::new(0..1, Position::new(0, 0)))
+// 		),
+// 		Spanned::new(
+// 			Token::BaseSpecifier(token::BaseSpecifier::Decimal, false),
+// 			Some(Span::new(1..3, Position::new(0, 1)))
+// 		),
+// 		Spanned::new(
+// 			Token::Number("x".as_bytes().into()),
+// 			Some(Span::new(3..4, Position::new(0, 3)))
+// 		),
+// 	]
+// );
+
+// BUG(aki): Spins
+// tokenizer_test!(
+// 	test_tokenize_decimal_prefixed_high_z,
+// 	"3'dzz4",
+// 	vec![
+// 		Spanned::new(
+// 			Token::UnsignedNumber("3".as_bytes().into()),
+// 			Some(Span::new(0..1, Position::new(0, 0)))
+// 		),
+// 		Spanned::new(
+// 			Token::BaseSpecifier(token::BaseSpecifier::Decimal, false),
+// 			Some(Span::new(1..3, Position::new(0, 1)))
+// 		),
+// 		Spanned::new(
+// 			Token::Number("zz4".as_bytes().into()),
+// 			Some(Span::new(3..6, Position::new(0, 3)))
+// 		),
+// 	]
+// );
+
+// BUG(aki): Spins
+// tokenizer_test!(
+// 	test_tokenize_decimal_prefixed_all_high_z,
+// 	"1'dz",
+// 	vec![
+// 		Spanned::new(
+// 			Token::UnsignedNumber("1".as_bytes().into()),
+// 			Some(Span::new(0..1, Position::new(0, 0)))
+// 		),
+// 		Spanned::new(
+// 			Token::BaseSpecifier(token::BaseSpecifier::Decimal, false),
+// 			Some(Span::new(1..3, Position::new(0, 1)))
+// 		),
+// 		Spanned::new(
+// 			Token::Number("z".as_bytes().into()),
+// 			Some(Span::new(3..4, Position::new(0, 3)))
+// 		),
+// 	]
+// );
+
+tokenizer_test!(
+	test_tokenize_decimal_prefixed_padded,
+	"2 'd99",
+	vec![
+		Spanned::new(
+			Token::UnsignedNumber("2".as_bytes().into()),
+			Some(Span::new(0..1, Position::new(0, 0)))
+		),
+		Spanned::new(
+			Token::Whitespace(" ".as_bytes().into()),
+			Some(Span::new(1..2, Position::new(0, 1)))
+		),
+		Spanned::new(
+			Token::BaseSpecifier(token::BaseSpecifier::Decimal, false),
+			Some(Span::new(2..4, Position::new(0, 2)))
+		),
+		Spanned::new(
+			Token::Number("99".as_bytes().into()),
+			Some(Span::new(4..6, Position::new(0, 4)))
+		),
+	]
+);
+
+// BUG(aki): Spins
+// tokenizer_test!(
+// 	test_tokenize_decimal_prefixed_padded_dont_care,
+// 	"3 'dx9x",
+// 	vec![
+// 		Spanned::new(
+// 			Token::UnsignedNumber("3".as_bytes().into()),
+// 			Some(Span::new(0..1, Position::new(0, 0)))
+// 		),
+// 		Spanned::new(
+// 			Token::Whitespace(" ".as_bytes().into()),
+// 			Some(Span::new(1..2, Position::new(0, 1)))
+// 		),
+// 		Spanned::new(
+// 			Token::BaseSpecifier(token::BaseSpecifier::Decimal, false),
+// 			Some(Span::new(2..4, Position::new(0, 2)))
+// 		),
+// 		Spanned::new(
+// 			Token::Number("x9x".as_bytes().into()),
+// 			Some(Span::new(4..7, Position::new(0, 4)))
+// 		),
+// 	]
+// );
+
+// BUG(aki): Spins
+// tokenizer_test!(
+// 	test_tokenize_decimal_prefixed_padded_all_dont_care,
+// 	"1 'dx",
+// 	vec![
+// 		Spanned::new(
+// 			Token::UnsignedNumber("1".as_bytes().into()),
+// 			Some(Span::new(0..1, Position::new(0, 0)))
+// 		),
+// 		Spanned::new(
+// 			Token::Whitespace(" ".as_bytes().into()),
+// 			Some(Span::new(1..2, Position::new(0, 1)))
+// 		),
+// 		Spanned::new(
+// 			Token::BaseSpecifier(token::BaseSpecifier::Decimal, false),
+// 			Some(Span::new(2..4, Position::new(0, 2)))
+// 		),
+// 		Spanned::new(
+// 			Token::Number("x".as_bytes().into()),
+// 			Some(Span::new(4..5, Position::new(0, 4)))
+// 		),
+// 	]
+// );
+
+// BUG(aki): Spins
+// tokenizer_test!(
+// 	test_tokenize_decimal_prefixed_padded_high_z,
+// 	"3 'dzz7",
+// 	vec![
+// 		Spanned::new(
+// 			Token::UnsignedNumber("3".as_bytes().into()),
+// 			Some(Span::new(0..1, Position::new(0, 0)))
+// 		),
+// 		Spanned::new(
+// 			Token::Whitespace(" ".as_bytes().into()),
+// 			Some(Span::new(1..2, Position::new(0, 1)))
+// 		),
+// 		Spanned::new(
+// 			Token::BaseSpecifier(token::BaseSpecifier::Decimal, false),
+// 			Some(Span::new(2..4, Position::new(0, 2)))
+// 		),
+// 		Spanned::new(
+// 			Token::Number("zz7".as_bytes().into()),
+// 			Some(Span::new(4..7, Position::new(0, 4)))
+// 		),
+// 	]
+// );
+
+// BUG(aki): Spins
+// tokenizer_test!(
+// 	test_tokenize_decimal_prefixed_padded_all_high_z,
+// 	"1 'dz",
+// 	vec![
+// 		Spanned::new(
+// 			Token::UnsignedNumber("1".as_bytes().into()),
+// 			Some(Span::new(0..1, Position::new(0, 0)))
+// 		),
+// 		Spanned::new(
+// 			Token::Whitespace(" ".as_bytes().into()),
+// 			Some(Span::new(1..2, Position::new(0, 1)))
+// 		),
+// 		Spanned::new(
+// 			Token::BaseSpecifier(token::BaseSpecifier::Decimal, false),
+// 			Some(Span::new(2..4, Position::new(0, 2)))
+// 		),
+// 		Spanned::new(
+// 			Token::Number("z".as_bytes().into()),
+// 			Some(Span::new(4..5, Position::new(0, 4)))
+// 		),
+// 	]
+// );
+
+tokenizer_test!(
+	test_tokenize_decimal_naked,
+	"'d90",
+	vec![
+		Spanned::new(
+			Token::BaseSpecifier(token::BaseSpecifier::Decimal, false),
+			Some(Span::new(0..2, Position::new(0, 0)))
+		),
+		Spanned::new(
+			Token::Number("90".as_bytes().into()),
+			Some(Span::new(2..4, Position::new(0, 2)))
+		),
+	]
+);
+
+// BUG(aki): Spins
+// tokenizer_test!(
+// 	test_tokenize_decimal_naked_dont_care,
+// 	"'dx9x",
+// 	vec![
+// 		Spanned::new(
+// 			Token::BaseSpecifier(token::BaseSpecifier::Decimal, false),
+// 			Some(Span::new(0..2, Position::new(0, 0)))
+// 		),
+// 		Spanned::new(
+// 			Token::Number("x3x".as_bytes().into()),
+// 			Some(Span::new(2..5, Position::new(0, 2)))
+// 		),
+// 	]
+// );
+
+// BUG(aki): Spins
+// tokenizer_test!(
+// 	test_tokenize_decimal_naked_all_dont_care,
+// 	"'dx",
+// 	vec![
+// 		Spanned::new(
+// 			Token::BaseSpecifier(token::BaseSpecifier::Decimal, false),
+// 			Some(Span::new(0..2, Position::new(0, 0)))
+// 		),
+// 		Spanned::new(
+// 			Token::Number("x".as_bytes().into()),
+// 			Some(Span::new(2..3, Position::new(0, 2)))
+// 		),
+// 	]
+// );
+
+// BUG(aki): Spins
+// tokenizer_test!(
+// 	test_tokenize_decimal_naked_high_z,
+// 	"'dzz9",
+// 	vec![
+// 		Spanned::new(
+// 			Token::BaseSpecifier(token::BaseSpecifier::Decimal, false),
+// 			Some(Span::new(0..2, Position::new(0, 0)))
+// 		),
+// 		Spanned::new(
+// 			Token::Number("zz9".as_bytes().into()),
+// 			Some(Span::new(2..5, Position::new(0, 2)))
+// 		),
+// 	]
+// );
+
+// BUG(aki): Spins
+// tokenizer_test!(
+// 	test_tokenize_decimal_naked_all_high_z,
+// 	"'dz",
+// 	vec![
+// 		Spanned::new(
+// 			Token::BaseSpecifier(token::BaseSpecifier::Decimal, false),
+// 			Some(Span::new(0..2, Position::new(0, 0)))
+// 		),
+// 		Spanned::new(
+// 			Token::Number("z".as_bytes().into()),
+// 			Some(Span::new(2..3, Position::new(0, 2)))
+// 		),
+// 	]
+// );
+
+// TODO(aki): Invalid Digits
+
+// BUG(aki): Spins
+// tokenizer_test!(
+// 	test_tokenize_decimal_lump,
+// 	"4 'd06zx\n+1'D ?\n2'dZX\n",
+// 	vec![
+// 		Spanned::new(
+// 			Token::UnsignedNumber("4".as_bytes().into()),
+// 			Some(Span::new(0..1, Position::new(0, 0)))
+// 		),
+// 		Spanned::new(
+// 			Token::Whitespace(" ".as_bytes().into()),
+// 			Some(Span::new(1..2, Position::new(0, 1)))
+// 		),
+// 		Spanned::new(
+// 			Token::BaseSpecifier(BaseSpecifier::Decimal, false),
+// 			Some(Span::new(2..4, Position::new(0, 2)))
+// 		),
+// 		Spanned::new(
+// 			Token::Number("06zx".as_bytes().into()),
+// 			Some(Span::new(4..8, Position::new(0, 4)))
+// 		),
+// 		Spanned::new(
+// 			Token::Newline("\n".as_bytes().into()),
+// 			Some(Span::new(8..9, Position::new(0, 8)))
+// 		),
+// 		Spanned::new(
+// 			Token::Operator(Operator::Plus),
+// 			Some(Span::new(9..10, Position::new(1, 0)))
+// 		),
+// 		Spanned::new(
+// 			Token::UnsignedNumber("1".as_bytes().into()),
+// 			Some(Span::new(10..11, Position::new(1, 1)))
+// 		),
+// 		Spanned::new(
+// 			Token::BaseSpecifier(BaseSpecifier::Decimal, true),
+// 			Some(Span::new(11..13, Position::new(1, 2)))
+// 		),
+// 		Spanned::new(
+// 			Token::Whitespace(" ".as_bytes().into()),
+// 			Some(Span::new(13..14, Position::new(1, 4)))
+// 		),
+// 		Spanned::new(
+// 			Token::Number("?".as_bytes().into()),
+// 			Some(Span::new(14..15, Position::new(1, 5)))
+// 		),
+// 		Spanned::new(
+// 			Token::Newline("\n".as_bytes().into()),
+// 			Some(Span::new(15..16, Position::new(1, 6)))
+// 		),
+// 		Spanned::new(
+// 			Token::UnsignedNumber("2".as_bytes().into()),
+// 			Some(Span::new(16..17, Position::new(2, 0)))
+// 		),
+// 		Spanned::new(
+// 			Token::BaseSpecifier(BaseSpecifier::Decimal, false),
+// 			Some(Span::new(17..19, Position::new(2, 1)))
+// 		),
+// 		Spanned::new(
+// 			Token::Number("ZX".as_bytes().into()),
+// 			Some(Span::new(19..21, Position::new(2, 3)))
+// 		),
+// 		Spanned::new(
+// 			Token::Newline("\n".as_bytes().into()),
+// 			Some(Span::new(21..22, Position::new(2, 5)))
+// 		),
+// 	]
+// );
+
