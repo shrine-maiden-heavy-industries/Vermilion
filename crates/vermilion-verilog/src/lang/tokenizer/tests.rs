@@ -2722,3 +2722,354 @@ tokenizer_test!(
 // 	]
 // );
 
+tokenizer_test!(
+	test_tokenize_hexadecimal_prefixed,
+	"4'h1a4F",
+	vec![
+		Spanned::new(
+			Token::UnsignedNumber("4".as_bytes().into()),
+			Some(Span::new(0..1, Position::new(0, 0)))
+		),
+		Spanned::new(
+			Token::BaseSpecifier(token::BaseSpecifier::Hexadecimal, false),
+			Some(Span::new(1..3, Position::new(0, 1)))
+		),
+		Spanned::new(
+			Token::Number("1a4F".as_bytes().into()),
+			Some(Span::new(3..7, Position::new(0, 3)))
+		),
+	]
+);
+
+tokenizer_test!(
+	test_tokenize_hexadecimal_prefixed_dont_care,
+	"3'hxDx",
+	vec![
+		Spanned::new(
+			Token::UnsignedNumber("3".as_bytes().into()),
+			Some(Span::new(0..1, Position::new(0, 0)))
+		),
+		Spanned::new(
+			Token::BaseSpecifier(token::BaseSpecifier::Hexadecimal, false),
+			Some(Span::new(1..3, Position::new(0, 1)))
+		),
+		Spanned::new(
+			Token::Number("xDx".as_bytes().into()),
+			Some(Span::new(3..6, Position::new(0, 3)))
+		),
+	]
+);
+tokenizer_test!(
+	test_tokenize_hexadecimal_prefixed_all_dont_care,
+	"1'hx",
+	vec![
+		Spanned::new(
+			Token::UnsignedNumber("1".as_bytes().into()),
+			Some(Span::new(0..1, Position::new(0, 0)))
+		),
+		Spanned::new(
+			Token::BaseSpecifier(token::BaseSpecifier::Hexadecimal, false),
+			Some(Span::new(1..3, Position::new(0, 1)))
+		),
+		Spanned::new(
+			Token::Number("x".as_bytes().into()),
+			Some(Span::new(3..4, Position::new(0, 3)))
+		),
+	]
+);
+
+tokenizer_test!(
+	test_tokenize_hexadecimal_prefixed_high_z,
+	"3'hzzF",
+	vec![
+		Spanned::new(
+			Token::UnsignedNumber("3".as_bytes().into()),
+			Some(Span::new(0..1, Position::new(0, 0)))
+		),
+		Spanned::new(
+			Token::BaseSpecifier(token::BaseSpecifier::Hexadecimal, false),
+			Some(Span::new(1..3, Position::new(0, 1)))
+		),
+		Spanned::new(
+			Token::Number("zzF".as_bytes().into()),
+			Some(Span::new(3..6, Position::new(0, 3)))
+		),
+	]
+);
+
+tokenizer_test!(
+	test_tokenize_hexadecimal_prefixed_all_high_z,
+	"1'hz",
+	vec![
+		Spanned::new(
+			Token::UnsignedNumber("1".as_bytes().into()),
+			Some(Span::new(0..1, Position::new(0, 0)))
+		),
+		Spanned::new(
+			Token::BaseSpecifier(token::BaseSpecifier::Hexadecimal, false),
+			Some(Span::new(1..3, Position::new(0, 1)))
+		),
+		Spanned::new(
+			Token::Number("z".as_bytes().into()),
+			Some(Span::new(3..4, Position::new(0, 3)))
+		),
+	]
+);
+
+tokenizer_test!(
+	test_tokenize_hexadecimal_prefixed_padded,
+	"3 'ha7d",
+	vec![
+		Spanned::new(
+			Token::UnsignedNumber("3".as_bytes().into()),
+			Some(Span::new(0..1, Position::new(0, 0)))
+		),
+		Spanned::new(
+			Token::Whitespace(" ".as_bytes().into()),
+			Some(Span::new(1..2, Position::new(0, 1)))
+		),
+		Spanned::new(
+			Token::BaseSpecifier(token::BaseSpecifier::Hexadecimal, false),
+			Some(Span::new(2..4, Position::new(0, 2)))
+		),
+		Spanned::new(
+			Token::Number("a7d".as_bytes().into()),
+			Some(Span::new(4..7, Position::new(0, 4)))
+		),
+	]
+);
+
+tokenizer_test!(
+	test_tokenize_hexadecimal_prefixed_padded_dont_care,
+	"3 'hxEx",
+	vec![
+		Spanned::new(
+			Token::UnsignedNumber("3".as_bytes().into()),
+			Some(Span::new(0..1, Position::new(0, 0)))
+		),
+		Spanned::new(
+			Token::Whitespace(" ".as_bytes().into()),
+			Some(Span::new(1..2, Position::new(0, 1)))
+		),
+		Spanned::new(
+			Token::BaseSpecifier(token::BaseSpecifier::Hexadecimal, false),
+			Some(Span::new(2..4, Position::new(0, 2)))
+		),
+		Spanned::new(
+			Token::Number("xEx".as_bytes().into()),
+			Some(Span::new(4..7, Position::new(0, 4)))
+		),
+	]
+);
+tokenizer_test!(
+	test_tokenize_hexadecimal_prefixed_padded_all_dont_care,
+	"1 'hx",
+	vec![
+		Spanned::new(
+			Token::UnsignedNumber("1".as_bytes().into()),
+			Some(Span::new(0..1, Position::new(0, 0)))
+		),
+		Spanned::new(
+			Token::Whitespace(" ".as_bytes().into()),
+			Some(Span::new(1..2, Position::new(0, 1)))
+		),
+		Spanned::new(
+			Token::BaseSpecifier(token::BaseSpecifier::Hexadecimal, false),
+			Some(Span::new(2..4, Position::new(0, 2)))
+		),
+		Spanned::new(
+			Token::Number("x".as_bytes().into()),
+			Some(Span::new(4..5, Position::new(0, 4)))
+		),
+	]
+);
+
+tokenizer_test!(
+	test_tokenize_hexadecimal_prefixed_padded_high_z,
+	"3 'hzzA",
+	vec![
+		Spanned::new(
+			Token::UnsignedNumber("3".as_bytes().into()),
+			Some(Span::new(0..1, Position::new(0, 0)))
+		),
+		Spanned::new(
+			Token::Whitespace(" ".as_bytes().into()),
+			Some(Span::new(1..2, Position::new(0, 1)))
+		),
+		Spanned::new(
+			Token::BaseSpecifier(token::BaseSpecifier::Hexadecimal, false),
+			Some(Span::new(2..4, Position::new(0, 2)))
+		),
+		Spanned::new(
+			Token::Number("zzA".as_bytes().into()),
+			Some(Span::new(4..7, Position::new(0, 4)))
+		),
+	]
+);
+
+tokenizer_test!(
+	test_tokenize_hexadecimal_prefixed_padded_all_high_z,
+	"1 'hz",
+	vec![
+		Spanned::new(
+			Token::UnsignedNumber("1".as_bytes().into()),
+			Some(Span::new(0..1, Position::new(0, 0)))
+		),
+		Spanned::new(
+			Token::Whitespace(" ".as_bytes().into()),
+			Some(Span::new(1..2, Position::new(0, 1)))
+		),
+		Spanned::new(
+			Token::BaseSpecifier(token::BaseSpecifier::Hexadecimal, false),
+			Some(Span::new(2..4, Position::new(0, 2)))
+		),
+		Spanned::new(
+			Token::Number("z".as_bytes().into()),
+			Some(Span::new(4..5, Position::new(0, 4)))
+		),
+	]
+);
+
+tokenizer_test!(
+	test_tokenize_hexadecimal_naked,
+	"'h7F",
+	vec![
+		Spanned::new(
+			Token::BaseSpecifier(token::BaseSpecifier::Hexadecimal, false),
+			Some(Span::new(0..2, Position::new(0, 0)))
+		),
+		Spanned::new(
+			Token::Number("7F".as_bytes().into()),
+			Some(Span::new(2..4, Position::new(0, 2)))
+		),
+	]
+);
+
+tokenizer_test!(
+	test_tokenize_hexadecimal_naked_dont_care,
+	"'hxAx",
+	vec![
+		Spanned::new(
+			Token::BaseSpecifier(token::BaseSpecifier::Hexadecimal, false),
+			Some(Span::new(0..2, Position::new(0, 0)))
+		),
+		Spanned::new(
+			Token::Number("xAx".as_bytes().into()),
+			Some(Span::new(2..5, Position::new(0, 2)))
+		),
+	]
+);
+
+tokenizer_test!(
+	test_tokenize_hexadecimal_naked_all_dont_care,
+	"'hx",
+	vec![
+		Spanned::new(
+			Token::BaseSpecifier(token::BaseSpecifier::Hexadecimal, false),
+			Some(Span::new(0..2, Position::new(0, 0)))
+		),
+		Spanned::new(
+			Token::Number("x".as_bytes().into()),
+			Some(Span::new(2..3, Position::new(0, 2)))
+		),
+	]
+);
+
+tokenizer_test!(
+	test_tokenize_hexadecimal_naked_high_z,
+	"'hzz7",
+	vec![
+		Spanned::new(
+			Token::BaseSpecifier(token::BaseSpecifier::Hexadecimal, false),
+			Some(Span::new(0..2, Position::new(0, 0)))
+		),
+		Spanned::new(
+			Token::Number("zz7".as_bytes().into()),
+			Some(Span::new(2..5, Position::new(0, 2)))
+		),
+	]
+);
+
+tokenizer_test!(
+	test_tokenize_hexadecimal_naked_all_high_z,
+	"'hz",
+	vec![
+		Spanned::new(
+			Token::BaseSpecifier(token::BaseSpecifier::Hexadecimal, false),
+			Some(Span::new(0..2, Position::new(0, 0)))
+		),
+		Spanned::new(
+			Token::Number("z".as_bytes().into()),
+			Some(Span::new(2..3, Position::new(0, 2)))
+		),
+	]
+);
+
+// TODO(aki): Invalid Digits
+
+tokenizer_test!(
+	test_tokenize_hexadecimal_lump,
+	"4 'h7Fzx\n+1'H ?\n2'hZX\n",
+	vec![
+		Spanned::new(
+			Token::UnsignedNumber("4".as_bytes().into()),
+			Some(Span::new(0..1, Position::new(0, 0)))
+		),
+		Spanned::new(
+			Token::Whitespace(" ".as_bytes().into()),
+			Some(Span::new(1..2, Position::new(0, 1)))
+		),
+		Spanned::new(
+			Token::BaseSpecifier(BaseSpecifier::Hexadecimal, false),
+			Some(Span::new(2..4, Position::new(0, 2)))
+		),
+		Spanned::new(
+			Token::Number("7Fzx".as_bytes().into()),
+			Some(Span::new(4..8, Position::new(0, 4)))
+		),
+		Spanned::new(
+			Token::Newline("\n".as_bytes().into()),
+			Some(Span::new(8..9, Position::new(0, 8)))
+		),
+		Spanned::new(
+			Token::Operator(Operator::Plus),
+			Some(Span::new(9..10, Position::new(1, 0)))
+		),
+		Spanned::new(
+			Token::UnsignedNumber("1".as_bytes().into()),
+			Some(Span::new(10..11, Position::new(1, 1)))
+		),
+		Spanned::new(
+			Token::BaseSpecifier(BaseSpecifier::Hexadecimal, true),
+			Some(Span::new(11..13, Position::new(1, 2)))
+		),
+		Spanned::new(
+			Token::Whitespace(" ".as_bytes().into()),
+			Some(Span::new(13..14, Position::new(1, 4)))
+		),
+		Spanned::new(
+			Token::Number("?".as_bytes().into()),
+			Some(Span::new(14..15, Position::new(1, 5)))
+		),
+		Spanned::new(
+			Token::Newline("\n".as_bytes().into()),
+			Some(Span::new(15..16, Position::new(1, 6)))
+		),
+		Spanned::new(
+			Token::UnsignedNumber("2".as_bytes().into()),
+			Some(Span::new(16..17, Position::new(2, 0)))
+		),
+		Spanned::new(
+			Token::BaseSpecifier(BaseSpecifier::Hexadecimal, false),
+			Some(Span::new(17..19, Position::new(2, 1)))
+		),
+		Spanned::new(
+			Token::Number("ZX".as_bytes().into()),
+			Some(Span::new(19..21, Position::new(2, 3)))
+		),
+		Spanned::new(
+			Token::Newline("\n".as_bytes().into()),
+			Some(Span::new(21..22, Position::new(2, 5)))
+		),
+	]
+);
