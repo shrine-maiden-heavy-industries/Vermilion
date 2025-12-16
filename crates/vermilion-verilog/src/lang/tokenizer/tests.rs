@@ -3073,3 +3073,106 @@ tokenizer_test!(
 		),
 	]
 );
+
+tokenizer_test!(
+	test_tokenize_simple,
+	r#"
+module foo();
+	wire a = 7'b1010x01;
+endmodule
+	"#,
+	vec![
+		Spanned::new(
+			Token::Newline("\n".as_bytes().into()),
+			Some(Span::new(0..1, Position::new(0, 0)))
+		),
+		Spanned::new(
+			Token::Keyword(Keyword::Module),
+			Some(Span::new(1..7, Position::new(1, 0)))
+		),
+		Spanned::new(
+			Token::Whitespace(" ".as_bytes().into()),
+			Some(Span::new(7..8, Position::new(1, 6)))
+		),
+		Spanned::new(
+			Token::Identifier("foo".as_bytes().into()),
+			Some(Span::new(8..11, Position::new(1, 7)))
+		),
+		Spanned::new(
+			Token::Control(Control::ParenOpen),
+			Some(Span::new(11..12, Position::new(1, 10)))
+		),
+		Spanned::new(
+			Token::Control(Control::ParenClose),
+			Some(Span::new(12..13, Position::new(1, 11)))
+		),
+		Spanned::new(
+			Token::Control(Control::Semicolon),
+			Some(Span::new(13..14, Position::new(1, 12)))
+		),
+		Spanned::new(
+			Token::Newline("\n".as_bytes().into()),
+			Some(Span::new(14..15, Position::new(1, 13)))
+		),
+		Spanned::new(
+			Token::Whitespace("\t".as_bytes().into()),
+			Some(Span::new(15..16, Position::new(2, 0)))
+		),
+		Spanned::new(
+			Token::Keyword(Keyword::Wire),
+			Some(Span::new(16..20, Position::new(2, 1)))
+		),
+		Spanned::new(
+			Token::Whitespace(" ".as_bytes().into()),
+			Some(Span::new(20..21, Position::new(2, 5)))
+		),
+		Spanned::new(
+			Token::Identifier("a".as_bytes().into()),
+			Some(Span::new(21..22, Position::new(2, 6)))
+		),
+		Spanned::new(
+			Token::Whitespace(" ".as_bytes().into()),
+			Some(Span::new(22..23, Position::new(2, 7)))
+		),
+		Spanned::new(
+			Token::Operator(Operator::Equals),
+			Some(Span::new(23..24, Position::new(2, 8)))
+		),
+		Spanned::new(
+			Token::Whitespace(" ".as_bytes().into()),
+			Some(Span::new(24..25, Position::new(2, 9)))
+		),
+		Spanned::new(
+			Token::UnsignedNumber("7".as_bytes().into()),
+			Some(Span::new(25..26, Position::new(2, 10)))
+		),
+		Spanned::new(
+			Token::BaseSpecifier(BaseSpecifier::Binary, false),
+			Some(Span::new(26..28, Position::new(2, 11)))
+		),
+		Spanned::new(
+			Token::Number("1010x01".as_bytes().into()),
+			Some(Span::new(28..35, Position::new(2, 13)))
+		),
+		Spanned::new(
+			Token::Control(Control::Semicolon),
+			Some(Span::new(35..36, Position::new(2, 20)))
+		),
+		Spanned::new(
+			Token::Newline("\n".as_bytes().into()),
+			Some(Span::new(36..37, Position::new(2, 21)))
+		),
+		Spanned::new(
+			Token::Keyword(Keyword::EndModule),
+			Some(Span::new(37..46, Position::new(3, 0)))
+		),
+		Spanned::new(
+			Token::Newline("\n".as_bytes().into()),
+			Some(Span::new(46..47, Position::new(3, 9)))
+		),
+		Spanned::new(
+			Token::Whitespace("\t".as_bytes().into()),
+			Some(Span::new(47..48, Position::new(4, 0)))
+		),
+	]
+);
