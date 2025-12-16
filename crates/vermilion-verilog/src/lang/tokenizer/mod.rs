@@ -311,7 +311,28 @@ impl Tokenizer {
 		self.next_char();
 		let end = self.position;
 
-		todo!("> >= >> tokenization") // Lt, Lte, ShiftRight
+		if self.current_char == b'=' {
+			self.next_char();
+			let end = self.position;
+
+			self.token = Spanned::new(
+				Token::Operator(Operator::LessThanEqual),
+				Some(Span::new(begin..end, context)),
+			)
+		} else if self.current_char == b'>' {
+			self.next_char();
+			let end = self.position;
+
+			self.token = Spanned::new(
+				Token::Operator(Operator::ShiftRight),
+				Some(Span::new(begin..end, context)),
+			)
+		} else {
+			self.token = Spanned::new(
+				Token::Operator(Operator::LessThan),
+				Some(Span::new(begin..end, context)),
+			)
+		}
 	}
 
 	fn read_greater_than_token(&mut self) {
@@ -815,6 +836,33 @@ mod tests {
 			"&&",
 			vec![Spanned::new(
 				Token::Operator(Operator::LogicalAnd),
+				Some(Span::new(0..2, Position::new(0, 0)))
+			)]
+		);
+	}
+
+	#[test]
+	fn test_less_than_operators() {
+		assert_tokenized!(
+			">",
+			vec![Spanned::new(
+				Token::Operator(Operator::LessThan),
+				Some(Span::new(0..1, Position::new(0, 0)))
+			)]
+		);
+
+		assert_tokenized!(
+			">=",
+			vec![Spanned::new(
+				Token::Operator(Operator::LessThanEqual),
+				Some(Span::new(0..2, Position::new(0, 0)))
+			)]
+		);
+
+		assert_tokenized!(
+			">>",
+			vec![Spanned::new(
+				Token::Operator(Operator::ShiftRight),
 				Some(Span::new(0..2, Position::new(0, 0)))
 			)]
 		);
