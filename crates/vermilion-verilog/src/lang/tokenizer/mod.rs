@@ -1203,6 +1203,26 @@ mod tests {
 	);
 
 	tokenizer_test!(
+		test_tokenize_binary_prefixed,
+		"4'b1001",
+		vec![
+			Spanned::new(
+				Token::UnsignedNumber("4".as_bytes().into()),
+				Some(Span::new(0..1, Position::new(0, 0)))
+			),
+			Spanned::new(
+				Token::BaseSpecifier(token::BaseSpecifier::Binary, false),
+				Some(Span::new(1..3, Position::new(0, 1)))
+			),
+			Spanned::new(
+				Token::Number("1001".as_bytes().into()),
+				Some(Span::new(3..7, Position::new(0, 3)))
+			),
+		]
+	);
+
+
+	tokenizer_test!(
 		test_tokenize_binary_lump,
 		"4 'b01zx\n+1'B ?\n2'bZX\n",
 		vec![
