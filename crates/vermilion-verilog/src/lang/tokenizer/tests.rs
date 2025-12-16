@@ -24,7 +24,71 @@ macro_rules! tokenizer_test {
 }
 
 tokenizer_test!(
-	test_tokenize_whitespace,
+	test_tokenize_whitespace_space,
+	" ",
+	vec![Spanned::new(
+		Token::Whitespace(" ".as_bytes().into()),
+		Some(Span::new(0..1, Position::new(0, 0))),
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_whitespace_tab,
+	"\t",
+	vec![Spanned::new(
+		Token::Whitespace("\t".as_bytes().into()),
+		Some(Span::new(0..1, Position::new(0, 0))),
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_whitespace_mixed,
+	"\t ",
+	vec![Spanned::new(
+		Token::Whitespace("\t ".as_bytes().into()),
+		Some(Span::new(0..2, Position::new(0, 0))),
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_newline_unix,
+	"\n",
+	vec![Spanned::new(
+		Token::Newline("\n".as_bytes().into()),
+		Some(Span::new(0..1, Position::new(0, 0))),
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_newline_win32,
+	"\r\n",
+	vec![Spanned::new(
+		Token::Newline("\r\n".as_bytes().into()),
+		Some(Span::new(0..2, Position::new(0, 0))),
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_newline_mixed,
+	"\r\n\n\n",
+	vec![
+		Spanned::new(
+			Token::Newline("\r\n".as_bytes().into()),
+			Some(Span::new(0..2, Position::new(0, 0))),
+		),
+		Spanned::new(
+			Token::Newline("\n".as_bytes().into()),
+			Some(Span::new(2..3, Position::new(1, 0))),
+		),
+		Spanned::new(
+			Token::Newline("\n".as_bytes().into()),
+			Some(Span::new(3..4, Position::new(2, 0))),
+		),
+	]
+);
+
+tokenizer_test!(
+	test_tokenize_whitespace_newlines_mixed,
 	" \r\n \t\n\t\n\r",
 	vec![
 		Spanned::new(
