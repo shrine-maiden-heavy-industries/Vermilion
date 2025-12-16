@@ -347,7 +347,17 @@ impl Tokenizer {
 		self.next_char();
 		let end = self.position;
 
-		todo!("Division + Comment tokenization")
+		if matches!(self.current_char, b'*' | b'/') {
+			let multiline = self.current_char == b'*';
+			self.next_char();
+
+			todo!("Comment tokenization")
+		} else {
+			self.token = Spanned::new(
+				Token::Operator(Operator::Solidus),
+				Some(Span::new(begin..end, context)),
+			);
+		}
 	}
 
 	fn read_compiler_directive_token(&mut self) {
@@ -785,6 +795,17 @@ mod tests {
 			vec![Spanned::new(
 				Token::Operator(Operator::LogicalAnd),
 				Some(Span::new(0..2, Position::new(0, 0)))
+			)]
+		);
+	}
+
+	#[test]
+	fn test_solidus_operators() {
+		assert_tokenized!(
+			"/",
+			vec![Spanned::new(
+				Token::Operator(Operator::Solidus),
+				Some(Span::new(0..1, Position::new(0, 0)))
 			)]
 		);
 	}
