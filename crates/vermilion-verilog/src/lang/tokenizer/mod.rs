@@ -709,7 +709,65 @@ impl Tokenizer {
 		}
 	}
 
-	// TODO(aki): We need to think about `Real` numbers here too, at this point,
+	fn read_real_number_token(&mut self, context: Position, begin: usize) {
+		// If it's a decimal point, consume the next set of digits
+		if self.current_char == b'.' {
+			self.next_char();
+			// Consume digits while we find valid unsigned number digits
+			while self.current_char.is_ascii_digit() || self.current_char == b'_' {
+				self.next_char();
+			}
+		}
+
+		// If we have an exponent part, consume that
+		let exponent = if matches!(self.current_char, b'e' | b'E') {
+			let exp_begin = self.position;
+			self.next_char();
+
+			// Check to make sure we have a valid exponent
+			if !self.current_char.is_ascii_digit() && !matches!(self.current_char, b'+' | b'-') {
+				self.token = Spanned::new(
+					Token::Invalid(Some(
+						self.file
+							.subtendril(begin as u32, (self.position - begin) as u32),
+					)),
+					Some(Span::new(begin..self.position, context)),
+				);
+
+				return;
+			}
+			// Consume the + or - (or first digit)
+			self.next_char();
+
+			// Consume digits while we find valid unsigned number digits
+			while self.current_char.is_ascii_digit() || self.current_char == b'_' {
+				self.next_char();
+			}
+
+			Some(
+				self.file
+					.subtendril(exp_begin as u32, (self.position - exp_begin) as u32),
+			)
+		} else {
+			None
+		};
+
+		let end = self.position;
+
+		// SAFETY:
+		// If we got to this point, then we have already ensured the contents are
+		// ASCII, which is a valid UTF-8 subset
+		let value = unsafe { str::from_utf8_unchecked(&self.file[begin..end]) };
+
+		let value_span = Some(Span::new(begin..end, context));
+		// If we got a valid f64, then we use that, otherwise emit an invalid token
+		self.token = if let Ok(value) = value.parse() {
+			Spanned::new(Token::Real { value, exponent }, value_span)
+		} else {
+			Spanned::new(Token::Invalid(Some(value.as_bytes().into())), value_span)
+		}
+	}
+
 	fn read_number_token(&mut self) {
 		// Pop out a size if available
 		if self.current_char.is_ascii_digit() {
@@ -719,6 +777,14 @@ impl Tokenizer {
 			while self.current_char.is_ascii_digit() || self.current_char == b'_' {
 				self.next_char();
 			}
+
+			// If we next hit a `.` or an exponent indicator we need to treat this as
+			// a Real number
+			if matches!(self.current_char, b'.' | b'e' | b'E') {
+				self.read_real_number_token(context, begin);
+				return;
+			}
+
 			// Stuff the unsigned number token onto the token stack
 			self.token_stream.push_back(Spanned::new(
 				Token::UnsignedNumber(
@@ -728,6 +794,7 @@ impl Tokenizer {
 				Some(Span::new(begin..self.position, context)),
 			));
 		};
+
 		// Deal with any whitespace that comes after the size
 		if self.current_is_whitespace() {
 			self.read_whitespace();
@@ -1236,6 +1303,78 @@ mod tests {
 		vec![Spanned::new(
 			Token::Operator(Operator::CaseInequality),
 			Some(Span::new(0..3, Position::new(0, 0))),
+		)]
+	);
+
+	tokenizer_test!(
+		test_tokenize_real_number_simple,
+		"1.23",
+		vec![Spanned::new(
+			Token::Real { value: 1.23, exponent: None },
+			Some(Span::new(0..4, Position::new(0, 0)))
+		),]
+	);
+
+	tokenizer_test!(
+		test_tokenize_real_number_simple_pos,
+		"+1.23",
+		vec![Spanned::new(
+			Token::Real { value: 1.23, exponent: None },
+			Some(Span::new(0..5, Position::new(0, 0)))
+		),]
+	);
+
+	tokenizer_test!(
+		test_tokenize_real_number_simple_neg,
+		"-1.23",
+		vec![Spanned::new(
+			Token::Real { value: -1.23, exponent: None },
+			Some(Span::new(0..5, Position::new(0, 0)))
+		),]
+	);
+
+	tokenizer_test!(
+		test_tokenize_real_number_exponent,
+		"1e7",
+		vec![Spanned::new(
+			Token::Real { value: 1e7, exponent: Some("e7".as_bytes().into()) },
+			Some(Span::new(0..3, Position::new(0, 0)))
+		)]
+	);
+
+	tokenizer_test!(
+		test_tokenize_real_number_dec_exponent,
+		"1.2e6",
+		vec![Spanned::new(
+			Token::Real {
+				value: 1.2e6,
+				exponent: Some("e6".as_bytes().into())
+			},
+			Some(Span::new(0..5, Position::new(0, 0)))
+		)]
+	);
+
+	tokenizer_test!(
+		test_tokenize_real_number_exponent_pos,
+		"1e+6",
+		vec![Spanned::new(
+			Token::Real {
+				value: 1e6,
+				exponent: Some("e+6".as_bytes().into())
+			},
+			Some(Span::new(0..4, Position::new(0, 0)))
+		)]
+	);
+
+	tokenizer_test!(
+		test_tokenize_real_number_exponent_neg,
+		"1e-6",
+		vec![Spanned::new(
+			Token::Real {
+				value: 1e-6,
+				exponent: Some("e-6".as_bytes().into())
+			},
+			Some(Span::new(0..4, Position::new(0, 0)))
 		)]
 	);
 

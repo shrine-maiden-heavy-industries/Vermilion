@@ -5,7 +5,7 @@ use vermilion_lang::{Position, Spanned};
 
 use crate::VerilogVariant;
 
-#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Debug, Clone, PartialEq, PartialOrd)]
 pub(crate) enum Token {
 	Invalid(Option<ByteTendril>),
 	/// Hold the verilog variant for when this token would become valid
@@ -19,6 +19,10 @@ pub(crate) enum Token {
 	Keyword(Keyword),
 	Newline(ByteTendril),
 	Number(ByteTendril),
+	Real {
+		value: f64,
+		exponent: Option<ByteTendril>,
+	},
 	Operator(Operator),
 	Sign(Sign),
 	String(ByteTendril),
