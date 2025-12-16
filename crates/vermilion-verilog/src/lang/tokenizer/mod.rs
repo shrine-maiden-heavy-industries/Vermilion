@@ -286,7 +286,34 @@ impl Tokenizer {
 		self.next_char();
 		let end = self.position;
 
-		todo!("~ ~^ ~& ~| tokenization") // Tilde, ReductionXor/Bit-wise Equivalence (Left-handed chirality)
+		if self.current_char == b'^' {
+			self.next_char();
+			let end = self.position;
+			self.token = Spanned::new(
+				Token::Operator(Operator::TildeCircumflex(false)),
+				Some(Span::new(begin..end, context)),
+			)
+		} else if self.current_char == b'&' {
+			self.next_char();
+			let end = self.position;
+			self.token = Spanned::new(
+				Token::Operator(Operator::ReductionNand),
+				Some(Span::new(begin..end, context)),
+			)
+		} else if self.current_char == b'|' {
+			self.next_char();
+			let end = self.position;
+
+			self.token = Spanned::new(
+				Token::Operator(Operator::ReductionNor),
+				Some(Span::new(begin..end, context)),
+			)
+		} else {
+			self.token = Spanned::new(
+				Token::Operator(Operator::Tilde),
+				Some(Span::new(begin..end, context)),
+			)
+		}
 	}
 
 	fn read_circumflex_token(&mut self) {
@@ -845,6 +872,41 @@ mod tests {
 					Some(Span::new(8..9, Position::new(3, 0))),
 				),
 			]
+		);
+	}
+
+	#[test]
+	fn test_tilde_operators() {
+		assert_tokenized!(
+			"~",
+			vec![Spanned::new(
+				Token::Operator(Operator::Tilde),
+				Some(Span::new(0..1, Position::new(0, 0)))
+			)]
+		);
+
+		assert_tokenized!(
+			"~^",
+			vec![Spanned::new(
+				Token::Operator(Operator::TildeCircumflex(false)),
+				Some(Span::new(0..2, Position::new(0, 0)))
+			)]
+		);
+
+		assert_tokenized!(
+			"~&",
+			vec![Spanned::new(
+				Token::Operator(Operator::ReductionNand),
+				Some(Span::new(0..2, Position::new(0, 0)))
+			)]
+		);
+
+		assert_tokenized!(
+			"~|",
+			vec![Spanned::new(
+				Token::Operator(Operator::ReductionNor),
+				Some(Span::new(0..2, Position::new(0, 0)))
+			)]
 		);
 	}
 
