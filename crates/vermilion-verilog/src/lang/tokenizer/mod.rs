@@ -420,11 +420,30 @@ impl Tokenizer {
 
 	fn read_string_token(&mut self) {
 		let context = self.context;
-		let begin = self.position;
-		self.next_char();
-		let end = self.position;
+		let quote_begin = self.position;
+		self.next_char(); // Consume the first `"`
+		let str_begin = self.position;
 
-		todo!("String tokenization")
+		while self.current_char != b'"' && !self.eof {
+			// If we hit `\"` then consume it and keep going, all other
+			// escapes are checked after tokenization
+			if self.next_char() == b'\\' && self.current_char == b'"' {
+				self.next_char();
+			}
+		}
+
+		// Consume the last `"`
+		let str_end = self.position;
+		self.next_char();
+		let quote_end = self.position;
+
+		self.token = Spanned::new(
+			Token::String(
+				self.file
+					.subtendril(str_begin as u32, (str_end - str_begin) as u32),
+			),
+			Some(Span::new(quote_begin..quote_end, context)),
+		)
 	}
 
 	fn read_minus_token(&mut self) {
@@ -1145,6 +1164,24 @@ mod tests {
 		vec![Spanned::new(
 			Token::Comment(Comment::Invalid("/*\nThis Is A\n".as_bytes().into())),
 			Some(Span::new(0..13, Position::new(0, 0)))
+		)]
+	);
+
+	tokenizer_test!(
+		test_tokenize_string,
+		r#""This Is A Simple String :3""#,
+		vec![Spanned::new(
+			Token::String("This Is A Simple String :3".as_bytes().into()),
+			Some(Span::new(0..28, Position::new(0, 0)))
+		)]
+	);
+
+	tokenizer_test!(
+		test_tokenize_string_eof,
+		r#""This Is A Simple String :3"#,
+		vec![Spanned::new(
+			Token::String("This Is A Simple String :3".as_bytes().into()),
+			Some(Span::new(0..27, Position::new(0, 0)))
 		)]
 	);
 
