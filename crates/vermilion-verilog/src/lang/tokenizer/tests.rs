@@ -123,12 +123,138 @@ tokenizer_test!(
 );
 
 tokenizer_test!(
+	test_tokenize_control_at,
+	"@",
+	vec![Spanned::new(
+		Token::Control(Control::At),
+		Some(Span::new(0..1, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_control_octothorp,
+	"#",
+	vec![Spanned::new(
+		Token::Control(Control::Octothorp),
+		Some(Span::new(0..1, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_control_paren_open,
+	"(",
+	vec![Spanned::new(
+		Token::Control(Control::ParenOpen),
+		Some(Span::new(0..1, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_control_paren_close,
+	")",
+	vec![Spanned::new(
+		Token::Control(Control::ParenClose),
+		Some(Span::new(0..1, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_control_bracket_open,
+	"[",
+	vec![Spanned::new(
+		Token::Control(Control::BracketOpen),
+		Some(Span::new(0..1, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_control_bracket_close,
+	"]",
+	vec![Spanned::new(
+		Token::Control(Control::BracketClose),
+		Some(Span::new(0..1, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_control_brace_open,
+	"{",
+	vec![Spanned::new(
+		Token::Control(Control::BraceOpen),
+		Some(Span::new(0..1, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_control_brace_close,
+	"}",
+	vec![Spanned::new(
+		Token::Control(Control::BraceClose),
+		Some(Span::new(0..1, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_control_colon,
+	":",
+	vec![Spanned::new(
+		Token::Control(Control::Colon),
+		Some(Span::new(0..1, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_control_semicolon,
+	";",
+	vec![Spanned::new(
+		Token::Control(Control::Semicolon),
+		Some(Span::new(0..1, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_control_comma,
+	",",
+	vec![Spanned::new(
+		Token::Control(Control::Comma),
+		Some(Span::new(0..1, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_control_dot,
+	".",
+	vec![Spanned::new(
+		Token::Control(Control::Dot),
+		Some(Span::new(0..1, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_control_dollar,
+	"$",
+	vec![Spanned::new(
+		Token::Control(Control::Dollar),
+		Some(Span::new(0..1, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_control_question,
+	"?",
+	vec![Spanned::new(
+		Token::Control(Control::Question),
+		Some(Span::new(0..1, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
 	test_tokenize_tilde,
 	"~",
 	vec![Spanned::new(
 		Token::Operator(Operator::Tilde),
 		Some(Span::new(0..1, Position::new(0, 0)))
-	)]
+	),]
 );
 
 tokenizer_test!(
