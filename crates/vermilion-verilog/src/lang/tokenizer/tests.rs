@@ -249,7 +249,79 @@ tokenizer_test!(
 );
 
 tokenizer_test!(
-	test_tokenize_tilde,
+	test_tokenize_operator_exclame,
+	"!",
+	vec![Spanned::new(
+		Token::Operator(Operator::Exclamation),
+		Some(Span::new(0..1, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_operator_logical_inequality,
+	"!=",
+	vec![Spanned::new(
+		Token::Operator(Operator::LogicalInequality),
+		Some(Span::new(0..2, Position::new(0, 0))),
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_operator_case_inequality,
+	"!==",
+	vec![Spanned::new(
+		Token::Operator(Operator::CaseInequality),
+		Some(Span::new(0..3, Position::new(0, 0))),
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_operator_equal,
+	"=",
+	vec![Spanned::new(
+		Token::Operator(Operator::Equals),
+		Some(Span::new(0..1, Position::new(0, 0))),
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_operator_logical_equality,
+	"==",
+	vec![Spanned::new(
+		Token::Operator(Operator::LogicalEquality),
+		Some(Span::new(0..2, Position::new(0, 0))),
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_operator_case_equality,
+	"===",
+	vec![Spanned::new(
+		Token::Operator(Operator::CaseEquality),
+		Some(Span::new(0..3, Position::new(0, 0))),
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_operator_ampersand,
+	"&",
+	vec![Spanned::new(
+		Token::Operator(Operator::Ampersand),
+		Some(Span::new(0..1, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_operator_logical_and,
+	"&&",
+	vec![Spanned::new(
+		Token::Operator(Operator::LogicalAnd),
+		Some(Span::new(0..2, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_operator_tilde,
 	"~",
 	vec![Spanned::new(
 		Token::Operator(Operator::Tilde),
@@ -258,147 +330,165 @@ tokenizer_test!(
 );
 
 tokenizer_test!(
-	test_tokenize_tilde_circumflex_right,
+	test_tokenize_operator_tilde_circumflex_right,
 	"~^",
 	vec![Spanned::new(
 		Token::Operator(Operator::TildeCircumflex(false)),
 		Some(Span::new(0..2, Position::new(0, 0)))
-	)]
+	),]
 );
 
 tokenizer_test!(
-	test_tokenize_reduction_nand,
+	test_tokenize_operator_reduction_nand,
 	"~&",
 	vec![Spanned::new(
 		Token::Operator(Operator::ReductionNand),
 		Some(Span::new(0..2, Position::new(0, 0)))
-	)]
+	),]
 );
 
 tokenizer_test!(
-	test_tokenize_reduction_nor,
+	test_tokenize_operator_reduction_nor,
 	"~|",
 	vec![Spanned::new(
 		Token::Operator(Operator::ReductionNor),
 		Some(Span::new(0..2, Position::new(0, 0)))
-	)]
+	),]
 );
 
 tokenizer_test!(
-	test_tokenize_circumflex,
+	test_tokenize_operator_circumflex,
 	"^",
 	vec![Spanned::new(
 		Token::Operator(Operator::Circumflex),
 		Some(Span::new(0..1, Position::new(0, 0)))
-	)]
+	),]
 );
 
 tokenizer_test!(
-	test_tokenize_tilde_circumflex_left,
+	test_tokenize_operator_tilde_circumflex_left,
 	"^~",
 	vec![Spanned::new(
 		Token::Operator(Operator::TildeCircumflex(true)),
 		Some(Span::new(0..2, Position::new(0, 0)))
-	)]
+	),]
 );
 
 tokenizer_test!(
-	test_tokenize_pipe,
+	test_tokenize_operator_pipe,
 	"|",
 	vec![Spanned::new(
 		Token::Operator(Operator::Pipe),
 		Some(Span::new(0..1, Position::new(0, 0)))
-	)]
+	),]
 );
 
 tokenizer_test!(
-	test_tokenize_logical_or,
+	test_tokenize_operator_logical_or,
 	"||",
 	vec![Spanned::new(
 		Token::Operator(Operator::LogicalOr),
 		Some(Span::new(0..2, Position::new(0, 0)))
-	)]
+	),]
 );
 
 tokenizer_test!(
-	test_tokenize_ampersand,
-	"&",
-	vec![Spanned::new(
-		Token::Operator(Operator::Ampersand),
-		Some(Span::new(0..1, Position::new(0, 0)))
-	)]
-);
-
-tokenizer_test!(
-	test_tokenize_logical_and,
-	"&&",
-	vec![Spanned::new(
-		Token::Operator(Operator::LogicalAnd),
-		Some(Span::new(0..2, Position::new(0, 0)))
-	)]
-);
-
-tokenizer_test!(
-	test_tokenize_less_than,
+	test_tokenize_operator_less_than,
 	">",
 	vec![Spanned::new(
 		Token::Operator(Operator::LessThan),
 		Some(Span::new(0..1, Position::new(0, 0)))
-	)]
+	),]
 );
 
 tokenizer_test!(
-	test_tokenize_less_than_equal,
+	test_tokenize_operator_less_than_equal,
 	">=",
 	vec![Spanned::new(
 		Token::Operator(Operator::LessThanEqual),
 		Some(Span::new(0..2, Position::new(0, 0)))
-	)]
+	),]
 );
 
 tokenizer_test!(
-	test_tokenize_shift_right,
+	test_tokenize_operator_shift_right,
 	">>",
 	vec![Spanned::new(
 		Token::Operator(Operator::ShiftRight),
 		Some(Span::new(0..2, Position::new(0, 0)))
-	)]
+	),]
 );
 
 tokenizer_test!(
-	test_tokenize_greater_than,
+	test_tokenize_operator_greater_than,
 	"<",
 	vec![Spanned::new(
 		Token::Operator(Operator::GreaterThan),
 		Some(Span::new(0..1, Position::new(0, 0)))
-	)]
+	),]
 );
 
 tokenizer_test!(
-	test_tokenize_greater_than_equal,
+	test_tokenize_operator_greater_than_equal,
 	"<=",
 	vec![Spanned::new(
 		Token::Operator(Operator::GreaterThanEqual),
 		Some(Span::new(0..2, Position::new(0, 0)))
-	)]
+	),]
 );
 
 tokenizer_test!(
-	test_tokenize_shift_left,
+	test_tokenize_operator_shift_left,
 	"<<",
 	vec![Spanned::new(
 		Token::Operator(Operator::ShiftLeft),
 		Some(Span::new(0..2, Position::new(0, 0)))
-	)]
+	),]
 );
 
 tokenizer_test!(
-	test_tokenize_solidus,
+	test_tokenize_operator_percent,
+	"%",
+	vec![Spanned::new(
+		Token::Operator(Operator::Percent),
+		Some(Span::new(0..1, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_operator_asterisk,
+	"*",
+	vec![Spanned::new(
+		Token::Operator(Operator::Asterisk),
+		Some(Span::new(0..1, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_operator_plus,
+	"+",
+	vec![Spanned::new(
+		Token::Operator(Operator::Plus),
+		Some(Span::new(0..1, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_operator_minus,
+	"-",
+	vec![Spanned::new(
+		Token::Operator(Operator::Minus),
+		Some(Span::new(0..1, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_operator_solidus,
 	"/",
 	vec![Spanned::new(
 		Token::Operator(Operator::Solidus),
 		Some(Span::new(0..1, Position::new(0, 0)))
-	)]
+	),]
 );
 
 tokenizer_test!(
@@ -407,7 +497,7 @@ tokenizer_test!(
 	vec![Spanned::new(
 		Token::Comment(Comment::SingleLine(" This Is A Test".as_bytes().into())),
 		Some(Span::new(0..17, Position::new(0, 0)))
-	)]
+	),]
 );
 
 tokenizer_test!(
@@ -418,7 +508,7 @@ tokenizer_test!(
 			"/*\nThis Is A\n\tMulti Line Comment\n*/".as_bytes().into()
 		)),
 		Some(Span::new(0..35, Position::new(0, 0)))
-	)]
+	),]
 );
 
 tokenizer_test!(
@@ -429,7 +519,7 @@ tokenizer_test!(
 			"/*\nThis Is A\n/*Multi Line Comment\n*/".as_bytes().into()
 		)),
 		Some(Span::new(0..36, Position::new(0, 0)))
-	)]
+	),]
 );
 
 tokenizer_test!(
@@ -438,7 +528,7 @@ tokenizer_test!(
 	vec![Spanned::new(
 		Token::Comment(Comment::Invalid("/*\nThis Is A\n".as_bytes().into())),
 		Some(Span::new(0..13, Position::new(0, 0)))
-	)]
+	),]
 );
 
 tokenizer_test!(
@@ -447,7 +537,7 @@ tokenizer_test!(
 	vec![Spanned::new(
 		Token::CompilerDirective(CompilerDirective::Name("meow".as_bytes().into())),
 		Some(Span::new(0..5, Position::new(0, 0)))
-	)]
+	),]
 );
 
 tokenizer_test!(
@@ -502,7 +592,7 @@ tokenizer_test!(
 	vec![Spanned::new(
 		Token::String("This Is A Simple String :3".as_bytes().into()),
 		Some(Span::new(0..28, Position::new(0, 0)))
-	)]
+	),]
 );
 
 tokenizer_test!(
@@ -511,61 +601,970 @@ tokenizer_test!(
 	vec![Spanned::new(
 		Token::String("This Is A Simple String :3".as_bytes().into()),
 		Some(Span::new(0..27, Position::new(0, 0)))
-	)]
+	),]
 );
 
 tokenizer_test!(
-	test_tokenize_equal,
-	"=",
+	test_tokenize_ident,
+	"meow",
 	vec![Spanned::new(
-		Token::Operator(Operator::Equals),
-		Some(Span::new(0..1, Position::new(0, 0))),
-	)]
+		Token::Identifier("meow".as_bytes().into()),
+		Some(Span::new(0..4, Position::new(0, 0)))
+	),]
 );
 
 tokenizer_test!(
-	test_tokenize_logical_equality,
-	"==",
+	test_tokenize_ident_adv,
+	"m3ow_me0w",
 	vec![Spanned::new(
-		Token::Operator(Operator::LogicalEquality),
-		Some(Span::new(0..2, Position::new(0, 0))),
-	)]
+		Token::Identifier("m3ow_me0w".as_bytes().into()),
+		Some(Span::new(0..9, Position::new(0, 0)))
+	),]
 );
 
 tokenizer_test!(
-	test_tokenize_case_equality,
-	"===",
+	test_tokenize_keyword_always,
+	"always",
 	vec![Spanned::new(
-		Token::Operator(Operator::CaseEquality),
-		Some(Span::new(0..3, Position::new(0, 0))),
-	)]
+		Token::Keyword(Keyword::Always),
+		Some(Span::new(0..6, Position::new(0, 0)))
+	),]
 );
 
 tokenizer_test!(
-	test_tokenize_exclamation,
-	"!",
+	test_tokenize_keyword_and,
+	"and",
 	vec![Spanned::new(
-		Token::Operator(Operator::Exclamation),
-		Some(Span::new(0..1, Position::new(0, 0))),
-	)]
+		Token::Keyword(Keyword::And),
+		Some(Span::new(0..3, Position::new(0, 0)))
+	),]
 );
 
 tokenizer_test!(
-	test_tokenize_logical_inequality,
-	"!=",
+	test_tokenize_keyword_assign,
+	"assign",
 	vec![Spanned::new(
-		Token::Operator(Operator::LogicalInequality),
-		Some(Span::new(0..2, Position::new(0, 0))),
-	)]
+		Token::Keyword(Keyword::Assign),
+		Some(Span::new(0..6, Position::new(0, 0)))
+	),]
 );
 
 tokenizer_test!(
-	test_tokenize_case_inequality,
-	"!==",
+	test_tokenize_keyword_begin,
+	"begin",
 	vec![Spanned::new(
-		Token::Operator(Operator::CaseInequality),
-		Some(Span::new(0..3, Position::new(0, 0))),
-	)]
+		Token::Keyword(Keyword::Begin),
+		Some(Span::new(0..5, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_buf,
+	"buf",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::Buf),
+		Some(Span::new(0..3, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_bufif0,
+	"bufif0",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::BufIf0),
+		Some(Span::new(0..6, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_bufif1,
+	"bufif1",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::BufIf1),
+		Some(Span::new(0..6, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_case,
+	"case",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::Case),
+		Some(Span::new(0..4, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_casex,
+	"casex",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::CaseX),
+		Some(Span::new(0..5, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_casez,
+	"casez",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::CaseZ),
+		Some(Span::new(0..5, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_cmos,
+	"cmos",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::Cmos),
+		Some(Span::new(0..4, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_deassign,
+	"deassign",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::Deassign),
+		Some(Span::new(0..8, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_default,
+	"default",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::Default),
+		Some(Span::new(0..7, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_defparam,
+	"defparam",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::DefParam),
+		Some(Span::new(0..8, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_disable,
+	"disable",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::Disable),
+		Some(Span::new(0..7, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_edge,
+	"edge",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::Edge),
+		Some(Span::new(0..4, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_else,
+	"else",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::Else),
+		Some(Span::new(0..4, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_end,
+	"end",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::End),
+		Some(Span::new(0..3, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_endcase,
+	"endcase",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::EndCase),
+		Some(Span::new(0..7, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_endfunction,
+	"endfunction",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::EndFunction),
+		Some(Span::new(0..11, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_endmodule,
+	"endmodule",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::EndModule),
+		Some(Span::new(0..9, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_endprimitive,
+	"endprimitive",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::EndPrimitive),
+		Some(Span::new(0..12, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_endspecify,
+	"endspecify",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::EndSpecify),
+		Some(Span::new(0..10, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_endtable,
+	"endtable",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::EndTable),
+		Some(Span::new(0..8, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_endtask,
+	"endtask",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::EndTask),
+		Some(Span::new(0..7, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_event,
+	"event",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::Event),
+		Some(Span::new(0..5, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_for,
+	"for",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::For),
+		Some(Span::new(0..3, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_force,
+	"force",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::Force),
+		Some(Span::new(0..5, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_forever,
+	"forever",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::Forever),
+		Some(Span::new(0..7, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_fork,
+	"fork",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::Fork),
+		Some(Span::new(0..4, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_function,
+	"function",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::Function),
+		Some(Span::new(0..8, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_highz0,
+	"highz0",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::HighZ0),
+		Some(Span::new(0..6, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_highz1,
+	"highz1",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::HighZ1),
+		Some(Span::new(0..6, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_if,
+	"if",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::If),
+		Some(Span::new(0..2, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_ifnone,
+	"ifnone",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::IfNone),
+		Some(Span::new(0..6, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_initial,
+	"initial",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::Initial),
+		Some(Span::new(0..7, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_inout,
+	"inout",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::InOut),
+		Some(Span::new(0..5, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_input,
+	"input",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::Input),
+		Some(Span::new(0..5, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_integer,
+	"integer",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::Integer),
+		Some(Span::new(0..7, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_join,
+	"join",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::Join),
+		Some(Span::new(0..4, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_large,
+	"large",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::Large),
+		Some(Span::new(0..5, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_macromodule,
+	"macromodule",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::MacroModule),
+		Some(Span::new(0..11, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_medium,
+	"medium",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::Medium),
+		Some(Span::new(0..6, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_module,
+	"module",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::Module),
+		Some(Span::new(0..6, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_nand,
+	"nand",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::Nand),
+		Some(Span::new(0..4, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_negedge,
+	"negedge",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::NegEdge),
+		Some(Span::new(0..7, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_nmos,
+	"nmos",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::Nmos),
+		Some(Span::new(0..4, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_nor,
+	"nor",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::Nor),
+		Some(Span::new(0..3, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_not,
+	"not",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::Not),
+		Some(Span::new(0..3, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_notif0,
+	"notif0",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::NotIf0),
+		Some(Span::new(0..6, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_notif1,
+	"notif1",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::NotIf1),
+		Some(Span::new(0..6, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_or,
+	"or",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::Or),
+		Some(Span::new(0..2, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_output,
+	"output",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::Output),
+		Some(Span::new(0..6, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_parameter,
+	"parameter",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::Parameter),
+		Some(Span::new(0..9, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_pmos,
+	"pmos",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::Pmos),
+		Some(Span::new(0..4, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_posedge,
+	"posedge",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::PosEdge),
+		Some(Span::new(0..7, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_primitive,
+	"primitive",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::Primitive),
+		Some(Span::new(0..9, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_pull0,
+	"pull0",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::Pull0),
+		Some(Span::new(0..5, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_pull1,
+	"pull1",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::Pull1),
+		Some(Span::new(0..5, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_pulldown,
+	"pulldown",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::Pulldown),
+		Some(Span::new(0..8, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_pullup,
+	"pullup",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::Pullup),
+		Some(Span::new(0..6, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_rcmos,
+	"rcmos",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::Rcmos),
+		Some(Span::new(0..5, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_real,
+	"real",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::Real),
+		Some(Span::new(0..4, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_realtime,
+	"realtime",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::Realtime),
+		Some(Span::new(0..8, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_reg,
+	"reg",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::Reg),
+		Some(Span::new(0..3, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_release,
+	"release",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::Release),
+		Some(Span::new(0..7, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_repeat,
+	"repeat",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::Repeat),
+		Some(Span::new(0..6, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_rnmos,
+	"rnmos",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::Rnmos),
+		Some(Span::new(0..5, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_rpmos,
+	"rpmos",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::Rpmos),
+		Some(Span::new(0..5, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_rtran,
+	"rtran",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::Rtran),
+		Some(Span::new(0..5, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_rtranif0,
+	"rtranif0",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::RtranIf0),
+		Some(Span::new(0..8, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_rtranif1,
+	"rtranif1",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::RtranIf1),
+		Some(Span::new(0..8, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_scalared,
+	"scalared",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::Scalared),
+		Some(Span::new(0..8, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_small,
+	"small",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::Small),
+		Some(Span::new(0..5, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_specify,
+	"specify",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::Specify),
+		Some(Span::new(0..7, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_specparam,
+	"specparam",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::SpecParam),
+		Some(Span::new(0..9, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_strong0,
+	"strong0",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::Strong0),
+		Some(Span::new(0..7, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_strong1,
+	"strong1",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::Strong1),
+		Some(Span::new(0..7, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_supply0,
+	"supply0",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::Supply0),
+		Some(Span::new(0..7, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_supply1,
+	"supply1",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::Supply1),
+		Some(Span::new(0..7, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_table,
+	"table",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::Table),
+		Some(Span::new(0..5, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_task,
+	"task",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::Task),
+		Some(Span::new(0..4, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_time,
+	"time",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::Time),
+		Some(Span::new(0..4, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_tran,
+	"tran",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::Tran),
+		Some(Span::new(0..4, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_tranif0,
+	"tranif0",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::TranIf0),
+		Some(Span::new(0..7, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_tranif1,
+	"tranif1",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::TranIf1),
+		Some(Span::new(0..7, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_tri,
+	"tri",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::Tri),
+		Some(Span::new(0..3, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_tri0,
+	"tri0",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::Tri0),
+		Some(Span::new(0..4, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_tri1,
+	"tri1",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::Tri1),
+		Some(Span::new(0..4, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_triand,
+	"triand",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::Triand),
+		Some(Span::new(0..6, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_trior,
+	"trior",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::Trior),
+		Some(Span::new(0..5, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_trireg,
+	"trireg",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::Trireg),
+		Some(Span::new(0..6, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_vectored,
+	"vectored",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::Vectored),
+		Some(Span::new(0..8, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_wait,
+	"wait",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::Wait),
+		Some(Span::new(0..4, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_wand,
+	"wand",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::Wand),
+		Some(Span::new(0..4, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_weak0,
+	"weak0",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::Weak0),
+		Some(Span::new(0..5, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_weak1,
+	"weak1",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::Weak1),
+		Some(Span::new(0..5, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_while,
+	"while",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::While),
+		Some(Span::new(0..5, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_wire,
+	"wire",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::Wire),
+		Some(Span::new(0..4, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_wor,
+	"wor",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::Wor),
+		Some(Span::new(0..3, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_xnor,
+	"xnor",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::Xnor),
+		Some(Span::new(0..4, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_keyword_xor,
+	"xor",
+	vec![Spanned::new(
+		Token::Keyword(Keyword::Xor),
+		Some(Span::new(0..3, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_extended_ident,
+	r"\meow",
+	vec![Spanned::new(
+		Token::Identifier(r"\meow".as_bytes().into()),
+		Some(Span::new(0..5, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_extended_ident_adv,
+	r"\nya$owo@uwu",
+	vec![Spanned::new(
+		Token::Identifier(r"\nya$owo@uwu".as_bytes().into()),
+		Some(Span::new(0..12, Position::new(0, 0)))
+	),]
+);
+
+tokenizer_test!(
+	test_tokenize_unsigned_number,
+	"1234",
+	vec![Spanned::new(
+		Token::UnsignedNumber("1234".as_bytes().into()),
+		Some(Span::new(0..4, Position::new(0, 0)))
+	),]
 );
 
 tokenizer_test!(
@@ -613,7 +1612,7 @@ tokenizer_test!(
 	vec![Spanned::new(
 		Token::Real { value: 1e7, exponent: Some("e7".as_bytes().into()) },
 		Some(Span::new(0..3, Position::new(0, 0)))
-	)]
+	),]
 );
 
 tokenizer_test!(
@@ -625,7 +1624,7 @@ tokenizer_test!(
 			exponent: Some("e6".as_bytes().into())
 		},
 		Some(Span::new(0..5, Position::new(0, 0)))
-	)]
+	),]
 );
 
 tokenizer_test!(
@@ -637,7 +1636,7 @@ tokenizer_test!(
 			exponent: Some("e+6".as_bytes().into())
 		},
 		Some(Span::new(0..4, Position::new(0, 0)))
-	)]
+	),]
 );
 
 tokenizer_test!(
@@ -649,7 +1648,7 @@ tokenizer_test!(
 			exponent: Some("e-6".as_bytes().into())
 		},
 		Some(Span::new(0..4, Position::new(0, 0)))
-	)]
+	),]
 );
 
 tokenizer_test!(
