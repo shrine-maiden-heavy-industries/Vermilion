@@ -656,11 +656,9 @@ impl Tokenizer {
 		begin..self.position
 	}
 
-	#[inline]
-	fn read_escaped_ident(&mut self) -> Range<usize> {
-		let begin = self.position;
-		// Scan through till we get something that's not ASCII printable
-		while matches!(self.current_char as char, 'a'..='z'
+	#[inline(always)]
+	fn is_ascii_printable(&self) -> bool {
+		matches!(self.current_char as char, 'a'..='z'
 			| 'A'..='Z'
 			| '0'..='9'
 			| '!'
@@ -685,7 +683,13 @@ impl Tokenizer {
 			| '_'
 			| '`'
 			| '\\')
-		{
+	}
+
+	#[inline]
+	fn read_escaped_ident(&mut self) -> Range<usize> {
+		let begin = self.position;
+		// Scan through till we get something that's not ASCII printable
+		while self.is_ascii_printable() {
 			self.next_char();
 		}
 		// Return the range consumed
