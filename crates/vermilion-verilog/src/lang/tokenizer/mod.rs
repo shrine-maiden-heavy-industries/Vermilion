@@ -469,6 +469,7 @@ impl Tokenizer {
 	fn read_compiler_directive_token(&mut self) {
 		let context = self.context;
 		let begin = self.position;
+		self.next_char();
 
 		todo!("Compiler Directive tokenization")
 	}
