@@ -1671,6 +1671,272 @@ tokenizer_test!(
 );
 
 tokenizer_test!(
+	test_tokenize_binary_prefixed_dont_care,
+	"4'bxx1x",
+	vec![
+		Spanned::new(
+			Token::UnsignedNumber("4".as_bytes().into()),
+			Some(Span::new(0..1, Position::new(0, 0)))
+		),
+		Spanned::new(
+			Token::BaseSpecifier(token::BaseSpecifier::Binary, false),
+			Some(Span::new(1..3, Position::new(0, 1)))
+		),
+		Spanned::new(
+			Token::Number("xx1x".as_bytes().into()),
+			Some(Span::new(3..7, Position::new(0, 3)))
+		),
+	]
+);
+tokenizer_test!(
+	test_tokenize_binary_prefixed_all_dont_care,
+	"1'bx",
+	vec![
+		Spanned::new(
+			Token::UnsignedNumber("1".as_bytes().into()),
+			Some(Span::new(0..1, Position::new(0, 0)))
+		),
+		Spanned::new(
+			Token::BaseSpecifier(token::BaseSpecifier::Binary, false),
+			Some(Span::new(1..3, Position::new(0, 1)))
+		),
+		Spanned::new(
+			Token::Number("x".as_bytes().into()),
+			Some(Span::new(3..4, Position::new(0, 3)))
+		),
+	]
+);
+
+tokenizer_test!(
+	test_tokenize_binary_prefixed_high_z,
+	"4'bzz11",
+	vec![
+		Spanned::new(
+			Token::UnsignedNumber("4".as_bytes().into()),
+			Some(Span::new(0..1, Position::new(0, 0)))
+		),
+		Spanned::new(
+			Token::BaseSpecifier(token::BaseSpecifier::Binary, false),
+			Some(Span::new(1..3, Position::new(0, 1)))
+		),
+		Spanned::new(
+			Token::Number("zz11".as_bytes().into()),
+			Some(Span::new(3..7, Position::new(0, 3)))
+		),
+	]
+);
+
+tokenizer_test!(
+	test_tokenize_binary_prefixed_all_high_z,
+	"1'bz",
+	vec![
+		Spanned::new(
+			Token::UnsignedNumber("1".as_bytes().into()),
+			Some(Span::new(0..1, Position::new(0, 0)))
+		),
+		Spanned::new(
+			Token::BaseSpecifier(token::BaseSpecifier::Binary, false),
+			Some(Span::new(1..3, Position::new(0, 1)))
+		),
+		Spanned::new(
+			Token::Number("z".as_bytes().into()),
+			Some(Span::new(3..4, Position::new(0, 3)))
+		),
+	]
+);
+
+tokenizer_test!(
+	test_tokenize_binary_prefixed_padded,
+	"4 'b1001",
+	vec![
+		Spanned::new(
+			Token::UnsignedNumber("4".as_bytes().into()),
+			Some(Span::new(0..1, Position::new(0, 0)))
+		),
+		Spanned::new(
+			Token::Whitespace(" ".as_bytes().into()),
+			Some(Span::new(1..2, Position::new(0, 1)))
+		),
+		Spanned::new(
+			Token::BaseSpecifier(token::BaseSpecifier::Binary, false),
+			Some(Span::new(2..4, Position::new(0, 2)))
+		),
+		Spanned::new(
+			Token::Number("1001".as_bytes().into()),
+			Some(Span::new(4..8, Position::new(0, 4)))
+		),
+	]
+);
+
+tokenizer_test!(
+	test_tokenize_binary_prefixed_padded_dont_care,
+	"4 'bxx1x",
+	vec![
+		Spanned::new(
+			Token::UnsignedNumber("4".as_bytes().into()),
+			Some(Span::new(0..1, Position::new(0, 0)))
+		),
+		Spanned::new(
+			Token::Whitespace(" ".as_bytes().into()),
+			Some(Span::new(1..2, Position::new(0, 1)))
+		),
+		Spanned::new(
+			Token::BaseSpecifier(token::BaseSpecifier::Binary, false),
+			Some(Span::new(2..4, Position::new(0, 2)))
+		),
+		Spanned::new(
+			Token::Number("xx1x".as_bytes().into()),
+			Some(Span::new(4..8, Position::new(0, 4)))
+		),
+	]
+);
+tokenizer_test!(
+	test_tokenize_binary_prefixed_padded_all_dont_care,
+	"1 'bx",
+	vec![
+		Spanned::new(
+			Token::UnsignedNumber("1".as_bytes().into()),
+			Some(Span::new(0..1, Position::new(0, 0)))
+		),
+		Spanned::new(
+			Token::Whitespace(" ".as_bytes().into()),
+			Some(Span::new(1..2, Position::new(0, 1)))
+		),
+		Spanned::new(
+			Token::BaseSpecifier(token::BaseSpecifier::Binary, false),
+			Some(Span::new(2..4, Position::new(0, 2)))
+		),
+		Spanned::new(
+			Token::Number("x".as_bytes().into()),
+			Some(Span::new(4..5, Position::new(0, 4)))
+		),
+	]
+);
+
+tokenizer_test!(
+	test_tokenize_binary_prefixed_padded_high_z,
+	"4 'bzz11",
+	vec![
+		Spanned::new(
+			Token::UnsignedNumber("4".as_bytes().into()),
+			Some(Span::new(0..1, Position::new(0, 0)))
+		),
+		Spanned::new(
+			Token::Whitespace(" ".as_bytes().into()),
+			Some(Span::new(1..2, Position::new(0, 1)))
+		),
+		Spanned::new(
+			Token::BaseSpecifier(token::BaseSpecifier::Binary, false),
+			Some(Span::new(2..4, Position::new(0, 2)))
+		),
+		Spanned::new(
+			Token::Number("zz11".as_bytes().into()),
+			Some(Span::new(4..8, Position::new(0, 4)))
+		),
+	]
+);
+
+tokenizer_test!(
+	test_tokenize_binary_prefixed_padded_all_high_z,
+	"1 'bz",
+	vec![
+		Spanned::new(
+			Token::UnsignedNumber("1".as_bytes().into()),
+			Some(Span::new(0..1, Position::new(0, 0)))
+		),
+		Spanned::new(
+			Token::Whitespace(" ".as_bytes().into()),
+			Some(Span::new(1..2, Position::new(0, 1)))
+		),
+		Spanned::new(
+			Token::BaseSpecifier(token::BaseSpecifier::Binary, false),
+			Some(Span::new(2..4, Position::new(0, 2)))
+		),
+		Spanned::new(
+			Token::Number("z".as_bytes().into()),
+			Some(Span::new(4..5, Position::new(0, 4)))
+		),
+	]
+);
+
+tokenizer_test!(
+	test_tokenize_binary_naked,
+	"'b10",
+	vec![
+		Spanned::new(
+			Token::BaseSpecifier(token::BaseSpecifier::Binary, false),
+			Some(Span::new(0..2, Position::new(0, 0)))
+		),
+		Spanned::new(
+			Token::Number("10".as_bytes().into()),
+			Some(Span::new(2..4, Position::new(0, 2)))
+		),
+	]
+);
+
+tokenizer_test!(
+	test_tokenize_binary_naked_dont_care,
+	"'bxx1x",
+	vec![
+		Spanned::new(
+			Token::BaseSpecifier(token::BaseSpecifier::Binary, false),
+			Some(Span::new(0..2, Position::new(0, 0)))
+		),
+		Spanned::new(
+			Token::Number("xx1x".as_bytes().into()),
+			Some(Span::new(2..6, Position::new(0, 2)))
+		),
+	]
+);
+
+tokenizer_test!(
+	test_tokenize_binary_naked_all_dont_care,
+	"'bx",
+	vec![
+		Spanned::new(
+			Token::BaseSpecifier(token::BaseSpecifier::Binary, false),
+			Some(Span::new(0..2, Position::new(0, 0)))
+		),
+		Spanned::new(
+			Token::Number("x".as_bytes().into()),
+			Some(Span::new(2..3, Position::new(0, 2)))
+		),
+	]
+);
+
+tokenizer_test!(
+	test_tokenize_binary_naked_high_z,
+	"'bzz11",
+	vec![
+		Spanned::new(
+			Token::BaseSpecifier(token::BaseSpecifier::Binary, false),
+			Some(Span::new(0..2, Position::new(0, 0)))
+		),
+		Spanned::new(
+			Token::Number("zz11".as_bytes().into()),
+			Some(Span::new(2..6, Position::new(0, 2)))
+		),
+	]
+);
+
+tokenizer_test!(
+	test_tokenize_binary_naked_all_high_z,
+	"'bz",
+	vec![
+		Spanned::new(
+			Token::BaseSpecifier(token::BaseSpecifier::Binary, false),
+			Some(Span::new(0..2, Position::new(0, 0)))
+		),
+		Spanned::new(
+			Token::Number("z".as_bytes().into()),
+			Some(Span::new(2..3, Position::new(0, 2)))
+		),
+	]
+);
+
+// TODO(aki): Invalid Digits
+
+tokenizer_test!(
 	test_tokenize_binary_lump,
 	"4 'b01zx\n+1'B ?\n2'bZX\n",
 	vec![
