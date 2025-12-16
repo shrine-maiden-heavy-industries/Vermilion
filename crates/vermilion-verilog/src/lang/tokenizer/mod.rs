@@ -1268,19 +1268,31 @@ mod tests {
 	tokenizer_test!(
 		test_tokenize_real_number_simple_pos,
 		"+1.23",
-		vec![Spanned::new(
-			Token::Real { value: 1.23, exponent: None },
-			Some(Span::new(0..5, Position::new(0, 0)))
-		),]
+		vec![
+			Spanned::new(
+				Token::Operator(Operator::Plus),
+				Some(Span::new(0..1, Position::new(0, 0)))
+			),
+			Spanned::new(
+				Token::Real { value: 1.23, exponent: None },
+				Some(Span::new(1..5, Position::new(0, 1)))
+			),
+		]
 	);
 
 	tokenizer_test!(
 		test_tokenize_real_number_simple_neg,
 		"-1.23",
-		vec![Spanned::new(
-			Token::Real { value: -1.23, exponent: None },
-			Some(Span::new(0..5, Position::new(0, 0)))
-		),]
+		vec![
+			Spanned::new(
+				Token::Operator(Operator::Minus),
+				Some(Span::new(0..1, Position::new(0, 0)))
+			),
+			Spanned::new(
+				Token::Real { value: 1.23, exponent: None },
+				Some(Span::new(1..5, Position::new(0, 1)))
+			),
+		]
 	);
 
 	tokenizer_test!(
