@@ -121,7 +121,10 @@ impl Tokenizer {
 				self.read_circumflex_token();
 				return;
 			},
-			b'|' => self.token = Token::Operator(Operator::Pipe).into(),
+			b'|' => {
+				self.read_pipe_token();
+				return;
+			},
 			b'>' => {
 				self.read_less_than_token();
 				return;
@@ -279,7 +282,14 @@ impl Tokenizer {
 		self.next_char();
 		let end = self.position;
 
-		todo!("^ ^~ tokenization") // Circumflex, ReductionXor/Bit-wise Equivalence (Right-handed chirality)
+	}
+
+	fn read_pipe_token(&mut self) {
+		let context = self.context;
+		let begin = self.position;
+		self.next_char();
+		let end = self.position;
+
 	}
 
 	fn read_less_than_token(&mut self) {
