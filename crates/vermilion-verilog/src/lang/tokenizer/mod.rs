@@ -654,7 +654,7 @@ impl Tokenizer {
 			// SAFETY:
 			// If we're here, we have to have pushed stuff to the token stream, so this is always okay.
 			#[allow(clippy::expect_used)]
-			let tok = self
+			let token = self
 				.token_stream
 				.pop_front()
 				.expect("Unable to pop token from token stream");
