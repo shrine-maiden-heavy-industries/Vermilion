@@ -159,6 +159,132 @@ impl Tokenizer {
 		self.token.attach_span(Span::new(begin..end, context));
 	}
 
+	fn read_extended_token(&mut self) {
+		let context = self.context;
+		if self.current_char.is_ascii_alphabetic() || self.current_char == b'_' {
+			let range = self.read_normal_ident();
+			// We've already validated via the above read, that the entire token is valid UTF-8. Just make it a string.
+			let ident = unsafe { str::from_utf8_unchecked(&self.file[range.clone()]) };
+			let token = match ident {
+				"always" => Token::Keyword(Keyword::Always),
+				"and" => Token::Keyword(Keyword::And),
+				"assign" => Token::Keyword(Keyword::Assign),
+				"begin" => Token::Keyword(Keyword::Begin),
+				"buf" => Token::Keyword(Keyword::Buf),
+				"bufif0" => Token::Keyword(Keyword::BufIf0),
+				"bufif1" => Token::Keyword(Keyword::BufIf1),
+				"case" => Token::Keyword(Keyword::Case),
+				"casex" => Token::Keyword(Keyword::CaseX),
+				"casez" => Token::Keyword(Keyword::CaseZ),
+				"cmos" => Token::Keyword(Keyword::Cmos),
+				"deassign" => Token::Keyword(Keyword::Deassign),
+				"default" => Token::Keyword(Keyword::Default),
+				"defparam" => Token::Keyword(Keyword::DefParam),
+				"disable" => Token::Keyword(Keyword::Disable),
+				"edge" => Token::Keyword(Keyword::Edge),
+				"else" => Token::Keyword(Keyword::Else),
+				"end" => Token::Keyword(Keyword::End),
+				"endcase" => Token::Keyword(Keyword::EndCase),
+				"endfunction" => Token::Keyword(Keyword::EndFunction),
+				"endmodule" => Token::Keyword(Keyword::EndModule),
+				"endprimitive" => Token::Keyword(Keyword::EndPrimitive),
+				"endspecify" => Token::Keyword(Keyword::EndSpecify),
+				"endtable" => Token::Keyword(Keyword::EndTable),
+				"endtask" => Token::Keyword(Keyword::EndTask),
+				"event" => Token::Keyword(Keyword::Event),
+				"for" => Token::Keyword(Keyword::For),
+				"force" => Token::Keyword(Keyword::Force),
+				"forever" => Token::Keyword(Keyword::Forever),
+				"fork" => Token::Keyword(Keyword::Fork),
+				"function" => Token::Keyword(Keyword::Function),
+				"highz0" => Token::Keyword(Keyword::HighZ0),
+				"highz1" => Token::Keyword(Keyword::HighZ1),
+				"if" => Token::Keyword(Keyword::If),
+				"ifnone" => Token::Keyword(Keyword::IfNone),
+				"initial" => Token::Keyword(Keyword::Initial),
+				"inout" => Token::Keyword(Keyword::InOut),
+				"input" => Token::Keyword(Keyword::Input),
+				"integer" => Token::Keyword(Keyword::Integer),
+				"join" => Token::Keyword(Keyword::Join),
+				"large" => Token::Keyword(Keyword::Large),
+				"macromodule" => Token::Keyword(Keyword::MacroModule),
+				"medium" => Token::Keyword(Keyword::Medium),
+				"module" => Token::Keyword(Keyword::Module),
+				"nand" => Token::Keyword(Keyword::Nand),
+				"negedge" => Token::Keyword(Keyword::NegEdge),
+				"nmos" => Token::Keyword(Keyword::Nmos),
+				"nor" => Token::Keyword(Keyword::Nor),
+				"not" => Token::Keyword(Keyword::Not),
+				"notif0" => Token::Keyword(Keyword::NotIf0),
+				"notif1" => Token::Keyword(Keyword::NotIf1),
+				"or" => Token::Keyword(Keyword::Or),
+				"output" => Token::Keyword(Keyword::Output),
+				"parameter" => Token::Keyword(Keyword::Parameter),
+				"pmos" => Token::Keyword(Keyword::Pmos),
+				"posedge" => Token::Keyword(Keyword::PosEdge),
+				"primitive" => Token::Keyword(Keyword::Primitive),
+				"pull0" => Token::Keyword(Keyword::Pull0),
+				"pull1" => Token::Keyword(Keyword::Pull1),
+				"pulldown" => Token::Keyword(Keyword::Pulldown),
+				"pullup" => Token::Keyword(Keyword::Pullup),
+				"rcmos" => Token::Keyword(Keyword::Rcmos),
+				"real" => Token::Keyword(Keyword::Real),
+				"realtime" => Token::Keyword(Keyword::Realtime),
+				"reg" => Token::Keyword(Keyword::Reg),
+				"release" => Token::Keyword(Keyword::Release),
+				"repeat" => Token::Keyword(Keyword::Repeat),
+				"rnmos" => Token::Keyword(Keyword::Rnmos),
+				"rpmos" => Token::Keyword(Keyword::Rpmos),
+				"rtran" => Token::Keyword(Keyword::Rtran),
+				"rtranif0" => Token::Keyword(Keyword::RtranIf0),
+				"rtranif1" => Token::Keyword(Keyword::RtranIf1),
+				"scalared" => Token::Keyword(Keyword::Scalared),
+				"small" => Token::Keyword(Keyword::Small),
+				"specify" => Token::Keyword(Keyword::Specify),
+				"specparam" => Token::Keyword(Keyword::SpecParam),
+				"strong0" => Token::Keyword(Keyword::Strong0),
+				"strong1" => Token::Keyword(Keyword::Strong1),
+				"supply0" => Token::Keyword(Keyword::Supply0),
+				"supply1" => Token::Keyword(Keyword::Supply1),
+				"table" => Token::Keyword(Keyword::Table),
+				"task" => Token::Keyword(Keyword::Task),
+				"time" => Token::Keyword(Keyword::Time),
+				"tran" => Token::Keyword(Keyword::Tran),
+				"tranif0" => Token::Keyword(Keyword::TranIf0),
+				"tranif1" => Token::Keyword(Keyword::TranIf1),
+				"tri" => Token::Keyword(Keyword::Tri),
+				"tri0" => Token::Keyword(Keyword::Tri0),
+				"tri1" => Token::Keyword(Keyword::Tri1),
+				"triand" => Token::Keyword(Keyword::Triand),
+				"trior" => Token::Keyword(Keyword::Trior),
+				"trireg" => Token::Keyword(Keyword::Trireg),
+				"vectored" => Token::Keyword(Keyword::Vectored),
+				"wait" => Token::Keyword(Keyword::Wait),
+				"wand" => Token::Keyword(Keyword::Wand),
+				"weak0" => Token::Keyword(Keyword::Weak0),
+				"weak1" => Token::Keyword(Keyword::Weak1),
+				"while" => Token::Keyword(Keyword::While),
+				"wire" => Token::Keyword(Keyword::Wire),
+				"wor" => Token::Keyword(Keyword::Wor),
+				"xnor" => Token::Keyword(Keyword::Xnor),
+				"xor" => Token::Keyword(Keyword::Xor),
+				_ => {
+					Token::Identifier(self.file.subtendril(range.start as u32, range.len() as u32))
+				},
+			};
+			// Turn the result into the final token to return
+			self.token = Spanned::new(token, Some(Span::new(range, context)));
+		} else if self.current_char == b'\\' {
+			let range = self.read_escaped_ident();
+			self.token = Spanned::new(
+				Token::Identifier(self.file.subtendril(range.start as u32, range.len() as u32)),
+				Some(Span::new(range, context)),
+			);
+		} else if self.current_char.is_ascii_digit() || self.current_char == b'\'' {
+			self.read_number_token();
+		}
+	}
+
 	fn read_whitespace(&mut self) {
 		let context = self.context;
 		let begin = self.position;
@@ -412,32 +538,23 @@ impl Tokenizer {
 		}
 	}
 
-	fn read_string_token(&mut self) {
+	fn read_solidus_token(&mut self) {
 		let context = self.context;
-		let quote_begin = self.position;
-		self.next_char(); // Consume the first `"`
-		let str_begin = self.position;
+		let begin = self.position;
+		self.next_char(); // Consume the opening `/`
 
-		while self.current_char != b'"' && !self.eof {
-			// If we hit `\"` then consume it and keep going, all other
-			// escapes are checked after tokenization
-			if self.next_char() == b'\\' && self.current_char == b'"' {
-				self.next_char();
+		if matches!(self.current_char, b'*' | b'/') {
+			if self.next_char() == b'*' {
+				self.read_multiline_comment(context, begin);
+			} else {
+				self.read_singleline_comment(context, begin);
 			}
+		} else {
+			self.token = Spanned::new(
+				Token::Operator(Operator::Solidus),
+				Some(Span::new(begin..self.position, context)),
+			);
 		}
-
-		// Consume the last `"`
-		let str_end = self.position;
-		self.next_char();
-		let quote_end = self.position;
-
-		self.token = Spanned::new(
-			Token::String(
-				self.file
-					.subtendril(str_begin as u32, (str_end - str_begin) as u32),
-			),
-			Some(Span::new(quote_begin..quote_end, context)),
-		)
 	}
 
 	fn read_multiline_comment(&mut self, context: Position, begin: usize) {
@@ -504,25 +621,6 @@ impl Tokenizer {
 			)),
 			Some(Span::new(begin..self.position, context)),
 		);
-	}
-
-	fn read_solidus_token(&mut self) {
-		let context = self.context;
-		let begin = self.position;
-		self.next_char(); // Consume the opening `/`
-
-		if matches!(self.current_char, b'*' | b'/') {
-			if self.next_char() == b'*' {
-				self.read_multiline_comment(context, begin);
-			} else {
-				self.read_singleline_comment(context, begin);
-			}
-		} else {
-			self.token = Spanned::new(
-				Token::Operator(Operator::Solidus),
-				Some(Span::new(begin..self.position, context)),
-			);
-		}
 	}
 
 	fn read_compiler_directive_token(&mut self) {
@@ -601,189 +699,32 @@ impl Tokenizer {
 		self.token = token;
 	}
 
-	fn read_extended_token(&mut self) {
+	fn read_string_token(&mut self) {
 		let context = self.context;
-		if self.current_char.is_ascii_alphabetic() || self.current_char == b'_' {
-			let range = self.read_normal_ident();
-			// We've already validated via the above read, that the entire token is valid UTF-8. Just make it a string.
-			let ident = unsafe { str::from_utf8_unchecked(&self.file[range.clone()]) };
-			let token = match ident {
-				"always" => Token::Keyword(Keyword::Always),
-				"and" => Token::Keyword(Keyword::And),
-				"assign" => Token::Keyword(Keyword::Assign),
-				"begin" => Token::Keyword(Keyword::Begin),
-				"buf" => Token::Keyword(Keyword::Buf),
-				"bufif0" => Token::Keyword(Keyword::BufIf0),
-				"bufif1" => Token::Keyword(Keyword::BufIf1),
-				"case" => Token::Keyword(Keyword::Case),
-				"casex" => Token::Keyword(Keyword::CaseX),
-				"casez" => Token::Keyword(Keyword::CaseZ),
-				"cmos" => Token::Keyword(Keyword::Cmos),
-				"deassign" => Token::Keyword(Keyword::Deassign),
-				"default" => Token::Keyword(Keyword::Default),
-				"defparam" => Token::Keyword(Keyword::DefParam),
-				"disable" => Token::Keyword(Keyword::Disable),
-				"edge" => Token::Keyword(Keyword::Edge),
-				"else" => Token::Keyword(Keyword::Else),
-				"end" => Token::Keyword(Keyword::End),
-				"endcase" => Token::Keyword(Keyword::EndCase),
-				"endfunction" => Token::Keyword(Keyword::EndFunction),
-				"endmodule" => Token::Keyword(Keyword::EndModule),
-				"endprimitive" => Token::Keyword(Keyword::EndPrimitive),
-				"endspecify" => Token::Keyword(Keyword::EndSpecify),
-				"endtable" => Token::Keyword(Keyword::EndTable),
-				"endtask" => Token::Keyword(Keyword::EndTask),
-				"event" => Token::Keyword(Keyword::Event),
-				"for" => Token::Keyword(Keyword::For),
-				"force" => Token::Keyword(Keyword::Force),
-				"forever" => Token::Keyword(Keyword::Forever),
-				"fork" => Token::Keyword(Keyword::Fork),
-				"function" => Token::Keyword(Keyword::Function),
-				"highz0" => Token::Keyword(Keyword::HighZ0),
-				"highz1" => Token::Keyword(Keyword::HighZ1),
-				"if" => Token::Keyword(Keyword::If),
-				"ifnone" => Token::Keyword(Keyword::IfNone),
-				"initial" => Token::Keyword(Keyword::Initial),
-				"inout" => Token::Keyword(Keyword::InOut),
-				"input" => Token::Keyword(Keyword::Input),
-				"integer" => Token::Keyword(Keyword::Integer),
-				"join" => Token::Keyword(Keyword::Join),
-				"large" => Token::Keyword(Keyword::Large),
-				"macromodule" => Token::Keyword(Keyword::MacroModule),
-				"medium" => Token::Keyword(Keyword::Medium),
-				"module" => Token::Keyword(Keyword::Module),
-				"nand" => Token::Keyword(Keyword::Nand),
-				"negedge" => Token::Keyword(Keyword::NegEdge),
-				"nmos" => Token::Keyword(Keyword::Nmos),
-				"nor" => Token::Keyword(Keyword::Nor),
-				"not" => Token::Keyword(Keyword::Not),
-				"notif0" => Token::Keyword(Keyword::NotIf0),
-				"notif1" => Token::Keyword(Keyword::NotIf1),
-				"or" => Token::Keyword(Keyword::Or),
-				"output" => Token::Keyword(Keyword::Output),
-				"parameter" => Token::Keyword(Keyword::Parameter),
-				"pmos" => Token::Keyword(Keyword::Pmos),
-				"posedge" => Token::Keyword(Keyword::PosEdge),
-				"primitive" => Token::Keyword(Keyword::Primitive),
-				"pull0" => Token::Keyword(Keyword::Pull0),
-				"pull1" => Token::Keyword(Keyword::Pull1),
-				"pulldown" => Token::Keyword(Keyword::Pulldown),
-				"pullup" => Token::Keyword(Keyword::Pullup),
-				"rcmos" => Token::Keyword(Keyword::Rcmos),
-				"real" => Token::Keyword(Keyword::Real),
-				"realtime" => Token::Keyword(Keyword::Realtime),
-				"reg" => Token::Keyword(Keyword::Reg),
-				"release" => Token::Keyword(Keyword::Release),
-				"repeat" => Token::Keyword(Keyword::Repeat),
-				"rnmos" => Token::Keyword(Keyword::Rnmos),
-				"rpmos" => Token::Keyword(Keyword::Rpmos),
-				"rtran" => Token::Keyword(Keyword::Rtran),
-				"rtranif0" => Token::Keyword(Keyword::RtranIf0),
-				"rtranif1" => Token::Keyword(Keyword::RtranIf1),
-				"scalared" => Token::Keyword(Keyword::Scalared),
-				"small" => Token::Keyword(Keyword::Small),
-				"specify" => Token::Keyword(Keyword::Specify),
-				"specparam" => Token::Keyword(Keyword::SpecParam),
-				"strong0" => Token::Keyword(Keyword::Strong0),
-				"strong1" => Token::Keyword(Keyword::Strong1),
-				"supply0" => Token::Keyword(Keyword::Supply0),
-				"supply1" => Token::Keyword(Keyword::Supply1),
-				"table" => Token::Keyword(Keyword::Table),
-				"task" => Token::Keyword(Keyword::Task),
-				"time" => Token::Keyword(Keyword::Time),
-				"tran" => Token::Keyword(Keyword::Tran),
-				"tranif0" => Token::Keyword(Keyword::TranIf0),
-				"tranif1" => Token::Keyword(Keyword::TranIf1),
-				"tri" => Token::Keyword(Keyword::Tri),
-				"tri0" => Token::Keyword(Keyword::Tri0),
-				"tri1" => Token::Keyword(Keyword::Tri1),
-				"triand" => Token::Keyword(Keyword::Triand),
-				"trior" => Token::Keyword(Keyword::Trior),
-				"trireg" => Token::Keyword(Keyword::Trireg),
-				"vectored" => Token::Keyword(Keyword::Vectored),
-				"wait" => Token::Keyword(Keyword::Wait),
-				"wand" => Token::Keyword(Keyword::Wand),
-				"weak0" => Token::Keyword(Keyword::Weak0),
-				"weak1" => Token::Keyword(Keyword::Weak1),
-				"while" => Token::Keyword(Keyword::While),
-				"wire" => Token::Keyword(Keyword::Wire),
-				"wor" => Token::Keyword(Keyword::Wor),
-				"xnor" => Token::Keyword(Keyword::Xnor),
-				"xor" => Token::Keyword(Keyword::Xor),
-				_ => {
-					Token::Identifier(self.file.subtendril(range.start as u32, range.len() as u32))
-				},
-			};
-			// Turn the result into the final token to return
-			self.token = Spanned::new(token, Some(Span::new(range, context)));
-		} else if self.current_char == b'\\' {
-			let range = self.read_escaped_ident();
-			self.token = Spanned::new(
-				Token::Identifier(self.file.subtendril(range.start as u32, range.len() as u32)),
-				Some(Span::new(range, context)),
-			);
-		} else if self.current_char.is_ascii_digit() || self.current_char == b'\'' {
-			self.read_number_token();
-		}
-	}
+		let quote_begin = self.position;
+		self.next_char(); // Consume the first `"`
+		let str_begin = self.position;
 
-	fn read_real_number_token(&mut self, context: Position, begin: usize) {
-		// If it's a decimal point, consume the next set of digits
-		if self.current_char == b'.' {
-			self.next_char();
-			// Consume digits while we find valid unsigned number digits
-			while self.current_char.is_ascii_digit() || self.current_char == b'_' {
+		while self.current_char != b'"' && !self.eof {
+			// If we hit `\"` then consume it and keep going, all other
+			// escapes are checked after tokenization
+			if self.next_char() == b'\\' && self.current_char == b'"' {
 				self.next_char();
 			}
 		}
 
-		// If we have an exponent part, consume that
-		let exponent = if matches!(self.current_char, b'e' | b'E') {
-			let exp_begin = self.position;
-			self.next_char();
+		// Consume the last `"`
+		let str_end = self.position;
+		self.next_char();
+		let quote_end = self.position;
 
-			// Check to make sure we have a valid exponent
-			if !self.current_char.is_ascii_digit() && !matches!(self.current_char, b'+' | b'-') {
-				self.token = Spanned::new(
-					Token::Invalid(Some(
-						self.file
-							.subtendril(begin as u32, (self.position - begin) as u32),
-					)),
-					Some(Span::new(begin..self.position, context)),
-				);
-
-				return;
-			}
-			// Consume the + or - (or first digit)
-			self.next_char();
-
-			// Consume digits while we find valid unsigned number digits
-			while self.current_char.is_ascii_digit() || self.current_char == b'_' {
-				self.next_char();
-			}
-
-			Some(
+		self.token = Spanned::new(
+			Token::String(
 				self.file
-					.subtendril(exp_begin as u32, (self.position - exp_begin) as u32),
-			)
-		} else {
-			None
-		};
-
-		let end = self.position;
-
-		// SAFETY:
-		// If we got to this point, then we have already ensured the contents are
-		// ASCII, which is a valid UTF-8 subset
-		let value = unsafe { str::from_utf8_unchecked(&self.file[begin..end]) };
-
-		let value_span = Some(Span::new(begin..end, context));
-		// If we got a valid f64, then we use that, otherwise emit an invalid token
-		self.token = if let Ok(value) = value.parse() {
-			Spanned::new(Token::Real { value, exponent }, value_span)
-		} else {
-			Spanned::new(Token::Invalid(Some(value.as_bytes().into())), value_span)
-		}
+					.subtendril(str_begin as u32, (str_end - str_begin) as u32),
+			),
+			Some(Span::new(quote_begin..quote_end, context)),
+		)
 	}
 
 	fn read_number_token(&mut self) {
@@ -876,6 +817,65 @@ impl Tokenizer {
 			.expect("Unable to pop token from token stream");
 
 		self.token = token;
+	}
+
+	fn read_real_number_token(&mut self, context: Position, begin: usize) {
+		// If it's a decimal point, consume the next set of digits
+		if self.current_char == b'.' {
+			self.next_char();
+			// Consume digits while we find valid unsigned number digits
+			while self.current_char.is_ascii_digit() || self.current_char == b'_' {
+				self.next_char();
+			}
+		}
+
+		// If we have an exponent part, consume that
+		let exponent = if matches!(self.current_char, b'e' | b'E') {
+			let exp_begin = self.position;
+			self.next_char();
+
+			// Check to make sure we have a valid exponent
+			if !self.current_char.is_ascii_digit() && !matches!(self.current_char, b'+' | b'-') {
+				self.token = Spanned::new(
+					Token::Invalid(Some(
+						self.file
+							.subtendril(begin as u32, (self.position - begin) as u32),
+					)),
+					Some(Span::new(begin..self.position, context)),
+				);
+
+				return;
+			}
+			// Consume the + or - (or first digit)
+			self.next_char();
+
+			// Consume digits while we find valid unsigned number digits
+			while self.current_char.is_ascii_digit() || self.current_char == b'_' {
+				self.next_char();
+			}
+
+			Some(
+				self.file
+					.subtendril(exp_begin as u32, (self.position - exp_begin) as u32),
+			)
+		} else {
+			None
+		};
+
+		let end = self.position;
+
+		// SAFETY:
+		// If we got to this point, then we have already ensured the contents are
+		// ASCII, which is a valid UTF-8 subset
+		let value = unsafe { str::from_utf8_unchecked(&self.file[begin..end]) };
+
+		let value_span = Some(Span::new(begin..end, context));
+		// If we got a valid f64, then we use that, otherwise emit an invalid token
+		self.token = if let Ok(value) = value.parse() {
+			Spanned::new(Token::Real { value, exponent }, value_span)
+		} else {
+			Spanned::new(Token::Invalid(Some(value.as_bytes().into())), value_span)
+		}
 	}
 
 	fn read_based_token(
