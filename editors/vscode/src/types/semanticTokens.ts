@@ -1,3 +1,4 @@
+/* SPDX-License-Identifier: BSD-3-Clause */
 import {Diagnostic} from 'vscode-languageclient'
 
 export enum SemanticTokenTypes

@@ -1,3 +1,4 @@
+/* SPDX-License-Identifier: BSD-3-Clause */
 /** @type {import('ts-jest').JestConfigWithTsJest} */
 module.exports =
 {

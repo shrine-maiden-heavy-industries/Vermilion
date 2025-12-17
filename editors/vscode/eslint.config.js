@@ -1,3 +1,4 @@
+/* SPDX-License-Identifier: BSD-3-Clause */
 import {defineConfig} from 'eslint/config'
 import stylistic from '@stylistic/eslint-plugin'
 import globals from 'globals'

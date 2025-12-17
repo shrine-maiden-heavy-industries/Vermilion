@@ -1,3 +1,4 @@
+/* SPDX-License-Identifier: BSD-3-Clause */
 import {workspace, WorkspaceFolder} from 'vscode'
 import * as path from 'path'
 import {
