@@ -18,6 +18,7 @@ use crate::settings::Config;
 mod cli;
 mod eyre_hook;
 pub(crate) mod lang;
+pub(crate) mod lsp;
 pub(crate) mod paths;
 pub(crate) mod settings;
 
