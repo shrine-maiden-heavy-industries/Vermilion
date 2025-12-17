@@ -1,15 +1,26 @@
-import {commands, Disposable, ExtensionContext, languages, WorkspaceFolder} from 'vscode'
+import {
+	commands,
+	Disposable,
+	ExtensionContext,
+	languages,
+	TextEditor,
+	Uri,
+	window,
+	workspace,
+	WorkspaceFolder,
+	WorkspaceFoldersChangeEvent,
+} from 'vscode'
 import * as langClient from 'vscode-languageclient'
 import {LanguageClient} from 'vscode-languageclient/node'
 import {createLanguageClient, documentSelector, setupProgress} from './vermilion'
 import {Observable} from './utils/observable'
-// import {startSpinner, stopSpinner} from './utils/spinner'
+import {startSpinner, stopSpinner} from './utils/spinner'
 import {SemanticTokensProvider} from './providers/semanticTokens'
 
 const workspaces: Map<string, ClientWorkspace> = new Map()
 const activeWorkspace = new Observable<ClientWorkspace | null>(null)
 export let extensionContext: ExtensionContext
-// let progress: Disposable
+let progress: Disposable
 
 export type WorkspaceProgress = {state: 'progress'; message: string} | {state: 'ready' | 'standby'}
 
@@ -21,6 +32,8 @@ export async function activate(context: ExtensionContext)
 		...[
 			configureLanguage(),
 			...registerCommands(),
+			workspace.onDidChangeWorkspaceFolders(workspaceFoldersChanged),
+			window.onDidChangeActiveTextEditor(activeTextEditorChanged),
 		],
 	)
 
@@ -110,6 +123,64 @@ export class ClientWorkspace
 			),
 		]
 	}
+}
+
+/* exported activeTextEditorChanged */
+function activeTextEditorChanged(editor: TextEditor | undefined)
+{
+	if (!editor || !editor.document)
+		return
+	const {languageId, uri} = editor.document
+	const workspace = clientWorkspaceForURI(uri, {initialiseIfMissing: languageId === 'mangrove'})
+	if (!workspace)
+		return
+	activeWorkspace.value = workspace
+
+	const updateProgress = (progress: WorkspaceProgress) =>
+	{
+		if (progress.state === 'progress')
+			startSpinner(`[${workspace.folder.name}] ${progress.message}`)
+		else
+		{
+			const symbol = progress.state === 'standby' ? '$(debug-stop)' : '$(debug-start)'
+			stopSpinner(`[${workspace.folder.name}] ${symbol}`)
+		}
+	}
+
+	if (progress)
+		progress.dispose()
+	progress = workspace.progress.observe(updateProgress)
+	updateProgress(workspace.progress.value)
+}
+
+/* exported workspaceFoldersChanged */
+function workspaceFoldersChanged(event: WorkspaceFoldersChangeEvent)
+{
+	for (const folder of event.removed)
+	{
+		const workspace = workspaces.get(folder.uri.toString())
+		if (workspace)
+		{
+			workspaces.delete(folder.uri.toString())
+			workspace.stop()
+		}
+	}
+}
+
+/* exported clientWorkspaceForURI */
+function clientWorkspaceForURI(uri: Uri, options?: {initialiseIfMissing: boolean}): ClientWorkspace | undefined
+{
+	const folder = workspace.getWorkspaceFolder(uri)
+	if (!folder)
+		return undefined
+
+	const alreadyExists = workspaces.get(folder.uri.toString())
+	if (alreadyExists || !options || !options.initialiseIfMissing)
+		return alreadyExists
+
+	const clientWorkspace = new ClientWorkspace(folder)
+	workspaces.set(folder.uri.toString(), clientWorkspace)
+	return clientWorkspace
 }
 
 /* exported registerCommands */
