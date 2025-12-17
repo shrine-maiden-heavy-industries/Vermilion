@@ -11,3 +11,5 @@ pub(crate) enum TransportType {
 	Socket(u16),
 	Pipe(PathBuf),
 }
+
+pub(super) trait LSPTransport {}
