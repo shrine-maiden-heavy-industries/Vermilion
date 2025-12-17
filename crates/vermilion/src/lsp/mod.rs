@@ -1,3 +1,104 @@
 /* SPDX-License-Identifier: BSD-3-Clause */
 
-pub(crate) mod server;
+use std::{
+	path::PathBuf,
+	sync::atomic::{AtomicUsize, Ordering},
+	time::Duration,
+};
+
+use tokio::{
+	select, signal,
+	sync::mpsc::{self, UnboundedSender},
+	task::JoinSet,
+};
+use tokio_util::sync::CancellationToken;
+use tracing::{debug, info, trace, warn};
+
+mod server;
+
+pub(crate) enum LSPTransport {
+	Stdio,
+	Socket(u16),
+	Pipe(PathBuf),
+}
+
+pub(crate) fn start(transport: LSPTransport, client_pid: Option<usize>) -> eyre::Result<()> {
+	debug!("Starting runtime...");
+	let rt = tokio::runtime::Builder::new_multi_thread()
+		.enable_all()
+		.worker_threads(4)
+		.thread_name_fn(|| {
+			static WORKER_POOL_ID: AtomicUsize = AtomicUsize::new(0);
+			let pool_id = WORKER_POOL_ID.fetch_add(1, Ordering::SeqCst);
+			format!("vermilion-worker-{pool_id}")
+		})
+		.on_thread_start(|| {
+			trace!("Starting tokio worker thread");
+		})
+		.build()?;
+
+	rt.block_on(async {
+		let mut tasks = JoinSet::new();
+		let cancel_token = CancellationToken::new();
+		let (shutdown_send, mut shutdown_recv) = mpsc::unbounded_channel::<()>();
+
+		if let Some(client_pid) = client_pid {
+			debug!("Client gave us their PID, spawning watcher task");
+			tasks.build_task().name("client-watcher").spawn(watch_pid(
+				client_pid,
+				cancel_token.clone(),
+				shutdown_send.clone(),
+			))?;
+		}
+
+		select! {
+			_ = signal::ctrl_c() => {},
+			_ = shutdown_recv.recv() => {},
+		}
+
+		info!("Caught shutdown signal, stopping language server");
+		cancel_token.cancel();
+
+		select! {
+			_ = tasks.join_all() => {},
+			_ = tokio::time::sleep(Duration::from_secs(15)) => {
+				warn!("Tasks did not all join! Forcing shutdown");
+			}
+		}
+
+		Ok::<(), eyre::Report>(())
+	})?;
+
+	debug!("Shutting down runtime...");
+	rt.shutdown_timeout(Duration::from_secs(10));
+
+	Ok(())
+}
+
+async fn watch_pid(
+	pid: usize,
+	cancellation_token: CancellationToken,
+	shutdown_channel: UnboundedSender<()>,
+) {
+	let pid = sysinfo::Pid::from(pid);
+	let mut sys = sysinfo::System::new_with_specifics(
+		sysinfo::RefreshKind::nothing().with_processes(sysinfo::ProcessRefreshKind::nothing()),
+	);
+
+	debug!("Watching PID {}", pid);
+	loop {
+		select! {
+			_ = cancellation_token.cancelled() => { break; },
+			// TODO(aki): should we let the user tune this?
+			_ = tokio::time::sleep(Duration::from_secs(15)) => {
+				sys.refresh_all();
+
+				if !sys.processes().contains_key(&pid) {
+					warn!("Client process died, exiting...");
+					let _ = shutdown_channel.send(());
+					break;
+				}
+			}
+		}
+	}
+}

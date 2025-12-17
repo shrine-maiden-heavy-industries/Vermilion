@@ -1,21 +1,11 @@
 /* SPDX-License-Identifier: BSD-3-Clause */
 
-use std::{
-	path::PathBuf,
-	sync::atomic::{AtomicUsize, Ordering},
-	time::Duration,
-};
+use std::path::PathBuf;
 
 use clap::{Arg, ArgAction, ArgMatches, Command, ValueHint};
-use tokio::{
-	select, signal,
-	sync::mpsc::{self, UnboundedSender},
-	task::JoinSet,
-};
-use tokio_util::sync::CancellationToken;
-use tracing::{debug, info, trace, warn};
+use tracing::error;
 
-use crate::settings::Config;
+use crate::{lsp, settings::Config};
 
 pub(crate) const COMMAND_NAME: &str = "lang-server";
 
@@ -30,25 +20,24 @@ pub(crate) fn init() -> eyre::Result<Command> {
 				.value_name("PIPE")
 				.value_parser(clap::value_parser!(PathBuf))
 				.action(ArgAction::Set)
-				// .conflicts_with_all(["socket", "stdio"]),
+				.conflicts_with_all(["socket", "stdio"]),
 		)
-		// XXX(aki): For now we're only supporting LSP over PIPE,
-		// .arg(
-		// 	Arg::new("socket")
-		// 		.long("socket")
-		// 		.help("The port to connect to for the LSP server to talk to")
-		// 		.value_name("PORT")
-		// 		.value_parser(clap::value_parser!(u16))
-		// 		.action(ArgAction::Set)
-		// 		.conflicts_with_all(["pipe", "stdio"]),
-		// )
-		// .arg(
-		// 	Arg::new("stdio")
-		// 		.long("stdio")
-		// 		.help("Use STDIO for LSP communication")
-		// 		.action(ArgAction::SetTrue)
-		// 		.conflicts_with_all(["pipe", "socket"]),
-		// )
+		.arg(
+			Arg::new("socket")
+				.long("port")
+				.help("The port to connect to for the LSP server to talk to")
+				.value_name("PORT")
+				.value_parser(clap::value_parser!(u16))
+				.action(ArgAction::Set)
+				.conflicts_with_all(["pipe", "stdio"]),
+		)
+		.arg(
+			Arg::new("stdio")
+				.long("stdio")
+				.help("Use STDIO for LSP communication")
+				.action(ArgAction::SetTrue)
+				.conflicts_with_all(["pipe", "socket"]),
+		)
 		.arg(
 			Arg::new("client-pid")
 				.long("clientProcessId")
@@ -59,86 +48,28 @@ pub(crate) fn init() -> eyre::Result<Command> {
 		))
 }
 
-async fn watch_pid(
-	pid: usize,
-	cancellation_token: CancellationToken,
-	shutdown_channel: UnboundedSender<()>,
-) {
-	let pid = sysinfo::Pid::from(pid);
-	let mut sys = sysinfo::System::new_with_specifics(
-		sysinfo::RefreshKind::nothing().with_processes(sysinfo::ProcessRefreshKind::nothing()),
-	);
-
-	debug!("Watching PID {}", pid);
-	loop {
-		select! {
-			_ = cancellation_token.cancelled() => { break; },
-			// TODO(aki): should we let the user tune this?
-			_ = tokio::time::sleep(Duration::from_secs(15)) => {
-				sys.refresh_all();
-
-				if !sys.processes().contains_key(&pid) {
-					warn!("Client process died, exiting...");
-					let _ = shutdown_channel.send(());
-					break;
-				}
-			}
-		}
-	}
-}
-
 pub(crate) fn exec(args: &ArgMatches, _cfg: Config) -> eyre::Result<()> {
 	// If we get passed `--clientProcessId` we want to watch for that PID to die
 	let client_pid = args.try_get_one::<usize>("client-pid")?.copied();
 
-	debug!("Starting runtime...");
-	let rt = tokio::runtime::Builder::new_multi_thread()
-		.enable_all()
-		.worker_threads(4)
-		.thread_name_fn(|| {
-			static WORKER_POOL_ID: AtomicUsize = AtomicUsize::new(0);
-			let pool_id = WORKER_POOL_ID.fetch_add(1, Ordering::SeqCst);
-			format!("vermilion-worker-{pool_id}")
-		})
-		.on_thread_start(|| {
-			trace!("Starting tokio worker thread");
-		})
-		.build()?;
+	// The possible transport types
+	let pipe = args.try_get_one::<PathBuf>("pipe")?.cloned();
+	let port = args.try_get_one::<u16>("socket")?.copied();
+	let stdio = args.try_get_one::<bool>("stdio")?;
 
-	rt.block_on(async {
-		let mut tasks = JoinSet::new();
-		let cancel_token = CancellationToken::new();
-		let (shutdown_send, mut shutdown_recv) = mpsc::unbounded_channel::<()>();
+	// Figure out which transport we want to use
+	let transport = if let Some(pipe) = pipe {
+		Some(lsp::LSPTransport::Pipe(pipe))
+	} else if let Some(port) = port {
+		Some(lsp::LSPTransport::Socket(port))
+	} else {
+		stdio.map(|_| lsp::LSPTransport::Stdio)
+	};
 
-		if let Some(client_pid) = client_pid {
-			debug!("Client gave us their PID, spawning watcher task");
-			tasks.build_task().name("client-watcher").spawn(watch_pid(
-				client_pid,
-				cancel_token.clone(),
-				shutdown_send.clone(),
-			))?;
-		}
-
-		select! {
-			_ = signal::ctrl_c() => {},
-			_ = shutdown_recv.recv() => {},
-		}
-
-		info!("Caught shutdown signal, stopping language server");
-		cancel_token.cancel();
-
-		select! {
-			_ = tasks.join_all() => {},
-			_ = tokio::time::sleep(Duration::from_secs(15)) => {
-				warn!("Tasks did not all join! Forcing shutdown");
-			}
-		}
-
-		Ok::<(), eyre::Report>(())
-	})?;
-
-	debug!("Shutting down runtime...");
-	rt.shutdown_timeout(Duration::from_secs(10));
-
-	Ok(())
+	if let Some(transport) = transport {
+		lsp::start(transport, client_pid)
+	} else {
+		error!("You must specify an LSP transport type!");
+		Ok(())
+	}
 }
