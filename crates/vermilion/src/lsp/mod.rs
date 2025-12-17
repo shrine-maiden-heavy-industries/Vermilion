@@ -78,7 +78,7 @@ pub(crate) fn start(transport: TransportType, client_pid: Option<usize>) -> eyre
 }
 
 async fn lsp_server(
-	transport: LSPTransport,
+	transport: TransportType,
 	cancellation_token: CancellationToken,
 	shutdown_channel: UnboundedSender<()>,
 ) {
