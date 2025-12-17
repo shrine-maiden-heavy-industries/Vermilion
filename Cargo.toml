@@ -57,6 +57,9 @@ toml               = { version = "0.9" }
 tracing            = { version = "0.1", features = [ "async-await" ] }
 tracing-subscriber = { version = "0.3", features = [ "env-filter", "fmt", "ansi", "registry" ] }
 
+# Windows Only deps
+windows-sys = { version = "0.61.2" }
+
 [workspace.lints.clippy]
 allow_attributes_without_reason = "warn"
 cast_lossless = "warn"

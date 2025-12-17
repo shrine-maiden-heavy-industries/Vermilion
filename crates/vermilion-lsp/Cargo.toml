@@ -12,12 +12,10 @@ rust-version  = { workspace = true }
 version       = { workspace = true }
 
 [dependencies]
-chumsky    = { workspace = true, optional = true }
 fluent-uri = { workspace = true }
 serde      = { workspace = true }
 serde_json = { workspace = true }
 serde_repr = { workspace = true }
-tokio      = { workspace = true }
 tracing    = { workspace = true }
 
 [dev-dependencies]
@@ -27,5 +25,3 @@ test-log  = { workspace = true }
 
 [features]
 default = []
-
-chumsky = [ "dep:chumsky" ]

@@ -2732,6 +2732,7 @@ dependencies = [
  "vermilion-lsp",
  "vermilion-verilog",
  "vermilion-vhdl",
+ "windows-sys 0.61.2",
 ]
 
 [[package]]
@@ -2791,7 +2792,6 @@ dependencies = [
 name = "vermilion-lsp"
 version = "0.0.0"
 dependencies = [
- "chumsky",
  "criterion",
  "fluent-uri",
  "proptest",
@@ -2799,7 +2799,6 @@ dependencies = [
  "serde_json",
  "serde_repr",
  "test-log",
- "tokio",
  "tracing",
 ]
 
