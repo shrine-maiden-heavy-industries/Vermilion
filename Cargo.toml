@@ -48,9 +48,10 @@ serde              = { version = "1.0", features = [ "derive" ] }
 serde_json         = { version = "1.0" }
 serde_repr         = { version = "0.1" }
 syntect            = { version = "5.3" }
+sysinfo            = { version = "0.37.2" }
 tendril            = { version = "0.4" }
 test-log           = { version = "0.2", features = ["trace", "color"] }
-tokio              = { version = "1.48", features = [ "rt", "rt-multi-thread", "net", "time", "macros", "sync", "tracing" ] }
+tokio              = { version = "1.48", features = [ "rt", "rt-multi-thread", "net", "time", "macros", "sync", "signal", "tracing" ] }
 tokio-stream       = { version = "0.1", features = [ "full" ] }
 tokio-util         = { version = "0.7", features = [ "tracing" ] }
 toml               = { version = "0.9" }
