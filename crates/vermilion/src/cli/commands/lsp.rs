@@ -127,7 +127,12 @@ pub(crate) fn exec(args: &ArgMatches, _cfg: Config) -> eyre::Result<()> {
 		info!("Caught shutdown signal, stopping language server");
 		cancel_token.cancel();
 
-		let _ = tasks.join_all().await;
+		select! {
+			_ = tasks.join_all() => {},
+			_ = tokio::time::sleep(Duration::from_secs(15)) => {
+				warn!("Tasks did not all join! Forcing shutdown");
+			}
+		}
 
 		Ok::<(), eyre::Report>(())
 	})?;
