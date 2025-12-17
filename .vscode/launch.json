@@ -18,7 +18,8 @@
 			"preLaunchTask":
 			{
 				"type": "npm",
-				"script": "watch"
+				"script": "watch",
+				"path": "editors/vscode"
 			}
 		},
 		{
