@@ -7,6 +7,13 @@ use std::{
 };
 
 use clap::{Arg, ArgAction, ArgMatches, Command, ValueHint};
+use tokio::{
+	select, signal,
+	sync::mpsc::{self, UnboundedSender},
+	task::JoinSet,
+};
+use tokio_util::sync::CancellationToken;
+use tracing::{debug, info, trace, warn};
 
 use crate::settings::Config;
 
@@ -52,7 +59,38 @@ pub(crate) fn init() -> eyre::Result<Command> {
 		))
 }
 
-pub(crate) fn exec(_args: &ArgMatches, _cfg: Config) -> eyre::Result<()> {
+async fn watch_pid(
+	pid: usize,
+	cancellation_token: CancellationToken,
+	shutdown_channel: UnboundedSender<()>,
+) {
+	let pid = sysinfo::Pid::from(pid);
+	let mut sys = sysinfo::System::new_with_specifics(
+		sysinfo::RefreshKind::nothing().with_processes(sysinfo::ProcessRefreshKind::nothing()),
+	);
+
+	debug!("Watching PID {}", pid);
+	loop {
+		select! {
+			_ = cancellation_token.cancelled() => { break; },
+			// TODO(aki): should we let the user tune this?
+			_ = tokio::time::sleep(Duration::from_secs(15)) => {
+				sys.refresh_all();
+
+				if !sys.processes().contains_key(&pid) {
+					warn!("Client process died, exiting...");
+					let _ = shutdown_channel.send(());
+					break;
+				}
+			}
+		}
+	}
+}
+
+pub(crate) fn exec(args: &ArgMatches, _cfg: Config) -> eyre::Result<()> {
+	// If we get passed `--clientProcessId` we want to watch for that PID to die
+	let client_pid = args.try_get_one::<usize>("client-pid")?.copied();
+
 	debug!("Starting runtime...");
 	let rt = tokio::runtime::Builder::new_multi_thread()
 		.enable_all()
@@ -63,9 +101,36 @@ pub(crate) fn exec(_args: &ArgMatches, _cfg: Config) -> eyre::Result<()> {
 			format!("vermilion-worker-{pool_id}")
 		})
 		.on_thread_start(|| {
-			debug!("Starting tokio worker thread");
+			trace!("Starting tokio worker thread");
 		})
 		.build()?;
+
+	rt.block_on(async {
+		let mut tasks = JoinSet::new();
+		let cancel_token = CancellationToken::new();
+		let (shutdown_send, mut shutdown_recv) = mpsc::unbounded_channel::<()>();
+
+		if let Some(client_pid) = client_pid {
+			debug!("Client gave us their PID, spawning watcher task");
+			tasks.build_task().name("client-watcher").spawn(watch_pid(
+				client_pid,
+				cancel_token.clone(),
+				shutdown_send.clone(),
+			))?;
+		}
+
+		select! {
+			_ = signal::ctrl_c() => {},
+			_ = shutdown_recv.recv() => {},
+		}
+
+		info!("Caught shutdown signal, stopping language server");
+		cancel_token.cancel();
+
+		let _ = tasks.join_all().await;
+
+		Ok::<(), eyre::Report>(())
+	})?;
 
 	debug!("Shutting down runtime...");
 	rt.shutdown_timeout(Duration::from_secs(10));
