@@ -67,7 +67,7 @@
 		"eslint": "^9.39.2",
 		"jest": "^30.2.0",
 		"ts-jest": "^29.4.6",
-		"typescript": "~5.9.3",
+		"typescript": "~5.5.4",
 		"@vscode/vsce": "^3.7.1"
 	},
 	"contributes":
