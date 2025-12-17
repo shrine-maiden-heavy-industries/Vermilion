@@ -9,8 +9,7 @@ import {FlatCompat} from '@eslint/eslintrc'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
-const compat = new FlatCompat
-(
+const compat = new FlatCompat(
 	{
 		baseDirectory: dirname,
 		recommendedConfig: js.configs.recommended,
@@ -18,20 +17,15 @@ const compat = new FlatCompat
 	},
 )
 
-export default defineConfig
-(
+export default defineConfig(
 	[
 		{
-			extends: compat.extends
-			(
+			extends: compat.extends(
 				'eslint:all',
 				'plugin:@typescript-eslint/recommended',
 			),
 
-			plugins:
-			{
-				'@stylistic': stylistic,
-			},
+			plugins: {'@stylistic': stylistic},
 
 			languageOptions:
 			{
@@ -81,9 +75,7 @@ export default defineConfig
 				[
 					'error',
 					'allman',
-					{
-						allowSingleLine: true,
-					},
+					{allowSingleLine: true},
 				],
 
 				'comma-dangle': ['error', 'always-multiline'],
@@ -101,7 +93,8 @@ export default defineConfig
 				'computed-property-spacing': ['error', 'never'],
 				'dot-location': ['error', 'property'],
 				'eol-last': ['error', 'always'],
-				'func-call-spacing': ['error', 'never'],
+				'func-call-spacing': 'off',
+				'@stylistic/function-call-spacing': ['error', 'never'],
 				'function-call-argument-newline': 'off',
 				'function-paren-newline': 'off',
 
@@ -128,9 +121,7 @@ export default defineConfig
 				'keyword-spacing':
 				[
 					'error',
-					{
-						before: true,
-					},
+					{before: true},
 				],
 
 				'line-comment-position': 'off',
@@ -140,9 +131,7 @@ export default defineConfig
 				[
 					'error',
 					'always',
-					{
-						exceptAfterSingleLine: true,
-					},
+					{exceptAfterSingleLine: true},
 				],
 
 				'max-len':
@@ -164,17 +153,13 @@ export default defineConfig
 				'no-multi-spaces':
 				[
 					'error',
-					{
-						ignoreEOLComments: true,
-					},
+					{ignoreEOLComments: true},
 				],
 
 				'no-multiple-empty-lines':
 				[
 					'error',
-					{
-						max: 1,
-					},
+					{max: 1},
 				],
 
 				'no-tabs': 'off',
@@ -204,9 +189,7 @@ export default defineConfig
 				'object-property-newline':
 				[
 					'error',
-					{
-						allowAllPropertiesOnSameLine: true,
-					},
+					{allowAllPropertiesOnSameLine: true},
 				],
 
 				'operator-linebreak': 'off',
