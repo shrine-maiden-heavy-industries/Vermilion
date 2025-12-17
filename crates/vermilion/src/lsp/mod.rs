@@ -37,6 +37,7 @@ pub(crate) fn start(transport: LSPTransport, client_pid: Option<usize>) -> eyre:
 		})
 		.build()?;
 
+	info!("Starting Vermilion Language Server");
 	rt.block_on(async {
 		let mut tasks = JoinSet::new();
 		let cancel_token = CancellationToken::new();
@@ -50,6 +51,13 @@ pub(crate) fn start(transport: LSPTransport, client_pid: Option<usize>) -> eyre:
 				shutdown_send.clone(),
 			))?;
 		}
+
+		debug!("Starting LSP server task");
+		tasks.build_task().name("lsp-server").spawn(lsp_server(
+			transport,
+			cancel_token.clone(),
+			shutdown_send.clone(),
+		))?;
 
 		select! {
 			_ = signal::ctrl_c() => {},
@@ -73,6 +81,19 @@ pub(crate) fn start(transport: LSPTransport, client_pid: Option<usize>) -> eyre:
 	rt.shutdown_timeout(Duration::from_secs(10));
 
 	Ok(())
+}
+
+async fn lsp_server(
+	transport: LSPTransport,
+	cancellation_token: CancellationToken,
+	shutdown_channel: UnboundedSender<()>,
+) {
+	debug!("LSP Server shutting down");
+	// If we're not explicitly cancelled and we hit this point,
+	// we need to tell everything else to shutdown
+	if !cancellation_token.is_cancelled() {
+		let _ = shutdown_channel.send(());
+	}
 }
 
 async fn watch_pid(
