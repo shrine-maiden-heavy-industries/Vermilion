@@ -1,7 +1,6 @@
 /* SPDX-License-Identifier: BSD-3-Clause */
 
 use std::{
-	path::PathBuf,
 	sync::atomic::{AtomicUsize, Ordering},
 	time::Duration,
 };
@@ -14,15 +13,10 @@ use tokio::{
 use tokio_util::sync::CancellationToken;
 use tracing::{debug, info, trace, warn};
 
-mod server;
+pub(crate) mod transport;
+pub(crate) use transport::TransportType;
 
-pub(crate) enum LSPTransport {
-	Stdio,
-	Socket(u16),
-	Pipe(PathBuf),
-}
-
-pub(crate) fn start(transport: LSPTransport, client_pid: Option<usize>) -> eyre::Result<()> {
+pub(crate) fn start(transport: TransportType, client_pid: Option<usize>) -> eyre::Result<()> {
 	debug!("Starting runtime...");
 	let rt = tokio::runtime::Builder::new_multi_thread()
 		.enable_all()

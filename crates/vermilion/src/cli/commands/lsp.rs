@@ -59,11 +59,11 @@ pub(crate) fn exec(args: &ArgMatches, _cfg: Config) -> eyre::Result<()> {
 
 	// Figure out which transport we want to use
 	let transport = if let Some(pipe) = pipe {
-		Some(lsp::LSPTransport::Pipe(pipe))
+		Some(lsp::TransportType::Pipe(pipe))
 	} else if let Some(port) = port {
-		Some(lsp::LSPTransport::Socket(port))
+		Some(lsp::TransportType::Socket(port))
 	} else {
-		stdio.map(|_| lsp::LSPTransport::Stdio)
+		stdio.map(|_| lsp::TransportType::Stdio)
 	};
 
 	if let Some(transport) = transport {
