@@ -1,0 +1,44 @@
+{
+	"version": "0.2.0",
+	"configurations":
+	[
+		{
+			"type": "extensionHost",
+			"request": "launch",
+			"name": "Launch VSCode extension",
+			"runtimeExecutable": "${execPath}",
+			"args": [
+				"--extensionDevelopmentPath=${workspaceFolder}/editors/vscode"
+			],
+			"outFiles":
+			[
+				"${workspaceFolder}/editors/vscode/build/**/*.js",
+				"!**/node_modules/**"
+			],
+			"preLaunchTask":
+			{
+				"type": "npm",
+				"script": "watch"
+			}
+		},
+		{
+			"type": "node",
+			"request": "attach",
+			"name": "Attach to Vermilion server",
+			"port": 6009,
+			"restart": true,
+			"outFiles":
+			[
+				"${workspaceFolder}/editors/vscode/build/**/*.js",
+				"!**/node_modules/**"
+			]
+		}
+	],
+	"compounds":
+	[
+		{
+			"name": "Launch VSCode and attach",
+			"configurations": ["Launch VSCode extension", "Attach to Vermilion server"]
+		}
+	]
+}
