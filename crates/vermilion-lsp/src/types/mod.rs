@@ -4,3 +4,8 @@
 //!
 
 pub mod base;
+
+#[cfg(test)]
+mod tests {
+	use super::*;
+}
