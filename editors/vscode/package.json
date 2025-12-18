@@ -129,6 +129,21 @@
 					"light": "vhdl_icon.svg"
 				}
 			}
+		],
+		"configuration":
+		[
+			{
+				"title": "Vermilion",
+				"properties":
+				{
+					"vermilion.binaryPath":
+					{
+						"markdownDescription": "Path to the `vermilion` executable.",
+						"default": null,
+						"type":"string"
+					}
+				}
+			}
 		]
 	}
 }
