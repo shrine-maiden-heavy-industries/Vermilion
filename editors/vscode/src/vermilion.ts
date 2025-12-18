@@ -11,6 +11,7 @@ import {
 	LanguageClient,
 	ServerOptions,
 	TransportKind,
+	Executable
 } from 'vscode-languageclient/node'
 import {extensionContext, WorkspaceProgress} from './extension'
 import {Observable} from './utils/observable'
@@ -33,24 +34,24 @@ export async function createLanguageClient(folder: WorkspaceFolder): Promise<Lan
 	}
 
 	// XXX: This needs to actually go looking for Vermilion using either the configuration keys, or $PATH
-	const languageServer = extensionContext.asAbsolutePath(path.join('..', '..', '..', 'target', 'debug', 'vermilion'))
+	const languageServer = extensionContext.asAbsolutePath(path.join('vermilion'))
 
-	const serverOptions: ServerOptions =
-	{
-		run:
-		{
-			module: languageServer,
-			args: ['lang-server'],
-			transport: TransportKind.stdio,
-		},
-		debug:
-		{
-			module: languageServer,
-			args: ['lang-server'],
-			transport: TransportKind.stdio,
-			options: {execArgv: ['--nolazy', '--inspect=6009']},
-		},
-	}
+	const server_run: Executable = {
+		command: languageServer,
+		args: ['lang-server'],
+		transport: TransportKind.pipe,
+	};
+
+	const server_dbg: Executable = {
+		command: languageServer,
+		args: ['-v', 'lang-server'],
+		transport: TransportKind.pipe,
+	};
+
+	const serverOptions: ServerOptions = {
+		run: server_run,
+		debug: server_dbg,
+	};
 
 	return new LanguageClient(
 		'vermilion-client',
