@@ -56,6 +56,18 @@ pub struct Location {
 	range: Range,
 }
 
+#[derive(
+	Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize,
+)]
+#[serde(rename_all = "camelCase")]
+pub struct LocationLink {
+	target_uri: Uri,
+	target_range: Range,
+	target_selection_range: Range,
+	#[serde(skip_serializing_if = "Option::is_none")]
+	origin_selection_range: Option<Range>,
+}
+
 // TODO(aki):
 // Figure out a way to turn a Chumsky `Span` into this.
 // It's annoying because they use glyph offsets rather than lines + char, so
@@ -102,4 +114,41 @@ impl Location {
 	pub const fn range(&self) -> &Range {
 		&self.range
 	}
+}
+
+impl LocationLink {
+	pub const fn new(
+		target_uri: Uri,
+		target_range: Range,
+		target_selection: Range,
+		origin_selection: Option<Range>,
+	) -> Self {
+		Self {
+			origin_selection_range: origin_selection,
+			target_uri,
+			target_range,
+			target_selection_range: target_selection,
+		}
+	}
+
+	pub const fn target_uri(&self) -> &Uri {
+		&self.target_uri
+	}
+
+	pub const fn target_range(&self) -> &Range {
+		&self.target_range
+	}
+
+	pub const fn target_selection(&self) -> &Range {
+		&self.target_selection_range
+	}
+
+	pub const fn origin_selection(&self) -> Option<&Range> {
+		self.origin_selection_range.as_ref()
+	}
+}
+
+#[cfg(test)]
+mod tests {
+	use super::*;
 }
