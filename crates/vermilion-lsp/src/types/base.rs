@@ -35,6 +35,7 @@ pub enum IntegerOrString {
 #[derive(
 	Clone, Copy, Debug, Eq, Hash, Ord, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize,
 )]
+#[serde(rename_all = "camelCase")]
 pub struct Position {
 	line: u32,
 	character: u32,
@@ -43,6 +44,7 @@ pub struct Position {
 #[derive(
 	Clone, Copy, Debug, Eq, Hash, Ord, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize,
 )]
+#[serde(rename_all = "camelCase")]
 pub struct Range {
 	start: Position,
 	end: Position,
@@ -51,6 +53,7 @@ pub struct Range {
 #[derive(
 	Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize,
 )]
+#[serde(rename_all = "camelCase")]
 pub struct Location {
 	uri: Uri,
 	range: Range,
