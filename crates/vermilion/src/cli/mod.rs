@@ -42,6 +42,15 @@ pub(crate) fn init() -> eyre::Result<Command> {
 				.invalid(styling::AnsiColor::Red.on_default().bold()),
 		)
 		.arg(
+			Arg::new("color")
+				.long("color")
+				.action(ArgAction::Set)
+				.help("Control if color is enabled or disabled")
+				.value_parser(value_parser!(ColorChoice))
+				.value_name("WHEN")
+				.default_value("auto")
+		)
+		.arg(
 			Arg::new("verbose")
 				.short('v')
 				.action(ArgAction::Count)

@@ -22,6 +22,13 @@ pub(crate) mod lsp;
 pub(crate) mod paths;
 pub(crate) mod settings;
 
+fn fmt_color() -> bool {
+	use crossterm::tty::IsTty;
+	use std::io::stdout;
+
+	stdout().is_tty() && colorchoice::ColorChoice::global() != colorchoice::ColorChoice::Never
+}
+
 fn initialize_tracing(level: LevelFilter) -> eyre::Result<()> {
 	Ok(tracing_subscriber::registry()
 		.with(cfg!(debug_assertions).then(|| {
@@ -38,7 +45,7 @@ fn initialize_tracing(level: LevelFilter) -> eyre::Result<()> {
 			)
 		}))
 		.with(
-			fmt::layer().with_filter(
+			fmt::layer().with_ansi(fmt_color()).with_filter(
 				// SAFETY:
 				// These `Directive` strings are hard-coded and as correct as we can ensure,
 				// and there is no way to construct them in a more-safe manner other than `.parse()`
@@ -61,6 +68,16 @@ fn main() -> eyre::Result<()> {
 
 	// XXX(aki): We need to clone the Command here because we need it still
 	let args = cli.clone().get_matches();
+
+	// Make sure we propagate the color choice
+	colorchoice::ColorChoice::write_global(match args.get_one::<clap::ColorChoice>("color") {
+		Some(choice) => match choice {
+			clap::ColorChoice::Auto => colorchoice::ColorChoice::Auto,
+			clap::ColorChoice::Always => colorchoice::ColorChoice::Always,
+			clap::ColorChoice::Never => colorchoice::ColorChoice::Never,
+		},
+		None => colorchoice::ColorChoice::Auto,
+	});
 
 	// If the user wants us to dump the configuration schema, do so and exit right away
 	if args.get_flag("dump-schema") {
