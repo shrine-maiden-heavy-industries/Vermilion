@@ -53,6 +53,7 @@ export class SemanticTokensProvider implements DocumentSemanticTokensProvider
 	{
 		await this.workspace.awaitReady()
 		const params: SemanticTokensParams = {textDocument: {uri: document.uri.toString()}}
+		console.info(`Attempting to get semantic tokens for ${document.fileName}`)
 		const result: GetSemanticTokensResult =
 			await this.workspace.languageClient.sendRequest(getSemanticTokensRequest, params, token)
 
