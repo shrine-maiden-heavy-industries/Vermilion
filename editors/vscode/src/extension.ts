@@ -35,6 +35,7 @@ export async function activate(context: ExtensionContext)
 			...registerCommands(),
 			workspace.onDidChangeWorkspaceFolders(workspaceFoldersChanged),
 			window.onDidChangeActiveTextEditor(activeTextEditorChanged),
+			window.onDidChangeVisibleTextEditors(visibleTextEditorChanged),
 		],
 	)
 
@@ -132,7 +133,7 @@ function activeTextEditorChanged(editor: TextEditor | undefined)
 	if (!editor || !editor.document)
 		return
 	const {languageId, uri} = editor.document
-	const workspace = clientWorkspaceForURI(uri, {initialiseIfMissing: languageId === 'mangrove'})
+	const workspace = clientWorkspaceForURI(uri, {initialiseIfMissing: languageId === 'verilog'})
 	if (!workspace)
 		return
 	activeWorkspace.value = workspace
@@ -152,6 +153,13 @@ function activeTextEditorChanged(editor: TextEditor | undefined)
 		progress.dispose()
 	progress = workspace.progress.observe(updateProgress)
 	updateProgress(workspace.progress.value)
+}
+
+/* exported visibleTextEditorChanged */
+function visibleTextEditorChanged(editors: readonly TextEditor[])
+{
+	for (const editor of editors)
+		activeTextEditorChanged(editor)
 }
 
 /* exported workspaceFoldersChanged */

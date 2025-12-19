@@ -10,7 +10,7 @@ import {
 	DocumentSelector,
 	LanguageClient,
 	ServerOptions,
-	TransportKind
+	TransportKind,
 } from 'vscode-languageclient/node'
 import {extensionContext, WorkspaceProgress} from './extension'
 import {Observable} from './utils/observable'
