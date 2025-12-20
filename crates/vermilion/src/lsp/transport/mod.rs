@@ -14,4 +14,11 @@ pub(crate) enum TransportType {
 	Pipe(PathBuf),
 }
 
-pub(super) trait LSPTransport {}
+pub(super) trait LSPTransport {
+	async fn connect(&mut self) -> eyre::Result<()>;
+	async fn ready(&mut self) -> eyre::Result<()>;
+	async fn close(&mut self) -> eyre::Result<()>;
+
+	async fn read(&mut self, buffer: &mut [u8]) -> eyre::Result<usize>;
+	async fn write(&mut self, buffer: &mut [u8]) -> eyre::Result<usize>;
+}

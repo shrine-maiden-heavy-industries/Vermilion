@@ -14,7 +14,9 @@ use tokio_util::sync::CancellationToken;
 use tracing::{debug, info, trace, warn};
 
 pub(crate) mod transport;
-pub(crate) use transport::TransportType;
+pub(crate) use transport::{TransportType, pipe::PipeTransport};
+
+use crate::lsp::transport::LSPTransport;
 
 pub(crate) fn start(transport: TransportType, client_pid: Option<usize>) -> eyre::Result<()> {
 	debug!("Starting runtime...");
@@ -81,20 +83,36 @@ async fn lsp_server(
 	transport: TransportType,
 	cancellation_token: CancellationToken,
 	shutdown_channel: UnboundedSender<()>,
-) {
+) -> eyre::Result<()> {
+	// XXX(aki): This will get super awful when we need to deal with the others
+	// as we *still* can't have dyn-compatible async traits,
+	let mut transport = match transport {
+		TransportType::Stdio => unimplemented!("LSP stdio transport not implemented"),
+		TransportType::Socket(_) => unimplemented!("LSP socket transport not implemented"),
+		TransportType::Pipe(path) => PipeTransport::new(path),
+	};
+
+	debug!("Connecting to LSP transport");
+	transport.connect().await?;
+
+	debug!("Waiting for transport to become ready");
+	transport.ready().await?;
+
 	debug!("LSP Server shutting down");
 	// If we're not explicitly cancelled and we hit this point,
 	// we need to tell everything else to shutdown
 	if !cancellation_token.is_cancelled() {
 		let _ = shutdown_channel.send(());
 	}
+
+	Ok(())
 }
 
 async fn watch_pid(
 	pid: usize,
 	cancellation_token: CancellationToken,
 	shutdown_channel: UnboundedSender<()>,
-) {
+) -> eyre::Result<()> {
 	let pid = sysinfo::Pid::from(pid);
 	let mut sys = sysinfo::System::new_with_specifics(
 		sysinfo::RefreshKind::nothing().with_processes(sysinfo::ProcessRefreshKind::nothing()),
@@ -116,4 +134,6 @@ async fn watch_pid(
 			}
 		}
 	}
+
+	Ok(())
 }
