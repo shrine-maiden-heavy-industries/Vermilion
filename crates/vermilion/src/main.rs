@@ -31,7 +31,7 @@ fn fmt_color() -> bool {
 
 fn initialize_tracing(level: LevelFilter) -> eyre::Result<()> {
 	Ok(tracing_subscriber::registry()
-		.with(cfg!(debug_assertions).then(|| {
+		.with((level == LevelFilter::TRACE).then(|| {
 			console_subscriber::spawn().with_filter(
 				// SAFETY:
 				// These `Directive` strings are hard-coded and as correct as we can ensure,
