@@ -7,5 +7,6 @@
 
 pub mod error;
 pub mod message;
-pub mod trace;
-pub mod types;
+pub mod notification;
+pub mod request;
+pub mod response;
