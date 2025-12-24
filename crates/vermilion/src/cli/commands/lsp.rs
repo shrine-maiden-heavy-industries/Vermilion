@@ -45,6 +45,14 @@ pub(crate) fn init() -> eyre::Result<Command> {
 				.value_name("PID")
 				.value_parser(clap::value_parser!(usize))
 				.action(ArgAction::Set),
+		)
+		.arg(
+			Arg::new("trace")
+				.long("trace")
+				.help("Dump all LSP messages to specified file")
+				.action(ArgAction::Set)
+				.value_hint(ValueHint::FilePath)
+				.value_parser(clap::value_parser!(PathBuf)),
 		))
 }
 
