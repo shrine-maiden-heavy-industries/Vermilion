@@ -30,7 +30,7 @@ async fn socket_reader(
 	stream: OwnedReadHalf,
 	sender: UnboundedSender<Message>,
 	cancellation_token: CancellationToken,
-	shutdown_tx: UnboundedSender<()>,
+	shutdown_channel: UnboundedSender<()>,
 ) -> Result<()> {
 	loop {
 		select! {
@@ -46,7 +46,7 @@ async fn socket_writer(
 	stream: OwnedWriteHalf,
 	mut receiver: UnboundedReceiver<Message>,
 	cancellation_token: CancellationToken,
-	shutdown_tx: UnboundedSender<()>,
+	shutdown_channel: UnboundedSender<()>,
 ) -> Result<()> {
 	loop {
 		select! {
