@@ -1,29 +1,30 @@
 /* SPDX-License-Identifier: BSD-3-Clause */
 
-use eyre::Result;
+use eyre::{Result, eyre};
+use tokio::{
+	sync::mpsc::{UnboundedReceiver, UnboundedSender},
+	task::JoinSet,
+};
+use tokio_util::sync::CancellationToken;
+use vermilion_lsp::message::Message;
 
 use super::LSPTransport;
 
+#[derive(Debug)]
 pub(crate) struct PipeTransport {}
 
 impl LSPTransport for PipeTransport {
-	async fn connect(&mut self) -> Result<()> {
-		todo!()
-	}
+	async fn create(
+		self,
+		cancellation_token: CancellationToken,
+		shutdown_channel: UnboundedSender<()>,
+	) -> Result<(
+		UnboundedReceiver<Message>,
+		UnboundedSender<Message>,
+		JoinSet<Result<()>>,
+	)> {
+		unimplemented!("LSP pipe transport for windows not implemented");
 
-	async fn ready(&mut self) -> Result<()> {
-		todo!()
-	}
-
-	async fn close(&mut self) -> Result<()> {
-		todo!()
-	}
-
-	async fn read(&mut self, buffer: &mut [u8]) -> Result<usize> {
-		todo!()
-	}
-
-	async fn write(&mut self, buffer: &mut [u8]) -> Result<usize> {
-		todo!()
+		Err(eyre!("あああああああああああ"))
 	}
 }

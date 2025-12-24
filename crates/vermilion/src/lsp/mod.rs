@@ -16,7 +16,7 @@ use tracing::{debug, info, trace, warn};
 pub(crate) mod transport;
 pub(crate) use transport::{TransportType, pipe::PipeTransport};
 
-use crate::lsp::transport::LSPTransport;
+use crate::lsp::transport::{LSPTransport, socket::SocketTransport, stdio::StdioTransport};
 
 pub(crate) fn start(transport: TransportType, client_pid: Option<usize>) -> eyre::Result<()> {
 	debug!("Starting runtime...");
@@ -84,25 +84,43 @@ async fn lsp_server(
 	cancellation_token: CancellationToken,
 	shutdown_channel: UnboundedSender<()>,
 ) -> eyre::Result<()> {
-	// XXX(aki): This will get super awful when we need to deal with the others
-	// as we *still* can't have dyn-compatible async traits,
-	let mut transport = match transport {
-		TransportType::Stdio => unimplemented!("LSP stdio transport not implemented"),
-		TransportType::Socket(_) => unimplemented!("LSP socket transport not implemented"),
-		TransportType::Pipe(path) => PipeTransport::new(path),
+	let (mut reader, mut writer, tasks) = match transport {
+		TransportType::Stdio => {
+			StdioTransport::new()
+				.create(cancellation_token.clone(), shutdown_channel.clone())
+				.await?
+		},
+		TransportType::Socket(port) => {
+			SocketTransport::new(port)
+				.create(cancellation_token.clone(), shutdown_channel.clone())
+				.await?
+		},
+		TransportType::Pipe(path) => {
+			PipeTransport::new(path)
+				.create(cancellation_token.clone(), shutdown_channel.clone())
+				.await?
+		},
 	};
 
-	debug!("Connecting to LSP transport");
-	transport.connect().await?;
-
-	debug!("Waiting for transport to become ready");
-	transport.ready().await?;
+	loop {
+		select! {
+			_ = cancellation_token.cancelled() => { break; },
+			message = reader.recv() => {},
+		}
+	}
 
 	debug!("LSP Server shutting down");
 	// If we're not explicitly cancelled and we hit this point,
 	// we need to tell everything else to shutdown
 	if !cancellation_token.is_cancelled() {
 		let _ = shutdown_channel.send(());
+	}
+
+	select! {
+		_ = tasks.join_all() => {},
+		_ = tokio::time::sleep(Duration::from_secs(15)) => {
+			warn!("Tasks did not all join! Forcing shutdown");
+		}
 	}
 
 	Ok(())

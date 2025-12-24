@@ -2,6 +2,14 @@
 
 use std::path::PathBuf;
 
+use eyre::Result;
+use tokio::{
+	sync::mpsc::{UnboundedReceiver, UnboundedSender},
+	task::JoinSet,
+};
+use tokio_util::sync::CancellationToken;
+use vermilion_lsp::message::Message;
+
 #[cfg_attr(unix, path = "pipe_unix.rs")]
 #[cfg_attr(windows, path = "pipe_win.rs")]
 pub(crate) mod pipe;
@@ -14,11 +22,14 @@ pub(crate) enum TransportType {
 	Pipe(PathBuf),
 }
 
-pub(super) trait LSPTransport {
-	async fn connect(&mut self) -> eyre::Result<()>;
-	async fn ready(&mut self) -> eyre::Result<()>;
-	async fn close(&mut self) -> eyre::Result<()>;
-
-	async fn read(&mut self, buffer: &mut [u8]) -> eyre::Result<usize>;
-	async fn write(&mut self, buffer: &mut [u8]) -> eyre::Result<usize>;
+pub(super) trait LSPTransport: Sized {
+	async fn create(
+		self,
+		cancellation_token: CancellationToken,
+		shutdown_channel: UnboundedSender<()>,
+	) -> Result<(
+		UnboundedReceiver<Message>,
+		UnboundedSender<Message>,
+		JoinSet<Result<()>>,
+	)>;
 }
