@@ -1,5 +1,24 @@
 name: 'Vermilion CI'
-on: [ push, pull_request ]
+on:
+  push:
+    branches-ignore:
+      - 'gh-pages'
+    paths:
+      - '.github/workflows/ci.yml'
+      - 'docs/**'
+      - 'crates/**'
+      - 'editors/**'
+      - 'Carrgo.toml'
+      - 'Carrgo.lock'
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
+  pull_request:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.job }}-${{ github.ref }}
+  cancel-in-progress: true
 
 env:
   CARGO_TERM_COLOR: always
