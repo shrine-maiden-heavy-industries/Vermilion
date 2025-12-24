@@ -13,7 +13,7 @@ use tokio::{
 	task::JoinSet,
 };
 use tokio_util::sync::CancellationToken;
-use tracing::trace;
+use tracing::{debug, trace};
 use vermilion_lsp::message::Message;
 
 use super::LSPTransport;
@@ -31,14 +31,16 @@ impl PipeTransport {
 
 async fn pipe_reader(
 	stream: OwnedReadHalf,
-	mut sender: UnboundedSender<Message>,
+	sender: UnboundedSender<Message>,
 	cancellation_token: CancellationToken,
 	shutdown_tx: UnboundedSender<()>,
 ) -> Result<()> {
 	loop {
 		select! {
 			_ = cancellation_token.cancelled() => { break; },
-			res = stream.readable() => {},
+			Ok(_) = stream.readable() => {
+
+			},
 		}
 	}
 
@@ -54,7 +56,7 @@ async fn pipe_writer(
 	loop {
 		select! {
 			_ = cancellation_token.cancelled() => { break; },
-			message = receiver.recv() => {},
+			Some(message) = receiver.recv() => {},
 		}
 	}
 

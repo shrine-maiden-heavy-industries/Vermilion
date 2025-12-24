@@ -84,7 +84,7 @@ async fn lsp_server(
 	cancellation_token: CancellationToken,
 	shutdown_channel: UnboundedSender<()>,
 ) -> eyre::Result<()> {
-	let (mut reader, mut writer, tasks) = match transport {
+	let (mut reader, writer, tasks) = match transport {
 		TransportType::Stdio => {
 			StdioTransport::new()
 				.create(cancellation_token.clone(), shutdown_channel.clone())
@@ -105,7 +105,7 @@ async fn lsp_server(
 	loop {
 		select! {
 			_ = cancellation_token.cancelled() => { break; },
-			message = reader.recv() => {},
+			Some(message) = reader.recv() => {},
 		}
 	}
 
