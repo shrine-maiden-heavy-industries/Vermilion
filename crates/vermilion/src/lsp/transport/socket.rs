@@ -68,6 +68,7 @@ impl LSPTransport for SocketTransport {
 		UnboundedSender<Message>,
 		JoinSet<Result<()>>,
 	)> {
+		shutdown_channel.send(())?;
 		unimplemented!("LSP socket transport not implemented");
 
 		let mut tasks = JoinSet::new();

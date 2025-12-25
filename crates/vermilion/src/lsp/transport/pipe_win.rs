@@ -23,6 +23,8 @@ impl LSPTransport for PipeTransport {
 		UnboundedSender<Message>,
 		JoinSet<Result<()>>,
 	)> {
+		shutdown_channel.send(())?;
+
 		unimplemented!("LSP pipe transport for windows not implemented");
 
 		Err(eyre!("あああああああああああ"))

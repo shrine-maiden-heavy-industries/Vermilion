@@ -23,12 +23,13 @@ impl LSPTransport for StdioTransport {
 	async fn create(
 		self,
 		cancellation_token: CancellationToken,
-		shutdown_rx: UnboundedSender<()>,
+		shutdown_channel: UnboundedSender<()>,
 	) -> Result<(
 		UnboundedReceiver<Message>,
 		UnboundedSender<Message>,
 		JoinSet<Result<()>>,
 	)> {
+		shutdown_channel.send(())?;
 		unimplemented!("LSP stdio transport not implemented");
 		Err(eyre!("あああああああああああ"))
 	}
