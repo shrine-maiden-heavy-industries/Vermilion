@@ -23,6 +23,7 @@ pub(crate) fn config_dir() -> &'static Path {
 }
 
 /// Get the Vermilion user-specific cache directory
+#[allow(unused)]
 pub(crate) fn cache_dir() -> &'static Path {
 	proj_dirs().cache_dir()
 }
