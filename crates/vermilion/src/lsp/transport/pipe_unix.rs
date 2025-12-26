@@ -93,9 +93,18 @@ async fn pipe_reader(
 												trace!("Have {} bytes of body already, {} remaining", current_content, remaining);
 												phase = ReadPhase::Content(remaining);
 											} else {
-												// Otherwise deserialize message
-
+												// Otherwise deserialize message and clear the buffer
+												match Message::deserialize(&content) {
+													Ok(msg) => sender.send(msg)?,
+													Err(e) => {
+														error!("Unable to deserialize LSP message:");
+														error!("{}", e);
+														error!("Message contents:");
+														error!("{}", str::from_utf8(&content)?);
+													}
+												}
 												content.clear();
+
 											}
 										} else {
 											error!("Unable to separate header from content!");
@@ -111,13 +120,22 @@ async fn pipe_reader(
 								let remaining = length - read;
 								content.extend_from_slice(&buf[0..read]);
 
-								debug!("{} bytes remaining", remaining);
+								trace!("{} bytes remaining", remaining);
 								if remaining > 0 {
 									phase = ReadPhase::Content(remaining);
 								} else {
 									phase = ReadPhase::Header;
 									// Deserialize message
-
+									match Message::deserialize(&content) {
+										Ok(msg) => sender.send(msg)?,
+										Err(e) => {
+											error!("Unable to deserialize LSP message:");
+											error!("{}", e);
+											error!("Message contents:");
+											error!("{}", str::from_utf8(&content)?);
+										}
+									}
+									// Clear the contents buffer
 									content.clear();
 								}
 							}
@@ -145,13 +163,25 @@ async fn pipe_writer(
 	stream: OwnedWriteHalf,
 	mut receiver: UnboundedReceiver<Message>,
 	cancellation_token: CancellationToken,
-	shutdown_channel: UnboundedSender<()>,
+	_shutdown_channel: UnboundedSender<()>,
 ) -> Result<()> {
+	let mut msg_buffer = Vec::new();
+	let mut send_buffer = Vec::new();
+
 	loop {
 		select! {
 			_ = cancellation_token.cancelled() => { break; },
 			Some(message) = receiver.recv() => {
+				let msg_size = message.serialize(msg_buffer.as_mut_slice())?;
 
+				send_buffer.extend_from_slice(format!("Content-Length: {}\r\n\r\n", msg_size).as_bytes());
+				send_buffer.extend_from_slice(&msg_buffer);
+
+				stream.writable().await?;
+				stream.try_write(&send_buffer)?;
+
+				msg_buffer.clear();
+				send_buffer.clear();
 			},
 		}
 	}
