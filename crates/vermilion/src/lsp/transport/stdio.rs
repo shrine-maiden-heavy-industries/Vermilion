@@ -1,6 +1,6 @@
 /* SPDX-License-Identifier: BSD-3-Clause */
 
-use eyre::{Result, eyre};
+use eyre::Result;
 use tokio::{
 	sync::mpsc::{UnboundedReceiver, UnboundedSender},
 	task::JoinSet,
@@ -22,7 +22,7 @@ impl StdioTransport {
 impl LSPTransport for StdioTransport {
 	async fn create(
 		self,
-		cancellation_token: CancellationToken,
+		_cancellation_token: CancellationToken,
 		shutdown_channel: UnboundedSender<()>,
 	) -> Result<(
 		UnboundedReceiver<Message>,
@@ -31,6 +31,5 @@ impl LSPTransport for StdioTransport {
 	)> {
 		shutdown_channel.send(())?;
 		unimplemented!("LSP stdio transport not implemented");
-		Err(eyre!("あああああああああああ"))
 	}
 }

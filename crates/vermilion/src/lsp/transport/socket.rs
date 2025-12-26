@@ -1,6 +1,6 @@
 /* SPDX-License-Identifier: BSD-3-Clause */
 
-use eyre::{Result, eyre};
+use eyre::Result;
 use tokio::{
 	net::{
 		TcpStream,
@@ -28,14 +28,14 @@ impl SocketTransport {
 
 async fn socket_reader(
 	stream: OwnedReadHalf,
-	sender: UnboundedSender<Message>,
+	_sender: UnboundedSender<Message>,
 	cancellation_token: CancellationToken,
-	shutdown_channel: UnboundedSender<()>,
+	_shutdown_channel: UnboundedSender<()>,
 ) -> Result<()> {
 	loop {
 		select! {
 			_ = cancellation_token.cancelled() => { break; },
-			Ok(res) = stream.readable() => {},
+			Ok(_res) = stream.readable() => {},
 		}
 	}
 
@@ -43,15 +43,15 @@ async fn socket_reader(
 }
 
 async fn socket_writer(
-	stream: OwnedWriteHalf,
+	_stream: OwnedWriteHalf,
 	mut receiver: UnboundedReceiver<Message>,
 	cancellation_token: CancellationToken,
-	shutdown_channel: UnboundedSender<()>,
+	_shutdown_channel: UnboundedSender<()>,
 ) -> Result<()> {
 	loop {
 		select! {
 			_ = cancellation_token.cancelled() => { break; },
-			Some(message) = receiver.recv() => {},
+			Some(_message) = receiver.recv() => {},
 		}
 	}
 
