@@ -11,3 +11,10 @@ pub mod notification;
 pub mod request;
 pub mod response;
 pub mod trace;
+
+pub mod prelude {
+	pub use super::message::{Id, Message};
+	pub use super::notification::Notification;
+	pub use super::request::Request;
+	pub use super::response::Response;
+}
