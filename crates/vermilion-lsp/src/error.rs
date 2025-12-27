@@ -61,6 +61,8 @@ pub struct Error {
 	pub(crate) data: Option<serde_json::Value>,
 }
 
+impl Error {}
+
 impl Display for Code {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
 		write!(

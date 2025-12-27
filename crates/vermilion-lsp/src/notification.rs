@@ -7,6 +7,8 @@ pub struct Notification {
 	pub(crate) params: Option<serde_json::Value>,
 }
 
+impl Notification {}
+
 #[cfg(test)]
 mod tests {
 	use super::*;

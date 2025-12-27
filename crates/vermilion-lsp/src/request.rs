@@ -10,6 +10,8 @@ pub struct Request {
 	pub(crate) params: Option<serde_json::Value>,
 }
 
+impl Request {}
+
 #[cfg(test)]
 mod tests {
 	use super::*;

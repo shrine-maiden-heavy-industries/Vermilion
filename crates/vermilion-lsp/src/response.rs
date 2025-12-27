@@ -11,6 +11,8 @@ pub struct Response {
 	pub(crate) error: Option<Error>,
 }
 
+impl Response {}
+
 #[cfg(test)]
 mod tests {
 	use super::*;
