@@ -66,7 +66,7 @@ impl Display for Id {
 #[cfg(test)]
 mod tests {
 	use super::*;
-	use crate::error::{Error, ErrorCode};
+	use crate::error::{Code, Error};
 
 	#[test]
 	fn encode_message_request() -> Result<()> {
@@ -139,7 +139,7 @@ mod tests {
 			id: "3".to_string().into(),
 			result: None,
 			error: Some(Error {
-				code: ErrorCode::RequestFailed,
+				code: Code::RequestFailed,
 				message: "nya".into(),
 				data: None,
 			}),
@@ -165,7 +165,7 @@ mod tests {
 				id: 3.into(),
 				result: None,
 				error: Some(Error {
-					code: ErrorCode::RequestFailed,
+					code: Code::RequestFailed,
 					message: "nya".into(),
 					data: None
 				})

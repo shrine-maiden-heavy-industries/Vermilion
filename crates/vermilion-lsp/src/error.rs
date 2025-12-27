@@ -14,7 +14,7 @@ use std::fmt::Display;
 	serde_repr::Deserialize_repr,
 )]
 #[repr(i32)]
-pub enum ErrorCode {
+pub enum Code {
 	// JSON-RPC Errors
 	/// Invalid JSON was received by the server.
 	ParseError = -32700,
@@ -55,29 +55,29 @@ pub enum ErrorCode {
 
 #[derive(Clone, Debug, Hash, PartialEq, serde::Deserialize, serde::Serialize)]
 pub struct Error {
-	pub(crate) code: ErrorCode,
+	pub(crate) code: Code,
 	pub(crate) message: String,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) data: Option<serde_json::Value>,
 }
 
-impl Display for ErrorCode {
+impl Display for Code {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
 		write!(
 			f,
 			"{}",
 			match self {
-				ErrorCode::ParseError => "Parse Error",
-				ErrorCode::InvalidRequest => "Invalid Request",
-				ErrorCode::MethodNotFound => "Method Not Found",
-				ErrorCode::InvalidParams => "Invalid Params",
-				ErrorCode::InternalError => "Internal Error",
-				ErrorCode::ServerNotInitialized => "Server Not Initialized",
-				ErrorCode::UnknownErrorCode => "Unknown",
-				ErrorCode::RequestFailed => "Request Failed",
-				ErrorCode::SeverCancelled => "Server Cancelled",
-				ErrorCode::ContentModified => "Content Modified",
-				ErrorCode::RequestCancelled => "Request Cancelled",
+				Code::ParseError => "Parse Error",
+				Code::InvalidRequest => "Invalid Request",
+				Code::MethodNotFound => "Method Not Found",
+				Code::InvalidParams => "Invalid Params",
+				Code::InternalError => "Internal Error",
+				Code::ServerNotInitialized => "Server Not Initialized",
+				Code::UnknownErrorCode => "Unknown",
+				Code::RequestFailed => "Request Failed",
+				Code::SeverCancelled => "Server Cancelled",
+				Code::ContentModified => "Content Modified",
+				Code::RequestCancelled => "Request Cancelled",
 			}
 		)
 	}
