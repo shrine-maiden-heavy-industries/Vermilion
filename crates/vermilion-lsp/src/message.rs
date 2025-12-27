@@ -16,7 +16,7 @@ pub enum Id {
 	String(String),
 }
 
-#[derive(Clone, Debug, serde::Deserialize, serde::Serialize)]
+#[derive(Clone, Debug, PartialEq, serde::Deserialize, serde::Serialize)]
 #[serde(untagged)]
 pub enum Message {
 	Request(Request),
@@ -36,7 +36,7 @@ impl Message {
 		Ok(serde_json::from_slice(buffer)?)
 	}
 
-	pub fn serialize(self, buffer: &mut [u8]) -> Result<usize> {
+	pub fn serialize(self, buffer: &mut Vec<u8>) -> Result<usize> {
 		serde_json::to_writer(buffer, &JsonRpcEnvelope { jsonrpc: "2.0", message: &self })?;
 		Ok(0)
 	}
@@ -66,4 +66,167 @@ impl Display for Id {
 #[cfg(test)]
 mod tests {
 	use super::*;
+	use crate::error::{Error, ErrorCode};
+
+	#[test]
+	fn encode_message_request() -> Result<()> {
+		let message_text = r#"{"jsonrpc":"2.0","id":"1","method":"meow","params":null}"#;
+		let message = Message::Request(Request {
+			id: "1".to_string().into(),
+			method: "meow".into(),
+			params: Some(serde_json::Value::Null),
+		});
+
+		let mut buffer = Vec::new();
+		let _ = message.serialize(&mut buffer)?;
+
+		assert_eq!(message_text, str::from_utf8(&buffer)?);
+
+		Ok(())
+	}
+
+	#[test]
+	fn decode_message_request() -> Result<()> {
+		let message_text = r#"{"jsonrpc": "2.0", "id": 1, "method": "meow", "params": null }"#;
+		let message = Message::deserialize(message_text.as_bytes())?;
+
+		assert_eq!(
+			message,
+			Message::Request(Request { id: 1.into(), method: "meow".into(), params: None })
+		);
+
+		Ok(())
+	}
+
+	#[test]
+	fn encode_message_response_ok() -> Result<()> {
+		let message_text = r#"{"jsonrpc":"2.0","id":"2","result":"ニャ〜"}"#;
+		let message = Message::Response(Response {
+			id: "2".to_string().into(),
+			result: Some("ニャ〜".into()),
+			error: None,
+		});
+
+		let mut buffer = Vec::new();
+		let _ = message.serialize(&mut buffer)?;
+
+		assert_eq!(message_text, str::from_utf8(&buffer)?);
+
+		Ok(())
+	}
+
+	#[test]
+	fn decode_message_response_ok() -> Result<()> {
+		let message_text = r#"{"jsonrpc": "2.0", "id": 2, "result": "ニャ〜"}"#;
+		let message = Message::deserialize(message_text.as_bytes())?;
+
+		assert_eq!(
+			message,
+			Message::Response(Response {
+				id: 2.into(),
+				result: Some("ニャ〜".into()),
+				error: None
+			})
+		);
+
+		Ok(())
+	}
+
+	#[test]
+	fn encode_message_response_err() -> Result<()> {
+		let message_text = r#"{"jsonrpc":"2.0","id":"3","error":{"code":-32803,"message":"nya"}}"#;
+		let message = Message::Response(Response {
+			id: "3".to_string().into(),
+			result: None,
+			error: Some(Error {
+				code: ErrorCode::RequestFailed,
+				message: "nya".into(),
+				data: None,
+			}),
+		});
+
+		let mut buffer = Vec::new();
+		let _ = message.serialize(&mut buffer)?;
+
+		assert_eq!(message_text, str::from_utf8(&buffer)?);
+
+		Ok(())
+	}
+
+	#[test]
+	fn decode_message_response_err() -> Result<()> {
+		let message_text =
+			r#"{"jsonrpc": "2.0", "id": 3, "error": {"code": -32803,"message": "nya"}}"#;
+		let message = Message::deserialize(message_text.as_bytes())?;
+
+		assert_eq!(
+			message,
+			Message::Response(Response {
+				id: 3.into(),
+				result: None,
+				error: Some(Error {
+					code: ErrorCode::RequestFailed,
+					message: "nya".into(),
+					data: None
+				})
+			})
+		);
+
+		Ok(())
+	}
+
+	#[test]
+	fn encode_message_notification_params() -> Result<()> {
+		let message_text = r#"{"jsonrpc":"2.0","method":"awoo","params":null}"#;
+		let message = Message::Notification(Notification {
+			method: "awoo".into(),
+			params: Some(serde_json::Value::Null),
+		});
+
+		let mut buffer = Vec::new();
+		let _ = message.serialize(&mut buffer)?;
+
+		assert_eq!(message_text, str::from_utf8(&buffer)?);
+
+		Ok(())
+	}
+
+	#[test]
+	fn decode_message_notification_params() -> Result<()> {
+		let message_text = r#"{"jsonrpc": "2.0", "method": "awoo", "params": null}"#;
+		let message = Message::deserialize(message_text.as_bytes())?;
+
+		assert_eq!(
+			message,
+			Message::Notification(Notification { method: "awoo".into(), params: None })
+		);
+
+		Ok(())
+	}
+
+	#[test]
+	fn encode_message_notification_no_params() -> Result<()> {
+		let message_text = r#"{"jsonrpc":"2.0","method":"awoo"}"#;
+		let message = Message::Notification(Notification { method: "awoo".into(), params: None });
+
+		let mut buffer = Vec::new();
+		let _ = message.serialize(&mut buffer)?;
+
+		assert_eq!(message_text, str::from_utf8(&buffer)?);
+
+		Ok(())
+	}
+
+	#[test]
+	fn decode_message_notification_no_params() -> Result<()> {
+		let message_text = r#"{"jsonrpc": "2.0", "method": "awoo" }"#;
+		let message = Message::deserialize(message_text.as_bytes())?;
+
+		assert_eq!(
+			message,
+			Message::Notification(Notification { method: "awoo".into(), params: None })
+		);
+
+		Ok(())
+	}
 }

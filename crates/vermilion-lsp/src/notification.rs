@@ -1,11 +1,10 @@
 /* SPDX-License-Identifier: BSD-3-Clause */
 
-#[derive(Clone, Debug, Hash, serde::Deserialize, serde::Serialize)]
+#[derive(Clone, Debug, Hash, PartialEq, serde::Deserialize, serde::Serialize)]
 pub struct Notification {
-	method: String,
-	#[serde(default = "serde_json::Value::default")]
-	#[serde(skip_serializing_if = "serde_json::Value::is_null")]
-	params: serde_json::Value,
+	pub(crate) method: String,
+	#[serde(skip_serializing_if = "Option::is_none")]
+	pub(crate) params: Option<serde_json::Value>,
 }
 
 #[cfg(test)]

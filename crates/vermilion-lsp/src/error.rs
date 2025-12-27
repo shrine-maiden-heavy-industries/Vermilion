@@ -53,12 +53,12 @@ pub enum ErrorCode {
 	RequestCancelled = -32800,
 }
 
-#[derive(Clone, Debug, Hash, serde::Deserialize, serde::Serialize)]
+#[derive(Clone, Debug, Hash, PartialEq, serde::Deserialize, serde::Serialize)]
 pub struct Error {
-	code: ErrorCode,
-	message: String,
+	pub(crate) code: ErrorCode,
+	pub(crate) message: String,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	data: Option<serde_json::Value>,
+	pub(crate) data: Option<serde_json::Value>,
 }
 
 impl Display for ErrorCode {
