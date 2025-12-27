@@ -11,6 +11,7 @@ pub mod notification;
 pub mod request;
 pub mod response;
 pub mod trace;
+pub mod types;
 
 pub mod prelude {
 	pub use super::message::{Id, Message};
