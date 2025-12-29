@@ -18,7 +18,7 @@ use crate::types::{
 	Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize,
 )]
 #[serde(rename_all = "camelCase")]
-pub struct DidChangeWorkspaceFolderParams {
+pub struct DidChangeWorkspaceFoldersParams {
 	/// The parameters of a `workspace/didChangeWorkspaceFolders` notification
 	pub event: WorkspaceFoldersChangeEvent,
 }
