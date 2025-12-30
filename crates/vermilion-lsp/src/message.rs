@@ -177,11 +177,8 @@ mod tests {
 
 	#[test]
 	fn encode_message_notification_params() -> Result<()> {
-		let message_text = r#"{"jsonrpc":"2.0","method":"awoo","params":null}"#;
-		let message = Message::Notification(Notification {
-			method: "awoo".into(),
-			params: Some(serde_json::Value::Null),
-		});
+		let message_text = r#"{"jsonrpc":"2.0","method":"telemetry/event","params":"meow"}"#;
+		let message = Message::Notification(Notification::TelemetryEven("meow".into()));
 
 		let mut buffer = Vec::new();
 		let _ = message.serialize(&mut buffer)?;
@@ -193,12 +190,12 @@ mod tests {
 
 	#[test]
 	fn decode_message_notification_params() -> Result<()> {
-		let message_text = r#"{"jsonrpc": "2.0", "method": "awoo", "params": null}"#;
+		let message_text = r#"{"jsonrpc": "2.0", "method": "telemetry/event", "params": "meow"}"#;
 		let message = Message::deserialize(message_text.as_bytes())?;
 
 		assert_eq!(
 			message,
-			Message::Notification(Notification { method: "awoo".into(), params: None })
+			Message::Notification(Notification::TelemetryEven("meow".into()))
 		);
 
 		Ok(())
@@ -206,8 +203,8 @@ mod tests {
 
 	#[test]
 	fn encode_message_notification_no_params() -> Result<()> {
-		let message_text = r#"{"jsonrpc":"2.0","method":"awoo"}"#;
-		let message = Message::Notification(Notification { method: "awoo".into(), params: None });
+		let message_text = r#"{"jsonrpc":"2.0","method":"exit"}"#;
+		let message = Message::Notification(Notification::Exit);
 
 		let mut buffer = Vec::new();
 		let _ = message.serialize(&mut buffer)?;
@@ -219,13 +216,10 @@ mod tests {
 
 	#[test]
 	fn decode_message_notification_no_params() -> Result<()> {
-		let message_text = r#"{"jsonrpc": "2.0", "method": "awoo" }"#;
+		let message_text = r#"{"jsonrpc": "2.0", "method": "exit" }"#;
 		let message = Message::deserialize(message_text.as_bytes())?;
 
-		assert_eq!(
-			message,
-			Message::Notification(Notification { method: "awoo".into(), params: None })
-		);
+		assert_eq!(message, Message::Notification(Notification::Exit));
 
 		Ok(())
 	}
