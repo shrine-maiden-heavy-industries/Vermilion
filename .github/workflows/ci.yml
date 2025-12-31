@@ -47,6 +47,14 @@ jobs:
     name: 'Build Vermilion'
     runs-on: ubuntu-latest
     steps:
+      - name: 'Initialize Environment'
+        shell: bash
+        env:
+          WORKSPACE: ${{ github.workspace }}
+        run: |
+          echo "$HOME/.cargo/bin:$HOME/.local/bin:$PATH" >> $GITHUB_PATH
+          echo "GITHUB_WORKSPACE=\"`pwd`\"" >> $GITHUB_ENV
+
       - name: 'Checkout'
         uses: actions/checkout@v4
         with:
@@ -57,6 +65,11 @@ jobs:
         run: |
           rustup update
 
+      - name: 'Install nextest'
+        uses: taiki-e/install-action@v2
+        with:
+          tool: nextest
+
       - name: 'Build Vermilion'
         shell: bash
         run: |
@@ -65,4 +78,4 @@ jobs:
       - name: 'Test Vermilion'
         shell: bash
         run: |
-          cargo test --verbose
+          cargo nextest run
