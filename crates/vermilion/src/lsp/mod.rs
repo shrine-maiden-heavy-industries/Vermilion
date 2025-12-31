@@ -5,6 +5,8 @@ use std::{
 	time::Duration,
 };
 
+use vermilion_lsp::prelude::{Message, Notification, Request, Response};
+
 use tokio::{
 	select, signal,
 	sync::mpsc::{self, UnboundedSender},
@@ -79,12 +81,23 @@ pub(crate) fn start(transport: TransportType, client_pid: Option<usize>) -> eyre
 	Ok(())
 }
 
+fn process_lsp_message(
+	message: Message,
+	_response_channel: &UnboundedSender<Message>,
+) -> eyre::Result<()> {
+	match message {
+		Message::Request(request) => todo!(),
+		Message::Response(response) => todo!(),
+		Message::Notification(notification) => todo!(),
+	}
+}
+
 async fn lsp_server(
 	transport: TransportType,
 	cancellation_token: CancellationToken,
 	shutdown_channel: UnboundedSender<()>,
 ) -> eyre::Result<()> {
-	let (mut reader, _writer, tasks) = match transport {
+	let (mut reader, writer, tasks) = match transport {
 		TransportType::Stdio => {
 			StdioTransport::new()
 				.create(cancellation_token.clone(), shutdown_channel.clone())
@@ -105,7 +118,9 @@ async fn lsp_server(
 	loop {
 		select! {
 			_ = cancellation_token.cancelled() => { break; },
-			Some(_message) = reader.recv() => {},
+			Some(message) = reader.recv() => {
+				process_lsp_message(message, &writer)?;
+			},
 		}
 	}
 
