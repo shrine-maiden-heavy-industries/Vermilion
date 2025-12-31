@@ -1659,7 +1659,7 @@ pub struct InlineCompletionItem {
 /// The result returned from an initialize request.
 #[derive(Clone, Debug, PartialEq, serde::Deserialize, serde::Serialize)]
 #[serde(rename_all = "camelCase")]
-pub struct InitializationResult {
+pub struct InitializeResult {
 	/// The capabilities the language server provides.
 	pub capabilities: ServerCapabilities,
 	/// Information about the server.
