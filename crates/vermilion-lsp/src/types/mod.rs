@@ -3753,3 +3753,8 @@ pub enum SemanticTokensFullRequestsType {
 	Bool(bool),
 	Delta { delta: Option<bool> },
 }
+
+#[cfg(test)]
+mod tests {
+	// use super::*;
+}

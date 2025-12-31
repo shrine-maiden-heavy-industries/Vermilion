@@ -265,3 +265,8 @@ pub enum NotebookDocumentSyncServerCapability {
 	Options(NotebookDocumentSyncOptions),
 	Kind(NotebookDocumentSyncRegistrationOptions),
 }
+
+#[cfg(test)]
+mod tests {
+	// use super::*;
+}

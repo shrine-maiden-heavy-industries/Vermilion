@@ -1476,3 +1476,8 @@ pub struct SemanticTokensClientCapabilities {
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub augments_syntax_tokens: Option<bool>,
 }
+
+#[cfg(test)]
+mod tests {
+	// use super::*;
+}

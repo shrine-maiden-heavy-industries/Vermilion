@@ -1106,3 +1106,8 @@ pub struct InitializedParams {
 	#[serde(flatten)]
 	pub workspace_folder_initialize_params: WorkspaceFoldersInitializeParams,
 }
+
+#[cfg(test)]
+mod tests {
+	// use super::*;
+}

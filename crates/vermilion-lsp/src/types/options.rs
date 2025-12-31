@@ -1127,3 +1127,8 @@ pub struct NotebookDocumentSyncRegistrationOptions {
 	#[serde(flatten)]
 	pub static_registration_options: StaticRegistrationOptions,
 }
+
+#[cfg(test)]
+mod tests {
+	// use super::*;
+}
