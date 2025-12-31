@@ -37,7 +37,7 @@ pub enum Notification {
 	/// The initialized notification is sent from the client to the server after the client is fully
 	/// initialized and the server is allowed to send requests from the server to the client.
 	#[serde(rename = "initialized")]
-	Initialized,
+	Initialized(serde_json::Value),
 	// =======================
 	// Message Direction: Client To Server
 	/// The `workspace/didChangeWorkspaceFolders` notification is sent from the client to the server
