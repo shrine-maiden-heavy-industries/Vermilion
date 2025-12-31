@@ -18,7 +18,27 @@ pub struct Trace {
 	pub(crate) timestamp: chrono::DateTime<chrono::Utc>,
 }
 
-impl Trace {}
+impl Trace {
+	pub fn new(origin: Origin, message: &Message) -> Self {
+		Self {
+			origin,
+			message: message.clone(),
+			timestamp: chrono::Utc::now(),
+		}
+	}
+
+	pub fn origin(&self) -> &Origin {
+		&self.origin
+	}
+
+	pub fn message(&self) -> &Message {
+		&self.message
+	}
+
+	pub fn timestamp(&self) -> &chrono::DateTime<chrono::Utc> {
+		&self.timestamp
+	}
+}
 
 #[cfg(test)]
 mod tests {
