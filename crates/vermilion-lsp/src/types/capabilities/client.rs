@@ -580,7 +580,7 @@ pub struct WorkspaceEditClientCapabilities {
 	///
 	/// since: 3.13.0
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub resource_operations: Option<ResourceOperationKind>,
+	pub resource_operations: Option<Vec<ResourceOperationKind>>,
 	/// The failure handling strategy of a client if applying the workspace edit fails.
 	///
 	/// since: 3.13.0
@@ -981,7 +981,7 @@ pub struct SignatureInformationClientCapabilities {
 	///
 	/// The order describes the preferred format of the client.
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub documentation_format: Option<MarkupKind>,
+	pub documentation_format: Option<Vec<MarkupKind>>,
 	/// Client capabilities specific to parameter information.
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub parameter_information: Option<ParameterInformationClientCapabilities>,
