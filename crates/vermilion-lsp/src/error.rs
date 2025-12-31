@@ -61,7 +61,38 @@ pub struct Error {
 	pub(crate) data: Option<serde_json::Value>,
 }
 
-impl Error {}
+impl Error {
+	pub const fn new(message: String, code: Code, data: Option<serde_json::Value>) -> Self {
+		Self { code, message, data }
+	}
+
+	pub const fn code(&self) -> &Code {
+		&self.code
+	}
+
+	pub const fn message(&self) -> &String {
+		&self.message
+	}
+
+	pub const fn data(&self) -> Option<&serde_json::Value> {
+		self.data.as_ref()
+	}
+}
+
+impl Display for Error {
+	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+		write!(
+			f,
+			"JSON-RPC Error, Type: {} Message: {}",
+			self.code, self.message
+		)?;
+		if let Some(data) = self.data.as_ref() {
+			write!(f, "Associated Data: {:#?}", data)?;
+		}
+
+		Ok(())
+	}
+}
 
 impl Display for Code {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
