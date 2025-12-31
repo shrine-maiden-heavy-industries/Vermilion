@@ -607,7 +607,11 @@ pub enum RequestType {
 	WorkspaceApplyEdit(ApplyWorkspaceEditParams),
 }
 
-impl Request {}
+impl Request {
+	pub fn is_initialize(&self) -> bool {
+		matches!(self.req, RequestType::Initialize(_))
+	}
+}
 
 #[cfg(test)]
 mod tests {

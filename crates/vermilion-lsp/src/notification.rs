@@ -166,6 +166,12 @@ pub enum Notification {
 	TextDocumentPublishDiagnostics(PublishDiagnosticsParams),
 }
 
+impl Notification {
+	pub fn is_initialize(&self) -> bool {
+		matches!(self, Self::Initialized(_))
+	}
+}
+
 #[cfg(test)]
 mod tests {
 	use super::*;

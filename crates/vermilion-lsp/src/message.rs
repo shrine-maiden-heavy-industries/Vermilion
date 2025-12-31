@@ -40,6 +40,14 @@ impl Message {
 		serde_json::to_writer(buffer, &JsonRpcEnvelope { jsonrpc: "2.0", message: &self })?;
 		Ok(())
 	}
+
+	pub fn is_initialize(&self) -> Option<bool> {
+		match self {
+			Self::Notification(notification) => Some(notification.is_initialize()),
+			Self::Request(request) => Some(request.is_initialize()),
+			_ => None,
+		}
+	}
 }
 
 impl From<i32> for Id {
