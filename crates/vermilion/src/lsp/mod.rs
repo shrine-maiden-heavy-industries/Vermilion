@@ -81,14 +81,69 @@ pub(crate) fn start(transport: TransportType, client_pid: Option<usize>) -> eyre
 	Ok(())
 }
 
+pub fn process_lsp_request(
+	request: Box<Request>,
+	response_channel: &UnboundedSender<Message>,
+	shutdown_channel: &UnboundedSender<()>,
+) -> eyre::Result<()> {
+	match request.req {
+		RequestType::Initialize(params) => {
+		},
+		_ => unimplemented!(),
+	}
+
+	Ok(())
+}
+
+pub fn process_lsp_response(
+	response: Response,
+	response_channel: &UnboundedSender<Message>,
+	shutdown_channel: &UnboundedSender<()>,
+) -> eyre::Result<()> {
+	Ok(())
+}
+
+pub fn process_lsp_notification(
+	notification: Notification,
+	response_channel: &UnboundedSender<Message>,
+	shutdown_channel: &UnboundedSender<()>,
+) -> eyre::Result<()> {
+	match notification {
+		Notification::Exit => {
+			info!("Shutting down LSP");
+			shutdown_channel.send(())?;
+		},
+		Notification::Initialized(_) => {
+			debug!("LSP Initialized");
+			LSP_INITIALIZED.store(true, Ordering::Release);
+		},
+		_ => unimplemented!(),
+	}
+	Ok(())
+}
+
 fn process_lsp_message(
 	message: Message,
-	_response_channel: &UnboundedSender<Message>,
+	response_channel: &UnboundedSender<Message>,
+	shutdown_channel: &UnboundedSender<()>,
 ) -> eyre::Result<()> {
+	// Check to see if we have been initialized yet, if not we need to error out
+	let initialized = LSP_INITIALIZED.load(Ordering::Acquire);
+	if !initialized && !message.is_initialize().unwrap_or(false) {
+		warn!("LSP is not Initialized but a request other than `Initialize` was received");
+		return Ok(());
+	}
+
 	match message {
-		Message::Request(request) => todo!(),
-		Message::Response(response) => todo!(),
-		Message::Notification(notification) => todo!(),
+		Message::Request(request) => {
+			process_lsp_request(request, response_channel, shutdown_channel)
+		},
+		Message::Response(response) => {
+			process_lsp_response(response, response_channel, shutdown_channel)
+		},
+		Message::Notification(notification) => {
+			process_lsp_notification(notification, response_channel, shutdown_channel)
+		},
 	}
 }
 
@@ -119,7 +174,7 @@ async fn lsp_server(
 		select! {
 			_ = cancellation_token.cancelled() => { break; },
 			Some(message) = reader.recv() => {
-				process_lsp_message(message, &writer)?;
+				process_lsp_message(message, &writer, &shutdown_channel)?;
 			},
 		}
 	}
