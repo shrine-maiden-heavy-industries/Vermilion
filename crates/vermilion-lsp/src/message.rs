@@ -36,9 +36,9 @@ impl Message {
 		Ok(serde_json::from_slice(buffer)?)
 	}
 
-	pub fn serialize(self, buffer: &mut Vec<u8>) -> Result<usize> {
+	pub fn serialize(self, buffer: &mut Vec<u8>) -> Result<()> {
 		serde_json::to_writer(buffer, &JsonRpcEnvelope { jsonrpc: "2.0", message: &self })?;
-		Ok(0)
+		Ok(())
 	}
 }
 

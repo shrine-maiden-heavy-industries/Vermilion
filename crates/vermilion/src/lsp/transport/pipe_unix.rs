@@ -172,9 +172,9 @@ async fn pipe_writer(
 		select! {
 			_ = cancellation_token.cancelled() => { break; },
 			Some(message) = receiver.recv() => {
-				let msg_size = message.serialize(&mut msg_buffer)?;
+				message.serialize(&mut msg_buffer)?;
 
-				send_buffer.extend_from_slice(format!("Content-Length: {}\r\n\r\n", msg_size).as_bytes());
+				send_buffer.extend_from_slice(format!("Content-Length: {}\r\n\r\n", msg_buffer.len()).as_bytes());
 				send_buffer.extend_from_slice(&msg_buffer);
 
 				stream.writable().await?;
