@@ -19,7 +19,7 @@ pub enum Id {
 #[derive(Clone, Debug, PartialEq, serde::Deserialize, serde::Serialize)]
 #[serde(untagged)]
 pub enum Message {
-	Request(Request),
+	Request(Box<Request>),
 	Response(Response),
 	Notification(Notification),
 }
@@ -66,16 +66,18 @@ impl Display for Id {
 #[cfg(test)]
 mod tests {
 	use super::*;
-	use crate::error::{Code, Error};
+	use crate::{
+		error::{Code, Error},
+		request::RequestType,
+	};
 
 	#[test]
 	fn encode_message_request() -> Result<()> {
-		let message_text = r#"{"jsonrpc":"2.0","id":"1","method":"meow","params":null}"#;
-		let message = Message::Request(Request {
+		let message_text = r#"{"jsonrpc":"2.0","id":"1","method":"shutdown"}"#;
+		let message = Message::Request(Box::new(Request {
 			id: "1".to_string().into(),
-			method: "meow".into(),
-			params: Some(serde_json::Value::Null),
-		});
+			req: RequestType::Shutdown,
+		}));
 
 		let mut buffer = Vec::new();
 		let _ = message.serialize(&mut buffer)?;
@@ -87,12 +89,15 @@ mod tests {
 
 	#[test]
 	fn decode_message_request() -> Result<()> {
-		let message_text = r#"{"jsonrpc": "2.0", "id": 1, "method": "meow", "params": null }"#;
+		let message_text = r#"{"jsonrpc": "2.0", "id": 1, "method": "shutdown" }"#;
 		let message = Message::deserialize(message_text.as_bytes())?;
 
 		assert_eq!(
 			message,
-			Message::Request(Request { id: 1.into(), method: "meow".into(), params: None })
+			Message::Request(Box::new(Request {
+				id: 1.into(),
+				req: RequestType::Shutdown
+			}))
 		);
 
 		Ok(())
