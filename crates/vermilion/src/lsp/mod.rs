@@ -92,25 +92,25 @@ pub fn process_lsp_request(
 	response_channel: &UnboundedSender<Message>,
 	_shutdown_channel: &UnboundedSender<()>,
 ) -> eyre::Result<()> {
-	match request.req {
+	match request.request() {
 		RequestType::Initialize(params) => {
 			debug!("Got Initialize from client!");
-			if let Some(client_info) = params.client_info {
+			if let Some(client_info) = &params.client_info {
 				debug!("Client Name: {}", client_info.name());
 				debug!("Client Version: {:?}", client_info.version());
 			}
 
-			let res = InitializeResult::new(ServerCapabilities::default()).with_server_info(
-				ServerInfo::new("vermilion".to_string())
-					.with_version(env!("CARGO_PKG_VERSION").to_string()),
-			);
-
-			let resp = Message::Response(Response {
-				id: request.id,
-				result: Some(serde_json::to_value(res)?),
-				error: None,
-			});
-			response_channel.send(resp)?;
+			response_channel.send(
+				request
+					.response()
+					.with_result(serde_json::to_value(
+						InitializeResult::new(ServerCapabilities::default()).with_server_info(
+							ServerInfo::new("vermilion".to_string())
+								.with_version(env!("CARGO_PKG_VERSION").to_string()),
+						),
+					)?)
+					.into(),
+			)?;
 		},
 		_ => unimplemented!(),
 	}
