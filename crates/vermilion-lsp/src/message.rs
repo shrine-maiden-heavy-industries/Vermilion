@@ -71,6 +71,30 @@ impl Display for Id {
 	}
 }
 
+impl From<Notification> for Message {
+	fn from(value: Notification) -> Self {
+		Message::Notification(value)
+	}
+}
+
+impl From<Request> for Message {
+	fn from(value: Request) -> Self {
+		Message::Request(Box::new(value))
+	}
+}
+
+impl From<Box<Request>> for Message {
+	fn from(value: Box<Request>) -> Self {
+		Message::Request(value)
+	}
+}
+
+impl From<Response> for Message {
+	fn from(value: Response) -> Self {
+		Message::Response(value)
+	}
+}
+
 #[cfg(test)]
 mod tests {
 	use super::*;
