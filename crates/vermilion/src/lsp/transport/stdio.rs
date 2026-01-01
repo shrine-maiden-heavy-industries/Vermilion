@@ -5,8 +5,10 @@ use tokio::{
 	io, select,
 	sync::mpsc::{self, UnboundedReceiver, UnboundedSender},
 	task::JoinSet,
+	time::error,
 };
 use tokio_util::sync::CancellationToken;
+use tracing::error;
 use vermilion_lsp::message::Message;
 
 use super::LSPTransport;
@@ -21,13 +23,16 @@ impl StdioTransport {
 }
 
 async fn stdio_reader(
-	sender: UnboundedSender<Message>,
-	cancellation_token: CancellationToken,
+	_sender: UnboundedSender<Message>,
+	_cancellation_token: CancellationToken,
 	shutdown_channel: UnboundedSender<()>,
 ) -> Result<()> {
-	let stdin = io::stdin();
+	let _stdin = io::stdin();
 
-	loop {}
+	shutdown_channel.send(())?;
+	error!("LSP stdio transport not implemented, exiting");
+
+	// loop {}
 
 	Ok(())
 }
@@ -35,9 +40,9 @@ async fn stdio_reader(
 async fn stdio_writer(
 	mut receiver: UnboundedReceiver<Message>,
 	cancellation_token: CancellationToken,
-	shutdown_channel: UnboundedSender<()>,
+	_shutdown_channel: UnboundedSender<()>,
 ) -> Result<()> {
-	let stdout = io::stdout();
+	let _stdout = io::stdout();
 	loop {
 		select! {
 			_ = cancellation_token.cancelled() => { break; },
@@ -58,9 +63,6 @@ impl LSPTransport for StdioTransport {
 		UnboundedSender<Message>,
 		JoinSet<Result<()>>,
 	)> {
-		shutdown_channel.send(())?;
-		unimplemented!("LSP stdio transport not implemented");
-
 		let mut tasks = JoinSet::new();
 
 		let (read_tx, read_rx) = mpsc::unbounded_channel::<Message>();
