@@ -1,6 +1,8 @@
 /* SPDX-License-Identifier: BSD-3-Clause */
 #![deny(clippy::unwrap_used, clippy::expect_used)]
 
+use std::io;
+
 use eyre::{Context, OptionExt};
 use schemars::schema_for;
 use tracing_subscriber::{
@@ -45,18 +47,21 @@ fn initialize_tracing(level: LevelFilter) -> eyre::Result<()> {
 			)
 		}))
 		.with(
-			fmt::layer().with_ansi(fmt_color()).with_filter(
-				// SAFETY:
-				// These `Directive` strings are hard-coded and as correct as we can ensure,
-				// and there is no way to construct them in a more-safe manner other than `.parse()`
-				#[allow(clippy::unwrap_used)]
-				EnvFilter::builder()
-					.with_default_directive(level.into())
-					.with_env_var(VERMILION_LOG_LEVEL)
-					.from_env_lossy()
-					.add_directive("tokio=error".parse().unwrap())
-					.add_directive("runtime=error".parse().unwrap()),
-			),
+			fmt::layer()
+				.with_writer(io::stderr)
+				.with_ansi(fmt_color())
+				.with_filter(
+					// SAFETY:
+					// These `Directive` strings are hard-coded and as correct as we can ensure,
+					// and there is no way to construct them in a more-safe manner other than `.parse()`
+					#[allow(clippy::unwrap_used)]
+					EnvFilter::builder()
+						.with_default_directive(level.into())
+						.with_env_var(VERMILION_LOG_LEVEL)
+						.from_env_lossy()
+						.add_directive("tokio=error".parse().unwrap())
+						.add_directive("runtime=error".parse().unwrap()),
+				),
 		)
 		.try_init()?)
 }
