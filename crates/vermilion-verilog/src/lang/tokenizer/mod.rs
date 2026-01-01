@@ -12,7 +12,7 @@ use vermilion_lang::{Position, Span, Spanned};
 pub(crate) mod token;
 
 pub(crate) struct Tokenizer {
-	standard: VerilogVariant,
+	_standard: VerilogVariant,
 	file: ByteTendril,
 	current_char: u8,
 	position: usize,
@@ -25,7 +25,7 @@ pub(crate) struct Tokenizer {
 impl Tokenizer {
 	pub fn new(standard: VerilogVariant, file: ByteTendril) -> Tokenizer {
 		let mut tokenizer = Self {
-			standard,
+			_standard: standard,
 			file,
 			current_char: 0,
 			position: 0,

@@ -13,7 +13,7 @@ pub mod span;
 pub use position::Position;
 pub use span::{Span, Spanned};
 
-fn print_errors() {
+fn _print_errors() {
 	// 	let _: Vec<_> = args
 	// 		.get_many::<String>("files")
 	// 		.expect("files is required")

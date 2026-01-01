@@ -3,11 +3,11 @@
 use crate::VhdlStd;
 
 pub struct VhdlParser {
-	std: VhdlStd,
+	_std: VhdlStd,
 }
 
 #[cfg(test)]
 mod tests {
-	use super::*;
-	use test_log::test;
+	// use super::*;
+	// use test_log::test;
 }

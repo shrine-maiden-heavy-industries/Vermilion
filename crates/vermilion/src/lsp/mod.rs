@@ -82,9 +82,9 @@ pub(crate) fn start(transport: TransportType, client_pid: Option<usize>) -> eyre
 }
 
 pub fn process_lsp_request(
-	request: Box<Request>,
-	response_channel: &UnboundedSender<Message>,
-	shutdown_channel: &UnboundedSender<()>,
+	_request: Box<Request>,
+	_response_channel: &UnboundedSender<Message>,
+	_shutdown_channel: &UnboundedSender<()>,
 ) -> eyre::Result<()> {
 	match request.req {
 		RequestType::Initialize(params) => {
@@ -96,16 +96,16 @@ pub fn process_lsp_request(
 }
 
 pub fn process_lsp_response(
-	response: Response,
-	response_channel: &UnboundedSender<Message>,
-	shutdown_channel: &UnboundedSender<()>,
+	_response: Response,
+	_response_channel: &UnboundedSender<Message>,
+	_shutdown_channel: &UnboundedSender<()>,
 ) -> eyre::Result<()> {
 	Ok(())
 }
 
 pub fn process_lsp_notification(
 	notification: Notification,
-	response_channel: &UnboundedSender<Message>,
+	_response_channel: &UnboundedSender<Message>,
 	shutdown_channel: &UnboundedSender<()>,
 ) -> eyre::Result<()> {
 	match notification {

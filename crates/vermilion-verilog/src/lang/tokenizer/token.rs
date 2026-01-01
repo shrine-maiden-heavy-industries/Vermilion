@@ -208,8 +208,8 @@ pub(crate) enum Operator {
 impl Display for Token {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
 		match self {
-			Token::Invalid(tendril) => todo!(),
-			Token::ContextuallyInvalid(tendril, verilog_variant) => todo!(),
+			Token::Invalid(_tendril) => todo!(),
+			Token::ContextuallyInvalid(_tendril, _verilog_variant) => todo!(),
 			Token::BaseSpecifier(base_specifier, _) => write!(f, "{}", base_specifier),
 			Token::Comment(comment) => write!(f, "{}", comment),
 			Token::CompilerDirective(compiler_directive) => write!(f, "{}", compiler_directive),
