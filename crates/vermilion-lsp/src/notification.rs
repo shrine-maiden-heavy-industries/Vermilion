@@ -7,10 +7,9 @@ use crate::types::{
 		DidChangeNotebookDocumentParams, DidChangeTextDocumentParams, DidChangeWatchedFilesParams,
 		DidChangeWorkspaceFoldersParams, DidCloseNotebookDocumentParams,
 		DidCloseTextDocumentParams, DidOpenNotebookDocumentParams, DidOpenTextDocumentParams,
-		DidSaveNotebookDocumentParams, DidSaveTextDocumentParams, InitializedParams,
-		LogMessageParams, LogTraceParams, ProgressParams, PublishDiagnosticsParams,
-		RenameFilesParams, SetTraceParams, ShowMessageParams, WillSaveTextDocumentParams,
-		WorkDoneProgressCancelParams,
+		DidSaveNotebookDocumentParams, DidSaveTextDocumentParams, LogMessageParams, LogTraceParams,
+		ProgressParams, PublishDiagnosticsParams, RenameFilesParams, SetTraceParams,
+		ShowMessageParams, WillSaveTextDocumentParams, WorkDoneProgressCancelParams,
 	},
 };
 
