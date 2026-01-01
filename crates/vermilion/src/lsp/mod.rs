@@ -1,11 +1,15 @@
 /* SPDX-License-Identifier: BSD-3-Clause */
 
 use std::{
-	sync::atomic::{AtomicUsize, Ordering},
+	sync::atomic::{AtomicBool, AtomicUsize, Ordering},
 	time::Duration,
 };
 
-use vermilion_lsp::prelude::{Message, Notification, Request, Response};
+use vermilion_lsp::{
+	prelude::{Message, Notification, Request, Response},
+	request::RequestType,
+	types::{InitializeResult, ServerInfo, capabilities::server::ServerCapabilities},
+};
 
 use tokio::{
 	select, signal,
@@ -19,6 +23,8 @@ pub(crate) mod transport;
 pub(crate) use transport::{TransportType, pipe::PipeTransport};
 
 use crate::lsp::transport::{LSPTransport, socket::SocketTransport, stdio::StdioTransport};
+
+static LSP_INITIALIZED: AtomicBool = AtomicBool::new(false);
 
 pub(crate) fn start(transport: TransportType, client_pid: Option<usize>) -> eyre::Result<()> {
 	debug!("Starting runtime...");
@@ -82,12 +88,29 @@ pub(crate) fn start(transport: TransportType, client_pid: Option<usize>) -> eyre
 }
 
 pub fn process_lsp_request(
-	_request: Box<Request>,
-	_response_channel: &UnboundedSender<Message>,
+	request: Box<Request>,
+	response_channel: &UnboundedSender<Message>,
 	_shutdown_channel: &UnboundedSender<()>,
 ) -> eyre::Result<()> {
 	match request.req {
 		RequestType::Initialize(params) => {
+			debug!("Got Initialize from client!");
+			if let Some(client_info) = params.client_info {
+				debug!("Client Name: {}", client_info.name());
+				debug!("Client Version: {:?}", client_info.version());
+			}
+
+			let res = InitializeResult::new(ServerCapabilities::default()).with_server_info(
+				ServerInfo::new("vermilion".to_string())
+					.with_version(env!("CARGO_PKG_VERSION").to_string()),
+			);
+
+			let resp = Message::Response(Response {
+				id: request.id,
+				result: Some(serde_json::to_value(res)?),
+				error: None,
+			});
+			response_channel.send(resp)?;
 		},
 		_ => unimplemented!(),
 	}
