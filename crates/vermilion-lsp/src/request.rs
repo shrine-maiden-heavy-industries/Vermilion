@@ -2,6 +2,7 @@
 
 use crate::{
 	message::Id,
+	response::Response,
 	types::{
 		CodeAction, CodeLens, CompletionItem, DocumentLink, InlayHint, WorkspaceSymbol,
 		params::{
@@ -29,7 +30,25 @@ use crate::{
 pub struct Request {
 	pub(crate) id: Id,
 	#[serde(flatten)]
-	pub req: RequestType,
+	pub(crate) req: RequestType,
+}
+
+impl Request {
+	pub fn new(id: Id, request: RequestType) -> Self {
+		Self { id, req: request }
+	}
+
+	pub fn id(&self) -> &Id {
+		&self.id
+	}
+
+	pub fn request(&self) -> &RequestType {
+		&self.req
+	}
+
+	pub fn response(&self) -> Response {
+		Response::new(self.id.clone())
+	}
 }
 
 #[derive(Clone, Debug, PartialEq, serde::Deserialize, serde::Serialize)]
