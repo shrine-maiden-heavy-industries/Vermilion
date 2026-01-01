@@ -11,7 +11,33 @@ pub struct Response {
 	pub(crate) error: Option<Error>,
 }
 
-impl Response {}
+impl Response {
+	pub fn new(id: Id) -> Self {
+		Self { id, result: None, error: None }
+	}
+
+	pub fn with_result(mut self, result: serde_json::Value) -> Self {
+		self.result = Some(result);
+		self
+	}
+
+	pub fn with_error(mut self, error: Error) -> Self {
+		self.error = Some(error);
+		self
+	}
+
+	pub fn id(&self) -> &Id {
+		&self.id
+	}
+
+	pub fn result(&self) -> Option<&serde_json::Value> {
+		self.result.as_ref()
+	}
+
+	pub fn error(&self) -> Option<&Error> {
+		self.error.as_ref()
+	}
+}
 
 #[cfg(test)]
 mod tests {
