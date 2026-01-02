@@ -15,7 +15,5 @@ impl VhdlParser {
 }
 
 #[cfg(test)]
-mod tests {
-	// use super::*;
-	// use test_log::test;
-}
+#[path = "tests.rs"]
+mod tests;
