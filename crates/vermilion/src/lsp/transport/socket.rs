@@ -1,5 +1,7 @@
 /* SPDX-License-Identifier: BSD-3-Clause */
 
+use std::time::Duration;
+
 use eyre::Result;
 use tokio::{
 	net::{
@@ -9,8 +11,10 @@ use tokio::{
 	select,
 	sync::mpsc::{self, UnboundedReceiver, UnboundedSender},
 	task::JoinSet,
+	time,
 };
 use tokio_util::sync::CancellationToken;
+use tracing::error;
 use vermilion_lsp::message::Message;
 
 use super::LSPTransport;
@@ -30,8 +34,11 @@ async fn socket_reader(
 	stream: OwnedReadHalf,
 	_sender: UnboundedSender<Message>,
 	cancellation_token: CancellationToken,
-	_shutdown_channel: UnboundedSender<()>,
+	shutdown_channel: UnboundedSender<()>,
 ) -> Result<()> {
+	shutdown_channel.send(())?;
+	error!("LSP socket transport not implemented, exiting");
+
 	loop {
 		select! {
 			_ = cancellation_token.cancelled() => { break; },
@@ -68,16 +75,26 @@ impl LSPTransport for SocketTransport {
 		UnboundedSender<Message>,
 		JoinSet<Result<()>>,
 	)> {
-		shutdown_channel.send(())?;
-		unimplemented!("LSP socket transport not implemented");
-
 		let mut tasks = JoinSet::new();
 
 		let (read_tx, read_rx) = mpsc::unbounded_channel::<Message>();
 		let (write_tx, write_rx) = mpsc::unbounded_channel::<Message>();
 
 		// Connect to the given PIPE and then split it into halves
-		let stream = TcpStream::connect(format!("127.0.0.1:{}", self.port)).await?;
+
+		let stream = match time::timeout(
+			Duration::from_secs(15),
+			TcpStream::connect(format!("127.0.0.1:{}", self.port)),
+		)
+		.await
+		{
+			Ok(res) => res,
+			Err(e) => {
+				error!("Connection timeout for LSP socket");
+				shutdown_channel.send(())?;
+				return Err(e.into());
+			},
+		}?;
 		let (read, write) = stream.into_split();
 
 		tasks
