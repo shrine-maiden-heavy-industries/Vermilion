@@ -8,6 +8,13 @@ use std::{
 use vermilion_lsp::{
 	prelude::{Message, Notification, Request, Response},
 	request::RequestType,
+	transports::{
+		LSPTransport,
+		TransportType,
+		pipe::PipeTransport,
+		socket::SocketTransport,
+		stdio::StdioTransport
+	},
 	types::{InitializeResult, ServerInfo, capabilities::server::ServerCapabilities},
 };
 
@@ -18,11 +25,6 @@ use tokio::{
 };
 use tokio_util::sync::CancellationToken;
 use tracing::{debug, info, trace, warn};
-
-pub(crate) mod transport;
-pub(crate) use transport::{TransportType, pipe::PipeTransport};
-
-use crate::lsp::transport::{LSPTransport, socket::SocketTransport, stdio::StdioTransport};
 
 static LSP_INITIALIZED: AtomicBool = AtomicBool::new(false);
 

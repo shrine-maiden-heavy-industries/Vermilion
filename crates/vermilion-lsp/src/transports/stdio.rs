@@ -8,14 +8,15 @@ use tokio::{
 };
 use tokio_util::sync::CancellationToken;
 use tracing::error;
-use vermilion_lsp::message::Message;
+use crate::message::Message;
 
 use super::LSPTransport;
 
 #[derive(Debug)]
-pub(crate) struct StdioTransport {}
+pub struct StdioTransport {}
 
 impl StdioTransport {
+	#[allow(clippy::new_without_default)]
 	pub const fn new() -> Self {
 		Self {}
 	}

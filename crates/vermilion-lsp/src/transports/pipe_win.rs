@@ -11,7 +11,7 @@ use vermilion_lsp::message::Message;
 use super::LSPTransport;
 
 #[derive(Debug)]
-pub(crate) struct PipeTransport {}
+pub struct PipeTransport {}
 
 impl LSPTransport for PipeTransport {
 	async fn create(

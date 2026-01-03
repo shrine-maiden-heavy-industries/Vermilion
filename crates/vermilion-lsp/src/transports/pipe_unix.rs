@@ -14,12 +14,12 @@ use tokio::{
 };
 use tokio_util::sync::CancellationToken;
 use tracing::{debug, error, trace};
-use vermilion_lsp::message::Message;
+use crate::message::Message;
 
 use super::LSPTransport;
 
 #[derive(Debug)]
-pub(crate) struct PipeTransport {
+pub struct PipeTransport {
 	path: PathBuf,
 }
 

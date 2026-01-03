@@ -15,12 +15,12 @@ use tokio::{
 };
 use tokio_util::sync::CancellationToken;
 use tracing::error;
-use vermilion_lsp::message::Message;
+use crate::message::Message;
 
 use super::LSPTransport;
 
 #[derive(Debug)]
-pub(crate) struct SocketTransport {
+pub struct SocketTransport {
 	port: u16,
 }
 

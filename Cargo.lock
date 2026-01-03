@@ -2831,7 +2831,6 @@ dependencies = [
  "vermilion-lsp",
  "vermilion-verilog",
  "vermilion-vhdl",
- "windows-sys 0.61.2",
 ]
 
 [[package]]
@@ -2900,7 +2899,10 @@ dependencies = [
  "serde_json",
  "serde_repr",
  "test-log",
+ "tokio",
+ "tokio-util",
  "tracing",
+ "windows-sys 0.61.2",
 ]
 
 [[package]]

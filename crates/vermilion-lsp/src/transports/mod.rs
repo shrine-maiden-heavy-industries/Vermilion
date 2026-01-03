@@ -8,21 +8,22 @@ use tokio::{
 	task::JoinSet,
 };
 use tokio_util::sync::CancellationToken;
-use vermilion_lsp::message::Message;
+use super::message::Message;
 
 #[cfg_attr(unix, path = "pipe_unix.rs")]
 #[cfg_attr(windows, path = "pipe_win.rs")]
-pub(crate) mod pipe;
-pub(crate) mod socket;
-pub(crate) mod stdio;
+pub mod pipe;
+pub mod socket;
+pub mod stdio;
 
-pub(crate) enum TransportType {
+pub enum TransportType {
 	Stdio,
 	Socket(u16),
 	Pipe(PathBuf),
 }
 
-pub(super) trait LSPTransport: Sized {
+pub trait LSPTransport: Sized {
+	#[allow(async_fn_in_trait)]
 	async fn create(
 		self,
 		cancellation_token: CancellationToken,

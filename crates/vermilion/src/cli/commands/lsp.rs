@@ -5,6 +5,8 @@ use std::path::PathBuf;
 use clap::{Arg, ArgAction, ArgMatches, Command, ValueHint};
 use tracing::error;
 
+use vermilion_lsp::transports;
+
 use crate::{lsp, settings::Config};
 
 pub(crate) const COMMAND_NAME: &str = "lang-server";
@@ -67,11 +69,11 @@ pub(crate) fn exec(args: &ArgMatches, _cfg: Config) -> eyre::Result<()> {
 
 	// Figure out which transport we want to use
 	let transport = if let Some(pipe) = pipe {
-		Some(lsp::TransportType::Pipe(pipe))
+		Some(transports::TransportType::Pipe(pipe))
 	} else if let Some(port) = port {
-		Some(lsp::TransportType::Socket(port))
+		Some(transports::TransportType::Socket(port))
 	} else {
-		stdio.map(|_| lsp::TransportType::Stdio)
+		stdio.map(|_| transports::TransportType::Stdio)
 	};
 
 	if let Some(transport) = transport {

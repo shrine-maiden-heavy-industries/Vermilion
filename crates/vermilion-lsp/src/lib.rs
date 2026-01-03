@@ -11,6 +11,7 @@ pub mod notification;
 pub mod request;
 pub mod response;
 pub mod trace;
+pub mod transports;
 pub mod types;
 
 pub mod prelude {
