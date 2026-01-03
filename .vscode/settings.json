@@ -1,6 +1,12 @@
 {
 	"rust-analyzer.checkOnSave": true,
 	"rust-analyzer.check.command": "clippy",
-	"rust-analyzer.server.path": null,
-	"rust-analyzer.procMacro.server": null
+	"rust-analyzer.rustfmt.overrideCommand": [
+		"rustfmt",
+		"+nightly",
+	],
+	"[rust]":
+	{
+		"editor.formatOnSave": true,
+	},
 }
