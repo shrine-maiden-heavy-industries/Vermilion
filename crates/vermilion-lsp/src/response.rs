@@ -1,5 +1,7 @@
 /* SPDX-License-Identifier: BSD-3-Clause */
 
+use eyre::Result;
+
 use crate::{error::Error, message::Id};
 
 #[derive(Clone, Debug, Hash, PartialEq, serde::Deserialize, serde::Serialize)]
@@ -16,9 +18,13 @@ impl Response {
 		Self { id, result: None, error: None }
 	}
 
-	pub fn with_result(mut self, result: serde_json::Value) -> Self {
+	pub fn with_result<V>(mut self, value: V) -> Result<Self>
+	where
+		V: serde::Serialize
+	{
+		let result = serde_json::to_value(value)?;
 		self.result = Some(result);
-		self
+		Ok(self)
 	}
 
 	pub fn with_error(mut self, error: Error) -> Self {

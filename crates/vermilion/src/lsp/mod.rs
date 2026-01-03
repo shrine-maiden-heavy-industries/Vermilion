@@ -105,12 +105,12 @@ pub fn process_lsp_request(
 			response_channel.send(
 				request
 					.response()
-					.with_result(serde_json::to_value(
+					.with_result(
 						InitializeResult::new(ServerCapabilities::default()).with_server_info(
 							ServerInfo::new("vermilion".to_string())
 								.with_version(env!("CARGO_PKG_VERSION").to_string()),
 						),
-					)?)
+					)?
 					.into(),
 			)?;
 		},
