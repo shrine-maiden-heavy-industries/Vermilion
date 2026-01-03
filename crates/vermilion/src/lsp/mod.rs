@@ -15,7 +15,7 @@ use tokio::{
 	task::JoinSet,
 };
 use tokio_util::sync::CancellationToken;
-use tracing::{debug, info, trace, warn};
+use tracing::{debug, error, info, trace, warn};
 use vermilion_lsp::{
 	prelude::{Message, Notification, Request, Response},
 	request::RequestType,
@@ -237,7 +237,13 @@ async fn lsp_server(
 		select! {
 			_ = cancellation_token.cancelled() => { break; },
 			Some(message) = reader.recv() => {
-				process_lsp_message(&mut workspace, message, &writer, &shutdown_channel)?;
+				let result = process_lsp_message(&mut workspace, message, &writer, &shutdown_channel);
+				if let Err(error) = result {
+					debug!("LSP server encountered fatal error");
+					error!("{}", error);
+					shutdown_channel.send(())?;
+					break;
+				}
 			},
 		}
 	}
