@@ -110,7 +110,7 @@ pub fn process_lsp_request(
 
 			let capabilities = ServerCapabilities::default()
 				.with_text_document_sync(TextDocumentSyncServerCapability::Kind(
-					TextDocumentSyncKind::Incremental,
+					TextDocumentSyncKind::Full,
 				))
 				.with_semantic_tokens_provider(semantic_tokens::capabilities());
 
@@ -170,7 +170,13 @@ pub fn process_lsp_notification(
 			LSP_INITIALIZED.store(true, Ordering::Release);
 		},
 		Notification::TextDocumentOpened(params) => workspace.open_document(params.text_document),
-		Notification::TextDocumentClosed(params) => workspace.close_document(params.text_document.uri()),
+		Notification::TextDocumentClosed(params) => {
+			workspace.close_document(params.text_document.uri())
+		},
+		Notification::TextDocumentChanged(params) => workspace.change_document(
+			params.text_document.text_document_identifier().uri(),
+			params.content_changes,
+		),
 		_ => unimplemented!(),
 	}
 	Ok(())

@@ -2,10 +2,10 @@
 
 use std::collections::HashMap;
 
-use tracing::debug;
+use tracing::{debug, warn};
 use vermilion_lang::AtomicByteTendril;
 use vermilion_lsp::types::{
-	Diagnostic, LanguageId, TextDocumentItem, Uri,
+	Diagnostic, LanguageId, TextDocumentContentChangeEvent, TextDocumentItem, Uri,
 	semantic_tokens::{SemanticToken, SemanticTokens},
 };
 use vermilion_verilog::{SystemVerilogStd, VerilogAmsStd};
@@ -69,6 +69,13 @@ impl Workspace {
 	pub fn close_document(&mut self, uri: &Uri) {
 		self.documents.remove(uri);
 	}
+
+	pub fn change_document(&mut self, uri: &Uri, changes: Vec<TextDocumentContentChangeEvent>) {
+		match self.documents.get_mut(uri) {
+			Some(document) => document.apply_changes(changes),
+			None => warn!("Got document changes for unknown/unopened document {uri}"),
+		}
+	}
 }
 
 impl Document {
@@ -89,5 +96,14 @@ impl Document {
 			Ast::Vhdl(ast) => self.vhdl_semantic_tokens(ast),
 			Ast::Verilog(ast) => self.verilog_semantic_tokens(ast),
 		})
+	}
+
+	pub fn apply_changes(&mut self, changes: Vec<TextDocumentContentChangeEvent>) {
+		for change in changes {
+			match change.range() {
+				Some(range) => unimplemented!("Partial update attempted for range {range:?}"),
+				None => self.content = AtomicByteTendril::from_slice(change.text().as_bytes()),
+			}
+		}
 	}
 }
