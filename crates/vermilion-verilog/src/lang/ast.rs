@@ -1,4 +1,4 @@
-/* SPDX-License-Identifier: BSD-3-Clause */
+// SPDX-License-Identifier: BSD-3-Clause
 
 use std::collections::HashMap;
 
@@ -120,7 +120,7 @@ pub enum Delay {
 
 #[derive(Debug)]
 pub struct CompilerDirective<'src> {
-	typ: &'src str,
+	typ:   &'src str,
 	value: Option<&'src str>,
 }
 
@@ -197,9 +197,9 @@ pub enum ConstExpr<'src> {
 
 #[derive(Debug)]
 pub struct Primitive<'src> {
-	name: &'src str,
+	name:       &'src str,
 	directives: Vec<Spanned<CompilerDirective<'src>, ()>>,
-	comments: Vec<Spanned<Comment<'src>, ()>>,
+	comments:   Vec<Spanned<Comment<'src>, ()>>,
 }
 
 #[derive(Debug)]
@@ -215,11 +215,11 @@ pub enum ModuleType {
 
 #[derive(Debug)]
 pub struct Module<'src> {
-	name: &'src str,
-	typ: ModuleType,
-	ports: Vec<Spanned<Port<'src>, ()>>,
+	name:       &'src str,
+	typ:        ModuleType,
+	ports:      Vec<Spanned<Port<'src>, ()>>,
 	directives: Vec<Spanned<CompilerDirective<'src>, ()>>,
-	comments: Vec<Spanned<Comment<'src>, ()>>,
+	comments:   Vec<Spanned<Comment<'src>, ()>>,
 }
 
 #[derive(Debug)]
@@ -232,15 +232,14 @@ pub enum RootExpr<'src> {
 
 #[derive(Debug, Default)]
 pub struct Ast<'src> {
-	modules: HashMap<&'src str, Spanned<Module<'src>, ()>>,
+	modules:    HashMap<&'src str, Spanned<Module<'src>, ()>>,
 	primitives: HashMap<&'src str, Spanned<Primitive<'src>, ()>>,
 	directives: Vec<Spanned<CompilerDirective<'src>, ()>>,
-	comments: Vec<Spanned<Comment<'src>, ()>>,
+	comments:   Vec<Spanned<Comment<'src>, ()>>,
 }
 
 #[derive(Debug, Default)]
-pub struct ModernAst {
-}
+pub struct ModernAst {}
 
 impl<'src> Primitive<'src> {
 	pub fn new(name: &'src str) -> Self {
@@ -392,6 +391,7 @@ impl<'src> Ast<'src> {
 
 #[cfg(test)]
 mod tests {
-	use super::*;
 	use test_log::test;
+
+	use super::*;
 }
