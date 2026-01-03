@@ -83,11 +83,27 @@ async fn pipe_reader(
 										let pos = get_split_index(res);
 										if let Some(pos) = pos {
 											// Split out the header and body
-											let header = &res[0..pos];
+											let header = &res[16..pos];
 											let body = &res[pos..];
 
 											// Like above, extract the content length from the header
-											let size = str::from_utf8(header)?.trim().parse::<usize>()?;
+											let size = match str::from_utf8(header) {
+												Ok(size) => {
+													match size.trim().parse::<usize>() {
+														Ok(size) => size,
+														Err(err) => {
+															error!("{}", err);
+															shutdown_channel.send(())?;
+															return Err(err.into());
+														}
+													}
+												},
+												Err(err) => {
+													error!("{}", err);
+													shutdown_channel.send(())?;
+													return Err(err.into());
+												}
+											};
 											trace!("Got content header of len: {}", size);
 
 											// Find out how many bytes we got vs how many left to read
@@ -113,7 +129,6 @@ async fn pipe_reader(
 													}
 												}
 												content.clear();
-
 											}
 										} else {
 											error!("Unable to separate header from content!");
