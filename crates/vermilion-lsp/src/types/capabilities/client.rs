@@ -1,4 +1,4 @@
-/* SPDX-License-Identifier: BSD-3-Clause */
+// SPDX-License-Identifier: BSD-3-Clause
 
 use crate::types::{
 	CodeActionKind, CompletionItemKind, CompletionItemTag, CompletionListItemDefaults,
@@ -145,7 +145,7 @@ pub struct InlayHintClientCapabilities {
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) dynamic_registration: Option<bool>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) resolve_support: Option<InlayHintResolveSupport>,
+	pub(crate) resolve_support:      Option<InlayHintResolveSupport>,
 }
 
 /// Client capabilities specific to diagnostic pull requests.
@@ -166,7 +166,7 @@ pub struct InlayHintClientCapabilities {
 #[serde(rename_all = "camelCase")]
 pub struct DiagnosticClientCapabilities {
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) dynamic_registration: Option<bool>,
+	pub(crate) dynamic_registration:     Option<bool>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) related_document_support: Option<bool>,
 }
@@ -210,7 +210,7 @@ pub struct InlineCompletionClientCapabilities {
 #[serde(rename_all = "camelCase")]
 pub struct NotebookDocumentSyncClientCapabilities {
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) dynamic_registration: Option<bool>,
+	pub(crate) dynamic_registration:      Option<bool>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) execution_summary_support: Option<bool>,
 }
@@ -260,9 +260,9 @@ pub struct ShowMessageRequestClientCapabilities {
 )]
 #[serde(rename_all = "camelCase")]
 pub struct MarkdownClientCapabilities {
-	pub(crate) parser: String,
+	pub(crate) parser:       String,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) version: Option<String>,
+	pub(crate) version:      Option<String>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) allowed_tags: Option<Vec<String>>,
 }
@@ -275,7 +275,7 @@ pub struct MarkdownClientCapabilities {
 )]
 #[serde(rename_all = "camelCase")]
 pub struct RegularExpressionsClientCapabilities {
-	pub(crate) engine: String,
+	pub(crate) engine:  String,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) version: Option<String>,
 }
@@ -296,17 +296,17 @@ pub struct ShowDocumentClientCapabilities {
 #[serde(rename_all = "camelCase")]
 pub struct ClientCapabilities {
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) workspace: Option<WorkspaceClientCapabilities>,
+	pub(crate) workspace:         Option<WorkspaceClientCapabilities>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) text_document: Option<TextDocumentClientCapabilities>,
+	pub(crate) text_document:     Option<TextDocumentClientCapabilities>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) notebook_document: Option<NotebookDocumentClientCapabilities>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) window: Option<WindowClientCapabilities>,
+	pub(crate) window:            Option<WindowClientCapabilities>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) general: Option<GeneralClientCapabilities>,
+	pub(crate) general:           Option<GeneralClientCapabilities>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) experimental: Option<LspAny>,
+	pub(crate) experimental:      Option<LspAny>,
 }
 
 /// Workspace specific client capabilities.
@@ -325,35 +325,35 @@ pub struct ClientCapabilities {
 #[serde(rename_all = "camelCase")]
 pub struct WorkspaceClientCapabilities {
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) apply_edit: Option<bool>,
+	pub(crate) apply_edit:               Option<bool>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) workspace_edit: Option<WorkspaceEditClientCapabilities>,
+	pub(crate) workspace_edit:           Option<WorkspaceEditClientCapabilities>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) did_change_configuration: Option<DidChangeConfigurationClientCapabilities>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) did_change_watched_files: Option<DidChangeWatchedFilesClientCapabilities>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) symbol: Option<WorkspaceSymbolClientCapabilities>,
+	pub(crate) symbol:                   Option<WorkspaceSymbolClientCapabilities>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) execute_command: Option<ExecuteCommandClientCapabilities>,
+	pub(crate) execute_command:          Option<ExecuteCommandClientCapabilities>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) workspace_folders: Option<bool>,
+	pub(crate) workspace_folders:        Option<bool>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) configuration: Option<bool>,
+	pub(crate) configuration:            Option<bool>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) semantic_tokens: Option<SemanticTokensWorkspaceClientCapabilities>,
+	pub(crate) semantic_tokens:          Option<SemanticTokensWorkspaceClientCapabilities>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) code_lense: Option<CodeLensWorkspaceClientCapabilities>,
+	pub(crate) code_lense:               Option<CodeLensWorkspaceClientCapabilities>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) file_operations: Option<FileOperationClientCapabilities>,
+	pub(crate) file_operations:          Option<FileOperationClientCapabilities>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) inline_value: Option<InlineValueWorkspaceClientCapabilities>,
+	pub(crate) inline_value:             Option<InlineValueWorkspaceClientCapabilities>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) inlay_hint: Option<InlayHintWorkspaceClientCapabilities>,
+	pub(crate) inlay_hint:               Option<InlayHintWorkspaceClientCapabilities>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) diagnostics: Option<DiagnosticWorkspaceClientCapabilities>,
+	pub(crate) diagnostics:              Option<DiagnosticWorkspaceClientCapabilities>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) folder_range: Option<FoldingRangeWorkspaceClientCapabilities>,
+	pub(crate) folder_range:             Option<FoldingRangeWorkspaceClientCapabilities>,
 }
 
 /// Text document specific client capabilities.
@@ -372,67 +372,67 @@ pub struct WorkspaceClientCapabilities {
 #[serde(rename_all = "camelCase")]
 pub struct TextDocumentClientCapabilities {
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) synchronization: Option<TextDocumentSyncClientCapabilities>,
+	pub(crate) synchronization:      Option<TextDocumentSyncClientCapabilities>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) completion: Option<CompletionClientCapabilities>,
+	pub(crate) completion:           Option<CompletionClientCapabilities>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) hover: Option<HoverClientCapabilities>,
+	pub(crate) hover:                Option<HoverClientCapabilities>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) signature_help: Option<SignatureHelpClientCapabilities>,
+	pub(crate) signature_help:       Option<SignatureHelpClientCapabilities>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) declaration: Option<DeclarationClientCapabilities>,
+	pub(crate) declaration:          Option<DeclarationClientCapabilities>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) definition: Option<DefinitionClientCapabilities>,
+	pub(crate) definition:           Option<DefinitionClientCapabilities>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) type_definition: Option<TypeDefinitionClientCapabilities>,
+	pub(crate) type_definition:      Option<TypeDefinitionClientCapabilities>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) implementation: Option<ImplementationClientCapabilities>,
+	pub(crate) implementation:       Option<ImplementationClientCapabilities>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) references: Option<ReferenceClientCapabilities>,
+	pub(crate) references:           Option<ReferenceClientCapabilities>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) document_highlight: Option<DocumentHighlightClientCapabilities>,
+	pub(crate) document_highlight:   Option<DocumentHighlightClientCapabilities>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) document_symbol: Option<DocumentSymbolClientCapabilities>,
+	pub(crate) document_symbol:      Option<DocumentSymbolClientCapabilities>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) code_action: Option<CodeActionClientCapabilities>,
+	pub(crate) code_action:          Option<CodeActionClientCapabilities>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) code_lens: Option<CodeLensClientCapabilities>,
+	pub(crate) code_lens:            Option<CodeLensClientCapabilities>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) document_link: Option<DocumentLinkClientCapabilities>,
+	pub(crate) document_link:        Option<DocumentLinkClientCapabilities>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) color_provider: Option<DocumentColorClientCapabilities>,
+	pub(crate) color_provider:       Option<DocumentColorClientCapabilities>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) formatting: Option<DocumentFormattingClientCapabilities>,
+	pub(crate) formatting:           Option<DocumentFormattingClientCapabilities>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) range_formatting: Option<DocumentRangeFormattingClientCapabilities>,
+	pub(crate) range_formatting:     Option<DocumentRangeFormattingClientCapabilities>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) on_type_formatting: Option<DocumentOnTypeFormattingClientCapabilities>,
+	pub(crate) on_type_formatting:   Option<DocumentOnTypeFormattingClientCapabilities>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) rename: Option<RenameClientCapabilities>,
+	pub(crate) rename:               Option<RenameClientCapabilities>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) folding_range: Option<FoldingRangeClientCapabilities>,
+	pub(crate) folding_range:        Option<FoldingRangeClientCapabilities>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) selection_range: Option<SelectionRangeClientCapabilities>,
+	pub(crate) selection_range:      Option<SelectionRangeClientCapabilities>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) publish_diagnostics: Option<PublishDiagnosticsClientCapabilities>,
+	pub(crate) publish_diagnostics:  Option<PublishDiagnosticsClientCapabilities>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) call_hierarchy: Option<CallHierarchyClientCapabilities>,
+	pub(crate) call_hierarchy:       Option<CallHierarchyClientCapabilities>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) semantic_tokens: Option<SemanticTokensClientCapabilities>,
+	pub(crate) semantic_tokens:      Option<SemanticTokensClientCapabilities>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) linked_editing_range: Option<LinkedEditingRangeClientCapabilities>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) moniker: Option<MonikerClientCapabilities>,
+	pub(crate) moniker:              Option<MonikerClientCapabilities>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) type_hierarchy: Option<TypeHierarchyClientCapabilities>,
+	pub(crate) type_hierarchy:       Option<TypeHierarchyClientCapabilities>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) inline_value: Option<InlineValueClientCapabilities>,
+	pub(crate) inline_value:         Option<InlineValueClientCapabilities>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) inlay_hint: Option<InlayHintClientCapabilities>,
+	pub(crate) inlay_hint:           Option<InlayHintClientCapabilities>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) diagnostic: Option<DiagnosticClientCapabilities>,
+	pub(crate) diagnostic:           Option<DiagnosticClientCapabilities>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) inline_completion: Option<InlineCompletionClientCapabilities>,
+	pub(crate) inline_completion:    Option<InlineCompletionClientCapabilities>,
 }
 
 /// Capabilities specific to the notebook document support.
@@ -463,9 +463,9 @@ pub struct WindowClientCapabilities {
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) work_done_progress: Option<bool>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) show_message: Option<ShowMessageRequestClientCapabilities>,
+	pub(crate) show_message:       Option<ShowMessageRequestClientCapabilities>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) show_document: Option<ShowDocumentClientCapabilities>,
+	pub(crate) show_document:      Option<ShowDocumentClientCapabilities>,
 }
 
 #[derive(
@@ -473,7 +473,7 @@ pub struct WindowClientCapabilities {
 )]
 #[serde(rename_all = "camelCase")]
 pub struct StaleRequestClientCapabilities {
-	pub(crate) cancel: bool,
+	pub(crate) cancel:                    bool,
 	pub(crate) retry_on_content_modified: Vec<String>,
 }
 
@@ -497,11 +497,11 @@ pub struct GeneralClientCapabilities {
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) stale_request_support: Option<StaleRequestClientCapabilities>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) regular_expressions: Option<RegularExpressionsClientCapabilities>,
+	pub(crate) regular_expressions:   Option<RegularExpressionsClientCapabilities>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) markdown: Option<MarkdownClientCapabilities>,
+	pub(crate) markdown:              Option<MarkdownClientCapabilities>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) position_encodings: Option<Vec<PositionEncodingKind>>,
+	pub(crate) position_encodings:    Option<Vec<PositionEncodingKind>>,
 }
 
 #[derive(
@@ -537,13 +537,13 @@ pub struct WorkspaceChangeAnnotationSupportClientCapabilities {
 #[serde(rename_all = "camelCase")]
 pub struct WorkspaceEditClientCapabilities {
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) document_changes: Option<bool>,
+	pub(crate) document_changes:          Option<bool>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) resource_operations: Option<Vec<ResourceOperationKind>>,
+	pub(crate) resource_operations:       Option<Vec<ResourceOperationKind>>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) failure_handling: Option<FailureHandlingKind>,
+	pub(crate) failure_handling:          Option<FailureHandlingKind>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) normalizes_line_endings: Option<bool>,
+	pub(crate) normalizes_line_endings:   Option<bool>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) change_annotation_support:
 		Option<WorkspaceChangeAnnotationSupportClientCapabilities>,
@@ -581,7 +581,7 @@ pub struct DidChangeConfigurationClientCapabilities {
 #[serde(rename_all = "camelCase")]
 pub struct DidChangeWatchedFilesClientCapabilities {
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub dynamic_registration: Option<bool>,
+	pub dynamic_registration:     Option<bool>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub relative_pattern_support: Option<bool>,
 }
@@ -604,11 +604,11 @@ pub struct WorkspaceSymbolClientCapabilities {
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) dynamic_registration: Option<bool>,
 	#[serde(skip_serializing_if = "Option::is_none")]
-	pub(crate) symbol_kind: Option<ValueSet<SymbolKind>>,
+	pub(crate) symbol_kind:          Option<ValueSet<SymbolKind>>,
 	#[serde(skip_serializing_if = "Option::is_none")]
-	pub(crate) tag_support: Option<ValueSet<SymbolTag>>,
+	pub(crate) tag_support:          Option<ValueSet<SymbolTag>>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) resolve_support: Option<StringProperties>,
+	pub(crate) resolve_support:      Option<StringProperties>,
 }
 
 /// Client capabilities for a [`ExecuteCommandRequest`].
@@ -691,17 +691,17 @@ pub struct FileOperationClientCapabilities {
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) dynamic_registration: Option<bool>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) did_create: Option<bool>,
+	pub(crate) did_create:           Option<bool>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) will_create: Option<bool>,
+	pub(crate) will_create:          Option<bool>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) did_rename: Option<bool>,
+	pub(crate) did_rename:           Option<bool>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) will_rename: Option<bool>,
+	pub(crate) will_rename:          Option<bool>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) did_delete: Option<bool>,
+	pub(crate) did_delete:           Option<bool>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) will_delete: Option<bool>,
+	pub(crate) will_delete:          Option<bool>,
 }
 
 /// Client workspace capabilities specific to inline values.
@@ -805,11 +805,11 @@ pub struct TextDocumentSyncClientCapabilities {
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) dynamic_registration: Option<bool>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) will_save: Option<bool>,
+	pub(crate) will_save:            Option<bool>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) will_save_wait_until: Option<bool>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) did_save: Option<bool>,
+	pub(crate) did_save:             Option<bool>,
 }
 
 #[derive(
@@ -827,25 +827,25 @@ pub struct TextDocumentSyncClientCapabilities {
 #[serde(rename_all = "camelCase")]
 pub struct CompletionItemClientCapabilities {
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) snippet_support: Option<bool>,
+	pub(crate) snippet_support:           Option<bool>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) commit_characters_support: Option<bool>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) documentation_format: Option<Vec<MarkupKind>>,
+	pub(crate) documentation_format:      Option<Vec<MarkupKind>>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) deprecated_support: Option<bool>,
+	pub(crate) deprecated_support:        Option<bool>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) preselect_support: Option<bool>,
+	pub(crate) preselect_support:         Option<bool>,
 	#[serde(skip_serializing_if = "Option::is_none")]
-	pub(crate) tag_support: Option<ValueSet<CompletionItemTag>>,
+	pub(crate) tag_support:               Option<ValueSet<CompletionItemTag>>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) insert_replace_support: Option<bool>,
+	pub(crate) insert_replace_support:    Option<bool>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) resolve_support: Option<StringProperties>,
+	pub(crate) resolve_support:           Option<StringProperties>,
 	#[serde(skip_serializing_if = "Option::is_none")]
-	pub(crate) insert_text_mode_support: Option<ValueSet<InsertTextMode>>,
+	pub(crate) insert_text_mode_support:  Option<ValueSet<InsertTextMode>>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) label_details_support: Option<bool>,
+	pub(crate) label_details_support:     Option<bool>,
 }
 
 /// Completion client capabilities
@@ -866,15 +866,15 @@ pub struct CompletionClientCapabilities {
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) dynamic_registration: Option<bool>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) completion_item: Option<CompletionItemClientCapabilities>,
+	pub(crate) completion_item:      Option<CompletionItemClientCapabilities>,
 	#[serde(skip_serializing_if = "Option::is_none")]
 	pub(crate) completion_item_kind: Option<ValueSet<CompletionItemKind>>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) insert_text_mode: Option<InsertTextMode>,
+	pub(crate) insert_text_mode:     Option<InsertTextMode>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) context_support: Option<bool>,
+	pub(crate) context_support:      Option<bool>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) completion_list: Option<CompletionListItemDefaults>,
+	pub(crate) completion_list:      Option<CompletionListItemDefaults>,
 }
 
 #[derive(
@@ -894,7 +894,7 @@ pub struct HoverClientCapabilities {
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) dynamic_registration: Option<bool>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) content_format: Option<Vec<MarkupKind>>,
+	pub(crate) content_format:       Option<Vec<MarkupKind>>,
 }
 
 /// Client capabilities specific to parameter information.
@@ -931,9 +931,9 @@ pub struct ParameterInformationClientCapabilities {
 #[serde(rename_all = "camelCase")]
 pub struct SignatureInformationClientCapabilities {
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) documentation_format: Option<Vec<MarkupKind>>,
+	pub(crate) documentation_format:     Option<Vec<MarkupKind>>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) parameter_information: Option<ParameterInformationClientCapabilities>,
+	pub(crate) parameter_information:    Option<ParameterInformationClientCapabilities>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) active_parameter_support: Option<bool>,
 }
@@ -954,11 +954,11 @@ pub struct SignatureInformationClientCapabilities {
 #[serde(rename_all = "camelCase")]
 pub struct SignatureHelpClientCapabilities {
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) dynamic_registration: Option<bool>,
+	pub(crate) dynamic_registration:  Option<bool>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) signature_information: Option<SignatureInformationClientCapabilities>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) context_support: Option<bool>,
+	pub(crate) context_support:       Option<bool>,
 }
 
 /// since: 3.14.0
@@ -979,7 +979,7 @@ pub struct DeclarationClientCapabilities {
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) dynamic_registration: Option<bool>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) link_support: Option<bool>,
+	pub(crate) link_support:         Option<bool>,
 }
 
 /// Client Capabilities for a [`DefinitionRequest`].
@@ -1000,7 +1000,7 @@ pub struct DefinitionClientCapabilities {
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) dynamic_registration: Option<bool>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) link_support: Option<bool>,
+	pub(crate) link_support:         Option<bool>,
 }
 
 /// since: 3.6.0
@@ -1021,7 +1021,7 @@ pub struct TypeDefinitionClientCapabilities {
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) dynamic_registration: Option<bool>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) link_support: Option<bool>,
+	pub(crate) link_support:         Option<bool>,
 }
 
 /// since: 3.6.0
@@ -1042,7 +1042,7 @@ pub struct ImplementationClientCapabilities {
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) dynamic_registration: Option<bool>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) link_support: Option<bool>,
+	pub(crate) link_support:         Option<bool>,
 }
 
 /// Client Capabilities for a [`ReferencesRequest`].
@@ -1122,7 +1122,7 @@ pub struct DocumentLinkClientCapabilities {
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) dynamic_registration: Option<bool>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) tooltip_support: Option<bool>,
+	pub(crate) tooltip_support:      Option<bool>,
 }
 
 #[derive(
@@ -1180,7 +1180,7 @@ pub struct DocumentRangeFormattingClientCapabilities {
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) dynamic_registration: Option<bool>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) ranges_support: Option<bool>,
+	pub(crate) ranges_support:       Option<bool>,
 }
 
 /// Client capabilities of a [`DocumentOnTypeFormattingRequest`]
@@ -1235,15 +1235,15 @@ pub struct SelectionRangeClientCapabilities {
 #[serde(rename_all = "camelCase")]
 pub struct DocumentSymbolClientCapabilities {
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) dynamic_registration: Option<bool>,
+	pub(crate) dynamic_registration:                 Option<bool>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) symbol_kind: Option<ValueSet<SymbolKind>>,
+	pub(crate) symbol_kind:                          Option<ValueSet<SymbolKind>>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) hierarchical_document_symbol_support: Option<bool>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) tag_support: Option<ValueSet<SymbolTag>>,
+	pub(crate) tag_support:                          Option<ValueSet<SymbolTag>>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) label_support: Option<bool>,
+	pub(crate) label_support:                        Option<bool>,
 }
 
 #[derive(
@@ -1261,13 +1261,13 @@ pub struct DocumentSymbolClientCapabilities {
 #[serde(rename_all = "camelCase")]
 pub struct RenameClientCapabilities {
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) dynamic_registration: Option<bool>,
+	pub(crate) dynamic_registration:             Option<bool>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) prepare_support: Option<bool>,
+	pub(crate) prepare_support:                  Option<bool>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) prepare_support_default_behavior: Option<PrepareSupportDefaultBehavior>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) honors_change_annotations: Option<bool>,
+	pub(crate) honors_change_annotations:        Option<bool>,
 }
 
 /// Specific options for the folding range.
@@ -1308,13 +1308,13 @@ pub struct FoldingRangeClientCapabilities {
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) dynamic_registration: Option<bool>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) range_limit: Option<u32>,
+	pub(crate) range_limit:          Option<u32>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) line_folding_only: Option<bool>,
+	pub(crate) line_folding_only:    Option<bool>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) folding_range_kind: Option<ValueSet<FoldingRangeKind>>,
+	pub(crate) folding_range_kind:   Option<ValueSet<FoldingRangeKind>>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) folding_range: Option<FoldingRangeRangeClientCapabilities>,
+	pub(crate) folding_range:        Option<FoldingRangeRangeClientCapabilities>,
 }
 
 #[derive(
@@ -1341,19 +1341,19 @@ pub struct CodeActionLiteralClientCapabilities {
 #[serde(rename_all = "camelCase")]
 pub struct CodeActionClientCapabilities {
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) dynamic_registration: Option<bool>,
+	pub(crate) dynamic_registration:        Option<bool>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) code_action_literal_support: Option<CodeActionLiteralClientCapabilities>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) is_preferred_support: Option<bool>,
+	pub(crate) is_preferred_support:        Option<bool>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) disabled_support: Option<bool>,
+	pub(crate) disabled_support:            Option<bool>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) data_support: Option<bool>,
+	pub(crate) data_support:                Option<bool>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) resolve_support: Option<StringProperties>,
+	pub(crate) resolve_support:             Option<StringProperties>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) honors_change_annotations: Option<bool>,
+	pub(crate) honors_change_annotations:   Option<bool>,
 }
 
 /// The publish diagnostic client capabilities.
@@ -1372,15 +1372,15 @@ pub struct CodeActionClientCapabilities {
 #[serde(rename_all = "camelCase")]
 pub struct PublishDiagnosticsClientCapabilities {
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) related_information: Option<bool>,
+	pub(crate) related_information:      Option<bool>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) tag_support: Option<ValueSet<DiagnosticTag>>,
+	pub(crate) tag_support:              Option<ValueSet<DiagnosticTag>>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) version_support: Option<bool>,
+	pub(crate) version_support:          Option<bool>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) code_description_support: Option<bool>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) data_support: Option<bool>,
+	pub(crate) data_support:             Option<bool>,
 }
 
 #[derive(
@@ -1400,7 +1400,7 @@ pub struct SemanticTokensRequestsClientCapabilities {
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) range: Option<bool>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) full: Option<SemanticTokensFullRequestsType>,
+	pub(crate) full:  Option<SemanticTokensFullRequestsType>,
 }
 
 /// since: 3.16.0
@@ -1419,19 +1419,19 @@ pub struct SemanticTokensRequestsClientCapabilities {
 #[serde(rename_all = "camelCase")]
 pub struct SemanticTokensClientCapabilities {
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) dynamic_registration: Option<bool>,
-	pub(crate) requests: SemanticTokensRequestsClientCapabilities,
-	pub(crate) token_types: Vec<String>,
-	pub(crate) token_modifiers: Vec<String>,
-	pub(crate) formats: Vec<TokenFormat>,
+	pub(crate) dynamic_registration:      Option<bool>,
+	pub(crate) requests:                  SemanticTokensRequestsClientCapabilities,
+	pub(crate) token_types:               Vec<String>,
+	pub(crate) token_modifiers:           Vec<String>,
+	pub(crate) formats:                   Vec<TokenFormat>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) overlapping_token_support: Option<bool>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) multiline_token_support: Option<bool>,
+	pub(crate) multiline_token_support:   Option<bool>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) server_cancel_support: Option<bool>,
+	pub(crate) server_cancel_support:     Option<bool>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) augments_syntax_tokens: Option<bool>,
+	pub(crate) augments_syntax_tokens:    Option<bool>,
 }
 
 impl CallHierarchyClientCapabilities {
@@ -1446,8 +1446,8 @@ impl CallHierarchyClientCapabilities {
 
 	/// Whether implementation supports dynamic registration.
 	///
-	/// If this is set to `true` the client supports the new `(TextDocumentRegistrationOptions & StaticRegistrationOptions)`
-	/// return value for the corresponding server capability as well
+	/// If this is set to `true` the client supports the new `(TextDocumentRegistrationOptions &
+	/// StaticRegistrationOptions)` return value for the corresponding server capability as well
 	pub fn dynamic_registration(&self) -> Option<&bool> {
 		self.dynamic_registration.as_ref()
 	}
@@ -1465,8 +1465,8 @@ impl LinkedEditingRangeClientCapabilities {
 
 	/// Whether implementation supports dynamic registration.
 	///
-	/// If this is set to `true` the client supports the new `(TextDocumentRegistrationOptions & StaticRegistrationOptions)`
-	/// return value for the corresponding server capability as well.
+	/// If this is set to `true` the client supports the new `(TextDocumentRegistrationOptions &
+	/// StaticRegistrationOptions)` return value for the corresponding server capability as well.
 	pub fn dynamic_registration(&self) -> Option<&bool> {
 		self.dynamic_registration.as_ref()
 	}
@@ -1484,8 +1484,8 @@ impl MonikerClientCapabilities {
 
 	/// Whether moniker supports dynamic registration.
 	///
-	/// If this is set to `true` the client supports the new `MonikerRegistrationOptions` return value
-	/// for the corresponding server capability as well.
+	/// If this is set to `true` the client supports the new `MonikerRegistrationOptions` return
+	/// value for the corresponding server capability as well.
 	pub fn dynamic_registration(&self) -> Option<&bool> {
 		self.dynamic_registration.as_ref()
 	}
@@ -1503,8 +1503,8 @@ impl TypeHierarchyClientCapabilities {
 
 	/// Whether implementation supports dynamic registration.
 	///
-	/// If this is set to `true` the client supports the new `(TextDocumentRegistrationOptions & StaticRegistrationOptions)`
-	/// return value for the corresponding server capability as well.
+	/// If this is set to `true` the client supports the new `(TextDocumentRegistrationOptions &
+	/// StaticRegistrationOptions)` return value for the corresponding server capability as well.
 	pub fn dynamic_registration(&self) -> Option<&bool> {
 		self.dynamic_registration.as_ref()
 	}
@@ -1544,7 +1544,10 @@ impl InlayHintResolveSupport {
 
 impl InlayHintClientCapabilities {
 	pub fn new() -> Self {
-		Self { dynamic_registration: None, resolve_support: None }
+		Self {
+			dynamic_registration: None,
+			resolve_support:      None,
+		}
 	}
 
 	pub fn with_dynamic_registration(mut self, dynamic_registration: bool) -> Self {
@@ -1571,7 +1574,7 @@ impl InlayHintClientCapabilities {
 impl DiagnosticClientCapabilities {
 	pub fn new() -> Self {
 		Self {
-			dynamic_registration: None,
+			dynamic_registration:     None,
 			related_document_support: None,
 		}
 	}
@@ -1588,8 +1591,8 @@ impl DiagnosticClientCapabilities {
 
 	/// Whether implementation supports dynamic registration.
 	///
-	/// If this is set to `true` the client supports the new `(TextDocumentRegistrationOptions & StaticRegistrationOptions)`
-	/// return value for the corresponding server capability as well.
+	/// If this is set to `true` the client supports the new `(TextDocumentRegistrationOptions &
+	/// StaticRegistrationOptions)` return value for the corresponding server capability as well.
 	pub fn dynamic_registration(&self) -> Option<&bool> {
 		self.dynamic_registration.as_ref()
 	}
@@ -1619,7 +1622,7 @@ impl InlineCompletionClientCapabilities {
 impl NotebookDocumentSyncClientCapabilities {
 	pub fn new() -> Self {
 		Self {
-			dynamic_registration: None,
+			dynamic_registration:      None,
 			execution_summary_support: None,
 		}
 	}
@@ -1636,8 +1639,8 @@ impl NotebookDocumentSyncClientCapabilities {
 
 	/// Whether implementation supports dynamic registration.
 	///
-	/// If this is set to `true` the client supports the new `(TextDocumentRegistrationOptions & StaticRegistrationOptions)`
-	/// return value for the corresponding server capability as well.
+	/// If this is set to `true` the client supports the new `(TextDocumentRegistrationOptions &
+	/// StaticRegistrationOptions)` return value for the corresponding server capability as well.
 	pub fn dynamic_registration(&self) -> Option<&bool> {
 		self.dynamic_registration.as_ref()
 	}
@@ -1755,12 +1758,12 @@ impl ShowDocumentClientCapabilities {
 impl ClientCapabilities {
 	pub fn new() -> Self {
 		Self {
-			workspace: None,
-			text_document: None,
+			workspace:         None,
+			text_document:     None,
 			notebook_document: None,
-			window: None,
-			general: None,
-			experimental: None,
+			window:            None,
+			general:           None,
+			experimental:      None,
 		}
 	}
 
@@ -1835,21 +1838,21 @@ impl ClientCapabilities {
 impl WorkspaceClientCapabilities {
 	pub fn new() -> Self {
 		Self {
-			apply_edit: None,
-			workspace_edit: None,
+			apply_edit:               None,
+			workspace_edit:           None,
 			did_change_configuration: None,
 			did_change_watched_files: None,
-			symbol: None,
-			execute_command: None,
-			workspace_folders: None,
-			configuration: None,
-			semantic_tokens: None,
-			code_lense: None,
-			file_operations: None,
-			inline_value: None,
-			inlay_hint: None,
-			diagnostics: None,
-			folder_range: None,
+			symbol:                   None,
+			execute_command:          None,
+			workspace_folders:        None,
+			configuration:            None,
+			semantic_tokens:          None,
+			code_lense:               None,
+			file_operations:          None,
+			inline_value:             None,
+			inlay_hint:               None,
+			diagnostics:              None,
+			folder_range:             None,
 		}
 	}
 
@@ -2047,37 +2050,37 @@ impl WorkspaceClientCapabilities {
 impl TextDocumentClientCapabilities {
 	pub fn new() -> Self {
 		Self {
-			synchronization: None,
-			completion: None,
-			hover: None,
-			signature_help: None,
-			declaration: None,
-			definition: None,
-			type_definition: None,
-			implementation: None,
-			references: None,
-			document_highlight: None,
-			document_symbol: None,
-			code_action: None,
-			code_lens: None,
-			document_link: None,
-			color_provider: None,
-			formatting: None,
-			range_formatting: None,
-			on_type_formatting: None,
-			rename: None,
-			folding_range: None,
-			selection_range: None,
-			publish_diagnostics: None,
-			call_hierarchy: None,
-			semantic_tokens: None,
+			synchronization:      None,
+			completion:           None,
+			hover:                None,
+			signature_help:       None,
+			declaration:          None,
+			definition:           None,
+			type_definition:      None,
+			implementation:       None,
+			references:           None,
+			document_highlight:   None,
+			document_symbol:      None,
+			code_action:          None,
+			code_lens:            None,
+			document_link:        None,
+			color_provider:       None,
+			formatting:           None,
+			range_formatting:     None,
+			on_type_formatting:   None,
+			rename:               None,
+			folding_range:        None,
+			selection_range:      None,
+			publish_diagnostics:  None,
+			call_hierarchy:       None,
+			semantic_tokens:      None,
 			linked_editing_range: None,
-			moniker: None,
-			type_hierarchy: None,
-			inline_value: None,
-			inlay_hint: None,
-			diagnostic: None,
-			inline_completion: None,
+			moniker:              None,
+			type_hierarchy:       None,
+			inline_value:         None,
+			inlay_hint:           None,
+			diagnostic:           None,
+			inline_completion:    None,
 		}
 	}
 
@@ -2345,7 +2348,8 @@ impl TextDocumentClientCapabilities {
 		self.document_link.as_ref()
 	}
 
-	/// Capabilities specific to the `textDocument/documentColor` and the `textDocument/colorPresentation` request.
+	/// Capabilities specific to the `textDocument/documentColor` and the
+	/// `textDocument/colorPresentation` request.
 	///
 	/// since: 3.6.0
 	pub fn color_provider(&self) -> Option<&DocumentColorClientCapabilities> {
@@ -2472,8 +2476,8 @@ impl WindowClientCapabilities {
 	pub fn new() -> Self {
 		Self {
 			work_done_progress: None,
-			show_message: None,
-			show_document: None,
+			show_message:       None,
+			show_document:      None,
 		}
 	}
 
@@ -2542,9 +2546,9 @@ impl GeneralClientCapabilities {
 	pub fn new() -> Self {
 		Self {
 			stale_request_support: None,
-			regular_expressions: None,
-			markdown: None,
-			position_encodings: None,
+			regular_expressions:   None,
+			markdown:              None,
+			position_encodings:    None,
 		}
 	}
 
@@ -2578,7 +2582,8 @@ impl GeneralClientCapabilities {
 	}
 
 	/// Client capability that signals how the client handles stale requests (e.g. a request
-	/// for which the client will not process the response anymore since the information is outdated).
+	/// for which the client will not process the response anymore since the information is
+	/// outdated).
 	///
 	/// since: 3.17.0
 	pub fn stale_request_support(&self) -> Option<&StaleRequestClientCapabilities> {
@@ -2604,9 +2609,9 @@ impl GeneralClientCapabilities {
 	/// Client and server have to agree on the same position encoding to ensure
 	/// that offsets (e.g. character position in a line) are interpreted the same on both sides.
 	///
-	/// To keep the protocol backwards compatible the following applies: if the value 'utf-16' is missing
-	/// from the array of position encodings servers can assume that the client supports UTF-16. UTF-16 is therefore a
-	/// mandatory encoding.
+	/// To keep the protocol backwards compatible the following applies: if the value 'utf-16' is
+	/// missing from the array of position encodings servers can assume that the client supports
+	/// UTF-16. UTF-16 is therefore a mandatory encoding.
 	///
 	/// If omitted it defaults to [`PositionEncodingKind::Utf16`].
 	///
@@ -2640,10 +2645,10 @@ impl WorkspaceChangeAnnotationSupportClientCapabilities {
 impl WorkspaceEditClientCapabilities {
 	pub fn new() -> Self {
 		Self {
-			document_changes: None,
-			resource_operations: None,
-			failure_handling: None,
-			normalizes_line_endings: None,
+			document_changes:          None,
+			resource_operations:       None,
+			failure_handling:          None,
+			normalizes_line_endings:   None,
 			change_annotation_support: None,
 		}
 	}
@@ -2692,6 +2697,7 @@ impl WorkspaceEditClientCapabilities {
 	pub fn resource_operations(&self) -> Option<&Vec<ResourceOperationKind>> {
 		self.resource_operations.as_ref()
 	}
+
 	/// The failure handling strategy of a client if applying the workspace edit fails.
 	///
 	/// since: 3.13.0
@@ -2739,7 +2745,7 @@ impl DidChangeConfigurationClientCapabilities {
 impl DidChangeWatchedFilesClientCapabilities {
 	pub fn new() -> Self {
 		Self {
-			dynamic_registration: None,
+			dynamic_registration:     None,
 			relative_pattern_support: None,
 		}
 	}
@@ -2774,9 +2780,9 @@ impl WorkspaceSymbolClientCapabilities {
 	pub fn new() -> Self {
 		Self {
 			dynamic_registration: None,
-			symbol_kind: None,
-			tag_support: None,
-			resolve_support: None,
+			symbol_kind:          None,
+			tag_support:          None,
+			resolve_support:      None,
 		}
 	}
 
@@ -2862,10 +2868,11 @@ impl SemanticTokensWorkspaceClientCapabilities {
 		self
 	}
 
-	/// Whether the client implementation supports a refresh request sent from the server to the client.
+	/// Whether the client implementation supports a refresh request sent from the server to the
+	/// client.
 	///
-	/// Note that this event is global and will force the client to refresh all semantic tokens currently
-	/// shown.
+	/// Note that this event is global and will force the client to refresh all semantic tokens
+	/// currently shown.
 	///
 	/// It should be used with absolute care and is useful for situation where a server for example
 	/// detects a project wide change that requires such a calculation.
@@ -2884,9 +2891,11 @@ impl CodeLensWorkspaceClientCapabilities {
 		self
 	}
 
-	/// "Whether the client implementation supports a refresh request sent from the server to the client.
+	/// "Whether the client implementation supports a refresh request sent from the server to the
+	/// client.
 	///
-	/// Note that this event is global and will force the client to refresh all code lenses currently shown.
+	/// Note that this event is global and will force the client to refresh all code lenses
+	/// currently shown.
 	///
 	/// It should be used with absolute care and is useful for situation where a server for example
 	/// detect a project wide change that requires such a calculation.
@@ -2899,12 +2908,12 @@ impl FileOperationClientCapabilities {
 	pub fn new() -> Self {
 		Self {
 			dynamic_registration: None,
-			did_create: None,
-			will_create: None,
-			did_rename: None,
-			will_rename: None,
-			did_delete: None,
-			will_delete: None,
+			did_create:           None,
+			will_create:          None,
+			did_rename:           None,
+			will_rename:          None,
+			did_delete:           None,
+			will_delete:          None,
 		}
 	}
 
@@ -2989,12 +2998,14 @@ impl InlineValueWorkspaceClientCapabilities {
 		self
 	}
 
-	/// Whether the client implementation supports a refresh request sent from the server to the client.
+	/// Whether the client implementation supports a refresh request sent from the server to the
+	/// client.
 	///
-	/// Note that this event is global and will force the client to refresh all inline values currently shown.
+	/// Note that this event is global and will force the client to refresh all inline values
+	/// currently shown.
 	///
-	/// It should be used with absolute care and is useful for situation where a server for example detects
-	/// a project wide change that requires such a calculation.
+	/// It should be used with absolute care and is useful for situation where a server for example
+	/// detects a project wide change that requires such a calculation.
 	pub fn refresh_support(&self) -> Option<&bool> {
 		self.refresh_support.as_ref()
 	}
@@ -3010,12 +3021,14 @@ impl InlayHintWorkspaceClientCapabilities {
 		self
 	}
 
-	/// Whether the client implementation supports a refresh request sent from the server to the client.
+	/// Whether the client implementation supports a refresh request sent from the server to the
+	/// client.
 	///
-	/// Note that this event is global and will force the client to refresh all inlay hints currently shown.
+	/// Note that this event is global and will force the client to refresh all inlay hints
+	/// currently shown.
 	///
-	/// It should be used with absolute care and is useful for situation where a server for example detects
-	/// a project wide change that requires such a calculation.
+	/// It should be used with absolute care and is useful for situation where a server for example
+	/// detects a project wide change that requires such a calculation.
 	pub fn refresh_support(&self) -> Option<&bool> {
 		self.refresh_support.as_ref()
 	}
@@ -3031,13 +3044,14 @@ impl DiagnosticWorkspaceClientCapabilities {
 		self
 	}
 
-	/// Whether the client implementation supports a refresh request sent from the server to the client.
+	/// Whether the client implementation supports a refresh request sent from the server to the
+	/// client.
 	///
-	/// Note that this event is global and will force the client to refresh all pulled diagnostics currently
-	/// shown.
+	/// Note that this event is global and will force the client to refresh all pulled diagnostics
+	/// currently shown.
 	///
-	/// It should be used with absolute care and is useful for situation where a server for example detects
-	/// a project wide change that requires such a calculation.
+	/// It should be used with absolute care and is useful for situation where a server for example
+	/// detects a project wide change that requires such a calculation.
 	pub fn refresh_support(&self) -> Option<&bool> {
 		self.refresh_support.as_ref()
 	}
@@ -3053,13 +3067,14 @@ impl FoldingRangeWorkspaceClientCapabilities {
 		self
 	}
 
-	/// Whether the client implementation supports a refresh request sent from the server to the client.
+	/// Whether the client implementation supports a refresh request sent from the server to the
+	/// client.
 	///
-	/// Note that this event is global and will force the client to refresh all folding ranges currently
-	/// shown.
+	/// Note that this event is global and will force the client to refresh all folding ranges
+	/// currently shown.
 	///
-	/// It should be used with absolute care and is useful for situation where a server for example detects
-	/// a project wide change that requires such a calculation.
+	/// It should be used with absolute care and is useful for situation where a server for example
+	/// detects a project wide change that requires such a calculation.
 	///
 	/// since: 3.18.0
 	pub fn refresh_support(&self) -> Option<&bool> {
@@ -3071,9 +3086,9 @@ impl TextDocumentSyncClientCapabilities {
 	pub fn new() -> Self {
 		Self {
 			dynamic_registration: None,
-			will_save: None,
+			will_save:            None,
 			will_save_wait_until: None,
-			did_save: None,
+			did_save:             None,
 		}
 	}
 
@@ -3122,16 +3137,16 @@ impl TextDocumentSyncClientCapabilities {
 impl CompletionItemClientCapabilities {
 	pub fn new() -> Self {
 		Self {
-			snippet_support: None,
+			snippet_support:           None,
 			commit_characters_support: None,
-			documentation_format: None,
-			deprecated_support: None,
-			preselect_support: None,
-			tag_support: None,
-			insert_replace_support: None,
-			resolve_support: None,
-			insert_text_mode_support: None,
-			label_details_support: None,
+			documentation_format:      None,
+			deprecated_support:        None,
+			preselect_support:         None,
+			tag_support:               None,
+			insert_replace_support:    None,
+			resolve_support:           None,
+			insert_text_mode_support:  None,
+			label_details_support:     None,
 		}
 	}
 
@@ -3194,7 +3209,8 @@ impl CompletionItemClientCapabilities {
 	///
 	/// `$0` defines the final tab stop, it defaults to the end of the snippet.
 	///
-	/// Placeholders with equal identifiers are linked, that is typing in one will update others too.
+	/// Placeholders with equal identifiers are linked, that is typing in one will update others
+	/// too.
 	pub fn snippet_support(&self) -> Option<&bool> {
 		self.snippet_support.as_ref()
 	}
@@ -3259,7 +3275,8 @@ impl CompletionItemClientCapabilities {
 		self.insert_text_mode_support.as_ref()
 	}
 
-	/// The client has support for completion item label details (see also `CompletionItemLabelDetails`).
+	/// The client has support for completion item label details (see also
+	/// `CompletionItemLabelDetails`).
 	///
 	/// since: 3.17.0
 	pub fn label_details_support(&self) -> Option<&bool> {
@@ -3271,11 +3288,11 @@ impl CompletionClientCapabilities {
 	pub fn new() -> Self {
 		Self {
 			dynamic_registration: None,
-			completion_item: None,
+			completion_item:      None,
 			completion_item_kind: None,
-			insert_text_mode: None,
-			context_support: None,
-			completion_list: None,
+			insert_text_mode:     None,
+			context_support:      None,
+			completion_list:      None,
 		}
 	}
 
@@ -3344,7 +3361,8 @@ impl CompletionClientCapabilities {
 		self.insert_text_mode.as_ref()
 	}
 
-	/// The client supports to send additional context information for a `textDocument/completion` request.
+	/// The client supports to send additional context information for a `textDocument/completion`
+	/// request.
 	pub fn context_support(&self) -> Option<&bool> {
 		self.context_support.as_ref()
 	}
@@ -3363,7 +3381,10 @@ impl CompletionClientCapabilities {
 
 impl HoverClientCapabilities {
 	pub fn new() -> Self {
-		Self { dynamic_registration: None, content_format: None }
+		Self {
+			dynamic_registration: None,
+			content_format:       None,
+		}
 	}
 
 	pub fn with_dynamic_registration(mut self, dynamic_registration: bool) -> Self {
@@ -3410,8 +3431,8 @@ impl ParameterInformationClientCapabilities {
 impl SignatureInformationClientCapabilities {
 	pub fn new() -> Self {
 		Self {
-			documentation_format: None,
-			parameter_information: None,
+			documentation_format:     None,
+			parameter_information:    None,
 			active_parameter_support: None,
 		}
 	}
@@ -3457,9 +3478,9 @@ impl SignatureInformationClientCapabilities {
 impl SignatureHelpClientCapabilities {
 	pub fn new() -> Self {
 		Self {
-			dynamic_registration: None,
+			dynamic_registration:  None,
 			signature_information: None,
-			context_support: None,
+			context_support:       None,
 		}
 	}
 
@@ -3491,8 +3512,8 @@ impl SignatureHelpClientCapabilities {
 		self.signature_information.as_ref()
 	}
 
-	/// The client supports to send additional context information for a `textDocument/signatureHelp`
-	/// request.
+	/// The client supports to send additional context information for a
+	/// `textDocument/signatureHelp` request.
 	///
 	/// A client that opts into contextSupport will also support the `retriggerCharacters` on
 	/// `SignatureHelpOptions`.
@@ -3505,7 +3526,10 @@ impl SignatureHelpClientCapabilities {
 
 impl DeclarationClientCapabilities {
 	pub fn new() -> Self {
-		Self { dynamic_registration: None, link_support: None }
+		Self {
+			dynamic_registration: None,
+			link_support:         None,
+		}
 	}
 
 	pub fn with_dynamic_registration(mut self, dynamic_registration: bool) -> Self {
@@ -3534,7 +3558,10 @@ impl DeclarationClientCapabilities {
 
 impl DefinitionClientCapabilities {
 	pub fn new() -> Self {
-		Self { dynamic_registration: None, link_support: None }
+		Self {
+			dynamic_registration: None,
+			link_support:         None,
+		}
 	}
 
 	pub fn with_dynamic_registration(mut self, dynamic_registration: bool) -> Self {
@@ -3562,7 +3589,10 @@ impl DefinitionClientCapabilities {
 
 impl TypeDefinitionClientCapabilities {
 	pub fn new() -> Self {
-		Self { dynamic_registration: None, link_support: None }
+		Self {
+			dynamic_registration: None,
+			link_support:         None,
+		}
 	}
 
 	pub fn with_dynamic_registration(mut self, dynamic_registration: bool) -> Self {
@@ -3577,8 +3607,8 @@ impl TypeDefinitionClientCapabilities {
 
 	/// Whether implementation supports dynamic registration.
 	///
-	/// If this is set to `true` the client supports the new [`TypeDefinitionRegistrationOptions`] return
-	/// value for the corresponding server capability as well.
+	/// If this is set to `true` the client supports the new [`TypeDefinitionRegistrationOptions`]
+	/// return value for the corresponding server capability as well.
 	pub fn dynamic_registration(&self) -> Option<&bool> {
 		self.dynamic_registration.as_ref()
 	}
@@ -3593,7 +3623,10 @@ impl TypeDefinitionClientCapabilities {
 
 impl ImplementationClientCapabilities {
 	pub fn new() -> Self {
-		Self { dynamic_registration: None, link_support: None }
+		Self {
+			dynamic_registration: None,
+			link_support:         None,
+		}
 	}
 
 	pub fn with_dynamic_registration(mut self, dynamic_registration: bool) -> Self {
@@ -3608,8 +3641,8 @@ impl ImplementationClientCapabilities {
 
 	/// Whether implementation supports dynamic registration.
 	///
-	/// If this is set to `true` the client supports the new [`ImplementationRegistrationOptions`] return
-	/// value for the corresponding server capability as well.
+	/// If this is set to `true` the client supports the new [`ImplementationRegistrationOptions`]
+	/// return value for the corresponding server capability as well.
 	pub fn dynamic_registration(&self) -> Option<&bool> {
 		self.dynamic_registration.as_ref()
 	}
@@ -3672,7 +3705,10 @@ impl CodeLensClientCapabilities {
 
 impl DocumentLinkClientCapabilities {
 	pub fn new() -> Self {
-		Self { dynamic_registration: None, tooltip_support: None }
+		Self {
+			dynamic_registration: None,
+			tooltip_support:      None,
+		}
 	}
 
 	pub fn with_dynamic_registration(mut self, dynamic_registration: bool) -> Self {
@@ -3710,8 +3746,8 @@ impl DocumentColorClientCapabilities {
 
 	/// Whether implementation supports dynamic registration.
 	///
-	/// If this is set to `true` the client supports the new [`DocumentColorRegistrationOptions`] return
-	/// value for the corresponding server capability as well.
+	/// If this is set to `true` the client supports the new [`DocumentColorRegistrationOptions`]
+	/// return value for the corresponding server capability as well.
 	pub fn dynamic_registration(&self) -> Option<&bool> {
 		self.dynamic_registration.as_ref()
 	}
@@ -3735,7 +3771,10 @@ impl DocumentFormattingClientCapabilities {
 
 impl DocumentRangeFormattingClientCapabilities {
 	pub fn new() -> Self {
-		Self { dynamic_registration: None, ranges_support: None }
+		Self {
+			dynamic_registration: None,
+			ranges_support:       None,
+		}
 	}
 
 	pub fn with_dynamic_registration(mut self, dynamic_registration: bool) -> Self {
@@ -3789,8 +3828,8 @@ impl SelectionRangeClientCapabilities {
 
 	/// Whether implementation supports dynamic registration for selection range providers.
 	///
-	/// If this is set to `true` the client supports the new [`SelectionRangeRegistrationOptions`] return
-	/// value for the corresponding server capability as well.
+	/// If this is set to `true` the client supports the new [`SelectionRangeRegistrationOptions`]
+	/// return value for the corresponding server capability as well.
 	pub fn dynamic_registration(&self) -> Option<&bool> {
 		self.dynamic_registration.as_ref()
 	}
@@ -3799,11 +3838,11 @@ impl SelectionRangeClientCapabilities {
 impl DocumentSymbolClientCapabilities {
 	pub fn new() -> Self {
 		Self {
-			dynamic_registration: None,
-			symbol_kind: None,
+			dynamic_registration:                 None,
+			symbol_kind:                          None,
 			hierarchical_document_symbol_support: None,
-			tag_support: None,
-			label_support: None,
+			tag_support:                          None,
+			label_support:                        None,
 		}
 	}
 
@@ -3842,11 +3881,11 @@ impl DocumentSymbolClientCapabilities {
 
 	/// The symbol kind values the client supports.
 	///
-	/// When this property exists the client also guarantees that it will handle values outside its set
-	/// gracefully and falls back to a default value when unknown.
+	/// When this property exists the client also guarantees that it will handle values outside its
+	/// set gracefully and falls back to a default value when unknown.
 	///
-	/// If this property is not present the client only supports the symbol kinds from `File` to `Array`
-	/// as defined in the initial version of the protocol.
+	/// If this property is not present the client only supports the symbol kinds from `File` to
+	/// `Array` as defined in the initial version of the protocol.
 	pub fn symbol_kind(&self) -> Option<&ValueSet<SymbolKind>> {
 		self.symbol_kind.as_ref()
 	}
@@ -3858,7 +3897,8 @@ impl DocumentSymbolClientCapabilities {
 
 	/// The client supports tags on [`SymbolInformation`].
 	///
-	/// Tags are supported on [`DocumentSymbol`] if `hierarchicalDocumentSymbolSupport` is set to true.
+	/// Tags are supported on [`DocumentSymbol`] if `hierarchicalDocumentSymbolSupport` is set to
+	/// true.
 	///
 	/// Clients supporting tags have to handle unknown tags gracefully.
 	///
@@ -3867,7 +3907,8 @@ impl DocumentSymbolClientCapabilities {
 		self.tag_support.as_ref()
 	}
 
-	/// The client supports an additional label presented in the UI when registering a document symbol provider.
+	/// The client supports an additional label presented in the UI when registering a document
+	/// symbol provider.
 	///
 	/// since: 3.16.0
 	pub fn label_support(&self) -> Option<&bool> {
@@ -3878,10 +3919,10 @@ impl DocumentSymbolClientCapabilities {
 impl RenameClientCapabilities {
 	pub fn new() -> Self {
 		Self {
-			dynamic_registration: None,
-			prepare_support: None,
+			dynamic_registration:             None,
+			prepare_support:                  None,
 			prepare_support_default_behavior: None,
-			honors_change_annotations: None,
+			honors_change_annotations:        None,
 		}
 	}
 
@@ -3929,9 +3970,9 @@ impl RenameClientCapabilities {
 		self.prepare_support_default_behavior.as_ref()
 	}
 
-	/// Whether the client honors the change annotations in text edits and resource operations returned
-	/// via the rename request's workspace edit by for example presenting the workspace edit in the
-	/// user interface and asking\nfor confirmation.
+	/// Whether the client honors the change annotations in text edits and resource operations
+	/// returned via the rename request's workspace edit by for example presenting the workspace
+	/// edit in the user interface and asking\nfor confirmation.
 	///
 	/// since 3.16.0
 	pub fn honors_change_annotations(&self) -> Option<&bool> {
@@ -3962,10 +4003,10 @@ impl FoldingRangeClientCapabilities {
 	pub fn new() -> Self {
 		Self {
 			dynamic_registration: None,
-			range_limit: None,
-			line_folding_only: None,
-			folding_range_kind: None,
-			folding_range: None,
+			range_limit:          None,
+			line_folding_only:    None,
+			folding_range_kind:   None,
+			folding_range:        None,
 		}
 	}
 
@@ -4002,14 +4043,13 @@ impl FoldingRangeClientCapabilities {
 
 	/// Whether implementation supports dynamic registration for folding range providers.
 	///
-	/// If this is set to `true` the client supports the new [`FoldingRangeRegistrationOptions`] return
-	/// value for the corresponding server capability as well.
+	/// If this is set to `true` the client supports the new [`FoldingRangeRegistrationOptions`]
+	/// return value for the corresponding server capability as well.
 	pub fn dynamic_registration(&self) -> Option<&bool> {
 		self.dynamic_registration.as_ref()
 	}
 
 	/// The maximum number of folding ranges that the client prefers to receive per document.
-	///
 	// The value serves as a hint, servers are free to follow the limit.
 	pub fn range_limit(&self) -> Option<&u32> {
 		self.range_limit.as_ref()
@@ -4056,13 +4096,13 @@ impl CodeActionLiteralClientCapabilities {
 impl CodeActionClientCapabilities {
 	pub fn new() -> Self {
 		Self {
-			dynamic_registration: None,
+			dynamic_registration:        None,
 			code_action_literal_support: None,
-			is_preferred_support: None,
-			disabled_support: None,
-			data_support: None,
-			resolve_support: None,
-			honors_change_annotations: None,
+			is_preferred_support:        None,
+			disabled_support:            None,
+			data_support:                None,
+			resolve_support:             None,
+			honors_change_annotations:   None,
 		}
 	}
 
@@ -4149,9 +4189,9 @@ impl CodeActionClientCapabilities {
 		self.resolve_support.as_ref()
 	}
 
-	/// Whether the client honors the change annotations in text edits and resource operations returned
-	/// via the [`CodeAction::edit`] property by for example presenting the workspace edit in the user
-	/// interface and asking for confirmation.
+	/// Whether the client honors the change annotations in text edits and resource operations
+	/// returned via the [`CodeAction::edit`] property by for example presenting the workspace edit
+	/// in the user interface and asking for confirmation.
 	///
 	/// since: 3.16.0
 	pub fn honors_change_annotations(&self) -> Option<&bool> {
@@ -4162,11 +4202,11 @@ impl CodeActionClientCapabilities {
 impl PublishDiagnosticsClientCapabilities {
 	pub fn new() -> Self {
 		Self {
-			related_information: None,
-			tag_support: None,
-			version_support: None,
+			related_information:      None,
+			tag_support:              None,
+			version_support:          None,
 			code_description_support: None,
-			data_support: None,
+			data_support:             None,
 		}
 	}
 
@@ -4315,10 +4355,12 @@ impl SemanticTokensClientCapabilities {
 		self.dynamic_registration.as_ref()
 	}
 
-	/// Which requests the client supports and might send to the server depending on the server's capability.
+	/// Which requests the client supports and might send to the server depending on the server's
+	/// capability.
 	///
-	/// Please note that clients might not show semantic tokens or degrade some of the user experience
-	/// if a range or full request is advertised by the client but not provided by the server.
+	/// Please note that clients might not show semantic tokens or degrade some of the user
+	/// experience if a range or full request is advertised by the client but not provided by the
+	/// server.
 	///
 	/// If for example the client capability `requests.full` and `request.range` are both set
 	/// to true but the server only provides a range provider the client might not render a minimap

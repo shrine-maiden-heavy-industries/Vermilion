@@ -1,4 +1,4 @@
-/* SPDX-License-Identifier: BSD-3-Clause */
+// SPDX-License-Identifier: BSD-3-Clause
 
 use crate::types::{
 	LspAny, OptionsOrBool, PositionEncodingKind, RegistrationOptionsOrBool, RegistrationOrOptions,
@@ -78,7 +78,7 @@ pub struct WorkspaceServerCapabilities {
 	///
 	/// since: 3.16.0
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub file_operations: Option<FileOperationOptions>,
+	pub file_operations:   Option<FileOperationOptions>,
 }
 
 /// Defines the capabilities provided by a language server.
@@ -175,7 +175,7 @@ pub struct ServerCapabilities {
 #[serde(rename_all = "camelCase")]
 pub struct WorkspaceFoldersServerCapabilities {
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) supported: Option<bool>,
+	pub(crate) supported:           Option<bool>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) change_notification: Option<StringOrBool>,
 }
@@ -501,10 +501,11 @@ impl ServerCapabilities {
 		self
 	}
 
-	/// The position encoding the server picked from the encodings offered by the client via the client capability
-	/// `general.positionEncodings`.
+	/// The position encoding the server picked from the encodings offered by the client via the
+	/// client capability `general.positionEncodings`.
 	///
-	/// If the client didn't provide any position encodings the only valid value that a server can return is 'utf-16'.
+	/// If the client didn't provide any position encodings the only valid value that a server can
+	/// return is 'utf-16'.
 	///
 	/// If omitted it defaults to 'utf-16'.
 	///
@@ -722,7 +723,10 @@ impl ServerCapabilities {
 
 impl WorkspaceFoldersServerCapabilities {
 	pub fn new() -> Self {
-		Self { supported: None, change_notification: None }
+		Self {
+			supported:           None,
+			change_notification: None,
+		}
 	}
 
 	pub fn with_supported(mut self, supported: bool) -> Self {
