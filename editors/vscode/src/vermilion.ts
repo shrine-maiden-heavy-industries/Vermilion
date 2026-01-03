@@ -46,7 +46,7 @@ export async function createLanguageClient(folder: WorkspaceFolder): Promise<Lan
 		debug:
 		{
 			command: languageServer,
-			args: ['-v', 'lang-server'], //, '--inspect=6009'],
+			args: ['-vv', 'lang-server'],
 			transport: TransportKind.pipe,
 		},
 	}
