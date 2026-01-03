@@ -5660,6 +5660,13 @@ impl SemanticTokensLegend {
 		Self { token_types, token_modifiers }
 	}
 
+	pub fn from_str_vec(token_types: Vec<&str>, token_modifiers: Vec<&str>) -> Self {
+		Self::new(
+			token_types.into_iter().map(String::from).collect(),
+			token_modifiers.into_iter().map(String::from).collect()
+		)
+	}
+
 	/// The token types a server uses.
 	pub fn token_types(&self) -> &Vec<String> {
 		&self.token_types

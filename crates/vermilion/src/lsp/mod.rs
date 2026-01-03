@@ -1,4 +1,6 @@
 /* SPDX-License-Identifier: BSD-3-Clause */
+
+mod semantic_tokens;
 mod workspace;
 
 use std::{
@@ -16,7 +18,12 @@ use vermilion_lsp::{
 		socket::SocketTransport,
 		stdio::StdioTransport
 	},
-	types::{InitializeResult, ServerInfo, capabilities::server::ServerCapabilities},
+	types::{
+		InitializeResult,
+		ServerInfo,
+		TextDocumentSyncKind,
+		capabilities::server::{ServerCapabilities, TextDocumentSyncServerCapability}
+	},
 };
 
 use tokio::{
@@ -103,11 +110,15 @@ pub fn process_lsp_request(
 				debug!("Client Version: {:?}", client_info.version());
 			}
 
+			let capabilities = ServerCapabilities::default()
+				.with_text_document_sync(TextDocumentSyncServerCapability::Kind(TextDocumentSyncKind::Incremental))
+				.with_semantic_tokens_provider(semantic_tokens::capabilities());
+
 			response_channel.send(
 				request
 					.response()
 					.with_result(
-						InitializeResult::new(ServerCapabilities::default()).with_server_info(
+						InitializeResult::new(capabilities).with_server_info(
 							ServerInfo::new("vermilion".to_string())
 								.with_version(env!("CARGO_PKG_VERSION").to_string()),
 						),
