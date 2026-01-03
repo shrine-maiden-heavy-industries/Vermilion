@@ -17,7 +17,10 @@ use tokio_util::sync::CancellationToken;
 use tracing::{debug, error, trace};
 
 use super::LSPTransport;
-use crate::message::Message;
+use crate::{
+	message::Message,
+	transports::{ReadPhase, get_split_index},
+};
 
 #[derive(Debug)]
 pub struct PipeTransport {
@@ -28,19 +31,6 @@ impl PipeTransport {
 	pub fn new(path: PathBuf) -> Self {
 		Self { path }
 	}
-}
-
-enum ReadPhase {
-	Header,
-	Content(usize),
-}
-
-fn get_split_index(buffer: &[u8]) -> Option<usize> {
-	buffer
-		.windows(4)
-		.enumerate()
-		.find(|&(_, w)| matches!(w, b"\r\n\r\n"))
-		.map(|(idx, _)| idx + 4)
 }
 
 async fn pipe_reader(
