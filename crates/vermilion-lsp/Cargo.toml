@@ -12,6 +12,7 @@ rust-version  = { workspace = true }
 version       = { workspace = true }
 
 [dependencies]
+bitmask-enum = { workspace = true }
 chrono     = { workspace = true }
 eyre       = { workspace = true }
 fluent-uri = { workspace = true }

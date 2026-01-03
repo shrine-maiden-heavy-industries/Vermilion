@@ -1,4 +1,5 @@
 /* SPDX-License-Identifier: BSD-3-Clause */
+use bitmask_enum::bitmask;
 
 /// A set of predefined token types.
 ///
@@ -49,10 +50,7 @@ pub enum SemanticTokenType {
 /// corresponding client capabilities.
 ///
 /// since: 3.16.0
-#[derive(
-	Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize,
-)]
-#[serde(rename_all = "camelCase")]
+#[bitmask(u32)]
 pub enum SemanticTokenModifiers {
 	Abstract,
 	Async,
@@ -62,11 +60,30 @@ pub enum SemanticTokenModifiers {
 	Deprecated,
 	Documentation,
 	Modification,
-	#[serde(rename = "readonly")]
 	ReadOnly,
 	Static,
-	#[serde(untagged)]
-	Other(String),
+	User1,
+	User2,
+	User3,
+	User4,
+	User5,
+	User6,
+	User7,
+	User8,
+	User9,
+	User10,
+	User11,
+	User12,
+	User13,
+	User14,
+	User15,
+	User16,
+	User17,
+	User18,
+	User19,
+	User20,
+	User21,
+	User22,
 }
 
 /// since: 3.16.0
@@ -77,7 +94,7 @@ pub enum SemanticTokenModifiers {
 pub struct SemanticTokens {
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) result_id: Option<String>,
-	pub(crate) data: Vec<u32>,
+	pub(crate) data: Vec<SemanticToken>,
 }
 
 /// See [`SemanticTokens`]
@@ -123,8 +140,56 @@ pub struct SemanticTokensEdit {
 	pub(crate) data: Option<Vec<u32>>,
 }
 
+#[derive(
+	Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize,
+)]
+pub struct SemanticToken {
+	#[serde(flatten)]
+	line: u32,
+	#[serde(flatten)]
+	character: u32,
+	#[serde(flatten)]
+	length: u32,
+	#[serde(flatten)]
+	token_type: SemanticTokenType,
+	#[serde(flatten)]
+	modifiers: SemanticTokenModifiers,
+}
+
+impl<'de> serde::Deserialize<'de> for SemanticTokenModifiers {
+	fn deserialize<Deserializer>(deserializer: Deserializer) -> Result<Self, Deserializer::Error>
+	where
+		Deserializer: serde::Deserializer<'de> {
+		struct SemanticTokenModifierVisitor;
+
+		impl<'de> serde::de::Visitor<'de> for SemanticTokenModifierVisitor {
+			type Value = SemanticTokenModifiers;
+
+			fn expecting(&self, formatter: &mut std::fmt::Formatter) -> std::fmt::Result {
+				formatter.write_str("A u32 containing packed SemanticTokenModifiers")
+			}
+
+			fn visit_u32<E>(self, value: u32) -> Result<Self::Value, E>
+			where
+				E: serde::de::Error, {
+				Ok(SemanticTokenModifiers::from(value))
+			}
+		}
+
+		deserializer.deserialize_u32(SemanticTokenModifierVisitor)
+	}
+}
+
+impl serde::Serialize for SemanticTokenModifiers {
+	fn serialize<Serializer>(&self, serializer: Serializer) -> Result<Serializer::Ok, Serializer::Error>
+	where
+		Serializer: serde::Serializer {
+		serializer.serialize_u32(self.bits)
+	}
+}
+
 impl SemanticTokens {
-	pub fn new(data: Vec<u32>) -> Self {
+	pub fn new(data: Vec<SemanticToken>) -> Self {
 		Self { data, result_id: None }
 	}
 
@@ -134,7 +199,7 @@ impl SemanticTokens {
 	}
 
 	/// The actual tokens
-	pub fn data(&self) -> &Vec<u32> {
+	pub fn data(&self) -> &Vec<SemanticToken> {
 		&self.data
 	}
 
