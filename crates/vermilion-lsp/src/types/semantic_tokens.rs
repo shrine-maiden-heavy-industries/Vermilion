@@ -91,6 +91,16 @@ pub enum SemanticTokenModifiers {
 	Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize,
 )]
 #[serde(rename_all = "camelCase")]
+pub struct SemanticTokensLegend {
+	pub(crate) token_types: Vec<String>,
+	pub(crate) token_modifiers: Vec<String>,
+}
+
+/// since: 3.16.0
+#[derive(
+	Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize,
+)]
+#[serde(rename_all = "camelCase")]
 pub struct SemanticTokens {
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) result_id: Option<String>,
@@ -185,6 +195,29 @@ impl serde::Serialize for SemanticTokenModifiers {
 	where
 		Serializer: serde::Serializer {
 		serializer.serialize_u32(self.bits)
+	}
+}
+
+impl SemanticTokensLegend {
+	pub fn new(token_types: Vec<String>, token_modifiers: Vec<String>) -> Self {
+		Self { token_types, token_modifiers }
+	}
+
+	pub fn from_str_vec(token_types: Vec<&str>, token_modifiers: Vec<&str>) -> Self {
+		Self::new(
+			token_types.into_iter().map(String::from).collect(),
+			token_modifiers.into_iter().map(String::from).collect()
+		)
+	}
+
+	/// The token types a server uses.
+	pub fn token_types(&self) -> &Vec<String> {
+		&self.token_types
+	}
+
+	/// The token modifiers a server uses.
+	pub fn token_modifiers(&self) -> &Vec<String> {
+		&self.token_modifiers
 	}
 }
 

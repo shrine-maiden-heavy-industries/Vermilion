@@ -2,7 +2,8 @@
 
 use crate::types::{
 	CodeActionKind, DocumentSelector, FileOperationFilter, FileSystemWatcher,
-	NotebookDocumentSyncOptionsSelector, OptionsOrBool, SemanticTokensLegend, TextDocumentSyncKind,
+	NotebookDocumentSyncOptionsSelector, OptionsOrBool, TextDocumentSyncKind,
+	semantic_tokens::SemanticTokensLegend,
 };
 
 #[derive(

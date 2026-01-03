@@ -3,7 +3,7 @@
 use std::vec;
 
 use vermilion_lsp::types::{
-	SemanticTokensLegend,
+	semantic_tokens::SemanticTokensLegend,
 	capabilities::server::SemanticTokensServerCapabilities,
 	options::{SemanticTokensOptions, WorkDoneProgressOptions}
 };

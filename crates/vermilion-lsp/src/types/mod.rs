@@ -2311,16 +2311,6 @@ pub struct ResourceOperation {
 	pub(crate) annotation_id: Option<ChangeAnnotationIdentifier>,
 }
 
-/// since: 3.16.0
-#[derive(
-	Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize,
-)]
-#[serde(rename_all = "camelCase")]
-pub struct SemanticTokensLegend {
-	pub(crate) token_types: Vec<String>,
-	pub(crate) token_modifiers: Vec<String>,
-}
-
 /// A base for all symbol information.
 #[derive(
 	Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize,
@@ -5652,29 +5642,6 @@ impl ResourceOperation {
 	/// since: 3.16.0
 	pub fn annotation_id(&self) -> Option<&ChangeAnnotationIdentifier> {
 		self.annotation_id.as_ref()
-	}
-}
-
-impl SemanticTokensLegend {
-	pub fn new(token_types: Vec<String>, token_modifiers: Vec<String>) -> Self {
-		Self { token_types, token_modifiers }
-	}
-
-	pub fn from_str_vec(token_types: Vec<&str>, token_modifiers: Vec<&str>) -> Self {
-		Self::new(
-			token_types.into_iter().map(String::from).collect(),
-			token_modifiers.into_iter().map(String::from).collect()
-		)
-	}
-
-	/// The token types a server uses.
-	pub fn token_types(&self) -> &Vec<String> {
-		&self.token_types
-	}
-
-	/// The token modifiers a server uses.
-	pub fn token_modifiers(&self) -> &Vec<String> {
-		&self.token_modifiers
 	}
 }
 
