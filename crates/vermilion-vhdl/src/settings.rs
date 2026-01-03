@@ -1,4 +1,4 @@
-/* SPDX-License-Identifier: BSD-3-Clause */
+// SPDX-License-Identifier: BSD-3-Clause
 
 use crate::{VhdlStd, fmt::settings::VhdlFormat, lint::settings::VhdlLint};
 
@@ -10,7 +10,7 @@ use crate::{VhdlStd, fmt::settings::VhdlFormat, lint::settings::VhdlLint};
 )]
 #[cfg_attr(feature = "schema", derive(::schemars::JsonSchema))]
 pub struct VhdlConfig {
-	std: VhdlStd,
-	fmt: Option<VhdlFormat>,
+	std:  VhdlStd,
+	fmt:  Option<VhdlFormat>,
 	lint: Option<VhdlLint>,
 }
