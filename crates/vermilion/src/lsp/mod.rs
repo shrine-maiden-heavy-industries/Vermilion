@@ -12,17 +12,12 @@ use vermilion_lsp::{
 	prelude::{Message, Notification, Request, Response},
 	request::RequestType,
 	transports::{
-		LSPTransport,
-		TransportType,
-		pipe::PipeTransport,
-		socket::SocketTransport,
-		stdio::StdioTransport
+		LSPTransport, TransportType, pipe::PipeTransport, socket::SocketTransport,
+		stdio::StdioTransport,
 	},
 	types::{
-		InitializeResult,
-		ServerInfo,
-		TextDocumentSyncKind,
-		capabilities::server::{ServerCapabilities, TextDocumentSyncServerCapability}
+		InitializeResult, ServerInfo, TextDocumentSyncKind,
+		capabilities::server::{ServerCapabilities, TextDocumentSyncServerCapability},
 	},
 };
 
@@ -33,6 +28,8 @@ use tokio::{
 };
 use tokio_util::sync::CancellationToken;
 use tracing::{debug, info, trace, warn};
+
+use self::workspace::Workspace;
 
 static LSP_INITIALIZED: AtomicBool = AtomicBool::new(false);
 
@@ -111,7 +108,9 @@ pub fn process_lsp_request(
 			}
 
 			let capabilities = ServerCapabilities::default()
-				.with_text_document_sync(TextDocumentSyncServerCapability::Kind(TextDocumentSyncKind::Incremental))
+				.with_text_document_sync(TextDocumentSyncServerCapability::Kind(
+					TextDocumentSyncKind::Incremental,
+				))
 				.with_semantic_tokens_provider(semantic_tokens::capabilities());
 
 			response_channel.send(
@@ -141,6 +140,7 @@ pub fn process_lsp_response(
 }
 
 pub fn process_lsp_notification(
+	workspace: &mut Workspace,
 	notification: Notification,
 	_response_channel: &UnboundedSender<Message>,
 	shutdown_channel: &UnboundedSender<()>,
@@ -154,12 +154,14 @@ pub fn process_lsp_notification(
 			debug!("LSP Initialized");
 			LSP_INITIALIZED.store(true, Ordering::Release);
 		},
+		Notification::TextDocumentOpened(params) => workspace.open_document(params.text_document),
 		_ => unimplemented!(),
 	}
 	Ok(())
 }
 
 fn process_lsp_message(
+	workspace: &mut Workspace,
 	message: Message,
 	response_channel: &UnboundedSender<Message>,
 	shutdown_channel: &UnboundedSender<()>,
@@ -179,7 +181,7 @@ fn process_lsp_message(
 			process_lsp_response(response, response_channel, shutdown_channel)
 		},
 		Message::Notification(notification) => {
-			process_lsp_notification(notification, response_channel, shutdown_channel)
+			process_lsp_notification(workspace, notification, response_channel, shutdown_channel)
 		},
 	}
 }
@@ -189,6 +191,8 @@ async fn lsp_server(
 	cancellation_token: CancellationToken,
 	shutdown_channel: UnboundedSender<()>,
 ) -> eyre::Result<()> {
+	let mut workspace: Workspace = Workspace::new();
+
 	let (mut reader, writer, tasks) = match transport {
 		TransportType::Stdio => {
 			StdioTransport::new()
@@ -211,7 +215,7 @@ async fn lsp_server(
 		select! {
 			_ = cancellation_token.cancelled() => { break; },
 			Some(message) = reader.recv() => {
-				process_lsp_message(message, &writer, &shutdown_channel)?;
+				process_lsp_message(&mut workspace, message, &writer, &shutdown_channel)?;
 			},
 		}
 	}
