@@ -1,4 +1,4 @@
-/* SPDX-License-Identifier: BSD-3-Clause */
+// SPDX-License-Identifier: BSD-3-Clause
 
 use std::time::Duration;
 
@@ -15,9 +15,9 @@ use tokio::{
 };
 use tokio_util::sync::CancellationToken;
 use tracing::error;
-use crate::message::Message;
 
 use super::LSPTransport;
+use crate::message::Message;
 
 #[derive(Debug)]
 pub struct SocketTransport {

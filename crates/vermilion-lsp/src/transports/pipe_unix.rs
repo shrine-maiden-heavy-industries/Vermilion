@@ -1,4 +1,4 @@
-/* SPDX-License-Identifier: BSD-3-Clause */
+// SPDX-License-Identifier: BSD-3-Clause
 
 use std::{io, path::PathBuf};
 
@@ -14,9 +14,9 @@ use tokio::{
 };
 use tokio_util::sync::CancellationToken;
 use tracing::{debug, error, trace};
-use crate::message::Message;
 
 use super::LSPTransport;
+use crate::message::Message;
 
 #[derive(Debug)]
 pub struct PipeTransport {

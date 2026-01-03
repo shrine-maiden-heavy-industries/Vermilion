@@ -1,4 +1,4 @@
-/* SPDX-License-Identifier: BSD-3-Clause */
+// SPDX-License-Identifier: BSD-3-Clause
 
 use std::path::PathBuf;
 
@@ -8,6 +8,7 @@ use tokio::{
 	task::JoinSet,
 };
 use tokio_util::sync::CancellationToken;
+
 use super::message::Message;
 
 #[cfg_attr(unix, path = "pipe_unix.rs")]
