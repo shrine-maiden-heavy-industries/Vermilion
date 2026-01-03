@@ -5,7 +5,7 @@ use std::collections::HashMap;
 use tracing::debug;
 use vermilion_lang::AtomicByteTendril;
 use vermilion_lsp::types::{
-	LanguageId, TextDocumentItem, Uri,
+	Diagnostic, LanguageId, TextDocumentItem, Uri,
 	semantic_tokens::{SemanticToken, SemanticTokens},
 };
 use vermilion_verilog::{SystemVerilogStd, VerilogAmsStd};
@@ -20,6 +20,7 @@ pub struct Document {
 	content:  AtomicByteTendril,
 	language: Language,
 	ast:      Ast,
+	diagnostics: Vec<Diagnostic>,
 }
 
 fn language_for(id: &LanguageId) -> Option<Language> {
@@ -59,8 +60,10 @@ impl Workspace {
 		let content = AtomicByteTendril::from_slice(document.text().as_bytes());
 		let ast = language.parse_file(content.clone());
 
-		self.documents
-			.insert(document.uri().clone(), Document { content, language, ast });
+		self.documents.insert(
+			document.uri().clone(),
+			Document { content, language, ast, diagnostics: Vec::new() },
+		);
 	}
 }
 
