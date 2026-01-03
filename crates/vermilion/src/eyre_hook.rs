@@ -8,6 +8,8 @@ use color_eyre::{
 };
 use color_print::cformat;
 
+use crate::lsp;
+
 type EyreHookFunc =
 	Box<dyn Fn(&(dyn std::error::Error + 'static)) -> Box<dyn EyreHandler> + Send + Sync + 'static>;
 type PanicHookFunc = Box<dyn Fn(&std::panic::PanicHookInfo<'_>) + Send + Sync + 'static>;
@@ -59,6 +61,14 @@ impl VermilionPanicHook {
 			eprintln!("{}", prologue);
 			(*self.inner)(info);
 			eprintln!("{}", epilogue);
+
+			match lsp::shutdown_runtime() {
+				Ok(_) => {},
+				Err(e) => {
+					eprint!("Unable to shut down tokio process! Zombified!");
+					eprint!("{}", e);
+				},
+			}
 		})
 	}
 }

@@ -4,7 +4,10 @@ mod semantic_tokens;
 mod workspace;
 
 use std::{
-	sync::atomic::{AtomicBool, AtomicUsize, Ordering},
+	sync::{
+		Arc, OnceLock,
+		atomic::{AtomicBool, AtomicUsize, Ordering},
+	},
 	time::Duration,
 };
 
@@ -32,6 +35,15 @@ use vermilion_lsp::{
 use self::workspace::Workspace;
 
 static LSP_INITIALIZED: AtomicBool = AtomicBool::new(false);
+static SHUTDOWN_SENDER: OnceLock<UnboundedSender<()>> = OnceLock::new();
+
+// Handler for shutting down the runtime externally, should only be used in the panic hook
+pub(crate) fn shutdown_runtime() -> eyre::Result<()> {
+	let sender = SHUTDOWN_SENDER
+		.get()
+		.ok_or_eyre("Shutdown sender not initialized")?;
+	Ok(sender.send(())?)
+}
 
 pub(crate) fn start(transport: TransportType, client_pid: Option<usize>) -> eyre::Result<()> {
 	debug!("Starting runtime...");
@@ -53,6 +65,9 @@ pub(crate) fn start(transport: TransportType, client_pid: Option<usize>) -> eyre
 		let mut tasks = JoinSet::new();
 		let cancel_token = CancellationToken::new();
 		let (shutdown_send, mut shutdown_recv) = mpsc::unbounded_channel::<()>();
+
+		// Stuff a shutdown sender into the panic shutdown hook
+		SHUTDOWN_SENDER.get_or_init(|| shutdown_send.clone());
 
 		if let Some(client_pid) = client_pid {
 			debug!("Client gave us their PID, spawning watcher task");
