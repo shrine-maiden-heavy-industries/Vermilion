@@ -1,22 +1,22 @@
-/* SPDX-License-Identifier: BSD-3-Clause */
+// SPDX-License-Identifier: BSD-3-Clause
 
 use std::{collections::VecDeque, ops::Range};
+
+use vermilion_lang::{AtomicByteTendril, Position, Span, Spanned};
 
 use self::token::Token;
 use crate::VhdlStd;
 
-use vermilion_lang::{AtomicByteTendril, Position, Span, Spanned};
-
 pub(crate) mod token;
 
 pub(crate) struct Tokenizer {
-	_standard: VhdlStd,
-	file: AtomicByteTendril,
+	_standard:    VhdlStd,
+	file:         AtomicByteTendril,
 	current_char: u8,
-	position: usize,
-	context: Position,
-	eof: bool,
-	token: Spanned<Token, Position>,
+	position:     usize,
+	context:      Position,
+	eof:          bool,
+	token:        Spanned<Token, Position>,
 	token_stream: VecDeque<Spanned<Token, Position>>,
 }
 
