@@ -1,4 +1,4 @@
-/* SPDX-License-Identifier: BSD-3-Clause */
+// SPDX-License-Identifier: BSD-3-Clause
 
 use std::{
 	fmt::{Debug, Display},
@@ -7,15 +7,15 @@ use std::{
 
 #[derive(Copy, Clone, Default, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct Span<T = usize, C = ()> {
-	begin: T,
-	end: T,
+	begin:   T,
+	end:     T,
 	context: C,
 }
 
 #[derive(Copy, Clone)]
 pub struct Spanned<T, C> {
 	inner: T,
-	span: Option<Span<usize, C>>,
+	span:  Option<Span<usize, C>>,
 }
 
 impl<T, C> Span<T, C> {
@@ -38,7 +38,11 @@ impl<T, C> Span<T, C> {
 
 impl<T> From<Range<T>> for Span<T> {
 	fn from(value: Range<T>) -> Self {
-		Self { begin: value.start, end: value.end, context: () }
+		Self {
+			begin:   value.start,
+			end:     value.end,
+			context: (),
+		}
 	}
 }
 

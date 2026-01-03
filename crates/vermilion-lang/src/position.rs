@@ -1,4 +1,4 @@
-/* SPDX-License-Identifier: BSD-3-Clause */
+// SPDX-License-Identifier: BSD-3-Clause
 
 use std::fmt::{Debug, Display};
 
@@ -6,7 +6,7 @@ use std::fmt::{Debug, Display};
 /// within a document
 #[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct Position {
-	line: usize,
+	line:      usize,
 	character: usize,
 }
 
@@ -45,7 +45,10 @@ where
 	U: Into<usize>,
 {
 	fn from(value: (T, U)) -> Self {
-		Self { line: value.0.into(), character: value.1.into() }
+		Self {
+			line:      value.0.into(),
+			character: value.1.into(),
+		}
 	}
 }
 

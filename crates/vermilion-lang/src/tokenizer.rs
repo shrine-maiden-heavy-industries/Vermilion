@@ -1,17 +1,23 @@
-/* SPDX-License-Identifier: BSD-3-Clause */
+// SPDX-License-Identifier: BSD-3-Clause
 
 use tendril::ByteTendril;
 
-/// The underlying tokenization machinery for all other Vermilion tokenizers
-pub struct Tokenizer {
-	text: ByteTendril,
-	position: usize,
-	eof: bool,
-	current: u8,
+pub trait Tokenizer: Iterator {
+	type Context;
+	type CurrentChar;
+	type Token;
 }
 
-impl Tokenizer {
-	/// Create a new [`Tokenizer`] with the given [`ByteTendril`] as it's backing store
+/// The underlying tokenization machinery for all other Vermilion tokenizers
+pub struct CoreTokenizer {
+	text:     ByteTendril,
+	position: usize,
+	eof:      bool,
+	current:  u8,
+}
+
+impl CoreTokenizer {
+	/// Create a new [`CoreTokenizer`] with the given [`ByteTendril`] as it's backing store
 	pub fn new(text: ByteTendril) -> Self {
 		let mut tokenizer = Self { text, position: 0, eof: false, current: 0 };
 

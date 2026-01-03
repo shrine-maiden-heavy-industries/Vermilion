@@ -1,4 +1,4 @@
-/* SPDX-License-Identifier: BSD-3-Clause */
+// SPDX-License-Identifier: BSD-3-Clause
 
 use crate::span::{Span, Spanned};
 
@@ -9,6 +9,7 @@ pub type LexResult<T> = Vec<Spanned<T, ()>>;
 
 #[cfg(test)]
 mod tests {
-	use super::*;
 	use test_log::test;
+
+	use super::*;
 }
