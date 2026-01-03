@@ -1,4 +1,4 @@
-/* SPDX-License-Identifier: BSD-3-Clause */
+// SPDX-License-Identifier: BSD-3-Clause
 use bitmask_enum::bitmask;
 
 /// A set of predefined token types.
@@ -92,7 +92,7 @@ pub enum SemanticTokenModifiers {
 )]
 #[serde(rename_all = "camelCase")]
 pub struct SemanticTokensLegend {
-	pub(crate) token_types: Vec<String>,
+	pub(crate) token_types:     Vec<String>,
 	pub(crate) token_modifiers: Vec<String>,
 }
 
@@ -104,7 +104,7 @@ pub struct SemanticTokensLegend {
 pub struct SemanticTokens {
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) result_id: Option<String>,
-	pub(crate) data: Vec<SemanticToken>,
+	pub(crate) data:      Vec<SemanticToken>,
 }
 
 /// See [`SemanticTokens`]
@@ -126,7 +126,7 @@ pub struct SemanticTokensPartialResult {
 pub struct SemanticTokensDelta {
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) result_id: Option<String>,
-	pub(crate) edits: Vec<SemanticTokensEdit>,
+	pub(crate) edits:     Vec<SemanticTokensEdit>,
 }
 
 /// since: 3.16.0
@@ -144,10 +144,10 @@ pub struct SemanticTokensDeltaPartialResult {
 )]
 #[serde(rename_all = "camelCase")]
 pub struct SemanticTokensEdit {
-	pub(crate) start: u32,
+	pub(crate) start:        u32,
 	pub(crate) delete_count: u32,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) data: Option<Vec<u32>>,
+	pub(crate) data:         Option<Vec<u32>>,
 }
 
 #[derive(
@@ -155,21 +155,22 @@ pub struct SemanticTokensEdit {
 )]
 pub struct SemanticToken {
 	#[serde(flatten)]
-	line: u32,
+	line:       u32,
 	#[serde(flatten)]
-	character: u32,
+	character:  u32,
 	#[serde(flatten)]
-	length: u32,
+	length:     u32,
 	#[serde(flatten)]
 	token_type: SemanticTokenType,
 	#[serde(flatten)]
-	modifiers: SemanticTokenModifiers,
+	modifiers:  SemanticTokenModifiers,
 }
 
 impl<'de> serde::Deserialize<'de> for SemanticTokenModifiers {
 	fn deserialize<Deserializer>(deserializer: Deserializer) -> Result<Self, Deserializer::Error>
 	where
-		Deserializer: serde::Deserializer<'de> {
+		Deserializer: serde::Deserializer<'de>,
+	{
 		struct SemanticTokenModifierVisitor;
 
 		impl<'de> serde::de::Visitor<'de> for SemanticTokenModifierVisitor {
@@ -181,7 +182,8 @@ impl<'de> serde::Deserialize<'de> for SemanticTokenModifiers {
 
 			fn visit_u32<E>(self, value: u32) -> Result<Self::Value, E>
 			where
-				E: serde::de::Error, {
+				E: serde::de::Error,
+			{
 				Ok(SemanticTokenModifiers::from(value))
 			}
 		}
@@ -191,9 +193,13 @@ impl<'de> serde::Deserialize<'de> for SemanticTokenModifiers {
 }
 
 impl serde::Serialize for SemanticTokenModifiers {
-	fn serialize<Serializer>(&self, serializer: Serializer) -> Result<Serializer::Ok, Serializer::Error>
+	fn serialize<Serializer>(
+		&self,
+		serializer: Serializer,
+	) -> Result<Serializer::Ok, Serializer::Error>
 	where
-		Serializer: serde::Serializer {
+		Serializer: serde::Serializer,
+	{
 		serializer.serialize_u32(self.bits)
 	}
 }
@@ -206,7 +212,7 @@ impl SemanticTokensLegend {
 	pub fn from_str_vec(token_types: Vec<&str>, token_modifiers: Vec<&str>) -> Self {
 		Self::new(
 			token_types.into_iter().map(String::from).collect(),
-			token_modifiers.into_iter().map(String::from).collect()
+			token_modifiers.into_iter().map(String::from).collect(),
 		)
 	}
 
@@ -238,8 +244,8 @@ impl SemanticTokens {
 
 	/// An optional result id.
 	///
-	/// If provided and clients support delta updating the client will include the result id in the next
-	/// semantic token request.
+	/// If provided and clients support delta updating the client will include the result id in the
+	/// next semantic token request.
 	///
 	/// A server can then instead of computing all semantic tokens again simply send a delta.
 	pub fn result_id(&self) -> Option<&String> {
@@ -268,7 +274,7 @@ impl SemanticTokensDelta {
 		self
 	}
 
-	///The semantic token edits to transform a previous result into a new result
+	/// The semantic token edits to transform a previous result into a new result
 	pub fn edits(&self) -> &Vec<SemanticTokensEdit> {
 		&self.edits
 	}
@@ -292,6 +298,7 @@ impl SemanticTokensEdit {
 	pub fn new(start: u32, delete_count: u32) -> Self {
 		Self { start, delete_count, data: None }
 	}
+
 	pub fn with_data(mut self, data: Vec<u32>) -> Self {
 		self.data = Some(data);
 		self

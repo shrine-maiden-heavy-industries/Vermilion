@@ -1,4 +1,4 @@
-/* SPDX-License-Identifier: BSD-3-Clause */
+// SPDX-License-Identifier: BSD-3-Clause
 
 use crate::types::{
 	CallHierarchyItem, ClientInfo, CodeActionContext, Color, CompletionContext, ConfigurationItem,
@@ -59,13 +59,14 @@ pub struct WorkDoneProgressCancelParams {
 #[serde(rename_all = "camelCase")]
 pub struct ShowDocumentParams {
 	/// The uri to show
-	pub uri: Uri,
+	pub uri:        Uri,
 	/// Indicates to show the resource in an external program.
 	///
 	/// To show, for example, `https://gay.catgirl.stream/` in the default web browser set `external` to `tru
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub external: Option<bool>,
-	/// An optional property to indicate whether the editor showing the document should take focus or not.
+	pub external:   Option<bool>,
+	/// An optional property to indicate whether the editor showing the document should take focus
+	/// or not.
 	///
 	/// Clients might ignore this property if an external program is started.
 	#[serde(skip_serializing_if = "Option::is_none", default)]
@@ -75,7 +76,7 @@ pub struct ShowDocumentParams {
 	/// Clients might ignore the property if an external program is started or the file is not
 	/// a text file.
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub selection: Option<Range>,
+	pub selection:  Option<Range>,
 }
 
 /// The parameters sent in notifications/requests for user-initiated creation of files.
@@ -122,7 +123,7 @@ pub struct DeleteFilesParams {
 #[serde(rename_all = "camelCase")]
 pub struct DidOpenNotebookDocumentParams {
 	/// The notebook document that got opened
-	pub notebook_document: NotebookDocument,
+	pub notebook_document:   NotebookDocument,
 	/// The text documents that represent the content of a notebook cell.
 	pub cell_text_documents: Vec<TextDocumentItem>,
 }
@@ -137,8 +138,8 @@ pub struct DidChangeNotebookDocumentParams {
 	///
 	/// The version number points to the version after all provided changes have been applied.
 	///
-	/// If only the text document content of a cell changes the notebook version doesn't necessarily
-	/// have to change.
+	/// If only the text document content of a cell changes the notebook version doesn't
+	/// necessarily have to change.
 	pub notebook_document: VersionedNotebookDocumentIdentifier,
 	/// The actual changes to the notebook document.
 	///
@@ -151,7 +152,7 @@ pub struct DidChangeNotebookDocumentParams {
 	/// - start with the same initial content
 	/// - apply the 'notebookDocument/didChange' notifications in the order you receive them.
 	/// - apply the `NotebookChangeEvent`s in a single notification in the order you receive them.
-	pub change: NotebookDocumentChangeEvent,
+	pub change:            NotebookDocumentChangeEvent,
 }
 
 /// The params sent in a save notebook document notification.
@@ -175,7 +176,7 @@ pub struct DidSaveNotebookDocumentParams {
 #[serde(rename_all = "camelCase")]
 pub struct DidCloseNotebookDocumentParams {
 	/// The notebook document that got closed
-	pub notebook_document: NotebookDocumentIdentifier,
+	pub notebook_document:   NotebookDocumentIdentifier,
 	/// The text documents that represent the content of a notebook cell that got closed.
 	pub cell_text_documents: Vec<TextDocumentIdentifier>,
 }
@@ -210,7 +211,7 @@ pub struct DidChangeConfigurationParams {
 pub struct ShowMessageParams {
 	/// The message type. See [`MessageType`]
 	#[serde(rename = "type")]
-	pub typ: MessageType,
+	pub typ:     MessageType,
 	/// The actual message.
 	pub message: String,
 }
@@ -222,7 +223,7 @@ pub struct ShowMessageParams {
 pub struct ShowMessageRequestParams {
 	/// The message type. See [`MessageType`]
 	#[serde(rename = "type")]
-	pub typ: MessageType,
+	pub typ:     MessageType,
 	/// The actual message.
 	pub message: String,
 	/// The message action items to present.
@@ -230,7 +231,7 @@ pub struct ShowMessageRequestParams {
 	pub actions: Option<Vec<MessageActionItem>>,
 }
 
-///The log message parameters
+/// The log message parameters
 #[derive(
 	Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize,
 )]
@@ -238,7 +239,7 @@ pub struct ShowMessageRequestParams {
 pub struct LogMessageParams {
 	/// The message type. See [`MessageType`]
 	#[serde(rename = "type")]
-	pub typ: MessageType,
+	pub typ:     MessageType,
 	/// The actual message.
 	pub message: String,
 }
@@ -261,19 +262,21 @@ pub struct DidOpenTextDocumentParams {
 pub struct DidChangeTextDocumentParams {
 	/// The document that did change.
 	///
-	/// The version number points to the version after all provided content changes have been applied.
-	pub text_document: VersionedTextDocumentIdentifier,
+	/// The version number points to the version after all provided content changes have been
+	/// applied.
+	pub text_document:   VersionedTextDocumentIdentifier,
 	/// The actual content changes.
 	///
-	/// The content changes describe single state changes to the document. So if there are two content
-	/// changes c1 (at array index 0) and c2 (at array index 1) for a document in state S then c1 moves
-	/// the document from\nS to S' and c2 from S' to S''. So c1 is computed on the state S and c2 is
-	/// computed on the state S'.
+	/// The content changes describe single state changes to the document. So if there are two
+	/// content changes c1 (at array index 0) and c2 (at array index 1) for a document in state S
+	/// then c1 moves the document from\nS to S' and c2 from S' to S''. So c1 is computed on the
+	/// state S and c2 is computed on the state S'.
 	///
 	/// To mirror the content of a document using change events use the following approach:
 	/// - start with the same initial content
 	/// - apply the 'textDocument/didChange' notifications in the order you receive them.
-	/// - apply the `TextDocumentContentChangeEvent`s in a single notification in the order you receive them.
+	/// - apply the `TextDocumentContentChangeEvent`s in a single notification in the order you
+	///   receive them.
 	pub content_changes: Vec<TextDocumentContentChangeEvent>,
 }
 
@@ -295,9 +298,10 @@ pub struct DidCloseTextDocumentParams {
 pub struct DidSaveTextDocumentParams {
 	/// The document that was saved
 	pub text_document: TextDocumentIdentifier,
-	/// Optional the content when saved. Depends on the includeText value when the save notification was requested
+	/// Optional the content when saved. Depends on the includeText value when the save
+	/// notification was requested
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub text: Option<String>,
+	pub text:          Option<String>,
 }
 
 /// The parameters sent in a will save text document notification
@@ -309,7 +313,7 @@ pub struct WillSaveTextDocumentParams {
 	/// The document that will be saved
 	pub text_document: TextDocumentIdentifier,
 	/// The reason for saving
-	pub reason: TextDocumentSaveReason,
+	pub reason:        TextDocumentSaveReason,
 }
 
 /// The watched files change notification's parameters
@@ -327,12 +331,12 @@ pub struct DidChangeWatchedFilesParams {
 #[serde(rename_all = "camelCase")]
 pub struct PublishDiagnosticsParams {
 	/// The URI for which diagnostic information is reported.
-	pub uri: Uri,
+	pub uri:         Uri,
 	/// Optional the version number of the document the diagnostics are published for.
 	///
 	/// since: 3.15.0
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub version: Option<i32>,
+	pub version:     Option<i32>,
 	/// An array of diagnostic information items
 	pub diagnostics: Vec<Diagnostic>,
 }
@@ -347,15 +351,16 @@ pub struct DocumentOnTypeFormattingParams {
 	pub text_document: TextDocumentIdentifier,
 	/// The position around which the on type formatting should happen.
 	///
-	/// This is not necessarily the exact position where the character denoted by the property `ch` got typed.
-	pub position: Position,
+	/// This is not necessarily the exact position where the character denoted by the property `ch`
+	/// got typed.
+	pub position:      Position,
 	/// The character that has been typed that triggered the formatting on type request.
 	///
-	/// That is not necessarily the last character that got inserted into the document since the client
-	/// could auto insert characters as well (e.g. like automatic brace completion)
-	pub ch: String, // TODO(aki): Should this be a `char`?
+	/// That is not necessarily the last character that got inserted into the document since the
+	/// client could auto insert characters as well (e.g. like automatic brace completion)
+	pub ch:            String, // TODO(aki): Should this be a `char`?
 	/// The formatting options.
-	pub options: FormattingOptions,
+	pub options:       FormattingOptions,
 }
 
 /// The parameters passed via an apply workspace edit request
@@ -364,11 +369,12 @@ pub struct DocumentOnTypeFormattingParams {
 pub struct ApplyWorkspaceEditParams {
 	/// An optional label of the workspace edit.
 	///
-	/// This label is presented in the user interface for example on an undo stack to undo the workspace edit.
+	/// This label is presented in the user interface for example on an undo stack to undo the
+	/// workspace edit.
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub label: Option<String>,
 	/// The edits to apply.
-	pub edit: WorkspaceEdit,
+	pub edit:  WorkspaceEdit,
 }
 
 #[derive(
@@ -407,7 +413,8 @@ pub struct ProgressParams {
 	pub value: serde_json::Value,
 }
 
-/// A parameter literal used in requests to pass a text document and a position inside that document.
+/// A parameter literal used in requests to pass a text document and a position inside that
+/// document.
 #[derive(
 	Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize,
 )]
@@ -416,7 +423,7 @@ pub struct TextDocumentPositionParams {
 	/// The text document
 	pub text_document: TextDocumentIdentifier,
 	/// The position inside the text document
-	pub position: Position,
+	pub position:      Position,
 }
 
 #[derive(
@@ -440,7 +447,8 @@ pub struct WorkspaceFoldersInitializeParams {
 )]
 #[serde(rename_all = "camelCase")]
 pub struct PartialResultParams {
-	/// An optional token that a server can use to report partial results (e.g. streaming) to the client.
+	/// An optional token that a server can use to report partial results (e.g. streaming) to the
+	/// client.
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub partial_result_token: Option<ProgressToken>,
 }
@@ -463,9 +471,9 @@ pub struct ImplementationParams {
 	#[serde(flatten)]
 	pub text_document_position_params: TextDocumentPositionParams,
 	#[serde(flatten)]
-	pub work_done_progress_params: WorkDoneProgressParams,
+	pub work_done_progress_params:     WorkDoneProgressParams,
 	#[serde(flatten)]
-	pub partial_result_params: PartialResultParams,
+	pub partial_result_params:         PartialResultParams,
 }
 
 #[derive(
@@ -476,9 +484,9 @@ pub struct TypeDefinitionParams {
 	#[serde(flatten)]
 	pub text_document_position_params: TextDocumentPositionParams,
 	#[serde(flatten)]
-	pub work_done_progress_params: WorkDoneProgressParams,
+	pub work_done_progress_params:     WorkDoneProgressParams,
 	#[serde(flatten)]
-	pub partial_result_param: PartialResultParams,
+	pub partial_result_param:          PartialResultParams,
 }
 
 /// Parameters for a [`DocumentColorRequest`].
@@ -488,26 +496,26 @@ pub struct TypeDefinitionParams {
 #[serde(rename_all = "camelCase")]
 pub struct DocumentColorParams {
 	/// The text document.
-	pub text_document: TextDocumentIdentifier,
+	pub text_document:             TextDocumentIdentifier,
 	#[serde(flatten)]
 	pub work_done_progress_params: WorkDoneProgressParams,
 	#[serde(flatten)]
-	pub partial_result_params: PartialResultParams,
+	pub partial_result_params:     PartialResultParams,
 }
 
 #[derive(Clone, Debug, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct ColorPresentationParams {
 	/// The text document.
-	pub text_document: TextDocumentIdentifier,
+	pub text_document:             TextDocumentIdentifier,
 	/// The color to request presentations for.
-	pub color: Color,
+	pub color:                     Color,
 	/// The range where the color would be inserted. Serves as a context.
-	pub range: Range,
+	pub range:                     Range,
 	#[serde(flatten)]
 	pub work_done_progress_params: WorkDoneProgressParams,
 	#[serde(flatten)]
-	pub partial_result_params: PartialResultParams,
+	pub partial_result_params:     PartialResultParams,
 }
 
 /// Parameters for a [`FoldingRangeRequest`].
@@ -517,11 +525,11 @@ pub struct ColorPresentationParams {
 #[serde(rename_all = "camelCase")]
 pub struct FoldingRangeParams {
 	/// The text document.
-	pub text_document: TextDocumentIdentifier,
+	pub text_document:             TextDocumentIdentifier,
 	#[serde(flatten)]
 	pub work_done_progress_params: WorkDoneProgressParams,
 	#[serde(flatten)]
-	pub partial_result_params: PartialResultParams,
+	pub partial_result_params:     PartialResultParams,
 }
 
 #[derive(
@@ -532,9 +540,9 @@ pub struct DeclarationParams {
 	#[serde(flatten)]
 	pub text_document_position_params: TextDocumentPositionParams,
 	#[serde(flatten)]
-	pub work_done_progress_params: WorkDoneProgressParams,
+	pub work_done_progress_params:     WorkDoneProgressParams,
 	#[serde(flatten)]
-	pub partial_result_params: PartialResultParams,
+	pub partial_result_params:         PartialResultParams,
 }
 
 /// A parameter literal used in selection range requests.
@@ -544,13 +552,13 @@ pub struct DeclarationParams {
 #[serde(rename_all = "camelCase")]
 pub struct SelectionRangeParams {
 	/// The text document.
-	pub text_document: TextDocumentIdentifier,
+	pub text_document:             TextDocumentIdentifier,
 	/// The positions inside the text document.
-	pub positions: Vec<Position>,
+	pub positions:                 Vec<Position>,
 	#[serde(flatten)]
 	pub work_done_progress_params: WorkDoneProgressParams,
 	#[serde(flatten)]
-	pub partial_result_params: PartialResultParams,
+	pub partial_result_params:     PartialResultParams,
 }
 
 /// The parameter of a `textDocument/prepareCallHierarchy` request.
@@ -562,7 +570,7 @@ pub struct SelectionRangeParams {
 #[serde(rename_all = "camelCase")]
 pub struct CallHierarchyPrepareParams {
 	#[serde(flatten)]
-	pub work_done_progress_params: WorkDoneProgressParams,
+	pub work_done_progress_params:     WorkDoneProgressParams,
 	#[serde(flatten)]
 	pub text_document_position_params: TextDocumentPositionParams,
 }
@@ -573,11 +581,11 @@ pub struct CallHierarchyPrepareParams {
 #[derive(Clone, Debug, PartialEq, serde::Deserialize, serde::Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct CallHierarchyIncomingCallsParams {
-	pub item: CallHierarchyItem,
+	pub item:                      CallHierarchyItem,
 	#[serde(flatten)]
 	pub work_done_progress_params: WorkDoneProgressParams,
 	#[serde(flatten)]
-	pub partial_result_params: PartialResultParams,
+	pub partial_result_params:     PartialResultParams,
 }
 
 /// The parameter of a `callHierarchy/outgoingCalls` request.
@@ -586,11 +594,11 @@ pub struct CallHierarchyIncomingCallsParams {
 #[derive(Clone, Debug, PartialEq, serde::Deserialize, serde::Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct CallHierarchyOutgoingCallsParams {
-	pub item: CallHierarchyItem,
+	pub item:                      CallHierarchyItem,
 	#[serde(flatten)]
 	pub work_done_progress_params: WorkDoneProgressParams,
 	#[serde(flatten)]
-	pub partial_result_params: PartialResultParams,
+	pub partial_result_params:     PartialResultParams,
 }
 
 /// since: 3.16.0
@@ -600,11 +608,11 @@ pub struct CallHierarchyOutgoingCallsParams {
 #[serde(rename_all = "camelCase")]
 pub struct SemanticTokensParams {
 	/// The text document.
-	pub text_document: TextDocumentIdentifier,
+	pub text_document:             TextDocumentIdentifier,
 	#[serde(flatten)]
 	pub work_done_progress_params: WorkDoneProgressParams,
 	#[serde(flatten)]
-	pub partial_result_params: PartialResultParams,
+	pub partial_result_params:     PartialResultParams,
 }
 
 /// since: 3.16.0
@@ -614,16 +622,16 @@ pub struct SemanticTokensParams {
 #[serde(rename_all = "camelCase")]
 pub struct SemanticTokensDeltaParams {
 	/// The text document.
-	pub text_document: TextDocumentIdentifier,
+	pub text_document:             TextDocumentIdentifier,
 	/// The result id of a previous response.
 	///
 	/// The result Id can either point to a full response
 	/// or a delta response depending on what was received last.
-	pub previous_result_id: String,
+	pub previous_result_id:        String,
 	#[serde(flatten)]
 	pub work_done_progress_params: WorkDoneProgressParams,
 	#[serde(flatten)]
-	pub partial_result_params: PartialResultParams,
+	pub partial_result_params:     PartialResultParams,
 }
 
 /// since: 3.16.0
@@ -633,13 +641,13 @@ pub struct SemanticTokensDeltaParams {
 #[serde(rename_all = "camelCase")]
 pub struct SemanticTokensRangeParams {
 	/// The text document.
-	pub text_document: TextDocumentIdentifier,
+	pub text_document:             TextDocumentIdentifier,
 	/// The range the semantic tokens are requested for.
-	pub range: Range,
+	pub range:                     Range,
 	#[serde(flatten)]
 	pub work_done_progress_params: WorkDoneProgressParams,
 	#[serde(flatten)]
-	pub partial_result_params: PartialResultParams,
+	pub partial_result_params:     PartialResultParams,
 }
 
 #[derive(
@@ -650,7 +658,7 @@ pub struct LinkedEditingRangeParams {
 	#[serde(flatten)]
 	pub text_document_position_params: TextDocumentPositionParams,
 	#[serde(flatten)]
-	pub work_done_progress_params: WorkDoneProgressParams,
+	pub work_done_progress_params:     WorkDoneProgressParams,
 }
 
 #[derive(
@@ -661,9 +669,9 @@ pub struct MonikerParams {
 	#[serde(flatten)]
 	pub text_document_position_params: TextDocumentPositionParams,
 	#[serde(flatten)]
-	pub work_done_progress_params: WorkDoneProgressParams,
+	pub work_done_progress_params:     WorkDoneProgressParams,
 	#[serde(flatten)]
-	pub partial_result_params: PartialResultParams,
+	pub partial_result_params:         PartialResultParams,
 }
 
 /// The parameter of a `textDocument/prepareTypeHierarchy` request.
@@ -677,7 +685,7 @@ pub struct TypeHierarchyPrepareParams {
 	#[serde(flatten)]
 	pub text_document_position_params: TextDocumentPositionParams,
 	#[serde(flatten)]
-	pub work_done_progress_params: WorkDoneProgressParams,
+	pub work_done_progress_params:     WorkDoneProgressParams,
 }
 
 /// The parameter of a `typeHierarchy/supertypes` request.
@@ -686,11 +694,11 @@ pub struct TypeHierarchyPrepareParams {
 #[derive(Clone, Debug, PartialEq, serde::Deserialize, serde::Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct TypeHierarchySupertypesParams {
-	pub item: TypeHierarchyItem,
+	pub item:                      TypeHierarchyItem,
 	#[serde(flatten)]
 	pub work_done_progress_params: WorkDoneProgressParams,
 	#[serde(flatten)]
-	pub partial_result_params: PartialResultParams,
+	pub partial_result_params:     PartialResultParams,
 }
 
 /// The parameter of a `typeHierarchy/subtypes` request.
@@ -699,11 +707,11 @@ pub struct TypeHierarchySupertypesParams {
 #[derive(Clone, Debug, PartialEq, serde::Deserialize, serde::Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct TypeHierarchySubtypesParams {
-	pub item: TypeHierarchyItem,
+	pub item:                      TypeHierarchyItem,
 	#[serde(flatten)]
 	pub work_done_progress_params: WorkDoneProgressParams,
 	#[serde(flatten)]
-	pub partial_result_params: PartialResultParams,
+	pub partial_result_params:     PartialResultParams,
 }
 
 /// A parameter literal used in inline value requests.
@@ -715,11 +723,11 @@ pub struct TypeHierarchySubtypesParams {
 #[serde(rename_all = "camelCase")]
 pub struct InlineValueParams {
 	/// The text document.
-	pub text_document: TextDocumentIdentifier,
+	pub text_document:             TextDocumentIdentifier,
 	/// The document range for which inline values should be computed.
-	pub range: Range,
+	pub range:                     Range,
 	/// Additional information about the context in which inline values were requested.
-	pub context: InlineValueContext,
+	pub context:                   InlineValueContext,
 	#[serde(flatten)]
 	pub work_done_progress_params: WorkDoneProgressParams,
 }
@@ -733,9 +741,9 @@ pub struct InlineValueParams {
 #[serde(rename_all = "camelCase")]
 pub struct InlayHintParams {
 	/// The text document.
-	pub text_document: TextDocumentIdentifier,
+	pub text_document:             TextDocumentIdentifier,
 	/// The document range for which inlay hints should be computed.
-	pub range: Range,
+	pub range:                     Range,
 	#[serde(flatten)]
 	pub work_done_progress_params: WorkDoneProgressParams,
 }
@@ -749,17 +757,17 @@ pub struct InlayHintParams {
 #[serde(rename_all = "camelCase")]
 pub struct DocumentDiagnosticParams {
 	/// The text document.
-	pub text_document: TextDocumentIdentifier,
+	pub text_document:             TextDocumentIdentifier,
 	/// The additional identifier  provided during registration.
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub identifier: Option<String>,
+	pub identifier:                Option<String>,
 	/// The result id of a previous response if provided.
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub previous_result_id: Option<String>,
+	pub previous_result_id:        Option<String>,
 	#[serde(flatten)]
 	pub work_done_progress_params: WorkDoneProgressParams,
 	#[serde(flatten)]
-	pub partial_result_params: PartialResultParams,
+	pub partial_result_params:     PartialResultParams,
 }
 
 /// Parameters of the workspace diagnostic request.
@@ -772,13 +780,13 @@ pub struct DocumentDiagnosticParams {
 pub struct WorkspaceDiagnosticParams {
 	/// The additional identifier provided during registration.
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub identifier: Option<bool>,
+	pub identifier:                Option<bool>,
 	/// The currently known diagnostic reports with their previous result ids.
-	pub previous_result_ids: Vec<PreviousResultId>,
+	pub previous_result_ids:       Vec<PreviousResultId>,
 	#[serde(flatten)]
 	pub work_done_progress_params: WorkDoneProgressParams,
 	#[serde(flatten)]
-	pub partial_result_params: PartialResultParams,
+	pub partial_result_params:     PartialResultParams,
 }
 
 /// A parameter literal used in inline completion requests.
@@ -790,11 +798,11 @@ pub struct WorkspaceDiagnosticParams {
 #[serde(rename_all = "camelCase")]
 pub struct InlineCompletionParams {
 	/// Additional information about the context in which inline completions were requested.
-	pub context: InlineCompletionContext,
+	pub context:                   InlineCompletionContext,
 	#[serde(flatten)]
 	pub work_done_progress_params: WorkDoneProgressParams,
 	#[serde(flatten)]
-	pub partial_result_params: PartialResultParams,
+	pub partial_result_params:     PartialResultParams,
 }
 
 /// Completion parameters
@@ -805,13 +813,14 @@ pub struct InlineCompletionParams {
 pub struct CompletionParams {
 	#[serde(flatten)]
 	pub text_document_position_params: TextDocumentPositionParams,
-	/// The completion context. This is only available if the client specifies\nto send this using the client capability `textDocument.completion.contextSupport === true`
+	/// The completion context. This is only available if the client specifies\nto send this using
+	/// the client capability `textDocument.completion.contextSupport === true`
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub context: Option<CompletionContext>,
+	pub context:                       Option<CompletionContext>,
 	#[serde(flatten)]
-	pub work_done_progress_params: WorkDoneProgressParams,
+	pub work_done_progress_params:     WorkDoneProgressParams,
 	#[serde(flatten)]
-	pub partial_result_params: PartialResultParams,
+	pub partial_result_params:         PartialResultParams,
 }
 
 /// Parameters for a [`HoverRequest`].
@@ -823,7 +832,7 @@ pub struct HoverParams {
 	#[serde(flatten)]
 	pub text_document_position_params: TextDocumentPositionParams,
 	#[serde(flatten)]
-	pub work_done_progress_params: WorkDoneProgressParams,
+	pub work_done_progress_params:     WorkDoneProgressParams,
 }
 
 /// Parameters for a [`SignatureHelpRequest`].
@@ -832,15 +841,16 @@ pub struct HoverParams {
 )]
 #[serde(rename_all = "camelCase")]
 pub struct SignatureHelpParams {
-	/// The signature help context. This is only available if the client specifies\nto send this using the client capability `textDocument.signatureHelp.contextSupport === true`
+	/// The signature help context. This is only available if the client specifies\nto send this
+	/// using the client capability `textDocument.signatureHelp.contextSupport === true`
 	///
 	/// since: 3.15.0
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub context: Option<SignatureHelpContext>,
+	pub context:                       Option<SignatureHelpContext>,
 	#[serde(flatten)]
 	pub text_document_position_params: TextDocumentPositionParams,
 	#[serde(flatten)]
-	pub work_done_progress_params: WorkDoneProgressParams,
+	pub work_done_progress_params:     WorkDoneProgressParams,
 }
 
 /// Parameters for a [`DefinitionRequest`].
@@ -852,9 +862,9 @@ pub struct DefinitionParams {
 	#[serde(flatten)]
 	pub text_document_position_params: TextDocumentPositionParams,
 	#[serde(flatten)]
-	pub work_done_progress_params: WorkDoneProgressParams,
+	pub work_done_progress_params:     WorkDoneProgressParams,
 	#[serde(flatten)]
-	pub partial_result_params: PartialResultParams,
+	pub partial_result_params:         PartialResultParams,
 }
 
 /// Parameters for a [`ReferencesRequest`].
@@ -863,13 +873,13 @@ pub struct DefinitionParams {
 )]
 #[serde(rename_all = "camelCase")]
 pub struct ReferenceParams {
-	pub context: ReferenceContext,
+	pub context:                       ReferenceContext,
 	#[serde(flatten)]
 	pub text_document_position_params: TextDocumentPositionParams,
 	#[serde(flatten)]
-	pub work_done_progress_params: WorkDoneProgressParams,
+	pub work_done_progress_params:     WorkDoneProgressParams,
 	#[serde(flatten)]
-	pub partial_result_params: PartialResultParams,
+	pub partial_result_params:         PartialResultParams,
 }
 
 /// Parameters for a [`DocumentHighlightRequest`].
@@ -881,9 +891,9 @@ pub struct DocumentHighlightParams {
 	#[serde(flatten)]
 	pub text_document_position_params: TextDocumentPositionParams,
 	#[serde(flatten)]
-	pub work_done_progress_params: WorkDoneProgressParams,
+	pub work_done_progress_params:     WorkDoneProgressParams,
 	#[serde(flatten)]
-	pub partial_result_params: PartialResultParams,
+	pub partial_result_params:         PartialResultParams,
 }
 
 /// Parameters for a [`DocumentSymbolRequest`].
@@ -893,11 +903,11 @@ pub struct DocumentHighlightParams {
 #[serde(rename_all = "camelCase")]
 pub struct DocumentSymbolParams {
 	/// The text document.
-	pub text_document: TextDocumentIdentifier,
+	pub text_document:             TextDocumentIdentifier,
 	#[serde(flatten)]
 	pub work_done_progress_params: WorkDoneProgressParams,
 	#[serde(flatten)]
-	pub partial_result_params: PartialResultParams,
+	pub partial_result_params:     PartialResultParams,
 }
 
 /// Parameters for a [`CodeActionRequest`].
@@ -905,15 +915,15 @@ pub struct DocumentSymbolParams {
 #[serde(rename_all = "camelCase")]
 pub struct CodeActionParams {
 	/// The document in which the command was invoked.
-	pub text_document: TextDocumentIdentifier,
+	pub text_document:             TextDocumentIdentifier,
 	/// The range for which the command was invoked.
-	pub range: Range,
+	pub range:                     Range,
 	/// Context carrying additional information.
-	pub context: CodeActionContext,
+	pub context:                   CodeActionContext,
 	#[serde(flatten)]
 	pub work_done_progress_params: WorkDoneProgressParams,
 	#[serde(flatten)]
-	pub partial_result_params: PartialResultParams,
+	pub partial_result_params:     PartialResultParams,
 }
 
 /// The parameters of a [`WorkspaceSymbolRequest`].
@@ -922,12 +932,13 @@ pub struct CodeActionParams {
 )]
 #[serde(rename_all = "camelCase")]
 pub struct WorkspaceSymbolParams {
-	/// A query string to filter symbols by. Clients may send an empty string here to request all symbols.
-	pub query: String,
+	/// A query string to filter symbols by. Clients may send an empty string here to request all
+	/// symbols.
+	pub query:                     String,
 	#[serde(flatten)]
 	pub work_done_progress_params: WorkDoneProgressParams,
 	#[serde(flatten)]
-	pub partial_result_params: PartialResultParams,
+	pub partial_result_params:     PartialResultParams,
 }
 
 /// The parameters of a [`CodeLensRequest`].
@@ -937,11 +948,11 @@ pub struct WorkspaceSymbolParams {
 #[serde(rename_all = "camelCase")]
 pub struct CodeLensParams {
 	/// The document to request code lens for.
-	pub text_document: TextDocumentIdentifier,
+	pub text_document:             TextDocumentIdentifier,
 	#[serde(flatten)]
 	pub work_done_progress_params: WorkDoneProgressParams,
 	#[serde(flatten)]
-	pub partial_result_params: PartialResultParams,
+	pub partial_result_params:     PartialResultParams,
 }
 
 /// The parameters of a [`DocumentLinkRequest`].
@@ -951,11 +962,11 @@ pub struct CodeLensParams {
 #[serde(rename_all = "camelCase")]
 pub struct DocumentLinkParams {
 	/// The document to provide document links for.
-	pub text_document: TextDocumentIdentifier,
+	pub text_document:             TextDocumentIdentifier,
 	#[serde(flatten)]
 	pub work_done_progress_params: WorkDoneProgressParams,
 	#[serde(flatten)]
-	pub partial_result_params: PartialResultParams,
+	pub partial_result_params:     PartialResultParams,
 }
 
 /// The parameters of a [`DocumentFormattingRequest`].
@@ -965,9 +976,9 @@ pub struct DocumentLinkParams {
 #[serde(rename_all = "camelCase")]
 pub struct DocumentFormattingParams {
 	/// The document to format.
-	pub text_document: TextDocumentIdentifier,
+	pub text_document:             TextDocumentIdentifier,
 	/// The format options.
-	pub options: FormattingOptions,
+	pub options:                   FormattingOptions,
 	#[serde(flatten)]
 	pub work_done_progress_params: WorkDoneProgressParams,
 }
@@ -979,11 +990,11 @@ pub struct DocumentFormattingParams {
 #[serde(rename_all = "camelCase")]
 pub struct DocumentRangeFormattingParams {
 	/// The document to format.
-	pub text_document: TextDocumentIdentifier,
+	pub text_document:             TextDocumentIdentifier,
 	/// The range to format.
-	pub range: Range,
+	pub range:                     Range,
 	/// The format options.
-	pub options: FormattingOptions,
+	pub options:                   FormattingOptions,
 	#[serde(flatten)]
 	pub work_done_progress_params: WorkDoneProgressParams,
 }
@@ -997,11 +1008,11 @@ pub struct DocumentRangeFormattingParams {
 #[serde(rename_all = "camelCase")]
 pub struct DocumentRangesFormattingParams {
 	/// The document to format.
-	pub text_document: TextDocumentIdentifier,
+	pub text_document:             TextDocumentIdentifier,
 	/// The ranges to format.
-	pub range: Vec<Range>,
+	pub range:                     Vec<Range>,
 	/// The format options.
-	pub options: FormattingOptions,
+	pub options:                   FormattingOptions,
 	#[serde(flatten)]
 	pub work_done_progress_params: WorkDoneProgressParams,
 }
@@ -1013,14 +1024,14 @@ pub struct DocumentRangesFormattingParams {
 #[serde(rename_all = "camelCase")]
 pub struct RenameParams {
 	/// The document to format.
-	pub text_document: TextDocumentIdentifier,
+	pub text_document:             TextDocumentIdentifier,
 	/// The position at which this request was sent.
-	pub position: Position,
+	pub position:                  Position,
 	/// The new name of the symbol.
 	///
 	/// If the given name is not valid the request must return a [`ResponseError`] with an
 	/// appropriate message set.
-	pub new_name: String,
+	pub new_name:                  String,
 	#[serde(flatten)]
 	pub work_done_progress_params: WorkDoneProgressParams,
 }
@@ -1033,7 +1044,7 @@ pub struct PrepareRenameParams {
 	#[serde(flatten)]
 	pub text_document_position_params: TextDocumentPositionParams,
 	#[serde(flatten)]
-	pub work_done_progress_params: WorkDoneProgressParams,
+	pub work_done_progress_params:     WorkDoneProgressParams,
 }
 
 /// The parameters of a [`ExecuteCommandRequest`].
@@ -1041,10 +1052,10 @@ pub struct PrepareRenameParams {
 #[serde(rename_all = "camelCase")]
 pub struct ExecuteCommandParams {
 	/// The identifier of the actual command handler.
-	pub command: String,
+	pub command:                   String,
 	/// Arguments that the command should be invoked with.
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub arguments: Option<Vec<LspAny>>,
+	pub arguments:                 Option<Vec<LspAny>>,
 	#[serde(flatten)]
 	pub work_done_progress_params: WorkDoneProgressParams,
 }

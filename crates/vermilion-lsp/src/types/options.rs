@@ -1,4 +1,4 @@
-/* SPDX-License-Identifier: BSD-3-Clause */
+// SPDX-License-Identifier: BSD-3-Clause
 
 use crate::types::{
 	CodeActionKind, DocumentSelector, FileOperationFilter, FileSystemWatcher,
@@ -66,9 +66,9 @@ pub struct DidChangeWatchedFilesRegistrationOptions {
 #[serde(rename_all = "camelCase")]
 pub struct FormattingOptions {
 	/// Size of a tab in spaces.
-	pub tab_size: u32,
+	pub tab_size:                 u32,
 	/// Prefer spaces over tabs.
-	pub insert_spaces: bool,
+	pub insert_spaces:            bool,
 	/// Trim trailing whitespace on a line.
 	///
 	/// since: 3.15.0
@@ -78,12 +78,12 @@ pub struct FormattingOptions {
 	///
 	/// since: 3.15.0
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub insert_final_newline: Option<bool>,
+	pub insert_final_newline:     Option<bool>,
 	/// Trim all newlines after the final newline at the end of the file.
 	///
 	/// since: 3.15.0
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub trim_final_newlines: Option<bool>,
+	pub trim_final_newlines:      Option<bool>,
 }
 
 /// Matching options for the file operation pattern.
@@ -109,19 +109,19 @@ pub struct FileOperationPatternOptions {
 pub struct FileOperationOptions {
 	/// The server is interested in receiving didCreateFiles notifications.
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub did_create: Option<FileOperationRegistrationOptions>,
+	pub did_create:  Option<FileOperationRegistrationOptions>,
 	/// The server is interested in receiving willCreateFiles requests.
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub will_create: Option<FileOperationRegistrationOptions>,
 	/// The server is interested in receiving didRenameFiles notifications.
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub did_rename: Option<FileOperationRegistrationOptions>,
+	pub did_rename:  Option<FileOperationRegistrationOptions>,
 	/// The server is interested in receiving willRenameFiles requests.
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub will_rename: Option<FileOperationRegistrationOptions>,
 	/// The server is interested in receiving didDeleteFiles file notifications.
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub did_delete: Option<FileOperationRegistrationOptions>,
+	pub did_delete:  Option<FileOperationRegistrationOptions>,
 	/// The server is interested in receiving willDeleteFiles file requests.
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub will_delete: Option<FileOperationRegistrationOptions>,
@@ -135,7 +135,7 @@ pub struct FileOperationOptions {
 pub struct DeleteFileOptions {
 	/// Delete the content recursively if a folder is denoted.
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub recursive: Option<bool>,
+	pub recursive:            Option<bool>,
 	/// Ignore the operation if the file doesn't exist.
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub ignore_if_not_exists: Option<bool>,
@@ -151,7 +151,7 @@ pub struct RenameFileOptions {
 	///
 	/// Overwrite wins over [`RenameFileOptions::ignore_if_exists`]
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub overwrite: Option<bool>,
+	pub overwrite:        Option<bool>,
 	/// Ignores if target exists.
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub ignore_if_exists: Option<bool>,
@@ -167,7 +167,7 @@ pub struct CreateFileOptions {
 	///
 	/// Overwrite wins over [`CreateFileOptions::ignore_if_exists`]
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub overwrite: Option<bool>,
+	pub overwrite:        Option<bool>,
 	/// Ignore if exists.
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub ignore_if_exists: Option<bool>,
@@ -183,7 +183,7 @@ pub struct DocumentOnTypeFormattingOptions {
 	pub first_trigger_character: String, // TODO(aki): Should this be a `char`?
 	/// More trigger characters.
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub more_trigger_character: Option<String>,
+	pub more_trigger_character:  Option<String>,
 }
 
 /// Save options.
@@ -220,9 +220,9 @@ pub struct ImplementationRegistrationOptions {
 	#[serde(flatten)]
 	pub text_document_registration_options: TextDocumentRegistrationOptions,
 	#[serde(flatten)]
-	pub implementation_options: ImplementationOptions,
+	pub implementation_options:             ImplementationOptions,
 	#[serde(flatten)]
-	pub static_registration_options: StaticRegistrationOptions,
+	pub static_registration_options:        StaticRegistrationOptions,
 }
 
 #[derive(
@@ -242,9 +242,9 @@ pub struct TypeDefinitionRegistrationOptions {
 	#[serde(flatten)]
 	pub text_document_registration_options: TextDocumentRegistrationOptions,
 	#[serde(flatten)]
-	pub type_definition_options: TypeDefinitionOptions,
+	pub type_definition_options:            TypeDefinitionOptions,
 	#[serde(flatten)]
-	pub static_registration_options: StaticRegistrationOptions,
+	pub static_registration_options:        StaticRegistrationOptions,
 }
 
 #[derive(
@@ -264,9 +264,9 @@ pub struct DocumentColorRegistrationOptions {
 	#[serde(flatten)]
 	pub text_document_registration_options: TextDocumentRegistrationOptions,
 	#[serde(flatten)]
-	pub document_color_options: DocumentColorOptions,
+	pub document_color_options:             DocumentColorOptions,
 	#[serde(flatten)]
-	pub static_registration_options: StaticRegistrationOptions,
+	pub static_registration_options:        StaticRegistrationOptions,
 }
 
 #[derive(
@@ -286,9 +286,9 @@ pub struct FoldingRangeRegistrationOptions {
 	#[serde(flatten)]
 	pub text_document_registration_options: TextDocumentRegistrationOptions,
 	#[serde(flatten)]
-	pub folding_range_options: FoldingRangeOptions,
+	pub folding_range_options:              FoldingRangeOptions,
 	#[serde(flatten)]
-	pub static_registration_options: StaticRegistrationOptions,
+	pub static_registration_options:        StaticRegistrationOptions,
 }
 
 #[derive(
@@ -308,9 +308,9 @@ pub struct DeclarationRegistrationOptions {
 	#[serde(flatten)]
 	pub text_document_registration_options: TextDocumentRegistrationOptions,
 	#[serde(flatten)]
-	pub declaration_options: DeclarationOptions,
+	pub declaration_options:                DeclarationOptions,
 	#[serde(flatten)]
-	pub static_registration_options: StaticRegistrationOptions,
+	pub static_registration_options:        StaticRegistrationOptions,
 }
 
 #[derive(
@@ -330,9 +330,9 @@ pub struct SelectionRangeRegistrationOptions {
 	#[serde(flatten)]
 	pub text_document_registration_options: TextDocumentRegistrationOptions,
 	#[serde(flatten)]
-	pub selection_range_options: SelectionRangeOptions,
+	pub selection_range_options:            SelectionRangeOptions,
 	#[serde(flatten)]
-	pub static_registration_options: StaticRegistrationOptions,
+	pub static_registration_options:        StaticRegistrationOptions,
 }
 
 #[derive(
@@ -355,9 +355,9 @@ pub struct CallHierarchyRegistrationOptions {
 	#[serde(flatten)]
 	pub text_document_registration_options: TextDocumentRegistrationOptions,
 	#[serde(flatten)]
-	pub call_hierarchy_options: CallHierarchyOptions,
+	pub call_hierarchy_options:             CallHierarchyOptions,
 	#[serde(flatten)]
-	pub static_registration_options: StaticRegistrationOptions,
+	pub static_registration_options:        StaticRegistrationOptions,
 }
 
 /// Call hierarchy options used during static registration.
@@ -381,9 +381,9 @@ pub struct SemanticTokensRegistrationOptions {
 	#[serde(flatten)]
 	pub text_document_registration_options: TextDocumentRegistrationOptions,
 	#[serde(flatten)]
-	pub semantic_tokens_options: SemanticTokensOptions,
+	pub semantic_tokens_options:            SemanticTokensOptions,
 	#[serde(flatten)]
-	pub static_registration_options: StaticRegistrationOptions,
+	pub static_registration_options:        StaticRegistrationOptions,
 }
 
 /// since: 3.16.0
@@ -393,12 +393,12 @@ pub struct SemanticTokensRegistrationOptions {
 #[serde(rename_all = "camelCase")]
 pub struct SemanticTokensOptions {
 	/// The legend used by the server
-	pub legend: SemanticTokensLegend,
+	pub legend:                     SemanticTokensLegend,
 	/// Server supports providing semantic tokens for a specific range of a document.
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub range: Option<bool>,
+	pub range:                      Option<bool>,
 	/// Server supports providing semantic tokens for a full document.
-	pub full: Option<bool>, // XXX(aki): Or { "delta": bool }
+	pub full:                       Option<bool>, // XXX(aki): Or { "delta": bool }
 	#[serde(flatten)]
 	pub work_done_progress_options: WorkDoneProgressOptions,
 }
@@ -411,9 +411,9 @@ pub struct LinkedEditingRangeRegistrationOptions {
 	#[serde(flatten)]
 	pub text_document_registration_options: TextDocumentRegistrationOptions,
 	#[serde(flatten)]
-	pub linked_editing_range_options: LinkedEditingRangeOptions,
+	pub linked_editing_range_options:       LinkedEditingRangeOptions,
 	#[serde(flatten)]
-	pub static_registration_options: StaticRegistrationOptions,
+	pub static_registration_options:        StaticRegistrationOptions,
 }
 
 #[derive(
@@ -433,7 +433,7 @@ pub struct MonikerRegistrationOptions {
 	#[serde(flatten)]
 	pub text_document_registration_options: TextDocumentRegistrationOptions,
 	#[serde(flatten)]
-	pub moniker_options: MonikerOptions,
+	pub moniker_options:                    MonikerOptions,
 }
 
 #[derive(
@@ -456,9 +456,9 @@ pub struct TypeHierarchyRegistrationOptions {
 	#[serde(flatten)]
 	pub text_document_registration_options: TextDocumentRegistrationOptions,
 	#[serde(flatten)]
-	pub type_hierarchy_options: TypeHierarchyOptions,
+	pub type_hierarchy_options:             TypeHierarchyOptions,
 	#[serde(flatten)]
-	pub static_registration_options: StaticRegistrationOptions,
+	pub static_registration_options:        StaticRegistrationOptions,
 }
 
 /// Type hierarchy options used during static registration.
@@ -484,9 +484,9 @@ pub struct InlineValueRegistrationOptions {
 	#[serde(flatten)]
 	pub text_document_registration_options: TextDocumentRegistrationOptions,
 	#[serde(flatten)]
-	pub inline_value_options: InlineValueOptions,
+	pub inline_value_options:               InlineValueOptions,
 	#[serde(flatten)]
-	pub static_registration_options: StaticRegistrationOptions,
+	pub static_registration_options:        StaticRegistrationOptions,
 }
 
 /// Inline value options used during static registration.
@@ -512,9 +512,9 @@ pub struct InlayHintRegistrationOptions {
 	#[serde(flatten)]
 	pub text_document_registration_options: TextDocumentRegistrationOptions,
 	#[serde(flatten)]
-	pub inlay_hint_options: InlayHintOptions,
+	pub inlay_hint_options:                 InlayHintOptions,
 	#[serde(flatten)]
-	pub static_registration_options: StaticRegistrationOptions,
+	pub static_registration_options:        StaticRegistrationOptions,
 }
 
 /// Inlay hint options used during static registration.
@@ -527,7 +527,7 @@ pub struct InlayHintRegistrationOptions {
 pub struct InlayHintOptions {
 	/// The server provides support to resolve additional information for an inlay hint item.
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub resolve_provider: Option<bool>,
+	pub resolve_provider:           Option<bool>,
 	#[serde(flatten)]
 	pub work_done_progress_options: WorkDoneProgressOptions,
 }
@@ -543,9 +543,9 @@ pub struct DiagnosticRegistrationOptions {
 	#[serde(flatten)]
 	pub text_document_registration_options: TextDocumentRegistrationOptions,
 	#[serde(flatten)]
-	pub diagnostic_options: DiagnosticOptions,
+	pub diagnostic_options:                 DiagnosticOptions,
 	#[serde(flatten)]
-	pub static_registration_options: StaticRegistrationOptions,
+	pub static_registration_options:        StaticRegistrationOptions,
 }
 
 /// Diagnostic options.
@@ -558,15 +558,15 @@ pub struct DiagnosticRegistrationOptions {
 pub struct DiagnosticOptions {
 	/// An optional identifier under which the diagnostics are managed by the client.
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub identifier: Option<bool>,
+	pub identifier:                 Option<bool>,
 	/// Whether the language has inter file dependencies meaning that editing code in one file
 	/// can result in a different diagnostic set in another file.
 	///
 	/// Inter file dependencies are common for most programming languages and typically uncommon
 	/// for linters.
-	pub inter_file_dependencies: bool,
+	pub inter_file_dependencies:    bool,
 	/// The server provides support for workspace diagnostics as well.
-	pub workspace_diagnostics: bool,
+	pub workspace_diagnostics:      bool,
 	#[serde(flatten)]
 	pub work_done_progress_options: WorkDoneProgressOptions,
 }
@@ -582,9 +582,9 @@ pub struct InlineCompletionRegistrationOptions {
 	#[serde(flatten)]
 	pub text_document_registration_options: TextDocumentRegistrationOptions,
 	#[serde(flatten)]
-	pub inline_completion_options: InlineCompletionOptions,
+	pub inline_completion_options:          InlineCompletionOptions,
 	#[serde(flatten)]
-	pub static_registration_options: StaticRegistrationOptions,
+	pub static_registration_options:        StaticRegistrationOptions,
 }
 
 /// Inline completion options used during static registration.
@@ -608,7 +608,7 @@ pub struct TextDocumentChangeRegistrationOptions {
 	/// How documents are synced to the server.
 	pub sync_kind: TextDocumentSyncKind,
 	#[serde(flatten)]
-	pub options: TextDocumentRegistrationOptions,
+	pub options:   TextDocumentRegistrationOptions,
 }
 
 /// Save registration options.
@@ -620,7 +620,7 @@ pub struct TextDocumentSaveRegistrationOptions {
 	#[serde(flatten)]
 	pub text_document_registration_options: TextDocumentRegistrationOptions,
 	#[serde(flatten)]
-	pub save_option: SaveOptions,
+	pub save_option:                        SaveOptions,
 }
 
 /// Registration options for a [`CompletionRequest`].
@@ -632,7 +632,7 @@ pub struct CompletionRegistrationOptions {
 	#[serde(flatten)]
 	pub text_document_registration_options: TextDocumentRegistrationOptions,
 	#[serde(flatten)]
-	pub completion_options: CompletionOptions,
+	pub completion_options:                 CompletionOptions,
 }
 
 /// Registration options for a [`HoverRequest`].
@@ -644,7 +644,7 @@ pub struct HoverRegistrationOptions {
 	#[serde(flatten)]
 	pub text_document_registration_options: TextDocumentRegistrationOptions,
 	#[serde(flatten)]
-	pub hover_options: HoverOptions,
+	pub hover_options:                      HoverOptions,
 }
 
 /// Hover options.
@@ -666,7 +666,7 @@ pub struct SignatureHelpRegistrationOptions {
 	#[serde(flatten)]
 	pub text_document_registration_options: TextDocumentRegistrationOptions,
 	#[serde(flatten)]
-	pub signature_help_options: SignatureHelpOptions,
+	pub signature_help_options:             SignatureHelpOptions,
 }
 
 /// Server Capabilities for a [`SignatureHelpRequest`].
@@ -677,14 +677,14 @@ pub struct SignatureHelpRegistrationOptions {
 pub struct SignatureHelpOptions {
 	/// List of characters that trigger signature help automatically.
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub trigger_characters: Option<Vec<String>>, // XXX(aki): Should be `char`?
+	pub trigger_characters:         Option<Vec<String>>, // XXX(aki): Should be `char`?
 	/// List of characters that re-trigger signature help.
 	///
 	/// These trigger characters are only active when signature help is already showing.
 	/// All trigger characters\nare also counted as re-trigger characters.
 	///
 	/// since: 3.15.0
-	pub retrigger_characters: Option<Vec<String>>, // XXX(aki): Should be `char`?
+	pub retrigger_characters:       Option<Vec<String>>, // XXX(aki): Should be `char`?
 	#[serde(flatten)]
 	pub work_done_progress_options: WorkDoneProgressOptions,
 }
@@ -698,7 +698,7 @@ pub struct DefinitionRegistrationOptions {
 	#[serde(flatten)]
 	pub text_document_registration_options: TextDocumentRegistrationOptions,
 	#[serde(flatten)]
-	pub definition_options: DefinitionOptions,
+	pub definition_options:                 DefinitionOptions,
 }
 
 /// Server Capabilities for a [`DefinitionRequest`].
@@ -720,7 +720,7 @@ pub struct ReferenceRegistrationOptions {
 	#[serde(flatten)]
 	pub text_document_registration_options: TextDocumentRegistrationOptions,
 	#[serde(flatten)]
-	pub reference_options: ReferenceOptions,
+	pub reference_options:                  ReferenceOptions,
 }
 
 /// Reference options.
@@ -742,7 +742,7 @@ pub struct DocumentHighlightRegistrationOptions {
 	#[serde(flatten)]
 	pub text_document_registration_options: TextDocumentRegistrationOptions,
 	#[serde(flatten)]
-	pub document_highlight_options: DocumentHighlightOptions,
+	pub document_highlight_options:         DocumentHighlightOptions,
 }
 
 /// Provider options for a [`DocumentHighlightRequest`].
@@ -764,7 +764,7 @@ pub struct DocumentSymbolRegistrationOptions {
 	#[serde(flatten)]
 	pub text_document_registration_options: TextDocumentRegistrationOptions,
 	#[serde(flatten)]
-	pub document_symbol_options: DocumentSymbolOptions,
+	pub document_symbol_options:            DocumentSymbolOptions,
 }
 
 /// Provider options for a [`DocumentSymbolRequest`].
@@ -773,11 +773,12 @@ pub struct DocumentSymbolRegistrationOptions {
 )]
 #[serde(rename_all = "camelCase")]
 pub struct DocumentSymbolOptions {
-	/// A human-readable string that is shown when multiple outlines trees are shown for the same document.
+	/// A human-readable string that is shown when multiple outlines trees are shown for the same
+	/// document.
 	///
 	/// since: 3.16.0
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub label: Option<String>,
+	pub label:                      Option<String>,
 	#[serde(flatten)]
 	pub work_done_progress_options: WorkDoneProgressOptions,
 }
@@ -791,7 +792,7 @@ pub struct CodeActionRegistrationOptions {
 	#[serde(flatten)]
 	pub text_document_registration_options: TextDocumentRegistrationOptions,
 	#[serde(flatten)]
-	pub code_action_options: CodeActionOptions,
+	pub code_action_options:                CodeActionOptions,
 }
 
 /// Provider options for a [`CodeActionRequest`].
@@ -802,15 +803,15 @@ pub struct CodeActionRegistrationOptions {
 pub struct CodeActionOptions {
 	/// CodeActionKinds that this server may return.
 	///
-	/// The list of kinds may be generic, such as [`CodeActionKind::Refactor`], or the server may list out
-	/// every specific kind they provide.
+	/// The list of kinds may be generic, such as [`CodeActionKind::Refactor`], or the server may
+	/// list out every specific kind they provide.
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub code_action_kinds: Option<Vec<CodeActionKind>>,
+	pub code_action_kinds:          Option<Vec<CodeActionKind>>,
 	/// The server provides support to resolve additional information for a code action.
 	///
 	/// since: 3.16.0
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub resolve_provider: Option<bool>,
+	pub resolve_provider:           Option<bool>,
 	#[serde(flatten)]
 	pub work_done_progress_options: WorkDoneProgressOptions,
 }
@@ -835,7 +836,7 @@ pub struct WorkspaceSymbolOptions {
 	///
 	/// since: 3.17.0
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub resolve_provider: Option<bool>,
+	pub resolve_provider:           Option<bool>,
 	#[serde(flatten)]
 	pub work_done_progress_options: WorkDoneProgressOptions,
 }
@@ -849,7 +850,7 @@ pub struct CodeLensRegistrationOptions {
 	#[serde(flatten)]
 	pub text_document_registration_options: TextDocumentRegistrationOptions,
 	#[serde(flatten)]
-	pub code_lense_options: CodeLenseOptions,
+	pub code_lense_options:                 CodeLenseOptions,
 }
 
 /// Code Lens provider options of a [`CodeLensRequest`].
@@ -860,7 +861,7 @@ pub struct CodeLensRegistrationOptions {
 pub struct CodeLenseOptions {
 	/// Code lens has a resolve provider as well.
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub resolve_provider: Option<bool>,
+	pub resolve_provider:           Option<bool>,
 	#[serde(flatten)]
 	pub work_done_progress_options: WorkDoneProgressOptions,
 }
@@ -874,7 +875,7 @@ pub struct DocumentLinkRegistrationOptions {
 	#[serde(flatten)]
 	pub text_document_registration_options: TextDocumentRegistrationOptions,
 	#[serde(flatten)]
-	pub document_link_options: DocumentLinkOptions,
+	pub document_link_options:              DocumentLinkOptions,
 }
 
 /// Provider options for a [`DocumentLinkRequest`].
@@ -885,7 +886,7 @@ pub struct DocumentLinkRegistrationOptions {
 pub struct DocumentLinkOptions {
 	/// Document links have a resolve provider as well
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub resolve_provider: Option<bool>,
+	pub resolve_provider:           Option<bool>,
 	#[serde(flatten)]
 	pub work_done_progress_options: WorkDoneProgressOptions,
 }
@@ -899,7 +900,7 @@ pub struct DocumentFormattingRegistrationOptions {
 	#[serde(flatten)]
 	pub text_document_registration_options: TextDocumentRegistrationOptions,
 	#[serde(flatten)]
-	pub document_formatting_options: DocumentFormattingOptions,
+	pub document_formatting_options:        DocumentFormattingOptions,
 }
 
 /// Provider options for a [`DocumentFormattingRequest`].
@@ -921,7 +922,7 @@ pub struct DocumentRangeFormattingRegistrationOptions {
 	#[serde(flatten)]
 	pub text_document_registration_options: TextDocumentRegistrationOptions,
 	#[serde(flatten)]
-	pub document_range_formatting_options: DocumentRangeFormattingOptions,
+	pub document_range_formatting_options:  DocumentRangeFormattingOptions,
 }
 
 /// Provider options for a [`DocumentRangeFormattingRequest`].
@@ -934,7 +935,7 @@ pub struct DocumentRangeFormattingOptions {
 	///
 	/// since: 3.18.0
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub ranges_support: Option<bool>,
+	pub ranges_support:             Option<bool>,
 	#[serde(flatten)]
 	pub work_done_progress_options: WorkDoneProgressOptions,
 }
@@ -946,7 +947,7 @@ pub struct DocumentRangeFormattingOptions {
 #[serde(rename_all = "camelCase")]
 pub struct DocumentOnTypeFormattingRegistrationOptions {
 	#[serde(flatten)]
-	pub text_document_registration_options: TextDocumentRegistrationOptions,
+	pub text_document_registration_options:  TextDocumentRegistrationOptions,
 	#[serde(flatten)]
 	pub document_on_type_formatting_options: DocumentOnTypeFormattingOptions,
 }
@@ -958,7 +959,7 @@ pub struct DocumentOnTypeFormattingRegistrationOptions {
 #[serde(rename_all = "camelCase")]
 pub struct RenameRegistrationOptions {
 	#[serde(flatten)]
-	pub text_document_registration_options: TextDocumentRegistrationOptions,
+	pub text_document_registration_options:  TextDocumentRegistrationOptions,
 	#[serde(flatten)]
 	pub document_on_type_formatting_options: RenameOptions,
 }
@@ -973,7 +974,7 @@ pub struct RenameOptions {
 	///
 	/// since: 3.12.0
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub prepare_provider: Option<bool>,
+	pub prepare_provider:           Option<bool>,
 	#[serde(flatten)]
 	pub work_done_progress_options: WorkDoneProgressOptions,
 }
@@ -995,7 +996,7 @@ pub struct ExecuteCommandRegistrationOptions {
 #[serde(rename_all = "camelCase")]
 pub struct ExecuteCommandOptions {
 	/// The commands to be executed on the server
-	pub commands: Vec<String>,
+	pub commands:                   Vec<String>,
 	#[serde(flatten)]
 	pub work_done_progress_options: WorkDoneProgressOptions,
 }
@@ -1005,8 +1006,8 @@ pub struct ExecuteCommandOptions {
 )]
 #[serde(rename_all = "camelCase")]
 pub struct CompletionItemOptions {
-	/// The server has support for completion item label details (see also `CompletionItemLabelDetails`) when
-	/// receiving a completion item in a resolve call.
+	/// The server has support for completion item label details (see also
+	/// `CompletionItemLabelDetails`) when receiving a completion item in a resolve call.
 	///
 	/// since: 3.17.0
 	#[serde(skip_serializing_if = "Option::is_none", default)]
@@ -1023,18 +1024,19 @@ pub struct CompletionOptions {
 	///
 	/// Typically they do so when the user starts to type an identifier.
 	///
-	/// For example if the user types `c` in a JavaScript file code complete will automatically pop up
-	/// present `console` besides others as a completion item.
+	/// For example if the user types `c` in a JavaScript file code complete will automatically pop
+	/// up present `console` besides others as a completion item.
 	///
 	/// Characters that make up identifiers don't need to be listed here.
 	///
 	/// If code complete should automatically be trigger on characters not being valid inside
 	/// an identifier (for example `.` in JavaScript) list them in `trigger_characters`.
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub trigger_characters: Option<Vec<String>>, // XXX(aki): Should this be `char`?
+	pub trigger_characters:         Option<Vec<String>>, // XXX(aki): Should this be `char`?
 	/// The list of all possible characters that commit a completion.
 	///
-	/// This field can be used\nif clients don't support individual commit characters per completion item.
+	/// This field can be used\nif clients don't support individual commit characters per
+	/// completion item.
 	///
 	/// See `ClientCapabilities.textDocument.completion.completionItem.commitCharactersSupport`
 	///
@@ -1043,15 +1045,15 @@ pub struct CompletionOptions {
 	///
 	/// since: 3.2.0
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub all_commit_characters: Option<Vec<String>>, // XXX(aki): Should this be `char`?
+	pub all_commit_characters:      Option<Vec<String>>, // XXX(aki): Should this be `char`?
 	/// The server provides support to resolve additional information for a completion item.
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub resolve_provider: Option<bool>,
+	pub resolve_provider:           Option<bool>,
 	/// The server supports the following [`CompletionItem`] specific capabilities.
 	///
 	/// since: 3.17.0
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub completion_item: Option<CompletionItemOptions>,
+	pub completion_item:            Option<CompletionItemOptions>,
 	#[serde(flatten)]
 	pub work_done_progress_options: WorkDoneProgressOptions,
 }
@@ -1067,19 +1069,20 @@ pub struct TextDocumentSyncOptions {
 	///
 	/// If omitted open close notification should not be sent.
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub open_close: Option<bool>,
+	pub open_close:           Option<bool>,
 	/// Change notifications are sent to the server.
 	///
-	/// See [`TextDocumentSyncKind::None`], [`TextDocumentSyncKind::Full`] and [`TextDocumentSyncKind::Incremental`].
+	/// See [`TextDocumentSyncKind::None`], [`TextDocumentSyncKind::Full`] and
+	/// [`TextDocumentSyncKind::Incremental`].
 	///
 	/// If omitted it defaults to [`TextDocumentSyncKind::None`].
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub change: Option<TextDocumentSyncKind>,
+	pub change:               Option<TextDocumentSyncKind>,
 	/// If present will save notifications are sent to the server.
 	///
 	/// If omitted the notification should not be sent.
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub will_save: Option<bool>,
+	pub will_save:            Option<bool>,
 	/// If present will save wait until requests are sent to the server.
 	///
 	/// If omitted the request should not be sent.
@@ -1089,7 +1092,7 @@ pub struct TextDocumentSyncOptions {
 	///
 	/// If omitted the notification should not be sent.
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub save: Option<TextDocumentSaveOptions>,
+	pub save:                 Option<TextDocumentSaveOptions>,
 }
 
 /// Options specific to a notebook plus its cells to be synced to the server.
@@ -1110,7 +1113,7 @@ pub struct NotebookDocumentSyncOptions {
 	///
 	/// Will only be honored if mode === `notebook`.
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub save: Option<bool>,
+	pub save:              Option<bool>,
 	/// The notebooks to be synced
 	pub notebook_selector: NotebookDocumentSyncOptionsSelector,
 }
@@ -1126,7 +1129,7 @@ pub struct NotebookDocumentSyncRegistrationOptions {
 	#[serde(flatten)]
 	pub notebook_document_sync_options: NotebookDocumentSyncOptions,
 	#[serde(flatten)]
-	pub static_registration_options: StaticRegistrationOptions,
+	pub static_registration_options:    StaticRegistrationOptions,
 }
 
 #[cfg(test)]

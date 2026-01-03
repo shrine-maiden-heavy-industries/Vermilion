@@ -1,4 +1,4 @@
-/* SPDX-License-Identifier: BSD-3-Clause */
+// SPDX-License-Identifier: BSD-3-Clause
 // TODO(aki):
 // There are many cases where structures have a `kind` member that are supposed to be a fixed value,
 // We should try to turn these into common enums if possible.
@@ -45,8 +45,10 @@ pub type LspArray = Vec<LspAny>;
 /// - `?` to match on one character in a path segment
 /// - `**` to match any number of path segments, including none
 /// - `{}` to group conditions (e.g. `**​/*.{ts,js}` matches all TypeScript and JavaScript files)
-/// - `[]` to declare a range of characters to match in a path segment (e.g., `example.[0-9]` to match on `example.0`, `example.1`, …)
-/// - `[!...]` to negate a range of characters to match in a path segment (e.g., `example.[!0-9]` to match on `example.a`, `example.b`, but not `example.0`)
+/// - `[]` to declare a range of characters to match in a path segment (e.g., `example.[0-9]` to
+///   match on `example.0`, `example.1`, …)
+/// - `[!...]` to negate a range of characters to match in a path segment (e.g., `example.[!0-9]` to
+///   match on `example.a`, `example.b`, but not `example.0`)
 ///
 /// since: 3.17.0
 pub type Pattern = String;
@@ -56,7 +58,8 @@ pub type Pattern = String;
 /// Provides additional metadata over normal [`Location`] declarations, including the range of
 /// the declaring symbol.
 ///
-/// Servers should prefer returning [`DeclarationLink`] over [`Declaration`] if supported by the client.
+/// Servers should prefer returning [`DeclarationLink`] over [`Declaration`] if supported by the
+/// client.
 pub type DeclarationLink = LocationLink;
 
 /// Information about where a symbol is defined.
@@ -109,8 +112,8 @@ pub enum GlobPattern {
 ///
 /// It is either a markdown string or a code-block that provides a language and a code snippet.
 ///
-/// The language identifier is semantically equal to the optional language identifier in fenced code blocks
-/// in GitHub issues.
+/// The language identifier is semantically equal to the optional language identifier in fenced code
+/// blocks in GitHub issues.
 ///
 /// See: https://help.github.com/articles/creating-and-highlighting-code-blocks/#syntax-highlighting
 ///
@@ -148,7 +151,7 @@ pub enum MarkedString {
 )]
 #[serde(rename_all = "camelCase")]
 pub struct Position {
-	pub(crate) line: u32,
+	pub(crate) line:      u32,
 	pub(crate) character: u32,
 }
 
@@ -172,7 +175,7 @@ pub struct Position {
 #[serde(rename_all = "camelCase")]
 pub struct Range {
 	pub(crate) start: Position,
-	pub(crate) end: Position,
+	pub(crate) end:   Position,
 }
 
 /// The document diagnostic report kinds.
@@ -222,32 +225,32 @@ pub enum FoldingRangeKind {
 )]
 #[repr(u32)]
 pub enum SymbolKind {
-	Array = 18,
-	Boolean = 17,
-	Class = 5,
-	Constant = 14,
-	Constructor = 9,
-	Enum = 10,
-	EnumMember = 22,
-	Event = 24,
-	Field = 8,
-	File = 1,
-	Function = 12,
-	Interface = 11,
-	Key = 20,
-	Method = 6,
-	Module = 2,
-	Namespace = 3,
-	Null = 21,
-	Number = 16,
-	Object = 19,
-	Operator = 25,
-	Package = 4,
-	Property = 7,
-	String = 15,
-	Struct = 23,
+	Array         = 18,
+	Boolean       = 17,
+	Class         = 5,
+	Constant      = 14,
+	Constructor   = 9,
+	Enum          = 10,
+	EnumMember    = 22,
+	Event         = 24,
+	Field         = 8,
+	File          = 1,
+	Function      = 12,
+	Interface     = 11,
+	Key           = 20,
+	Method        = 6,
+	Module        = 2,
+	Namespace     = 3,
+	Null          = 21,
+	Number        = 16,
+	Object        = 19,
+	Operator      = 25,
+	Package       = 4,
+	Property      = 7,
+	String        = 15,
+	Struct        = 23,
 	TypeParameter = 26,
-	Variable = 13,
+	Variable      = 13,
 }
 
 /// Symbol tags are extra annotations that tweak the rendering of a symbol.
@@ -326,7 +329,7 @@ pub enum InlayHintKind {
 	/// An inlay hint that is for a parameter
 	Parameter = 2,
 	/// An inlay hint that for a type annotation
-	Type = 1,
+	Type      = 1,
 }
 
 /// The message type
@@ -346,13 +349,13 @@ pub enum MessageType {
 	/// A debug message
 	///
 	/// since: 3.18.0
-	Debug = 5,
+	Debug   = 5,
 	/// An error message
-	Error = 1,
+	Error   = 1,
 	/// An information message
-	Info = 3,
+	Info    = 3,
 	/// A log message
-	Log = 4,
+	Log     = 4,
 	/// A warning message
 	Warning = 2,
 }
@@ -372,13 +375,13 @@ pub enum MessageType {
 #[repr(u32)]
 pub enum TextDocumentSyncKind {
 	/// Documents are synced by always sending the full content of the document.
-	Full = 1,
+	Full        = 1,
 	/// Documents are synced by sending the full content on open.
 	///
 	/// After that only incremental updates to the document are sent.
 	Incremental = 2,
 	/// Documents should not be synced at all
-	None = 0,
+	None        = 0,
 }
 
 /// The reason why a text document was saved
@@ -398,9 +401,10 @@ pub enum TextDocumentSaveReason {
 	/// Automatic after a delay
 	AfterDelay = 2,
 	/// When the editor lost focus
-	FocusOut = 3,
-	/// Manually triggered, e.g. by the user pressing save, by starting debugging, or by an API call.
-	Manual = 1,
+	FocusOut   = 3,
+	/// Manually triggered, e.g. by the user pressing save, by starting debugging, or by an API
+	/// call.
+	Manual     = 1,
 }
 
 /// The kind of a completion entry
@@ -417,31 +421,31 @@ pub enum TextDocumentSaveReason {
 )]
 #[repr(u32)]
 pub enum CompletionItemKind {
-	Class = 7,
-	Color = 16,
-	Constant = 21,
-	Constructor = 4,
-	Enum = 13,
-	EnumMember = 20,
-	Event = 23,
-	Field = 5,
-	File = 17,
-	Folder = 19,
-	Function = 3,
-	Interface = 8,
-	Keyword = 14,
-	Method = 2,
-	Module = 9,
-	Operator = 24,
-	Property = 10,
-	Reference = 18,
-	Snippet = 15,
-	Struct = 22,
-	Text = 1,
+	Class         = 7,
+	Color         = 16,
+	Constant      = 21,
+	Constructor   = 4,
+	Enum          = 13,
+	EnumMember    = 20,
+	Event         = 23,
+	Field         = 5,
+	File          = 17,
+	Folder        = 19,
+	Function      = 3,
+	Interface     = 8,
+	Keyword       = 14,
+	Method        = 2,
+	Module        = 9,
+	Operator      = 24,
+	Property      = 10,
+	Reference     = 18,
+	Snippet       = 15,
+	Struct        = 22,
+	Text          = 1,
 	TypeParameter = 25,
-	Unit = 11,
-	Value = 12,
-	Variable = 6,
+	Unit          = 11,
+	Value         = 12,
+	Variable      = 6,
 }
 
 /// Completion item tags are extra annotations that tweak the rendering of a completion item.
@@ -464,7 +468,8 @@ pub enum CompletionItemTag {
 	Deprecated = 1,
 }
 
-/// Defines whether the insert text in a completion item should be interpreted as plain text or a snippet.
+/// Defines whether the insert text in a completion item should be interpreted as plain text or a
+/// snippet.
 #[derive(
 	Clone,
 	Debug,
@@ -485,10 +490,11 @@ pub enum InsertTextFormat {
 	/// A snippet can define tab stops and placeholders with `$1`, `$2` and `${3:foo}`.
 	/// `$0` defines the final tab stop, it defaults to the end of the snippet.
 	///
-	/// Placeholders with equal identifiers are linked, that is typing in one will update others too.
+	/// Placeholders with equal identifiers are linked, that is typing in one will update others
+	/// too.
 	///
 	/// See also: https://microsoft.github.io/language-server-protocol/specifications/specification-current/#snippet_syntax
-	Snippet = 2,
+	Snippet   = 2,
 }
 
 /// How whitespace and indentation is handled during completion item insertion.
@@ -520,7 +526,7 @@ pub enum InsertTextMode {
 	/// using the indentation defined in the string value.
 	///
 	/// The client will not apply any kind of adjustments to the string.
-	AsIs = 1,
+	AsIs              = 1,
 }
 
 /// A document highlight kind
@@ -538,9 +544,9 @@ pub enum InsertTextMode {
 #[repr(u32)]
 pub enum DocumentHighlightKind {
 	/// Read-access of a symbol, like reading a variable
-	Read = 2,
+	Read  = 2,
 	/// A textual occurrence
-	Text = 1,
+	Text  = 1,
 	/// Write-access of a symbol, like writing to a variable
 	Write = 3,
 }
@@ -594,8 +600,9 @@ pub enum CodeActionKind {
 	Source,
 	/// Base kind for auto-fix source actions: `source.fixAll`.
 	///
-	/// Fix all actions automatically fix errors that have a clear fix that do not require user input.
-	/// They should not suppress errors or perform unsafe fixes such as generating new types or classes.
+	/// Fix all actions automatically fix errors that have a clear fix that do not require user
+	/// input. They should not suppress errors or perform unsafe fixes such as generating new types
+	/// or classes.
 	///
 	/// since: 3.15.0
 	#[serde(rename = "source.fixAll")]
@@ -624,7 +631,8 @@ pub enum TraceValues {
 /// Describes the content type that a client supports in various
 /// result literals like [`Hover`], [`ParameterInfo`] or [`CompletionItem`].
 ///
-/// Please note that [`MarkupKind`]s must not start with a `$`. These kinds are reserved for internal usage
+/// Please note that [`MarkupKind`]s must not start with a `$`. These kinds are reserved for
+/// internal usage
 #[derive(
 	Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize,
 )]
@@ -655,7 +663,7 @@ pub enum InlineCompletionTriggerKind {
 	/// Completion was triggered automatically while editing
 	Automatic = 1,
 	/// Completion was triggered explicitly by a user gesture
-	Invoked = 0,
+	Invoked   = 0,
 }
 
 /// A type indicating how positions are encoded, specifically what column offsets mean.
@@ -751,13 +759,13 @@ pub enum WatchKind {
 #[repr(u32)]
 pub enum DiagnosticSeverity {
 	/// Reports an error
-	Error = 1,
+	Error       = 1,
 	/// Reports a hint
-	Hint = 4,
+	Hint        = 4,
 	/// Reports an information
 	Information = 3,
 	/// Reports a warning
-	Warning = 2,
+	Warning     = 2,
 }
 
 /// The diagnostic tags
@@ -779,10 +787,11 @@ pub enum DiagnosticTag {
 	/// Deprecated or obsolete code.
 	///
 	/// Clients are allowed to rendered diagnostics with this tag strike through.
-	Deprecated = 2,
+	Deprecated  = 2,
 	/// Unused or unnecessary code.
 	///
-	/// Clients are allowed to render diagnostics with this tag faded out instead of having an error squiggle.
+	/// Clients are allowed to render diagnostics with this tag faded out instead of having an error
+	/// squiggle.
 	Unnecessary = 1,
 }
 
@@ -800,8 +809,9 @@ pub enum DiagnosticTag {
 )]
 #[repr(u32)]
 pub enum CompletionTriggerKind {
-	/// Completion was triggered by typing an identifier (24x7 code complete), manual invocation (e.g Ctrl+Space) or via API.
-	Invoked = 1,
+	/// Completion was triggered by typing an identifier (24x7 code complete), manual invocation
+	/// (e.g Ctrl+Space) or via API.
+	Invoked          = 1,
 	/// Completion was triggered by a trigger character specified by the `triggerCharacters`
 	/// properties of the [`CompletionRegistrationOptions`]
 	TriggerCharacter = 2,
@@ -826,9 +836,9 @@ pub enum CompletionTriggerKind {
 #[repr(u32)]
 pub enum SignatureHelpTriggerKind {
 	/// Signature help was triggered by the cursor moving or by the document content changing
-	ContentChange = 3,
+	ContentChange    = 3,
 	/// Signature help was invoked manually by the user or by a command
-	Invoked = 1,
+	Invoked          = 1,
 	/// Signature help was triggered by a trigger character
 	TriggerCharacter = 2,
 }
@@ -855,7 +865,7 @@ pub enum CodeActionTriggerKind {
 	/// also be triggered when file content changes
 	Automatic = 2,
 	/// Code actions were explicitly requested by the user or by an extension
-	Invoked = 1,
+	Invoked   = 1,
 }
 
 /// A pattern kind describing if a glob pattern matches a file a folder or both
@@ -889,7 +899,7 @@ pub enum FileOperationPatternKind {
 #[repr(u32)]
 pub enum NotebookCellKind {
 	/// A code-cell is source code
-	Code = 2,
+	Code   = 2,
 	/// A markup-cell is formatted source that is used for display
 	Markup = 1,
 }
@@ -924,7 +934,8 @@ pub enum FailureHandlingKind {
 	/// All operations are executed transactional. That means they either all succeed or
 	/// no changes at all are applied to the workspace.
 	Transactional,
-	/// The client tries to undo the operations already executed. But there is no guarantee that this is succeeding.
+	/// The client tries to undo the operations already executed. But there is no guarantee that
+	/// this is succeeding.
 	Undo,
 }
 
@@ -941,7 +952,8 @@ pub enum FailureHandlingKind {
 )]
 #[repr(u32)]
 pub enum PrepareSupportDefaultBehavior {
-	/// The client's default behavior is to select the identifier according the to language's syntax rule.
+	/// The client's default behavior is to select the identifier according the to language's syntax
+	/// rule.
 	Identifier = 1,
 }
 
@@ -961,7 +973,7 @@ pub type Uri = fluent_uri::Uri<String>;
 )]
 #[serde(rename_all = "camelCase")]
 pub struct Location {
-	pub(crate) uri: Uri,
+	pub(crate) uri:   Uri,
 	pub(crate) range: Range,
 }
 
@@ -971,7 +983,7 @@ pub struct Location {
 )]
 #[serde(rename_all = "camelCase")]
 pub struct WorkspaceFolder {
-	pub(crate) uri: Uri,
+	pub(crate) uri:  Uri,
 	pub(crate) name: String,
 }
 
@@ -987,9 +999,9 @@ pub struct ColorInformation {
 #[derive(Clone, Debug, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Color {
-	pub(crate) red: f32,
+	pub(crate) red:   f32,
 	pub(crate) green: f32,
-	pub(crate) blue: f32,
+	pub(crate) blue:  f32,
 	pub(crate) alpha: f32,
 }
 
@@ -998,9 +1010,9 @@ pub struct Color {
 )]
 #[serde(rename_all = "camelCase")]
 pub struct ColorPresentation {
-	pub(crate) label: String,
+	pub(crate) label:                 String,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) text_edit: Option<TextEdit>,
+	pub(crate) text_edit:             Option<TextEdit>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) additional_text_edits: Option<Vec<TextEdit>>,
 }
@@ -1021,8 +1033,9 @@ pub enum DocumentFilter {
 ///
 /// Example:
 ///
-/// ```let sel:DocumentSelector = [{ language: 'typescript' }, { language: 'json', pattern: '**∕tsconfig.json' }]```
-///
+/// ```let sel:DocumentSelector = [{ language: 'typescript' }, { language: 'json', pattern:
+/// '**∕tsconfig.json' }]```
+/// 
 /// The use of a string as a document filter is deprecated
 ///
 /// since: 3.16.0
@@ -1039,16 +1052,16 @@ pub type DocumentSelector = DocumentFilter;
 )]
 #[serde(rename_all = "camelCase")]
 pub struct FoldingRange {
-	pub(crate) start_line: u32,
+	pub(crate) start_line:      u32,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) start_character: Option<u32>,
-	pub(crate) end_line: u32,
+	pub(crate) end_line:        u32,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) end_character: Option<u32>,
+	pub(crate) end_character:   Option<u32>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) kind: Option<FoldingRangeKind>,
+	pub(crate) kind:            Option<FoldingRangeKind>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) collapsed_text: Option<String>,
+	pub(crate) collapsed_text:  Option<String>,
 }
 
 /// A selection range represents a part of a selection hierarchy.
@@ -1059,7 +1072,7 @@ pub struct FoldingRange {
 )]
 #[serde(rename_all = "camelCase")]
 pub struct SelectionRange {
-	pub(crate) range: Range,
+	pub(crate) range:  Range,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) parent: Option<Box<SelectionRange>>,
 }
@@ -1085,23 +1098,24 @@ impl From<String> for ProgressToken {
 	}
 }
 
-/// Represents programming constructs like functions or constructors in the context of call hierarchy.
+/// Represents programming constructs like functions or constructors in the context of call
+/// hierarchy.
 ///
 /// since: 3.16.0
 #[derive(Clone, Debug, PartialEq, serde::Deserialize, serde::Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct CallHierarchyItem {
-	pub(crate) name: String,
-	pub(crate) kind: SymbolKind,
+	pub(crate) name:            String,
+	pub(crate) kind:            SymbolKind,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) tags: Option<Vec<SymbolTag>>,
+	pub(crate) tags:            Option<Vec<SymbolTag>>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) detail: Option<String>,
-	pub(crate) uri: Uri,
-	pub(crate) range: Range,
+	pub(crate) detail:          Option<String>,
+	pub(crate) uri:             Uri,
+	pub(crate) range:           Range,
 	pub(crate) selection_range: Range,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) data: Option<serde_json::Value>,
+	pub(crate) data:            Option<serde_json::Value>,
 }
 
 /// Represents an incoming call, e.g. a caller of a method or constructor.
@@ -1110,17 +1124,18 @@ pub struct CallHierarchyItem {
 #[derive(Clone, Debug, PartialEq, serde::Deserialize, serde::Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct CallHierarchyIncomingCall {
-	pub(crate) from: CallHierarchyItem,
+	pub(crate) from:        CallHierarchyItem,
 	pub(crate) from_ranges: Vec<Range>,
 }
 
-/// Represents an outgoing call, e.g. calling a getter from a method or a method from a constructor etc.
+/// Represents an outgoing call, e.g. calling a getter from a method or a method from a constructor
+/// etc.
 ///
 /// since: 3.16.0
 #[derive(Clone, Debug, PartialEq, serde::Deserialize, serde::Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct CallHierarchyOutgoingCall {
-	pub(crate) to: CallHierarchyItem,
+	pub(crate) to:        CallHierarchyItem,
 	pub(crate) to_ranges: Vec<Range>,
 }
 
@@ -1143,7 +1158,7 @@ pub struct ShowDocumentResult {
 )]
 #[serde(rename_all = "camelCase")]
 pub struct LinkedEditingRanges {
-	pub(crate) ranges: Vec<Range>,
+	pub(crate) ranges:       Vec<Range>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) word_pattern: Option<String>,
 }
@@ -1165,10 +1180,10 @@ pub enum DocumentChange {
 )]
 #[serde(rename_all = "camelCase")]
 pub struct CreateFile {
-	pub(crate) kind: String,
-	pub(crate) uri: Uri,
+	pub(crate) kind:               String,
+	pub(crate) uri:                Uri,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) options: Option<CreateFileOptions>,
+	pub(crate) options:            Option<CreateFileOptions>,
 	#[serde(flatten)]
 	pub(crate) resource_operation: ResourceOperation,
 }
@@ -1179,11 +1194,11 @@ pub struct CreateFile {
 )]
 #[serde(rename_all = "camelCase")]
 pub struct RenameFile {
-	pub(crate) kind: String,
-	pub(crate) old_uri: Uri,
-	pub(crate) new_uri: Uri,
+	pub(crate) kind:               String,
+	pub(crate) old_uri:            Uri,
+	pub(crate) new_uri:            Uri,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) options: Option<RenameFileOptions>,
+	pub(crate) options:            Option<RenameFileOptions>,
 	#[serde(flatten)]
 	pub(crate) resource_operation: ResourceOperation,
 }
@@ -1194,10 +1209,10 @@ pub struct RenameFile {
 )]
 #[serde(rename_all = "camelCase")]
 pub struct DeleteFile {
-	pub(crate) kind: String,
-	pub(crate) uri: Uri,
+	pub(crate) kind:               String,
+	pub(crate) uri:                Uri,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) options: Option<DeleteFileOptions>,
+	pub(crate) options:            Option<DeleteFileOptions>,
 	#[serde(flatten)]
 	pub(crate) resource_operation: ResourceOperation,
 }
@@ -1209,26 +1224,27 @@ pub type ChangeAnnotationIdentifier = String;
 ///
 /// The edit should either provide `changes` or `documentChanges`.
 ///
-/// If documentChanges are present they are preferred over `changes` if the client can handle versioned
-/// document edits.
+/// If documentChanges are present they are preferred over `changes` if the client can handle
+/// versioned document edits.
 ///
 /// Since version 3.13.0 a workspace edit can contain resource operations as well.
 ///
-/// If resource operations are present clients need to execute the operations in the order in which they
-/// are provided. So a workspace edit for example can consist of the following two changes:
+/// If resource operations are present clients need to execute the operations in the order in which
+/// they are provided. So a workspace edit for example can consist of the following two changes:
 /// (1) a create file a.txt and (2) a text document edit which insert text into file a.txt.
 ///
-/// An invalid sequence (e.g. (1) delete file a.txt and (2) insert text into file a.txt) will cause failure
-/// of the operation.
+/// An invalid sequence (e.g. (1) delete file a.txt and (2) insert text into file a.txt) will cause
+/// failure of the operation.
 ///
-/// How the client recovers from the failure is described by the client capability: `workspace.workspaceEdit.failureHandling`
+/// How the client recovers from the failure is described by the client capability:
+/// `workspace.workspaceEdit.failureHandling`
 #[derive(Clone, Debug, Default, PartialEq, serde::Deserialize, serde::Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct WorkspaceEdit {
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) changes: Option<HashMap<Uri, Vec<TextEdit>>>,
+	pub(crate) changes:            Option<HashMap<Uri, Vec<TextEdit>>>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) document_changes: Option<Vec<DocumentChange>>,
+	pub(crate) document_changes:   Option<Vec<DocumentChange>>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) change_annotations: Option<HashMap<ChangeAnnotationIdentifier, ChangeAnnotation>>,
 }
@@ -1241,28 +1257,28 @@ pub struct WorkspaceEdit {
 )]
 #[serde(rename_all = "camelCase")]
 pub struct Moniker {
-	pub(crate) scheme: String,
+	pub(crate) scheme:     String,
 	pub(crate) identifier: String,
-	pub(crate) unique: UniquenessLevel,
+	pub(crate) unique:     UniquenessLevel,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) kind: Option<MonikerKind>,
+	pub(crate) kind:       Option<MonikerKind>,
 }
 
 /// since: 3.17.0
 #[derive(Clone, Debug, PartialEq, serde::Deserialize, serde::Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct TypeHierarchyItem {
-	pub(crate) name: String,
-	pub(crate) kind: SymbolKind,
+	pub(crate) name:            String,
+	pub(crate) kind:            SymbolKind,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) tags: Option<Vec<SymbolTag>>,
+	pub(crate) tags:            Option<Vec<SymbolTag>>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) detail: Option<String>,
-	pub(crate) uri: Uri,
-	pub(crate) range: Range,
+	pub(crate) detail:          Option<String>,
+	pub(crate) uri:             Uri,
+	pub(crate) range:           Range,
 	pub(crate) selection_range: Range,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) data: Option<serde_json::Value>,
+	pub(crate) data:            Option<serde_json::Value>,
 }
 
 #[derive(Clone, Debug, PartialEq, serde::Deserialize, serde::Serialize)]
@@ -1287,20 +1303,20 @@ pub enum MarkupOrString {
 #[derive(Clone, Debug, PartialEq, serde::Deserialize, serde::Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct InlayHint {
-	pub(crate) position: Position,
-	pub(crate) label: InlayHintLabel,
+	pub(crate) position:      Position,
+	pub(crate) label:         InlayHintLabel,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) kind: Option<InlayHintKind>,
+	pub(crate) kind:          Option<InlayHintKind>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) text_edits: Option<Vec<TextEdit>>,
+	pub(crate) text_edits:    Option<Vec<TextEdit>>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) tooltip: Option<MarkupOrString>,
+	pub(crate) tooltip:       Option<MarkupOrString>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) padding_left: Option<bool>,
+	pub(crate) padding_left:  Option<bool>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) padding_right: Option<bool>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) data: Option<serde_json::Value>,
+	pub(crate) data:          Option<serde_json::Value>,
 }
 
 #[derive(Clone, Debug, PartialEq, serde::Deserialize, serde::Serialize)]
@@ -1366,7 +1382,8 @@ pub enum InsertText {
 	StringValue(StringValue),
 }
 
-/// An inline completion item represents a text snippet that is proposed inline to complete text that is being typed.
+/// An inline completion item represents a text snippet that is proposed inline to complete text
+/// that is being typed.
 ///
 /// since: 3.18.0
 #[derive(Clone, Debug, PartialEq, serde::Deserialize, serde::Serialize)]
@@ -1381,10 +1398,10 @@ pub struct InlineCompletionItem {
 	pub(crate) filter_text: Option<String>,
 	/// The range to replace. Must begin and end on the same line.
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) range: Option<Range>,
+	pub(crate) range:       Option<Range>,
 	/// An optional [`Command`] that is executed *after* inserting this completion.
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) command: Option<Command>,
+	pub(crate) command:     Option<Command>,
 }
 
 /// The result returned from an initialize request.
@@ -1393,7 +1410,7 @@ pub struct InlineCompletionItem {
 pub struct InitializeResult {
 	pub(crate) capabilities: ServerCapabilities,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) server_info: Option<ServerInfo>,
+	pub(crate) server_info:  Option<ServerInfo>,
 }
 
 /// Information about the server.
@@ -1404,7 +1421,7 @@ pub struct InitializeResult {
 )]
 #[serde(rename_all = "camelCase")]
 pub struct ServerInfo {
-	pub(crate) name: String,
+	pub(crate) name:    String,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) version: Option<String>,
 }
@@ -1432,66 +1449,67 @@ pub struct MessageActionItem {
 )]
 #[serde(rename_all = "camelCase")]
 pub struct TextEdit {
-	pub(crate) range: Range,
+	pub(crate) range:    Range,
 	pub(crate) new_text: String,
 }
 
-/// A completion item represents a text snippet that is proposed to complete text that is being typed.
+/// A completion item represents a text snippet that is proposed to complete text that is being
+/// typed.
 #[derive(Clone, Debug, PartialEq, serde::Deserialize, serde::Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct CompletionItem {
-	pub(crate) label: String,
+	pub(crate) label:                 String,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) label_details: Option<CompletionItemLabelDetails>,
+	pub(crate) label_details:         Option<CompletionItemLabelDetails>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) kind: Option<CompletionItemKind>,
+	pub(crate) kind:                  Option<CompletionItemKind>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) tags: Option<Vec<CompletionItemTag>>,
+	pub(crate) tags:                  Option<Vec<CompletionItemTag>>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) detail: Option<String>,
+	pub(crate) detail:                Option<String>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) documentation: Option<MarkupOrString>,
+	pub(crate) documentation:         Option<MarkupOrString>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) deprecated: Option<bool>,
+	pub(crate) deprecated:            Option<bool>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) preselect: Option<bool>,
+	pub(crate) preselect:             Option<bool>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) sort_text: Option<String>,
+	pub(crate) sort_text:             Option<String>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) filter_text: Option<String>,
+	pub(crate) filter_text:           Option<String>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) insert_text: Option<String>,
+	pub(crate) insert_text:           Option<String>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) insert_text_format: Option<InsertTextFormat>,
+	pub(crate) insert_text_format:    Option<InsertTextFormat>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) insert_text_mode: Option<InsertTextMode>,
+	pub(crate) insert_text_mode:      Option<InsertTextMode>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) text_edit: Option<TextEdit>, // XXX(aki), or InsertReplaceEdit
+	pub(crate) text_edit:             Option<TextEdit>, // XXX(aki), or InsertReplaceEdit
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) text_edit_text: Option<String>,
+	pub(crate) text_edit_text:        Option<String>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) additional_text_edits: Option<Vec<TextEdit>>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) commit_characters: Option<Vec<String>>,
+	pub(crate) commit_characters:     Option<Vec<String>>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) command: Option<Command>,
+	pub(crate) command:               Option<Command>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) data: Option<serde_json::Value>,
+	pub(crate) data:                  Option<serde_json::Value>,
 }
 
 #[derive(Clone, Debug, Default, PartialEq, serde::Deserialize, serde::Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct ItemDefaults {
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub commit_characters: Option<Vec<String>>,
+	pub commit_characters:  Option<Vec<String>>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub edit_range: Option<Range>, // XXX(aki) Or Position
+	pub edit_range:         Option<Range>, // XXX(aki) Or Position
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub insert_text_format: Option<InsertTextFormat>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub insert_text_mode: Option<InsertTextMode>,
+	pub insert_text_mode:   Option<InsertTextMode>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub data: Option<serde_json::Value>,
+	pub data:               Option<serde_json::Value>,
 }
 
 /// Represents a collection of [`CompletionItem`]s completion to be presented in the editor.
@@ -1501,7 +1519,7 @@ pub struct CompletionList {
 	pub(crate) is_incomplete: bool,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) item_defaults: Option<ItemDefaults>,
-	pub(crate) items: Vec<CompletionItem>,
+	pub(crate) items:         Vec<CompletionItem>,
 }
 
 #[derive(
@@ -1522,7 +1540,7 @@ pub enum HoverContents {
 pub struct Hover {
 	pub(crate) contents: HoverContents,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) range: Option<Range>,
+	pub(crate) range:    Option<Range>,
 }
 
 /// Signature help represents the signature of something callable.
@@ -1533,7 +1551,7 @@ pub struct Hover {
 )]
 #[serde(rename_all = "camelCase")]
 pub struct SignatureHelp {
-	pub(crate) signatures: Vec<SignatureInformation>,
+	pub(crate) signatures:       Vec<SignatureInformation>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) active_signature: Option<u32>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
@@ -1550,30 +1568,31 @@ pub struct SignatureHelp {
 pub struct DocumentHighlight {
 	pub(crate) range: Range,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) kind: Option<DocumentHighlightKind>,
+	pub(crate) kind:  Option<DocumentHighlightKind>,
 }
 
-/// Represents programming constructs like variables, classes, interfaces etc. that appear in a document.
+/// Represents programming constructs like variables, classes, interfaces etc. that appear in a
+/// document.
 ///
-/// Document symbols can be hierarchical and they have two ranges: one that encloses its definition and one that
-/// points to its most interesting range, e.g. the range of an identifier.
+/// Document symbols can be hierarchical and they have two ranges: one that encloses its definition
+/// and one that points to its most interesting range, e.g. the range of an identifier.
 #[derive(
 	Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize,
 )]
 #[serde(rename_all = "camelCase")]
 pub struct DocumentSymbol {
-	pub(crate) name: String,
+	pub(crate) name:            String,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) detail: Option<String>,
-	pub(crate) kind: SymbolKind,
+	pub(crate) detail:          Option<String>,
+	pub(crate) kind:            SymbolKind,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) tags: Option<Vec<SymbolTag>>,
+	pub(crate) tags:            Option<Vec<SymbolTag>>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) deprecated: Option<bool>,
-	pub(crate) range: Range,
+	pub(crate) deprecated:      Option<bool>,
+	pub(crate) range:           Range,
 	pub(crate) selection_range: Range,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) children: Option<Vec<DocumentSymbol>>,
+	pub(crate) children:        Option<Vec<DocumentSymbol>>,
 }
 
 /// Represents a reference to a command.
@@ -1584,8 +1603,8 @@ pub struct DocumentSymbol {
 #[derive(Clone, Debug, PartialEq, serde::Deserialize, serde::Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Command {
-	pub(crate) title: String,
-	pub(crate) command: String,
+	pub(crate) title:     String,
+	pub(crate) command:   String,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) arguments: Option<Vec<serde_json::Value>>,
 }
@@ -1601,30 +1620,30 @@ pub struct DisabledReason {
 /// A code action represents a change that can be performed in code, e.g. to fix a problem or to
 /// refactor code.
 ///
-/// A CodeAction must set either `edit` and/or a `command`. If both are supplied, the `edit` is applied first,
-/// then the `command` is executed.
+/// A CodeAction must set either `edit` and/or a `command`. If both are supplied, the `edit` is
+/// applied first, then the `command` is executed.
 #[derive(Clone, Debug, PartialEq, serde::Deserialize, serde::Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct CodeAction {
-	pub(crate) title: String,
+	pub(crate) title:        String,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) kind: Option<CodeActionKind>,
+	pub(crate) kind:         Option<CodeActionKind>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) diagnostics: Option<Vec<Diagnostic>>,
+	pub(crate) diagnostics:  Option<Vec<Diagnostic>>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) is_preferred: Option<bool>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) disabled: Option<DisabledReason>,
+	pub(crate) disabled:     Option<DisabledReason>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) edit: Option<WorkspaceEdit>,
+	pub(crate) edit:         Option<WorkspaceEdit>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) command: Option<Command>,
+	pub(crate) command:      Option<Command>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) data: Option<serde_json::Value>,
+	pub(crate) data:         Option<serde_json::Value>,
 }
 
-/// A code lens represents a [`Command`] that should be shown along with source text, like the number
-/// of references, a way to run tests, etc.
+/// A code lens represents a [`Command`] that should be shown along with source text, like the
+/// number of references, a way to run tests, etc.
 ///
 /// A code lens is _unresolved_ when no command is associated to it.
 ///
@@ -1632,11 +1651,11 @@ pub struct CodeAction {
 #[derive(Clone, Debug, PartialEq, serde::Deserialize, serde::Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct CodeLens {
-	pub(crate) range: Range,
+	pub(crate) range:   Range,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) command: Option<Command>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) data: Option<serde_json::Value>,
+	pub(crate) data:    Option<serde_json::Value>,
 }
 
 /// A document link is a range in a text document that links to an internal or external resource,
@@ -1644,13 +1663,13 @@ pub struct CodeLens {
 #[derive(Clone, Debug, PartialEq, serde::Deserialize, serde::Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct DocumentLink {
-	pub(crate) range: Range,
+	pub(crate) range:   Range,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) target: Option<Uri>,
+	pub(crate) target:  Option<Uri>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) tooltip: Option<String>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) data: Option<serde_json::Value>,
+	pub(crate) data:    Option<serde_json::Value>,
 }
 
 /// The result returned from the apply workspace edit request.
@@ -1661,11 +1680,11 @@ pub struct DocumentLink {
 )]
 #[serde(rename_all = "camelCase")]
 pub struct ApplyWorkspaceEditResult {
-	pub(crate) applied: bool,
+	pub(crate) applied:        bool,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) failure_reason: Option<String>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) failed_change: Option<u32>,
+	pub(crate) failed_change:  Option<u32>,
 }
 
 #[derive(
@@ -1673,14 +1692,14 @@ pub struct ApplyWorkspaceEditResult {
 )]
 #[serde(rename_all = "camelCase")]
 pub struct WorkDoneProgressBegin {
-	pub(crate) kind: String,
-	pub(crate) title: String,
+	pub(crate) kind:        String,
+	pub(crate) title:       String,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) cancellable: Option<bool>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) message: Option<String>,
+	pub(crate) message:     Option<String>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) percentage: Option<u32>,
+	pub(crate) percentage:  Option<u32>,
 }
 
 #[derive(
@@ -1688,13 +1707,13 @@ pub struct WorkDoneProgressBegin {
 )]
 #[serde(rename_all = "camelCase")]
 pub struct WorkDoneProgressReport {
-	pub(crate) kind: String,
+	pub(crate) kind:        String,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) cancellable: Option<bool>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) message: Option<String>,
+	pub(crate) message:     Option<String>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) percentage: Option<u32>,
+	pub(crate) percentage:  Option<u32>,
 }
 
 #[derive(
@@ -1702,7 +1721,7 @@ pub struct WorkDoneProgressReport {
 )]
 #[serde(rename_all = "camelCase")]
 pub struct WorkDoneProgressEnd {
-	pub(crate) kind: String,
+	pub(crate) kind:    String,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) message: Option<String>,
 }
@@ -1713,7 +1732,7 @@ pub struct WorkDoneProgressEnd {
 )]
 #[serde(rename_all = "camelCase")]
 pub struct WorkspaceFoldersChangeEvent {
-	pub(crate) added: Vec<WorkspaceFolder>,
+	pub(crate) added:   Vec<WorkspaceFolder>,
 	pub(crate) removed: Vec<WorkspaceFolder>,
 }
 
@@ -1734,7 +1753,7 @@ pub struct ConfigurationItem {
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) scope_uri: Option<Uri>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) section: Option<String>,
+	pub(crate) section:   Option<String>,
 }
 
 /// A literal to identify a text document in the client.
@@ -1746,16 +1765,20 @@ pub struct TextDocumentIdentifier {
 	pub(crate) uri: Uri,
 }
 
-/// A document filter denotes a document by different properties like the [`TextDocument::language_id`],
-/// the Uri.scheme of its resource, or a glob-pattern that is applied to the [`TextDocument::file_name`]
+/// A document filter denotes a document by different properties like the
+/// [`TextDocument::language_id`], the Uri.scheme of its resource, or a glob-pattern that is applied
+/// to the [`TextDocument::file_name`]
 ///
 /// Glob patterns can have the following syntax:
 /// - `*` to match zero or more characters in a path segment
 /// - `?` to match on one character in a path segment
 /// - `**` to match any number of path segments, including none
-/// - `{}` to group sub patterns into an OR expression. (e.g. `**​/*.{ts,js}` matches all TypeScript and JavaScript files)
-/// - `[]` to declare a range of characters to match in a path segment (e.g., `example.[0-9]` to match on `example.0`, `example.1`, …)
-/// - `[!...]` to negate a range of characters to match in a path segment (e.g., `example.[!0-9]` to match on `example.a`, `example.b`, but not `example.0`)
+/// - `{}` to group sub patterns into an OR expression. (e.g. `**​/*.{ts,js}` matches all TypeScript
+///   and JavaScript files)
+/// - `[]` to declare a range of characters to match in a path segment (e.g., `example.[0-9]` to
+///   match on `example.0`, `example.1`, …)
+/// - `[!...]` to negate a range of characters to match in a path segment (e.g., `example.[!0-9]` to
+///   match on `example.a`, `example.b`, but not `example.0`)
 ///
 /// Examples:
 /// A language filter that applies to typescript files on disk:
@@ -1785,9 +1808,9 @@ pub struct TextDocumentFilter {
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) language: Option<String>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) scheme: Option<String>,
+	pub(crate) scheme:   Option<String>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) pattern: Option<String>,
+	pub(crate) pattern:  Option<String>,
 }
 
 /// A notebook document filter denotes a notebook document by different properties.
@@ -1814,9 +1837,9 @@ pub struct NotebookDocumentFilter {
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) notebook_type: Option<String>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) scheme: Option<String>,
+	pub(crate) scheme:        Option<String>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) pattern: Option<String>,
+	pub(crate) pattern:       Option<String>,
 }
 
 /// Represents information on a file/folder create.
@@ -1849,7 +1872,7 @@ pub enum TextEditType {
 pub struct AnnotatedTextEdit {
 	pub(crate) annotation_id: ChangeAnnotationIdentifier,
 	#[serde(flatten)]
-	pub(crate) text_edit: TextEdit,
+	pub(crate) text_edit:     TextEdit,
 }
 
 /// Describes textual changes on a text document.
@@ -1865,7 +1888,7 @@ pub struct AnnotatedTextEdit {
 #[serde(rename_all = "camelCase")]
 pub struct TextDocumentEdit {
 	pub(crate) text_document: OptionalVersionedTextDocumentIdentifier,
-	pub(crate) edits: TextEditType,
+	pub(crate) edits:         TextEditType,
 }
 
 /// A text document identifier to optionally denote a specific version of a text document.
@@ -1875,7 +1898,7 @@ pub struct TextDocumentEdit {
 #[serde(rename_all = "camelCase")]
 pub struct OptionalVersionedTextDocumentIdentifier {
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) version: Option<i32>,
+	pub(crate) version:                  Option<i32>,
 	#[serde(flatten)]
 	pub(crate) text_document_identifier: TextDocumentIdentifier,
 }
@@ -1888,11 +1911,11 @@ pub struct OptionalVersionedTextDocumentIdentifier {
 )]
 #[serde(rename_all = "camelCase")]
 pub struct ChangeAnnotation {
-	pub(crate) label: String,
+	pub(crate) label:              String,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) needs_confirmation: Option<bool>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) description: Option<String>,
+	pub(crate) description:        Option<String>,
 }
 
 /// A filter to describe in which file operation requests or notifications
@@ -1905,7 +1928,7 @@ pub struct ChangeAnnotation {
 #[serde(rename_all = "camelCase")]
 pub struct FileOperationFilter {
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) scheme: Option<String>,
+	pub(crate) scheme:  Option<String>,
 	pub(crate) pattern: FileOperationPattern,
 }
 
@@ -1938,7 +1961,7 @@ pub struct FileDelete {
 )]
 #[serde(rename_all = "camelCase")]
 pub struct InlineValueContext {
-	pub(crate) frame_id: i32,
+	pub(crate) frame_id:         i32,
 	pub(crate) stopped_location: Range,
 }
 
@@ -1951,7 +1974,7 @@ pub struct InlineValueContext {
 #[serde(rename_all = "camelCase")]
 pub struct InlineValueText {
 	pub(crate) range: Range,
-	pub(crate) text: String,
+	pub(crate) text:  String,
 }
 
 #[derive(
@@ -1963,7 +1986,8 @@ pub enum FolderOrUri {
 	Uri(Uri),
 }
 
-/// A relative pattern is a helper to construct glob patterns that are matched relatively to a base URI.
+/// A relative pattern is a helper to construct glob patterns that are matched relatively to a base
+/// URI.
 ///
 /// The common value for a `base_uri` is a workspace folder root,
 /// but it can be another absolute URI as well.
@@ -1975,7 +1999,7 @@ pub enum FolderOrUri {
 #[serde(rename_all = "camelCase")]
 pub struct RelativePattern {
 	pub(crate) base_uri: FolderOrUri,
-	pub(crate) pattern: Pattern,
+	pub(crate) pattern:  Pattern,
 }
 
 /// An event describing a change to a text document.
@@ -1987,10 +2011,10 @@ pub struct RelativePattern {
 #[serde(rename_all = "camelCase")]
 pub struct TextDocumentContentChangeEvent {
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) range: Option<Range>,
+	pub(crate) range:        Option<Range>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) range_length: Option<u32>,
-	pub(crate) text: String,
+	pub(crate) text:         String,
 }
 
 /// A workspace diagnostic document report.
@@ -2056,8 +2080,8 @@ pub enum InlineValue {
 pub struct LocationLink {
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) origin_selection_range: Option<Range>,
-	pub(crate) target_uri: Uri,
-	pub(crate) target_range: Range,
+	pub(crate) target_uri:             Uri,
+	pub(crate) target_range:           Range,
 	pub(crate) target_selection_range: Range,
 }
 
@@ -2067,13 +2091,13 @@ pub struct LocationLink {
 #[derive(Clone, Debug, PartialEq, serde::Deserialize, serde::Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct InlayHintLabelPart {
-	pub(crate) value: String,
+	pub(crate) value:    String,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) tooltip: Option<MarkupOrString>,
+	pub(crate) tooltip:  Option<MarkupOrString>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) location: Option<Location>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) command: Option<Command>,
+	pub(crate) command:  Option<Command>,
 }
 
 /// A [`MarkupContent`] literal represents a string value which content is interpreted base on its
@@ -2091,7 +2115,7 @@ pub struct InlayHintLabelPart {
 )]
 #[serde(rename_all = "camelCase")]
 pub struct MarkupContent {
-	pub(crate) kind: MarkupKind,
+	pub(crate) kind:  MarkupKind,
 	pub(crate) value: String,
 }
 
@@ -2107,9 +2131,9 @@ pub struct MarkupContent {
 )]
 #[serde(rename_all = "camelCase")]
 pub struct InlineValueVariableLookup {
-	pub(crate) range: Range,
+	pub(crate) range:                 Range,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) variable_name: Option<String>,
+	pub(crate) variable_name:         Option<String>,
 	pub(crate) case_sensitive_lookup: bool,
 }
 
@@ -2124,7 +2148,7 @@ pub struct InlineValueVariableLookup {
 )]
 #[serde(rename_all = "camelCase")]
 pub struct InlineValueEvaluatableExpression {
-	pub(crate) range: Range,
+	pub(crate) range:      Range,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) expression: Option<String>,
 }
@@ -2136,7 +2160,7 @@ pub struct InlineValueEvaluatableExpression {
 pub struct ExecutionSummary {
 	pub(crate) execution_order: u32,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) success: Option<bool>,
+	pub(crate) success:         Option<bool>,
 }
 
 /// A notebook cell text document filter denotes a cell text document by different properties.
@@ -2231,7 +2255,7 @@ pub enum LanguageId {
 #[serde(rename_all = "camelCase")]
 pub struct DiagnosticRelatedInformation {
 	pub(crate) location: Location,
-	pub(crate) message: String,
+	pub(crate) message:  String,
 }
 
 /// Structure to capture a description for an error code.
@@ -2254,7 +2278,7 @@ pub struct CodeDescription {
 #[serde(rename_all = "camelCase")]
 pub struct SelectionCompletionInfo {
 	pub(crate) range: Range,
-	pub(crate) text: String,
+	pub(crate) text:  String,
 }
 
 /// A change describing how to move a [`NotebookCell`] array from state S to S'.
@@ -2263,29 +2287,31 @@ pub struct SelectionCompletionInfo {
 #[derive(Clone, Debug, PartialEq, serde::Deserialize, serde::Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct NotebookCellArrayChange {
-	pub(crate) start: u32,
+	pub(crate) start:        u32,
 	pub(crate) delete_count: u32,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) cells: Option<Vec<NotebookCell>>,
+	pub(crate) cells:        Option<Vec<NotebookCell>>,
 }
 
 /// A notebook cell.
 ///
-/// A cell's document URI must be unique across ALL notebook\ncells and can therefore be used to uniquely identify a\nnotebook cell or the cell's text document.
+/// A cell's document URI must be unique across ALL notebook\ncells and can therefore be used to
+/// uniquely identify a\nnotebook cell or the cell's text document.
 ///
 /// since: 3.17.0
 #[derive(Clone, Debug, PartialEq, serde::Deserialize, serde::Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct NotebookCell {
-	pub(crate) kind: NotebookCellKind,
-	pub(crate) document: Uri,
+	pub(crate) kind:              NotebookCellKind,
+	pub(crate) document:          Uri,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) metadata: Option<LspObject>,
+	pub(crate) metadata:          Option<LspObject>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) execution_summary: Option<ExecutionSummary>,
 }
 
-/// A pattern to describe in which file operation requests or notifications the server is interested in receiving.
+/// A pattern to describe in which file operation requests or notifications the server is interested
+/// in receiving.
 ///
 /// since: 3.16.0
 #[derive(
@@ -2293,7 +2319,7 @@ pub struct NotebookCell {
 )]
 #[serde(rename_all = "camelCase")]
 pub struct FileOperationPattern {
-	pub(crate) glob: String,
+	pub(crate) glob:    String,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) matches: Option<FileOperationPatternKind>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
@@ -2306,7 +2332,7 @@ pub struct FileOperationPattern {
 )]
 #[serde(rename_all = "camelCase")]
 pub struct ResourceOperation {
-	pub(crate) kind: String,
+	pub(crate) kind:          String,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) annotation_id: Option<ChangeAnnotationIdentifier>,
 }
@@ -2317,10 +2343,10 @@ pub struct ResourceOperation {
 )]
 #[serde(rename_all = "camelCase")]
 pub struct BaseSymbolInformation {
-	pub(crate) name: String,
-	pub(crate) kind: SymbolKind,
+	pub(crate) name:    String,
+	pub(crate) kind:    SymbolKind,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub tags: Option<Vec<SymbolTag>>,
+	pub tags:           Option<Vec<SymbolTag>>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub container_name: Option<String>,
 }
@@ -2342,10 +2368,10 @@ pub struct ReferenceContext {
 )]
 #[serde(rename_all = "camelCase")]
 pub struct SignatureHelpContext {
-	pub(crate) trigger_kind: SignatureHelpTriggerKind,
+	pub(crate) trigger_kind:          SignatureHelpTriggerKind,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) trigger_character: Option<String>,
-	pub(crate) is_retrigger: bool,
+	pub(crate) trigger_character:     Option<String>,
+	pub(crate) is_retrigger:          bool,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) active_signature_help: Option<SignatureHelp>,
 }
@@ -2359,8 +2385,8 @@ pub struct SignatureHelpContext {
 #[serde(rename_all = "camelCase")]
 pub struct InsertReplaceEdit {
 	pub(crate) new_text: String,
-	pub(crate) insert: Range,
-	pub(crate) replace: Range,
+	pub(crate) insert:   Range,
+	pub(crate) replace:  Range,
 }
 
 /// Additional details for a completion item label.
@@ -2381,7 +2407,7 @@ pub struct InsertReplaceEdit {
 #[serde(rename_all = "camelCase")]
 pub struct CompletionItemLabelDetails {
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) detail: Option<String>,
+	pub(crate) detail:      Option<String>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) description: Option<String>,
 }
@@ -2392,7 +2418,7 @@ pub struct CompletionItemLabelDetails {
 )]
 #[serde(rename_all = "camelCase")]
 pub struct CompletionContext {
-	pub(crate) trigger_kind: CompletionTriggerKind,
+	pub(crate) trigger_kind:      CompletionTriggerKind,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) trigger_character: Option<String>,
 }
@@ -2403,22 +2429,23 @@ pub struct CompletionContext {
 #[derive(Clone, Debug, PartialEq, serde::Deserialize, serde::Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Diagnostic {
-	pub(crate) range: Range,
+	pub(crate) range:               Range,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) severity: Option<DiagnosticSeverity>,
+	pub(crate) severity:            Option<DiagnosticSeverity>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) code: Option<ProgressToken>, // XXX(aki): Not the right type but right elements
+	pub(crate) code:                Option<ProgressToken>, /* XXX(aki): Not the right type but
+	                                                        * right elements */
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) code_description: Option<CodeDescription>,
+	pub(crate) code_description:    Option<CodeDescription>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) source: Option<String>,
-	pub(crate) message: String,
+	pub(crate) source:              Option<String>,
+	pub(crate) message:             String,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) tags: Option<Vec<DiagnosticTag>>,
+	pub(crate) tags:                Option<Vec<DiagnosticTag>>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) related_information: Option<Vec<DiagnosticRelatedInformation>>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) data: Option<LspAny>,
+	pub(crate) data:                Option<LspAny>,
 }
 
 #[derive(
@@ -2428,7 +2455,7 @@ pub struct Diagnostic {
 pub struct FileSystemWatcher {
 	pub(crate) glob_pattern: GlobPattern,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) kind: Option<WatchKind>,
+	pub(crate) kind:         Option<WatchKind>,
 }
 
 /// An event describing a file change.
@@ -2448,7 +2475,7 @@ pub struct FileEvent {
 )]
 #[serde(rename_all = "camelCase")]
 pub struct Unregistration {
-	pub(crate) id: String,
+	pub(crate) id:     String,
 	pub(crate) method: String,
 }
 
@@ -2456,8 +2483,8 @@ pub struct Unregistration {
 #[derive(Clone, Debug, PartialEq, serde::Deserialize, serde::Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Registration {
-	pub(crate) id: String,
-	pub(crate) method: String,
+	pub(crate) id:               String,
+	pub(crate) method:           String,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) register_options: Option<LspAny>,
 }
@@ -2475,7 +2502,7 @@ pub struct Registration {
 )]
 #[serde(rename_all = "camelCase")]
 pub struct StringValue {
-	pub(crate) kind: String,
+	pub(crate) kind:  String,
 	pub(crate) value: String,
 }
 
@@ -2487,7 +2514,7 @@ pub struct StringValue {
 )]
 #[serde(rename_all = "camelCase")]
 pub struct InlineCompletionContext {
-	pub(crate) trigger_kind: InlineCompletionTriggerKind,
+	pub(crate) trigger_kind:             InlineCompletionTriggerKind,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) selected_completion_info: Option<SelectionCompletionInfo>,
 }
@@ -2512,7 +2539,7 @@ pub struct NotebookDocumentIdentifier {
 #[serde(rename_all = "camelCase")]
 pub struct VersionedNotebookDocumentIdentifier {
 	pub(crate) version: i32,
-	pub(crate) uri: Uri,
+	pub(crate) uri:     Uri,
 }
 
 /// A text document identifier to denote a specific version of a text document.
@@ -2521,7 +2548,7 @@ pub struct VersionedNotebookDocumentIdentifier {
 )]
 #[serde(rename_all = "camelCase")]
 pub struct VersionedTextDocumentIdentifier {
-	pub(crate) version: i32,
+	pub(crate) version:                  i32,
 	#[serde(flatten)]
 	pub(crate) text_document_identifier: TextDocumentIdentifier,
 }
@@ -2532,10 +2559,10 @@ pub struct VersionedTextDocumentIdentifier {
 )]
 #[serde(rename_all = "camelCase")]
 pub struct TextDocumentItem {
-	pub(crate) uri: Uri,
+	pub(crate) uri:         Uri,
 	pub(crate) language_id: LanguageId,
-	pub(crate) version: i32,
-	pub(crate) text: String,
+	pub(crate) version:     i32,
+	pub(crate) text:        String,
 }
 
 /// A notebook document.
@@ -2544,12 +2571,12 @@ pub struct TextDocumentItem {
 #[derive(Clone, Debug, PartialEq, serde::Deserialize, serde::Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct NotebookDocument {
-	pub(crate) uri: Uri,
+	pub(crate) uri:           Uri,
 	pub(crate) notebook_type: String,
-	pub(crate) version: i32,
+	pub(crate) version:       i32,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) metadata: Option<LspObject>,
-	pub(crate) cells: Vec<NotebookCell>,
+	pub(crate) metadata:      Option<LspObject>,
+	pub(crate) cells:         Vec<NotebookCell>,
 }
 
 /// A previous result id in a workspace pull request.
@@ -2560,7 +2587,7 @@ pub struct NotebookDocument {
 )]
 #[serde(rename_all = "camelCase")]
 pub struct PreviousResultId {
-	pub(crate) uri: Uri,
+	pub(crate) uri:   Uri,
 	pub(crate) value: String,
 }
 
@@ -2572,7 +2599,7 @@ pub struct PreviousResultId {
 )]
 #[serde(rename_all = "camelCase")]
 pub struct UnchangedDocumentDiagnosticReport {
-	pub(crate) kind: String,
+	pub(crate) kind:      String,
 	pub(crate) result_id: String,
 }
 
@@ -2582,10 +2609,10 @@ pub struct UnchangedDocumentDiagnosticReport {
 #[derive(Clone, Debug, PartialEq, serde::Deserialize, serde::Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct FullDocumentDiagnosticReport {
-	pub(crate) kind: String,
+	pub(crate) kind:      String,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) result_id: Option<String>,
-	pub(crate) items: Vec<Diagnostic>,
+	pub(crate) items:     Vec<Diagnostic>,
 }
 
 /// Represents information about programming constructs like variables, classes interfaces etc.
@@ -2595,8 +2622,8 @@ pub struct FullDocumentDiagnosticReport {
 #[serde(rename_all = "camelCase")]
 pub struct SymbolInformation {
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) deprecated: Option<bool>,
-	pub(crate) location: Location,
+	pub(crate) deprecated:       Option<bool>,
+	pub(crate) location:         Location,
 	#[serde(flatten)]
 	pub(crate) base_symbol_info: BaseSymbolInformation,
 }
@@ -2606,9 +2633,9 @@ pub struct SymbolInformation {
 #[derive(Clone, Debug, PartialEq, serde::Deserialize, serde::Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct CodeActionContext {
-	pub(crate) diagnostics: Vec<Diagnostic>,
+	pub(crate) diagnostics:  Vec<Diagnostic>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) only: Option<Vec<CodeActionKind>>,
+	pub(crate) only:         Option<Vec<CodeActionKind>>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) trigger_kind: Option<CodeActionTriggerKind>,
 }
@@ -2620,7 +2647,7 @@ pub struct CodeActionContext {
 #[serde(rename_all = "camelCase")]
 pub struct RelatedFullDocumentDiagnosticReport {
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) related_documents: Option<HashMap<Uri, DiagnosticReport>>,
+	pub(crate) related_documents:               Option<HashMap<Uri, DiagnosticReport>>,
 	#[serde(flatten)]
 	pub(crate) full_document_diagnostic_report: FullDocumentDiagnosticReport,
 }
@@ -2632,7 +2659,7 @@ pub struct RelatedFullDocumentDiagnosticReport {
 #[serde(rename_all = "camelCase")]
 pub struct RelatedUnchangedDocumentDiagnosticReport {
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) related_documents: Option<HashMap<Uri, DiagnosticReport>>,
+	pub(crate) related_documents:                    Option<HashMap<Uri, DiagnosticReport>>,
 	#[serde(flatten)]
 	pub(crate) unchanged_document_diagnostic_report: UnchangedDocumentDiagnosticReport,
 }
@@ -2671,7 +2698,7 @@ pub struct WorkspaceUnchangedDocumentDiagnosticReport {
 )]
 #[serde(rename_all = "camelCase")]
 pub struct ClientInfo {
-	pub(crate) name: String,
+	pub(crate) name:    String,
 	pub(crate) version: Option<String>,
 }
 
@@ -2692,9 +2719,9 @@ pub enum LocationOrUri {
 #[derive(Clone, Debug, PartialEq, serde::Deserialize, serde::Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct WorkspaceSymbol {
-	pub(crate) location: LocationOrUri,
+	pub(crate) location:                LocationOrUri,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) data: Option<LspAny>,
+	pub(crate) data:                    Option<LspAny>,
 	#[serde(flatten)]
 	pub(crate) base_symbol_information: BaseSymbolInformation,
 }
@@ -2703,9 +2730,9 @@ pub struct WorkspaceSymbol {
 #[derive(Clone, Debug, PartialEq, serde::Deserialize, serde::Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct NotebookCellStructureChange {
-	pub(crate) array: NotebookCellArrayChange,
+	pub(crate) array:     NotebookCellArrayChange,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) did_open: Option<Vec<TextDocumentItem>>,
+	pub(crate) did_open:  Option<Vec<TextDocumentItem>>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) did_close: Option<Vec<TextDocumentIdentifier>>,
 }
@@ -2717,16 +2744,16 @@ pub struct NotebookCellStructureChange {
 #[serde(rename_all = "camelCase")]
 pub struct NotebookCellTextChange {
 	pub(crate) document: VersionedNotebookDocumentIdentifier,
-	pub(crate) changes: Vec<TextDocumentContentChangeEvent>,
+	pub(crate) changes:  Vec<TextDocumentContentChangeEvent>,
 }
 
 #[derive(Clone, Debug, Default, PartialEq, serde::Deserialize, serde::Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct NotebookCellsDiff {
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) structure: Option<NotebookCellStructureChange>,
+	pub(crate) structure:    Option<NotebookCellStructureChange>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) data: Option<Vec<NotebookCell>>,
+	pub(crate) data:         Option<Vec<NotebookCell>>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) text_context: Option<Vec<NotebookCellTextChange>>,
 }
@@ -2740,7 +2767,7 @@ pub struct NotebookDocumentChangeEvent {
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) metadata: Option<LspObject>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) cells: Option<NotebookCellsDiff>,
+	pub(crate) cells:    Option<NotebookCellsDiff>,
 }
 
 #[derive(
@@ -2779,11 +2806,11 @@ pub enum RegistrationOrOptions<T, U> {
 )]
 #[serde(rename_all = "camelCase")]
 pub struct SignatureInformation {
-	pub label: String,
+	pub label:            String,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub documentation: Option<MarkupOrString>,
+	pub documentation:    Option<MarkupOrString>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub parameters: Option<Vec<ParameterInformation>>,
+	pub parameters:       Option<Vec<ParameterInformation>>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub active_parameter: Option<i32>,
 }
@@ -2822,7 +2849,7 @@ pub struct NotebookDocumentSyncOptionsSelector {
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) notebook: Option<NotebookDocumentFilterOrString>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) cells: Option<Vec<NotebookCellLanguage>>,
+	pub(crate) cells:    Option<Vec<NotebookCellLanguage>>,
 }
 
 #[derive(
@@ -2851,7 +2878,7 @@ pub enum StringOrTuple<T> {
 )]
 #[serde(rename_all = "camelCase")]
 pub struct ParameterInformation {
-	pub(crate) label: StringOrTuple<u32>,
+	pub(crate) label:         StringOrTuple<u32>,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) documentation: Option<MarkupOrString>,
 }
@@ -2959,7 +2986,8 @@ impl WorkspaceFolder {
 		&self.uri
 	}
 
-	/// The name of the workspace folder. Used to refer to this workspace folder in the user interface
+	/// The name of the workspace folder. Used to refer to this workspace folder in the user
+	/// interface
 	pub fn name(&self) -> &String {
 		&self.name
 	}
@@ -3035,14 +3063,16 @@ impl ColorPresentation {
 		&self.label
 	}
 
-	/// A [`TextEdit`] which is applied to a document when selecting this presentation for the color.
+	/// A [`TextEdit`] which is applied to a document when selecting this presentation for the
+	/// color.
 	///
 	/// When `falsy` the [`ColorPresentation::label`] is used.
 	pub fn text_edit(&self) -> Option<&TextEdit> {
 		self.text_edit.as_ref()
 	}
 
-	/// An optional array of additional [`TextEdit`]'s that are applied when selecting this color presentation.
+	/// An optional array of additional [`TextEdit`]'s that are applied when selecting this color
+	/// presentation.
 	///
 	/// Edits must not overlap with the main [`ColorPresentation::text_edit`] nor with themselves.
 	pub fn additional_text_edits(&self) -> Option<&Vec<TextEdit>> {
@@ -3214,8 +3244,8 @@ impl CallHierarchyItem {
 		&self.uri
 	}
 
-	/// The range enclosing this symbol not including leading/trailing whitespace but everything else,
-	/// e.g. comments and code.
+	/// The range enclosing this symbol not including leading/trailing whitespace but everything
+	/// else, e.g. comments and code.
 	pub fn range(&self) -> &Range {
 		&self.range
 	}
@@ -3245,7 +3275,8 @@ impl CallHierarchyIncomingCall {
 		&self.from
 	}
 
-	/// The ranges at which the calls appear. This is relative to the caller denoted by [`CallHierarchyIncomingCall::from`]
+	/// The ranges at which the calls appear. This is relative to the caller denoted by
+	/// [`CallHierarchyIncomingCall::from`]
 	pub fn ranges(&self) -> &Vec<Range> {
 		&self.from_ranges
 	}
@@ -3263,7 +3294,8 @@ impl CallHierarchyOutgoingCall {
 
 	/// The range at which this item is called.
 	///
-	/// This is the range relative to the caller, e.g the item passed to [`CallHierarchyItemProvider::provide_call_hierarchy_outgoing_calls`]
+	/// This is the range relative to the caller, e.g the item passed to
+	/// [`CallHierarchyItemProvider::provide_call_hierarchy_outgoing_calls`]
 	/// and not [`CallHierarchyOutgoingCall::to`].
 	pub fn ranges(&self) -> &Vec<Range> {
 		&self.to_ranges
@@ -3293,12 +3325,14 @@ impl LinkedEditingRanges {
 
 	/// A list of ranges that can be edited together.
 	///
-	/// The ranges must have identical length and contain identical text content. The ranges cannot overlap.
+	/// The ranges must have identical length and contain identical text content. The ranges cannot
+	/// overlap.
 	pub fn ranges(&self) -> &Vec<Range> {
 		&self.ranges
 	}
 
-	/// An optional word pattern (regular expression) that describes valid contents for the given ranges.
+	/// An optional word pattern (regular expression) that describes valid contents for the given
+	/// ranges.
 	///
 	/// If no pattern is provided, the client configuration's word pattern will be used.
 	pub fn word_pattern(&self) -> Option<&String> {
@@ -3419,8 +3453,8 @@ impl DeleteFile {
 impl WorkspaceEdit {
 	pub fn new() -> Self {
 		Self {
-			changes: None,
-			document_changes: None,
+			changes:            None,
+			document_changes:   None,
 			change_annotations: None,
 		}
 	}
@@ -3451,24 +3485,28 @@ impl WorkspaceEdit {
 		self.changes.as_ref()
 	}
 
-	/// Depending on the client capability `workspace.workspaceEdit.resourceOperations` document changes
-	/// are either an array of `TextDocumentEdit`s to express changes to n different text documents
-	/// where each text document edit addresses a specific version of a text document.
+	/// Depending on the client capability `workspace.workspaceEdit.resourceOperations` document
+	/// changes are either an array of `TextDocumentEdit`s to express changes to n different text
+	/// documents where each text document edit addresses a specific version of a text document.
 	///
-	/// Or it can contain above [`TextDocumentEdit`]s mixed with create, rename and delete file/folder operations.
+	/// Or it can contain above [`TextDocumentEdit`]s mixed with create, rename and delete
+	/// file/folder operations.
 	///
-	/// Whether a client supports versioned document edits is expressed via `workspace.workspaceEdit.documentChanges` client capability.
+	/// Whether a client supports versioned document edits is expressed via
+	/// `workspace.workspaceEdit.documentChanges` client capability.
 	///
-	/// If a client neither supports `documentChanges` nor `workspace.workspaceEdit.resourceOperations` then
-	/// only plain [`TextEdit`]s using the `changes` property are supported
+	/// If a client neither supports `documentChanges` nor
+	/// `workspace.workspaceEdit.resourceOperations` then only plain [`TextEdit`]s using the
+	/// `changes` property are supported
 	pub fn document_changes(&self) -> Option<&Vec<DocumentChange>> {
 		self.document_changes.as_ref()
 	}
 
-	/// A map of change annotations that can be referenced in [`AnnotatedTextEdit`]s or create, rename and
-	/// delete file/folder operations.
+	/// A map of change annotations that can be referenced in [`AnnotatedTextEdit`]s or create,
+	/// rename and delete file/folder operations.
 	///
-	/// Whether clients honor this property depends on the client capability `workspace.changeAnnotationSupport`.
+	/// Whether clients honor this property depends on the client capability
+	/// `workspace.changeAnnotationSupport`.
 	///
 	/// since: 3.16.0
 	pub fn change_annotations(
@@ -3494,9 +3532,11 @@ impl Moniker {
 	pub fn scheme(&self) -> &String {
 		&self.scheme
 	}
+
 	/// The identifier of the moniker.
 	///
-	/// The value is opaque in LSIF however schema owners are allowed to define the structure if they want.
+	/// The value is opaque in LSIF however schema owners are allowed to define the structure if
+	/// they want.
 	pub fn identifier(&self) -> &String {
 		&self.identifier
 	}
@@ -3572,7 +3612,8 @@ impl TypeHierarchyItem {
 		&self.uri
 	}
 
-	/// The range enclosing this symbol not including leading/trailing whitespace but everything else,
+	/// The range enclosing this symbol not including leading/trailing whitespace but everything
+	/// else,
 	///
 	/// e.g. comments and code.
 	pub fn range(&self) -> &Range {
@@ -3586,11 +3627,11 @@ impl TypeHierarchyItem {
 		&self.selection_range
 	}
 
-	/// A data entry field that is preserved between a type hierarchy prepare and supertypes or subtypes
-	/// requests.
+	/// A data entry field that is preserved between a type hierarchy prepare and supertypes or
+	/// subtypes requests.
 	///
-	/// It could also be used to identify the type hierarchy in the server, helping improve the performance
-	/// on resolving supertypes and subtypes.
+	/// It could also be used to identify the type hierarchy in the server, helping improve the
+	/// performance on resolving supertypes and subtypes.
 	pub fn data(&self) -> Option<&serde_json::Value> {
 		self.data.as_ref()
 	}
@@ -3666,8 +3707,8 @@ impl InlayHint {
 
 	/// Optional text edits that are performed when accepting this inlay hint.
 	///
-	/// *Note* that edits are expected to change the document so that the inlay hint (or its nearest variant)
-	/// is now part of the document and the inlay hint itself is now obsolete.
+	/// *Note* that edits are expected to change the document so that the inlay hint (or its nearest
+	/// variant) is now part of the document and the inlay hint itself is now obsolete.
 	pub fn text_edits(&self) -> Option<&Vec<TextEdit>> {
 		self.text_edits.as_ref()
 	}
@@ -3679,21 +3720,22 @@ impl InlayHint {
 
 	/// Render padding before the hint.
 	///
-	/// Note: Padding should use the editor's background color, not the background color of the hint itself.
-	/// That means padding can be used to visually align/separate an inlay hint.
+	/// Note: Padding should use the editor's background color, not the background color of the hint
+	/// itself. That means padding can be used to visually align/separate an inlay hint.
 	pub fn padding_left(&self) -> Option<&bool> {
 		self.padding_left.as_ref()
 	}
 
 	/// Render padding after the hint.
 	///
-	/// Note: Padding should use the editor's background color, not the background color of the hint itself.
-	/// That means padding can be used\nto visually align/separate an inlay hint.
+	/// Note: Padding should use the editor's background color, not the background color of the hint
+	/// itself. That means padding can be used\nto visually align/separate an inlay hint.
 	pub fn padding_right(&self) -> Option<&bool> {
 		self.padding_right.as_ref()
 	}
 
-	/// A data entry field that is preserved on an inlay hint between a `textDocument/inlayHint` and a `inlayHint/resolve` request.
+	/// A data entry field that is preserved on an inlay hint between a `textDocument/inlayHint` and
+	/// a `inlayHint/resolve` request.
 	pub fn data(&self) -> Option<&serde_json::Value> {
 		self.data.as_ref()
 	}
@@ -4004,9 +4046,11 @@ impl CompletionItem {
 
 	/// The label of this completion item.
 	///
-	/// The label property is also by default the text that is inserted when selecting this completion.
+	/// The label property is also by default the text that is inserted when selecting this
+	/// completion.
 	///
-	/// If label details are provided the label itself should be an unqualified name of the completion item.
+	/// If label details are provided the label itself should be an unqualified name of the
+	/// completion item.
 	pub fn label(&self) -> &String {
 		&self.label
 	}
@@ -4030,7 +4074,8 @@ impl CompletionItem {
 		self.tags.as_ref()
 	}
 
-	/// A human-readable string with additional information about this item, like type or symbol information.
+	/// A human-readable string with additional information about this item, like type or symbol
+	/// information.
 	pub fn detail(&self) -> Option<&String> {
 		self.detail.as_ref()
 	}
@@ -4073,12 +4118,15 @@ impl CompletionItem {
 	///
 	/// When `falsy` the [`CompletionItem::label`] is used.
 	///
-	/// The `inser_text` is subject to interpretation by the client side. Some tools might not take the string literally.
+	/// The `inser_text` is subject to interpretation by the client side. Some tools might not take
+	/// the string literally.
 	///
-	/// For example VS Code when code complete is requested in this example `con<cursor position>` and a completion
-	/// item with an `insert_text` of `console` is provided it will only insert `sole`.
+	/// For example VS Code when code complete is requested in this example `con<cursor position>`
+	/// and a completion item with an `insert_text` of `console` is provided it will only insert
+	/// `sole`.
 	///
-	/// Therefore it is recommended to use `text_edit` instead since it avoids additional client side interpretation.
+	/// Therefore it is recommended to use `text_edit` instead since it avoids additional client
+	/// side interpretation.
 	pub fn insert_text(&self) -> Option<&String> {
 		self.insert_text.as_ref()
 	}
@@ -4095,8 +4143,8 @@ impl CompletionItem {
 
 	/// How whitespace and indentation is handled during completion item insertion.
 	///
-	/// If not provided the clients default value depends on the `textDocument.completion.insertTextMode`
-	/// client capability.
+	/// If not provided the clients default value depends on the
+	/// `textDocument.completion.insertTextMode` client capability.
 	///
 	/// since: 3.16.0
 	pub fn insert_text_mode(&self) -> Option<&InsertTextMode> {
@@ -4111,13 +4159,14 @@ impl CompletionItem {
 	/// completion text.
 	///
 	/// Since this can usually not be predetermined by a server it can report both ranges.
-	/// Clients need to signal support for `InsertReplaceEdits` via the `textDocument.completion.insertReplaceSupport`
-	/// client capability property.
+	/// Clients need to signal support for `InsertReplaceEdits` via the
+	/// `textDocument.completion.insertReplaceSupport` client capability property.
 	///
-	/// *Note 1:* The text edit's range as well as both ranges from an insert replace edit must be a [single line] and they must contain the position
-	/// at which completion has been requested.
-	/// *Note 2:* If an `InsertReplaceEdit` is returned the edit's insert range must be a prefix of the edit's replace range, that means it must be
-	/// contained and starting at the same position.
+	/// *Note 1:* The text edit's range as well as both ranges from an insert replace edit must be a
+	/// [single line] and they must contain the position at which completion has been requested.
+	/// *Note 2:* If an `InsertReplaceEdit` is returned the edit's insert range must be a prefix of
+	/// the edit's replace range, that means it must be contained and starting at the same
+	/// position.
 	///
 	/// since: 3.16.0 additional type [`InsertReplaceEdit`]
 	pub fn text_edit(&self) -> Option<&TextEdit> {
@@ -4137,9 +4186,9 @@ impl CompletionItem {
 		self.text_edit_text.as_ref()
 	}
 
-	/// An optional array of additional [`TextEdit`] that are applied when selecting this completion.
-	/// Edits must not overlap (including the same insert position) with the main [`CompletionItem::text_edit`]
-	/// nor with themselves.
+	/// An optional array of additional [`TextEdit`] that are applied when selecting this
+	/// completion. Edits must not overlap (including the same insert position) with the main
+	/// [`CompletionItem::text_edit`] nor with themselves.
 	///
 	/// Additional text edits should be used to change text unrelated to the current cursor position
 	/// (for example adding an import statement at the top of the file if the completion item will
@@ -4148,23 +4197,25 @@ impl CompletionItem {
 		self.additional_text_edits.as_ref()
 	}
 
-	/// An optional set of characters that when pressed while this completion is active will accept it first and
-	/// then type that character.
+	/// An optional set of characters that when pressed while this completion is active will accept
+	/// it first and then type that character.
 	///
-	/// *Note* that all commit characters should have `length=1` and that superfluous characters will be ignored
+	/// *Note* that all commit characters should have `length=1` and that superfluous characters
+	/// will be ignored
 	pub fn commit_characters(&self) -> Option<&Vec<String>> {
 		self.commit_characters.as_ref()
 	}
 
 	/// An optional [`Command`] that is executed *after* inserting this completion.
 	///
-	/// *Note* that additional modifications to the current document should be described with the [`CompletionItem::additional_text_edits`]-property
+	/// *Note* that additional modifications to the current document should be described with the
+	/// [`CompletionItem::additional_text_edits`]-property
 	pub fn command(&self) -> Option<&Command> {
 		self.command.as_ref()
 	}
 
-	/// A data entry field that is preserved on a completion item between a [`CompletionRequest`] and
-	/// a [`CompletionResolveRequest`].
+	/// A data entry field that is preserved on a completion item between a [`CompletionRequest`]
+	/// and a [`CompletionResolveRequest`].
 	pub fn data(&self) -> Option<&serde_json::Value> {
 		self.data.as_ref()
 	}
@@ -4173,11 +4224,11 @@ impl CompletionItem {
 impl ItemDefaults {
 	pub fn new() -> Self {
 		Self {
-			commit_characters: None,
-			edit_range: None,
+			commit_characters:  None,
+			edit_range:         None,
 			insert_text_format: None,
-			insert_text_mode: None,
-			data: None,
+			insert_text_mode:   None,
+			data:               None,
 		}
 	}
 
@@ -4256,7 +4307,8 @@ impl CompletionList {
 	///
 	/// Further typing results in recomputing this list.
 	///
-	/// Recomputed lists have all their items replaced (not appended) in the incomplete completion sessions.
+	/// Recomputed lists have all their items replaced (not appended) in the incomplete completion
+	/// sessions.
 	pub fn is_incomplete(&self) -> &bool {
 		&self.is_incomplete
 	}
@@ -4333,13 +4385,14 @@ impl SignatureHelp {
 
 	/// The active signature.
 	///
-	/// If omitted or the value lies outside the range of [`SignatureHelp::signatures`] the value defaults
-	/// to zero or is ignored if the [`SignatureHelp`] has no signatures.
+	/// If omitted or the value lies outside the range of [`SignatureHelp::signatures`] the value
+	/// defaults to zero or is ignored if the [`SignatureHelp`] has no signatures.
 	///
 	/// Whenever possible implementors should make an active decision about the active signature and
 	/// shouldn't rely on a default value.
 	///
-	/// In future version of the protocol this property might become mandatory to better express this.
+	/// In future version of the protocol this property might become mandatory to better express
+	/// this.
 	pub fn active_signature(&self) -> Option<&u32> {
 		self.active_signature.as_ref()
 	}
@@ -4349,9 +4402,9 @@ impl SignatureHelp {
 	/// If omitted or the value lies outside the range of `signatures[activeSignature].parameters`
 	/// defaults to 0 if the active signature has parameters.
 	///
-	/// If the active signature has no parameters it is ignored. In future version of the protocol this
-	/// property might become mandatory to better express the active parameter if the active signature
-	/// does have any.
+	/// If the active signature has no parameters it is ignored. In future version of the protocol
+	/// this property might become mandatory to better express the active parameter if the active
+	/// signature does have any.
 	pub fn active_parameter(&self) -> Option<&u32> {
 		self.active_parameter.as_ref()
 	}
@@ -4414,8 +4467,8 @@ impl DocumentSymbol {
 
 	/// The name of this symbol.
 	///
-	/// Will be displayed in the user interface and therefore must not be an empty string or a string
-	/// only consisting of white spaces.
+	/// Will be displayed in the user interface and therefore must not be an empty string or a
+	/// string only consisting of white spaces.
 	pub fn name(&self) -> &String {
 		&self.name
 	}
@@ -4444,8 +4497,8 @@ impl DocumentSymbol {
 		self.deprecated.as_ref()
 	}
 
-	/// The range enclosing this symbol not including leading/trailing whitespace but everything else
-	/// like comments.
+	/// The range enclosing this symbol not including leading/trailing whitespace but everything
+	/// else like comments.
 	///
 	/// This information is typically used to determine if the clients cursor is inside the symbol
 	/// to reveal in the symbol in the UI.
@@ -4453,8 +4506,8 @@ impl DocumentSymbol {
 		&self.range
 	}
 
-	/// The range that should be selected and revealed when this symbol is being picked, e.g the name
-	/// of a function.
+	/// The range that should be selected and revealed when this symbol is being picked, e.g the
+	/// name of a function.
 	///
 	/// Must be contained by the `range`.
 	pub fn selection_range(&self) -> &Range {
@@ -4572,12 +4625,13 @@ impl CodeAction {
 		self.diagnostics.as_ref()
 	}
 
-	/// Marks this as a preferred action. Preferred actions are used by the `auto fix` command and can
-	/// be targeted by keybindings.
+	/// Marks this as a preferred action. Preferred actions are used by the `auto fix` command and
+	/// can be targeted by keybindings.
 	///
 	/// A quick fix should be marked preferred if it properly addresses the underlying error.
 	///
-	/// A refactoring should be marked preferred if it is the most reasonable choice of actions to take.
+	/// A refactoring should be marked preferred if it is the most reasonable choice of actions to
+	/// take.
 	///
 	/// since: 3.15.0
 	pub fn is_preferred(&self) -> Option<&bool> {
@@ -4587,10 +4641,13 @@ impl CodeAction {
 	/// Marks that the code action cannot currently be applied.
 	///
 	/// Clients should follow the following guidelines regarding disabled code actions:
-	/// - Disabled code actions are not shown in automatic [lightbulbs](https://code.visualstudio.com/docs/editor/editingevolved#_code-action) code action menus.
-	/// - Disabled actions are shown as faded out in the code action menu when the user requests a more specific type of code action, such as refactorings.
-	/// - If the user has a [keybinding](https://code.visualstudio.com/docs/editor/refactoring#_keybindings-for-code-actions) that auto applies a code action
-	///   and only disabled code actions are returned, the client should show the user an error message with `reason` in the editor.
+	/// - Disabled code actions are not shown in automatic [lightbulbs](https://code.visualstudio.com/docs/editor/editingevolved#_code-action)
+	///   code action menus.
+	/// - Disabled actions are shown as faded out in the code action menu when the user requests a
+	///   more specific type of code action, such as refactorings.
+	/// - If the user has a [keybinding](https://code.visualstudio.com/docs/editor/refactoring#_keybindings-for-code-actions)
+	///   that auto applies a code action and only disabled code actions are returned, the client
+	///   should show the user an error message with `reason` in the editor.
 	///
 	/// since: 3.16.0
 	pub fn disabled(&self) -> Option<&DisabledReason> {
@@ -4604,12 +4661,14 @@ impl CodeAction {
 
 	/// A command this code action executes.
 	///
-	/// If a code action provides an edit and a command, first the edit is executed and then the command.
+	/// If a code action provides an edit and a command, first the edit is executed and then the
+	/// command.
 	pub fn command(&self) -> Option<&Command> {
 		self.command.as_ref()
 	}
 
-	/// A data entry field that is preserved on a code action between\na `textDocument/codeAction` and a `codeAction/resolve` request.
+	/// A data entry field that is preserved on a code action between\na `textDocument/codeAction`
+	/// and a `codeAction/resolve` request.
 	///
 	/// @since 3.16.0
 	pub fn data(&self) -> Option<&serde_json::Value> {
@@ -4642,7 +4701,8 @@ impl CodeLens {
 		self.command.as_ref()
 	}
 
-	/// A data entry field that is preserved on a code lens item between a [`CodeLensRequest`] and a [`CodeLensResolveRequest`]
+	/// A data entry field that is preserved on a code lens item between a [`CodeLensRequest`] and a
+	/// [`CodeLensResolveRequest`]
 	pub fn data(&self) -> Option<&serde_json::Value> {
 		self.data.as_ref()
 	}
@@ -4682,17 +4742,17 @@ impl DocumentLink {
 
 	/// The tooltip text when you hover over this link.
 	///
-	/// If a tooltip is provided, is will be displayed in a string that includes instructions on how to
-	/// trigger the link, such as `{0} (ctrl + click)`. The specific instructions vary depending on OS,
-	/// user settings, and localization.
+	/// If a tooltip is provided, is will be displayed in a string that includes instructions on how
+	/// to trigger the link, such as `{0} (ctrl + click)`. The specific instructions vary depending
+	/// on OS, user settings, and localization.
 	///
 	/// since: 3.15.0
 	pub fn tooltip(&self) -> Option<&String> {
 		self.tooltip.as_ref()
 	}
 
-	/// A data entry field that is preserved on a document link between a [`DocumentLinkRequest`] and
-	/// a [`DocumentLinkResolveRequest`].
+	/// A data entry field that is preserved on a document link between a [`DocumentLinkRequest`]
+	/// and a [`DocumentLinkResolveRequest`].
 	pub fn data(&self) -> Option<&serde_json::Value> {
 		self.data.as_ref()
 	}
@@ -4810,10 +4870,10 @@ impl WorkDoneProgressBegin {
 impl WorkDoneProgressReport {
 	pub fn new() -> Self {
 		Self {
-			kind: "report".to_string(),
+			kind:        "report".to_string(),
 			cancellable: None,
-			message: None,
-			percentage: None,
+			message:     None,
+			percentage:  None,
 		}
 	}
 
@@ -4978,7 +5038,11 @@ impl TextDocumentFilter {
 
 impl NotebookDocumentFilter {
 	pub fn new() -> Self {
-		Self { notebook_type: None, scheme: None, pattern: None }
+		Self {
+			notebook_type: None,
+			scheme:        None,
+			pattern:       None,
+		}
 	}
 
 	pub fn with_notebook_type(mut self, notebook_type: String) -> Self {
@@ -5337,18 +5401,21 @@ impl InlayHintLabelPart {
 	pub fn tooltip(&self) -> Option<&MarkupOrString> {
 		self.tooltip.as_ref()
 	}
+
 	/// An optional source code location that represents this label part.
 	///
 	/// The editor will use this location for the hover and for code navigation features:
 	/// This part will become a clickable link that resolves to the definition of the symbol
 	/// at the given location (not necessarily the location itself), it shows the hover that
-	/// shows at the given location, and it shows a context menu with further code navigation commands.
+	/// shows at the given location, and it shows a context menu with further code navigation
+	/// commands.
 	///
-	/// Depending on the client capability `inlayHint.resolveSupport` clients might resolve this property
-	/// late using the resolve request.
+	/// Depending on the client capability `inlayHint.resolveSupport` clients might resolve this
+	/// property late using the resolve request.
 	pub fn location(&self) -> Option<&Location> {
 		self.location.as_ref()
 	}
+
 	/// An optional command for this label part.
 	///
 	/// Depending on the client capability `inlayHint.resolveSupport` clients
@@ -5435,7 +5502,8 @@ impl ExecutionSummary {
 		self
 	}
 
-	/// A strict monotonically increasing value indicating the execution order of a cell inside a notebook.
+	/// A strict monotonically increasing value indicating the execution order of a cell inside a
+	/// notebook.
 	pub fn execution_order(&self) -> &u32 {
 		&self.execution_order
 	}
@@ -5458,14 +5526,16 @@ impl NotebookCellTextDocumentFilter {
 
 	/// A filter that matches against the notebook containing the notebook cell.
 	///
-	/// If a string value is provided it matches against the notebook type. '*' matches every notebook.
+	/// If a string value is provided it matches against the notebook type. '*' matches every
+	/// notebook.
 	pub fn notebook(&self) -> &NotebookDocumentFilter {
 		&self.notebook // XXX(aki) or String,
 	}
 
 	/// A language id like `python`.
 	///
-	/// Will be matched against the language id of the notebook cell document. '*' matches every language.
+	/// Will be matched against the language id of the notebook cell document. '*' matches every
+	/// language.
 	pub fn language(&self) -> Option<&String> {
 		self.language.as_ref()
 	}
@@ -5604,9 +5674,12 @@ impl FileOperationPattern {
 	/// - `*` to match zero or more characters in a path segment
 	/// - `?` to match on one character in a path segment
 	/// - `**` to match any number of path segments, including none
-	/// - `{}` to group sub patterns into an OR expression. (e.g. `**​/*.{ts,js}` matches all TypeScript and JavaScript files)
-	/// - `[]` to declare a range of characters to match in a path segment (e.g., `example.[0-9]` to match on `example.0`, `example.1`, …)
-	/// - `[!...]` to negate a range of characters to match in a path segment (e.g., `example.[!0-9]` to match on `example.a`, `example.b`, but not `example.0`)
+	/// - `{}` to group sub patterns into an OR expression. (e.g. `**​/*.{ts,js}` matches all
+	///   TypeScript and JavaScript files)
+	/// - `[]` to declare a range of characters to match in a path segment (e.g., `example.[0-9]` to
+	///   match on `example.0`, `example.1`, …)
+	/// - `[!...]` to negate a range of characters to match in a path segment (e.g.,
+	///   `example.[!0-9]` to match on `example.a`, `example.b`, but not `example.0`)
 	pub fn glob(&self) -> &String {
 		&self.glob
 	}
@@ -5679,8 +5752,8 @@ impl BaseSymbolInformation {
 
 	/// The name of the symbol containing this symbol.
 	///
-	/// This information is for user interface purposes (e.g. to render a qualifier in the user interface
-	/// if necessary). It can't be used to re-infer a hierarchy for the document symbols.
+	/// This information is for user interface purposes (e.g. to render a qualifier in the user
+	/// interface if necessary). It can't be used to re-infer a hierarchy for the document symbols.
 	pub fn container_name(&self) -> Option<&String> {
 		self.container_name.as_ref()
 	}
@@ -5731,8 +5804,8 @@ impl SignatureHelpContext {
 
 	/// `true` if signature help was already showing when it was triggered.
 	///
-	/// Retriggers occurs when the signature help is already active and can be caused by actions such as
-	/// typing a trigger character, a cursor move, or document content changes.
+	/// Retriggers occurs when the signature help is already active and can be caused by actions
+	/// such as typing a trigger character, a cursor move, or document content changes.
 	pub fn is_retrigger(&self) -> &bool {
 		&self.is_retrigger
 	}
@@ -5782,16 +5855,16 @@ impl CompletionItemLabelDetails {
 		self
 	}
 
-	/// An optional string which is rendered less prominently directly after [`CompletionItem::label`],
-	/// without any spacing.
+	/// An optional string which is rendered less prominently directly after
+	/// [`CompletionItem::label`], without any spacing.
 	///
 	/// Should be used for function signatures and type annotations.
 	pub fn detail(&self) -> Option<&String> {
 		self.detail.as_ref()
 	}
 
-	/// An optional string which is rendered less prominently after [`CompletionItem::detail`]. Should be used
-	/// for fully qualified names and file paths.
+	/// An optional string which is rendered less prominently after [`CompletionItem::detail`].
+	/// Should be used for fully qualified names and file paths.
 	pub fn description(&self) -> Option<&String> {
 		self.description.as_ref()
 	}
@@ -6051,7 +6124,8 @@ impl InlineCompletionContext {
 		&self.trigger_kind
 	}
 
-	/// Provides information about the currently selected item in the autocomplete widget if it is visible.
+	/// Provides information about the currently selected item in the autocomplete widget if it is
+	/// visible.
 	pub fn selected_completion_info(&self) -> Option<&SelectionCompletionInfo> {
 		self.selected_completion_info.as_ref()
 	}
@@ -6114,7 +6188,8 @@ impl TextDocumentItem {
 		&self.language_id
 	}
 
-	/// The version number of this document (it will increase after each change, including undo/redo).
+	/// The version number of this document (it will increase after each change, including
+	/// undo/redo).
 	pub fn version(&self) -> &i32 {
 		&self.version
 	}
@@ -6145,7 +6220,8 @@ impl NotebookDocument {
 		&self.notebook_type
 	}
 
-	/// The version number of this document (it will increase after each change, including undo/redo).
+	/// The version number of this document (it will increase after each change, including
+	/// undo/redo).
 	pub fn version(&self) -> &i32 {
 		&self.version
 	}
@@ -6252,6 +6328,7 @@ impl SymbolInformation {
 	pub fn location(&self) -> &Location {
 		&self.location
 	}
+
 	pub fn base_symbol_info(&self) -> &BaseSymbolInformation {
 		&self.base_symbol_info
 	}
@@ -6285,7 +6362,8 @@ impl CodeActionContext {
 
 	/// Requested kind of actions to return.
 	///
-	/// Actions not of this kind are filtered out by the client before being shown. So servers can omit computing them.
+	/// Actions not of this kind are filtered out by the client before being shown. So servers can
+	/// omit computing them.
 	pub fn only(&self) -> Option<&Vec<CodeActionKind>> {
 		self.only.as_ref()
 	}
@@ -6319,8 +6397,8 @@ impl RelatedFullDocumentDiagnosticReport {
 	/// This information is useful in programming languages where code in a file A can generate
 	/// diagnostics in a file B which A depends on.
 	///
-	/// An example of such a language is C and C++ where marco definitions in a file `a.cpp`` can result
-	/// in errors in a header file `b.hpp`.
+	/// An example of such a language is C and C++ where marco definitions in a file `a.cpp`` can
+	/// result in errors in a header file `b.hpp`.
 	///
 	/// since: 3.17.0
 	pub fn related_documents(&self) -> Option<&HashMap<Uri, DiagnosticReport>> {
@@ -6353,8 +6431,8 @@ impl RelatedUnchangedDocumentDiagnosticReport {
 	/// This information is useful in programming languages where code in a file A can generate
 	/// diagnostics in a file B which A depends on.
 	///
-	/// An example of such a language is C and C++ where marco definitions in a file `a.cpp`` can result
-	/// in errors in a header file `b.hpp`.
+	/// An example of such a language is C and C++ where marco definitions in a file `a.cpp`` can
+	/// result in errors in a header file `b.hpp`.
 	///
 	/// since: 3.17.0
 	pub fn related_documents(&self) -> Option<&HashMap<Uri, DiagnosticReport>> {
@@ -6533,7 +6611,11 @@ impl NotebookCellTextChange {
 
 impl NotebookCellsDiff {
 	pub fn new() -> Self {
-		Self { structure: None, data: None, text_context: None }
+		Self {
+			structure:    None,
+			data:         None,
+			text_context: None,
+		}
 	}
 
 	pub fn with_structure(mut self, structure: NotebookCellStructureChange) -> Self {
@@ -6674,7 +6756,8 @@ impl NotebookDocumentSyncOptionsSelector {
 		self
 	}
 
-	/// The notebook to be synced If a string value is provided it matches against the notebook type.
+	/// The notebook to be synced If a string value is provided it matches against the notebook
+	/// type.
 	///
 	///  '*' matches every notebook.
 	pub fn notebook(&self) -> Option<&NotebookDocumentFilterOrString> {
@@ -6706,7 +6789,8 @@ impl ParameterInformation {
 	///
 	/// *Note*: a label of type string should be a substring of its containing signature label.
 	///
-	/// Its intended use case is to highlight the parameter label part in the [`SignatureInformation::label`].
+	/// Its intended use case is to highlight the parameter label part in the
+	/// [`SignatureInformation::label`].
 	pub fn label(&self) -> &StringOrTuple<u32> {
 		&self.label
 	}
