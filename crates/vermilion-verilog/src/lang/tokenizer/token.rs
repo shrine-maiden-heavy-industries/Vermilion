@@ -2,45 +2,44 @@
 
 use std::fmt::Display;
 
-use tendril::ByteTendril;
-use vermilion_lang::{Position, Spanned};
+use vermilion_lang::{AtomicByteTendril, Position, Spanned};
 
 use crate::VerilogVariant;
 
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 pub(crate) enum Token {
-	Invalid(Option<ByteTendril>),
+	Invalid(Option<AtomicByteTendril>),
 	/// Hold the verilog variant for when this token would become valid
-	ContextuallyInvalid(ByteTendril, VerilogVariant),
+	ContextuallyInvalid(AtomicByteTendril, VerilogVariant),
 	BaseSpecifier(BaseSpecifier, bool),
 	Comment(Comment),
 	CompilerDirective(CompilerDirective),
 	Control(Control),
-	Identifier(ByteTendril),
+	Identifier(AtomicByteTendril),
 	Keyword(Keyword),
-	Newline(ByteTendril),
-	Number(ByteTendril),
+	Newline(AtomicByteTendril),
+	Number(AtomicByteTendril),
 	Real {
 		value: f64,
-		exponent: Option<ByteTendril>,
+		exponent: Option<AtomicByteTendril>,
 	},
 	Operator(Operator),
-	String(ByteTendril),
-	UnsignedNumber(ByteTendril),
-	Whitespace(ByteTendril),
+	String(AtomicByteTendril),
+	UnsignedNumber(AtomicByteTendril),
+	Whitespace(AtomicByteTendril),
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub(crate) enum CompilerDirective {
-	Name(ByteTendril),
-	Arg(ByteTendril),
+	Name(AtomicByteTendril),
+	Arg(AtomicByteTendril),
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub(crate) enum Comment {
-	Invalid(ByteTendril),
-	SingleLine(ByteTendril),
-	MultiLine(ByteTendril),
+	Invalid(AtomicByteTendril),
+	SingleLine(AtomicByteTendril),
+	MultiLine(AtomicByteTendril),
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]

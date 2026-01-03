@@ -12,6 +12,9 @@ pub mod tokenizer;
 
 pub use position::Position;
 pub use span::{Span, Spanned};
+use tendril::{Atomic, Tendril, fmt};
+
+pub type AtomicByteTendril = Tendril<fmt::Bytes, Atomic>;
 
 fn _print_errors() {
 	// 	let _: Vec<_> = args

@@ -1,6 +1,6 @@
 /* SPDX-License-Identifier: BSD-3-Clause */
 
-use tendril::ByteTendril;
+use vermilion_lang::AtomicByteTendril;
 
 use crate::{VerilogVariant, lang::tokenizer::Tokenizer};
 
@@ -10,7 +10,7 @@ pub struct VerilogParser {
 }
 
 impl VerilogParser {
-	pub fn new(std: VerilogVariant, content: ByteTendril) -> Self {
+	pub fn new(std: VerilogVariant, content: AtomicByteTendril) -> Self {
 		Self {
 			_std: std,
 			_tokenizer: Tokenizer::new(std, content),

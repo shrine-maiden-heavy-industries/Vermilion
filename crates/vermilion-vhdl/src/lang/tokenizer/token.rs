@@ -1,15 +1,14 @@
 /* SPDX-License-Identifier: BSD-3-Clause */
 
-use tendril::ByteTendril;
-use vermilion_lang::{Position, Spanned};
+use vermilion_lang::{AtomicByteTendril, Position, Spanned};
 
 use crate::VhdlStd;
 
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 pub(crate) enum Token {
-	Invalid(Option<ByteTendril>),
+	Invalid(Option<AtomicByteTendril>),
 	/// Hold the verilog variant for when this token would become valid
-	ContextuallyInvalid(ByteTendril, VhdlStd),
+	ContextuallyInvalid(AtomicByteTendril, VhdlStd),
 }
 
 impl Default for Token {

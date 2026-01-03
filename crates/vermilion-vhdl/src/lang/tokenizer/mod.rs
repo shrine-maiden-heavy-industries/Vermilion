@@ -2,18 +2,16 @@
 
 use std::{collections::VecDeque, ops::Range};
 
-use tendril::ByteTendril;
-
 use self::token::Token;
 use crate::VhdlStd;
 
-use vermilion_lang::{Position, Span, Spanned};
+use vermilion_lang::{AtomicByteTendril, Position, Span, Spanned};
 
 pub(crate) mod token;
 
 pub(crate) struct Tokenizer {
 	_standard: VhdlStd,
-	file: ByteTendril,
+	file: AtomicByteTendril,
 	current_char: u8,
 	position: usize,
 	context: Position,
@@ -23,7 +21,7 @@ pub(crate) struct Tokenizer {
 }
 
 impl Tokenizer {
-	pub fn new(standard: VhdlStd, file: ByteTendril) -> Tokenizer {
+	pub fn new(standard: VhdlStd, file: AtomicByteTendril) -> Tokenizer {
 		let mut tokenizer = Self {
 			_standard: standard,
 			file,
