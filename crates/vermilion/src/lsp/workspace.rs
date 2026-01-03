@@ -17,9 +17,9 @@ pub struct Workspace {
 }
 
 pub struct Document {
-	content:  AtomicByteTendril,
-	language: Language,
-	ast:      Ast,
+	content:     AtomicByteTendril,
+	language:    Language,
+	ast:         Ast,
 	diagnostics: Vec<Diagnostic>,
 }
 
@@ -64,6 +64,10 @@ impl Workspace {
 			document.uri().clone(),
 			Document { content, language, ast, diagnostics: Vec::new() },
 		);
+	}
+
+	pub fn close_document(&mut self, uri: &Uri) {
+		self.documents.remove(uri);
 	}
 }
 

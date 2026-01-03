@@ -170,6 +170,7 @@ pub fn process_lsp_notification(
 			LSP_INITIALIZED.store(true, Ordering::Release);
 		},
 		Notification::TextDocumentOpened(params) => workspace.open_document(params.text_document),
+		Notification::TextDocumentClosed(params) => workspace.close_document(params.text_document.uri()),
 		_ => unimplemented!(),
 	}
 	Ok(())
