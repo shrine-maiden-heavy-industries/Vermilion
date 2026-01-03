@@ -1,4 +1,4 @@
-/* SPDX-License-Identifier: BSD-3-Clause */
+// SPDX-License-Identifier: BSD-3-Clause
 
 use crate::{
 	SystemVerilogStd, VerilogStd,
@@ -14,8 +14,8 @@ use crate::{
 )]
 #[cfg_attr(feature = "schema", derive(::schemars::JsonSchema))]
 pub struct VerilogConfig {
-	std: VerilogStd,
-	fmt: Option<VerilogFormat>,
+	std:  VerilogStd,
+	fmt:  Option<VerilogFormat>,
 	lint: Option<VerilogLint>,
 }
 
@@ -27,7 +27,7 @@ pub struct VerilogConfig {
 )]
 #[cfg_attr(feature = "schema", derive(::schemars::JsonSchema))]
 pub struct SystemVerilogConfig {
-	std: SystemVerilogStd,
-	fmt: Option<SystemVerilogFormat>,
+	std:  SystemVerilogStd,
+	fmt:  Option<SystemVerilogFormat>,
 	lint: Option<SystemVerilogLint>,
 }
