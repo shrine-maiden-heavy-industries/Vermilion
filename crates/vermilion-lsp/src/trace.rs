@@ -1,4 +1,4 @@
-/* SPDX-License-Identifier: BSD-3-Clause */
+// SPDX-License-Identifier: BSD-3-Clause
 
 use crate::message::Message;
 
@@ -13,8 +13,8 @@ pub enum Origin {
 
 #[derive(Clone, Debug, PartialEq, serde::Deserialize, serde::Serialize)]
 pub struct Trace {
-	pub(crate) origin: Origin,
-	pub(crate) message: Message,
+	pub(crate) origin:    Origin,
+	pub(crate) message:   Message,
 	pub(crate) timestamp: chrono::DateTime<chrono::Utc>,
 }
 

@@ -1,4 +1,4 @@
-/* SPDX-License-Identifier: BSD-3-Clause */
+// SPDX-License-Identifier: BSD-3-Clause
 
 use crate::{
 	message::Id,
@@ -28,7 +28,7 @@ use crate::{
 
 #[derive(Clone, Debug, PartialEq, serde::Deserialize, serde::Serialize)]
 pub struct Request {
-	pub(crate) id: Id,
+	pub(crate) id:  Id,
 	#[serde(flatten)]
 	pub(crate) req: RequestType,
 }
@@ -58,36 +58,39 @@ pub enum RequestType {
 	// Result: Some(Definition) | Some(Vec<DefinitionLink>) | None
 	// Partial Result: Vec<Location> | Vec<DefinitionLink>
 	// Registration Options: ImplementationRegistrationOptions
-	/// A request to resolve the implementation locations of a symbol at a given text document position.
+	/// A request to resolve the implementation locations of a symbol at a given text document
+	/// position.
 	///
-	/// The request's parameter is of type [`TextDocumentPositionParams`] the response is of type [`Definition`]
-	/// or a Thenable that resolves to such.
+	/// The request's parameter is of type [`TextDocumentPositionParams`] the response is of type
+	/// [`Definition`] or a Thenable that resolves to such.
 	#[serde(rename = "textDocument/implementation")]
 	TextDocumentImplementation(ImplementationParams),
 	// clientToServer
 	// Result: Some(Definition) | Some(Vec<DefinitionLink>) | None
 	// Partial Result: Vec<Location> | Vec<DefinitionLink>
 	// Registration Options: TypeDefinitionRegistrationOptions
-	/// A request to resolve the type definition locations of a symbol at a given text document position.
+	/// A request to resolve the type definition locations of a symbol at a given text document
+	/// position.
 	///
-	/// The request's parameter is of type [`TextDocumentPositionParams`] the response is of type [`Definition`]
-	/// or a Thenable that resolves to such.
+	/// The request's parameter is of type [`TextDocumentPositionParams`] the response is of type
+	/// [`Definition`] or a Thenable that resolves to such.
 	#[serde(rename = "textDocument/typeDefinition")]
 	TextDocumentTypeDefinition(TypeDefinitionParams),
 	// serverToClient
 	// Result: Some(Vec<WorkspaceFolder>) | None
-	/// The `workspace/workspaceFolders` is sent from the server to the client to fetch the open workspace folders.
+	/// The `workspace/workspaceFolders` is sent from the server to the client to fetch the open
+	/// workspace folders.
 	#[serde(rename = "workspace/workspaceFolders")]
 	WorkspaceWorkspaceFolders,
 	// serverToClient
 	// Result: Vec<LspAny>
-	/// The 'workspace/configuration' request is sent from the server to the client to fetch a certain
-	/// configuration setting.
+	/// The 'workspace/configuration' request is sent from the server to the client to fetch a
+	/// certain configuration setting.
 	///
-	/// This pull model replaces the old push model where the client signaled configuration change via an event.
-	/// If the server still needs to react to configuration changes (since the server caches the result of
-	/// `workspace/configuration` requests) the server should register for an empty configuration change event
-	/// and empty the cache if such an event is received.
+	/// This pull model replaces the old push model where the client signaled configuration change
+	/// via an event. If the server still needs to react to configuration changes (since the server
+	/// caches the result of `workspace/configuration` requests) the server should register for an
+	/// empty configuration change event and empty the cache if such an event is received.
 	#[serde(rename = "workspace/configuration")]
 	WorkspaceConfiguration(ConfigurationParams),
 	// clientToServer
@@ -96,8 +99,8 @@ pub enum RequestType {
 	// Registration Options: DocumentColorRegistrationOptions
 	/// A request to list all color symbols found in a given text document.
 	///
-	/// The request's parameter is of type [`DocumentColorParams`] the response is of type [`ColorInformation`] or a
-	/// Thenable that resolves to such.
+	/// The request's parameter is of type [`DocumentColorParams`] the response is of type
+	/// [`ColorInformation`] or a Thenable that resolves to such.
 	#[serde(rename = "textDocument/documentColor")]
 	TextDocumentDocumentColor(DocumentColorParams),
 	// clientToServer
@@ -106,8 +109,8 @@ pub enum RequestType {
 	// Registration Options: WorkDoneProgressOptions & TextDocumentRegistrationOptions
 	/// A request to list all presentation for a color.
 	///
-	/// The request's parameter is of type [`ColorPresentationParams`] the response is of type [`ColorPresentation`]
-	/// or a Thenable that resolves to such.
+	/// The request's parameter is of type [`ColorPresentationParams`] the response is of type
+	/// [`ColorPresentation`] or a Thenable that resolves to such.
 	#[serde(rename = "textDocument/colorPresentation")]
 	TextDocumentColorPresentation(ColorPresentationParams),
 	// clientToServer
@@ -116,8 +119,8 @@ pub enum RequestType {
 	// Registration Options: FoldingRangeRegistrationOptions
 	/// A request to provide folding ranges in a document.
 	///
-	/// The request's parameter is of type [`FoldingRangeParams`], the response is of type [`FoldingRangeList`]
-	/// or a Thenable that resolves to such.
+	/// The request's parameter is of type [`FoldingRangeParams`], the response is of type
+	/// [`FoldingRangeList`] or a Thenable that resolves to such.
 	#[serde(rename = "textDocument/foldingRange")]
 	TextDocumentFoldingRange(FoldingRangeParams),
 	// serverToClient
@@ -129,10 +132,11 @@ pub enum RequestType {
 	// Result: Some(Definition) | Some(Vec<DefinitionLink>) | None
 	// Partial Result: Vec<Location> | Vec<DefinitionLink>
 	// Registration Options: DeclarationRegistrationOptions
-	/// A request to resolve the type definition locations of a symbol at a given text document position.
+	/// A request to resolve the type definition locations of a symbol at a given text document
+	/// position.
 	///
-	/// The request's parameter is of type [`TextDocumentPositionParams`] the response is of type [`Declaration`]
-	/// or a typed array of [`DeclarationLink`] or a Thenable that resolves to such
+	/// The request's parameter is of type [`TextDocumentPositionParams`] the response is of type
+	/// [`Declaration`] or a typed array of [`DeclarationLink`] or a Thenable that resolves to such
 	#[serde(rename = "textDocument/declaration")]
 	TextDocumentDeclaration(DeclarationParams),
 	// clientToServer
@@ -141,14 +145,14 @@ pub enum RequestType {
 	// Registration Options: SelectionRangeRegistrationOptions
 	/// A request to provide selection ranges in a document.
 	///
-	/// The request's parameter is of type [`SelectionRangeParams`], the response is of type [`SelectionRange`]
-	/// or a Thenable that resolves to such.
+	/// The request's parameter is of type [`SelectionRangeParams`], the response is of type
+	/// [`SelectionRange`] or a Thenable that resolves to such.
 	#[serde(rename = "textDocument/selectionRange")]
 	TextDocumentSelectionRange(SelectionRangeParams),
 	// serverToClient
 	// Result: None
-	/// The `window/workDoneProgress/create` request is sent from the server to the client to initiate progress
-	/// reporting from the server.
+	/// The `window/workDoneProgress/create` request is sent from the server to the client to
+	/// initiate progress reporting from the server.
 	#[serde(rename = "window/workDoneProgress/create")]
 	WindowWorkDoneProgressCreate(WorkDoneProgressCreateParams),
 	// clientToServer
@@ -227,11 +231,12 @@ pub enum RequestType {
 	// clientToServer
 	// Result: Some(WorkspaceEdit) | None
 	// Registration Options: FileOperationRegistrationOptions
-	/// The will create files request is sent from the client to the server before files are actually
-	/// created as long as the creation is triggered from within the client.
+	/// The will create files request is sent from the client to the server before files are
+	/// actually created as long as the creation is triggered from within the client.
 	///
 	/// The request can return a [`WorkspaceEdit`] which will be applied to workspace before the
-	/// files are created. Hence the [`WorkspaceEdit`] can not manipulate the content of the file to be created.
+	/// files are created. Hence the [`WorkspaceEdit`] can not manipulate the content of the file to
+	/// be created.
 	///
 	/// since: 3.16.0
 	#[serde(rename = "workspace/willCreateFiles")]
@@ -239,8 +244,8 @@ pub enum RequestType {
 	// clientToServer
 	// Result: Some(WorkspaceEdit) | None
 	// Registration Options: FileOperationRegistrationOptions
-	/// The will rename files request is sent from the client to the server before files are actually
-	/// renamed as long as the rename is triggered from within the client.
+	/// The will rename files request is sent from the client to the server before files are
+	/// actually renamed as long as the rename is triggered from within the client.
 	///
 	/// since: 3.16.0
 	#[serde(rename = "workspace/willRenameFiles")]
@@ -297,8 +302,8 @@ pub enum RequestType {
 	// Registration Options: InlineValueRegistrationOptions
 	/// A request to provide inline values in a document.
 	///
-	/// The request's parameter is of type [`InlineValueParams`], the response is of type [`InlineValue`] or a
-	/// Thenable that resolves to such.
+	/// The request's parameter is of type [`InlineValueParams`], the response is of type
+	/// [`InlineValue`] or a Thenable that resolves to such.
 	///
 	/// since: 3.17.0
 	#[serde(rename = "textDocument/inlineValue")]
@@ -314,8 +319,8 @@ pub enum RequestType {
 	// Registration Options: InlayHintRegistrationOptions
 	/// A request to provide inlay hints in a document.
 	///
-	/// The request's parameter is of type [`InlayHintsParams`], the response is of type [`InlayHint`]or a
-	/// Thenable that resolves to such.
+	/// The request's parameter is of type [`InlayHintsParams`], the response is of type
+	/// [`InlayHint`]or a Thenable that resolves to such.
 	///
 	/// since: 3.17.0
 	#[serde(rename = "textDocument/inlayHint")]
@@ -367,8 +372,8 @@ pub enum RequestType {
 	// Registration Options: InlineCompletionRegistrationOptions
 	/// A request to provide inline completions in a document.
 	///
-	/// The request's parameter is of\ntype [`InlineCompletionParams`], the response is of type [`InlineCompletion`]
-	/// or a Thenable that resolves to such.
+	/// The request's parameter is of\ntype [`InlineCompletionParams`], the response is of type
+	/// [`InlineCompletion`] or a Thenable that resolves to such.
 	///
 	/// since: 3.18.0
 	#[serde(rename = "textDocument/inlineCompletion")]
@@ -381,8 +386,8 @@ pub enum RequestType {
 	ClientRegisterCapability(RegistrationParams),
 	// serverToClient
 	// Result: None
-	/// The `client/unregisterCapability` request is sent from the server to the client to unregister
-	/// a previously registered capability handler on the client side.
+	/// The `client/unregisterCapability` request is sent from the server to the client to
+	/// unregister a previously registered capability handler on the client side.
 	#[serde(rename = "client/unregisterCapability")]
 	ClientUnregisterCapability(UnregistrationParams),
 	// clientToServer
@@ -392,8 +397,8 @@ pub enum RequestType {
 	///
 	/// It is sent once as the request after starting up the server.
 	///
-	/// The requests parameter is of type [`InitializeParams`] the response if of type [`InitializeResult`] of a
-	/// Thenable that resolves to such.
+	/// The requests parameter is of type [`InitializeParams`] the response if of type
+	/// [`InitializeResult`] of a Thenable that resolves to such.
 	#[serde(rename = "initialize")]
 	Initialize(Box<InitializedParams>),
 	// clientToServer
@@ -420,8 +425,8 @@ pub enum RequestType {
 	/// The request can return an array of [`TextEdits`] which will be applied to the text document
 	/// before it is saved.
 	///
-	/// Please note that clients might drop results if computing the text edits took too long or if a
-	/// server constantly fails on this request.
+	/// Please note that clients might drop results if computing the text edits took too long or if
+	/// a server constantly fails on this request.
 	///
 	/// This is done to keep the save fast and reliable.
 	#[serde(rename = "textDocument/willSaveWaitUntil")]
@@ -432,20 +437,21 @@ pub enum RequestType {
 	// Registration Options: CompletionRegistrationOptions
 	/// Request to request completion at a given text document position.
 	///
-	/// The request's parameter is of type [`TextDocumentPosition`] the response is of type [`CompletionItem`]
-	/// or [`CompletionList`] or a Thenable that resolves to such.
+	/// The request's parameter is of type [`TextDocumentPosition`] the response is of type
+	/// [`CompletionItem`] or [`CompletionList`] or a Thenable that resolves to such.
 	///
-	/// The request can delay the computation of the [`CompletionItem`] and [`CompletionItem`] properties to the `completionItem/resolve`
-	/// request.
+	/// The request can delay the computation of the [`CompletionItem`] and [`CompletionItem`]
+	/// properties to the `completionItem/resolve` request.
 	///
-	/// However, properties that are needed for the initial sorting and filtering, like `sortText`, `filterText`, `insertText`,
-	/// and `textEdit`, must not be changed during resolve.
+	/// However, properties that are needed for the initial sorting and filtering, like `sortText`,
+	/// `filterText`, `insertText`, and `textEdit`, must not be changed during resolve.
 	#[serde(rename = "textDocument/completion")]
 	TextDocumentCompletion(CompletionParams),
 	// clientToServer
 	// Result: CompletionItem
-	/// Request to resolve additional information for a given completion item.The request's parameter is
-	/// of type [`CompletionItem`] the response is of type [`CompletionItem`] or a Thenable that resolves to such.
+	/// Request to resolve additional information for a given completion item.The request's
+	/// parameter is of type [`CompletionItem`] the response is of type [`CompletionItem`] or a
+	/// Thenable that resolves to such.
 	#[serde(rename = "completionItem/resolve")]
 	CompletionItemResolve(CompletionItem),
 	// clientToServer
@@ -453,8 +459,8 @@ pub enum RequestType {
 	// Registration Options: HoverRegistrationOptions
 	/// Request to request hover information at a given text document position.
 	///
-	/// The request's parameter is of type [`TextDocumentPosition`] the response is of type [`Hover`] or
-	/// a Thenable that resolves to such.
+	/// The request's parameter is of type [`TextDocumentPosition`] the response is of type
+	/// [`Hover`] or a Thenable that resolves to such.
 	#[serde(rename = "textDocument/hover")]
 	TextDocumentHover(HoverParams),
 	// clientToServe
@@ -468,18 +474,19 @@ pub enum RequestType {
 	// Registration Options: DefinitionRegistrationOptions
 	/// A request to resolve the definition location of a symbol at a given text document position.
 	///
-	/// The request's parameter is of type [`TextDocumentPosition`] the response is of either type [`Definition`]
-	/// or a typed array of [`DefinitionLink`] or a Thenable that resolves to such.
+	/// The request's parameter is of type [`TextDocumentPosition`] the response is of either type
+	/// [`Definition`] or a typed array of [`DefinitionLink`] or a Thenable that resolves to such.
 	#[serde(rename = "textDocument/definition")]
 	TextDocumentDefinition(DefinitionParams),
 	// clientToServer
 	// Result: Some(Vec<Location>) | None
 	// Partial Result: Vec<Location>
 	// Registration Options: ReferenceRegistrationOptions
-	/// A request to resolve project-wide references for the symbol denoted by the given text document position.
+	/// A request to resolve project-wide references for the symbol denoted by the given text
+	/// document position.
 	///
-	/// The request's parameter is of type [`ReferenceParams`] the response is of type [`Location`] or a
-	/// Thenable that resolves to such.
+	/// The request's parameter is of type [`ReferenceParams`] the response is of type [`Location`]
+	/// or a Thenable that resolves to such.
 	#[serde(rename = "textDocument/references")]
 	TextDocumentReferences(ReferenceParams),
 	// clientToServer
@@ -488,8 +495,8 @@ pub enum RequestType {
 	// Registration Options: DocumentHighlightRegistrationOptions
 	/// Request to resolve a [`DocumentHighlight`] for a given text document position.
 	///
-	/// The request's parameter is of type [`TextDocumentPosition`] the request response is an array of type
-	/// [`DocumentHighlight`] or a Thenable that resolves to such.
+	/// The request's parameter is of type [`TextDocumentPosition`] the request response is an array
+	/// of type [`DocumentHighlight`] or a Thenable that resolves to such.
 	#[serde(rename = "textDocument/documentHighlight")]
 	TextDocumentDocumentHighlight(DocumentHighlightParams),
 	// clientToServer
@@ -498,8 +505,8 @@ pub enum RequestType {
 	// Registration Options: DocumentSymbolRegistrationOptions
 	/// A request to list all symbols found in a given text document.
 	///
-	/// The request's parameter is of type [`TextDocumentIdentifier`] the response is of type [`SymbolInformation`] or a
-	/// Thenable that resolves to such.
+	/// The request's parameter is of type [`TextDocumentIdentifier`] the response is of type
+	/// [`SymbolInformation`] or a Thenable that resolves to such.
 	#[serde(rename = "textDocument/documentSymbol")]
 	TextDocumentDocumentSymbol(DocumentSymbolParams),
 	// clientToServer
@@ -513,15 +520,16 @@ pub enum RequestType {
 	// Result: CodeAction
 	/// Request to resolve additional information for a given code action.
 	///
-	/// The request's parameter is of type [`CodeAction`] the response is of type [`CodeAction`] or a
-	/// Thenable that resolves to such.
+	/// The request's parameter is of type [`CodeAction`] the response is of type [`CodeAction`] or
+	/// a Thenable that resolves to such.
 	#[serde(rename = "codeAction/resolve")]
 	CodeActionResolve(CodeAction),
 	// clientToServer
 	// Result: Some(Vec<SymbolInformation>) | Some(Vec<WorkspaceSymbol>) | None
 	// Partial Result: Vec<SymbolInformation> | Vec<WorkspaceSymbol>
 	// Registration Options: WorkspaceSymbolRegistrationOptions
-	/// A request to list project-wide symbols matching the query string given by the [`WorkspaceSymbolParams`].
+	/// A request to list project-wide symbols matching the query string given by the
+	/// [`WorkspaceSymbolParams`].
 	///
 	/// The response is of type [`SymbolInformation`] or a Thenable that resolves to such.
 	///

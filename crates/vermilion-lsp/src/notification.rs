@@ -1,4 +1,4 @@
-/* SPDX-License-Identifier: BSD-3-Clause */
+// SPDX-License-Identifier: BSD-3-Clause
 
 use crate::types::{
 	LspAny,
@@ -62,8 +62,8 @@ pub enum Notification {
 	#[serde(rename = "workspace/didRenameFiles")]
 	WorkspaceFilesRenamed(RenameFilesParams), // FileOperationRegistrationOptions
 	// Message Direction: Client To Server
-	/// The will delete files request is sent from the client to the server before files are actually
-	/// deleted as long as the deletion is triggered from within the client.
+	/// The will delete files request is sent from the client to the server before files are
+	/// actually deleted as long as the deletion is triggered from within the client.
 	///
 	/// since: 3.16.0",
 	#[serde(rename = "workspace/didDeleteFiles")]
@@ -76,7 +76,8 @@ pub enum Notification {
 	NotebookOpened(DidOpenNotebookDocumentParams), // registration method: notebookDocument/sync
 	// Message Direction: Client To Server
 	#[serde(rename = "notebookDocument/didChange")]
-	NotebookChanged(DidChangeNotebookDocumentParams), // registration method: notebookDocument/sync
+	NotebookChanged(DidChangeNotebookDocumentParams), /* registration method:
+	                                                   * notebookDocument/sync */
 	// Message Direction: Client To Server
 	/// A notification sent when a notebook document is saved.
 	///
@@ -90,12 +91,12 @@ pub enum Notification {
 	#[serde(rename = "notebookDocument/didClose")]
 	NotebookClosed(DidCloseNotebookDocumentParams), // registration method: notebookDocument/sync
 	// Message Direction: Client To Server
-	/// The configuration change notification is sent from the client to the server when the client's
-	/// configuration has changed.
+	/// The configuration change notification is sent from the client to the server when the
+	/// client's configuration has changed.
 	///
 	/// The notification contains the changed configuration as defined by the language client.
 	#[serde(rename = "workspace/didChangeConfiguration")]
-	WorkspaceConfigurationChanged(DidChangeConfigurationParams), // DidChangeConfigurationRegistrationOptions
+	WorkspaceConfigurationChanged(DidChangeConfigurationParams), /* DidChangeConfigurationRegistrationOptions */
 	// Message Direction: Server To Client
 	/// The show message notification is sent from a server to a client to ask the client
 	/// to display a particular message in the user interface.
@@ -121,13 +122,14 @@ pub enum Notification {
 	///
 	/// It doesn't necessarily mean that its content is presented in an editor.
 	///
-	/// An open notification must not be sent more than once without a corresponding close notification
-	/// send before. This means open and close notification must be balanced and the max open count is one.
+	/// An open notification must not be sent more than once without a corresponding close
+	/// notification send before. This means open and close notification must be balanced and the
+	/// max open count is one.
 	#[serde(rename = "textDocument/didOpen")]
 	TextDocumentOpened(DidOpenTextDocumentParams), // TextDocumentRegistrationOptions
 	// Message Direction: Client To Server
-	/// The document change notification is sent from the client to the server to signal changes to a
-	/// text document.
+	/// The document change notification is sent from the client to the server to signal changes to
+	/// a text document.
 	#[serde(rename = "textDocument/didChange")]
 	TextDocumentChanged(DidChangeTextDocumentParams), // TextDocumentChangeRegistrationOptions
 	// Message Direction: Client To Server
@@ -137,7 +139,8 @@ pub enum Notification {
 	/// The document's truth now exists where the document's uri points to (e.g. if the document's
 	/// uri is a file uri the truth now exists on disk).
 	///
-	/// As with the open notification the close notification is about managing the document's content.
+	/// As with the open notification the close notification is about managing the document's
+	/// content.
 	///
 	/// Receiving a close notification doesn't mean that the document was open in an editor before.
 	///
@@ -150,17 +153,18 @@ pub enum Notification {
 	#[serde(rename = "textDocument/didSave")]
 	TextDocumentSaved(DidSaveTextDocumentParams), // TextDocumentSaveRegistrationOptions
 	// Message Direction: Client To Server
-	/// A document will save notification is sent from the client to the server before the document is
-	/// actually saved.
+	/// A document will save notification is sent from the client to the server before the document
+	/// is actually saved.
 	#[serde(rename = "textDocument/willSave")]
 	TextDocumentWillSave(WillSaveTextDocumentParams), // TextDocumentRegistrationOptions
 	// Message Direction: Client To Server
 	/// The watched files notification is sent from the client to the server when the client detects
 	/// changes to file watched by the language client.
 	#[serde(rename = "workspace/didChangeWatchedFiles")]
-	WorkspaceWatchedFilesChanged(DidChangeWatchedFilesParams), // DidChangeWatchedFilesRegistrationOptions
+	WorkspaceWatchedFilesChanged(DidChangeWatchedFilesParams), /* DidChangeWatchedFilesRegistrationOptions */
 	// Message Direction: Server To Client
-	/// Diagnostics notification are sent from the server to the client to signal results of validation runs.
+	/// Diagnostics notification are sent from the server to the client to signal results of
+	/// validation runs.
 	#[serde(rename = "textDocument/publishDiagnostics")]
 	TextDocumentPublishDiagnostics(PublishDiagnosticsParams),
 }

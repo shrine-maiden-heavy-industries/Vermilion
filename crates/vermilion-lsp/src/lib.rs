@@ -1,4 +1,4 @@
-/* SPDX-License-Identifier: BSD-3-Clause */
+// SPDX-License-Identifier: BSD-3-Clause
 #![cfg_attr(docsrs, feature(doc_cfg), deny(rustdoc::all))]
 #![doc = include_str!("../README.md")]
 // #![warn(missing_docs)]
@@ -15,8 +15,10 @@ pub mod transports;
 pub mod types;
 
 pub mod prelude {
-	pub use super::message::{Id, Message};
-	pub use super::notification::Notification;
-	pub use super::request::Request;
-	pub use super::response::Response;
+	pub use super::{
+		message::{Id, Message},
+		notification::Notification,
+		request::Request,
+		response::Response,
+	};
 }

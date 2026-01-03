@@ -1,4 +1,4 @@
-/* SPDX-License-Identifier: BSD-3-Clause */
+// SPDX-License-Identifier: BSD-3-Clause
 
 use std::fmt::{Debug, Display};
 
@@ -107,7 +107,7 @@ mod tests {
 	fn encode_message_request() -> Result<()> {
 		let message_text = r#"{"jsonrpc":"2.0","id":"1","method":"shutdown"}"#;
 		let message = Message::Request(Box::new(Request {
-			id: "1".to_string().into(),
+			id:  "1".to_string().into(),
 			req: RequestType::Shutdown,
 		}));
 
@@ -127,8 +127,8 @@ mod tests {
 		assert_eq!(
 			message,
 			Message::Request(Box::new(Request {
-				id: 1.into(),
-				req: RequestType::Shutdown
+				id:  1.into(),
+				req: RequestType::Shutdown,
 			}))
 		);
 
@@ -139,9 +139,9 @@ mod tests {
 	fn encode_message_response_ok() -> Result<()> {
 		let message_text = r#"{"jsonrpc":"2.0","id":"2","result":"ニャ〜"}"#;
 		let message = Message::Response(Response {
-			id: "2".to_string().into(),
+			id:     "2".to_string().into(),
 			result: Some("ニャ〜".into()),
-			error: None,
+			error:  None,
 		});
 
 		let mut buffer = Vec::new();
@@ -160,9 +160,9 @@ mod tests {
 		assert_eq!(
 			message,
 			Message::Response(Response {
-				id: 2.into(),
+				id:     2.into(),
 				result: Some("ニャ〜".into()),
-				error: None
+				error:  None,
 			})
 		);
 
@@ -173,12 +173,12 @@ mod tests {
 	fn encode_message_response_err() -> Result<()> {
 		let message_text = r#"{"jsonrpc":"2.0","id":"3","error":{"code":-32803,"message":"nya"}}"#;
 		let message = Message::Response(Response {
-			id: "3".to_string().into(),
+			id:     "3".to_string().into(),
 			result: None,
-			error: Some(Error {
-				code: Code::RequestFailed,
+			error:  Some(Error {
+				code:    Code::RequestFailed,
 				message: "nya".into(),
-				data: None,
+				data:    None,
 			}),
 		});
 
@@ -199,13 +199,13 @@ mod tests {
 		assert_eq!(
 			message,
 			Message::Response(Response {
-				id: 3.into(),
+				id:     3.into(),
 				result: None,
-				error: Some(Error {
-					code: Code::RequestFailed,
+				error:  Some(Error {
+					code:    Code::RequestFailed,
 					message: "nya".into(),
-					data: None
-				})
+					data:    None,
+				}),
 			})
 		);
 
