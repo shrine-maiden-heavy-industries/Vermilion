@@ -1,4 +1,4 @@
-/* SPDX-License-Identifier: BSD-3-Clause */
+// SPDX-License-Identifier: BSD-3-Clause
 
 use std::collections::HashMap;
 
@@ -17,9 +17,9 @@ pub struct Workspace {
 }
 
 pub struct Document {
-	content: AtomicByteTendril,
+	content:  AtomicByteTendril,
 	language: Language,
-	ast: Ast,
+	ast:      Ast,
 }
 
 fn language_for(id: &LanguageId) -> Option<Language> {

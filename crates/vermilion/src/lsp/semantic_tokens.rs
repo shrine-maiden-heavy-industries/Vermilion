@@ -1,11 +1,11 @@
-/* SPDX-License-Identifier: BSD-3-Clause */
+// SPDX-License-Identifier: BSD-3-Clause
 
 use std::vec;
 
 use vermilion_lsp::types::{
-	semantic_tokens::SemanticTokensLegend,
 	capabilities::server::SemanticTokensServerCapabilities,
-	options::{SemanticTokensOptions, WorkDoneProgressOptions}
+	options::{SemanticTokensOptions, WorkDoneProgressOptions},
+	semantic_tokens::SemanticTokensLegend,
 };
 
 fn build_legend() -> SemanticTokensLegend {
@@ -58,8 +58,6 @@ pub fn capabilities() -> SemanticTokensServerCapabilities {
 		legend,
 		range: None,
 		full: Some(true),
-		work_done_progress_options: WorkDoneProgressOptions {
-			work_done_progress: None,
-		}
+		work_done_progress_options: WorkDoneProgressOptions { work_done_progress: None },
 	})
 }

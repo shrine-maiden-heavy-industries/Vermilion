@@ -1,4 +1,4 @@
-/* SPDX-License-Identifier: BSD-3-Clause */
+// SPDX-License-Identifier: BSD-3-Clause
 
 mod semantic_tokens;
 mod workspace;
@@ -9,6 +9,13 @@ use std::{
 };
 
 use eyre::OptionExt;
+use tokio::{
+	select, signal,
+	sync::mpsc::{self, UnboundedSender},
+	task::JoinSet,
+};
+use tokio_util::sync::CancellationToken;
+use tracing::{debug, info, trace, warn};
 use vermilion_lsp::{
 	prelude::{Message, Notification, Request, Response},
 	request::RequestType,
@@ -21,14 +28,6 @@ use vermilion_lsp::{
 		capabilities::server::{ServerCapabilities, TextDocumentSyncServerCapability},
 	},
 };
-
-use tokio::{
-	select, signal,
-	sync::mpsc::{self, UnboundedSender},
-	task::JoinSet,
-};
-use tokio_util::sync::CancellationToken;
-use tracing::{debug, info, trace, warn};
 
 use self::workspace::Workspace;
 
