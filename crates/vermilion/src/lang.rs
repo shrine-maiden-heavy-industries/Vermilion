@@ -1,14 +1,13 @@
-/* SPDX-License-Identifier: BSD-3-Clause */
+// SPDX-License-Identifier: BSD-3-Clause
+
+use std::fmt::Display;
 
 use clap::ArgMatches;
 use vermilion_lang::AtomicByteTendril;
+pub(crate) use vermilion_verilog::lang::ast::ModernAst as VerilogAst;
 use vermilion_verilog::{SystemVerilogStd, VerilogAmsStd, VerilogStd};
 use vermilion_vhdl::VhdlStd;
-
-pub(crate) use vermilion_verilog::lang::ast::ModernAst as VerilogAst;
 pub(crate) use vermilion_vhdl::lang::ast::Ast as VhdlAst;
-
-use std::fmt::Display;
 
 #[derive(Debug, Clone, Copy, PartialEq, PartialOrd, Eq, Ord)]
 pub(crate) enum Language {
@@ -52,7 +51,8 @@ pub(crate) fn get_langid(a: &ArgMatches) -> Option<Language> {
 impl Display for Language {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
 		match self {
-			// XXX(aki): There should be a better way to do this, but I have no idea what it would be
+			// XXX(aki): There should be a better way to do this, but I have no idea what it would
+			// be
 			Self::Verilog(std) => write!(f, "{std}"),
 			Self::SystemVerilog(std) => write!(f, "{std}"),
 			Self::VerilogAms(std) => write!(f, "{std}"),

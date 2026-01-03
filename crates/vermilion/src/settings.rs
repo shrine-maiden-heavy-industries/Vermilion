@@ -1,11 +1,10 @@
-/* SPDX-License-Identifier: BSD-3-Clause */
+// SPDX-License-Identifier: BSD-3-Clause
 
 use std::{fs, path::PathBuf, str::FromStr};
 
 use clap::ArgMatches;
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
-
 use tracing::{debug, trace, warn};
 use vermilion_core::settings::VermilionConfig;
 use vermilion_verilog::settings::{SystemVerilogConfig, VerilogConfig};
@@ -19,9 +18,9 @@ pub struct Config {
 	#[serde(rename = "vermilion")]
 	core: VermilionConfig,
 
-	verilog: Option<VerilogConfig>,
+	verilog:        Option<VerilogConfig>,
 	system_verilog: Option<SystemVerilogConfig>,
-	vhdl: Option<VhdlConfig>,
+	vhdl:           Option<VhdlConfig>,
 }
 
 /// ## Load the Vermillion Configuration
@@ -37,11 +36,11 @@ pub struct Config {
 /// 4. Starting from the current working directory:
 ///    1. Look for `vermilion.toml`:
 ///    2. If found, overlay and return, otherwise...
-///    3. If the next upper directory is on the same file-system mount, move up and try again, otherwise return
+///    3. If the next upper directory is on the same file-system mount, move up and try again,
+///       otherwise return
 ///
 /// This allows you to set system-wide defaults, and then have them be overloaded per user and also
 /// per-project.
-///
 pub fn load_config(args: &ArgMatches) -> eyre::Result<Config> {
 	fn _load_cfg_file(file: &PathBuf) -> eyre::Result<Config> {
 		trace!("Loading configuration file from {:#?}", file);
@@ -74,7 +73,8 @@ pub fn load_config(args: &ArgMatches) -> eyre::Result<Config> {
 			.map(|f| f.path())
 			.next();
 
-		// Check to see if we found a configuration file, if not try to go up a directory if possible
+		// Check to see if we found a configuration file, if not try to go up a directory if
+		// possible
 		if let Some(ref path) = cfg_file {
 			cfg = _load_cfg_file(path)?;
 			break;

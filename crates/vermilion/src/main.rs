@@ -1,4 +1,4 @@
-/* SPDX-License-Identifier: BSD-3-Clause */
+// SPDX-License-Identifier: BSD-3-Clause
 #![deny(clippy::unwrap_used, clippy::expect_used)]
 
 use std::io;
@@ -12,7 +12,6 @@ use tracing_subscriber::{
 	layer::SubscriberExt,
 	util::SubscriberInitExt,
 };
-
 use vermilion_core::vars::VERMILION_LOG_LEVEL;
 
 use crate::settings::Config;
@@ -25,8 +24,9 @@ pub(crate) mod paths;
 pub(crate) mod settings;
 
 fn fmt_color() -> bool {
-	use crossterm::tty::IsTty;
 	use std::io::stdout;
+
+	use crossterm::tty::IsTty;
 
 	stdout().is_tty() && colorchoice::ColorChoice::global() != colorchoice::ColorChoice::Never
 }
@@ -37,7 +37,8 @@ fn initialize_tracing(level: LevelFilter) -> eyre::Result<()> {
 			console_subscriber::spawn().with_filter(
 				// SAFETY:
 				// These `Directive` strings are hard-coded and as correct as we can ensure,
-				// and there is no way to construct them in a more-safe manner other than `.parse()`
+				// and there is no way to construct them in a more-safe manner other than
+				// `.parse()`
 				#[allow(clippy::unwrap_used)]
 				EnvFilter::builder()
 					.with_default_directive(LevelFilter::OFF.into())
@@ -53,7 +54,8 @@ fn initialize_tracing(level: LevelFilter) -> eyre::Result<()> {
 				.with_filter(
 					// SAFETY:
 					// These `Directive` strings are hard-coded and as correct as we can ensure,
-					// and there is no way to construct them in a more-safe manner other than `.parse()`
+					// and there is no way to construct them in a more-safe manner other than
+					// `.parse()`
 					#[allow(clippy::unwrap_used)]
 					EnvFilter::builder()
 						.with_default_directive(level.into())

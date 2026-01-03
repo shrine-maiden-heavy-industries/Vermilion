@@ -1,9 +1,12 @@
-/* SPDX-License-Identifier: BSD-3-Clause */
+// SPDX-License-Identifier: BSD-3-Clause
 
-use color_eyre::config::HookBuilder;
-use color_eyre::eyre::{EyreHandler, InstallError};
-use color_print::cformat;
 use std::sync::OnceLock;
+
+use color_eyre::{
+	config::HookBuilder,
+	eyre::{EyreHandler, InstallError},
+};
+use color_print::cformat;
 
 type EyreHookFunc =
 	Box<dyn Fn(&(dyn std::error::Error + 'static)) -> Box<dyn EyreHandler> + Send + Sync + 'static>;
@@ -46,8 +49,8 @@ impl VermilionPanicHook {
 	pub fn into_panic_hook(self) -> PanicHookFunc {
 		Box::new(move |info| {
 			// SAFETY:
-			// `HOOK_PROLOGUE` and `HOOK_EPILOGUE` *should* always be initialized by the time we get here
-			// and if not, we're boned either way...
+			// `HOOK_PROLOGUE` and `HOOK_EPILOGUE` *should* always be initialized by the time we get
+			// here and if not, we're boned either way...
 			#[allow(clippy::unwrap_used)]
 			let prologue = HOOK_PROLOGUE.get().unwrap();
 			#[allow(clippy::unwrap_used)]
@@ -67,8 +70,8 @@ impl EyreHandler for VermilionEyreHander {
 		f: &mut core::fmt::Formatter<'_>,
 	) -> core::fmt::Result {
 		// SAFETY:
-		// `HOOK_PROLOGUE` and `HOOK_EPILOGUE` *should* always be initialized by the time we get here
-		// and if not, we're boned either way...
+		// `HOOK_PROLOGUE` and `HOOK_EPILOGUE` *should* always be initialized by the time we get
+		// here and if not, we're boned either way...
 		#[allow(clippy::unwrap_used)]
 		writeln!(f, "{}", HOOK_PROLOGUE.get().unwrap())?;
 		self.inner.debug(error, f)?;
@@ -90,9 +93,8 @@ pub(crate) fn install() -> eyre::Result<()> {
 	HOOK_PROLOGUE.get_or_init(|| {
 		cformat!(
 			"\
-			\n\n<blue>{}</> v{} has encountered an unhandled error\n\n\
-			<bright-black>------------[ ✂ cut here ✂ ]------------</>\n\
-			",
+			\n\n<blue>{}</> v{} has encountered an unhandled error\n\n<bright-black>------------[ ✂ cut \
+			 here ✂ ]------------</>\n",
 			env!("CARGO_PKG_NAME"),
 			env!("CARGO_PKG_VERSION")
 		)
@@ -100,9 +102,8 @@ pub(crate) fn install() -> eyre::Result<()> {
 	HOOK_EPILOGUE.get_or_init(|| {
 		cformat!(
 			"\
-			\n<bright-black>------------[ ✂ cut here ✂ ]------------</>\n\n\
-			Please report this issue at: <red>{}/issues</>\
-			",
+			\n<bright-black>------------[ ✂ cut here ✂ ]------------</>\n\nPlease report this issue at: \
+			 <red>{}/issues</>",
 			env!("CARGO_PKG_REPOSITORY")
 		)
 	});
