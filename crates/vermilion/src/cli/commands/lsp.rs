@@ -1,10 +1,9 @@
-/* SPDX-License-Identifier: BSD-3-Clause */
+// SPDX-License-Identifier: BSD-3-Clause
 
 use std::path::PathBuf;
 
 use clap::{Arg, ArgAction, ArgMatches, Command, ValueHint};
 use tracing::error;
-
 use vermilion_lsp::transports;
 
 use crate::{lsp, settings::Config};
