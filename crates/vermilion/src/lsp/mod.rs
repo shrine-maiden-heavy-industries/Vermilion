@@ -8,6 +8,7 @@ use std::{
 	time::Duration,
 };
 
+use eyre::OptionExt;
 use vermilion_lsp::{
 	prelude::{Message, Notification, Request, Response},
 	request::RequestType,
@@ -95,6 +96,7 @@ pub(crate) fn start(transport: TransportType, client_pid: Option<usize>) -> eyre
 }
 
 pub fn process_lsp_request(
+	workspace: &Workspace,
 	request: Box<Request>,
 	response_channel: &UnboundedSender<Message>,
 	_shutdown_channel: &UnboundedSender<()>,
@@ -121,6 +123,20 @@ pub fn process_lsp_request(
 							ServerInfo::new("vermilion".to_string())
 								.with_version(env!("CARGO_PKG_VERSION").to_string()),
 						),
+					)?
+					.into(),
+			)?;
+		},
+		RequestType::TextDocumentSemanticTokensFull(params) => {
+			let document = workspace.find_document(params.text_document.uri());
+
+			response_channel.send(
+				request
+					.response()
+					.with_result(
+						document
+							.ok_or_eyre("Failed to find document")?
+							.semantic_tokens(),
 					)?
 					.into(),
 			)?;
@@ -175,7 +191,7 @@ fn process_lsp_message(
 
 	match message {
 		Message::Request(request) => {
-			process_lsp_request(request, response_channel, shutdown_channel)
+			process_lsp_request(workspace, request, response_channel, shutdown_channel)
 		},
 		Message::Response(response) => {
 			process_lsp_response(response, response_channel, shutdown_channel)

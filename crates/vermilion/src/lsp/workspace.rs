@@ -4,10 +4,13 @@ use std::collections::HashMap;
 
 use tracing::debug;
 use vermilion_lang::AtomicByteTendril;
-use vermilion_lsp::types::{LanguageId, TextDocumentItem, Uri, semantic_tokens::SemanticTokens};
+use vermilion_lsp::types::{
+	LanguageId, TextDocumentItem, Uri,
+	semantic_tokens::{SemanticToken, SemanticTokens},
+};
 use vermilion_verilog::{SystemVerilogStd, VerilogAmsStd};
 
-use crate::lang::{Ast, Language};
+use crate::lang::{Ast, Language, VerilogAst, VhdlAst};
 
 pub struct Workspace {
 	documents: HashMap<Uri, Document>,
@@ -62,9 +65,22 @@ impl Workspace {
 }
 
 impl Document {
-	pub fn semantic_tokens(&self) -> SemanticTokens {
+	fn vhdl_semantic_tokens(&self, _ast: &VhdlAst) -> Vec<SemanticToken> {
+		todo!();
+	}
+
+	fn verilog_semantic_tokens(&self, ast: &VerilogAst) -> Vec<SemanticToken> {
 		let mut tokens = Vec::new();
 
-		SemanticTokens::new(tokens)
+		debug!("meow - have to convert ast into tokens here");
+
+		tokens
+	}
+
+	pub fn semantic_tokens(&self) -> SemanticTokens {
+		SemanticTokens::new(match &self.ast {
+			Ast::Vhdl(ast) => self.vhdl_semantic_tokens(ast),
+			Ast::Verilog(ast) => self.verilog_semantic_tokens(ast),
+		})
 	}
 }

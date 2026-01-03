@@ -2,10 +2,11 @@
 
 use clap::ArgMatches;
 use vermilion_lang::AtomicByteTendril;
-use vermilion_verilog::{
-	SystemVerilogStd, VerilogAmsStd, VerilogStd, lang::ast::ModernAst as VerilogAst,
-};
-use vermilion_vhdl::{VhdlStd, lang::ast::Ast as VhdlAst};
+use vermilion_verilog::{SystemVerilogStd, VerilogAmsStd, VerilogStd};
+use vermilion_vhdl::VhdlStd;
+
+pub(crate) use vermilion_verilog::lang::ast::ModernAst as VerilogAst;
+pub(crate) use vermilion_vhdl::lang::ast::Ast as VhdlAst;
 
 use std::fmt::Display;
 
