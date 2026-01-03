@@ -1,4 +1,4 @@
-/* SPDX-License-Identifier: BSD-3-Clause */
+// SPDX-License-Identifier: BSD-3-Clause
 
 use std::fmt::Display;
 
@@ -20,7 +20,7 @@ pub(crate) enum Token {
 	Newline(AtomicByteTendril),
 	Number(AtomicByteTendril),
 	Real {
-		value: f64,
+		value:    f64,
 		exponent: Option<AtomicByteTendril>,
 	},
 	Operator(Operator),

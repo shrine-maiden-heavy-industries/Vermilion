@@ -1,4 +1,4 @@
-/* SPDX-License-Identifier: BSD-3-Clause */
+// SPDX-License-Identifier: BSD-3-Clause
 
 use super::*;
 use crate::VerilogStd;
@@ -1610,7 +1610,10 @@ tokenizer_test!(
 	test_tokenize_real_number_exponent,
 	"1e7",
 	vec![Spanned::new(
-		Token::Real { value: 1e7, exponent: Some("e7".as_bytes().into()) },
+		Token::Real {
+			value:    1e7,
+			exponent: Some("e7".as_bytes().into()),
+		},
 		Some(Span::new(0..3, Position::new(0, 0)))
 	),]
 );
@@ -1620,8 +1623,8 @@ tokenizer_test!(
 	"1.2e6",
 	vec![Spanned::new(
 		Token::Real {
-			value: 1.2e6,
-			exponent: Some("e6".as_bytes().into())
+			value:    1.2e6,
+			exponent: Some("e6".as_bytes().into()),
 		},
 		Some(Span::new(0..5, Position::new(0, 0)))
 	),]
@@ -1632,8 +1635,8 @@ tokenizer_test!(
 	"1e+6",
 	vec![Spanned::new(
 		Token::Real {
-			value: 1e6,
-			exponent: Some("e+6".as_bytes().into())
+			value:    1e6,
+			exponent: Some("e+6".as_bytes().into()),
 		},
 		Some(Span::new(0..4, Position::new(0, 0)))
 	),]
@@ -1644,8 +1647,8 @@ tokenizer_test!(
 	"1e-6",
 	vec![Spanned::new(
 		Token::Real {
-			value: 1e-6,
-			exponent: Some("e-6".as_bytes().into())
+			value:    1e-6,
+			exponent: Some("e-6".as_bytes().into()),
 		},
 		Some(Span::new(0..4, Position::new(0, 0)))
 	),]

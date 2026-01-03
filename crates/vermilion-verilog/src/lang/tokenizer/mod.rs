@@ -1,22 +1,22 @@
-/* SPDX-License-Identifier: BSD-3-Clause */
+// SPDX-License-Identifier: BSD-3-Clause
 
 use std::{collections::VecDeque, ops::Range};
+
+use vermilion_lang::{AtomicByteTendril, Position, Span, Spanned};
 
 use self::token::{BaseSpecifier, Comment, CompilerDirective, Control, Keyword, Operator, Token};
 use crate::VerilogVariant;
 
-use vermilion_lang::{AtomicByteTendril, Position, Span, Spanned};
-
 pub(crate) mod token;
 
 pub(crate) struct Tokenizer {
-	_standard: VerilogVariant,
-	file: AtomicByteTendril,
+	_standard:    VerilogVariant,
+	file:         AtomicByteTendril,
 	current_char: u8,
-	position: usize,
-	context: Position,
-	eof: bool,
-	token: Spanned<Token, Position>,
+	position:     usize,
+	context:      Position,
+	eof:          bool,
+	token:        Spanned<Token, Position>,
 	token_stream: VecDeque<Spanned<Token, Position>>,
 }
 
@@ -167,7 +167,8 @@ impl Tokenizer {
 		let context = self.context;
 		if self.current_char.is_ascii_alphabetic() || self.current_char == b'_' {
 			let range = self.read_normal_ident();
-			// We've already validated via the above read, that the entire token is valid UTF-8. Just make it a string.
+			// We've already validated via the above read, that the entire token is valid UTF-8.
+			// Just make it a string.
 			let ident = unsafe { str::from_utf8_unchecked(&self.file[range.clone()]) };
 			let token = match ident {
 				"always" => Token::Keyword(Keyword::Always),
@@ -653,7 +654,8 @@ impl Tokenizer {
 			self.next_char();
 		}
 
-		// The current character is no longer a valid identifier, push the token back onto the token stream
+		// The current character is no longer a valid identifier, push the token back onto the token
+		// stream
 		self.token_stream.push_back(Spanned::new(
 			Token::CompilerDirective(CompilerDirective::Name(
 				self.file
@@ -764,10 +766,12 @@ impl Tokenizer {
 			self.token_stream.push_back(self.token.clone())
 		}
 
-		// If we get here and we don't yet have a `'`,  we've consumed a decimal number - we're done.
+		// If we get here and we don't yet have a `'`,  we've consumed a decimal number - we're
+		// done.
 		if self.current_char != b'\'' {
 			// SAFETY:
-			// If we're here, we have to have pushed stuff to the token stream, so this is always okay.
+			// If we're here, we have to have pushed stuff to the token stream, so this is always
+			// okay.
 			#[allow(clippy::expect_used)]
 			let token = self
 				.token_stream
@@ -902,7 +906,8 @@ impl Tokenizer {
 
 		let context = self.context;
 		let begin = self.position;
-		// Make sure we've got a valid number - if we have not, eat the content and turn it into an Invalid token.
+		// Make sure we've got a valid number - if we have not, eat the content and turn it into an
+		// Invalid token.
 		if !digit_filter(self.current_char) {
 			// Keep monching until we find whitespace.
 			while !self.current_is_whitespace() {
@@ -938,9 +943,9 @@ impl Tokenizer {
 	fn read_normal_ident(&mut self) -> Range<usize> {
 		let begin = self.position;
 		// Scan through till we get something that's not a-zA-Z0-9_$
-		while self.current_char.is_ascii_alphanumeric()
-			|| self.current_char == b'_'
-			|| self.current_char == b'$'
+		while self.current_char.is_ascii_alphanumeric() ||
+			self.current_char == b'_' ||
+			self.current_char == b'$'
 		{
 			self.next_char();
 		}
