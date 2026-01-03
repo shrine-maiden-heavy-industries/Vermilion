@@ -1,4 +1,4 @@
-/* SPDX-License-Identifier: BSD-3-Clause */
+// SPDX-License-Identifier: BSD-3-Clause
 
 use clap::{
 	Arg, ArgAction, ArgMatches, ColorChoice, Command, ValueHint, builder::styling, value_parser,
@@ -23,9 +23,9 @@ pub(crate) fn init() -> eyre::Result<Command> {
 		))
 		.after_help(cformat!(
 			"\
-			<blue,bold>{0}</> is licensed under the <cyan,bold>{2}</> and is part of the <magenta>Vermilion</> \
-			 project,\nwhich can be found at {1}\n\n<red,bold>For bug reporting instructions, \
-			 please see</>: {1}/issues\n
+			<blue,bold>{0}</> is licensed under the <cyan,bold>{2}</> and is part of the \
+			 <magenta>Vermilion</> project,\nwhich can be found at {1}\n\n<red,bold>For bug \
+			 reporting instructions, please see</>: {1}/issues\n
 			",
 			env!("CARGO_PKG_NAME"),
 			env!("CARGO_PKG_REPOSITORY"),
@@ -48,7 +48,7 @@ pub(crate) fn init() -> eyre::Result<Command> {
 				.help("Control if color is enabled or disabled")
 				.value_parser(value_parser!(ColorChoice))
 				.value_name("WHEN")
-				.default_value("auto")
+				.default_value("auto"),
 		)
 		.arg(
 			Arg::new("verbose")
@@ -56,12 +56,12 @@ pub(crate) fn init() -> eyre::Result<Command> {
 				.action(ArgAction::Count)
 				.help("Enable verbose logging")
 				.long_help(cformat!(
-				"Enable verbose logging\n\n Repeat this option multiple times for increasingly \
-				 verbose output.\n\n This setting is overridden by the <magenta>{}</> \
-				 environment variable and also yields to the <blue>-q</> flag for quiet \
-				 operation.",
-				VERMILION_LOG_LEVEL
-			)),
+					"Enable verbose logging\n\n Repeat this option multiple times for \
+					 increasingly verbose output.\n\n This setting is overridden by the \
+					 <magenta>{}</> environment variable and also yields to the <blue>-q</> flag \
+					 for quiet operation.",
+					VERMILION_LOG_LEVEL
+				)),
 		)
 		.arg(
 			Arg::new("quiet")
@@ -72,7 +72,8 @@ pub(crate) fn init() -> eyre::Result<Command> {
 					"Disable logging\n\nDisable all output {}",
 					VERMILION_LOG_LEVEL,
 				)),
-		).arg(
+		)
+		.arg(
 			Arg::new("config")
 				.short('c')
 				.long("config")
@@ -80,27 +81,31 @@ pub(crate) fn init() -> eyre::Result<Command> {
 				.action(ArgAction::Set)
 				.value_hint(ValueHint::FilePath)
 				.value_name("CONFIG_FILE"),
-		).arg(
+		)
+		.arg(
 			Arg::new("dump-schema")
 				.long("dump-schema")
 				.action(ArgAction::SetTrue)
 				.help("Dump the Vermilion configuration schema to stdout")
-				.hide_short_help(true)
-		).arg(
+				.hide_short_help(true),
+		)
+		.arg(
 			Arg::new("dump-config")
 				.long("dump-config")
 				.action(ArgAction::SetTrue)
 				.help("Dump the default Vermilion configuration to stdout")
-				.hide_short_help(true)
-		).arg(
+				.hide_short_help(true),
+		)
+		.arg(
 			Arg::new("dump-completions")
 				.long("dump-completions")
 				.action(ArgAction::Set)
 				.help("Dump shell completion file for the given shell to stdout")
 				.hide_short_help(true)
 				.value_parser(value_parser!(clap_complete::Shell))
-				.value_name("SHELL")
-		).subcommands(init_commands()?))
+				.value_name("SHELL"),
+		)
+		.subcommands(init_commands()?))
 }
 
 fn init_commands() -> eyre::Result<Vec<Command>> {
