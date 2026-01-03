@@ -1,9 +1,10 @@
 // SPDX-License-Identifier: BSD-3-Clause
 
-use std::time::Duration;
+use std::{io, time::Duration};
 
 use eyre::Result;
 use tokio::{
+	io::Interest,
 	net::{
 		TcpStream,
 		tcp::{OwnedReadHalf, OwnedWriteHalf},
@@ -14,10 +15,13 @@ use tokio::{
 	time,
 };
 use tokio_util::sync::CancellationToken;
-use tracing::error;
+use tracing::{debug, error};
 
 use super::LSPTransport;
-use crate::message::Message;
+use crate::{
+	message::Message,
+	transports::{ReadPhase, parse_message},
+};
 
 #[derive(Debug)]
 pub struct SocketTransport {
@@ -32,33 +36,75 @@ impl SocketTransport {
 
 async fn socket_reader(
 	stream: OwnedReadHalf,
-	_sender: UnboundedSender<Message>,
+	sender: UnboundedSender<Message>,
 	cancellation_token: CancellationToken,
 	shutdown_channel: UnboundedSender<()>,
 ) -> Result<()> {
-	shutdown_channel.send(())?;
-	error!("LSP socket transport not implemented, exiting");
+	let mut buf = vec![0u8; 4096].into_boxed_slice();
+	let mut content = Vec::new();
+	let mut phase = ReadPhase::Header;
 
 	loop {
 		select! {
 			_ = cancellation_token.cancelled() => { break; },
-			Ok(_res) = stream.readable() => {},
+			ready_state = stream.ready(Interest::READABLE | Interest::ERROR) => {
+				let ready_state = ready_state?;
+				if ready_state.is_empty() {
+					// Need to wait again here..
+					continue;
+				} else if ready_state.is_error() {
+					error!("Socket entered error state, aborting");
+					break;
+				}
+				match stream.try_read(&mut buf) {
+					Ok(read) => {
+						match parse_message(read, &buf, &mut content, &mut phase, &sender, &shutdown_channel) {
+							Ok(_) => { continue; }
+							Err(_) => { break; }
+						}
+					}
+					Err(ref err) if err.kind() == io::ErrorKind::WouldBlock => {
+						continue;
+					}
+					Err(err) => {
+						shutdown_channel.send(())?;
+						return Err(err.into());
+					}
+				}
+			},
 		}
 	}
+
+	debug!("LSP Reader exited, shutting down");
+	shutdown_channel.send(())?;
 
 	Ok(())
 }
 
 async fn socket_writer(
-	_stream: OwnedWriteHalf,
+	stream: OwnedWriteHalf,
 	mut receiver: UnboundedReceiver<Message>,
 	cancellation_token: CancellationToken,
 	_shutdown_channel: UnboundedSender<()>,
 ) -> Result<()> {
+	let mut msg_buffer = Vec::new();
+	let mut send_buffer = Vec::new();
+
 	loop {
 		select! {
 			_ = cancellation_token.cancelled() => { break; },
-			Some(_message) = receiver.recv() => {},
+			Some(message) = receiver.recv() => {
+				message.serialize(&mut msg_buffer)?;
+
+				send_buffer.extend_from_slice(format!("Content-Length: {}\r\n\r\n", msg_buffer.len()).as_bytes());
+				send_buffer.extend_from_slice(&msg_buffer);
+
+				stream.writable().await?;
+				stream.try_write(&send_buffer)?;
+
+				msg_buffer.clear();
+				send_buffer.clear();
+			},
 		}
 	}
 
@@ -79,8 +125,6 @@ impl LSPTransport for SocketTransport {
 
 		let (read_tx, read_rx) = mpsc::unbounded_channel::<Message>();
 		let (write_tx, write_rx) = mpsc::unbounded_channel::<Message>();
-
-		// Connect to the given PIPE and then split it into halves
 
 		let stream = match time::timeout(
 			Duration::from_secs(15),
