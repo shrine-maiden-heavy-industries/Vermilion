@@ -1,7 +1,10 @@
 /* SPDX-License-Identifier: BSD-3-Clause */
 
 use clap::ArgMatches;
-use vermilion_verilog::{SystemVerilogStd, VerilogAmsStd, VerilogStd, lang::ast::ModernAst as VerilogAst};
+use vermilion_lang::AtomicByteTendril;
+use vermilion_verilog::{
+	SystemVerilogStd, VerilogAmsStd, VerilogStd, lang::ast::ModernAst as VerilogAst,
+};
 use vermilion_vhdl::{VhdlStd, lang::ast::Ast as VhdlAst};
 
 use std::fmt::Display;
@@ -54,5 +57,11 @@ impl Display for Language {
 			Self::VerilogAms(std) => write!(f, "{std}"),
 			Self::Vhdl(std) => write!(f, "{std}"),
 		}
+	}
+}
+
+impl Language {
+	pub fn parse_file(self, _content: AtomicByteTendril) -> Ast {
+		todo!()
 	}
 }
