@@ -121,6 +121,8 @@ pub fn process_lsp_request(
 			if let Some(client_info) = &params.client_info {
 				debug!("Client Name: {}", client_info.name());
 				debug!("Client Version: {:?}", client_info.version());
+			} else {
+				debug!("We didn't get any client info, someone should fix that.");
 			}
 
 			let capabilities = ServerCapabilities::default()
