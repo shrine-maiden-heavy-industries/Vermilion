@@ -4,6 +4,7 @@ use std::{io, path::PathBuf};
 
 use eyre::Result;
 use tokio::{
+	io::Interest,
 	net::{
 		UnixStream,
 		unix::{OwnedReadHalf, OwnedWriteHalf},
@@ -55,7 +56,15 @@ async fn pipe_reader(
 	loop {
 		select! {
 			_ = cancellation_token.cancelled() => { break; },
-			Ok(_) = stream.readable() => {
+			ready_state = stream.ready(Interest::READABLE | Interest::ERROR) => {
+				let ready_state = ready_state?;
+				if ready_state.is_empty() {
+					// Need to wait again here..
+					continue;
+				} else if ready_state.is_error() {
+					error!("PIPE entered error state, aborting");
+					break;
+				}
 				match stream.try_read(&mut buf) {
 					Ok(read) => {
 						match phase {
