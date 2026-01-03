@@ -238,6 +238,10 @@ pub struct Ast<'src> {
 	comments: Vec<Spanned<Comment<'src>, ()>>,
 }
 
+#[derive(Debug, Default)]
+pub struct ModernAst {
+}
+
 impl<'src> Primitive<'src> {
 	pub fn new(name: &'src str) -> Self {
 		Self { name, directives: Vec::new(), comments: Vec::new() }

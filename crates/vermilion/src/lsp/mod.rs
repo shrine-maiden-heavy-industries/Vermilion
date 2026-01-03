@@ -1,4 +1,5 @@
 /* SPDX-License-Identifier: BSD-3-Clause */
+mod workspace;
 
 use std::{
 	sync::atomic::{AtomicBool, AtomicUsize, Ordering},

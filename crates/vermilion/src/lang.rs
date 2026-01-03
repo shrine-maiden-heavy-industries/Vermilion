@@ -1,8 +1,8 @@
 /* SPDX-License-Identifier: BSD-3-Clause */
 
 use clap::ArgMatches;
-use vermilion_verilog::{SystemVerilogStd, VerilogAmsStd, VerilogStd};
-use vermilion_vhdl::VhdlStd;
+use vermilion_verilog::{SystemVerilogStd, VerilogAmsStd, VerilogStd, lang::ast::ModernAst as VerilogAst};
+use vermilion_vhdl::{VhdlStd, lang::ast::Ast as VhdlAst};
 
 use std::fmt::Display;
 
@@ -12,6 +12,11 @@ pub(crate) enum Language {
 	SystemVerilog(SystemVerilogStd),
 	VerilogAms(VerilogAmsStd),
 	Vhdl(VhdlStd),
+}
+
+pub(crate) enum Ast {
+	Verilog(VerilogAst),
+	Vhdl(VhdlAst),
 }
 
 pub(crate) fn get_langid(a: &ArgMatches) -> Option<Language> {

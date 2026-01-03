@@ -2819,6 +2819,7 @@ dependencies = [
  "crossterm 0.29.0",
  "directories",
  "eyre",
+ "fluent-uri",
  "notify",
  "proptest",
  "pulldown-cmark",
