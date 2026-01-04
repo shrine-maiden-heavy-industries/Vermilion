@@ -30,7 +30,7 @@ console-subscriber    = { workspace = true }
 crossterm             = { workspace = true }
 directories           = { workspace = true }
 eyre                  = { workspace = true }
-fluent-uri = { workspace = true }
+fluent-uri            = { workspace = true }
 notify                = { workspace = true }
 pulldown-cmark        = { workspace = true }
 ratatui               = { workspace = true }

@@ -13,15 +13,15 @@ version       = { workspace = true }
 
 [dependencies]
 bitmask-enum = { workspace = true }
-chrono     = { workspace = true }
-eyre       = { workspace = true }
-fluent-uri = { workspace = true }
-serde      = { workspace = true }
-serde_json = { workspace = true }
-serde_repr = { workspace = true }
-tokio      = { workspace = true }
-tokio-util = { workspace = true }
-tracing    = { workspace = true }
+chrono       = { workspace = true }
+eyre         = { workspace = true }
+fluent-uri   = { workspace = true }
+serde        = { workspace = true }
+serde_json   = { workspace = true }
+serde_repr   = { workspace = true }
+tokio        = { workspace = true }
+tokio-util   = { workspace = true }
+tracing      = { workspace = true }
 
 [target.'cfg(windows)'.dependencies]
 windows-sys = { workspace = true }
