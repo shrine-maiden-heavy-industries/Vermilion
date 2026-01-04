@@ -1035,7 +1035,7 @@ pub enum DocumentFilter {
 ///
 /// ```let sel:DocumentSelector = [{ language: 'typescript' }, { language: 'json', pattern:
 /// '**∕tsconfig.json' }]```
-/// 
+///
 /// The use of a string as a document filter is deprecated
 ///
 /// since: 3.16.0
