@@ -2,14 +2,14 @@
 
 use std::{collections::VecDeque, ops::Range};
 
-use vermilion_lang::{AtomicByteTendril, Position, Span, Spanned};
+use vermilion_lang::{AtomicByteTendril, Position, Span, Spanned, tokenizer};
 
 use self::token::Token;
 use crate::VhdlStd;
 
-pub(crate) mod token;
+pub mod token;
 
-pub(crate) struct Tokenizer {
+pub struct Tokenizer {
 	_standard:    VhdlStd,
 	file:         AtomicByteTendril,
 	current_char: u8,
@@ -41,6 +41,21 @@ impl Tokenizer {
 		}
 
 		tokenizer
+	}
+
+	fn read_token(&mut self) {}
+}
+
+impl Iterator for Tokenizer {
+	type Item = Spanned<Token, Position>;
+
+	fn next(&mut self) -> Option<Self::Item> {
+		// If we hit the end of the file, we've nothing more to give
+		if self.eof && self.token_stream.is_empty() {
+			return None;
+		}
+		self.read_token();
+		Some(self.token.clone())
 	}
 }
 
