@@ -209,6 +209,16 @@ fn process_lsp_message(
 	let initialized = LSP_INITIALIZED.load(Ordering::Acquire);
 	if !initialized && !message.is_initialize().unwrap_or(false) {
 		warn!("LSP is not Initialized but a request other than `Initialize` was received");
+
+		response_channel.send(
+			vermilion_lsp::error::Error::new(
+				"Vermilion Not Initialized".into(),
+				vermilion_lsp::error::Code::ServerNotInitialized,
+				None,
+			)
+			.into(),
+		)?;
+
 		return Ok(());
 	}
 
