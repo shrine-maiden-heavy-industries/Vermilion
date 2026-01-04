@@ -7,13 +7,12 @@ use eyre::Result;
 use crate::{notification::Notification, request::Request, response::Response};
 
 /// A JSON-RPC message ID
-#[derive(
-	Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize,
-)]
+#[derive(Clone, Debug, Hash, PartialEq, serde::Deserialize, serde::Serialize)]
 #[serde(untagged)]
 pub enum Id {
 	Integer(i32),
 	String(String),
+	Null(serde_json::Value),
 }
 
 #[derive(Clone, Debug, PartialEq, serde::Deserialize, serde::Serialize)]
@@ -66,7 +65,8 @@ impl Display for Id {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
 		match self {
 			Id::Integer(id) => Display::fmt(id, f),
-			Id::String(id) => Debug::fmt(id, f),
+			Id::String(id) => Display::fmt(id, f),
+			Id::Null(_) => write!(f, "null"),
 		}
 	}
 }
