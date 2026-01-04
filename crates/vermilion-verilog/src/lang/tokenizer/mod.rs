@@ -7,9 +7,9 @@ use vermilion_lang::{AtomicByteTendril, Position, Span, Spanned};
 use self::token::{BaseSpecifier, Comment, CompilerDirective, Control, Keyword, Operator, Token};
 use crate::VerilogVariant;
 
-pub(crate) mod token;
+pub mod token;
 
-pub(crate) struct Tokenizer {
+pub struct Tokenizer {
 	_standard:    VerilogVariant,
 	file:         AtomicByteTendril,
 	current_char: u8,

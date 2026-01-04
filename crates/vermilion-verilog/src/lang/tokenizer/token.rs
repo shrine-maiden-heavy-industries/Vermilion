@@ -7,7 +7,7 @@ use vermilion_lang::{AtomicByteTendril, Position, Spanned};
 use crate::VerilogVariant;
 
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
-pub(crate) enum Token {
+pub enum Token {
 	Invalid(Option<AtomicByteTendril>),
 	/// Hold the verilog variant for when this token would become valid
 	ContextuallyInvalid(AtomicByteTendril, VerilogVariant),
@@ -30,20 +30,20 @@ pub(crate) enum Token {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
-pub(crate) enum CompilerDirective {
+pub enum CompilerDirective {
 	Name(AtomicByteTendril),
 	Arg(AtomicByteTendril),
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
-pub(crate) enum Comment {
+pub enum Comment {
 	Invalid(AtomicByteTendril),
 	SingleLine(AtomicByteTendril),
 	MultiLine(AtomicByteTendril),
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
-pub(crate) enum BaseSpecifier {
+pub enum BaseSpecifier {
 	Binary,
 	Octal,
 	Decimal,
@@ -51,7 +51,7 @@ pub(crate) enum BaseSpecifier {
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
-pub(crate) enum Control {
+pub enum Control {
 	At,
 	BraceClose,
 	BraceOpen,
@@ -69,7 +69,7 @@ pub(crate) enum Control {
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
-pub(crate) enum Keyword {
+pub enum Keyword {
 	Always,
 	And,
 	Assign,
@@ -175,7 +175,7 @@ pub(crate) enum Keyword {
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
-pub(crate) enum Operator {
+pub enum Operator {
 	Ampersand,
 	Asterisk,
 	CaseEquality,
