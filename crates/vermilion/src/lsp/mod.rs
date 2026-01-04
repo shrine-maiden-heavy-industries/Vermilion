@@ -5,7 +5,7 @@ mod workspace;
 
 use std::{
 	sync::{
-		Arc, OnceLock,
+		OnceLock,
 		atomic::{AtomicBool, AtomicUsize, Ordering},
 	},
 	time::Duration,
