@@ -2,6 +2,11 @@
 
 use std::fmt::Display;
 
+use crate::{
+	message::{Id, Message},
+	prelude::Response,
+};
+
 #[derive(
 	Clone,
 	Debug,
@@ -76,6 +81,14 @@ impl Error {
 
 	pub const fn data(&self) -> Option<&serde_json::Value> {
 		self.data.as_ref()
+	}
+}
+
+impl From<Error> for Message {
+	fn from(value: Error) -> Self {
+		Response::new(Id::Null(serde_json::Value::Null))
+			.with_error(value)
+			.into()
 	}
 }
 
