@@ -2,12 +2,6 @@
 
 use tendril::ByteTendril;
 
-pub trait Tokenizer: Iterator {
-	type Context;
-	type CurrentChar;
-	type Token;
-}
-
 /// The underlying tokenization machinery for all other Vermilion tokenizers
 pub struct CoreTokenizer {
 	text:     ByteTendril,
