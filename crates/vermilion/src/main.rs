@@ -18,10 +18,10 @@ use crate::settings::Config;
 
 mod cli;
 mod eyre_hook;
-pub(crate) mod lang;
-pub(crate) mod lsp;
-pub(crate) mod paths;
-pub(crate) mod settings;
+mod lang;
+mod lsp;
+mod paths;
+mod settings;
 
 fn fmt_color() -> bool {
 	use crossterm::tty::IsTty;
