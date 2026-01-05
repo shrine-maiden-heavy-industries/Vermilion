@@ -24,11 +24,9 @@ pub(crate) mod paths;
 pub(crate) mod settings;
 
 fn fmt_color() -> bool {
-	use std::io::stdout;
-
 	use crossterm::tty::IsTty;
 
-	stdout().is_tty() && colorchoice::ColorChoice::global() != colorchoice::ColorChoice::Never
+	io::stderr().is_tty() && colorchoice::ColorChoice::global() != colorchoice::ColorChoice::Never
 }
 
 fn initialize_tracing(level: LevelFilter) -> eyre::Result<()> {
