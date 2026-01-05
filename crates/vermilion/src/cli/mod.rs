@@ -3,7 +3,7 @@
 use clap::{
 	Arg, ArgAction, ArgMatches, ColorChoice, Command, ValueHint, builder::styling, value_parser,
 };
-use color_print::{cformat, cstr};
+use color_print::cformat;
 use vermilion_core::vars::VERMILION_LOG_LEVEL;
 
 use crate::settings::Config;
@@ -56,10 +56,12 @@ pub(crate) fn init() -> eyre::Result<Command> {
 				.action(ArgAction::Count)
 				.help("Enable verbose logging")
 				.long_help(cformat!(
-					"Enable verbose logging\n\n Repeat this option multiple times for \
-					 increasingly verbose output.\n\n This setting is overridden by the \
-					 <magenta>{}</> environment variable and also yields to the <blue>-q</> flag \
-					 for quiet operation.",
+					"Enable verbose logging\n\nRepeat this option multiple times for increasingly \
+					 verbose output.\n\nThis setting is overridden by the <magenta>{}</> \
+					 environment variable and also yields to the <blue>-q</> flag for quiet \
+					 operation.\n\nWhen this flag is set to the highest tracing level (e.g. any \
+					 more than 2) the \nTokio console subscriber is also enabled for debugging \
+					 the async runtime with the <green>tokio-consol</> command.",
 					VERMILION_LOG_LEVEL
 				)),
 		)
@@ -67,9 +69,12 @@ pub(crate) fn init() -> eyre::Result<Command> {
 			Arg::new("quiet")
 				.short('q')
 				.action(ArgAction::SetTrue)
-				.help("Disable logging")
+				.help("Disable all non-critical logging")
 				.long_help(cformat!(
-					"Disable logging\n\nDisable all output {}",
+					"Disable all non-critical logging\n\nDisable all output unless it is a \
+					 warning or error.\n\nThis setting is overridden by the <magenta>{}</> \
+					 environment variable and overrides the <blue>-v</> flag if set.
+					",
 					VERMILION_LOG_LEVEL,
 				)),
 		)
@@ -148,7 +153,7 @@ fn lang_common(command: Command, with_files: bool) -> Command {
 					"vhd87", "vhd93", "vhd2k", "vhd02", "vhd07", "vhd08", "vhd11", "vhd19", "vhd23",
 				])
 				.help("Set the language standard to use")
-				.long_help(cstr!(
+				.long_help(cformat!(
 					"\n\
 				 --std=vl95\n\
 				 \tSet Language and standard to <magenta>Verilog</> 1995 (<blue>IEEE</> 1364-1995)\n\n\

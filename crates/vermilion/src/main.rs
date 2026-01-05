@@ -122,7 +122,7 @@ fn main() -> eyre::Result<()> {
 	// Initialize tracing with the appropriate log level
 	initialize_tracing({
 		if args.get_flag("quiet") {
-			LevelFilter::ERROR
+			LevelFilter::WARN
 		} else {
 			match args.get_count("verbose") {
 				0 => LevelFilter::INFO,
