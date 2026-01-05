@@ -62,7 +62,8 @@ fn initialize_tracing(level: LevelFilter) -> eyre::Result<()> {
 						.with_env_var(VERMILION_LOG_LEVEL)
 						.from_env_lossy()
 						.add_directive("tokio=error".parse().unwrap())
-						.add_directive("runtime=error".parse().unwrap()),
+						.add_directive("runtime=error".parse().unwrap())
+						.add_directive("mio=error".parse().unwrap()),
 				),
 		)
 		.try_init()?)
