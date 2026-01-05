@@ -5,7 +5,7 @@ use std::fmt::Display;
 use clap::ArgMatches;
 use vermilion_lang::AtomicByteTendril;
 pub(crate) use vermilion_verilog::lang::{
-	ast::ModernAst as VerilogAst, tokenizer::Tokenizer as VerilogTokenizer,
+	ast::Ast as VerilogAst, tokenizer::Tokenizer as VerilogTokenizer,
 };
 use vermilion_verilog::{SystemVerilogStd, VerilogAmsStd, VerilogStd, VerilogVariant};
 use vermilion_vhdl::VhdlStd;
