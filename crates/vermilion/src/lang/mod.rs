@@ -11,6 +11,9 @@ use vermilion_verilog::{SystemVerilogStd, VerilogAmsStd, VerilogStd, VerilogVari
 use vermilion_vhdl::VhdlStd;
 pub(crate) use vermilion_vhdl::lang::{ast::Ast as VhdlAst, tokenizer::Tokenizer as VhdlTokenizer};
 
+pub(crate) mod verilog;
+pub(crate) mod vhdl;
+
 #[derive(Debug, Clone, Copy, PartialEq, PartialOrd, Eq, Ord)]
 pub(crate) enum Language {
 	Verilog(VerilogStd),
