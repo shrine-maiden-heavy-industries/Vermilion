@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: BSD-3-Clause
 
-use vermilion_fmt::settings::CommonFormat;
+use vermilion_fmt::workspace::CommonFormat;
 
 #[derive(Clone, Debug, Default)]
 #[cfg_attr(

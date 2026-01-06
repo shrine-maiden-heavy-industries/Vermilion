@@ -6,8 +6,6 @@ use clap::ArgMatches;
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 use tracing::{debug, trace, warn};
-use vermilion_verilog::settings::{SystemVerilogConfig, VerilogConfig};
-use vermilion_vhdl::settings::VhdlConfig;
 
 use crate::paths;
 
@@ -20,10 +18,6 @@ pub struct VermilionConfig {}
 pub struct Config {
 	#[serde(rename = "vermilion")]
 	core: VermilionConfig,
-
-	verilog:        Option<VerilogConfig>,
-	system_verilog: Option<SystemVerilogConfig>,
-	vhdl:           Option<VhdlConfig>,
 }
 
 /// ## Load the Vermillion Configuration

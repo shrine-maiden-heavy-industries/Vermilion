@@ -11,7 +11,7 @@ pub mod error;
 pub mod fmt;
 pub mod lang;
 pub mod lint;
-pub mod settings;
+pub mod workspace;
 
 #[derive(Debug, Default, Clone, Copy, PartialEq, PartialOrd, Eq, Ord)]
 #[cfg_attr(feature = "serde", derive(::serde::Serialize, ::serde::Deserialize))]

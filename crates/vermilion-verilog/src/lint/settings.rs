@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: BSD-3-Clause
 
-use vermilion_diagnostics::settings::CommonLint;
+use vermilion_diagnostics::workspace::CommonLint;
 
 #[derive(Clone, Debug, Default)]
 #[cfg_attr(
