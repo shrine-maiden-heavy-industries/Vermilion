@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: BSD-3-Clause
 
-use crate::{VhdlStd, fmt::settings::VhdlFormat, lint::settings::VhdlLint};
+use crate::{VhdlStd, fmt::workspace::VhdlFormat, lint::workspace::VhdlLint};
 
 #[derive(Clone, Debug, Default)]
 #[cfg_attr(
