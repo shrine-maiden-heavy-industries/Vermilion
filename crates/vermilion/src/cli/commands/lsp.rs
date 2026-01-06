@@ -8,7 +8,7 @@ use vermilion_lsp::transports;
 
 use crate::{lsp, workspace::load_workspace_config};
 
-pub(crate) const COMMAND_NAME: &str = "lang-server";
+pub(crate) const COMMAND_NAME: &str = "server";
 
 pub(crate) fn init() -> eyre::Result<Command> {
 	Ok(Command::new(COMMAND_NAME)

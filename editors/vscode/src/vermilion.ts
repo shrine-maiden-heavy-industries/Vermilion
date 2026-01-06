@@ -40,13 +40,13 @@ export async function createLanguageClient(folder: WorkspaceFolder): Promise<Lan
 		run:
 		{
 			command: languageServer,
-			args: ['lang-server'],
+			args: ['server'],
 			transport: TransportKind.pipe,
 		},
 		debug:
 		{
 			command: languageServer,
-			args: ['-vv', 'lang-server'],
+			args: ['-vv', 'server'],
 			transport: TransportKind.pipe,
 		},
 	}

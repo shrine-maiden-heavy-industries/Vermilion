@@ -8,7 +8,7 @@
 
 ---@type vim.lsp.Config
 return {
-	cmd = { 'vermilion', 'lang-server' },
+	cmd = { 'vermilion', 'server' },
 	filetypes = { 'verilog', 'system-verilog', 'vhdl' },
 	root_markers = { 'vermilion.toml' }
 }
