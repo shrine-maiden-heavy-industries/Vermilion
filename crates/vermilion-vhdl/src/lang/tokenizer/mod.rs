@@ -9,7 +9,7 @@ use crate::VhdlStd;
 
 pub mod token;
 
-pub struct Tokenizer {
+pub struct VhdlTokenizer {
 	_standard:    VhdlStd,
 	file:         AtomicByteTendril,
 	current_char: u8,
@@ -20,8 +20,8 @@ pub struct Tokenizer {
 	token_stream: VecDeque<Spanned<Token, Position>>,
 }
 
-impl Tokenizer {
-	pub fn new(standard: VhdlStd, file: AtomicByteTendril) -> Tokenizer {
+impl VhdlTokenizer {
+	pub fn new(standard: VhdlStd, file: AtomicByteTendril) -> VhdlTokenizer {
 		let mut tokenizer = Self {
 			_standard: standard,
 			file,
@@ -46,7 +46,7 @@ impl Tokenizer {
 	fn read_token(&mut self) {}
 }
 
-impl Iterator for Tokenizer {
+impl Iterator for VhdlTokenizer {
 	type Item = Spanned<Token, Position>;
 
 	fn next(&mut self) -> Option<Self::Item> {

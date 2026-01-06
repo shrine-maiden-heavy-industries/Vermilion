@@ -9,7 +9,7 @@ pub(crate) use vermilion_verilog::lang::{
 };
 use vermilion_verilog::{SystemVerilogStd, VerilogAmsStd, VerilogStd, VerilogVariant};
 use vermilion_vhdl::VhdlStd;
-pub(crate) use vermilion_vhdl::lang::{ast::Ast as VhdlAst, tokenizer::Tokenizer as VhdlTokenizer};
+pub(crate) use vermilion_vhdl::lang::{ast::Ast as VhdlAst, tokenizer::VhdlTokenizer};
 
 pub(crate) mod verilog;
 pub(crate) mod vhdl;
