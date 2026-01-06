@@ -9,6 +9,7 @@ pub(crate) fn init() -> eyre::Result<Command> {
 }
 
 pub(crate) fn exec(args: &ArgMatches) -> eyre::Result<()> {
+	let _workspace_config = crate::workspace::load_workspace_config(args)?;
 	let _lang_id = crate::lang::get_langid(args);
 
 	Ok(())
