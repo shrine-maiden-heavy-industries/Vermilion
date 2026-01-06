@@ -9,16 +9,9 @@ use tracing::{debug, trace, warn};
 
 use crate::paths;
 
-#[derive(Clone, Debug, Default, serde::Serialize, serde::Deserialize, schemars::JsonSchema)]
-#[serde(deny_unknown_fields)]
-pub struct VermilionConfig {}
-
 #[derive(Clone, Debug, Default, Serialize, Deserialize, JsonSchema)]
 #[serde(deny_unknown_fields)]
-pub struct Config {
-	#[serde(rename = "vermilion")]
-	core: VermilionConfig,
-}
+pub struct Config {}
 
 /// ## Load the Vermillion Configuration
 ///
