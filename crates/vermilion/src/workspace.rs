@@ -6,7 +6,7 @@ use clap::ArgMatches;
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 use tracing::debug;
-use vermilion_verilog::workspace::{SystemVerilogConfig, VerilogConfig};
+use vermilion_verilog::workspace::{SystemVerilogConfig, VerilogAmsConfig, VerilogConfig};
 use vermilion_vhdl::workspace::VhdlConfig;
 
 use crate::paths;
@@ -16,6 +16,7 @@ use crate::paths;
 pub struct WorkspaceConfig {
 	verilog:        Option<VerilogConfig>,
 	system_verilog: Option<SystemVerilogConfig>,
+	verilog_ams:    Option<VerilogAmsConfig>,
 	vhdl:           Option<VhdlConfig>,
 }
 

@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: BSD-3-Clause
 
 use crate::{
-	SystemVerilogStd, VerilogStd,
-	fmt::settings::{SystemVerilogFormat, VerilogFormat},
-	lint::settings::{SystemVerilogLint, VerilogLint},
+	SystemVerilogStd, VerilogAmsStd, VerilogStd,
+	fmt::settings::{SystemVerilogFormat, VerilogAmsFormat, VerilogFormat},
+	lint::settings::{SystemVerilogLint, VerilogAmsLint, VerilogLint},
 };
 
 #[derive(Clone, Debug, Default)]
@@ -30,4 +30,17 @@ pub struct SystemVerilogConfig {
 	std:  SystemVerilogStd,
 	fmt:  Option<SystemVerilogFormat>,
 	lint: Option<SystemVerilogLint>,
+}
+
+#[derive(Clone, Debug, Default)]
+#[cfg_attr(
+	feature = "serde",
+	derive(::serde::Serialize, ::serde::Deserialize),
+	serde(deny_unknown_fields)
+)]
+#[cfg_attr(feature = "schema", derive(::schemars::JsonSchema))]
+pub struct VerilogAmsConfig {
+	std:  VerilogAmsStd,
+	fmt:  Option<VerilogAmsFormat>,
+	lint: Option<VerilogAmsLint>,
 }
