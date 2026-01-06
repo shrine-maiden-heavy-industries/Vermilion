@@ -2,18 +2,18 @@
 
 use vermilion_lang::AtomicByteTendril;
 
-use crate::{VerilogVariant, lang::tokenizer::Tokenizer};
+use crate::{VerilogVariant, lang::tokenizer::VerilogTokenizer};
 
 pub struct VerilogParser {
 	_std:       VerilogVariant,
-	_tokenizer: Tokenizer,
+	_tokenizer: VerilogTokenizer,
 }
 
 impl VerilogParser {
 	pub fn new(std: VerilogVariant, content: AtomicByteTendril) -> Self {
 		Self {
 			_std:       std,
-			_tokenizer: Tokenizer::new(std, content),
+			_tokenizer: VerilogTokenizer::new(std, content),
 		}
 	}
 

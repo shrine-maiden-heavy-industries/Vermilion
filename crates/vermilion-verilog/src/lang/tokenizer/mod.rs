@@ -9,7 +9,7 @@ use crate::VerilogVariant;
 
 pub mod token;
 
-pub struct Tokenizer {
+pub struct VerilogTokenizer {
 	_standard:    VerilogVariant,
 	file:         AtomicByteTendril,
 	current_char: u8,
@@ -20,8 +20,8 @@ pub struct Tokenizer {
 	token_stream: VecDeque<Spanned<Token, Position>>,
 }
 
-impl Tokenizer {
-	pub fn new(standard: VerilogVariant, file: AtomicByteTendril) -> Tokenizer {
+impl VerilogTokenizer {
+	pub fn new(standard: VerilogVariant, file: AtomicByteTendril) -> VerilogTokenizer {
 		let mut tokenizer = Self {
 			_standard: standard,
 			file,
@@ -994,7 +994,7 @@ impl Tokenizer {
 	}
 }
 
-impl Iterator for Tokenizer {
+impl Iterator for VerilogTokenizer {
 	type Item = Spanned<Token, Position>;
 
 	fn next(&mut self) -> Option<Self::Item> {
