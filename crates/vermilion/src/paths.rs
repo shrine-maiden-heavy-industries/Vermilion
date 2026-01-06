@@ -28,11 +28,6 @@ pub(crate) fn cache_dir() -> &'static Path {
 	proj_dirs().cache_dir()
 }
 
-/// Get the path to the user-specific Vermilion configuration file
-pub(crate) fn config_file() -> PathBuf {
-	config_dir().join("config.toml")
-}
-
 // When doing config lookup, we want to ensure that we stay on the same filesystem
 #[cfg(not(target_os = "windows"))]
 #[inline(always)]

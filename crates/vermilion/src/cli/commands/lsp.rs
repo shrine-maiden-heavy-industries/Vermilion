@@ -6,7 +6,7 @@ use clap::{Arg, ArgAction, ArgMatches, Command, ValueHint};
 use tracing::error;
 use vermilion_lsp::transports;
 
-use crate::{lsp, settings::Config};
+use crate::lsp;
 
 pub(crate) const COMMAND_NAME: &str = "lang-server";
 
@@ -57,7 +57,7 @@ pub(crate) fn init() -> eyre::Result<Command> {
 		))
 }
 
-pub(crate) fn exec(args: &ArgMatches, _cfg: Config) -> eyre::Result<()> {
+pub(crate) fn exec(args: &ArgMatches) -> eyre::Result<()> {
 	// If we get passed `--clientProcessId` we want to watch for that PID to die
 	let client_pid = args.try_get_one::<usize>("client-pid")?.copied();
 

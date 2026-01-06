@@ -13,7 +13,7 @@ use tracing_subscriber::{
 	util::SubscriberInitExt,
 };
 
-use crate::{env::VERMILION_LOG_LEVEL, settings::Config};
+use crate::env::VERMILION_LOG_LEVEL;
 
 mod cli;
 mod env;
@@ -21,7 +21,6 @@ mod eyre_hook;
 mod lang;
 mod lsp;
 mod paths;
-mod settings;
 mod workspace;
 
 fn fmt_color() -> bool {
@@ -90,7 +89,7 @@ fn main() -> eyre::Result<()> {
 	if args.get_flag("dump-schema") {
 		println!(
 			"{}",
-			serde_json::to_string_pretty(&schema_for!(crate::settings::Config))?
+			serde_json::to_string_pretty(&schema_for!(crate::workspace::WorkspaceConfig))?
 		);
 
 		return Ok(());
@@ -98,7 +97,10 @@ fn main() -> eyre::Result<()> {
 
 	// Likewise, if we want to dump the default config, do that
 	if args.get_flag("dump-config") {
-		println!("{}", toml::to_string(&Config::default())?);
+		println!(
+			"{}",
+			toml::to_string(&crate::workspace::WorkspaceConfig::default())?
+		);
 
 		return Ok(());
 	}
@@ -135,11 +137,8 @@ fn main() -> eyre::Result<()> {
 	// Try to invoke the command
 	match args.subcommand() {
 		Some((cmd, args)) => {
-			// TODO(aki): Not all commands need the config
-			let cfg = settings::load_config(args)?;
-
 			cli::exec_command(cmd)
-				.ok_or_eyre(format!("Unable to find command entry point for `{}`!", cmd))?(args, cfg)
+				.ok_or_eyre(format!("Unable to find command entry point for `{}`!", cmd))?(args)
 		},
 		_ => cli.print_help().wrap_err("Unable to write CLI help?"),
 	}

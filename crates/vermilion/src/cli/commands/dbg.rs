@@ -5,7 +5,7 @@ use std::{fs::File, io::Read};
 use clap::{Arg, ArgAction, ArgMatches, Command};
 use eyre::{OptionExt, eyre};
 
-use crate::{lang::Language, settings::Config};
+use crate::lang::Language;
 
 pub(crate) const COMMAND_NAME: &str = "dbg";
 
@@ -40,24 +40,24 @@ pub(crate) fn init() -> eyre::Result<Command> {
 		.subcommands(subcommands()))
 }
 
-pub(crate) fn exec(args: &ArgMatches, cfg: Config) -> eyre::Result<()> {
+pub(crate) fn exec(args: &ArgMatches) -> eyre::Result<()> {
 	let lang_id = crate::lang::get_langid(args).ok_or_eyre("Unable to get language id")?;
 
 	match args.subcommand() {
 		Some((cmd, cmd_args)) => match cmd {
-			"dump-ast" => dump_ast(cmd_args, cfg, lang_id),
-			"dump-tokens" => dump_tokens(cmd_args, cfg, lang_id),
+			"dump-ast" => dump_ast(cmd_args, lang_id),
+			"dump-tokens" => dump_tokens(cmd_args, lang_id),
 			_ => unreachable!(),
 		},
 		_ => Err(eyre!("No subcommand")),
 	}
 }
 
-fn dump_ast(args: &ArgMatches, _cfg: Config, language: Language) -> eyre::Result<()> {
+fn dump_ast(args: &ArgMatches, language: Language) -> eyre::Result<()> {
 	Ok(())
 }
 
-fn dump_tokens(args: &ArgMatches, _cfg: Config, language: Language) -> eyre::Result<()> {
+fn dump_tokens(args: &ArgMatches, language: Language) -> eyre::Result<()> {
 	fn dump_iter<I: Iterator>(itr: I)
 	where
 		<I as std::iter::Iterator>::Item: std::fmt::Display,

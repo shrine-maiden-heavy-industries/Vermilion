@@ -2,8 +2,6 @@
 
 use clap::{Arg, ArgAction, ArgMatches, Command};
 
-use crate::settings::Config;
-
 pub(crate) const COMMAND_NAME: &str = "explain";
 
 pub(crate) fn init() -> eyre::Result<Command> {
@@ -18,6 +16,6 @@ pub(crate) fn init() -> eyre::Result<Command> {
 		))
 }
 
-pub(crate) fn exec(_args: &ArgMatches, _cfg: Config) -> eyre::Result<()> {
+pub(crate) fn exec(_args: &ArgMatches) -> eyre::Result<()> {
 	Ok(())
 }

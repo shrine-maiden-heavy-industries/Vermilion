@@ -2,15 +2,13 @@
 
 use clap::{ArgMatches, Command};
 
-use crate::settings::Config;
-
 pub(crate) const COMMAND_NAME: &str = "lint";
 
 pub(crate) fn init() -> eyre::Result<Command> {
 	Ok(Command::new(COMMAND_NAME).about("Lint the provided HDL source files"))
 }
 
-pub(crate) fn exec(args: &ArgMatches, _cfg: Config) -> eyre::Result<()> {
+pub(crate) fn exec(args: &ArgMatches) -> eyre::Result<()> {
 	let _lang_id = crate::lang::get_langid(args);
 
 	Ok(())

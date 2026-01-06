@@ -5,11 +5,11 @@ use clap::{
 };
 use color_print::cformat;
 
-use crate::{env::VERMILION_LOG_LEVEL, settings::Config};
+use crate::env::VERMILION_LOG_LEVEL;
 
 mod commands;
 
-pub(crate) type CmdExec = fn(&ArgMatches, Config) -> eyre::Result<()>;
+pub(crate) type CmdExec = fn(&ArgMatches) -> eyre::Result<()>;
 
 pub(crate) fn init() -> eyre::Result<Command> {
 	Ok(Command::new(env!("CARGO_PKG_NAME"))
@@ -78,13 +78,13 @@ pub(crate) fn init() -> eyre::Result<Command> {
 				)),
 		)
 		.arg(
-			Arg::new("config")
-				.short('c')
-				.long("config")
-				.help("The specific configuration file to use")
+			Arg::new("workspace")
+				.long("workspace")
+				.help("Specify a workspace configuration file")
+				.long_help("")
 				.action(ArgAction::Set)
 				.value_hint(ValueHint::FilePath)
-				.value_name("CONFIG_FILE"),
+				.value_name("WORKSPACE_FILE"),
 		)
 		.arg(
 			Arg::new("dump-schema")
