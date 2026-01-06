@@ -2,8 +2,8 @@
 
 use crate::{
 	SystemVerilogStd, VerilogAmsStd, VerilogStd,
-	fmt::settings::{SystemVerilogFormat, VerilogAmsFormat, VerilogFormat},
-	lint::settings::{SystemVerilogLint, VerilogAmsLint, VerilogLint},
+	fmt::workspace::{SystemVerilogFormat, VerilogAmsFormat, VerilogFormat},
+	lint::workspace::{SystemVerilogLint, VerilogAmsLint, VerilogLint},
 };
 
 #[derive(Clone, Debug, Default)]
