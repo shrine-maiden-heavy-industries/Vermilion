@@ -22,6 +22,7 @@ mod lang;
 mod lsp;
 mod paths;
 mod settings;
+mod workspace;
 
 fn fmt_color() -> bool {
 	use crossterm::tty::IsTty;
