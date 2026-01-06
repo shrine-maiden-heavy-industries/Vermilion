@@ -2,18 +2,28 @@
 
 use tendril::ByteTendril;
 
+use crate::Position;
+
 /// The underlying tokenization machinery for all other Vermilion tokenizers
 pub struct CoreTokenizer {
 	text:     ByteTendril,
-	position: usize,
+	offset:   usize,
 	eof:      bool,
 	current:  u8,
+	position: Position,
 }
 
+// TODO(aki): We need to deal with UTF-8/UTF-16/UTF-32/WTF-8 inputs not just ASCII
 impl CoreTokenizer {
 	/// Create a new [`CoreTokenizer`] with the given [`ByteTendril`] as it's backing store
 	pub fn new(text: ByteTendril) -> Self {
-		let mut tokenizer = Self { text, position: 0, eof: false, current: 0 };
+		let mut tokenizer = Self {
+			text,
+			offset: 0,
+			eof: false,
+			current: 0,
+			position: Position::sof(),
+		};
 
 		// If there was a case where somehow a tokenizer was made with an empty file
 		// then ensure we're at the EOF right away to prevent any issues
@@ -36,23 +46,34 @@ impl CoreTokenizer {
 		let prev = self.current;
 
 		// Check to see if advancing will run off the end of the input
-		if self.position + 1 >= self.text.len() {
-			self.position = self.text.len();
+		if self.offset + 1 >= self.text.len() {
+			self.offset = self.text.len();
 			self.eof = true;
 			self.current = 0;
 			return prev;
 		}
 
 		// Increment the position and set the current character
-		self.position += 1;
-		self.current = self.text[self.position];
+		self.offset += 1;
+		self.position.next_char();
+		self.current = self.text[self.offset];
 
 		prev
 	}
 
-	/// Returns the current character position in the input
-	pub fn position(&self) -> usize {
-		self.position
+	/// Advance the line counter and reset the character position to 0 of the context
+	pub fn advance_line(&mut self) {
+		self.position.next_line();
+	}
+
+	/// Returns the current byte offset into the input the tokenizer currently is
+	pub fn offset(&self) -> usize {
+		self.offset
+	}
+
+	/// Returns the current [`Position`] of the tokenizer
+	pub fn position(&self) -> &Position {
+		&self.position
 	}
 
 	/// Returns if the tokenizer has hit the end of the input or not
@@ -60,8 +81,13 @@ impl CoreTokenizer {
 		self.eof
 	}
 
+	/// Returns if the tokenizer is at the start of the input or not
+	pub fn is_sof(&self) -> bool {
+		self.offset == 0
+	}
+
 	/// Get the current character the tokenizer is on
-	pub fn current_char(&self) -> u8 {
+	pub fn current_byte(&self) -> u8 {
 		self.current
 	}
 }
