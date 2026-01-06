@@ -33,6 +33,7 @@ use vermilion_lsp::{
 };
 
 use self::workspace::Workspace;
+use crate::workspace::WorkspaceConfig;
 
 static LSP_INITIALIZED: AtomicBool = AtomicBool::new(false);
 static SHUTDOWN_SENDER: OnceLock<UnboundedSender<()>> = OnceLock::new();
@@ -45,7 +46,11 @@ pub(crate) fn shutdown_runtime() -> eyre::Result<()> {
 	Ok(sender.send(())?)
 }
 
-pub(crate) fn start(transport: TransportType, client_pid: Option<usize>) -> eyre::Result<()> {
+pub(crate) fn start(
+	transport: TransportType,
+	client_pid: Option<usize>,
+	workspace_config: WorkspaceConfig,
+) -> eyre::Result<()> {
 	debug!("Starting runtime...");
 	let rt = tokio::runtime::Builder::new_multi_thread()
 		.enable_all()
@@ -81,6 +86,7 @@ pub(crate) fn start(transport: TransportType, client_pid: Option<usize>) -> eyre
 		debug!("Starting LSP server task");
 		tasks.build_task().name("lsp-server").spawn(lsp_server(
 			transport,
+			workspace_config,
 			cancel_token.clone(),
 			shutdown_send.clone(),
 		))?;
@@ -237,6 +243,7 @@ fn process_lsp_message(
 
 async fn lsp_server(
 	transport: TransportType,
+	_workspace_config: WorkspaceConfig,
 	cancellation_token: CancellationToken,
 	shutdown_channel: UnboundedSender<()>,
 ) -> eyre::Result<()> {

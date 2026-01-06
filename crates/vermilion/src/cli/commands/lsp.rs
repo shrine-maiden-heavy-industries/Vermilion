@@ -6,7 +6,7 @@ use clap::{Arg, ArgAction, ArgMatches, Command, ValueHint};
 use tracing::error;
 use vermilion_lsp::transports;
 
-use crate::lsp;
+use crate::{lsp, workspace::load_workspace_config};
 
 pub(crate) const COMMAND_NAME: &str = "lang-server";
 
@@ -76,7 +76,7 @@ pub(crate) fn exec(args: &ArgMatches) -> eyre::Result<()> {
 	};
 
 	if let Some(transport) = transport {
-		lsp::start(transport, client_pid)
+		lsp::start(transport, client_pid, load_workspace_config(args)?)
 	} else {
 		error!("You must specify an LSP transport type!");
 		Ok(())
