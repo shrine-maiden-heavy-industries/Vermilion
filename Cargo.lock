@@ -2970,24 +2970,12 @@ dependencies = [
  "toml",
  "tracing",
  "tracing-subscriber",
- "vermilion-core",
  "vermilion-diagnostics",
  "vermilion-fmt",
  "vermilion-lang",
  "vermilion-lsp",
  "vermilion-verilog",
  "vermilion-vhdl",
-]
-
-[[package]]
-name = "vermilion-core"
-version = "0.0.0"
-dependencies = [
- "criterion",
- "proptest",
- "schemars",
- "serde",
- "test-log",
 ]
 
 [[package]]
@@ -3027,7 +3015,6 @@ dependencies = [
  "proptest",
  "tendril",
  "test-log",
- "vermilion-core",
  "vermilion-diagnostics",
  "vermilion-fmt",
 ]
@@ -3064,7 +3051,6 @@ dependencies = [
  "serde",
  "tendril",
  "test-log",
- "vermilion-core",
  "vermilion-diagnostics",
  "vermilion-fmt",
  "vermilion-lang",
@@ -3082,7 +3068,6 @@ dependencies = [
  "serde",
  "tendril",
  "test-log",
- "vermilion-core",
  "vermilion-diagnostics",
  "vermilion-fmt",
  "vermilion-lang",

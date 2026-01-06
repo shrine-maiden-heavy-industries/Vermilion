@@ -12,11 +12,11 @@ use tracing_subscriber::{
 	layer::SubscriberExt,
 	util::SubscriberInitExt,
 };
-use vermilion_core::vars::VERMILION_LOG_LEVEL;
 
-use crate::settings::Config;
+use crate::{env::VERMILION_LOG_LEVEL, settings::Config};
 
 mod cli;
+mod env;
 mod eyre_hook;
 mod lang;
 mod lsp;

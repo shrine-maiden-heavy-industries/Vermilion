@@ -4,9 +4,8 @@ use clap::{
 	Arg, ArgAction, ArgMatches, ColorChoice, Command, ValueHint, builder::styling, value_parser,
 };
 use color_print::cformat;
-use vermilion_core::vars::VERMILION_LOG_LEVEL;
 
-use crate::settings::Config;
+use crate::{env::VERMILION_LOG_LEVEL, settings::Config};
 
 mod commands;
 

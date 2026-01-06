@@ -6,11 +6,14 @@ use clap::ArgMatches;
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 use tracing::{debug, trace, warn};
-use vermilion_core::settings::VermilionConfig;
 use vermilion_verilog::settings::{SystemVerilogConfig, VerilogConfig};
 use vermilion_vhdl::settings::VhdlConfig;
 
 use crate::paths;
+
+#[derive(Clone, Debug, Default, serde::Serialize, serde::Deserialize, schemars::JsonSchema)]
+#[serde(deny_unknown_fields)]
+pub struct VermilionConfig {}
 
 #[derive(Clone, Debug, Default, Serialize, Deserialize, JsonSchema)]
 #[serde(deny_unknown_fields)]

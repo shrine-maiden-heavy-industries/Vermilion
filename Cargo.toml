@@ -17,7 +17,6 @@ documentation = "https://github.com/shrine-maiden-heavy-industries/vermilion"
 [workspace.dependencies]
 # Core Vermilion Crates
 vermilion             = { path = "crates/vermilion"             }
-vermilion-core        = { path = "crates/vermilion-core"        }
 vermilion-diagnostics = { path = "crates/vermilion-diagnostics" }
 vermilion-fmt         = { path = "crates/vermilion-fmt"         }
 vermilion-lang        = { path = "crates/vermilion-lang"        }
