@@ -3,7 +3,7 @@
 use super::*;
 use crate::VerilogStd;
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_whitespace_space,
 	" ",
 	vec![Spanned::new(
@@ -12,7 +12,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_whitespace_tab,
 	"\t",
 	vec![Spanned::new(
@@ -21,7 +21,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_whitespace_mixed,
 	"\t ",
 	vec![Spanned::new(
@@ -30,7 +30,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_newline_unix,
 	"\n",
 	vec![Spanned::new(
@@ -39,7 +39,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_newline_win32,
 	"\r\n",
 	vec![Spanned::new(
@@ -48,7 +48,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_newline_mixed,
 	"\r\n\n\n",
 	vec![
@@ -67,7 +67,7 @@ tokenizer_test!(
 	]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_whitespace_newlines_mixed,
 	" \r\n \t\n\t\n\r",
 	vec![
@@ -102,7 +102,7 @@ tokenizer_test!(
 	]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_control_at,
 	"@",
 	vec![Spanned::new(
@@ -111,7 +111,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_control_octothorp,
 	"#",
 	vec![Spanned::new(
@@ -120,7 +120,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_control_paren_open,
 	"(",
 	vec![Spanned::new(
@@ -129,7 +129,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_control_paren_close,
 	")",
 	vec![Spanned::new(
@@ -138,7 +138,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_control_bracket_open,
 	"[",
 	vec![Spanned::new(
@@ -147,7 +147,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_control_bracket_close,
 	"]",
 	vec![Spanned::new(
@@ -156,7 +156,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_control_brace_open,
 	"{",
 	vec![Spanned::new(
@@ -165,7 +165,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_control_brace_close,
 	"}",
 	vec![Spanned::new(
@@ -174,7 +174,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_control_colon,
 	":",
 	vec![Spanned::new(
@@ -183,7 +183,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_control_semicolon,
 	";",
 	vec![Spanned::new(
@@ -192,7 +192,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_control_comma,
 	",",
 	vec![Spanned::new(
@@ -201,7 +201,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_control_dot,
 	".",
 	vec![Spanned::new(
@@ -210,7 +210,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_control_dollar,
 	"$",
 	vec![Spanned::new(
@@ -219,7 +219,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_control_question,
 	"?",
 	vec![Spanned::new(
@@ -228,7 +228,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_operator_exclame,
 	"!",
 	vec![Spanned::new(
@@ -237,7 +237,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_operator_logical_inequality,
 	"!=",
 	vec![Spanned::new(
@@ -246,7 +246,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_operator_case_inequality,
 	"!==",
 	vec![Spanned::new(
@@ -255,7 +255,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_operator_equal,
 	"=",
 	vec![Spanned::new(
@@ -264,7 +264,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_operator_logical_equality,
 	"==",
 	vec![Spanned::new(
@@ -273,7 +273,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_operator_case_equality,
 	"===",
 	vec![Spanned::new(
@@ -282,7 +282,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_operator_ampersand,
 	"&",
 	vec![Spanned::new(
@@ -291,7 +291,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_operator_logical_and,
 	"&&",
 	vec![Spanned::new(
@@ -300,7 +300,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_operator_tilde,
 	"~",
 	vec![Spanned::new(
@@ -309,7 +309,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_operator_tilde_circumflex_right,
 	"~^",
 	vec![Spanned::new(
@@ -318,7 +318,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_operator_reduction_nand,
 	"~&",
 	vec![Spanned::new(
@@ -327,7 +327,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_operator_reduction_nor,
 	"~|",
 	vec![Spanned::new(
@@ -336,7 +336,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_operator_circumflex,
 	"^",
 	vec![Spanned::new(
@@ -345,7 +345,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_operator_tilde_circumflex_left,
 	"^~",
 	vec![Spanned::new(
@@ -354,7 +354,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_operator_pipe,
 	"|",
 	vec![Spanned::new(
@@ -363,7 +363,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_operator_logical_or,
 	"||",
 	vec![Spanned::new(
@@ -372,7 +372,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_operator_less_than,
 	">",
 	vec![Spanned::new(
@@ -381,7 +381,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_operator_less_than_equal,
 	">=",
 	vec![Spanned::new(
@@ -390,7 +390,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_operator_shift_right,
 	">>",
 	vec![Spanned::new(
@@ -399,7 +399,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_operator_greater_than,
 	"<",
 	vec![Spanned::new(
@@ -408,7 +408,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_operator_greater_than_equal,
 	"<=",
 	vec![Spanned::new(
@@ -417,7 +417,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_operator_shift_left,
 	"<<",
 	vec![Spanned::new(
@@ -426,7 +426,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_operator_percent,
 	"%",
 	vec![Spanned::new(
@@ -435,7 +435,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_operator_asterisk,
 	"*",
 	vec![Spanned::new(
@@ -444,7 +444,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_operator_plus,
 	"+",
 	vec![Spanned::new(
@@ -453,7 +453,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_operator_minus,
 	"-",
 	vec![Spanned::new(
@@ -462,7 +462,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_operator_solidus,
 	"/",
 	vec![Spanned::new(
@@ -471,7 +471,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_comment_single_line,
 	"// This Is A Test",
 	vec![Spanned::new(
@@ -480,7 +480,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_comment_multi_line,
 	"/*\nThis Is A\n\tMulti Line Comment\n*/",
 	vec![Spanned::new(
@@ -491,7 +491,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_comment_multi_line_invalid,
 	"/*\nThis Is A\n/*Multi Line Comment\n*/",
 	vec![Spanned::new(
@@ -502,7 +502,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_comment_multi_line_truncated,
 	"/*\nThis Is A\n",
 	vec![Spanned::new(
@@ -511,7 +511,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_compiler_directive_standalone,
 	"`meow",
 	vec![Spanned::new(
@@ -520,7 +520,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_compiler_directive_arg,
 	"`define meow",
 	vec![
@@ -539,7 +539,7 @@ tokenizer_test!(
 	]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_compiler_directive_multi_arg,
 	"`define nya 8",
 	vec![
@@ -566,7 +566,7 @@ tokenizer_test!(
 	]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_string,
 	r#""This Is A Simple String :3""#,
 	vec![Spanned::new(
@@ -575,7 +575,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_string_eof,
 	r#""This Is A Simple String :3"#,
 	vec![Spanned::new(
@@ -584,7 +584,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_ident,
 	"meow",
 	vec![Spanned::new(
@@ -593,7 +593,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_ident_adv,
 	"m3ow_me0w",
 	vec![Spanned::new(
@@ -602,7 +602,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_always,
 	"always",
 	vec![Spanned::new(
@@ -611,7 +611,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_and,
 	"and",
 	vec![Spanned::new(
@@ -620,7 +620,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_assign,
 	"assign",
 	vec![Spanned::new(
@@ -629,7 +629,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_begin,
 	"begin",
 	vec![Spanned::new(
@@ -638,7 +638,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_buf,
 	"buf",
 	vec![Spanned::new(
@@ -647,7 +647,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_bufif0,
 	"bufif0",
 	vec![Spanned::new(
@@ -656,7 +656,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_bufif1,
 	"bufif1",
 	vec![Spanned::new(
@@ -665,7 +665,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_case,
 	"case",
 	vec![Spanned::new(
@@ -674,7 +674,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_casex,
 	"casex",
 	vec![Spanned::new(
@@ -683,7 +683,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_casez,
 	"casez",
 	vec![Spanned::new(
@@ -692,7 +692,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_cmos,
 	"cmos",
 	vec![Spanned::new(
@@ -701,7 +701,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_deassign,
 	"deassign",
 	vec![Spanned::new(
@@ -710,7 +710,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_default,
 	"default",
 	vec![Spanned::new(
@@ -719,7 +719,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_defparam,
 	"defparam",
 	vec![Spanned::new(
@@ -728,7 +728,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_disable,
 	"disable",
 	vec![Spanned::new(
@@ -737,7 +737,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_edge,
 	"edge",
 	vec![Spanned::new(
@@ -746,7 +746,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_else,
 	"else",
 	vec![Spanned::new(
@@ -755,7 +755,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_end,
 	"end",
 	vec![Spanned::new(
@@ -764,7 +764,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_endcase,
 	"endcase",
 	vec![Spanned::new(
@@ -773,7 +773,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_endfunction,
 	"endfunction",
 	vec![Spanned::new(
@@ -782,7 +782,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_endmodule,
 	"endmodule",
 	vec![Spanned::new(
@@ -791,7 +791,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_endprimitive,
 	"endprimitive",
 	vec![Spanned::new(
@@ -800,7 +800,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_endspecify,
 	"endspecify",
 	vec![Spanned::new(
@@ -809,7 +809,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_endtable,
 	"endtable",
 	vec![Spanned::new(
@@ -818,7 +818,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_endtask,
 	"endtask",
 	vec![Spanned::new(
@@ -827,7 +827,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_event,
 	"event",
 	vec![Spanned::new(
@@ -836,7 +836,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_for,
 	"for",
 	vec![Spanned::new(
@@ -845,7 +845,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_force,
 	"force",
 	vec![Spanned::new(
@@ -854,7 +854,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_forever,
 	"forever",
 	vec![Spanned::new(
@@ -863,7 +863,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_fork,
 	"fork",
 	vec![Spanned::new(
@@ -872,7 +872,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_function,
 	"function",
 	vec![Spanned::new(
@@ -881,7 +881,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_highz0,
 	"highz0",
 	vec![Spanned::new(
@@ -890,7 +890,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_highz1,
 	"highz1",
 	vec![Spanned::new(
@@ -899,7 +899,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_if,
 	"if",
 	vec![Spanned::new(
@@ -908,7 +908,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_ifnone,
 	"ifnone",
 	vec![Spanned::new(
@@ -917,7 +917,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_initial,
 	"initial",
 	vec![Spanned::new(
@@ -926,7 +926,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_inout,
 	"inout",
 	vec![Spanned::new(
@@ -935,7 +935,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_input,
 	"input",
 	vec![Spanned::new(
@@ -944,7 +944,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_integer,
 	"integer",
 	vec![Spanned::new(
@@ -953,7 +953,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_join,
 	"join",
 	vec![Spanned::new(
@@ -962,7 +962,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_large,
 	"large",
 	vec![Spanned::new(
@@ -971,7 +971,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_macromodule,
 	"macromodule",
 	vec![Spanned::new(
@@ -980,7 +980,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_medium,
 	"medium",
 	vec![Spanned::new(
@@ -989,7 +989,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_module,
 	"module",
 	vec![Spanned::new(
@@ -998,7 +998,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_nand,
 	"nand",
 	vec![Spanned::new(
@@ -1007,7 +1007,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_negedge,
 	"negedge",
 	vec![Spanned::new(
@@ -1016,7 +1016,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_nmos,
 	"nmos",
 	vec![Spanned::new(
@@ -1025,7 +1025,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_nor,
 	"nor",
 	vec![Spanned::new(
@@ -1034,7 +1034,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_not,
 	"not",
 	vec![Spanned::new(
@@ -1043,7 +1043,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_notif0,
 	"notif0",
 	vec![Spanned::new(
@@ -1052,7 +1052,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_notif1,
 	"notif1",
 	vec![Spanned::new(
@@ -1061,7 +1061,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_or,
 	"or",
 	vec![Spanned::new(
@@ -1070,7 +1070,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_output,
 	"output",
 	vec![Spanned::new(
@@ -1079,7 +1079,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_parameter,
 	"parameter",
 	vec![Spanned::new(
@@ -1088,7 +1088,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_pmos,
 	"pmos",
 	vec![Spanned::new(
@@ -1097,7 +1097,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_posedge,
 	"posedge",
 	vec![Spanned::new(
@@ -1106,7 +1106,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_primitive,
 	"primitive",
 	vec![Spanned::new(
@@ -1115,7 +1115,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_pull0,
 	"pull0",
 	vec![Spanned::new(
@@ -1124,7 +1124,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_pull1,
 	"pull1",
 	vec![Spanned::new(
@@ -1133,7 +1133,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_pulldown,
 	"pulldown",
 	vec![Spanned::new(
@@ -1142,7 +1142,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_pullup,
 	"pullup",
 	vec![Spanned::new(
@@ -1151,7 +1151,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_rcmos,
 	"rcmos",
 	vec![Spanned::new(
@@ -1160,7 +1160,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_real,
 	"real",
 	vec![Spanned::new(
@@ -1169,7 +1169,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_realtime,
 	"realtime",
 	vec![Spanned::new(
@@ -1178,7 +1178,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_reg,
 	"reg",
 	vec![Spanned::new(
@@ -1187,7 +1187,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_release,
 	"release",
 	vec![Spanned::new(
@@ -1196,7 +1196,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_repeat,
 	"repeat",
 	vec![Spanned::new(
@@ -1205,7 +1205,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_rnmos,
 	"rnmos",
 	vec![Spanned::new(
@@ -1214,7 +1214,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_rpmos,
 	"rpmos",
 	vec![Spanned::new(
@@ -1223,7 +1223,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_rtran,
 	"rtran",
 	vec![Spanned::new(
@@ -1232,7 +1232,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_rtranif0,
 	"rtranif0",
 	vec![Spanned::new(
@@ -1241,7 +1241,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_rtranif1,
 	"rtranif1",
 	vec![Spanned::new(
@@ -1250,7 +1250,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_scalared,
 	"scalared",
 	vec![Spanned::new(
@@ -1259,7 +1259,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_small,
 	"small",
 	vec![Spanned::new(
@@ -1268,7 +1268,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_specify,
 	"specify",
 	vec![Spanned::new(
@@ -1277,7 +1277,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_specparam,
 	"specparam",
 	vec![Spanned::new(
@@ -1286,7 +1286,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_strong0,
 	"strong0",
 	vec![Spanned::new(
@@ -1295,7 +1295,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_strong1,
 	"strong1",
 	vec![Spanned::new(
@@ -1304,7 +1304,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_supply0,
 	"supply0",
 	vec![Spanned::new(
@@ -1313,7 +1313,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_supply1,
 	"supply1",
 	vec![Spanned::new(
@@ -1322,7 +1322,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_table,
 	"table",
 	vec![Spanned::new(
@@ -1331,7 +1331,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_task,
 	"task",
 	vec![Spanned::new(
@@ -1340,7 +1340,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_time,
 	"time",
 	vec![Spanned::new(
@@ -1349,7 +1349,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_tran,
 	"tran",
 	vec![Spanned::new(
@@ -1358,7 +1358,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_tranif0,
 	"tranif0",
 	vec![Spanned::new(
@@ -1367,7 +1367,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_tranif1,
 	"tranif1",
 	vec![Spanned::new(
@@ -1376,7 +1376,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_tri,
 	"tri",
 	vec![Spanned::new(
@@ -1385,7 +1385,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_tri0,
 	"tri0",
 	vec![Spanned::new(
@@ -1394,7 +1394,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_tri1,
 	"tri1",
 	vec![Spanned::new(
@@ -1403,7 +1403,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_triand,
 	"triand",
 	vec![Spanned::new(
@@ -1412,7 +1412,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_trior,
 	"trior",
 	vec![Spanned::new(
@@ -1421,7 +1421,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_trireg,
 	"trireg",
 	vec![Spanned::new(
@@ -1430,7 +1430,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_vectored,
 	"vectored",
 	vec![Spanned::new(
@@ -1439,7 +1439,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_wait,
 	"wait",
 	vec![Spanned::new(
@@ -1448,7 +1448,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_wand,
 	"wand",
 	vec![Spanned::new(
@@ -1457,7 +1457,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_weak0,
 	"weak0",
 	vec![Spanned::new(
@@ -1466,7 +1466,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_weak1,
 	"weak1",
 	vec![Spanned::new(
@@ -1475,7 +1475,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_while,
 	"while",
 	vec![Spanned::new(
@@ -1484,7 +1484,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_wire,
 	"wire",
 	vec![Spanned::new(
@@ -1493,7 +1493,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_wor,
 	"wor",
 	vec![Spanned::new(
@@ -1502,7 +1502,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_xnor,
 	"xnor",
 	vec![Spanned::new(
@@ -1511,7 +1511,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_keyword_xor,
 	"xor",
 	vec![Spanned::new(
@@ -1520,7 +1520,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_extended_ident,
 	r"\meow",
 	vec![Spanned::new(
@@ -1529,7 +1529,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_extended_ident_adv,
 	r"\nya$owo@uwu",
 	vec![Spanned::new(
@@ -1538,7 +1538,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_unsigned_number,
 	"1234",
 	vec![Spanned::new(
@@ -1547,7 +1547,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_real_number_simple,
 	"1.23",
 	vec![Spanned::new(
@@ -1556,7 +1556,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_real_number_simple_pos,
 	"+1.23",
 	vec![
@@ -1571,7 +1571,7 @@ tokenizer_test!(
 	]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_real_number_simple_neg,
 	"-1.23",
 	vec![
@@ -1586,7 +1586,7 @@ tokenizer_test!(
 	]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_real_number_exponent,
 	"1e7",
 	vec![Spanned::new(
@@ -1598,7 +1598,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_real_number_dec_exponent,
 	"1.2e6",
 	vec![Spanned::new(
@@ -1610,7 +1610,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_real_number_exponent_pos,
 	"1e+6",
 	vec![Spanned::new(
@@ -1622,7 +1622,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_real_number_exponent_neg,
 	"1e-6",
 	vec![Spanned::new(
@@ -1634,7 +1634,7 @@ tokenizer_test!(
 	),]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_binary_prefixed,
 	"4'b1001",
 	vec![
@@ -1653,7 +1653,7 @@ tokenizer_test!(
 	]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_binary_prefixed_dont_care,
 	"4'bxx1x",
 	vec![
@@ -1671,7 +1671,7 @@ tokenizer_test!(
 		),
 	]
 );
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_binary_prefixed_all_dont_care,
 	"1'bx",
 	vec![
@@ -1690,7 +1690,7 @@ tokenizer_test!(
 	]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_binary_prefixed_high_z,
 	"4'bzz11",
 	vec![
@@ -1709,7 +1709,7 @@ tokenizer_test!(
 	]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_binary_prefixed_all_high_z,
 	"1'bz",
 	vec![
@@ -1728,7 +1728,7 @@ tokenizer_test!(
 	]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_binary_prefixed_padded,
 	"4 'b1001",
 	vec![
@@ -1751,7 +1751,7 @@ tokenizer_test!(
 	]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_binary_prefixed_padded_dont_care,
 	"4 'bxx1x",
 	vec![
@@ -1773,7 +1773,7 @@ tokenizer_test!(
 		),
 	]
 );
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_binary_prefixed_padded_all_dont_care,
 	"1 'bx",
 	vec![
@@ -1796,7 +1796,7 @@ tokenizer_test!(
 	]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_binary_prefixed_padded_high_z,
 	"4 'bzz11",
 	vec![
@@ -1819,7 +1819,7 @@ tokenizer_test!(
 	]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_binary_prefixed_padded_all_high_z,
 	"1 'bz",
 	vec![
@@ -1842,7 +1842,7 @@ tokenizer_test!(
 	]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_binary_naked,
 	"'b10",
 	vec![
@@ -1857,7 +1857,7 @@ tokenizer_test!(
 	]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_binary_naked_dont_care,
 	"'bxx1x",
 	vec![
@@ -1872,7 +1872,7 @@ tokenizer_test!(
 	]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_binary_naked_all_dont_care,
 	"'bx",
 	vec![
@@ -1887,7 +1887,7 @@ tokenizer_test!(
 	]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_binary_naked_high_z,
 	"'bzz11",
 	vec![
@@ -1902,7 +1902,7 @@ tokenizer_test!(
 	]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_binary_naked_all_high_z,
 	"'bz",
 	vec![
@@ -1919,7 +1919,7 @@ tokenizer_test!(
 
 // TODO(aki): Invalid Digits
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_binary_lump,
 	"4 'b01zx\n+1'B ?\n2'bZX\n",
 	vec![
@@ -1986,7 +1986,7 @@ tokenizer_test!(
 	]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_octal_prefixed,
 	"3'o666",
 	vec![
@@ -2005,7 +2005,7 @@ tokenizer_test!(
 	]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_octal_prefixed_dont_care,
 	"3'ox3x",
 	vec![
@@ -2023,7 +2023,7 @@ tokenizer_test!(
 		),
 	]
 );
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_octal_prefixed_all_dont_care,
 	"1'ox",
 	vec![
@@ -2042,7 +2042,7 @@ tokenizer_test!(
 	]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_octal_prefixed_high_z,
 	"3'ozz4",
 	vec![
@@ -2061,7 +2061,7 @@ tokenizer_test!(
 	]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_octal_prefixed_all_high_z,
 	"1'oz",
 	vec![
@@ -2080,7 +2080,7 @@ tokenizer_test!(
 	]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_octal_prefixed_padded,
 	"3 'o464",
 	vec![
@@ -2103,7 +2103,7 @@ tokenizer_test!(
 	]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_octal_prefixed_padded_dont_care,
 	"3 'ox2x",
 	vec![
@@ -2125,7 +2125,7 @@ tokenizer_test!(
 		),
 	]
 );
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_octal_prefixed_padded_all_dont_care,
 	"1 'ox",
 	vec![
@@ -2148,7 +2148,7 @@ tokenizer_test!(
 	]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_octal_prefixed_padded_high_z,
 	"3 'ozz1",
 	vec![
@@ -2171,7 +2171,7 @@ tokenizer_test!(
 	]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_octal_prefixed_padded_all_high_z,
 	"1 'oz",
 	vec![
@@ -2194,7 +2194,7 @@ tokenizer_test!(
 	]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_octal_naked,
 	"'o66",
 	vec![
@@ -2209,7 +2209,7 @@ tokenizer_test!(
 	]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_octal_naked_dont_care,
 	"'ox3x",
 	vec![
@@ -2224,7 +2224,7 @@ tokenizer_test!(
 	]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_octal_naked_all_dont_care,
 	"'ox",
 	vec![
@@ -2239,7 +2239,7 @@ tokenizer_test!(
 	]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_octal_naked_high_z,
 	"'ozz7",
 	vec![
@@ -2254,7 +2254,7 @@ tokenizer_test!(
 	]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_octal_naked_all_high_z,
 	"'oz",
 	vec![
@@ -2271,7 +2271,7 @@ tokenizer_test!(
 
 // TODO(aki): Invalid Digits
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_octal_lump,
 	"4 'o06zx\n+1'O ?\n2'oZX\n",
 	vec![
@@ -2338,7 +2338,7 @@ tokenizer_test!(
 	]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_decimal_prefixed,
 	"2'd69",
 	vec![
@@ -2358,7 +2358,7 @@ tokenizer_test!(
 );
 
 // BUG(aki): Spins
-// tokenizer_test!(
+// verilog95_tokenizer_test!(
 // 	test_tokenize_decimal_prefixed_dont_care,
 // 	"3'dx3x",
 // 	vec![
@@ -2378,7 +2378,7 @@ tokenizer_test!(
 // );
 
 // BUG(aki): Spins
-// tokenizer_test!(
+// verilog95_tokenizer_test!(
 // 	test_tokenize_decimal_prefixed_all_dont_care,
 // 	"1'dx",
 // 	vec![
@@ -2398,7 +2398,7 @@ tokenizer_test!(
 // );
 
 // BUG(aki): Spins
-// tokenizer_test!(
+// verilog95_tokenizer_test!(
 // 	test_tokenize_decimal_prefixed_high_z,
 // 	"3'dzz4",
 // 	vec![
@@ -2418,7 +2418,7 @@ tokenizer_test!(
 // );
 
 // BUG(aki): Spins
-// tokenizer_test!(
+// verilog95_tokenizer_test!(
 // 	test_tokenize_decimal_prefixed_all_high_z,
 // 	"1'dz",
 // 	vec![
@@ -2437,7 +2437,7 @@ tokenizer_test!(
 // 	]
 // );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_decimal_prefixed_padded,
 	"2 'd99",
 	vec![
@@ -2461,7 +2461,7 @@ tokenizer_test!(
 );
 
 // BUG(aki): Spins
-// tokenizer_test!(
+// verilog95_tokenizer_test!(
 // 	test_tokenize_decimal_prefixed_padded_dont_care,
 // 	"3 'dx9x",
 // 	vec![
@@ -2485,7 +2485,7 @@ tokenizer_test!(
 // );
 
 // BUG(aki): Spins
-// tokenizer_test!(
+// verilog95_tokenizer_test!(
 // 	test_tokenize_decimal_prefixed_padded_all_dont_care,
 // 	"1 'dx",
 // 	vec![
@@ -2509,7 +2509,7 @@ tokenizer_test!(
 // );
 
 // BUG(aki): Spins
-// tokenizer_test!(
+// verilog95_tokenizer_test!(
 // 	test_tokenize_decimal_prefixed_padded_high_z,
 // 	"3 'dzz7",
 // 	vec![
@@ -2533,7 +2533,7 @@ tokenizer_test!(
 // );
 
 // BUG(aki): Spins
-// tokenizer_test!(
+// verilog95_tokenizer_test!(
 // 	test_tokenize_decimal_prefixed_padded_all_high_z,
 // 	"1 'dz",
 // 	vec![
@@ -2556,7 +2556,7 @@ tokenizer_test!(
 // 	]
 // );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_decimal_naked,
 	"'d90",
 	vec![
@@ -2572,7 +2572,7 @@ tokenizer_test!(
 );
 
 // BUG(aki): Spins
-// tokenizer_test!(
+// verilog95_tokenizer_test!(
 // 	test_tokenize_decimal_naked_dont_care,
 // 	"'dx9x",
 // 	vec![
@@ -2588,7 +2588,7 @@ tokenizer_test!(
 // );
 
 // BUG(aki): Spins
-// tokenizer_test!(
+// verilog95_tokenizer_test!(
 // 	test_tokenize_decimal_naked_all_dont_care,
 // 	"'dx",
 // 	vec![
@@ -2604,7 +2604,7 @@ tokenizer_test!(
 // );
 
 // BUG(aki): Spins
-// tokenizer_test!(
+// verilog95_tokenizer_test!(
 // 	test_tokenize_decimal_naked_high_z,
 // 	"'dzz9",
 // 	vec![
@@ -2620,7 +2620,7 @@ tokenizer_test!(
 // );
 
 // BUG(aki): Spins
-// tokenizer_test!(
+// verilog95_tokenizer_test!(
 // 	test_tokenize_decimal_naked_all_high_z,
 // 	"'dz",
 // 	vec![
@@ -2638,7 +2638,7 @@ tokenizer_test!(
 // TODO(aki): Invalid Digits
 
 // BUG(aki): Spins
-// tokenizer_test!(
+// verilog95_tokenizer_test!(
 // 	test_tokenize_decimal_lump,
 // 	"4 'd06zx\n+1'D ?\n2'dZX\n",
 // 	vec![
@@ -2705,7 +2705,7 @@ tokenizer_test!(
 // 	]
 // );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_hexadecimal_prefixed,
 	"4'h1a4F",
 	vec![
@@ -2724,7 +2724,7 @@ tokenizer_test!(
 	]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_hexadecimal_prefixed_dont_care,
 	"3'hxDx",
 	vec![
@@ -2742,7 +2742,7 @@ tokenizer_test!(
 		),
 	]
 );
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_hexadecimal_prefixed_all_dont_care,
 	"1'hx",
 	vec![
@@ -2761,7 +2761,7 @@ tokenizer_test!(
 	]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_hexadecimal_prefixed_high_z,
 	"3'hzzF",
 	vec![
@@ -2780,7 +2780,7 @@ tokenizer_test!(
 	]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_hexadecimal_prefixed_all_high_z,
 	"1'hz",
 	vec![
@@ -2799,7 +2799,7 @@ tokenizer_test!(
 	]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_hexadecimal_prefixed_padded,
 	"3 'ha7d",
 	vec![
@@ -2822,7 +2822,7 @@ tokenizer_test!(
 	]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_hexadecimal_prefixed_padded_dont_care,
 	"3 'hxEx",
 	vec![
@@ -2844,7 +2844,7 @@ tokenizer_test!(
 		),
 	]
 );
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_hexadecimal_prefixed_padded_all_dont_care,
 	"1 'hx",
 	vec![
@@ -2867,7 +2867,7 @@ tokenizer_test!(
 	]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_hexadecimal_prefixed_padded_high_z,
 	"3 'hzzA",
 	vec![
@@ -2890,7 +2890,7 @@ tokenizer_test!(
 	]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_hexadecimal_prefixed_padded_all_high_z,
 	"1 'hz",
 	vec![
@@ -2913,7 +2913,7 @@ tokenizer_test!(
 	]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_hexadecimal_naked,
 	"'h7F",
 	vec![
@@ -2928,7 +2928,7 @@ tokenizer_test!(
 	]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_hexadecimal_naked_dont_care,
 	"'hxAx",
 	vec![
@@ -2943,7 +2943,7 @@ tokenizer_test!(
 	]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_hexadecimal_naked_all_dont_care,
 	"'hx",
 	vec![
@@ -2958,7 +2958,7 @@ tokenizer_test!(
 	]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_hexadecimal_naked_high_z,
 	"'hzz7",
 	vec![
@@ -2973,7 +2973,7 @@ tokenizer_test!(
 	]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_hexadecimal_naked_all_high_z,
 	"'hz",
 	vec![
@@ -2990,7 +2990,7 @@ tokenizer_test!(
 
 // TODO(aki): Invalid Digits
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_hexadecimal_lump,
 	"4 'h7Fzx\n+1'H ?\n2'hZX\n",
 	vec![
@@ -3057,7 +3057,7 @@ tokenizer_test!(
 	]
 );
 
-tokenizer_test!(
+verilog95_tokenizer_test!(
 	test_tokenize_simple,
 	r#"
 module foo();
