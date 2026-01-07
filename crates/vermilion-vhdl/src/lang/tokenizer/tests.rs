@@ -3,11 +3,11 @@
 use super::*;
 use crate::VhdlStd;
 
-macro_rules! tokenizer_test {
-	($test_name:ident, $input:literal, $tokens:expr) => {
+macro_rules! vhdl_tokenizer_test {
+	($test_name:ident, $input:literal, $tokens:expr, $std:expr) => {
 		#[test]
 		fn $test_name() {
-			let tokenizer = Tokenizer::new(VhdlStd::Vh87, $input.as_bytes().into());
+			let tokenizer = VhdlTokenizer::new($std, $input.as_bytes().into());
 
 			let parsed = tokenizer.collect::<Vec<_>>();
 			let expected = $tokens;
@@ -17,6 +17,54 @@ macro_rules! tokenizer_test {
 				"Parsed: {parsed:#?}\nExpected: {expected:#?}"
 			);
 		}
+	};
+}
+
+macro_rules! vhdl87_tokenizer_test {
+	($test_name:ident, $input:literal, $tokens:expr) => {
+		vhdl_tokenizer_test!($test_name, $input, $tokens, VhdlStd::Vh87);
+	};
+}
+
+macro_rules! vhdl93_tokenizer_test {
+	($test_name:ident, $input:literal, $tokens:expr) => {
+		vhdl_tokenizer_test!($test_name, $input, $tokens, VhdlStd::Vh93);
+	};
+}
+
+macro_rules! vhdl2k_tokenizer_test {
+	($test_name:ident, $input:literal, $tokens:expr) => {
+		vhdl_tokenizer_test!($test_name, $input, $tokens, VhdlStd::Vh2k);
+	};
+}
+
+macro_rules! vhdl02_tokenizer_test {
+	($test_name:ident, $input:literal, $tokens:expr) => {
+		vhdl_tokenizer_test!($test_name, $input, $tokens, VhdlStd::Vh02);
+	};
+}
+
+macro_rules! vhdl08_tokenizer_test {
+	($test_name:ident, $input:literal, $tokens:expr) => {
+		vhdl_tokenizer_test!($test_name, $input, $tokens, VhdlStd::Vh08);
+	};
+}
+
+macro_rules! vhdl11_tokenizer_test {
+	($test_name:ident, $input:literal, $tokens:expr) => {
+		vhdl_tokenizer_test!($test_name, $input, $tokens, VhdlStd::Vh11);
+	};
+}
+
+macro_rules! vhdl19_tokenizer_test {
+	($test_name:ident, $input:literal, $tokens:expr) => {
+		vhdl_tokenizer_test!($test_name, $input, $tokens, VhdlStd::Vh19);
+	};
+}
+
+macro_rules! vhdl23_tokenizer_test {
+	($test_name:ident, $input:literal, $tokens:expr) => {
+		vhdl_tokenizer_test!($test_name, $input, $tokens, VhdlStd::Vh23);
 	};
 }
 
