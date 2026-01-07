@@ -7,7 +7,7 @@ macro_rules! tokenizer_test {
 	($test_name:ident, $input:literal, $tokens:expr) => {
 		#[test]
 		fn $test_name() {
-			let tokenizer = Tokenizer::new(
+			let tokenizer = VerilogTokenizer::new(
 				VerilogVariant::Verilog(VerilogStd::Vl95),
 				$input.as_bytes().into(),
 			);
