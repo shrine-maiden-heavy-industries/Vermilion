@@ -909,8 +909,8 @@ impl VerilogTokenizer {
 		// Make sure we've got a valid number - if we have not, eat the content and turn it into an
 		// Invalid token.
 		if !digit_filter(self.current_char) {
-			// Keep monching until we find whitespace.
-			while !self.current_is_whitespace() {
+			// keep consuming input until we hit whitespace or EOF
+			while !self.current_is_whitespace() && !self.eof {
 				self.next_char();
 			}
 
