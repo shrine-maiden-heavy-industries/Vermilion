@@ -64,11 +64,12 @@ jobs:
         shell: bash
         run: |
           rustup update
+          rustup component add llvm-tools-preview
 
       - name: 'Install nextest'
         uses: taiki-e/install-action@v2
         with:
-          tool: nextest
+          tool: nextest,cargo-llvm-cov
 
       - name: 'Build Vermilion'
         shell: bash
@@ -78,4 +79,13 @@ jobs:
       - name: 'Test Vermilion'
         shell: bash
         run: |
-          cargo nextest run
+          cargo llvm-cov --no-report nextest
+          cargo llvm-cov --no-report --doc
+          cargo llvm-cov report --doctests --lcov --output-path lcov.info
+
+      - name: 'Codecov Upload'
+        if: success() && github.repository == 'shrine-maiden-heavy-industries/vermilion'
+        uses: codecov/codecov-action@v5
+        with:
+          files: lcov.info
+          token: ${{ secrets.CODECOV_TOKEN }}
