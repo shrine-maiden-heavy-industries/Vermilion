@@ -16,6 +16,19 @@ use tendril::{Atomic, Tendril, fmt};
 
 pub type AtomicByteTendril = Tendril<fmt::Bytes, Atomic>;
 
+#[macro_export]
+macro_rules! spanned_token {
+	($token:expr) => {
+		vermilion_lang::span::Spanned::new($token, None)
+	};
+	($token:expr, $span_range:expr, $context:expr) => {
+		vermilion_lang::span::Spanned::new(
+			$token,
+			Some(vermilion_lang::span::Span::new($span_range, $context)),
+		)
+	};
+}
+
 fn _print_errors() {
 	// 	let _: Vec<_> = args
 	// 		.get_many::<String>("files")
