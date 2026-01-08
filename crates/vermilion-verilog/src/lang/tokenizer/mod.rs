@@ -915,6 +915,11 @@ impl VerilogTokenizer {
 			}
 
 			// Turn whatever we got into an invalid token
+			// TODO(aki):
+			// In IEEE 1364-2001 (Verilog 2001) decimal bases ('d|'D) are allowed to
+			// have [xz?] as the first digit, followed by `_` exclusively if it's not
+			// a base-10 digit, so this should be turned into a Token::ContextuallyInvalid
+			// in the case we hit one of those and are in Verilog 95.
 			self.token_stream.push_back(Spanned::new(
 				Token::Invalid(Some(
 					self.file
