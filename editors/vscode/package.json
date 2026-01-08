@@ -82,11 +82,11 @@
 					".vh",
 					".vm"
 				],
-				"configuration": "./language-configuration.json",
+				"configuration": "./languages/verilog/configuration.json",
 				"icon":
 				{
-					"dark": "verilog_icon.svg",
-					"light": "verilog_icon.svg"
+					"dark": "./languages/verilog/icon_dark.svg",
+					"light": "./languages/verilog/icon_light.svg"
 				}
 			},
 			{
@@ -95,11 +95,11 @@
 				[
 					".vams"
 				],
-				"configuration": "./language-configuration.json",
+				"configuration": "./languages/verilog_ams/configuration.json",
 				"icon":
 				{
-					"dark": "verilog_ams_icon.svg",
-					"light": "verilog_ams_icon.svg"
+					"dark": "./languages/verilog_ams/icon_dark.svg",
+					"light": "./languages/verilog_ams/icon_light.svg"
 				}
 			},
 			{
@@ -108,11 +108,11 @@
 				[
 					".sv"
 				],
-				"configuration": "./language-configuration.json",
+				"configuration": "./languages/system_verilog/configuration.json",
 				"icon":
 				{
-					"dark": "system_verilog_icon.svg",
-					"light": "system_verilog_icon.svg"
+					"dark": "./languages/system_verilog/icon_dark.svg",
+					"light": "./languages/system_verilog/icon_light.svg"
 				}
 			},
 			{
@@ -122,12 +122,34 @@
 					".vhdl",
 					".vdh"
 				],
-				"configuration": "./language-configuration.json",
+				"configuration": "./languages/vhdl/configuration.json",
 				"icon":
 				{
-					"dark": "vhdl_icon.svg",
-					"light": "vhdl_icon.svg"
+					"dark": "./languages/vhdl/icon_dark.svg",
+					"light": "./languages/vhdl/icon_light.svg"
 				}
+			}
+		],
+		"grammars": [
+			{
+				"language": "verilog",
+				"scopeName": "source.verilog",
+				"path": "./languages/verilog/base.tmLanguage.json"
+			},
+			{
+				"language": "verilog-ams",
+				"scopeName": "source.verilog_ams",
+				"path": "./languages/verilog_ams/base.tmLanguage.json"
+			},
+			{
+				"language": "system-verilog",
+				"scopeName": "source.system_verilog",
+				"path": "./languages/system_verilog/base.tmLanguage.json"
+			},
+			{
+				"language": "vhdl",
+				"scopeName": "source.vhdl",
+				"path": "./languages/vhdl/base.tmLanguage.json"
 			}
 		],
 		"configuration":

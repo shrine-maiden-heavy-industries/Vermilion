@@ -1,0 +1,14 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "System Verilog",
+	"scopeName": "source.system_verilog",
+	"fileTypes": [
+		"sv"
+	],
+	"patterns": [
+
+	],
+	"repository": {
+
+	}
+}

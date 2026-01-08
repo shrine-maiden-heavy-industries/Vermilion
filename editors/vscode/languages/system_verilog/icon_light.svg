@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="32mm"
+   height="32mm"
+   viewBox="0 0 32 32"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4.3 (0d15f75042, 2025-12-25)"
+   sodipodi:docname="system-verilog.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#505050"
+     bordercolor="#ffffff"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="1"
+     inkscape:deskcolor="#505050"
+     inkscape:document-units="mm"
+     showguides="false"
+     inkscape:zoom="4"
+     inkscape:cx="3"
+     inkscape:cy="12.375"
+     inkscape:window-width="2560"
+     inkscape:window-height="1368"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1">
+    <sodipodi:guide
+       position="25.999999,5.9999998"
+       orientation="-1,0"
+       id="guide1"
+       inkscape:locked="false"
+       inkscape:label=""
+       inkscape:color="rgb(0,134,229)" />
+    <sodipodi:guide
+       position="25.999999,5.9999998"
+       orientation="0,1"
+       id="guide2"
+       inkscape:locked="false"
+       inkscape:label=""
+       inkscape:color="rgb(0,134,229)" />
+    <sodipodi:guide
+       position="1.9999999,29.999999"
+       orientation="0,1"
+       id="guide3"
+       inkscape:locked="false"
+       inkscape:label=""
+       inkscape:color="rgb(0,134,229)" />
+    <sodipodi:guide
+       position="1.9999999,29.999999"
+       orientation="-1,0"
+       id="guide4"
+       inkscape:locked="false"
+       inkscape:label=""
+       inkscape:color="rgb(0,134,229)" />
+    <sodipodi:guide
+       position="29.999999,1.9999999"
+       orientation="-1,0"
+       id="guide5"
+       inkscape:locked="false"
+       inkscape:label=""
+       inkscape:color="rgb(0,134,229)" />
+    <sodipodi:guide
+       position="29.999999,1.9999999"
+       orientation="0,1"
+       id="guide6"
+       inkscape:locked="false"
+       inkscape:label=""
+       inkscape:color="rgb(0,134,229)" />
+    <sodipodi:guide
+       position="5.9999998,25.999999"
+       orientation="-1,0"
+       id="guide7"
+       inkscape:locked="false"
+       inkscape:label=""
+       inkscape:color="rgb(0,134,229)" />
+    <sodipodi:guide
+       position="5.9999998,25.999999"
+       orientation="0,1"
+       id="guide8"
+       inkscape:locked="false"
+       inkscape:label=""
+       inkscape:color="rgb(0,134,229)" />
+    <sodipodi:guide
+       position="16,16"
+       orientation="-1,0"
+       id="guide9"
+       inkscape:locked="false"
+       inkscape:label=""
+       inkscape:color="rgb(0,134,229)" />
+    <sodipodi:guide
+       position="16,16"
+       orientation="0,1"
+       id="guide10"
+       inkscape:locked="false"
+       inkscape:label=""
+       inkscape:color="rgb(0,134,229)" />
+    <sodipodi:guide
+       position="9.9999997,21.999999"
+       orientation="-1,0"
+       id="guide11"
+       inkscape:locked="false"
+       inkscape:label=""
+       inkscape:color="rgb(0,134,229)" />
+    <sodipodi:guide
+       position="9.9999997,21.999999"
+       orientation="0,1"
+       id="guide12"
+       inkscape:locked="false"
+       inkscape:label=""
+       inkscape:color="rgb(0,134,229)" />
+    <sodipodi:guide
+       position="21.999999,9.9999997"
+       orientation="0,1"
+       id="guide13"
+       inkscape:locked="false"
+       inkscape:label=""
+       inkscape:color="rgb(0,134,229)" />
+    <sodipodi:guide
+       position="21.999999,9.9999997"
+       orientation="-1,0"
+       id="guide14"
+       inkscape:locked="false"
+       inkscape:label=""
+       inkscape:color="rgb(0,134,229)" />
+  </sodipodi:namedview>
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       id="path14-0-6-2"
+       style="baseline-shift:baseline;display:inline;overflow:visible;vector-effect:none;stroke-linecap:round;enable-background:accumulate;stop-color:#000000;stop-opacity:1;opacity:1;fill:#218ffd;fill-opacity:1"
+       d="m 22,22.996094 a 1.5,1.5 0 0 0 -1.5,1.5 v 4 a 1.5,1.5 0 0 0 1.5,1.5 1.5,1.5 0 0 0 1.5,-1.5 v -4 a 1.5,1.5 0 0 0 -1.5,-1.5 z m -6,0 a 1.5,1.5 0 0 0 -1.5,1.5 v 4 a 1.5,1.5 0 0 0 1.5,1.5 1.5,1.5 0 0 0 1.5,-1.5 v -4 a 1.5,1.5 0 0 0 -1.5,-1.5 z m -6,0 a 1.5,1.5 0 0 0 -1.5,1.5 v 4 a 1.5,1.5 0 0 0 1.5,1.5 1.5,1.5 0 0 0 1.5,-1.5 v -4 a 1.5,1.5 0 0 0 -1.5,-1.5 z M 22,1.9960937 A 1.5,1.5 0 0 0 20.5,3.4960938 V 7.4960937 A 1.5,1.5 0 0 0 22,8.9960938 1.5,1.5 0 0 0 23.5,7.4960937 V 3.4960938 A 1.5,1.5 0 0 0 22,1.9960937 Z m -6,0 A 1.5,1.5 0 0 0 14.5,3.4960938 V 7.4960937 A 1.5,1.5 0 0 0 16,8.9960938 1.5,1.5 0 0 0 17.5,7.4960937 V 3.4960938 A 1.5,1.5 0 0 0 16,1.9960937 Z m -6,0 A 1.5,1.5 0 0 0 8.5,3.4960938 V 7.4960937 A 1.5,1.5 0 0 0 10,8.9960938 1.5,1.5 0 0 0 11.5,7.4960937 V 3.4960938 A 1.5,1.5 0 0 0 10,1.9960937 Z M 3.5019531,20.5 a 1.5,1.5 0 0 0 -1.5,1.5 1.5,1.5 0 0 0 1.5,1.5 h 4 a 1.5,1.5 0 0 0 1.5,-1.5 1.5,1.5 0 0 0 -1.5,-1.5 z m 0,-6 a 1.5,1.5 0 0 0 -1.5,1.5 1.5,1.5 0 0 0 1.5,1.5 h 4 a 1.5,1.5 0 0 0 1.5,-1.5 1.5,1.5 0 0 0 -1.5,-1.5 z m 0,-6 a 1.5,1.5 0 0 0 -1.5,1.5 1.5,1.5 0 0 0 1.5,1.5 h 4 a 1.5,1.5 0 0 0 1.5,-1.5 1.5,1.5 0 0 0 -1.5,-1.5 z m 20.9999999,12 a 1.5,1.5 0 0 0 -1.5,1.5 1.5,1.5 0 0 0 1.5,1.5 h 4 a 1.5,1.5 0 0 0 1.5,-1.5 1.5,1.5 0 0 0 -1.5,-1.5 z m 0,-6 a 1.5,1.5 0 0 0 -1.5,1.5 1.5,1.5 0 0 0 1.5,1.5 h 4 a 1.5,1.5 0 0 0 1.5,-1.5 1.5,1.5 0 0 0 -1.5,-1.5 z m 0,-6 a 1.5,1.5 0 0 0 -1.5,1.5 1.5,1.5 0 0 0 1.5,1.5 h 4 a 1.5,1.5 0 0 0 1.5,-1.5 1.5,1.5 0 0 0 -1.5,-1.5 z M 8.0000285,6.0001506 c -1.108,0 -1.9998779,0.8918779 -1.9998779,1.9998779 V 24.000085 c 0,1.108 0.8918779,1.999878 1.9998779,1.999878 H 24.000085 c 1.108,0 1.999878,-0.891878 1.999878,-1.999878 V 8.0000285 c 0,-1.108 -0.891878,-1.9998779 -1.999878,-1.9998779 z m 3.9997555,3.9997558 h 8.000029 c 1.108,0 2.000395,0.8918776 2.000395,1.9998776 v 8.000029 c 0,1.108 -0.892395,2.000395 -2.000395,2.000395 h -8.000029 c -1.108,0 -1.9998776,-0.892395 -1.9998776,-2.000395 v -8.000029 c 0,-1.108 0.8918776,-1.9998776 1.9998776,-1.9998776 z" />
+  </g>
+  <metadata
+     id="metadata1">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/by-nc-sa/4.0/" />
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/by-nc-sa/4.0/">
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <cc:requires
+           rdf:resource="http://creativecommons.org/ns#Notice" />
+        <cc:requires
+           rdf:resource="http://creativecommons.org/ns#Attribution" />
+        <cc:prohibits
+           rdf:resource="http://creativecommons.org/ns#CommercialUse" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+        <cc:requires
+           rdf:resource="http://creativecommons.org/ns#ShareAlike" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+</svg>
