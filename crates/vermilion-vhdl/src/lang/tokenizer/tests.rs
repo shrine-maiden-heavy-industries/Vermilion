@@ -73,14 +73,16 @@ macro_rules! vhdl23_tokenizer_test {
 
 macro_rules! all_vhdl_tokenizer_test {
 	($test_name:ident, $input:literal, $tokens:expr) => {
-		vhdl87_tokenizer_test($test_name, $input, $tokens);
-		vhdl93_tokenizer_test($test_name, $input, $tokens);
-		vhdl2k_tokenizer_test($test_name, $input, $tokens);
-		vhdl02_tokenizer_test($test_name, $input, $tokens);
-		vhdl08_tokenizer_test($test_name, $input, $tokens);
-		vhdl11_tokenizer_test($test_name, $input, $tokens);
-		vhdl19_tokenizer_test($test_name, $input, $tokens);
-		vhdl23_tokenizer_test($test_name, $input, $tokens);
+		paste! {
+			vhdl87_tokenizer_test([<$test_name _all>], $input, $tokens);
+			vhdl93_tokenizer_test([<$test_name _all>], $input, $tokens);
+			vhdl2k_tokenizer_test([<$test_name _all>], $input, $tokens);
+			vhdl02_tokenizer_test([<$test_name _all>], $input, $tokens);
+			vhdl08_tokenizer_test([<$test_name _all>], $input, $tokens);
+			vhdl11_tokenizer_test([<$test_name _all>], $input, $tokens);
+			vhdl19_tokenizer_test([<$test_name _all>], $input, $tokens);
+			vhdl23_tokenizer_test([<$test_name _all>], $input, $tokens);
+		}
 	};
 }
 include!("./tests/all_common.rs");
