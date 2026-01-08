@@ -120,7 +120,7 @@
 				"extensions":
 				[
 					".vhdl",
-					".vdh"
+					".vhd"
 				],
 				"configuration": "./languages/vhdl/configuration.json",
 				"icon":
