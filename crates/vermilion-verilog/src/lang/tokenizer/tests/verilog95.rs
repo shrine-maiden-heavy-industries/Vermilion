@@ -2641,7 +2641,6 @@ verilog95_tokenizer_test!(
 			Token::BaseSpecifier(BaseSpecifier::Decimal, false),
 			Some(Span::new(2..4, Position::new(0, 2)))
 		),
-		// WRONG
 		Spanned::new(
 			Token::Invalid(Some("06zx".as_bytes().into())),
 			Some(Span::new(4..8, Position::new(0, 4)))
@@ -2666,7 +2665,6 @@ verilog95_tokenizer_test!(
 			Token::Whitespace(" ".as_bytes().into()),
 			Some(Span::new(13..14, Position::new(1, 4)))
 		),
-		// WRONG
 		Spanned::new(
 			Token::Invalid(Some("?".as_bytes().into())),
 			Some(Span::new(14..15, Position::new(1, 5)))

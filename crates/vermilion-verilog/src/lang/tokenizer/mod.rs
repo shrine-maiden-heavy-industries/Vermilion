@@ -67,6 +67,11 @@ impl VerilogTokenizer {
 		self.current_char == b' ' || self.current_char == b'\t'
 	}
 
+	#[inline]
+	fn current_is_newline(&self) -> bool {
+		matches!(self.current_char, b'\r' | b'\n')
+	}
+
 	fn read_token(&mut self) {
 		if !self.token_stream.is_empty() {
 			// SAFETY:
@@ -910,8 +915,12 @@ impl VerilogTokenizer {
 		// Invalid token.
 		if !digit_filter(self.current_char) {
 			// keep consuming input until we hit whitespace or EOF
-			while !self.current_is_whitespace() && !self.eof {
-				self.next_char();
+			while !self.current_is_whitespace() && !self.current_is_newline() && !self.eof {
+				if self.current_is_newline() {
+					self.read_newline();
+				} else {
+					self.next_char();
+				}
 			}
 
 			// Turn whatever we got into an invalid token
@@ -928,19 +937,44 @@ impl VerilogTokenizer {
 				Some(Span::new(begin..self.position, context)),
 			));
 		} else {
-			// Monch digits till we don't find no more.
+			// Run the filter to the end consuming all the digits we can
 			while digit_filter(self.current_char) || self.current_char == b'_' {
 				self.next_char();
 			}
 
-			// Turn the consumed number into a Number token
-			self.token_stream.push_back(Spanned::new(
-				Token::Number(
-					self.file
-						.subtendril(begin as u32, (self.position - begin) as u32),
-				),
-				Some(Span::new(begin..self.position, context)),
-			));
+			// If we're consuming a decimal number, we need to ensure we also consume trailing
+			// [xz?]'s to generate an invalid token if there are any
+			if spec == BaseSpecifier::Decimal &&
+				matches!(self.current_char, b'x' | b'X' | b'z' | b'Z' | b'?')
+			{
+				while matches!(self.current_char, b'x' | b'X' | b'z' | b'Z' | b'?') &&
+					!self.current_is_whitespace() &&
+					!self.current_is_newline() &&
+					!self.eof
+				{
+					if self.current_is_newline() {
+						self.read_newline();
+					} else {
+						self.next_char();
+					}
+				}
+				self.token_stream.push_back(Spanned::new(
+					Token::Invalid(Some(
+						self.file
+							.subtendril(begin as u32, (self.position - begin) as u32),
+					)),
+					Some(Span::new(begin..self.position, context)),
+				));
+			} else {
+				// Turn the consumed number into a Number token
+				self.token_stream.push_back(Spanned::new(
+					Token::Number(
+						self.file
+							.subtendril(begin as u32, (self.position - begin) as u32),
+					),
+					Some(Span::new(begin..self.position, context)),
+				));
+			}
 		}
 	}
 
