@@ -24,6 +24,7 @@ tendril               = { workspace = true }
 
 [dev-dependencies]
 criterion = { workspace = true }
+paste     = { workspace = true }
 proptest  = { workspace = true }
 test-log  = { workspace = true }
 
