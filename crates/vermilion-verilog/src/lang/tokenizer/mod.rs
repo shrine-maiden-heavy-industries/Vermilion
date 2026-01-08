@@ -64,7 +64,7 @@ impl VerilogTokenizer {
 
 	#[inline]
 	fn current_is_whitespace(&self) -> bool {
-		self.current_char == b' ' || self.current_char == b'\t'
+		matches!(self.current_char, b' ' | b'\t')
 	}
 
 	#[inline]
