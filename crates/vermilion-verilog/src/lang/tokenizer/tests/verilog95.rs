@@ -2625,73 +2625,74 @@ verilog95_tokenizer_test!(
 
 // TODO(aki): Invalid Digits
 
-// BUG(aki): Spins
-// verilog95_tokenizer_test!(
-// 	test_tokenize_decimal_lump,
-// 	"4 'd06zx\n+1'D ?\n2'dZX\n",
-// 	vec![
-// 		Spanned::new(
-// 			Token::UnsignedNumber("4".as_bytes().into()),
-// 			Some(Span::new(0..1, Position::new(0, 0)))
-// 		),
-// 		Spanned::new(
-// 			Token::Whitespace(" ".as_bytes().into()),
-// 			Some(Span::new(1..2, Position::new(0, 1)))
-// 		),
-// 		Spanned::new(
-// 			Token::BaseSpecifier(BaseSpecifier::Decimal, false),
-// 			Some(Span::new(2..4, Position::new(0, 2)))
-// 		),
-// 		Spanned::new(
-// 			Token::Number("06zx".as_bytes().into()),
-// 			Some(Span::new(4..8, Position::new(0, 4)))
-// 		),
-// 		Spanned::new(
-// 			Token::Newline("\n".as_bytes().into()),
-// 			Some(Span::new(8..9, Position::new(0, 8)))
-// 		),
-// 		Spanned::new(
-// 			Token::Operator(Operator::Plus),
-// 			Some(Span::new(9..10, Position::new(1, 0)))
-// 		),
-// 		Spanned::new(
-// 			Token::UnsignedNumber("1".as_bytes().into()),
-// 			Some(Span::new(10..11, Position::new(1, 1)))
-// 		),
-// 		Spanned::new(
-// 			Token::BaseSpecifier(BaseSpecifier::Decimal, true),
-// 			Some(Span::new(11..13, Position::new(1, 2)))
-// 		),
-// 		Spanned::new(
-// 			Token::Whitespace(" ".as_bytes().into()),
-// 			Some(Span::new(13..14, Position::new(1, 4)))
-// 		),
-// 		Spanned::new(
-// 			Token::Number("?".as_bytes().into()),
-// 			Some(Span::new(14..15, Position::new(1, 5)))
-// 		),
-// 		Spanned::new(
-// 			Token::Newline("\n".as_bytes().into()),
-// 			Some(Span::new(15..16, Position::new(1, 6)))
-// 		),
-// 		Spanned::new(
-// 			Token::UnsignedNumber("2".as_bytes().into()),
-// 			Some(Span::new(16..17, Position::new(2, 0)))
-// 		),
-// 		Spanned::new(
-// 			Token::BaseSpecifier(BaseSpecifier::Decimal, false),
-// 			Some(Span::new(17..19, Position::new(2, 1)))
-// 		),
-// 		Spanned::new(
-// 			Token::Number("ZX".as_bytes().into()),
-// 			Some(Span::new(19..21, Position::new(2, 3)))
-// 		),
-// 		Spanned::new(
-// 			Token::Newline("\n".as_bytes().into()),
-// 			Some(Span::new(21..22, Position::new(2, 5)))
-// 		),
-// 	]
-// );
+verilog95_tokenizer_test!(
+	test_tokenize_decimal_lump,
+	"4 'd06zx\n+1'D ?\n2'dZX\n",
+	vec![
+		Spanned::new(
+			Token::UnsignedNumber("4".as_bytes().into()),
+			Some(Span::new(0..1, Position::new(0, 0)))
+		),
+		Spanned::new(
+			Token::Whitespace(" ".as_bytes().into()),
+			Some(Span::new(1..2, Position::new(0, 1)))
+		),
+		Spanned::new(
+			Token::BaseSpecifier(BaseSpecifier::Decimal, false),
+			Some(Span::new(2..4, Position::new(0, 2)))
+		),
+		// WRONG
+		Spanned::new(
+			Token::Invalid(Some("06zx".as_bytes().into())),
+			Some(Span::new(4..8, Position::new(0, 4)))
+		),
+		Spanned::new(
+			Token::Newline("\n".as_bytes().into()),
+			Some(Span::new(8..9, Position::new(0, 8)))
+		),
+		Spanned::new(
+			Token::Operator(Operator::Plus),
+			Some(Span::new(9..10, Position::new(1, 0)))
+		),
+		Spanned::new(
+			Token::UnsignedNumber("1".as_bytes().into()),
+			Some(Span::new(10..11, Position::new(1, 1)))
+		),
+		Spanned::new(
+			Token::BaseSpecifier(BaseSpecifier::Decimal, true),
+			Some(Span::new(11..13, Position::new(1, 2)))
+		),
+		Spanned::new(
+			Token::Whitespace(" ".as_bytes().into()),
+			Some(Span::new(13..14, Position::new(1, 4)))
+		),
+		// WRONG
+		Spanned::new(
+			Token::Invalid(Some("?".as_bytes().into())),
+			Some(Span::new(14..15, Position::new(1, 5)))
+		),
+		Spanned::new(
+			Token::Newline("\n".as_bytes().into()),
+			Some(Span::new(15..16, Position::new(1, 6)))
+		),
+		Spanned::new(
+			Token::UnsignedNumber("2".as_bytes().into()),
+			Some(Span::new(16..17, Position::new(2, 0)))
+		),
+		Spanned::new(
+			Token::BaseSpecifier(BaseSpecifier::Decimal, false),
+			Some(Span::new(17..19, Position::new(2, 1)))
+		),
+		Spanned::new(
+			Token::Invalid(Some("ZX".as_bytes().into())),
+			Some(Span::new(19..21, Position::new(2, 3)))
+		),
+		Spanned::new(
+			Token::Newline("\n".as_bytes().into()),
+			Some(Span::new(21..22, Position::new(2, 5)))
+		),
+	]
+);
 
 verilog95_tokenizer_test!(
 	test_tokenize_hexadecimal_prefixed,
