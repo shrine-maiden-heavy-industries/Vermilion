@@ -165,9 +165,11 @@ macro_rules! all_verilog_ams_tokenizer_test {
 
 macro_rules! all_tokenizer_test {
 	($test_name:ident, $input:literal, $tokens:expr) => {
-		all_verilog_tokenizer_test!($test_name, $input, $tokens);
-		all_system_verilog_tokenizer_test!($test_name, $input, $tokens);
-		all_verilog_ams_tokenizer_test!($test_name, $input, $tokens);
+		paste! {
+			all_verilog_tokenizer_test!([<$test_name _all>], $input, $tokens);
+			all_system_verilog_tokenizer_test!([<$test_name _all>], $input, $tokens);
+			all_verilog_ams_tokenizer_test!([<$test_name _all>], $input, $tokens);
+		}
 	};
 }
 
