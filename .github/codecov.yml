@@ -1,0 +1,38 @@
+coverage:
+  precision: 3
+  range: 85..100
+  round: down
+
+comment:
+  layout: 'condensed_header, diff, condensed_files, components'
+
+component_management:
+  individual_components:
+    - component_id: vermilion
+      name: 'Vermilion'
+      paths:
+        - crates/vermilion/**
+    - component_id: lsp
+      name: 'Language Server'
+      paths:
+        - crates/vermilion-lsp/**
+    - component_id: diagnostics
+      name: 'Common Diagnostics Support'
+      paths:
+        - crates/vermilion-diagnostics/**
+    - component_id: fmt
+      name: 'Common Formatting Support'
+      paths:
+        - crates/vermilion-fmt/**
+    - component_id: lang
+      name: 'Common Language Support'
+      paths:
+        - crates/vermilion-lang/**
+    - component_id: verilog
+      name: 'Verilog/SystemVerilog/Verilog-AMS Support'
+      paths:
+        - crates/vermilion-verilog/**
+    - component_id: vhdl
+      name: 'VHDL Support'
+      paths:
+        - crates/vermilion-vhdl/**
