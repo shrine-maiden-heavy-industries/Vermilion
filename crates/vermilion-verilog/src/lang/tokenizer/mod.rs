@@ -2,7 +2,7 @@
 
 use std::{collections::VecDeque, ops::Range};
 
-use vermilion_lang::{AtomicByteTendril, Position, Span, Spanned};
+use vermilion_lang::{AtomicByteTendril, Position, Span, Spanned, spanned_token};
 
 use self::token::{BaseSpecifier, Comment, CompilerDirective, Control, Keyword, Operator, Token};
 use crate::VerilogVariant;
@@ -29,7 +29,7 @@ impl VerilogTokenizer {
 			position: 0,
 			context: Position::sof(),
 			eof: false,
-			token: Spanned::new(Token::default(), None),
+			token: spanned_token!(Token::default()),
 			token_stream: VecDeque::new(),
 		};
 
@@ -283,12 +283,13 @@ impl VerilogTokenizer {
 				},
 			};
 			// Turn the result into the final token to return
-			self.token = Spanned::new(token, Some(Span::new(range, context)));
+			self.token = spanned_token!(token, range, context);
 		} else if self.current_char == b'\\' {
 			let range = self.read_escaped_ident();
-			self.token = Spanned::new(
+			self.token = spanned_token!(
 				Token::Identifier(self.file.subtendril(range.start as u32, range.len() as u32)),
-				Some(Span::new(range, context)),
+				range,
+				context
 			);
 		} else if self.current_char.is_ascii_digit() || self.current_char == b'\'' {
 			self.read_number_token();
@@ -302,9 +303,10 @@ impl VerilogTokenizer {
 			self.next_char();
 		}
 		let end = self.position;
-		self.token = Spanned::new(
+		self.token = spanned_token!(
 			Token::Whitespace(self.file.subtendril(begin as u32, (end - begin) as u32)),
-			Some(Span::new(begin..end, context)),
+			begin..end,
+			context
 		)
 	}
 
@@ -318,9 +320,10 @@ impl VerilogTokenizer {
 		let end = self.position;
 		// Newlines reset the position context for the next token
 		self.context.next_line();
-		self.token = Spanned::new(
+		self.token = spanned_token!(
 			Token::Newline(self.file.subtendril(begin as u32, (end - begin) as u32)),
-			Some(Span::new(begin..end, context)),
+			begin..end,
+			context
 		)
 	}
 
@@ -338,21 +341,20 @@ impl VerilogTokenizer {
 				self.next_char();
 				let end = self.position;
 
-				self.token = Spanned::new(
+				self.token = spanned_token!(
 					Token::Operator(Operator::CaseInequality),
-					Some(Span::new(begin..end, context)),
+					begin..end,
+					context
 				)
 			} else {
-				self.token = Spanned::new(
+				self.token = spanned_token!(
 					Token::Operator(Operator::LogicalInequality),
-					Some(Span::new(begin..end, context)),
+					begin..end,
+					context
 				)
 			}
 		} else {
-			self.token = Spanned::new(
-				Token::Operator(Operator::Exclamation),
-				Some(Span::new(begin..end, context)),
-			)
+			self.token = spanned_token!(Token::Operator(Operator::Exclamation), begin..end, context)
 		}
 	}
 
@@ -370,21 +372,17 @@ impl VerilogTokenizer {
 				self.next_char();
 				let end = self.position;
 
-				self.token = Spanned::new(
-					Token::Operator(Operator::CaseEquality),
-					Some(Span::new(begin..end, context)),
-				)
+				self.token =
+					spanned_token!(Token::Operator(Operator::CaseEquality), begin..end, context)
 			} else {
-				self.token = Spanned::new(
+				self.token = spanned_token!(
 					Token::Operator(Operator::LogicalEquality),
-					Some(Span::new(begin..end, context)),
+					begin..end,
+					context
 				)
 			}
 		} else {
-			self.token = Spanned::new(
-				Token::Operator(Operator::Equals),
-				Some(Span::new(begin..end, context)),
-			)
+			self.token = spanned_token!(Token::Operator(Operator::Equals), begin..end, context)
 		}
 	}
 
@@ -397,16 +395,9 @@ impl VerilogTokenizer {
 		if self.current_char == b'&' {
 			self.next_char();
 			let end = self.position;
-
-			self.token = Spanned::new(
-				Token::Operator(Operator::LogicalAnd),
-				Some(Span::new(begin..end, context)),
-			)
+			self.token = spanned_token!(Token::Operator(Operator::LogicalAnd), begin..end, context)
 		} else {
-			self.token = Spanned::new(
-				Token::Operator(Operator::Ampersand),
-				Some(Span::new(begin..end, context)),
-			)
+			self.token = spanned_token!(Token::Operator(Operator::Ampersand), begin..end, context)
 		}
 	}
 
@@ -419,30 +410,27 @@ impl VerilogTokenizer {
 		if self.current_char == b'^' {
 			self.next_char();
 			let end = self.position;
-			self.token = Spanned::new(
+			self.token = spanned_token!(
 				Token::Operator(Operator::TildeCircumflex(false)),
-				Some(Span::new(begin..end, context)),
+				begin..end,
+				context
 			)
 		} else if self.current_char == b'&' {
 			self.next_char();
 			let end = self.position;
-			self.token = Spanned::new(
+			self.token = spanned_token!(
 				Token::Operator(Operator::ReductionNand),
-				Some(Span::new(begin..end, context)),
+				begin..end,
+				context
 			)
 		} else if self.current_char == b'|' {
 			self.next_char();
 			let end = self.position;
 
-			self.token = Spanned::new(
-				Token::Operator(Operator::ReductionNor),
-				Some(Span::new(begin..end, context)),
-			)
+			self.token =
+				spanned_token!(Token::Operator(Operator::ReductionNor), begin..end, context)
 		} else {
-			self.token = Spanned::new(
-				Token::Operator(Operator::Tilde),
-				Some(Span::new(begin..end, context)),
-			)
+			self.token = spanned_token!(Token::Operator(Operator::Tilde), begin..end, context)
 		}
 	}
 
@@ -455,15 +443,13 @@ impl VerilogTokenizer {
 		if self.current_char == b'~' {
 			self.next_char();
 			let end = self.position;
-			self.token = Spanned::new(
+			self.token = spanned_token!(
 				Token::Operator(Operator::TildeCircumflex(true)),
-				Some(Span::new(begin..end, context)),
+				begin..end,
+				context
 			)
 		} else {
-			self.token = Spanned::new(
-				Token::Operator(Operator::Circumflex),
-				Some(Span::new(begin..end, context)),
-			)
+			self.token = spanned_token!(Token::Operator(Operator::Circumflex), begin..end, context)
 		}
 	}
 
@@ -476,15 +462,9 @@ impl VerilogTokenizer {
 		if self.current_char == b'|' {
 			self.next_char();
 			let end = self.position;
-			self.token = Spanned::new(
-				Token::Operator(Operator::LogicalOr),
-				Some(Span::new(begin..end, context)),
-			)
+			self.token = spanned_token!(Token::Operator(Operator::LogicalOr), begin..end, context)
 		} else {
-			self.token = Spanned::new(
-				Token::Operator(Operator::Pipe),
-				Some(Span::new(begin..end, context)),
-			)
+			self.token = spanned_token!(Token::Operator(Operator::Pipe), begin..end, context)
 		}
 	}
 
@@ -498,23 +478,18 @@ impl VerilogTokenizer {
 			self.next_char();
 			let end = self.position;
 
-			self.token = Spanned::new(
+			self.token = spanned_token!(
 				Token::Operator(Operator::LessThanEqual),
-				Some(Span::new(begin..end, context)),
+				begin..end,
+				context
 			)
 		} else if self.current_char == b'>' {
 			self.next_char();
 			let end = self.position;
 
-			self.token = Spanned::new(
-				Token::Operator(Operator::ShiftRight),
-				Some(Span::new(begin..end, context)),
-			)
+			self.token = spanned_token!(Token::Operator(Operator::ShiftRight), begin..end, context)
 		} else {
-			self.token = Spanned::new(
-				Token::Operator(Operator::LessThan),
-				Some(Span::new(begin..end, context)),
-			)
+			self.token = spanned_token!(Token::Operator(Operator::LessThan), begin..end, context)
 		}
 	}
 
@@ -528,23 +503,18 @@ impl VerilogTokenizer {
 			self.next_char();
 			let end = self.position;
 
-			self.token = Spanned::new(
+			self.token = spanned_token!(
 				Token::Operator(Operator::GreaterThanEqual),
-				Some(Span::new(begin..end, context)),
+				begin..end,
+				context
 			)
 		} else if self.current_char == b'<' {
 			self.next_char();
 			let end = self.position;
 
-			self.token = Spanned::new(
-				Token::Operator(Operator::ShiftLeft),
-				Some(Span::new(begin..end, context)),
-			)
+			self.token = spanned_token!(Token::Operator(Operator::ShiftLeft), begin..end, context)
 		} else {
-			self.token = Spanned::new(
-				Token::Operator(Operator::GreaterThan),
-				Some(Span::new(begin..end, context)),
-			)
+			self.token = spanned_token!(Token::Operator(Operator::GreaterThan), begin..end, context)
 		}
 	}
 
@@ -560,9 +530,10 @@ impl VerilogTokenizer {
 				self.read_singleline_comment(context, begin);
 			}
 		} else {
-			self.token = Spanned::new(
+			self.token = spanned_token!(
 				Token::Operator(Operator::Solidus),
-				Some(Span::new(begin..self.position, context)),
+				begin..self.position,
+				context
 			);
 		}
 	}
@@ -601,20 +572,22 @@ impl VerilogTokenizer {
 		}
 
 		if invalid_comment {
-			self.token = Spanned::new(
+			self.token = spanned_token!(
 				Token::Comment(Comment::Invalid(
 					self.file
 						.subtendril(begin as u32, (self.position - begin) as u32),
 				)),
-				Some(Span::new(begin..self.position, context)),
+				begin..self.position,
+				context
 			);
 		} else {
-			self.token = Spanned::new(
+			self.token = spanned_token!(
 				Token::Comment(Comment::MultiLine(
 					self.file
 						.subtendril(begin as u32, (self.position - begin) as u32),
 				)),
-				Some(Span::new(begin..self.position, context)),
+				begin..self.position,
+				context
 			);
 		}
 	}
@@ -624,12 +597,13 @@ impl VerilogTokenizer {
 			self.next_char();
 		}
 
-		self.token = Spanned::new(
+		self.token = spanned_token!(
 			Token::Comment(Comment::SingleLine(
 				self.file
 					.subtendril((begin + 2) as u32, (self.position - (begin + 2)) as u32),
 			)),
-			Some(Span::new(begin..self.position, context)),
+			begin..self.position,
+			context
 		);
 	}
 
@@ -640,12 +614,13 @@ impl VerilogTokenizer {
 
 		// Check to make sure the character right after the ` is valid
 		if !matches!(self.current_char, b'a'..=b'z' | b'A'..=b'Z' | b'_') {
-			self.token = Spanned::new(
+			self.token = spanned_token!(
 				Token::Invalid(Some(
 					self.file
 						.subtendril(begin as u32, (self.position - begin) as u32),
 				)),
-				Some(Span::new(begin..self.position, context)),
+				begin..self.position,
+				context
 			);
 
 			return;
@@ -661,12 +636,13 @@ impl VerilogTokenizer {
 
 		// The current character is no longer a valid identifier, push the token back onto the token
 		// stream
-		self.token_stream.push_back(Spanned::new(
+		self.token_stream.push_back(spanned_token!(
 			Token::CompilerDirective(CompilerDirective::Name(
 				self.file
 					.subtendril((begin + 1) as u32, (self.position - (begin + 1)) as u32),
 			)),
-			Some(Span::new(begin..self.position, context)),
+			begin..self.position,
+			context
 		));
 
 		if self.current_is_whitespace() {
@@ -690,12 +666,13 @@ impl VerilogTokenizer {
 				self.next_char();
 			}
 
-			self.token_stream.push_back(Spanned::new(
+			self.token_stream.push_back(spanned_token!(
 				Token::CompilerDirective(CompilerDirective::Arg(
 					self.file
 						.subtendril(begin as u32, (self.position - begin) as u32),
 				)),
-				Some(Span::new(begin..self.position, context)),
+				begin..self.position,
+				context
 			));
 		}
 
@@ -729,12 +706,13 @@ impl VerilogTokenizer {
 		self.next_char();
 		let quote_end = self.position;
 
-		self.token = Spanned::new(
+		self.token = spanned_token!(
 			Token::String(
 				self.file
 					.subtendril(str_begin as u32, (str_end - str_begin) as u32),
 			),
-			Some(Span::new(quote_begin..quote_end, context)),
+			quote_begin..quote_end,
+			context
 		)
 	}
 
@@ -756,12 +734,13 @@ impl VerilogTokenizer {
 			}
 
 			// Stuff the unsigned number token onto the token stack
-			self.token_stream.push_back(Spanned::new(
+			self.token_stream.push_back(spanned_token!(
 				Token::UnsignedNumber(
 					self.file
 						.subtendril(begin as u32, (self.position - begin) as u32),
 				),
-				Some(Span::new(begin..self.position, context)),
+				begin..self.position,
+				context
 			));
 		};
 
@@ -810,12 +789,13 @@ impl VerilogTokenizer {
 				|c| matches!(c, b'x' | b'X' | b'z' | b'Z' | b'?' | b'0'..=b'9' | b'a'..=b'f' | b'A'..=b'F'),
 			),
 			_ => {
-				self.token_stream.push_back(Spanned::new(
+				self.token_stream.push_back(spanned_token!(
 					Token::Invalid(Some(
 						self.file
 							.subtendril(begin as u32, (self.position - begin) as u32),
 					)),
-					Some(Span::new(begin..self.position, context)),
+					begin..self.position,
+					context
 				));
 			},
 		};
@@ -849,12 +829,13 @@ impl VerilogTokenizer {
 
 			// Check to make sure we have a valid exponent
 			if !self.current_char.is_ascii_digit() && !matches!(self.current_char, b'+' | b'-') {
-				self.token = Spanned::new(
+				self.token = spanned_token!(
 					Token::Invalid(Some(
 						self.file
 							.subtendril(begin as u32, (self.position - begin) as u32),
 					)),
-					Some(Span::new(begin..self.position, context)),
+					begin..self.position,
+					context
 				);
 
 				return;
@@ -882,12 +863,15 @@ impl VerilogTokenizer {
 		// ASCII, which is a valid UTF-8 subset
 		let value = unsafe { str::from_utf8_unchecked(&self.file[begin..end]) };
 
-		let value_span = Some(Span::new(begin..end, context));
 		// If we got a valid f64, then we use that, otherwise emit an invalid token
 		self.token = if let Ok(value) = value.parse() {
-			Spanned::new(Token::Real { value, exponent }, value_span)
+			spanned_token!(Token::Real { value, exponent }, begin..end, context)
 		} else {
-			Spanned::new(Token::Invalid(Some(value.as_bytes().into())), value_span)
+			spanned_token!(
+				Token::Invalid(Some(value.as_bytes().into())),
+				begin..end,
+				context
+			)
 		}
 	}
 
@@ -899,9 +883,10 @@ impl VerilogTokenizer {
 		digit_filter: fn(u8) -> bool,
 	) {
 		let upper_case = self.next_char().is_ascii_uppercase();
-		self.token_stream.push_back(Spanned::new(
+		self.token_stream.push_back(spanned_token!(
 			Token::BaseSpecifier(spec, upper_case),
-			Some(Span::new(begin..self.position, context)),
+			begin..self.position,
+			context
 		));
 		// Deal with any whitespace that comes after the base specifier
 		if self.current_is_whitespace() {
@@ -929,12 +914,13 @@ impl VerilogTokenizer {
 			// have [xz?] as the first digit, followed by `_` exclusively if it's not
 			// a base-10 digit, so this should be turned into a Token::ContextuallyInvalid
 			// in the case we hit one of those and are in Verilog 95.
-			self.token_stream.push_back(Spanned::new(
+			self.token_stream.push_back(spanned_token!(
 				Token::Invalid(Some(
 					self.file
 						.subtendril(begin as u32, (self.position - begin) as u32),
 				)),
-				Some(Span::new(begin..self.position, context)),
+				begin..self.position,
+				context
 			));
 		} else {
 			// Run the filter to the end consuming all the digits we can
@@ -958,21 +944,23 @@ impl VerilogTokenizer {
 						self.next_char();
 					}
 				}
-				self.token_stream.push_back(Spanned::new(
+				self.token_stream.push_back(spanned_token!(
 					Token::Invalid(Some(
 						self.file
 							.subtendril(begin as u32, (self.position - begin) as u32),
 					)),
-					Some(Span::new(begin..self.position, context)),
+					begin..self.position,
+					context
 				));
 			} else {
 				// Turn the consumed number into a Number token
-				self.token_stream.push_back(Spanned::new(
+				self.token_stream.push_back(spanned_token!(
 					Token::Number(
 						self.file
 							.subtendril(begin as u32, (self.position - begin) as u32),
 					),
-					Some(Span::new(begin..self.position, context)),
+					begin..self.position,
+					context
 				));
 			}
 		}
