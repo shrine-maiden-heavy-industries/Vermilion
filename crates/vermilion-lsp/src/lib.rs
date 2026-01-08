@@ -11,6 +11,7 @@ pub mod notification;
 pub mod request;
 pub mod response;
 pub mod trace;
+#[cfg(feature = "transport")]
 pub mod transports;
 pub mod types;
 

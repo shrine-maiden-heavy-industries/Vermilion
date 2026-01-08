@@ -16,7 +16,7 @@ version       = { workspace = true }
 vermilion-fmt         = { workspace = true, features = [ "schema" ] }
 vermilion-lang        = { workspace = true }
 vermilion-diagnostics = { workspace = true, features = [ "schema", "pretty-diagnostics" ] }
-vermilion-lsp         = { workspace = true }
+vermilion-lsp         = { workspace = true, features = [ "transport" ] }
 vermilion-verilog     = { workspace = true, features = [ "schema", "vermilion-cli" ] }
 vermilion-vhdl        = { workspace = true, features = [ "schema", "vermilion-cli" ] }
 
