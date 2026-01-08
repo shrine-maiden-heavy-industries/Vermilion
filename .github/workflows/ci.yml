@@ -79,7 +79,7 @@ jobs:
       - name: 'Test Vermilion'
         shell: bash
         run: |
-          cargo llvm-cov --no-report nextest
+          cargo llvm-cov nextest
           cargo llvm-cov report --lcov --output-path lcov.info
 
       - name: 'Codecov Upload'
