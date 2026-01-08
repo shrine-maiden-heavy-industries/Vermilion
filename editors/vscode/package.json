@@ -36,10 +36,8 @@
 	"preview": true,
 	"activationEvents":
 	[
-		"onLanguage:verilog",
-		"onLanguage:verilog-ams",
-		"onLanguage:system-verilog",
-		"onLanguage:vhdl"
+		"workspaceContains:vermilion.toml",
+		"workspaceContains:*/vermilion.toml"
 	],
 	"main": "./build/extension.js",
 	"scripts":
