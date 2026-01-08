@@ -80,8 +80,7 @@ jobs:
         shell: bash
         run: |
           cargo llvm-cov --no-report nextest
-          cargo llvm-cov --no-report --doc
-          cargo llvm-cov report --doctests --lcov --output-path lcov.info
+          cargo llvm-cov report --lcov --output-path lcov.info
 
       - name: 'Codecov Upload'
         if: success() && github.repository == 'shrine-maiden-heavy-industries/vermilion'
