@@ -83,7 +83,7 @@ macro_rules! all_vhdl_tokenizer_test {
 		vhdl23_tokenizer_test($test_name, $input, $tokens);
 	};
 }
-
+include!("./tests/all_common.rs");
 include!("./tests/vhdl87.rs");
 include!("./tests/vhdl93.rs");
 include!("./tests/vhdl2k.rs");
