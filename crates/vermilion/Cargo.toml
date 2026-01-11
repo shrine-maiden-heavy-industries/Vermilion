@@ -33,6 +33,7 @@ fluent-uri            = { workspace = true }
 notify                = { workspace = true }
 pulldown-cmark        = { workspace = true }
 ratatui               = { workspace = true }
+rayon                 = { workspace = true }
 schemars              = { workspace = true }
 serde                 = { workspace = true }
 serde_json            = { workspace = true }
