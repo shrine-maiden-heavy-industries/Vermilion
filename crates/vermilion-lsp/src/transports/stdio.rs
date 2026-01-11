@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: BSD-3-Clause
 
+use std::path::PathBuf;
+
 use eyre::Result;
 use tokio::{
 	io::{self, AsyncReadExt, AsyncWriteExt},
@@ -13,7 +15,8 @@ use tracing::error;
 use super::LSPTransport;
 use crate::{
 	message::Message,
-	transports::{ReadPhase, parse_message},
+	trace::Trace,
+	transports::{ReadPhase, parse_message, setup_trace},
 };
 
 #[derive(Debug)]
@@ -30,6 +33,7 @@ async fn stdio_reader(
 	sender: UnboundedSender<Message>,
 	cancellation_token: CancellationToken,
 	shutdown_channel: UnboundedSender<()>,
+	trace_sender: Option<UnboundedSender<Trace>>,
 ) -> Result<()> {
 	let mut stdin = io::stdin();
 	let mut buf = vec![0u8; 4096].into_boxed_slice();
@@ -42,7 +46,7 @@ async fn stdio_reader(
 			read_result = stdin.read(&mut buf) => {
 				match read_result {
 					Ok(read) => {
-						match parse_message(read, &buf, &mut content, &mut phase, &sender, &shutdown_channel) {
+						match parse_message(read, &buf, &mut content, &mut phase, &sender, &shutdown_channel, &trace_sender) {
 							Ok(_) => { continue; }
 							Err(_) => { break; }
 						}
@@ -67,6 +71,7 @@ async fn stdio_writer(
 	mut receiver: UnboundedReceiver<Message>,
 	cancellation_token: CancellationToken,
 	_shutdown_channel: UnboundedSender<()>,
+	trace_sender: Option<UnboundedSender<Trace>>,
 ) -> Result<()> {
 	let mut stdout = io::stdout();
 	let mut msg_buffer = Vec::new();
@@ -76,6 +81,11 @@ async fn stdio_writer(
 		select! {
 			_ = cancellation_token.cancelled() => { break; },
 			Some(message) = receiver.recv() => {
+				if let Some(ref trace_sender) = trace_sender {
+					// We don't want to abort the task if the send to the trace writer failed
+					let _ = trace_sender.send(Trace::new(crate::trace::Origin::Server, &message));
+				}
+
 				message.serialize(&mut msg_buffer)?;
 
 				send_buffer.extend_from_slice(format!("Content-Length: {}\r\n\r\n", msg_buffer.len()).as_bytes());
@@ -97,6 +107,7 @@ impl LSPTransport for StdioTransport {
 		self,
 		cancellation_token: CancellationToken,
 		shutdown_channel: UnboundedSender<()>,
+		trace_file: Option<PathBuf>,
 	) -> Result<(
 		UnboundedReceiver<Message>,
 		UnboundedSender<Message>,
@@ -107,6 +118,8 @@ impl LSPTransport for StdioTransport {
 		let (read_tx, read_rx) = mpsc::unbounded_channel::<Message>();
 		let (write_tx, write_rx) = mpsc::unbounded_channel::<Message>();
 
+		let trace_sender = setup_trace(trace_file, &mut tasks, &cancellation_token);
+
 		tasks
 			.build_task()
 			.name("stdio-lsp-reader")
@@ -114,12 +127,18 @@ impl LSPTransport for StdioTransport {
 				read_tx,
 				cancellation_token.clone(),
 				shutdown_channel.clone(),
+				trace_sender.clone(),
 			))?;
 
 		tasks
 			.build_task()
 			.name("stdio-lsp-writer")
-			.spawn(stdio_writer(write_rx, cancellation_token, shutdown_channel))?;
+			.spawn(stdio_writer(
+				write_rx,
+				cancellation_token,
+				shutdown_channel,
+				trace_sender,
+			))?;
 
 		Ok((read_rx, write_tx, tasks))
 	}
