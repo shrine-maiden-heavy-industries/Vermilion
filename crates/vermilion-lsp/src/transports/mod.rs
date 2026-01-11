@@ -44,9 +44,11 @@ fn parse_message(
 	shutdown_channel: &UnboundedSender<()>,
 	trace_sender: &Option<UnboundedSender<Trace>>,
 ) -> eyre::Result<()> {
+	let mut offset: usize = 0;
+
 	match phase {
 		ReadPhase::Header => {
-			let res = &buf[0..read];
+			let res = &buf[offset..read];
 			// Check to see if what we read in starts with the content length header
 			if res.starts_with(b"Content-Length: ") {
 				// If the data read ends with an `\r\n` then we can kinda assume it's just the
@@ -62,7 +64,7 @@ fn parse_message(
 					if let Some(pos) = pos {
 						// Split out the header and body
 						let header = &res[16..pos];
-						let body = &res[pos..];
+						let mut body = &res[pos..];
 
 						// Like above, extract the content length from the header
 						let size = match str::from_utf8(header) {
@@ -85,6 +87,20 @@ fn parse_message(
 						// After clipping off the header, figure out how many bytes we have left in
 						// the buffer
 						let current_content = read - pos;
+
+						// Check to see if we have more content than what the header  said we should
+						// have
+						// let remaining = if current_content > size {
+						// 	// Clamp the body to only be our message size
+						// 	body = &res[pos..size + 1];
+						// 	// And pivot the offset so it's right at the end of our message
+						// 	offset = pos + size;
+						// 	// Finally, return that we don't have any remaining bytes
+						// 	0
+						// } else {
+						// 	size - current_content
+						// };
+
 						let remaining = size - current_content;
 
 						// Append the bytes we do have,
@@ -130,7 +146,7 @@ fn parse_message(
 		},
 		ReadPhase::Content(length) => {
 			let remaining = *length - read;
-			content.extend_from_slice(&buf[0..read]);
+			content.extend_from_slice(&buf[offset..read]);
 
 			trace!("{} bytes remaining", remaining);
 			if remaining > 0 {
