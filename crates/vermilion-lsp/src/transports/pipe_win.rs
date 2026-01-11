@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: BSD-3-Clause
 
+use std::{io, path::PathBuf};
+
 use eyre::{Result, eyre};
 use tokio::{
 	sync::mpsc::{UnboundedReceiver, UnboundedSender},
@@ -18,6 +20,7 @@ impl LSPTransport for PipeTransport {
 		self,
 		cancellation_token: CancellationToken,
 		shutdown_channel: UnboundedSender<()>,
+		trace_file: Option<PathBuf>,
 	) -> Result<(
 		UnboundedReceiver<Message>,
 		UnboundedSender<Message>,
