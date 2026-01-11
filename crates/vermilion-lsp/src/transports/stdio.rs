@@ -92,6 +92,7 @@ async fn stdio_writer(
 				send_buffer.extend_from_slice(&msg_buffer);
 
 				stdout.write_all(&send_buffer).await?;
+				stdout.flush().await?;
 
 				msg_buffer.clear();
 				send_buffer.clear();
