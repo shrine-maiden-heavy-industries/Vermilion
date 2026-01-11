@@ -18,6 +18,7 @@ pub(crate) fn proj_dirs() -> &'static ProjectDirs {
 }
 
 /// Get the Vermilion user-specific configuration directory
+#[allow(unused)]
 pub(crate) fn config_dir() -> &'static Path {
 	proj_dirs().config_dir()
 }
