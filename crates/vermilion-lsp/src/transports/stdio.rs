@@ -46,7 +46,15 @@ async fn stdio_reader(
 			read_result = stdin.read(&mut buf) => {
 				match read_result {
 					Ok(read) => {
-						match parse_message(read, &buf, &mut content, &mut phase, &sender, &shutdown_channel, &trace_sender) {
+						match parse_message(
+							read,
+							&buf,
+							&mut content,
+							&mut phase,
+							&sender,
+							&shutdown_channel,
+							&trace_sender
+						) {
 							Ok(_) => { continue; }
 							Err(_) => { break; }
 						}

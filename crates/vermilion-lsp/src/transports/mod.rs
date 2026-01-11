@@ -82,7 +82,8 @@ fn parse_message(
 						};
 						trace!("Got content header of len: {}", size);
 
-						// Find out how many bytes we got vs how many left to read
+						// After clipping off the header, figure out how many bytes we have left in
+						// the buffer
 						let current_content = read - pos;
 						let remaining = size - current_content;
 
@@ -101,8 +102,8 @@ fn parse_message(
 							match Message::deserialize(content) {
 								Ok(msg) => {
 									if let Some(trace_sender) = trace_sender {
-										// We don't want to abort the task if the send to the trace
-										// writer failed
+										// We don't want to abort the task if the send to the
+										// trace writer failed
 										let _ = trace_sender
 											.send(Trace::new(crate::trace::Origin::Client, &msg));
 									}
