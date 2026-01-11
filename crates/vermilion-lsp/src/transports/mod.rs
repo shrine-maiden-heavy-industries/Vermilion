@@ -174,7 +174,6 @@ async fn trace_writer(
 		.await?;
 
 	debug!("Starting LSP message logging");
-	file.write_u8(b'[').await?;
 
 	loop {
 		select! {
@@ -182,13 +181,11 @@ async fn trace_writer(
 			Some(trace_message) = trace_channel.recv() => {
 				let msg = serde_json::to_string(&trace_message)?;
 				file.write_all(msg.as_bytes()).await?;
-				file.write_u8(b',').await?;
 				file.write_u8(b'\n').await?;
 			},
 		}
 	}
 
-	file.write_u8(b']').await?;
 	Ok(())
 }
 
