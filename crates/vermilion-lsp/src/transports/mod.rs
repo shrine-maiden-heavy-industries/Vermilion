@@ -4,13 +4,17 @@ use std::path::PathBuf;
 
 use eyre::{Result, eyre};
 use tokio::{
-	sync::mpsc::{UnboundedReceiver, UnboundedSender},
+	fs::OpenOptions,
+	io::AsyncWriteExt,
+	select,
+	sync::mpsc::{self, UnboundedReceiver, UnboundedSender},
 	task::JoinSet,
 };
 use tokio_util::sync::CancellationToken;
-use tracing::{error, trace};
+use tracing::{debug, error, trace};
 
 use super::message::Message;
+use crate::trace::Trace;
 
 #[cfg_attr(unix, path = "pipe_unix.rs")]
 #[cfg_attr(windows, path = "pipe_win.rs")]
@@ -38,6 +42,7 @@ fn parse_message(
 	phase: &mut ReadPhase,
 	sender: &UnboundedSender<Message>,
 	shutdown_channel: &UnboundedSender<()>,
+	trace_sender: &Option<UnboundedSender<Trace>>,
 ) -> eyre::Result<()> {
 	match phase {
 		ReadPhase::Header => {
@@ -94,7 +99,15 @@ fn parse_message(
 						} else {
 							// Otherwise deserialize message and clear the buffer
 							match Message::deserialize(content) {
-								Ok(msg) => sender.send(msg)?,
+								Ok(msg) => {
+									if let Some(trace_sender) = trace_sender {
+										// We don't want to abort the task if the send to the trace
+										// writer failed
+										let _ = trace_sender
+											.send(Trace::new(crate::trace::Origin::Client, &msg));
+									}
+									sender.send(msg)?
+								},
 								Err(e) => {
 									error!("Unable to deserialize LSP message:");
 									error!("{}", e);
@@ -125,7 +138,15 @@ fn parse_message(
 				*phase = ReadPhase::Header;
 				// Deserialize message
 				match Message::deserialize(content) {
-					Ok(msg) => sender.send(msg)?,
+					Ok(msg) => {
+						if let Some(trace_sender) = trace_sender {
+							// We don't want to abort the task if the send to the trace writer
+							// failed
+							let _ =
+								trace_sender.send(Trace::new(crate::trace::Origin::Client, &msg));
+						}
+						sender.send(msg)?
+					},
 					Err(e) => {
 						error!("Unable to deserialize LSP message:");
 						error!("{}", e);
@@ -141,6 +162,60 @@ fn parse_message(
 	Ok(())
 }
 
+async fn trace_writer(
+	mut trace_channel: UnboundedReceiver<Trace>,
+	cancellation_token: CancellationToken,
+	trace_file: PathBuf,
+) -> eyre::Result<()> {
+	let mut file = OpenOptions::new()
+		.write(true)
+		.truncate(true)
+		.open(trace_file)
+		.await?;
+
+	debug!("Starting LSP message logging");
+	file.write_u8(b'[').await?;
+
+	loop {
+		select! {
+			_ = cancellation_token.cancelled() => { break; },
+			Some(trace_message) = trace_channel.recv() => {
+				let msg = serde_json::to_string(&trace_message)?;
+				file.write_all(msg.as_bytes()).await?;
+				file.write_u8(b',').await?;
+				file.write_u8(b'\n').await?;
+			},
+		}
+	}
+
+	file.write_u8(b']').await?;
+	Ok(())
+}
+
+fn setup_trace(
+	trace_file: Option<PathBuf>,
+	tasks: &mut JoinSet<eyre::Result<()>>,
+	cancellation_token: &CancellationToken,
+) -> Option<UnboundedSender<Trace>> {
+	if let Some(trace_file) = trace_file {
+		debug!("LSP Trace file specified: {:?}", trace_file);
+
+		let (trace_tx, trace_rx) = mpsc::unbounded_channel::<Trace>();
+		tasks
+			.build_task()
+			.name("lsp-tracer")
+			.spawn(trace_writer(
+				trace_rx,
+				cancellation_token.clone(),
+				trace_file,
+			))
+			.ok()?;
+		Some(trace_tx)
+	} else {
+		None
+	}
+}
+
 pub enum TransportType {
 	Stdio,
 	Socket(u16),
@@ -153,6 +228,7 @@ pub trait LSPTransport: Sized {
 		self,
 		cancellation_token: CancellationToken,
 		shutdown_channel: UnboundedSender<()>,
+		trace_file: Option<PathBuf>,
 	) -> Result<(
 		UnboundedReceiver<Message>,
 		UnboundedSender<Message>,
