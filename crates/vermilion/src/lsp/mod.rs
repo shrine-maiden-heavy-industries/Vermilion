@@ -4,6 +4,7 @@ mod semantic_tokens;
 mod workspace;
 
 use std::{
+	path::PathBuf,
 	sync::{
 		OnceLock,
 		atomic::{AtomicBool, AtomicUsize, Ordering},
@@ -50,6 +51,7 @@ pub(crate) fn start(
 	transport: TransportType,
 	client_pid: Option<usize>,
 	workspace_config: WorkspaceConfig,
+	trace_file: Option<PathBuf>,
 ) -> eyre::Result<()> {
 	debug!("Starting runtime...");
 	let rt = tokio::runtime::Builder::new_multi_thread()
@@ -89,6 +91,7 @@ pub(crate) fn start(
 			workspace_config,
 			cancel_token.clone(),
 			shutdown_send.clone(),
+			trace_file,
 		))?;
 
 		select! {
@@ -246,23 +249,36 @@ async fn lsp_server(
 	_workspace_config: WorkspaceConfig,
 	cancellation_token: CancellationToken,
 	shutdown_channel: UnboundedSender<()>,
+	trace_file: Option<PathBuf>,
 ) -> eyre::Result<()> {
 	let mut workspace: Workspace = Workspace::new();
 
 	let (mut reader, writer, tasks) = match transport {
 		TransportType::Stdio => {
 			StdioTransport::new()
-				.create(cancellation_token.clone(), shutdown_channel.clone())
+				.create(
+					cancellation_token.clone(),
+					shutdown_channel.clone(),
+					trace_file,
+				)
 				.await?
 		},
 		TransportType::Socket(port) => {
 			SocketTransport::new(port)
-				.create(cancellation_token.clone(), shutdown_channel.clone())
+				.create(
+					cancellation_token.clone(),
+					shutdown_channel.clone(),
+					trace_file,
+				)
 				.await?
 		},
 		TransportType::Pipe(path) => {
 			PipeTransport::new(path)
-				.create(cancellation_token.clone(), shutdown_channel.clone())
+				.create(
+					cancellation_token.clone(),
+					shutdown_channel.clone(),
+					trace_file,
+				)
 				.await?
 		},
 	};

@@ -66,6 +66,9 @@ pub(crate) fn exec(args: &ArgMatches) -> eyre::Result<()> {
 	let port = args.try_get_one::<u16>("socket")?.copied();
 	let stdio = args.try_get_one::<bool>("stdio")?;
 
+	// Trace file, if any
+	let trace_file = args.try_get_one::<PathBuf>("trace")?.cloned();
+
 	// Figure out which transport we want to use
 	let transport = if let Some(pipe) = pipe {
 		Some(transports::TransportType::Pipe(pipe))
@@ -76,7 +79,12 @@ pub(crate) fn exec(args: &ArgMatches) -> eyre::Result<()> {
 	};
 
 	if let Some(transport) = transport {
-		lsp::start(transport, client_pid, load_workspace_config(args)?)
+		lsp::start(
+			transport,
+			client_pid,
+			load_workspace_config(args)?,
+			trace_file,
+		)
 	} else {
 		error!("You must specify an LSP transport type!");
 		Ok(())
