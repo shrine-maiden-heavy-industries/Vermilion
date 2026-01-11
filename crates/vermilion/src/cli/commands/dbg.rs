@@ -53,7 +53,7 @@ pub(crate) fn exec(args: &ArgMatches) -> eyre::Result<()> {
 	}
 }
 
-fn dump_ast(args: &ArgMatches, language: Language) -> eyre::Result<()> {
+fn dump_ast(_args: &ArgMatches, _language: Language) -> eyre::Result<()> {
 	Ok(())
 }
 
