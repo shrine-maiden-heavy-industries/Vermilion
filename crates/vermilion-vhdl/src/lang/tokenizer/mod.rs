@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: BSD-3-Clause
 
-use std::{collections::VecDeque, ops::Range};
+use std::collections::VecDeque;
 
-use vermilion_lang::{AtomicByteTendril, Position, Span, Spanned, tokenizer};
+use vermilion_lang::{AtomicByteTendril, Position, Spanned};
 
 use self::token::Token;
 use crate::VhdlStd;

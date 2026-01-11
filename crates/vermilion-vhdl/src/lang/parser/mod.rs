@@ -9,7 +9,7 @@ pub struct VhdlParser {
 }
 
 impl VhdlParser {
-	pub fn new(std: VhdlStd, content: ByteTendril) -> Self {
+	pub fn new(std: VhdlStd, _content: ByteTendril) -> Self {
 		Self { _std: std }
 	}
 }
