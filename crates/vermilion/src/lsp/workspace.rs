@@ -83,7 +83,7 @@ impl Document {
 		todo!();
 	}
 
-	fn verilog_semantic_tokens(&self, ast: &VerilogAst) -> Vec<SemanticToken> {
+	fn verilog_semantic_tokens(&self, _ast: &VerilogAst) -> Vec<SemanticToken> {
 		let mut tokens = Vec::new();
 
 		debug!("meow - have to convert ast into tokens here");
