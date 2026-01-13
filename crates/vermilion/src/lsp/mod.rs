@@ -4,7 +4,6 @@ mod semantic_tokens;
 mod workspace;
 
 use std::{
-	path::PathBuf,
 	sync::{
 		OnceLock,
 		atomic::{AtomicBool, AtomicUsize, Ordering},
