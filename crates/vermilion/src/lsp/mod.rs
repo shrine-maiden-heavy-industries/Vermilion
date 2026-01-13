@@ -51,7 +51,7 @@ pub(crate) fn start(
 	transport: TransportType,
 	client_pid: Option<usize>,
 	workspace_config: WorkspaceConfig,
-	trace_file: Option<PathBuf>,
+	trace_transport: Option<TraceTransport>,
 ) -> eyre::Result<()> {
 	debug!("Starting runtime...");
 	let rt = tokio::runtime::Builder::new_multi_thread()
@@ -91,7 +91,7 @@ pub(crate) fn start(
 			workspace_config,
 			cancel_token.clone(),
 			shutdown_send.clone(),
-			trace_file,
+			trace_transport,
 		))?;
 
 		select! {
@@ -249,11 +249,10 @@ async fn lsp_server(
 	_workspace_config: WorkspaceConfig,
 	cancellation_token: CancellationToken,
 	shutdown_channel: UnboundedSender<()>,
-	trace_file: Option<PathBuf>,
+	trace_transport: Option<TraceTransport>,
 ) -> eyre::Result<()> {
 	let mut workspace: Workspace = Workspace::new();
 
-	let trace_transport = trace_file.map(TraceTransport::File);
 	let (mut reader, writer, tasks) = match transport {
 		TransportType::Stdio => {
 			StdioTransport::new()

@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: BSD-3-Clause
 
-use std::path::PathBuf;
+use std::{net::SocketAddr, path::PathBuf};
 
 use clap::{Arg, ArgAction, ArgMatches, Command, ValueHint};
 use tracing::error;
-use vermilion_lsp::transports;
+use vermilion_lsp::transports::{self, trace::TraceTransport};
 
 use crate::{lsp, workspace::load_workspace_config};
 
@@ -48,12 +48,21 @@ pub(crate) fn init() -> eyre::Result<Command> {
 				.action(ArgAction::Set),
 		)
 		.arg(
-			Arg::new("trace")
-				.long("trace")
-				.help("Dump all LSP messages to specified file")
+			Arg::new("trace-file")
+				.long("trace-file")
+				.help("Enable LSP server tracing to specified file")
 				.action(ArgAction::Set)
 				.value_hint(ValueHint::FilePath)
-				.value_parser(clap::value_parser!(PathBuf)),
+				.value_parser(clap::value_parser!(PathBuf))
+				.conflicts_with("trace-socket"),
+		)
+		.arg(
+			Arg::new("trace-socket")
+				.long("trace-socket")
+				.help("Enable LSP server tracing to specified socket")
+				.action(ArgAction::Set)
+				.value_parser(clap::value_parser!(SocketAddr))
+				.conflicts_with("trace-file"),
 		))
 }
 
@@ -66,8 +75,9 @@ pub(crate) fn exec(args: &ArgMatches) -> eyre::Result<()> {
 	let port = args.try_get_one::<u16>("socket")?.copied();
 	let stdio = args.try_get_one::<bool>("stdio")?;
 
-	// Trace file, if any
-	let trace_file = args.try_get_one::<PathBuf>("trace")?.cloned();
+	// Possible trace transports
+	let trace_file = args.try_get_one::<PathBuf>("trace-file")?.cloned();
+	let trace_socket = args.try_get_one::<SocketAddr>("trace-socket")?.cloned();
 
 	// Figure out which transport we want to use
 	let transport = if let Some(pipe) = pipe {
@@ -78,12 +88,19 @@ pub(crate) fn exec(args: &ArgMatches) -> eyre::Result<()> {
 		stdio.map(|_| transports::TransportType::Stdio)
 	};
 
+	// Select the trace transport backend if given
+	let trace_transport = if let Some(path) = trace_file {
+		Some(TraceTransport::File(path))
+	} else {
+		trace_socket.map(TraceTransport::Socket)
+	};
+
 	if let Some(transport) = transport {
 		lsp::start(
 			transport,
 			client_pid,
 			load_workspace_config(args)?,
-			trace_file,
+			trace_transport,
 		)
 	} else {
 		error!("You must specify an LSP transport type!");
