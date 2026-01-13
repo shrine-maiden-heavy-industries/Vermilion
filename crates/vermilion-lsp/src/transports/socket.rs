@@ -63,6 +63,7 @@ async fn socket_reader(
 					break;
 				}
 				match stream.try_read(&mut buf) {
+					Ok(0) => break,
 					Ok(read) => {
 						match parse_message(
 							read,
