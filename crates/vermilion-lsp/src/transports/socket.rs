@@ -21,7 +21,7 @@ use super::LSPTransport;
 use crate::{
 	message::Message,
 	trace::Trace,
-	transports::{ReadPhase, parse_message, setup_trace},
+	transports::{ReadPhase, parse_message, trace::setup_trace},
 };
 
 #[derive(Debug)]
