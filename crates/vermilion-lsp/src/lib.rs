@@ -10,6 +10,7 @@ pub mod message;
 pub mod notification;
 pub mod request;
 pub mod response;
+#[cfg(feature = "trace")]
 pub mod trace;
 #[cfg(feature = "transport")]
 pub mod transports;

@@ -35,4 +35,5 @@ test-log  = { workspace = true }
 default = []
 
 transport = [ "dep:tokio", "dep:tokio-util", "dep:tracing", "dep:windows-sys" ]
-trace-server = [ "transport" ]
+trace = []
+trace-server = [ "trace", "transport" ]
