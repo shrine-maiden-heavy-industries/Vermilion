@@ -25,7 +25,7 @@ use vermilion_lsp::{
 	request::RequestType,
 	transports::{
 		LSPTransport, TransportType, pipe::PipeTransport, socket::SocketTransport,
-		stdio::StdioTransport,
+		stdio::StdioTransport, trace::TraceTransport,
 	},
 	types::{
 		InitializeResult, ServerInfo, TextDocumentSyncKind,
@@ -253,13 +253,14 @@ async fn lsp_server(
 ) -> eyre::Result<()> {
 	let mut workspace: Workspace = Workspace::new();
 
+	let trace_transport = trace_file.map(TraceTransport::File);
 	let (mut reader, writer, tasks) = match transport {
 		TransportType::Stdio => {
 			StdioTransport::new()
 				.create(
 					cancellation_token.clone(),
 					shutdown_channel.clone(),
-					trace_file,
+					trace_transport,
 				)
 				.await?
 		},
@@ -268,7 +269,7 @@ async fn lsp_server(
 				.create(
 					cancellation_token.clone(),
 					shutdown_channel.clone(),
-					trace_file,
+					trace_transport,
 				)
 				.await?
 		},
@@ -277,7 +278,7 @@ async fn lsp_server(
 				.create(
 					cancellation_token.clone(),
 					shutdown_channel.clone(),
-					trace_file,
+					trace_transport,
 				)
 				.await?
 		},
