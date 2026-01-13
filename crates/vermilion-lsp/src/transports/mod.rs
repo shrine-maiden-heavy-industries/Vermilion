@@ -11,13 +11,15 @@ use tokio_util::sync::CancellationToken;
 use tracing::{error, trace};
 
 use super::message::Message;
-use crate::trace::Trace;
+#[cfg(feature = "trace-server")]
+use crate::{trace::Trace, transports::trace::TraceTransport};
 
 #[cfg_attr(unix, path = "pipe_unix.rs")]
 #[cfg_attr(windows, path = "pipe_win.rs")]
 pub mod pipe;
 pub mod socket;
 pub mod stdio;
+#[cfg(feature = "trace-server")]
 pub mod trace;
 
 enum ReadPhase {
@@ -40,7 +42,7 @@ fn parse_message(
 	phase: &mut ReadPhase,
 	sender: &UnboundedSender<Message>,
 	shutdown_channel: &UnboundedSender<()>,
-	trace_sender: &Option<UnboundedSender<Trace>>,
+	#[cfg(feature = "trace-server")] trace_sender: &Option<UnboundedSender<Trace>>,
 ) -> eyre::Result<()> {
 	let mut offset: usize = 0;
 
@@ -115,6 +117,7 @@ fn parse_message(
 							// Otherwise deserialize message and clear the buffer
 							match Message::deserialize(content) {
 								Ok(msg) => {
+									#[cfg(feature = "trace-server")]
 									if let Some(trace_sender) = trace_sender {
 										// We don't want to abort the task if the send to the
 										// trace writer failed
@@ -154,6 +157,7 @@ fn parse_message(
 				// Deserialize message
 				match Message::deserialize(content) {
 					Ok(msg) => {
+						#[cfg(feature = "trace-server")]
 						if let Some(trace_sender) = trace_sender {
 							// We don't want to abort the task if the send to the trace writer
 							// failed
@@ -189,7 +193,7 @@ pub trait LSPTransport: Sized {
 		self,
 		cancellation_token: CancellationToken,
 		shutdown_channel: UnboundedSender<()>,
-		trace_file: Option<PathBuf>,
+		#[cfg(feature = "trace-server")] trace_transport: Option<TraceTransport>,
 	) -> Result<(
 		UnboundedReceiver<Message>,
 		UnboundedSender<Message>,

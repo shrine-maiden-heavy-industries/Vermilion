@@ -19,8 +19,12 @@ use tracing::{debug, error};
 use super::LSPTransport;
 use crate::{
 	message::Message,
+	transports::{ReadPhase, parse_message},
+};
+#[cfg(feature = "trace-server")]
+use crate::{
 	trace::Trace,
-	transports::{ReadPhase, parse_message, trace::setup_trace},
+	transports::trace::{TraceTransport, setup_trace},
 };
 
 #[derive(Debug)]
@@ -39,7 +43,7 @@ async fn pipe_reader(
 	sender: UnboundedSender<Message>,
 	cancellation_token: CancellationToken,
 	shutdown_channel: UnboundedSender<()>,
-	trace_sender: Option<UnboundedSender<Trace>>,
+	#[cfg(feature = "trace-server")] trace_sender: Option<UnboundedSender<Trace>>,
 ) -> Result<()> {
 	let mut buf = vec![0u8; 4096].into_boxed_slice();
 	let mut content = Vec::new();
@@ -66,6 +70,7 @@ async fn pipe_reader(
 							&mut phase,
 							&sender,
 							&shutdown_channel,
+							#[cfg(feature = "trace-server")]
 							&trace_sender
 						) {
 							Ok(_) => { continue; }
@@ -95,7 +100,7 @@ async fn pipe_writer(
 	mut receiver: UnboundedReceiver<Message>,
 	cancellation_token: CancellationToken,
 	_shutdown_channel: UnboundedSender<()>,
-	trace_sender: Option<UnboundedSender<Trace>>,
+	#[cfg(feature = "trace-server")] trace_sender: Option<UnboundedSender<Trace>>,
 ) -> Result<()> {
 	let mut msg_buffer = Vec::new();
 	let mut send_buffer = Vec::new();
@@ -104,6 +109,7 @@ async fn pipe_writer(
 		select! {
 			_ = cancellation_token.cancelled() => { break; },
 			Some(message) = receiver.recv() => {
+				#[cfg(feature = "trace-server")]
 				if let Some(ref trace_sender) = trace_sender {
 					// We don't want to abort the task if the send to the trace writer failed
 					let _ = trace_sender.send(Trace::new(crate::trace::Origin::Server, &message));
@@ -131,7 +137,7 @@ impl LSPTransport for PipeTransport {
 		self,
 		cancellation_token: CancellationToken,
 		shutdown_channel: UnboundedSender<()>,
-		trace_file: Option<PathBuf>,
+		#[cfg(feature = "trace-server")] trace_transport: Option<TraceTransport>,
 	) -> Result<(
 		UnboundedReceiver<Message>,
 		UnboundedSender<Message>,
@@ -146,7 +152,8 @@ impl LSPTransport for PipeTransport {
 		let stream = UnixStream::connect(self.path).await?;
 		let (read, write) = stream.into_split();
 
-		let trace_sender = setup_trace(trace_file, &mut tasks, &cancellation_token);
+		#[cfg(feature = "trace-server")]
+		let trace_sender = setup_trace(trace_transport, &mut tasks, &cancellation_token);
 
 		tasks
 			.build_task()
@@ -156,6 +163,7 @@ impl LSPTransport for PipeTransport {
 				read_tx,
 				cancellation_token.clone(),
 				shutdown_channel.clone(),
+				#[cfg(feature = "trace-server")]
 				trace_sender.clone(),
 			))?;
 
@@ -167,6 +175,7 @@ impl LSPTransport for PipeTransport {
 				write_rx,
 				cancellation_token,
 				shutdown_channel,
+				#[cfg(feature = "trace-server")]
 				trace_sender,
 			))?;
 
