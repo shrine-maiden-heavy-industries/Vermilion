@@ -2,18 +2,21 @@
 
 use std::path::PathBuf;
 
+#[cfg(feature = "trace-server")]
 use tokio::{
 	fs::OpenOptions,
 	io::AsyncWriteExt,
 	select,
-	sync::mpsc::{self, UnboundedReceiver, UnboundedSender},
-	task::JoinSet,
+	sync::mpsc::{self, UnboundedReceiver},
 };
+use tokio::{sync::mpsc::UnboundedSender, task::JoinSet};
 use tokio_util::sync::CancellationToken;
+#[cfg(feature = "trace-server")]
 use tracing::debug;
 
 use crate::trace::Trace;
 
+#[cfg(feature = "trace-server")]
 pub(crate) async fn trace_writer(
 	mut trace_channel: UnboundedReceiver<Trace>,
 	cancellation_token: CancellationToken,
@@ -41,6 +44,7 @@ pub(crate) async fn trace_writer(
 	Ok(())
 }
 
+#[cfg(feature = "trace-server")]
 pub(crate) fn setup_trace(
 	trace_file: Option<PathBuf>,
 	tasks: &mut JoinSet<eyre::Result<()>>,
@@ -63,4 +67,13 @@ pub(crate) fn setup_trace(
 	} else {
 		None
 	}
+}
+
+#[cfg(not(feature = "trace-server"))]
+pub(crate) fn setup_trace(
+	_trace_file: Option<PathBuf>,
+	_tasks: &mut JoinSet<eyre::Result<()>>,
+	_cancellation_token: &CancellationToken,
+) -> Option<UnboundedSender<Trace>> {
+	None
 }
