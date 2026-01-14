@@ -1,6 +1,21 @@
 // SPDX-License-Identifier: BSD-3-Clause
 #![deny(clippy::unwrap_used, clippy::expect_used)]
 
+// TODO(aki):
+// - Message/Diagnostic i18n/l10n
+// - PGO builds
+// - Cross-compilation
+// - Release engineering/builds (cargo-dist?)
+// - Constraint file support (NOTE: Most of these are just TCL, which is a little problematic)
+//   - SDC: Synopsys (Used by other vendor tools as well)
+//   - Others (Lattice, Xilinx, etc)
+// - LSP Bits
+//   - Lots of things,
+// - IEEE 1735 Support?
+//   - Needed so we don't die on encrypted modules
+// - IEEE 1685 Support?
+//   - Would be nice so we can offer LSP integration for vendor IP stuff
+
 use std::io;
 
 use eyre::{Context, OptionExt};
