@@ -29,6 +29,10 @@ macro_rules! spanned_token {
 	};
 }
 
+pub trait LanguageMetadata {
+	fn file_extensions<'a, 'b: 'a>() -> &'a [&'b str];
+}
+
 fn _print_errors() {
 	// 	let _: Vec<_> = args
 	// 		.get_many::<String>("files")
