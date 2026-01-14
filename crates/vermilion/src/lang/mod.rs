@@ -2,7 +2,7 @@
 
 use std::fmt::Display;
 
-use clap::{ArgMatches, ValueEnum, builder::PossibleValue};
+use clap::{ValueEnum, builder::PossibleValue};
 use color_print::cformat;
 use vermilion_lang::AtomicByteTendril;
 pub(crate) use vermilion_verilog::lang::{ast::Ast as VerilogAst, tokenizer::VerilogTokenizer};
@@ -36,32 +36,6 @@ pub(crate) enum Parser {
 pub(crate) enum Ast {
 	Verilog(VerilogAst),
 	Vhdl(VhdlAst),
-}
-
-pub(crate) fn get_langid(a: &ArgMatches) -> Option<Language> {
-	match a.get_one::<String>("std")?.as_str() {
-		"vl95" => Some(Language::Verilog(VerilogStd::Vl95)),
-		"vl01" => Some(Language::Verilog(VerilogStd::Vl01)),
-		"vl05" => Some(Language::Verilog(VerilogStd::Vl05)),
-		"sv05" => Some(Language::SystemVerilog(SystemVerilogStd::Sv05)),
-		"sv09" => Some(Language::SystemVerilog(SystemVerilogStd::Sv09)),
-		"sv12" => Some(Language::SystemVerilog(SystemVerilogStd::Sv12)),
-		"sv17" => Some(Language::SystemVerilog(SystemVerilogStd::Sv17)),
-		"sv23" => Some(Language::SystemVerilog(SystemVerilogStd::Sv23)),
-		"vams09" => Some(Language::VerilogAms(VerilogAmsStd::Vams09)),
-		"vams14" => Some(Language::VerilogAms(VerilogAmsStd::Vams14)),
-		"vams23" => Some(Language::VerilogAms(VerilogAmsStd::Vams23)),
-		"vhd87" => Some(Language::Vhdl(VhdlStd::Vh87)),
-		"vhd93" => Some(Language::Vhdl(VhdlStd::Vh93)),
-		"vhd2k" => Some(Language::Vhdl(VhdlStd::Vh2k)),
-		"vhd02" => Some(Language::Vhdl(VhdlStd::Vh02)),
-		"vhd07" => Some(Language::Vhdl(VhdlStd::Vh07)),
-		"vhd08" => Some(Language::Vhdl(VhdlStd::Vh08)),
-		"vhd11" => Some(Language::Vhdl(VhdlStd::Vh11)),
-		"vhd19" => Some(Language::Vhdl(VhdlStd::Vh19)),
-		"vhd23" => Some(Language::Vhdl(VhdlStd::Vh23)),
-		_ => unreachable!(),
-	}
 }
 
 impl Display for Language {
