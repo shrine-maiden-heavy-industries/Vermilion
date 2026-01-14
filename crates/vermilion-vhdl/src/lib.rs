@@ -7,6 +7,8 @@
 
 use std::fmt::Display;
 
+use vermilion_lang::LanguageMetadata;
+
 pub mod error;
 pub mod fmt;
 pub mod lang;
@@ -27,6 +29,16 @@ pub enum VhdlStd {
 	Vh11,
 	Vh19,
 	Vh23,
+}
+
+impl VhdlStd {
+	pub const KNOWN_FILE_EXTS: [&'static str; 2] = ["vhd", "vhdl"];
+}
+
+impl LanguageMetadata for VhdlStd {
+	fn file_extensions<'a, 'b: 'a>() -> &'a [&'b str] {
+		&VhdlStd::KNOWN_FILE_EXTS
+	}
 }
 
 impl Display for VhdlStd {
