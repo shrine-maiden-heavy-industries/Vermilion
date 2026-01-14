@@ -124,7 +124,10 @@ fn parse_chunk(
 			// And how many bytes are still needed to satisfy this content request
 			let content_remaining = content_length - amount;
 
-			trace!("{} bytes remaining", content_remaining);
+			trace!(
+				"{buffer_remaining} buffer bytes remaining, {content_remaining} bytes of content \
+				 still required",
+			);
 			// If there's still more content needed, re-enter the content phase. buffer_remaining
 			// will be 0.
 			if content_remaining > 0 {
