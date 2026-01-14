@@ -35,6 +35,24 @@ fn get_split_index(buffer: &[u8]) -> Option<usize> {
 		.map(|(idx, _)| idx + 4)
 }
 
+fn parse_header(header: &[u8], shutdown_channel: &UnboundedSender<()>) -> Result<usize> {
+	Ok(match str::from_utf8(header) {
+		Ok(size) => match size.trim().parse::<usize>() {
+			Ok(size) => size,
+			Err(err) => {
+				error!("{}", err);
+				shutdown_channel.send(())?;
+				return Err(err.into());
+			},
+		},
+		Err(err) => {
+			error!("{}", err);
+			shutdown_channel.send(())?;
+			return Err(err.into());
+		},
+	})
+}
+
 fn parse_message(
 	read: usize,
 	buf: &[u8],
