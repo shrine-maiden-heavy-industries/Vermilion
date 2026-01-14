@@ -96,94 +96,56 @@ fn parse_message(
 			let res = &buf[offset..read];
 			// Check to see if what we read in starts with the content length header
 			if res.starts_with(b"Content-Length: ") {
-				// If the data read ends with an `\r\n` then we can kinda assume it's just the
-				// header
-				if res.ends_with(b"\r\n") {
-					let size = str::from_utf8(&res[16..])?.trim().parse::<usize>()?;
+				// Next, see if we can find the end of this header
+				let pos = get_split_index(res);
+				if let Some(pos) = pos {
+					// Split out the header and body
+					let header = &res[16..pos];
+					let mut body = &res[pos..];
+
+					// Like above, extract the content length from the header
+					let size = parse_header(header, shutdown_channel)?;
 					trace!("Got content header of len: {}", size);
-					*phase = ReadPhase::Content(size);
-					return Ok(());
-				} else {
-					// We read way more than just the header, so we need to deal with it specially
-					let pos = get_split_index(res);
-					if let Some(pos) = pos {
-						// Split out the header and body
-						let header = &res[16..pos];
-						let mut body = &res[pos..];
 
-						// Like above, extract the content length from the header
-						let size = match str::from_utf8(header) {
-							Ok(size) => match size.trim().parse::<usize>() {
-								Ok(size) => size,
-								Err(err) => {
-									error!("{}", err);
-									shutdown_channel.send(())?;
-									return Err(err.into());
-								},
-							},
-							Err(err) => {
-								error!("{}", err);
-								shutdown_channel.send(())?;
-								return Err(err.into());
-							},
-						};
-						trace!("Got content header of len: {}", size);
+					// After clipping off the header, figure out how many bytes we have left in
+					// the buffer
+					let current_content = read - pos;
 
-						// After clipping off the header, figure out how many bytes we have left in
-						// the buffer
-						let current_content = read - pos;
+					// Check to see if we have more content than what the header said we should
+					// have
+					// let remaining = if current_content > size {
+					// 	// Clamp the body to only be our message size
+					// 	body = &res[pos..size + 1];
+					// 	// And pivot the offset so it's right at the end of our message
+					// 	offset = pos + size;
+					// 	// Finally, return that we don't have any remaining bytes
+					// 	0
+					// } else {
+					// 	size - current_content
+					// };
 
-						// Check to see if we have more content than what the header  said we should
-						// have
-						// let remaining = if current_content > size {
-						// 	// Clamp the body to only be our message size
-						// 	body = &res[pos..size + 1];
-						// 	// And pivot the offset so it's right at the end of our message
-						// 	offset = pos + size;
-						// 	// Finally, return that we don't have any remaining bytes
-						// 	0
-						// } else {
-						// 	size - current_content
-						// };
+					let remaining = size - current_content;
 
-						let remaining = size - current_content;
+					// Append the bytes we do have,
+					content.extend_from_slice(body);
 
-						// Append the bytes we do have,
-						content.extend_from_slice(body);
-
-						// Only move on if we have more bytes to read
-						if remaining > 0 {
-							trace!(
-								"Have {} bytes of body already, {} remaining",
-								current_content, remaining
-							);
-							*phase = ReadPhase::Content(remaining);
-						} else {
-							// Otherwise deserialize message and clear the buffer
-							match Message::deserialize(content) {
-								Ok(msg) => {
-									#[cfg(feature = "trace-server")]
-									if let Some(trace_sender) = trace_sender {
-										// We don't want to abort the task if the send to the
-										// trace writer failed
-										let _ = trace_sender
-											.send(Trace::new(crate::trace::Origin::Client, &msg));
-									}
-									sender.send(msg)?
-								},
-								Err(e) => {
-									error!("Unable to deserialize LSP message:");
-									error!("{}", e);
-									error!("Message contents:");
-									error!("{}", str::from_utf8(content)?);
-								},
-							}
-							content.clear();
-						}
+					// Only move on if we have more bytes to read
+					if remaining > 0 {
+						trace!(
+							"Have {} bytes of body already, {} remaining",
+							current_content, remaining
+						);
+						*phase = ReadPhase::Content(remaining);
 					} else {
-						error!("Unable to separate header from content!");
-						return Err(eyre!("Unable to separate header from content!"));
+						deserialise_message(
+							content,
+							sender,
+							#[cfg(feature = "trace-server")]
+							trace_sender,
+						)?;
 					}
+				} else {
+					return Err(eyre!("Unable to separate header from content!"));
 				}
 			} else {
 				return Err(eyre!("Invalid JSON-RPC header {:?}", str::from_utf8(res)?));
@@ -198,27 +160,12 @@ fn parse_message(
 				*phase = ReadPhase::Content(remaining);
 			} else {
 				*phase = ReadPhase::Header;
-				// Deserialize message
-				match Message::deserialize(content) {
-					Ok(msg) => {
-						#[cfg(feature = "trace-server")]
-						if let Some(trace_sender) = trace_sender {
-							// We don't want to abort the task if the send to the trace writer
-							// failed
-							let _ =
-								trace_sender.send(Trace::new(crate::trace::Origin::Client, &msg));
-						}
-						sender.send(msg)?
-					},
-					Err(e) => {
-						error!("Unable to deserialize LSP message:");
-						error!("{}", e);
-						error!("Message contents:");
-						error!("{}", str::from_utf8(content)?);
-					},
-				}
-				// Clear the contents buffer
-				content.clear();
+				deserialise_message(
+					content,
+					sender,
+					#[cfg(feature = "trace-server")]
+					trace_sender,
+				)?;
 			}
 		},
 	}
