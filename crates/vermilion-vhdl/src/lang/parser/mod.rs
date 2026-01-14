@@ -1,16 +1,17 @@
 // SPDX-License-Identifier: BSD-3-Clause
 
-use tendril::ByteTendril;
+use vermilion_lang::AtomicByteTendril;
 
 use crate::VhdlStd;
 
 pub struct VhdlParser {
-	_std: VhdlStd,
+	_std:     VhdlStd,
+	_content: AtomicByteTendril,
 }
 
 impl VhdlParser {
-	pub fn new(std: VhdlStd, _content: ByteTendril) -> Self {
-		Self { _std: std }
+	pub fn new(_std: VhdlStd, _content: AtomicByteTendril) -> Self {
+		Self { _std, _content }
 	}
 }
 
