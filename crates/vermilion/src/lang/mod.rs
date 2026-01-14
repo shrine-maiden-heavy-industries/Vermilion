@@ -5,9 +5,11 @@ use std::fmt::Display;
 use clap::ArgMatches;
 use vermilion_lang::AtomicByteTendril;
 pub(crate) use vermilion_verilog::lang::{ast::Ast as VerilogAst, tokenizer::VerilogTokenizer};
-use vermilion_verilog::{SystemVerilogStd, VerilogAmsStd, VerilogStd, VerilogVariant};
-use vermilion_vhdl::VhdlStd;
+use vermilion_verilog::{
+	SystemVerilogStd, VerilogAmsStd, VerilogStd, VerilogVariant, lang::parser::VerilogParser,
+};
 pub(crate) use vermilion_vhdl::lang::{ast::Ast as VhdlAst, tokenizer::VhdlTokenizer};
+use vermilion_vhdl::{VhdlStd, lang::parser::VhdlParser};
 
 pub(crate) mod verilog;
 pub(crate) mod vhdl;
@@ -23,6 +25,11 @@ pub(crate) enum Language {
 pub(crate) enum Tokenizer {
 	Verilog(VerilogTokenizer),
 	Vhdl(VhdlTokenizer),
+}
+
+pub(crate) enum Parser {
+	Verilog(VerilogParser),
+	Vhdl(VhdlParser),
 }
 
 pub(crate) enum Ast {
@@ -84,6 +91,22 @@ impl Language {
 				content,
 			)),
 			Self::Vhdl(std) => Tokenizer::Vhdl(VhdlTokenizer::new(std, content)),
+		}
+	}
+
+	pub fn parser(self, content: AtomicByteTendril) -> Parser {
+		match self {
+			Self::SystemVerilog(std) => Parser::Verilog(VerilogParser::new(
+				VerilogVariant::SystemVerilog(std),
+				content,
+			)),
+			Self::Verilog(std) => {
+				Parser::Verilog(VerilogParser::new(VerilogVariant::Verilog(std), content))
+			},
+			Self::VerilogAms(std) => {
+				Parser::Verilog(VerilogParser::new(VerilogVariant::VerilogAms(std), content))
+			},
+			Self::Vhdl(std) => Parser::Vhdl(VhdlParser::new(std, content)),
 		}
 	}
 
