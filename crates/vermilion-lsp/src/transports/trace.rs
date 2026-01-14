@@ -61,6 +61,15 @@ async fn trace_file_writer(
 		}
 	}
 
+	// Drain the trace channel having taken a cancellation of some sort
+	while !trace_channel.is_empty() {
+		if let Some(trace_message) = trace_channel.recv().await {
+			let msg = serde_json::to_string(&trace_message)?;
+			file.write_all(msg.as_bytes()).await?;
+			file.write_u8(b'\n').await?;
+		}
+	}
+
 	Ok(())
 }
 
