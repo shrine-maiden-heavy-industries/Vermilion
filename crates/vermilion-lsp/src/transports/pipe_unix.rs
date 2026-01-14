@@ -74,7 +74,10 @@ async fn pipe_reader(
 							&trace_sender
 						) {
 							Ok(_) => { continue; }
-							Err(_) => { break; }
+							Err(error) => {
+								error!("{}", error);
+								break;
+							}
 						}
 					}
 					Err(ref err) if err.kind() == io::ErrorKind::WouldBlock => {

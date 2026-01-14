@@ -186,7 +186,6 @@ fn parse_message(
 					}
 				}
 			} else {
-				error!("Invalid JSON-RPC header {:?}", str::from_utf8(res)?);
 				return Err(eyre!("Invalid JSON-RPC header {:?}", str::from_utf8(res)?));
 			}
 		},
