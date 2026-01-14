@@ -41,12 +41,15 @@ pub(crate) fn init() -> eyre::Result<Command> {
 }
 
 pub(crate) fn exec(args: &ArgMatches) -> eyre::Result<()> {
-	let lang_id = crate::lang::get_langid(args).ok_or_eyre("Unable to get language id")?;
+	let lang = args
+		.try_get_one::<Language>("lang-std")?
+		.cloned()
+		.ok_or_eyre("Language standard not specified")?;
 
 	match args.subcommand() {
 		Some((cmd, cmd_args)) => match cmd {
-			"dump-ast" => dump_ast(cmd_args, lang_id),
-			"dump-tokens" => dump_tokens(cmd_args, lang_id),
+			"dump-ast" => dump_ast(cmd_args, lang),
+			"dump-tokens" => dump_tokens(cmd_args, lang),
 			_ => unreachable!(),
 		},
 		_ => Err(eyre!("No subcommand")),
