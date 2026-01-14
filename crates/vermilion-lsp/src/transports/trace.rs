@@ -46,6 +46,7 @@ async fn trace_file_writer(
 	let mut file = OpenOptions::new()
 		.write(true)
 		.truncate(true)
+		.create(true)
 		.open(trace_file)
 		.await?;
 
