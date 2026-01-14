@@ -43,6 +43,10 @@ impl VerilogTokenizer {
 		tokenizer
 	}
 
+	pub fn document_length(&self) -> usize {
+		self.file.len()
+	}
+
 	fn next_char(&mut self) -> u8 {
 		// Copy the current character value to return at the end
 		let value = self.current_char;
