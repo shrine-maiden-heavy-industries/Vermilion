@@ -22,6 +22,7 @@ pub mod stdio;
 #[cfg(feature = "trace-server")]
 pub mod trace;
 
+#[derive(Clone, Copy)]
 enum ReadPhase {
 	Header,
 	Content(usize),
@@ -80,6 +81,70 @@ fn deserialise_message(
 	Ok(())
 }
 
+fn parse_chunk(
+	bytes_available: usize,
+	buf: &[u8],
+	content: &mut Vec<u8>,
+	current_phase: ReadPhase,
+	sender: &UnboundedSender<Message>,
+	shutdown_channel: &UnboundedSender<()>,
+	#[cfg(feature = "trace-server")] trace_sender: &Option<UnboundedSender<Trace>>,
+) -> eyre::Result<(ReadPhase, usize)> {
+	match current_phase {
+		ReadPhase::Header => {
+			// Check to see if what we read in starts with the content length header
+			if buf.starts_with(b"Content-Length: ") {
+				// Next, see if we can find the end of this header
+				let split_index = get_split_index(buf);
+				if let Some(end) = split_index {
+					// Split out the header
+					let header = &buf[16..end];
+
+					// Extract the content length from the header
+					let content_length = parse_header(header, shutdown_channel)?;
+					trace!("Got content header of len: {}", content_length);
+
+					// Switch into the content phase with whatever's left of this buffer
+					Ok((ReadPhase::Content(content_length), bytes_available - end))
+				} else {
+					Err(eyre!("Unable to separate header from content!"))
+				}
+			} else {
+				Err(eyre!("Invalid JSON-RPC header {:?}", str::from_utf8(buf)?))
+			}
+		},
+		ReadPhase::Content(content_length) => {
+			// Figure out how much of the content length remaining we can satisfy with this buffer
+			let amount = bytes_available.min(content_length);
+			// Extend the content buffer with that content
+			content.extend_from_slice(&buf[0..amount]);
+
+			// Calculate how many bytes are left unused in the buffer
+			let buffer_remaining = bytes_available - amount;
+			// And how many bytes are still needed to satisfy this content request
+			let content_remaining = content_length - amount;
+
+			trace!("{} bytes remaining", content_remaining);
+			// If there's still more content needed, re-enter the content phase. buffer_remaining
+			// will be 0.
+			if content_remaining > 0 {
+				Ok((ReadPhase::Content(content_remaining), 0))
+			} else {
+				// Otherwise, we completed extracting the content from the buffer, so deserialise it
+				deserialise_message(
+					content,
+					sender,
+					#[cfg(feature = "trace-server")]
+					trace_sender,
+				)?;
+				// And switch back to the header phase with whatever's still reamining in the buffer
+				// to be consumed
+				Ok((ReadPhase::Header, buffer_remaining))
+			}
+		},
+	}
+}
+
 fn parse_message(
 	read: usize,
 	buf: &[u8],
@@ -89,85 +154,20 @@ fn parse_message(
 	shutdown_channel: &UnboundedSender<()>,
 	#[cfg(feature = "trace-server")] trace_sender: &Option<UnboundedSender<Trace>>,
 ) -> eyre::Result<()> {
-	let mut offset: usize = 0;
+	let mut offset = 0;
 
-	match phase {
-		ReadPhase::Header => {
-			let res = &buf[offset..read];
-			// Check to see if what we read in starts with the content length header
-			if res.starts_with(b"Content-Length: ") {
-				// Next, see if we can find the end of this header
-				let pos = get_split_index(res);
-				if let Some(pos) = pos {
-					// Split out the header and body
-					let header = &res[16..pos];
-					let mut body = &res[pos..];
-
-					// Like above, extract the content length from the header
-					let size = parse_header(header, shutdown_channel)?;
-					trace!("Got content header of len: {}", size);
-
-					// After clipping off the header, figure out how many bytes we have left in
-					// the buffer
-					let current_content = read - pos;
-
-					// Check to see if we have more content than what the header said we should
-					// have
-					// let remaining = if current_content > size {
-					// 	// Clamp the body to only be our message size
-					// 	body = &res[pos..size + 1];
-					// 	// And pivot the offset so it's right at the end of our message
-					// 	offset = pos + size;
-					// 	// Finally, return that we don't have any remaining bytes
-					// 	0
-					// } else {
-					// 	size - current_content
-					// };
-
-					let remaining = size - current_content;
-
-					// Append the bytes we do have,
-					content.extend_from_slice(body);
-
-					// Only move on if we have more bytes to read
-					if remaining > 0 {
-						trace!(
-							"Have {} bytes of body already, {} remaining",
-							current_content, remaining
-						);
-						*phase = ReadPhase::Content(remaining);
-					} else {
-						deserialise_message(
-							content,
-							sender,
-							#[cfg(feature = "trace-server")]
-							trace_sender,
-						)?;
-					}
-				} else {
-					return Err(eyre!("Unable to separate header from content!"));
-				}
-			} else {
-				return Err(eyre!("Invalid JSON-RPC header {:?}", str::from_utf8(res)?));
-			}
-		},
-		ReadPhase::Content(length) => {
-			let remaining = *length - read;
-			content.extend_from_slice(&buf[offset..read]);
-
-			trace!("{} bytes remaining", remaining);
-			if remaining > 0 {
-				*phase = ReadPhase::Content(remaining);
-			} else {
-				*phase = ReadPhase::Header;
-				deserialise_message(
-					content,
-					sender,
-					#[cfg(feature = "trace-server")]
-					trace_sender,
-				)?;
-			}
-		},
+	while offset < read {
+		let (new_phase, buffer_remaining) = parse_chunk(
+			read - offset,
+			&buf[offset..read],
+			content,
+			*phase,
+			sender,
+			shutdown_channel,
+			trace_sender,
+		)?;
+		*phase = new_phase;
+		offset = read - buffer_remaining;
 	}
 	Ok(())
 }
