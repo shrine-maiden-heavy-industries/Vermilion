@@ -7,6 +7,8 @@
 
 use std::fmt::Display;
 
+use vermilion_lang::LanguageMetadata;
+
 pub mod error;
 pub mod fmt;
 pub mod lang;
@@ -54,6 +56,16 @@ pub enum VerilogVariant {
 	VerilogAms(VerilogAmsStd),
 }
 
+impl VerilogStd {
+	pub const KNOWN_FILE_EXTS: [&'static str; 4] = ["v", "vh", "vm", "vg"];
+}
+
+impl LanguageMetadata for VerilogStd {
+	fn file_extensions<'a, 'b: 'a>() -> &'a [&'b str] {
+		&VerilogStd::KNOWN_FILE_EXTS
+	}
+}
+
 impl Display for VerilogStd {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
 		match self {
@@ -61,6 +73,16 @@ impl Display for VerilogStd {
 			Self::Vl01 => write!(f, "Verilog 2001 (IEEE 1364-2001)"),
 			Self::Vl05 => write!(f, "Verilog 2005 (IEEE 1364-2005)"),
 		}
+	}
+}
+
+impl SystemVerilogStd {
+	pub const KNOWN_FILE_EXTS: [&'static str; 1] = ["sv"];
+}
+
+impl LanguageMetadata for SystemVerilogStd {
+	fn file_extensions<'a, 'b: 'a>() -> &'a [&'b str] {
+		&SystemVerilogStd::KNOWN_FILE_EXTS
 	}
 }
 
@@ -73,6 +95,16 @@ impl Display for SystemVerilogStd {
 			Self::Sv17 => write!(f, "SystemVerilog 2017 (IEEE 1800-2017)"),
 			Self::Sv23 => write!(f, "SystemVerilog 2023 (IEEE 1800-2023)"),
 		}
+	}
+}
+
+impl VerilogAmsStd {
+	pub const KNOWN_FILE_EXTS: [&'static str; 1] = ["vams"];
+}
+
+impl LanguageMetadata for VerilogAmsStd {
+	fn file_extensions<'a, 'b: 'a>() -> &'a [&'b str] {
+		&VerilogAmsStd::KNOWN_FILE_EXTS
 	}
 }
 
