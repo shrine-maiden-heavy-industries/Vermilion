@@ -33,6 +33,32 @@ pub trait LanguageMetadata {
 	fn file_extensions<'a, 'b: 'a>() -> &'a [&'b str];
 }
 
+// TODO(aki):
+// Eventual support for dumping AST nodes to Graphivz, maybe something like:
+//
+// digraph <NAME> {
+// 	rankdir = TB;
+// 	bgcolor = "#262628";
+// 	color = "#DFDFDF";
+// 	fontname = "Fira Code";
+// 	fontnames = "svg";
+// 	center = true;
+// 	node [shape=Mrecord];
+// 	node [shape=Mrecord, fontname="Fira Code", fontcolor="#DFDFDF", color="#DFDFDF"];
+// 	edge [color="#DFDFDF"];
+//
+// 	blk0 [label=< { { <font color="#946CFA">blk</font> | { <font color="#FF9A56">L:</font> N | <font
+// color="#F5AAB9">C:</font> N } } | { { EXT1 | EXT2 | EXT3 } } } >] 	blk1 [label=< { { <font
+// color="#946CFA">blk</font> | { <font color="#FF9A56">L:</font> N | <font
+// color="#F5AAB9">C:</font> N } } | { { EXT1 | EXT2 | EXT3 } } } >]
+// blk0 -> blk1
+// }
+//
+// We will need to generate a unique ID for each node in order to generate the DAG at the end
+// but each AST node should be able to turn itself into a DOT record.
+//
+// We can then walk the AST and render each node and emit the graph
+
 fn _print_errors() {
 	// 	let _: Vec<_> = args
 	// 		.get_many::<String>("files")
