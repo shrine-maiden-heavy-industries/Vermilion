@@ -5,7 +5,7 @@ use clap::{
 };
 use color_print::cformat;
 
-use crate::env::VERMILION_LOG_LEVEL;
+use crate::{env::VERMILION_LOG_LEVEL, lang::Language};
 
 mod commands;
 
@@ -140,64 +140,10 @@ pub(crate) fn exec_command(command: &str) -> Option<CmdExec> {
 fn lang_common(command: Command, with_files: bool) -> Command {
 	let cmd = command
 		.arg(
-			// TODO(aki):
-			// I would like a more flexible way to generate the values & help documentation for
-			// the language standards so they can be kept in-sync
-			Arg::new("std")
+			Arg::new("lang-std")
 				.long("std")
-				.value_parser([
-					"vl95", "vl01", "vl05",
-					"sv05", "sv09", "sv12", "sv17", "sv23",
-					"vams09", "vams14", "vams23",
-					"vhd87", "vhd93", "vhd2k", "vhd02", "vhd07", "vhd08", "vhd11", "vhd19", "vhd23",
-				])
+				.value_parser(value_parser!(Language))
 				.help("Set the language standard to use")
-				.long_help(cformat!(
-					"\n\
-				 --std=vl95\n\
-				 \tSet Language and standard to <magenta>Verilog</> 1995 (<blue>IEEE</> 1364-1995)\n\n\
-				 --std=vl01\n\
-				 \tSet Language and standard to <magenta>Verilog</> 2001 (<blue>IEEE</> 1364-2001)\n\n\
-				 --std=vl05\n\
-				 \tSet Language and standard to <magenta>Verilog</> 2005 (<blue>IEEE</> 1364-2005)\n\n\
-				 --std=sv05\n\
-				 \tSet Language and standard to <cyan>SystemVerilog</> 2005 (<blue>IEEE</> 1800-2005)\n\n\
-				 --std=sv09\n\
-				 \tSet Language and standard to <cyan>SystemVerilog</> 2009 (<blue>IEEE</> 1800-2009)\n\n\
-				 --std=sv12\n\
-				 \tSet Language and standard to <cyan>SystemVerilog</> 2012 (<blue>IEEE</> 1800-2012)\n\n\
-				 --std=sv17\n\
-				 \tSet Language and standard to <cyan>SystemVerilog</> 2017 (<blue>IEEE</> 1800-2017)\n\n\
-				 --std=sv23\n\
-				 \tSet Language and standard to <cyan>SystemVerilog</> 2023 (<blue>IEEE</> 1800-2023)\n\n\
-				 --std=vams09\n\
-				 \tSet Language and standard to <yellow>Verilog-AMS</> 2009 (<yellow>Accellera</> Verilog-AMS 2.3.1)\n\n\
-				 --std=vams14\n\
-				 \tSet Language and standard to <yellow>Verilog-AMS</> 2014 (<yellow>Accellera</> Verilog-AMS 2.4)\n\n\
-				 --std=vams23\n\
-				 \tSet Language and standard to <yellow>Verilog-AMS</> 2023 (<yellow>Accellera</> Verilog-AMS 2023)\n\n\
-				 --std=vhd87\n\
-				 \tSet Language and standard to <green>VHDL</> 1987 (<blue>IEEE</> 1076-1987)\n\n\
-				 --std=vhd93\n\
-				 \tSet Language and standard to <green>VHDL</> 1993 (<blue>IEEE</> 1076-1993)\n\n\
-				 --std=vhd2k\n\
-				 \tSet Language and standard to <green>VHDL</> 2000 (<blue>IEEE</> 1076-2000)\n\n\
-				 --std=vhd02\n\
-				 \tSet Language and standard to <green>VHDL</> 2002 (<blue>IEEE</> 1076-2002)\n\n\
-				 --std=vhd07\n\
-				 \tSet Language and standard to <green>VHDL</> 2007 (<blue>IEEE</> 1076-2007)\n\n\
-				 --std=vhd08\n\
-				 \tSet Language and standard to <green>VHDL</> 2008 (<blue>IEEE</> 1076-2008)\n\n\
-				 --std=vhd11\n\
-				 \tSet Language and standard to <green>VHDL</> 2011 (<blue>IEEE</> 1076-2011)\n\n\
-				 --std=vhd19\n\
-				 \tSet Language and standard to <green>VHDL</> 2019 (<blue>IEEE</> 1076-2019)\n\n\
-				 --std=vhd23\n\
-				 \tSet Language and standard to <green>VHDL</> 2023 (<blue>IEEE</> 1076-2023)\n\
-				"
-				))
-				.hide_possible_values(true)
-				// .required(true)
 				.value_name("STD"),
 		)
 		.arg(
