@@ -29,7 +29,7 @@ pub struct WorkspaceConfig {
 /// The file is searched for starting from the current working directory,
 /// and going up a director until the file is found, we hit the FS root, or we
 /// encounter a FS boundary (e.g. we're invoked in a mounted volume).
-pub fn load_workspace_config(args: &ArgMatches) -> eyre::Result<WorkspaceConfig> {
+pub fn load_workspace_config(args: &ArgMatches) -> eyre::Result<Option<WorkspaceConfig>> {
 	// If we were passed a workspace file on the command line, try that
 	if let Ok(Some(workspace_file)) = args.try_get_one::<String>("workspace") {
 		return Ok(toml::from_slice(&fs::read(workspace_file)?)?);
@@ -38,8 +38,8 @@ pub fn load_workspace_config(args: &ArgMatches) -> eyre::Result<WorkspaceConfig>
 	let current_dir = std::env::current_dir()?;
 	let mut search_dir = current_dir.clone();
 
-	let mut cfg_file: Option<PathBuf> = None;
-	let mut cfg = WorkspaceConfig::default();
+	let mut cfg_file = None;
+	let mut cfg = None;
 
 	// Search up to either the root or the upper-most mount-point for a valid configuration file.
 	while paths::same_fs(&current_dir, &search_dir)? && cfg_file.is_none() {
@@ -53,7 +53,7 @@ pub fn load_workspace_config(args: &ArgMatches) -> eyre::Result<WorkspaceConfig>
 		// Check to see if we found a configuration file, if not try to go up a directory if
 		// possible
 		if let Some(ref path) = cfg_file {
-			cfg = toml::from_slice(&fs::read(path)?)?;
+			cfg = Some(toml::from_slice(&fs::read(path)?)?);
 			break;
 		} else if let Some(parent) = search_dir.parent() {
 			search_dir = parent.to_path_buf();

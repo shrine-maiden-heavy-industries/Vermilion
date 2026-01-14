@@ -49,7 +49,7 @@ pub(crate) fn shutdown_runtime() -> eyre::Result<()> {
 pub(crate) fn start(
 	transport: TransportType,
 	client_pid: Option<usize>,
-	workspace_config: WorkspaceConfig,
+	workspace_config: Option<WorkspaceConfig>,
 	trace_transport: Option<TraceTransport>,
 ) -> eyre::Result<()> {
 	debug!("Starting runtime...");
@@ -245,7 +245,7 @@ fn process_lsp_message(
 
 async fn lsp_server(
 	transport: TransportType,
-	_workspace_config: WorkspaceConfig,
+	_workspace_config: Option<WorkspaceConfig>,
 	cancellation_token: CancellationToken,
 	shutdown_channel: UnboundedSender<()>,
 	trace_transport: Option<TraceTransport>,
