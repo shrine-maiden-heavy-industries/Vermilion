@@ -53,6 +53,33 @@ fn parse_header(header: &[u8], shutdown_channel: &UnboundedSender<()>) -> Result
 	})
 }
 
+fn deserialise_message(
+	content: &mut Vec<u8>,
+	sender: &UnboundedSender<Message>,
+	#[cfg(feature = "trace-server")] trace_sender: &Option<UnboundedSender<Trace>>,
+) -> eyre::Result<()> {
+	// Otherwise deserialize message and clear the buffer
+	match Message::deserialize(content) {
+		Ok(msg) => {
+			#[cfg(feature = "trace-server")]
+			if let Some(trace_sender) = trace_sender {
+				// We don't want to abort the task if the send to the
+				// trace writer failed
+				let _ = trace_sender.send(Trace::new(crate::trace::Origin::Client, &msg));
+			}
+			sender.send(msg)?
+		},
+		Err(e) => {
+			error!("Unable to deserialize LSP message:");
+			error!("{}", e);
+			error!("Message contents:");
+			error!("{}", str::from_utf8(content)?);
+		},
+	}
+	content.clear();
+	Ok(())
+}
+
 fn parse_message(
 	read: usize,
 	buf: &[u8],
