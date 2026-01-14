@@ -50,12 +50,14 @@ async fn trace_file_writer(
 		.open(trace_file)
 		.await?;
 
+	file.write_u8(b'[').await?;
 	loop {
 		select! {
 			_ = cancellation_token.cancelled() => { break; },
 			Some(trace_message) = trace_channel.recv() => {
 				let msg = serde_json::to_string(&trace_message)?;
 				file.write_all(msg.as_bytes()).await?;
+				file.write_u8(b',').await?;
 				file.write_u8(b'\n').await?;
 			},
 		}
@@ -66,9 +68,11 @@ async fn trace_file_writer(
 		if let Some(trace_message) = trace_channel.recv().await {
 			let msg = serde_json::to_string(&trace_message)?;
 			file.write_all(msg.as_bytes()).await?;
+			file.write_u8(b',').await?;
 			file.write_u8(b'\n').await?;
 		}
 	}
+	file.write_u8(b']').await?;
 
 	Ok(())
 }
