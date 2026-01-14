@@ -18,6 +18,7 @@ vermilion-lang        = { workspace = true }
 
 chumsky               = { workspace = true }
 clap                  = { workspace = true, optional = true }
+eyre                  = { workspace = true }
 schemars              = { workspace = true, optional = true }
 serde                 = { workspace = true, optional = true }
 tendril               = { workspace = true }
