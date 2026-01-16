@@ -56,7 +56,39 @@ pub(crate) fn exec(args: &ArgMatches) -> eyre::Result<()> {
 	}
 }
 
-fn dump_ast(_args: &ArgMatches, _language: Language) -> eyre::Result<()> {
+fn dump_ast(args: &ArgMatches, language: Language) -> eyre::Result<()> {
+	fn dump_parser<A, R>(res: eyre::Result<(Option<A>, Vec<R>)>)
+	where
+		A: std::fmt::Debug,
+		R: std::fmt::Debug,
+	{
+		match res {
+			Ok((ast, diagnostics)) => {
+				println!("{:?}", ast);
+				for diag in diagnostics {
+					println!("{:?}", diag);
+				}
+			},
+			Err(err) => {
+				println!("Parse Error: {:?}", err);
+			},
+		}
+	}
+
+	if let Some(files) = args.try_get_many::<String>("files")? {
+		for file in files {
+			let mut data = Vec::new();
+			let mut hdl_file = File::open(file)?;
+			hdl_file.read_to_end(&mut data)?;
+
+			match language.parser(data.as_slice().into()) {
+				crate::lang::Parser::Verilog(parser) => dump_parser(parser.parse()),
+				// crate::lang::Parser::Vhdl(parser) => dump_parser(parser.parse()),
+				_ => unimplemented!(),
+			}
+		}
+	}
+
 	Ok(())
 }
 
