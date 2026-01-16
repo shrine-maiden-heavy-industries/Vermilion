@@ -21,6 +21,8 @@ use crate::{
 	},
 };
 
+pub mod error;
+
 pub struct VerilogParser {
 	std:       VerilogVariant,
 	tokenizer: VerilogTokenizer,
