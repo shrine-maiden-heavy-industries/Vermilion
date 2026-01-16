@@ -4,6 +4,8 @@ use vermilion_lang::AtomicByteTendril;
 
 use crate::VhdlStd;
 
+pub mod error;
+
 pub struct VhdlParser {
 	_std:     VhdlStd,
 	_content: AtomicByteTendril,
