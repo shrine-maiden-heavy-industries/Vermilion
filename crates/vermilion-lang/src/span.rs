@@ -52,31 +52,6 @@ impl<T, C> From<Span<T, C>> for Range<T> {
 	}
 }
 
-impl<T, C> chumsky::span::Span for Span<T, C>
-where
-	T: Clone,
-	C: Clone,
-{
-	type Context = C;
-	type Offset = T;
-
-	fn new(context: Self::Context, range: Range<Self::Offset>) -> Self {
-		Self { begin: range.start, end: range.end, context }
-	}
-
-	fn context(&self) -> Self::Context {
-		self.context.clone()
-	}
-
-	fn start(&self) -> Self::Offset {
-		self.begin.clone()
-	}
-
-	fn end(&self) -> Self::Offset {
-		self.end.clone()
-	}
-}
-
 impl<T, C> Display for Span<T, C>
 where
 	T: Display,
