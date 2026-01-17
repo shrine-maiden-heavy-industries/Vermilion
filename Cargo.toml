@@ -40,6 +40,7 @@ directories        = { version = "6.0" }
 eyre               = { version = "0.6", default-features = false }
 fluent-uri         = { version = "0.4", features = [ "serde" ] }
 notify             = { version = "8.2" }
+num-traits         = { version = "0.2" }
 paste              = { version = "1.0.15" }
 proptest           = { version = "1.9" }
 pulldown-cmark     = { version = "0.13", default-features = false }
