@@ -15,8 +15,8 @@ version       = { workspace = true }
 vermilion-diagnostics = { workspace = true }
 vermilion-fmt         = { workspace = true }
 
+# XXX(aki): The functionality of `ariadne` will likely be absorbed into the diagnostics crate
 ariadne               = { workspace = true }
-chumsky               = { workspace = true }
 tendril               = { workspace = true }
 
 [dev-dependencies]

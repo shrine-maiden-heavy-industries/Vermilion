@@ -28,7 +28,6 @@ vermilion-vhdl        = { path = "crates/vermilion-vhdl"        }
 ariadne            = { version = "0.6", features = ["auto-color"] }
 bitmask-enum       = { version = "2.2.5" }
 chrono             = { version = "0.4.42", features = [ "serde" ] }
-chumsky            = { version = "0.12", features = ["extension", "regex", "memoization", "stacker"] }
 clap               = { version = "4.5" }
 clap_complete      = { version = "4.5" }
 color-eyre         = { version = "0.6" }
