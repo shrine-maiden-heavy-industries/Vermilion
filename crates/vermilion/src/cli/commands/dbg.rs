@@ -57,23 +57,7 @@ pub(crate) fn exec(args: &ArgMatches) -> eyre::Result<()> {
 }
 
 fn dump_ast(args: &ArgMatches, language: Language) -> eyre::Result<()> {
-	fn dump_parser<A, R>(res: eyre::Result<(Option<A>, Vec<R>)>)
-	where
-		A: std::fmt::Debug,
-		R: std::fmt::Debug,
-	{
-		match res {
-			Ok((ast, diagnostics)) => {
-				println!("{:?}", ast);
-				for diag in diagnostics {
-					println!("{:?}", diag);
-				}
-			},
-			Err(err) => {
-				println!("Parse Error: {:?}", err);
-			},
-		}
-	}
+	fn dump_parser<A, R>(_res: eyre::Result<(Option<A>, Vec<R>)>) {}
 
 	if let Some(files) = args.try_get_many::<String>("files")? {
 		for file in files {
