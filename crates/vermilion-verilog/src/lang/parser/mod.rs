@@ -75,7 +75,7 @@ impl VerilogParser {
 	where
 		I: Input<'src, Span = Span<usize, Position>, Token = Token>,
 	{
-		just(Token::Keyword(Keyword::Module)).map(|_| Ast {})
+		just(Token::Keyword(Keyword::Module)).map(|_| Ast::default())
 	}
 }
 
