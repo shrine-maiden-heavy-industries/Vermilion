@@ -2,6 +2,8 @@
 
 use std::fmt::{Debug, Display};
 
+use vermilion_diagnostics::Position as DiagnosticPosition;
+
 /// The creature-readable contextual position
 /// within a document
 #[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -64,5 +66,11 @@ impl Debug for Position {
 			.field("line", &self.line)
 			.field("character", &self.character)
 			.finish()
+	}
+}
+
+impl From<Position> for DiagnosticPosition {
+	fn from(position: Position) -> Self {
+		Self::new(position.line, position.character)
 	}
 }
