@@ -18,6 +18,8 @@ macro_rules! spanned_token {
 	};
 }
 
+use vermilion_diagnostics::Span as DiagnosticSpan;
+
 #[derive(Copy, Clone, Default, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct Span<T = usize, C = ()> {
 	begin:   T,
@@ -88,6 +90,26 @@ where
 			.field("end", &self.end)
 			.field("context", &self.context)
 			.finish()
+	}
+}
+
+impl<T, C, DC> From<Span<T, C>> for DiagnosticSpan<T, DC>
+where
+	DC: From<C>,
+{
+	fn from(span: Span<T, C>) -> Self {
+		DiagnosticSpan::new(span.begin, span.end, span.context.into())
+	}
+}
+
+impl<T, C, DC> From<&Span<T, C>> for DiagnosticSpan<T, DC>
+where
+	DC: From<C>,
+	T: Copy,
+	C: Copy,
+{
+	fn from(span: &Span<T, C>) -> Self {
+		DiagnosticSpan::new(span.begin, span.end, span.context.into())
 	}
 }
 
