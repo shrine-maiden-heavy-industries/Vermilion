@@ -5,6 +5,7 @@
 // #![warn(clippy::missing_docs_in_private_items)]
 #![deny(clippy::unwrap_used, clippy::expect_used)]
 
+pub mod debug;
 pub mod parser;
 pub mod position;
 pub mod span;
@@ -16,95 +17,6 @@ use tendril::{Atomic, Tendril, fmt};
 
 pub type AtomicByteTendril = Tendril<fmt::Bytes, Atomic>;
 
-#[macro_export]
-macro_rules! spanned_token {
-	($token:expr) => {
-		vermilion_lang::span::Spanned::new($token, None)
-	};
-	($token:expr, $span_range:expr, $context:expr) => {
-		vermilion_lang::span::Spanned::new(
-			$token,
-			Some(vermilion_lang::span::Span::new($span_range, $context)),
-		)
-	};
-}
-
 pub trait LanguageMetadata {
 	fn file_extensions<'a, 'b: 'a>() -> &'a [&'b str];
-}
-
-// TODO(aki):
-// Eventual support for dumping AST nodes to Graphivz, maybe something like:
-//
-// digraph <NAME> {
-//     rankdir = TB;
-//     bgcolor = "#262628";
-//     color = "#DFDFDF";
-//     fontname = "Fira Code";
-//     fontnames = "svg";
-//     center = true;
-//     node [shape=Mrecord];
-//     node [shape=Mrecord, fontname="Fira Code", fontcolor="#DFDFDF", color="#DFDFDF"];
-//     edge [color="#DFDFDF"];
-//
-// }
-//
-// We will need to generate a unique ID for each node in order to generate the DAG at the end
-// but each AST node should be able to turn itself into a DOT record.
-//
-// We can then walk the AST and render each node and emit the graph
-pub trait GraphvizNode {
-	fn node_id(&self) -> &str;
-	fn node_type(&self) -> &str;
-	fn node_position(&self) -> &Position;
-	fn node_extra(&self) -> Option<String>;
-
-	fn render_node(&self) -> String {
-		let pos = self.node_position();
-
-		format!(
-			"{} [label=<{{{{<font color=\"#946CFA\">{}</font>|{{<font color=\"#FF9A56\">L:</font> \
-			 {}|<font color=\"#F5AAB9\">C:</font> {}}}|{}}}>]",
-			self.node_id(),
-			self.node_type(),
-			pos.line(),
-			pos.character(),
-			self.node_extra().unwrap_or("None".to_string())
-		)
-	}
-}
-
-fn _print_errors() {
-	// 	let _: Vec<_> = args
-	// 		.get_many::<String>("files")
-	// 		.expect("files is required")
-	// 		.map(move |filename| {
-	// 			let src = fs::read_to_string(filename).expect("Unable to read file");
-	// 			let parser = crate::lang::get_parser(lang_id);
-	//
-	// 			match parser.parse(src.as_str()) {
-	// 				Ok(ast) => {},
-	// 				Err(errs) => errs.into_iter().for_each(|e| {
-	// 					Report::build(ReportKind::Error, (filename.clone(), e.span().into_range()))
-	// 						.with_config(
-	// 							ariadne::Config::new().with_index_type(ariadne::IndexType::Byte),
-	// 						)
-	// 						.with_message(e.to_string())
-	// 						.with_label(
-	// 							Label::new((filename.clone(), e.span().into_range()))
-	// 								.with_message(e.reason().to_string())
-	// 								.with_color(Color::Red),
-	// 						)
-	// 						.with_labels(e.contexts().map(|(label, span)| {
-	// 							Label::new((filename.clone(), span.into_range()))
-	// 								.with_message(format!("while parsing this {label}"))
-	// 								.with_color(Color::Yellow)
-	// 						}))
-	// 						.finish()
-	// 						.print(sources([(filename.clone(), src.as_str())]))
-	// 						.unwrap()
-	// 				}),
-	// 			}
-	// 		})
-	// 		.collect();
 }

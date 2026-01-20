@@ -5,6 +5,19 @@ use std::{
 	ops::Range,
 };
 
+#[macro_export]
+macro_rules! spanned_token {
+	($token:expr) => {
+		vermilion_lang::span::Spanned::new($token, None)
+	};
+	($token:expr, $span_range:expr, $context:expr) => {
+		vermilion_lang::span::Spanned::new(
+			$token,
+			Some(vermilion_lang::span::Span::new($span_range, $context)),
+		)
+	};
+}
+
 #[derive(Copy, Clone, Default, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct Span<T = usize, C = ()> {
 	begin:   T,

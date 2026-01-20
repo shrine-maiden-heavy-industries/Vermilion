@@ -1,6 +1,4 @@
-// SPDX-License-Identifier: BSD-3-Clause
-
-use crate::{Position, span::Span};
+// SPDX-License-Identifier: BSD-3-Clausec
 
 #[cfg(test)]
 mod tests {
