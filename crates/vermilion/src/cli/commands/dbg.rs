@@ -57,7 +57,7 @@ pub(crate) fn exec(args: &ArgMatches) -> eyre::Result<()> {
 }
 
 fn dump_ast(args: &ArgMatches, language: Language) -> eyre::Result<()> {
-	fn dump_parser<A, R>(_res: eyre::Result<(Option<A>, Vec<R>)>) {}
+	fn dump_parser<A>(_res: eyre::Result<A>) {}
 
 	if let Some(files) = args.try_get_many::<String>("files")? {
 		for file in files {
