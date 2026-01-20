@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: BSD-3-Clause
 
 use eyre::OptionExt;
-use vermilion_lang::{AtomicByteTendril, Position, Span, Spanned};
+use vermilion_lang::{AtomicByteTendril, Position, Spanned};
 
 use crate::{
 	VerilogVariant,
@@ -9,7 +9,7 @@ use crate::{
 		ast::{Ast, Diagnostic, Module, Primitive},
 		tokenizer::{
 			VerilogTokenizer,
-			token::{self, Keyword, Token},
+			token::{Keyword, Token},
 		},
 	},
 };
