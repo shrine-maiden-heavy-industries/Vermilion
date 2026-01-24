@@ -46,4 +46,31 @@ fn test_truncated_module() {
 			"Expected module name, got ';' @ [6,7) => line: 0 char: 6"
 		)]
 	);
+
+	let result = VerilogParser::new(
+		VerilogVariant::Verilog(VerilogStd::Vl95),
+		"module a".as_bytes().into(),
+	)
+	.parse();
+
+	assert!(result.is_ok());
+	#[allow(clippy::unwrap_used)]
+	let ast = result.unwrap();
+	assert!(!ast.has_diagnostics());
+	let modules: Vec<_> = ast.modules().collect();
+	assert_eq!(modules.len(), 1);
+	let module = modules[0];
+
+	let diagnostics = module.diagnostics();
+	assert!(diagnostics.is_some());
+	#[allow(clippy::unwrap_used)]
+	let diagnostics = diagnostics.unwrap();
+
+	assert_eq!(
+		diagnostics,
+		&vec![Diagnostic::new(
+			Some(Span::new(0..0, Position::eof())),
+			"Unexpected end of file, expected ';' following module identifier and port list"
+		)]
+	);
 }

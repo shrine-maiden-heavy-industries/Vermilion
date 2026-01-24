@@ -118,6 +118,7 @@ impl VerilogParser {
 				Diagnostic::new(location, "Encountered end of file, expected module name"),
 			));
 		};
+		self.current_token = self.tokenizer.next();
 		let mut module = Module::new_valid(location, name);
 
 		// Now we've got a valid module decl, let's see what ports it has
