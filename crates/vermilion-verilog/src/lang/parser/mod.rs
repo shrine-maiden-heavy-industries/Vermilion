@@ -60,21 +60,17 @@ impl VerilogParser {
 			// Now we're done parsing  that, see if the next token is a comma (keep going),
 			// or a closing paren (stop and return) - if it's neither that's a diagnostic
 			match &self.current_token {
-				Some(token) => {
-					match token.inner() {
-						Token::Control(Control::ParenClose) => break,
-						Token::Control(Control::Comma) => {
-							self.current_token = self.tokenizer.next()
-						},
-						_ => {
-							port_list.append_diagnostic(Diagnostic::new(
-								token.span().copied(),
-								format!("Expected ',' or ')', got {token}"),
-							));
-							// If we couldn't match a "," or ")" token, we're done - abort
-							return Ok(port_list);
-						},
-					}
+				Some(token) => match token.inner() {
+					Token::Control(Control::ParenClose) => break,
+					Token::Control(Control::Comma) => self.current_token = self.tokenizer.next(),
+					_ => {
+						port_list.append_diagnostic(Diagnostic::new(
+							token.span().copied(),
+							format!("Expected ',' or ')', got {token}"),
+						));
+						// If we couldn't match a "," or ")" token, we're done - abort
+						return Ok(port_list);
+					},
 				},
 				None => {
 					// If we hit EOF, we're done - abort
@@ -123,8 +119,8 @@ impl VerilogParser {
 			));
 		};
 		let mut module = Module::new_valid(location, name);
-		// Now we've got a valid module decl, let's see what ports it has
 
+		// Now we've got a valid module decl, let's see what ports it has
 		if let Some(token) = &self.current_token {
 			match token.inner() {
 				Token::Control(Control::ParenOpen) => module.ports(self.parse_ports()?),
@@ -134,6 +130,31 @@ impl VerilogParser {
 					format!("Expected ports defintion or ';', got {token}"),
 				)),
 			};
+		}
+
+		// Make sure that we got the semicolon that's required here
+		match &self.current_token {
+			Some(token) => {
+				if let Token::Control(Control::Semicolon) = token.inner() {
+					self.current_token = self.tokenizer.next()
+				} else {
+					// If we got something other than the requisite ';' then create a diagnostic and
+					// try and continue, looking for "endmodule"
+					module.append_diagnostic(Diagnostic::new(
+						token.span().copied(),
+						format!("Expected ';', found {}", token.inner()),
+					));
+				}
+			},
+			None => {
+				// If we hit EOF already, build a diagnostic and return
+				module.append_diagnostic(Diagnostic::new(
+					Some(Span::new(0..0, Position::eof())),
+					"Unexpected end of file, expected ';' following module identifier and port \
+					 list",
+				));
+				return Ok(module);
+			},
 		}
 
 		Ok(module)
