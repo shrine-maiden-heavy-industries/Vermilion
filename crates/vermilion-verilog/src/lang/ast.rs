@@ -6,7 +6,7 @@ use vermilion_lang::{AtomicByteTendril, Position, Span, Spanned};
 
 use crate::lang::tokenizer::token::{Comment, CompilerDirective};
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct Diagnostic {
 	position: Position,
 	message:  String,
@@ -162,6 +162,14 @@ impl Ast {
 
 	pub fn append_diagnostic(&mut self, diagnostic: Diagnostic) {
 		self.diagnostics.push(diagnostic);
+	}
+
+	pub fn has_diagnostics(&self) -> bool {
+		!self.diagnostics.is_empty()
+	}
+
+	pub fn diagnostics(&self) -> &Vec<Diagnostic> {
+		&self.diagnostics
 	}
 }
 
