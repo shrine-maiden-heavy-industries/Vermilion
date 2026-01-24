@@ -59,26 +59,31 @@ impl VerilogParser {
 			}
 			// Now we're done parsing  that, see if the next token is a comma (keep going),
 			// or a closing paren (stop and return) - if it's neither that's a diagnostic
-			if let Some(token) = &self.current_token {
-				match token.inner() {
-					Token::Control(Control::ParenClose) => break,
-					Token::Control(Control::Comma) => self.current_token = self.tokenizer.next(),
-					_ => {
-						port_list.append_diagnostic(Diagnostic::new(
-							token.span().copied(),
-							format!("Expected ',' or ')', got {token}"),
-						));
-						// If we couldn't match a "," or ")" token, we're done - abort
-						return Ok(port_list);
-					},
-				}
-			} else {
-				// If we hit EOF, we're done - abort
-				port_list.append_diagnostic(Diagnostic::new(
-					Some(Span::new(0..0, Position::eof())),
-					"Unexpected end of file while looking for port list",
-				));
-				return Ok(port_list);
+			match &self.current_token {
+				Some(token) => {
+					match token.inner() {
+						Token::Control(Control::ParenClose) => break,
+						Token::Control(Control::Comma) => {
+							self.current_token = self.tokenizer.next()
+						},
+						_ => {
+							port_list.append_diagnostic(Diagnostic::new(
+								token.span().copied(),
+								format!("Expected ',' or ')', got {token}"),
+							));
+							// If we couldn't match a "," or ")" token, we're done - abort
+							return Ok(port_list);
+						},
+					}
+				},
+				None => {
+					// If we hit EOF, we're done - abort
+					port_list.append_diagnostic(Diagnostic::new(
+						Some(Span::new(0..0, Position::eof())),
+						"Unexpected end of file while looking for port list",
+					));
+					return Ok(port_list);
+				},
 			}
 		}
 		// Consume the ")" token so we return ready for whatever comes next
