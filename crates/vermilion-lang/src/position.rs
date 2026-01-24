@@ -6,8 +6,8 @@ use std::fmt::{Debug, Display};
 /// within a document
 #[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct Position {
-	line:      usize,
-	character: usize,
+	line:      u64,
+	character: u64,
 }
 
 impl Position {
@@ -15,15 +15,19 @@ impl Position {
 		Self { line: 0, character: 0 }
 	}
 
-	pub const fn new(line: usize, character: usize) -> Self {
+	pub const fn eof() -> Self {
+		Self { line: u64::MAX, character: u64::MAX }
+	}
+
+	pub const fn new(line: u64, character: u64) -> Self {
 		Self { line, character }
 	}
 
-	pub fn line(&self) -> &usize {
+	pub fn line(&self) -> &u64 {
 		&self.line
 	}
 
-	pub fn character(&self) -> &usize {
+	pub fn character(&self) -> &u64 {
 		&self.character
 	}
 
@@ -41,8 +45,8 @@ impl Position {
 
 impl<T, U> From<(T, U)> for Position
 where
-	T: Into<usize>,
-	U: Into<usize>,
+	T: Into<u64>,
+	U: Into<u64>,
 {
 	fn from(value: (T, U)) -> Self {
 		Self {
