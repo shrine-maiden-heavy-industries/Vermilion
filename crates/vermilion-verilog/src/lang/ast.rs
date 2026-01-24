@@ -97,6 +97,21 @@ impl Module {
 			},
 		}
 	}
+
+	pub fn is_valid(&self) -> bool {
+		matches!(self.inner.contents, AstContents::Valid(_))
+	}
+
+	pub fn is_invalid(&self) -> bool {
+		matches!(self.inner.contents, AstContents::Invalid(_))
+	}
+
+	pub fn diagnostics(&self) -> Option<&Vec<Diagnostic>> {
+		match &self.inner.contents {
+			AstContents::Valid(module) => Some(&module.diagnostics),
+			AstContents::Invalid(_) => None,
+		}
+	}
 }
 
 #[derive(Debug)]
@@ -162,6 +177,10 @@ impl Ast {
 
 	pub fn append_diagnostic(&mut self, diagnostic: Diagnostic) {
 		self.diagnostics.push(diagnostic);
+	}
+
+	pub fn modules(&self) -> impl Iterator<Item = &Module> {
+		self.modules.values()
 	}
 
 	pub fn has_diagnostics(&self) -> bool {
