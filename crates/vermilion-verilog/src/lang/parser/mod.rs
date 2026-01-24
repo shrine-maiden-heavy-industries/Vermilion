@@ -6,7 +6,7 @@ use vermilion_lang::{AtomicByteTendril, Position, Spanned};
 use crate::{
 	VerilogVariant,
 	lang::{
-		ast::{Ast, Diagnostic, Module, Primitive},
+		ast::{Ast, Diagnostic, Module, Port, Primitive},
 		tokenizer::{
 			VerilogTokenizer,
 			token::{Control, Keyword, Token},
@@ -29,6 +29,54 @@ impl VerilogParser {
 			tokenizer: VerilogTokenizer::new(std, content),
 			current_token: None,
 		}
+	}
+
+	fn parse_port_expression(&mut self) {
+		todo!()
+	}
+
+	fn parse_port(&mut self) {
+		todo!()
+	}
+
+	fn parse_ports(&mut self) -> eyre::Result<Vec<Port>> {
+		// This is called having just matched "(", so skip that token and start
+		// consuming port definitions until we find a closing ")"
+		let mut ports = Vec::new();
+		let mut diagnostics = Vec::new();
+		self.current_token = self.tokenizer.next();
+
+		while let Some(token) = &self.current_token {
+			// See what kind of port expression or identifier comes next
+			match token.inner() {
+				Token::Identifier(_) => self.parse_port_expression(),
+				Token::Control(Control::Dot) => self.parse_port(),
+				_ => {
+					diagnostics.push(Diagnostic::new(
+						token.span().copied(),
+						format!("Expected port identifier or '.', got {token}"),
+					));
+				},
+			}
+			// Now we're done parsing  that, see if the next token is a comma (keep going),
+			// or a closing paren (stop and return) - if it's neither that's a diagnostic
+			if let Some(token) = &self.current_token {
+				match token.inner() {
+					Token::Control(Control::ParenClose) => break,
+					Token::Control(Control::Comma) => self.current_token = self.tokenizer.next(),
+					_ => {
+						diagnostics.push(Diagnostic::new(
+							token.span().copied(),
+							format!("Expected ',' or ')', got {token}"),
+						));
+					},
+				}
+			}
+		}
+		// Consume the ")" token so we return ready for whatever comes next
+		self.current_token = self.tokenizer.next();
+
+		Ok(ports)
 	}
 
 	fn parse_module_decl(&mut self) -> eyre::Result<Module> {
@@ -66,6 +114,7 @@ impl VerilogParser {
 
 		if let Some(token) = &self.current_token {
 			match token.inner() {
+				Token::Control(Control::ParenOpen) => module.ports(self.parse_ports()?),
 				Token::Control(Control::Semicolon) => {},
 				_ => module.append_diagnostic(Diagnostic::new(
 					token.span().copied(),
