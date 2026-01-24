@@ -286,7 +286,7 @@ impl Display for Control {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
 		write!(
 			f,
-			"Control({})",
+			"'{}'",
 			match self {
 				Control::At => "@",
 				Control::BraceClose => "}",
