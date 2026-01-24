@@ -41,7 +41,8 @@ pub struct AstNode<T> {
 
 #[derive(Debug)]
 struct ModuleInner {
-	name: AtomicByteTendril,
+	name:        AtomicByteTendril,
+	diagnostics: Vec<Diagnostic>,
 }
 
 #[derive(Debug)]
@@ -57,7 +58,7 @@ impl Module {
 		Self {
 			inner: AstNode {
 				source_position,
-				contents: AstContents::Valid(ModuleInner { name }),
+				contents: AstContents::Valid(ModuleInner { name, diagnostics: Vec::new() }),
 			},
 		}
 	}
@@ -70,6 +71,15 @@ impl Module {
 			inner: AstNode {
 				source_position,
 				contents: AstContents::Invalid(diagnostic),
+			},
+		}
+	}
+
+	pub fn append_diagnostic(&mut self, diagnostic: Diagnostic) {
+		match &mut self.inner.contents {
+			AstContents::Valid(module) => module.diagnostics.push(diagnostic),
+			AstContents::Invalid(_) => {
+				panic!("Attempted to append a diagnostic to an invalid module")
 			},
 		}
 	}
