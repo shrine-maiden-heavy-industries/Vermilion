@@ -9,7 +9,7 @@ use crate::{
 		ast::{Ast, Diagnostic, Module, Primitive},
 		tokenizer::{
 			VerilogTokenizer,
-			token::{Keyword, Token},
+			token::{Control, Keyword, Token},
 		},
 	},
 };
@@ -63,6 +63,16 @@ impl VerilogParser {
 		};
 		let mut module = Module::new_valid(location, name);
 		// Now we've got a valid module decl, let's see what ports it has
+
+		if let Some(token) = &self.current_token {
+			match token.inner() {
+				Token::Control(Control::Semicolon) => {},
+				_ => module.append_diagnostic(Diagnostic::new(
+					token.span().copied(),
+					format!("Expected ports defintion or ';', got {token}"),
+				)),
+			};
+		}
 
 		Ok(module)
 	}
