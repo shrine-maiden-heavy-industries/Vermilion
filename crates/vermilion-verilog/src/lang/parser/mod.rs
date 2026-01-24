@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: BSD-3-Clause
 
 use eyre::OptionExt;
-use vermilion_lang::{AtomicByteTendril, Position, Spanned};
+use vermilion_lang::{AtomicByteTendril, Position, Span, Spanned};
 
 use crate::{
 	VerilogVariant,
 	lang::{
-		ast::{Ast, Diagnostic, Module, Port, Primitive},
+		ast::{Ast, Diagnostic, Module, PortList, Primitive},
 		tokenizer::{
 			VerilogTokenizer,
 			token::{Control, Keyword, Token},
@@ -39,11 +39,10 @@ impl VerilogParser {
 		todo!()
 	}
 
-	fn parse_ports(&mut self) -> eyre::Result<Vec<Port>> {
+	fn parse_ports(&mut self) -> eyre::Result<PortList> {
 		// This is called having just matched "(", so skip that token and start
 		// consuming port definitions until we find a closing ")"
-		let mut ports = Vec::new();
-		let mut diagnostics = Vec::new();
+		let mut port_list = PortList::new();
 		self.current_token = self.tokenizer.next();
 
 		while let Some(token) = &self.current_token {
@@ -52,7 +51,7 @@ impl VerilogParser {
 				Token::Identifier(_) => self.parse_port_expression(),
 				Token::Control(Control::Dot) => self.parse_port(),
 				_ => {
-					diagnostics.push(Diagnostic::new(
+					port_list.append_diagnostic(Diagnostic::new(
 						token.span().copied(),
 						format!("Expected port identifier or '.', got {token}"),
 					));
@@ -65,18 +64,27 @@ impl VerilogParser {
 					Token::Control(Control::ParenClose) => break,
 					Token::Control(Control::Comma) => self.current_token = self.tokenizer.next(),
 					_ => {
-						diagnostics.push(Diagnostic::new(
+						port_list.append_diagnostic(Diagnostic::new(
 							token.span().copied(),
 							format!("Expected ',' or ')', got {token}"),
 						));
+						// If we couldn't match a "," or ")" token, we're done - abort
+						return Ok(port_list);
 					},
 				}
+			} else {
+				// If we hit EOF, we're done - abort
+				port_list.append_diagnostic(Diagnostic::new(
+					Some(Span::new(0..0, Position::eof())),
+					"Unexpected end of file while looking for port list",
+				));
+				return Ok(port_list);
 			}
 		}
 		// Consume the ")" token so we return ready for whatever comes next
 		self.current_token = self.tokenizer.next();
 
-		Ok(ports)
+		Ok(port_list)
 	}
 
 	fn parse_module_decl(&mut self) -> eyre::Result<Module> {

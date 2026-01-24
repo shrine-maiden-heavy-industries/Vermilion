@@ -43,7 +43,7 @@ pub struct AstNode<T> {
 struct ModuleInner {
 	name:        AtomicByteTendril,
 	diagnostics: Vec<Diagnostic>,
-	ports:       Option<Vec<Port>>,
+	ports:       Option<PortList>,
 }
 
 #[derive(Debug)]
@@ -89,9 +89,9 @@ impl Module {
 		}
 	}
 
-	pub fn ports(&mut self, ports: Vec<Port>) {
+	pub fn ports(&mut self, port_list: PortList) {
 		match &mut self.inner.contents {
-			AstContents::Valid(module) => module.ports = Some(ports),
+			AstContents::Valid(module) => module.ports = Some(port_list),
 			AstContents::Invalid(_) => {
 				panic!("Attempted to set the ports for an invalid module")
 			},
@@ -101,6 +101,22 @@ impl Module {
 
 #[derive(Debug)]
 pub struct Port {}
+
+#[derive(Debug, Default)]
+pub struct PortList {
+	ports:       Vec<Port>,
+	diagnostics: Vec<Diagnostic>,
+}
+
+impl PortList {
+	pub fn new() -> Self {
+		Self { ports: Vec::new(), diagnostics: Vec::new() }
+	}
+
+	pub fn append_diagnostic(&mut self, diagnostic: Diagnostic) {
+		self.diagnostics.push(diagnostic);
+	}
+}
 
 #[derive(Debug)]
 struct PrimitiveInner {
