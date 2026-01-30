@@ -179,6 +179,9 @@ impl ValueEnum for Language {
 					.help(cformat!("<green>VHDL</> 2000 (<blue>IEEE</> 1076-2000)")),
 				VhdlStd::Vh02 => PossibleValue::new("vhd02")
 					.help(cformat!("<green>VHDL</> 2002 (<blue>IEEE</> 1076-2002)")),
+				VhdlStd::Vh04 => PossibleValue::new("vhd04").help(cformat!(
+					"<green>VHDL</> 2004 (<cyan>IEC</> 61691-1-1:2004)"
+				)),
 				VhdlStd::Vh07 => PossibleValue::new("vhd07")
 					.help(cformat!("<green>VHDL</> 2007 (<blue>IEEE</> 1076-2007)")),
 				VhdlStd::Vh08 => PossibleValue::new("vhd08")

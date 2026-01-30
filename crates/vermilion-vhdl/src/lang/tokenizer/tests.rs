@@ -71,6 +71,12 @@ macro_rules! vhdl02_tokenizer_test {
 	};
 }
 
+macro_rules! vhdl04_tokenizer_test {
+	($test_name:ident, $input:literal, $tokens:expr) => {
+		paste! { vhdl_tokenizer_test!([<_04_ $test_name>], $input, $tokens, VhdlStd::Vh04); }
+	};
+}
+
 macro_rules! vhdl08_tokenizer_test {
 	($test_name:ident, $input:literal, $tokens:expr) => {
 		paste! { vhdl_tokenizer_test!([<_08_ $test_name>], $input, $tokens, VhdlStd::Vh08); }
@@ -132,6 +138,7 @@ macro_rules! all_vhdl_tokenizer_test {
 			vhdl93_tokenizer_test([<$test_name _all>], $input, $tokens);
 			vhdl2k_tokenizer_test([<$test_name _all>], $input, $tokens);
 			vhdl02_tokenizer_test([<$test_name _all>], $input, $tokens);
+			vhdl04_tokenizer_test([<$test_name _all>], $input, $tokens);
 			vhdl08_tokenizer_test([<$test_name _all>], $input, $tokens);
 			vhdl11_tokenizer_test([<$test_name _all>], $input, $tokens);
 			vhdl19_tokenizer_test([<$test_name _all>], $input, $tokens);
@@ -169,6 +176,7 @@ include!("./tests/vhdl87.rs");
 include!("./tests/vhdl93.rs");
 include!("./tests/vhdl2k.rs");
 include!("./tests/vhdl02.rs");
+include!("./tests/vhdl04.rs");
 include!("./tests/vhdl07.rs");
 include!("./tests/vhdl08.rs");
 include!("./tests/vhdl11.rs");
