@@ -10,7 +10,7 @@ use vermilion_verilog::{
 	SystemVerilogStd, VerilogAmsStd, VerilogStd, VerilogVariant, lang::parser::VerilogParser,
 };
 pub(crate) use vermilion_vhdl::lang::{ast::Ast as VhdlAst, tokenizer::VhdlTokenizer};
-use vermilion_vhdl::{VhdlStd, lang::parser::VhdlParser};
+use vermilion_vhdl::{VhdlAmsStd, VhdlStd, VhdlVariant, lang::parser::VhdlParser};
 
 pub(crate) mod verilog;
 pub(crate) mod vhdl;
@@ -21,6 +21,7 @@ pub(crate) enum Language {
 	SystemVerilog(SystemVerilogStd),
 	VerilogAms(VerilogAmsStd),
 	Vhdl(VhdlStd),
+	VhdlAms(VhdlAmsStd),
 }
 
 pub(crate) enum Tokenizer {
@@ -47,12 +48,13 @@ impl Display for Language {
 			Self::SystemVerilog(std) => write!(f, "{std}"),
 			Self::VerilogAms(std) => write!(f, "{std}"),
 			Self::Vhdl(std) => write!(f, "{std}"),
+			Self::VhdlAms(std) => write!(f, "{std}"),
 		}
 	}
 }
 
 impl Language {
-	pub const STD_VALUES: [Language; 20] = [
+	pub const STD_VALUES: [Language; 23] = [
 		Language::Verilog(VerilogStd::Vl95),
 		Language::Verilog(VerilogStd::Vl01),
 		Language::Verilog(VerilogStd::Vl05),
@@ -73,6 +75,9 @@ impl Language {
 		Language::Vhdl(VhdlStd::Vh11),
 		Language::Vhdl(VhdlStd::Vh19),
 		Language::Vhdl(VhdlStd::Vh23),
+		Language::VhdlAms(VhdlAmsStd::Vhams99),
+		Language::VhdlAms(VhdlAmsStd::Vhams07),
+		Language::VhdlAms(VhdlAmsStd::Vhams17),
 	];
 
 	pub fn tokenizer(self, content: AtomicByteTendril) -> Tokenizer {
@@ -88,7 +93,10 @@ impl Language {
 				VerilogVariant::VerilogAms(std),
 				content,
 			)),
-			Self::Vhdl(std) => Tokenizer::Vhdl(VhdlTokenizer::new(std, content)),
+			Self::Vhdl(std) => Tokenizer::Vhdl(VhdlTokenizer::new(VhdlVariant::Vhdl(std), content)),
+			Self::VhdlAms(std) => {
+				Tokenizer::Vhdl(VhdlTokenizer::new(VhdlVariant::VhdlAms(std), content))
+			},
 		}
 	}
 
@@ -104,7 +112,8 @@ impl Language {
 			Self::VerilogAms(std) => {
 				Parser::Verilog(VerilogParser::new(VerilogVariant::VerilogAms(std), content))
 			},
-			Self::Vhdl(std) => Parser::Vhdl(VhdlParser::new(std, content)),
+			Self::Vhdl(std) => Parser::Vhdl(VhdlParser::new(VhdlVariant::Vhdl(std), content)),
+			Self::VhdlAms(std) => Parser::Vhdl(VhdlParser::new(VhdlVariant::VhdlAms(std), content)),
 		}
 	}
 
@@ -178,6 +187,17 @@ impl ValueEnum for Language {
 					.help(cformat!("<green>VHDL</> 2019 (<blue>IEEE</> 1076-2019)")),
 				VhdlStd::Vh23 => PossibleValue::new("vhd23")
 					.help(cformat!("<green>VHDL</> 2023 (<blue>IEEE</> 1076-2023)")),
+			},
+			Language::VhdlAms(std) => match std {
+				VhdlAmsStd::Vhams99 => PossibleValue::new("vhdams99").help(cformat!(
+					"<red>VHDL-AMS</> 1999 (<blue>IEEE</> 1076.1-1999)"
+				)),
+				VhdlAmsStd::Vhams07 => PossibleValue::new("vhdams07").help(cformat!(
+					"<red>VHDL-AMS</> 2007 (<blue>IEEE</> 1076.1-2007)"
+				)),
+				VhdlAmsStd::Vhams17 => PossibleValue::new("vhdams17").help(cformat!(
+					"<red>VHDL-AMS</> 2017 (<blue>IEEE</> 1076.1-2017)"
+				)),
 			},
 		})
 	}
