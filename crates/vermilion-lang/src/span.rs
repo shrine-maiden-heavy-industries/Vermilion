@@ -136,7 +136,7 @@ where
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
 		match &self.span {
 			Some(span) => write!(f, "{} @ {}", self.inner, span),
-			None => write!(f, "{}", self.inner),
+			None => self.inner.fmt(f),
 		}
 	}
 }
