@@ -2242,7 +2242,7 @@ covergroup_declaration =
 	;
 
 assertion_variable_declaration =
-	var_data_type, list_of_variable_identifiers, ";"
+	var_data_type, list_of_variable_decl_assignments, ";"
 	;
 
 expression_or_dist =
@@ -2927,8 +2927,8 @@ parameter_declaration =
 	;
 
 local_parameter_declaration =
-	"localparam", data_type_or_implicit, list_of_param_assignments, ";" |
-	"localparam", "type", list_of_type_assignments, ";"
+	"localparam", data_type_or_implicit, list_of_param_assignments |
+	"localparam", "type", list_of_type_assignments
 	;
 
 anonymous_program_item =

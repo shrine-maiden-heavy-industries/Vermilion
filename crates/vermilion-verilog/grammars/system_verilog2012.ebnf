@@ -2499,7 +2499,7 @@ let_declaration =
 	;
 
 assertion_variable_declaration =
-	var_data_type, list_of_variable_identifiers, ";"
+	var_data_type, list_of_variable_decl_assignments, ";"
 	;
 
 expression_or_dist =
@@ -2870,7 +2870,7 @@ dpi_import_export =
 	;
 
 function_prototype =
-	"function", data_type_or_void, function_identifier, "(", [ tf_port_list ], ")"
+	"function", data_type_or_void, function_identifier, [ "(", [ tf_port_list ], ")" ]
 	;
 
 function_body_declaration =
@@ -3283,8 +3283,8 @@ parameter_declaration =
 	;
 
 local_parameter_declaration =
-	"localparam", data_type_or_implicit, list_of_param_assignments, ";" |
-	"localparam", "type", list_of_type_assignments, ";"
+	"localparam", data_type_or_implicit, list_of_param_assignments |
+	"localparam", "type", list_of_type_assignments
 	;
 
 anonymous_program_item =
@@ -3452,10 +3452,10 @@ class_property =
 	;
 
 class_item =
-	{ class_declaration }, class_property |
-	{ class_declaration }, class_method |
-	{ class_declaration }, class_constraint |
-	{ class_declaration }, class_declaration |
+	{ attribute_instance }, class_property |
+	{ attribute_instance }, class_method |
+	{ attribute_instance }, class_constraint |
+	{ attribute_instance }, class_declaration |
 	{ attribute_instance }, covergroup_declaration |
 	local_parameter_declaration, ";" |
 	(* See NOTE 7 *)
@@ -3500,7 +3500,7 @@ checker_port_direction =
 	;
 
 checker_port_item =
-	{ attribute_instance }, [ checker_port_direction ], property_formal_type, port_identifier,
+	{ attribute_instance }, [ checker_port_direction ], property_formal_type, formal_port_identifier,
 		{ variable_dimension }, [ "=", property_actual_arg ]
 	;
 
@@ -3803,7 +3803,8 @@ class_declaration =
 	;
 
 checker_declaration =
-	"checker", checker_identifier, [ "(", [ checker_port_list ], ")" ], ";", { checker_or_generate_item },
+	"checker", checker_identifier, [ "(", [ checker_port_list ], ")" ], ";",
+		{ { attribute_instance }, checker_or_generate_item },
 		"endchecker", [ ":", checker_identifier ]
 	;
 
