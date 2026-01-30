@@ -1,2 +1,2 @@
 (* SPDX-License-Identifier: BSD-3-Clause *)
-(* EBNF grammar for VHDL 2011 (IEEE 1076-2011) *)
+(* EBNF grammar for VHDL 2011 (IEC 61691-1-1:2011) *)

@@ -70,9 +70,9 @@ impl Display for VhdlStd {
 			Self::Vh02 => write!(f, "VHDL 2002 (IEEE 1076-2002)"),
 			Self::Vh07 => write!(f, "VHDL 2007 (IEEE 1076-2007)"),
 			Self::Vh08 => write!(f, "VHDL 2008 (IEEE 1076-2008)"),
-			Self::Vh11 => write!(f, "VHDL 2011 (IEEE 1076-2011)"),
+			Self::Vh11 => write!(f, "VHDL 2011 (IEC 61691-1-1:2011)"),
 			Self::Vh19 => write!(f, "VHDL 2019 (IEEE 1076-2019)"),
-			Self::Vh23 => write!(f, "VHDL 2023 (IEEE 1076-2023)"),
+			Self::Vh23 => write!(f, "VHDL 2023 (IEC 61691-1-1:2023)"),
 		}
 	}
 }

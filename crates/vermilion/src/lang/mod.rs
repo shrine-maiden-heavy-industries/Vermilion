@@ -183,12 +183,14 @@ impl ValueEnum for Language {
 					.help(cformat!("<green>VHDL</> 2007 (<blue>IEEE</> 1076-2007)")),
 				VhdlStd::Vh08 => PossibleValue::new("vhd08")
 					.help(cformat!("<green>VHDL</> 2008 (<blue>IEEE</> 1076-2008)")),
-				VhdlStd::Vh11 => PossibleValue::new("vhd11")
-					.help(cformat!("<green>VHDL</> 2011 (<blue>IEEE</> 1076-2011)")),
+				VhdlStd::Vh11 => PossibleValue::new("vhd11").help(cformat!(
+					"<green>VHDL</> 2011 (<cyan>IEC</> 61691-1-1:2011)"
+				)),
 				VhdlStd::Vh19 => PossibleValue::new("vhd19")
 					.help(cformat!("<green>VHDL</> 2019 (<blue>IEEE</> 1076-2019)")),
-				VhdlStd::Vh23 => PossibleValue::new("vhd23")
-					.help(cformat!("<green>VHDL</> 2023 (<blue>IEEE</> 1076-2023)")),
+				VhdlStd::Vh23 => PossibleValue::new("vhd23").help(cformat!(
+					"<green>VHDL</> 2023 (<cyan>IEC</> 61691-1-1:2023)"
+				)),
 			},
 			Language::VhdlAms(std) => match std {
 				VhdlAmsStd::Vhams99 => PossibleValue::new("vhdams99").help(cformat!(
