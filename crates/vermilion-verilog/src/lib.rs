@@ -121,9 +121,9 @@ impl Display for VerilogAmsStd {
 impl Display for VerilogVariant {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
 		match self {
-			Self::Verilog(verilog_std) => write!(f, "{}", verilog_std),
-			Self::SystemVerilog(system_verilog_std) => write!(f, "{}", system_verilog_std),
-			Self::VerilogAms(verilog_ams_std) => write!(f, "{}", verilog_ams_std),
+			Self::Verilog(std) => std.fmt(f),
+			Self::SystemVerilog(std) => std.fmt(f),
+			Self::VerilogAms(std) => std.fmt(f),
 		}
 	}
 }
