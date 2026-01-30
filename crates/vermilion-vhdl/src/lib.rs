@@ -38,6 +38,7 @@ pub enum VhdlAmsStd {
 	#[default]
 	Vhams99,
 	Vhams07,
+	Vhams09,
 	Vhams17,
 }
 
@@ -90,6 +91,7 @@ impl Display for VhdlAmsStd {
 		match self {
 			Self::Vhams99 => write!(f, "VHDL-AMS 1999 (IEEE 1076.1-1999)"),
 			Self::Vhams07 => write!(f, "VHDL-AMS 2007 (IEEE 1076.1-2007)"),
+			Self::Vhams09 => write!(f, "VHDL-AMS 2009 (IEC 61691-6:2009)"),
 			Self::Vhams17 => write!(f, "VHDL-AMS 2017 (IEEE 1076.1-2017)"),
 		}
 	}

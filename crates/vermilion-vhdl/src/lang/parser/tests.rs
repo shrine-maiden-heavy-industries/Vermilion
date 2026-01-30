@@ -13,4 +13,5 @@ include!("./tests/vhdl23.rs");
 // VHDL-AMS Parser Tests
 include!("./tests/vhdl_ams99.rs");
 include!("./tests/vhdl_ams07.rs");
+include!("./tests/vhdl_ams09.rs");
 include!("./tests/vhdl_ams17.rs");
