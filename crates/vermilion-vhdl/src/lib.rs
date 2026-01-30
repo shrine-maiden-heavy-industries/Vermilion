@@ -40,6 +40,7 @@ pub enum VhdlAmsStd {
 	Vhams07,
 	Vhams09,
 	Vhams17,
+	Vhams21,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, PartialOrd, Eq, Ord)]
@@ -93,6 +94,7 @@ impl Display for VhdlAmsStd {
 			Self::Vhams07 => write!(f, "VHDL-AMS 2007 (IEEE 1076.1-2007)"),
 			Self::Vhams09 => write!(f, "VHDL-AMS 2009 (IEC 61691-6:2009)"),
 			Self::Vhams17 => write!(f, "VHDL-AMS 2017 (IEEE 1076.1-2017)"),
+			Self::Vhams21 => write!(f, "VHDL-AMS 2021 (IEC 61691-6:2021)"),
 		}
 	}
 }

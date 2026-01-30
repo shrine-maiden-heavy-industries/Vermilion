@@ -119,6 +119,12 @@ macro_rules! vhdl_ams_17_tokenizer_test {
 	};
 }
 
+macro_rules! vhdl_ams_21_tokenizer_test {
+	($test_name:ident, $input:literal, $tokens:expr) => {
+		paste! { vhdl_ams_tokenizer_test!([<_21_ $test_name>], $input, $tokens, VhdlAms::Vhams21); }
+	};
+}
+
 macro_rules! all_vhdl_tokenizer_test {
 	($test_name:ident, $input:literal, $tokens:expr) => {
 		paste! {
@@ -141,6 +147,7 @@ macro_rules! all_vhdl_ams_tokenizer_test {
 			vhdl_ams_17_tokenizer_test([<$test_name _all>], $input, $tokens);
 			vhdl_ams_09_tokenizer_test([<$test_name _all>], $input, $tokens);
 			vhdl_ams_17_tokenizer_test([<$test_name _all>], $input, $tokens);
+			vhdl_ams_21_tokenizer_test([<$test_name _all>], $input, $tokens);
 		}
 	};
 }
@@ -171,4 +178,6 @@ include!("./tests/vhdl23.rs");
 include!("./tests/vhdl_ams_common.rs");
 include!("./tests/vhdl_ams99.rs");
 include!("./tests/vhdl_ams07.rs");
+include!("./tests/vhdl_ams09.rs");
 include!("./tests/vhdl_ams17.rs");
+include!("./tests/vhdl_ams21.rs");
