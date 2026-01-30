@@ -98,8 +98,8 @@ impl Display for VhdlAmsStd {
 impl Display for VhdlVariant {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
 		match self {
-			Self::Vhdl(vhdl_std) => write!(f, "{}", vhdl_std),
-			Self::VhdlAms(vhdl_ams_std) => write!(f, "{}", vhdl_ams_std),
+			Self::Vhdl(std) => std.fmt(f),
+			Self::VhdlAms(std) => std.fmt(f),
 		}
 	}
 }
