@@ -54,7 +54,7 @@ impl Display for Language {
 }
 
 impl Language {
-	pub const STD_VALUES: [Language; 23] = [
+	pub const STD_VALUES: [Language; 25] = [
 		Language::Verilog(VerilogStd::Vl95),
 		Language::Verilog(VerilogStd::Vl01),
 		Language::Verilog(VerilogStd::Vl05),
@@ -77,7 +77,9 @@ impl Language {
 		Language::Vhdl(VhdlStd::Vh23),
 		Language::VhdlAms(VhdlAmsStd::Vhams99),
 		Language::VhdlAms(VhdlAmsStd::Vhams07),
+		Language::VhdlAms(VhdlAmsStd::Vhams09),
 		Language::VhdlAms(VhdlAmsStd::Vhams17),
+		Language::VhdlAms(VhdlAmsStd::Vhams21),
 	];
 
 	pub fn tokenizer(self, content: AtomicByteTendril) -> Tokenizer {
@@ -195,8 +197,14 @@ impl ValueEnum for Language {
 				VhdlAmsStd::Vhams07 => PossibleValue::new("vhdams07").help(cformat!(
 					"<red>VHDL-AMS</> 2007 (<blue>IEEE</> 1076.1-2007)"
 				)),
+				VhdlAmsStd::Vhams09 => PossibleValue::new("vhdams09").help(cformat!(
+					"<red>VHDL-AMS</> 2009 (<blue>IEC</> 61691-6:2021)"
+				)),
 				VhdlAmsStd::Vhams17 => PossibleValue::new("vhdams17").help(cformat!(
 					"<red>VHDL-AMS</> 2017 (<blue>IEEE</> 1076.1-2017)"
+				)),
+				VhdlAmsStd::Vhams21 => PossibleValue::new("vhdams21").help(cformat!(
+					"<red>VHDL-AMS</> 2021 (<cyan>IEC</> 61691-6:2021)"
 				)),
 			},
 		})
