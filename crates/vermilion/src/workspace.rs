@@ -7,7 +7,7 @@ use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 use tracing::debug;
 use vermilion_verilog::workspace::{SystemVerilogConfig, VerilogAmsConfig, VerilogConfig};
-use vermilion_vhdl::workspace::VhdlConfig;
+use vermilion_vhdl::workspace::{VhdlAmsConfig, VhdlConfig};
 
 use crate::paths;
 
@@ -18,6 +18,7 @@ pub struct WorkspaceConfig {
 	system_verilog: Option<SystemVerilogConfig>,
 	verilog_ams:    Option<VerilogAmsConfig>,
 	vhdl:           Option<VhdlConfig>,
+	vhdl_ams:       Option<VhdlAmsConfig>,
 }
 
 /// This method loads the Vermilion workspace configuration file if found.
