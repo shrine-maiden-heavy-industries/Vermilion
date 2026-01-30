@@ -209,14 +209,14 @@ impl Display for Token {
 		match self {
 			Token::Invalid(_tendril) => todo!(),
 			Token::ContextuallyInvalid(_tendril, _verilog_variant) => todo!(),
-			Token::BaseSpecifier(base_specifier, _) => write!(f, "{}", base_specifier),
-			Token::Comment(comment) => write!(f, "{}", comment),
-			Token::CompilerDirective(compiler_directive) => write!(f, "{}", compiler_directive),
-			Token::Control(control) => write!(f, "{}", control),
+			Token::BaseSpecifier(base_specifier, _) => base_specifier.fmt(f),
+			Token::Comment(comment) => comment.fmt(f),
+			Token::CompilerDirective(compiler_directive) => compiler_directive.fmt(f),
+			Token::Control(control) => control.fmt(f),
 			Token::Identifier(tendril) => write!(f, "Identifier({})", unsafe {
 				str::from_utf8_unchecked(tendril)
 			}),
-			Token::Keyword(keyword) => write!(f, "{}", keyword),
+			Token::Keyword(keyword) => keyword.fmt(f),
 			Token::Newline(tendril) => write!(f, "Newline({})", tendril.len()),
 			Token::Number(tendril) => write!(f, "Number({})", unsafe {
 				str::from_utf8_unchecked(tendril)
@@ -224,7 +224,7 @@ impl Display for Token {
 			Token::Real { value, exponent } => {
 				write!(f, "RealNumber(value: {}, exp: {:?})", value, exponent)
 			},
-			Token::Operator(operator) => write!(f, "{}", operator),
+			Token::Operator(operator) => operator.fmt(f),
 			Token::String(tendril) => write!(f, "String(\"{}\")", unsafe {
 				str::from_utf8_unchecked(tendril)
 			}),
