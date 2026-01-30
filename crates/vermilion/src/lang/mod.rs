@@ -203,7 +203,7 @@ impl ValueEnum for Language {
 					"<red>VHDL-AMS</> 2007 (<blue>IEEE</> 1076.1-2007)"
 				)),
 				VhdlAmsStd::Vhams09 => PossibleValue::new("vhdams09").help(cformat!(
-					"<red>VHDL-AMS</> 2009 (<blue>IEC</> 61691-6:2021)"
+					"<red>VHDL-AMS</> 2009 (<cyan>IEC</> 61691-6:2021)"
 				)),
 				VhdlAmsStd::Vhams17 => PossibleValue::new("vhdams17").help(cformat!(
 					"<red>VHDL-AMS</> 2017 (<blue>IEEE</> 1076.1-2017)"
