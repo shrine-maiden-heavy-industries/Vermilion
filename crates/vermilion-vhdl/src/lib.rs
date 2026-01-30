@@ -31,6 +31,24 @@ pub enum VhdlStd {
 	Vh23,
 }
 
+#[derive(Debug, Default, Clone, Copy, PartialEq, PartialOrd, Eq, Ord)]
+#[cfg_attr(feature = "serde", derive(::serde::Serialize, ::serde::Deserialize))]
+#[cfg_attr(feature = "schema", derive(::schemars::JsonSchema))]
+pub enum VhdlAmsStd {
+	#[default]
+	Vhams99,
+	Vhams07,
+	Vhams17,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, PartialOrd, Eq, Ord)]
+#[cfg_attr(feature = "serde", derive(::serde::Serialize, ::serde::Deserialize))]
+#[cfg_attr(feature = "schema", derive(::schemars::JsonSchema))]
+pub enum VhdlVariant {
+	Vhdl(VhdlStd),
+	VhdlAms(VhdlAmsStd),
+}
+
 impl VhdlStd {
 	pub const KNOWN_FILE_EXTS: [&'static str; 2] = ["vhd", "vhdl"];
 }
@@ -53,6 +71,35 @@ impl Display for VhdlStd {
 			Self::Vh11 => write!(f, "VHDL 2011 (IEEE 1076-2011)"),
 			Self::Vh19 => write!(f, "VHDL 2019 (IEEE 1076-2019)"),
 			Self::Vh23 => write!(f, "VHDL 2023 (IEEE 1076-2023)"),
+		}
+	}
+}
+
+impl VhdlAmsStd {
+	pub const KNOWN_FILE_EXTS: [&'static str; 2] = ["vhd", "vhdl"];
+}
+
+impl LanguageMetadata for VhdlAmsStd {
+	fn file_extensions<'a, 'b: 'a>() -> &'a [&'b str] {
+		&VhdlStd::KNOWN_FILE_EXTS
+	}
+}
+
+impl Display for VhdlAmsStd {
+	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+		match self {
+			Self::Vhams99 => write!(f, "VHDL-AMS 1999 (IEEE 1076.1-1999)"),
+			Self::Vhams07 => write!(f, "VHDL-AMS 2007 (IEEE 1076.1-2007)"),
+			Self::Vhams17 => write!(f, "VHDL-AMS 2017 (IEEE 1076.1-2017)"),
+		}
+	}
+}
+
+impl Display for VhdlVariant {
+	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+		match self {
+			Self::Vhdl(vhdl_std) => write!(f, "{}", vhdl_std),
+			Self::VhdlAms(vhdl_ams_std) => write!(f, "{}", vhdl_ams_std),
 		}
 	}
 }
