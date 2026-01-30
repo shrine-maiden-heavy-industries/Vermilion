@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: BSD-3-Clause
 [package]
 name          = "vermilion-vhdl"
-description   = "VHDL Language support for for Vermilion"
+description   = "VHDL/VHDL-AMS Language support for for Vermilion"
 documentation = { workspace = true }
 edition       = { workspace = true }
 homepage      = { workspace = true }
