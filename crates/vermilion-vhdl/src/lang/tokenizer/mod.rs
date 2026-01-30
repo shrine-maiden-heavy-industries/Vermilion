@@ -5,12 +5,12 @@ use std::collections::VecDeque;
 use vermilion_lang::{AtomicByteTendril, Position, Spanned};
 
 use self::token::Token;
-use crate::VhdlStd;
+use crate::VhdlVariant;
 
 pub mod token;
 
 pub struct VhdlTokenizer {
-	_standard:    VhdlStd,
+	_standard:    VhdlVariant,
 	file:         AtomicByteTendril,
 	current_char: u8,
 	position:     usize,
@@ -21,7 +21,7 @@ pub struct VhdlTokenizer {
 }
 
 impl VhdlTokenizer {
-	pub fn new(standard: VhdlStd, file: AtomicByteTendril) -> VhdlTokenizer {
+	pub fn new(standard: VhdlVariant, file: AtomicByteTendril) -> VhdlTokenizer {
 		let mut tokenizer = Self {
 			_standard: standard,
 			file,
