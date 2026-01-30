@@ -44,11 +44,11 @@ impl Display for Language {
 		match self {
 			// XXX(aki): There should be a better way to do this, but I have no idea what it would
 			// be
-			Self::Verilog(std) => write!(f, "{std}"),
-			Self::SystemVerilog(std) => write!(f, "{std}"),
-			Self::VerilogAms(std) => write!(f, "{std}"),
-			Self::Vhdl(std) => write!(f, "{std}"),
-			Self::VhdlAms(std) => write!(f, "{std}"),
+			Self::Verilog(std) => std.fmt(f),
+			Self::SystemVerilog(std) => std.fmt(f),
+			Self::VerilogAms(std) => std.fmt(f),
+			Self::Vhdl(std) => std.fmt(f),
+			Self::VhdlAms(std) => std.fmt(f),
 		}
 	}
 }
