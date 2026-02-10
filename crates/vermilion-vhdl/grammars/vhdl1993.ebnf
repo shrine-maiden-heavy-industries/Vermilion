@@ -367,8 +367,17 @@ designation =
 	operator_symbol
 	;
 
+direction =
+	"to" | "downto"
+	;
+
 disconnection_specification =
 	"disconnect", guarded_signal_specification, "after", time_expression, ";"
+	;
+
+discrete_range =
+	discrete_subtype_indication |
+	range
 	;
 
 element_association =
@@ -466,6 +475,10 @@ entity_statement =
 	concurrent_assertion_statement |
 	passive_concurrent_procedure_call-statement |
 	passive_process_statement
+	;
+
+entity_statement_part =
+	{ entity_statement }
 	;
 
 entity_tag =
