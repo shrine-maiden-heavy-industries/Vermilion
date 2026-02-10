@@ -37,7 +37,7 @@ aggregate =
 	;
 
 alias_declaration =
-	"alias", alias_designator, [  ":", subtype_indication ], "is", name, [ signature ], ";"
+	"alias", alias_designator, [ ":", subtype_indication ], "is", name, [ signature ], ";"
 	;
 
 alias_designator =
@@ -74,7 +74,7 @@ assertion =
 	;
 
 assertion_statement =
-	[ label, ":" ], assertion,  ";"
+	[ label, ":" ], assertion, ";"
 	;
 
 association_element =
@@ -245,11 +245,11 @@ composite_type_definition =
 	;
 
 concurrent_assertion_statement =
-	[ label,  ":" ], [ "postponed" ], assertion, ";"
+	[ label, ":" ], [ "postponed" ], assertion, ";"
 	;
 
 concurrent_procedure_call_statement =
-	[ label,  ":" ], [ "postponed" ], procedure_call, ";"
+	[ label, ":" ], [ "postponed" ], procedure_call, ";"
 	;
 
 concurrent_signal_assignment_statement =
@@ -550,7 +550,7 @@ formal_parameter_list =
 
 formal_part =
 	formal_designator |
-	function_name, "(", formal_designator, ")"  |
+	function_name, "(", formal_designator, ")" |
 	type_mark, "(", formal_designator, ")"
 	;
 
@@ -1078,7 +1078,7 @@ string_literal =
 	;
 
 subprogram_body =
-	subprogram_specification, "is", subprogram_declarative_part,  "begin", subprogram_statement_part,
+	subprogram_specification, "is", subprogram_declarative_part, "begin", subprogram_statement_part,
 		"end", [ subprogram_kind ], [ designator ], ";"
 	;
 
