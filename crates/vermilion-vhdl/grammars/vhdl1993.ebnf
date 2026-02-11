@@ -941,7 +941,7 @@ process_declarative_part =
 
 process_statement =
 	[ process_label, ":" ], [ "postponed" ], "process", [ "(", sensitivity_list, ")" ], [ "is" ],
-		process_declarative_part, [ "begin" ], process_statement_part, "end",
+		process_declarative_part, "begin", process_statement_part, "end",
 		[ "postponed" ], "process", [ process_label ], ";"
 	;
 
