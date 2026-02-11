@@ -473,7 +473,7 @@ entity_specification =
 
 entity_statement =
 	concurrent_assertion_statement |
-	passive_concurrent_procedure_call-statement |
+	passive_concurrent_procedure_call_statement |
 	passive_process_statement
 	;
 
@@ -576,7 +576,7 @@ function_call =
 	;
 
 generate_statement =
-	generate_label, ":", generation_scheme, "generic", [ { block_declarative_item }, "begin" ],
+	generate_label, ":", generation_scheme, "generate", [ { block_declarative_item }, "begin" ],
 		{ concurrent_statement }, "end", "generate", [ generate_label ], ";"
 	;
 
@@ -1075,7 +1075,7 @@ signature =
 	;
 
 simple_expression =
-	[ signal ], term, { adding_operator, term }
+	[ sign ], term, { adding_operator, term }
 	;
 
 simple_name =
