@@ -512,7 +512,6 @@ expression =
 	relation, { "xnor", relation }
 	;
 
-
 extended_digit =
 	digit |
 	letter
@@ -521,7 +520,6 @@ extended_digit =
 extended_identifier =
 	"\\", graphic_character, { graphic_character }, "\\"
 	;
-
 
 factor =
 	primary, [ "**", primary ] |

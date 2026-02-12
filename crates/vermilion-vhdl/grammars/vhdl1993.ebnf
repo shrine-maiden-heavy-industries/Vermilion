@@ -514,7 +514,6 @@ expression =
 	relation, { "xnor", relation }
 	;
 
-
 extended_digit =
 	digit |
 	letter
@@ -523,7 +522,6 @@ extended_digit =
 extended_identifier =
 	"\\", graphic_character, { graphic_character }, "\\"
 	;
-
 
 factor =
 	primary, [ "**", primary ] |
@@ -588,7 +586,6 @@ generation_scheme =
 generic_clause =
 	"generic", "(", generic_list, ")", ";"
 	;
-
 
 generic_list =
 	generic_interface_list

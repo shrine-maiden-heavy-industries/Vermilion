@@ -468,7 +468,6 @@ expression =
 	relation, [ "nor", relation ]
 	;
 
-
 extended_digit =
 	digit |
 	letter
@@ -532,7 +531,6 @@ generation_scheme =
 generic_clause =
 	"generic", "(", generic_list, ")", ";"
 	;
-
 
 generic_list =
 	generic_interface_list
@@ -1000,7 +998,6 @@ subprogram_declarative_item =
 subprogram_declarative_part =
 	{ subprogram_declarative_item }
 	;
-
 
 subprogram_specification =
 	"procedure", designator, [ "(", formal_parameter_list, ")" ] |
