@@ -818,10 +818,10 @@ interface_constant_declaration =
 	;
 
 interface_declaration =
-	interface_constant_declaration |
-	interface_signal_declaration |
+	interface_object_declaration |
+	interface_type_declaration |
 	interface_subprogram_declaration |
-	interface_file_declaration
+	interface_package_declaration
 	;
 
 interface_element =
@@ -849,7 +849,7 @@ interface_object_declaration =
 	interface_constant_declaration |
 	interface_signal_declaration |
 	interface_variable_declaration |
-	interface_package_declaration
+	interface_file_declaration
 	;
 
 interface_package_declaration =

@@ -818,8 +818,8 @@ interface_constant_declaration =
 	;
 
 interface_declaration =
-	interface_constant_declaration |
-	interface_signal_declaration |
+	interface_object_declaration |
+	interface_type_declaration |
 	interface_subprogram_declaration |
 	interface_package_declaration
 	;
