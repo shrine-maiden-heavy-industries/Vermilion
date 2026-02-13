@@ -1,0 +1,5 @@
+(* SPDX-License-Identifier: BSD-3-Clause *)
+(*
+	EBNF grammar for Property Specification Language (PSL) extensions
+	to SystemVerilog (IEC 62541:2012)
+*)
