@@ -411,7 +411,9 @@ entity_class =
 	"component" |
 	"label" |
 	"literal" |
-	"units"
+	"units" |
+	"group" |
+	"file"
 	;
 
 entity_class_entry =
