@@ -85,7 +85,7 @@ array_element_resolution =
 	;
 
 array_type_definition =
-	unconstrained_array_definition |
+	unbounded_array_definition |
 	constrained_array_definition
 	;
 
@@ -1563,7 +1563,7 @@ type_mark =
 	subtype_name
 	;
 
-unconstrained_array_definition =
+unbounded_array_definition =
 	"array", "(", index_subtype_definition, { ",", index_subtype_definition }, ")",
 		"of", element_subtype_indication
 	;

@@ -1722,7 +1722,7 @@ unary_miscellaneous_operator =
 	unary_logical_operator
 	;
 
-unconstrained_array_definition =
+unbounded_array_definition =
 	"array", "(", index_subtype_definition, { ",", index_subtype_definition }, ")",
 		"of", element_subtype_indication
 	;
