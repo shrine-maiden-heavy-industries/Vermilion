@@ -3443,6 +3443,7 @@ library_text =
 		always_comb
 		always_ff
 		always_latch
+		and
 		assert
 		assign
 		assume
@@ -3476,6 +3477,7 @@ library_text =
 		coverpoint
 		cross
 		deassign
+		default
 		defparam
 		design
 		disable
@@ -3608,7 +3610,7 @@ library_text =
 		solve
 		specify
 		specparam
-		staticand
+		static
 		string
 		strong0
 		strong1
@@ -3642,7 +3644,7 @@ library_text =
 		uwire
 		var
 		vectored
-		virtualdefault
+		virtual
 		void
 		wait
 		wait_order
