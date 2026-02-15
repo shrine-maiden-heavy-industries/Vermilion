@@ -45,9 +45,9 @@ pub enum Comment {
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub enum BaseSpecifier {
 	Binary,
-	Octal,
 	Decimal,
 	Hexadecimal,
+	Octal,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
@@ -511,9 +511,9 @@ impl Display for BaseSpecifier {
 			"BaseSpecifier({})",
 			match self {
 				Self::Binary => "'b",
-				Self::Octal => "'o",
 				Self::Decimal => "'d",
 				Self::Hexadecimal => "'h",
+				Self::Octal => "'o",
 			}
 		)
 	}
