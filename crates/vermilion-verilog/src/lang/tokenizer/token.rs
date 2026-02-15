@@ -15,7 +15,8 @@ pub enum Token {
 	Comment(Comment),
 	CompilerDirective(CompilerDirective),
 	Control(Control),
-	Identifier(AtomicByteTendril),
+	// We If the identifier is a keyword in a different version, store that
+	Identifier(AtomicByteTendril, Option<VerilogVariant>),
 	Keyword(Keyword),
 	Newline(AtomicByteTendril),
 	Number(AtomicByteTendril),
@@ -446,9 +447,12 @@ impl Display for Token {
 			Self::Comment(comment) => comment.fmt(f),
 			Self::CompilerDirective(compiler_directive) => compiler_directive.fmt(f),
 			Self::Control(control) => control.fmt(f),
-			Self::Identifier(tendril) => write!(f, "Identifier({})", unsafe {
-				str::from_utf8_unchecked(tendril)
-			}),
+			Self::Identifier(tendril, variant) => write!(
+				f,
+				"Identifier({}, {:?})",
+				unsafe { str::from_utf8_unchecked(tendril) },
+				variant
+			),
 			Self::Keyword(keyword) => keyword.fmt(f),
 			Self::Newline(tendril) => write!(f, "Newline({})", tendril.len()),
 			Self::Number(tendril) => write!(f, "Number({})", unsafe {

@@ -282,16 +282,20 @@ impl VerilogTokenizer {
 				"wor" => Token::Keyword(Keyword::Wor),
 				"xnor" => Token::Keyword(Keyword::Xnor),
 				"xor" => Token::Keyword(Keyword::Xor),
-				_ => {
-					Token::Identifier(self.file.subtendril(range.start as u32, range.len() as u32))
-				},
+				_ => Token::Identifier(
+					self.file.subtendril(range.start as u32, range.len() as u32),
+					None,
+				),
 			};
 			// Turn the result into the final token to return
 			self.token = spanned_token!(token, range, context);
 		} else if self.current_char == b'\\' {
 			let range = self.read_escaped_ident();
 			self.token = spanned_token!(
-				Token::Identifier(self.file.subtendril(range.start as u32, range.len() as u32)),
+				Token::Identifier(
+					self.file.subtendril(range.start as u32, range.len() as u32),
+					None
+				),
 				range,
 				context
 			);

@@ -48,7 +48,7 @@ impl VerilogParser {
 		while let Some(token) = &self.current_token {
 			// See what kind of port expression or identifier comes next
 			match token.inner() {
-				Token::Identifier(_) => self.parse_port_expression(),
+				Token::Identifier(..) => self.parse_port_expression(),
 				Token::Control(Control::Dot) => self.parse_port(),
 				_ => {
 					port_list.append_diagnostic(Diagnostic::new(
@@ -101,7 +101,7 @@ impl VerilogParser {
 		// See if the next token we got was the name of this module
 		let name = if let Some(token) = &self.current_token {
 			match token.inner() {
-				Token::Identifier(ident) => ident.clone(),
+				Token::Identifier(ident, _) => ident.clone(),
 				_ => {
 					return Ok(Module::new_invalid(
 						location,
