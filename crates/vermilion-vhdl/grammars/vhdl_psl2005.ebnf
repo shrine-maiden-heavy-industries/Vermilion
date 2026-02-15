@@ -2,4 +2,537 @@
 (*
 	EBNF grammar for Property Specification Language (PSL) extensions
 	to VHDL (IEEE 1850-2005)
+
+	The following nonterminals from the VHDL grammar are used:
+	 - block_declarative_item
+	 - concurrent_statement
+	 - design_unit
+	 - identifier
+	 - expression
+	 - entity_aspect
+*)
+
+psl_specification =
+	{ verification_item }
+	;
+
+verification_item =
+	design_unit |
+	verification_unit
+	;
+
+verification_unit =
+	vunit_type, psl_identifier, [ "(", hierarchical_hdl_name, ")" ], "{",
+		{ inherit_spec }, { vunit_item }, "}"
+	;
+
+vunit_type =
+	"vunit" | "vprop" | "vmode"
+	;
+
+hierarchical_hdl_name =
+	hdl_module_name, { path_separator, instance_name }
+	;
+
+instance_name =
+	hdl_or_psl_identifier
+	;
+
+hdl_module_name =
+	hdl_module_name, [ "(", hdl_module_name, ")" ]
+	;
+
+path_separator =
+	"." | "/"
+	;
+
+inherit_spec =
+	"inherit", vunit_name, { ",", vunit_name }, ";"
+	;
+
+vunit_item =
+	block_declarative_item |
+	concurrent_statement |
+	psl_declaration |
+	psl_directive
+	;
+
+psl_declaration =
+	property_declaration |
+	sequence_declaration |
+	clock_declaration
+	;
+
+property_declaration =
+	"property", psl_identifier, [ "(", formal_parameter_list, ")" ], "is", property, ";"
+	;
+
+formal_parameter_list =
+	formal_parameter, { ";", formal_parameter }
+	;
+
+formal_parameter =
+	param_spec, psl_identifier, { ",", psl_identifier }
+	;
+
+param_spec =
+	"const" |
+	[ "const" ], value_parameter |
+	"sequence" |
+	"property"
+	;
+
+value_parameter =
+	hdl_type |
+	psl_type_class
+	;
+
+hdl_type =
+	"hdltype", subtype_indication
+	;
+
+psl_type_class =
+	"boolean" | "bit" | "bitvector" | "numeric" | "string"
+	;
+
+sequence_declaration =
+	"sequence", psl_identifier, [ "(", formal_parameter_list, ")" ], "is", sequence, ";"
+	;
+
+clock_declaration =
+	"default", "clock", "is", clock_expression, ";"
+	;
+
+clock_expression =
+	boolean_name |
+	boolean_built_in_function_call |
+	"(", boolean, ")" |
+	"(", expression, ")"
+	;
+
+actual_parameter_list =
+	actual_parameter, { ",", actual_parameter }
+	;
+
+actual_parameter =
+	any_type |
+	number |
+	boolean |
+	property |
+	sequence
+	;
+
+psl_directive =
+	[ label, ":" ], verification_directive
+	;
+
+label =
+	psl_identifier
+	;
+
+hdl_or_psl_identifier =
+	identifier
+	;
+
+verification_directive =
+	assert_directive |
+	assume_directive |
+	assume_guarantee_directive |
+	restrict_directive |
+	restrict_guarantee_directive |
+	cover_directive |
+	fairness_statement
+	;
+
+assert_directive =
+	"assert", property, "[", "report", string, "]", ";"
+	;
+
+assume_directive  =
+	"assume", property, ";"
+	;
+
+assume_guarantee_directive =
+	"assume_guarantee", property, "[", "report", string, "]", ";"
+	;
+
+restrict_directive =
+	"restrict", sequence, ";"
+	;
+
+restrict_guarantee_directive =
+	"restrict_guarantee", sequence, [ "report", string ], ";"
+	;
+
+cover_directive =
+	"cover", sequence, "[", "report", string, "]", ";"
+	;
+
+fairness_statement =
+	"fairness", boolean, ";" |
+	"strong", "fairness", boolean, ",", boolean, ";"
+	;
+
+property =
+	replicator, property |
+	fl_property |
+	obe_property
+	;
+
+replicator =
+	"forall", parameter_definition, ":"
+	;
+
+index_range =
+	"(", finite_range, ")" |
+	"(", range_attribute_name, ")"
+	;
+
+value_set =
+	"{", value_range, { ",", value_range }, "}" |
+	"boolean"
+	;
+
+value_range =
+	value |
+	finite_range
+	;
+
+value =
+	boolean |
+	number
+	;
+
+fl_property =
+	boolean |
+	"(", fl_property, ")" |
+	sequence, [ "!" ] |
+	fl_property_name, [ "(", actual_parameter_list, ")" ] |
+	fl_property, "@", clock_expression |
+	fl_property, "abort", boolean |
+	fl_property, "async_abort", boolean |
+	fl_property, "sync_abort", boolean |
+	parameterized_property |
+	(* : Logical Operators : *)
+	"not", fl_property |
+	fl_property, "and", fl_property |
+	fl_property, "or", fl_property |
+	(* : *)
+	fl_property, "->", fl_property |
+	fl_property, "<->", fl_property |
+	(* : Primitive LTL Operators : *)
+	"X", fl_property |
+	"X!", fl_property |
+	"F", fl_property |
+	"G", fl_property |
+	"[", fl_property, "U", fl_property, "]" |
+	"[", fl_property, "W", fl_property, "]" |
+	(* : Simple Temporal Operators : *)
+	"always", fl_property |
+	"never", fl_property |
+	"next", fl_property |
+	"next!", fl_property |
+	"eventually!", fl_property |
+	(* : *)
+	fl_property, "until!", fl_property |
+	fl_property, "until", fl_property |
+	fl_property, "until!_", fl_property |
+	fl_property, "until_", fl_property |
+	(* : *)
+	fl_property, "before!", fl_property |
+	fl_property, "before", fl_property |
+	fl_property, "before!_", fl_property |
+	fl_property, "before_", fl_property |
+	(* : Extended Next (Event) Operators : *)
+	"X", "[", number,  "]", "(", fl_property, ")" |
+	"X!", "[", number,  "]", "(", fl_property, ")" |
+	"next", "[", number,  "]", "(", fl_property, ")" |
+	"next!", "[", number,  "]", "(", fl_property, ")" |
+	(* : See A.4.7 *)
+	"next_a", "[", finite_range,  "]", "(", fl_property, ")" |
+	"next_a!", "[", finite_range,  "]", "(", fl_property, ")" |
+	"next_e", "[", finite_range,  "]", "(", fl_property, ")" |
+	"next_e!", "[", finite_range,  "]", "(", fl_property, ")" |
+	(* : *)
+	"next_event!", "(", boolean, ")", "(", fl_property, ")" |
+	"next_event", "(", boolean, ")", "(", fl_property, ")" |
+	"next_event!", "(", boolean, ")", "[", positive_number, "]", "(", fl_property, ")" |
+	"next_event", "(", boolean, ")", "[", positive_number, "]", "(", fl_property, ")" |
+	(* : *)
+	"next_event_a!", "(", boolean, ")", "[", finite_positive_range, "]", "(", fl_property, ")" |
+	"next_event_a", "(", boolean, ")", "[", finite_positive_range, "]", "(", fl_property, ")" |
+	"next_event_e!", "(", boolean, ")", "[", finite_positive_range, "]", "(", fl_property, ")" |
+	"next_event_e", "(", boolean, ")", "[", finite_positive_range, "]", "(", fl_property, ")" |
+	(* : Operators on SEREs : *)
+	{ sere }, "(", fl_property, ")" |
+	sequence, "|->", fl_property |
+	sequence, "|=>", fl_property
+	;
+
+sere =
+	boolean |
+	sequence |
+	sere, ";", sere |
+	sere, ":", sere |
+	compound_sere
+	;
+
+compound_sere =
+	repeated_sere |
+	braced_sere |
+	clocked_sere |
+	compound_sere, "|", compound_sere |
+	compound_sere, "&", compound_sere |
+	compound_sere, "&&", compound_sere |
+	compound_sere, "within", compound_sere |
+	parameterized_sere
+	;
+
+parameterized_property =
+	"for", parameters_definition, ":", and_or_property_op, "(", fl_property, ")"
+	;
+
+parameterized_sere =
+	"for", parameters_definition, ":", and_or_sere_op, "{", sere, "}"
+	;
+
+parameters_definition =
+	parameter_definition, { parameter_definition }
+	;
+
+parameter_definition =
+	psl_identifier, [ index_range ], "in", value_set
+	;
+
+and_or_property_op =
+	"and" |
+	"or"
+	;
+
+and_or_sere_op =
+	"&&" | "&" | "|"
+	;
+
+sequence =
+	sequence_instance |
+	repeated_sere |
+	braced_sere |
+	clocked_sere
+	;
+
+repeated_sere =
+	boolean, "[", "*", [ count ], "]" |
+	sequence, "[", "*", [ count ], "]" |
+	"[", "*", [ count ], "]" |
+	boolean, "[", "+", "]" |
+	sequence, "[", "+", "]" |
+	"[", "+", "]" |
+	boolean, "[", "=", count, "]" |
+	boolean, "[", "->", [ positive_count ], "]" |
+	;
+
+braced_sere =
+	"{", sere, "}"
+	;
+
+sequence_instance =
+	sequence_name, [ "(", actual_parameter_list, ")" ]
+	;
+
+clocked_sere =
+	braced_sere, "@", clock_expression
+	;
+
+count =
+	number |
+	range
+	;
+
+range =
+	low_bound, "to", high_bound
+	;
+
+low_bound =
+	number |
+	"0"
+	;
+
+high_bound =
+	number |
+	"inf"
+	;
+
+any_type =
+	hdl_or_psl_expression
+	;
+
+bit =
+	bit_hdl_or_psl_expression
+	;
+
+boolean =
+	boolean_hdl_or_psl_expression
+	;
+
+bitvector =
+	bitvector_hdl_or_psl_expression
+	;
+
+number =
+	numeric_hdl_or_psl_expression
+	;
+
+
+string =
+	string_hdl_or_psl_expression
+	;
+
+hdl_or_psl_expression =
+	hdl_expression |
+	psl_expression |
+	built_in_function_call |
+	union_expression
+	;
+
+hdl_expression =
+	expression
+	;
+
+psl_expression =
+	boolean, "->", boolean |
+	boolean, "<->", boolean
+	;
+
+built_in_function_call =
+	"prev", "(", any_type, [ ",", number, [ ",", clock_expression ] ], ")" |
+	"next", "(", any_type, ")" |
+	"stable", "(", any_type, [ ",", clock_expression ], ")" |
+	"rose", "(", bit, [ ",", clock_expression ], ")" |
+	"fell", "(", bit, [ ",", clock_expression ], ")" |
+	"ended", "(", sequence, [ ",", clock_expression ], ")" |
+	"isunknown", "(", bitvector, ")" |
+	"countones", "(", bitvector, ")" |
+	"onehot", "(", bitvector, ")" |
+	"onehot0", "(", bitvector, ")" |
+	"nondet", "(", value_list, ")" |
+	"nondet_vector", "(", number, ",", value_list, ")"
+	;
+
+union_expression =
+	any_type, "union", any_type
+	;
+
+obe_property =
+	boolean |
+	"(", obe_property, ")" |
+	obe_property_name, [ "(", actual_parameter_list, ")" ]
+	;
+
+logical_operators =
+	"not", obe_property |
+	obe_property, "and", obe_property |
+	obe_property, "or", obe_property |
+	obe_property, "->", obe_property |
+	obe_property, "<->", obe_property |
+	;
+
+universal_operators =
+	"AX", obe_property |
+	"AG", obe_property |
+	"AF", obe_property |
+	"A", "[", obe_property, "U", obe_property, "]"
+	;
+
+existential_operators =
+	"EX", obe_property |
+	"EG", obe_property |
+	"EF", obe_property |
+	"E", "[", obe_property, "U", obe_property, "]"
+	;
+
+(*
+	Keywords:
+		A
+		abort
+		AF
+		AG
+		always
+		and
+		assume
+		assume_guarantee
+		async_abort
+		AX
+		b
+		before
+		before_
+		before!
+		before!_
+		boolean
+		clock
+		const
+		countones
+		cover
+		default
+		e
+		E
+		EF
+		EG
+		ended
+		eventually!
+		EX
+		F
+		fairness
+		fell
+		forall
+		G
+		hdltype
+		in
+		inf
+		inherit
+		is
+		within
+		isunknown
+		never
+		next
+		next_a
+		next_a!
+		next_e
+		next_e!
+		next_event
+		next_event_a
+		next_event_a!
+		next_event_e
+		next_event_e!
+		next_event!
+		next!
+		nondet
+		nondet_vector
+		not
+		onehot
+		onehot0
+		or
+		prev
+		property
+		report
+		restrict
+		restrict_guarantee
+		rose
+		sequence
+		stable
+		strong
+		sync_abort
+		to
+		assert
+		U
+		union
+		until
+		until_
+		until!
+		until!_
+		vmode
+		vprop
+		vunit
+		W
+		X
+		X!
 *)
