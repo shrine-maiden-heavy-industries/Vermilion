@@ -307,6 +307,16 @@ all_tokenizer_test!(
 );
 
 all_tokenizer_test!(
+	operator_triple_and,
+	"&&&",
+	vec![spanned_token!(
+		Token::Operator(Operator::TripleAnd),
+		0..3,
+		Position::new(0, 0)
+	),]
+);
+
+all_tokenizer_test!(
 	operator_tilde,
 	"~",
 	vec![spanned_token!(Token::Operator(Operator::Tilde), 0..1, Position::new(0, 0)),]

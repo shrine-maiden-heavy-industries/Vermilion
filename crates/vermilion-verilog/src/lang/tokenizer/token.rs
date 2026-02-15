@@ -436,6 +436,7 @@ pub enum Operator {
 	ShiftRight,
 	Tilde,
 	TildeCircumflex(bool), // NOTE(aki): this is the chirality of the `^~`/`~^` operator
+	TripleAnd,
 }
 
 impl Display for Token {
@@ -918,6 +919,7 @@ impl Display for Operator {
 				Self::ShiftLeft => "<<",
 				Self::ShiftRight => ">>",
 				Self::Tilde => "~",
+				Self::TripleAnd => "&&&",
 				Self::TildeCircumflex(chirality) =>
 					if *chirality {
 						"^~"

@@ -302,7 +302,15 @@ impl VerilogTokenizer {
 		if self.current_char == b'&' {
 			self.next_char();
 			let end = self.position;
-			self.token = spanned_token!(Token::Operator(Operator::LogicalAnd), begin..end, context)
+			if self.current_char == b'&' {
+				self.next_char();
+				let end = self.position;
+				self.token =
+					spanned_token!(Token::Operator(Operator::TripleAnd), begin..end, context)
+			} else {
+				self.token =
+					spanned_token!(Token::Operator(Operator::LogicalAnd), begin..end, context)
+			}
 		} else {
 			self.token = spanned_token!(Token::Operator(Operator::Ampersand), begin..end, context)
 		}
