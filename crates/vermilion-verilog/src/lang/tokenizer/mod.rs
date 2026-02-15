@@ -4,9 +4,10 @@ use std::{collections::VecDeque, ops::Range};
 
 use vermilion_lang::{AtomicByteTendril, Position, Span, Spanned, spanned_token};
 
-use self::token::{BaseSpecifier, Comment, CompilerDirective, Control, Keyword, Operator, Token};
+use self::token::{BaseSpecifier, Comment, CompilerDirective, Control, Operator, Token};
 use crate::VerilogVariant;
 
+mod keywords;
 pub mod token;
 
 pub struct VerilogTokenizer {
