@@ -185,20 +185,16 @@ impl VerilogTokenizer {
 			let keyword = keywords::get_keyword(ident, self.standard);
 			let token = match keyword {
 				Some(keyword) => Token::Keyword(keyword),
-				None => Token::Identifier(
-					self.file.subtendril(range.start as u32, range.len() as u32),
-					None,
-				),
+				None => {
+					Token::Identifier(self.file.subtendril(range.start as u32, range.len() as u32))
+				},
 			};
 			// Turn the result into the final token to return
 			self.token = spanned_token!(token, range, context);
 		} else if self.current_char == b'\\' {
 			let range = self.read_escaped_ident();
 			self.token = spanned_token!(
-				Token::Identifier(
-					self.file.subtendril(range.start as u32, range.len() as u32),
-					None
-				),
+				Token::Identifier(self.file.subtendril(range.start as u32, range.len() as u32)),
 				range,
 				context
 			);
