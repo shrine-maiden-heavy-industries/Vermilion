@@ -31,8 +31,8 @@ pub enum Token {
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub enum CompilerDirective {
-	Name(AtomicByteTendril),
 	Arg(AtomicByteTendril),
+	Name(AtomicByteTendril),
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
@@ -478,10 +478,10 @@ impl Display for Token {
 impl Display for CompilerDirective {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
 		match self {
-			Self::Name(tendril) => write!(f, "CompilerDirective(`{})", unsafe {
+			Self::Arg(tendril) => write!(f, "CompilerDirectiveArg({})", unsafe {
 				str::from_utf8_unchecked(tendril)
 			}),
-			Self::Arg(tendril) => write!(f, "CompilerDirectiveArg({})", unsafe {
+			Self::Name(tendril) => write!(f, "CompilerDirective(`{})", unsafe {
 				str::from_utf8_unchecked(tendril)
 			}),
 		}
