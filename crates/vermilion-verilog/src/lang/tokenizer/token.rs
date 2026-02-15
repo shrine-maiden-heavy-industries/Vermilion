@@ -425,18 +425,18 @@ pub enum Operator {
 	LessThan,
 	LessThanEqual,
 	LogicalAnd,
-	LogicalOr,
 	LogicalEquality,
 	LogicalInequality,
+	LogicalOr,
 	Minus,
 	Percent,
 	Pipe,
 	Plus,
-	ReductionNor,
 	ReductionNand,
-	Solidus,
+	ReductionNor,
 	ShiftLeft,
 	ShiftRight,
+	Solidus,
 	Tilde,
 	TildeCircumflex(bool), // NOTE(aki): this is the chirality of the `^~`/`~^` operator
 	TripleAnd,
@@ -912,26 +912,26 @@ impl Display for Operator {
 				Self::LessThan => ">",
 				Self::LessThanEqual => ">=",
 				Self::LogicalAnd => "&&",
-				Self::LogicalOr => "||",
 				Self::LogicalEquality => "==",
 				Self::LogicalInequality => "!=",
+				Self::LogicalOr => "||",
 				Self::Minus => "-",
 				Self::Percent => "%",
 				Self::Pipe => "|",
 				Self::Plus => "+",
-				Self::ReductionNor => "~|",
 				Self::ReductionNand => "~&",
-				Self::Solidus => "/",
+				Self::ReductionNor => "~|",
 				Self::ShiftLeft => "<<",
 				Self::ShiftRight => ">>",
+				Self::Solidus => "/",
 				Self::Tilde => "~",
-				Self::TripleAnd => "&&&",
 				Self::TildeCircumflex(chirality) =>
 					if *chirality {
 						"^~"
 					} else {
 						"~^"
 					},
+				Self::TripleAnd => "&&&",
 			}
 		)
 	}
