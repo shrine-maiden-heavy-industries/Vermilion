@@ -481,6 +481,16 @@ all_tokenizer_test!(
 );
 
 all_tokenizer_test!(
+	operator_event_trigger,
+	"->",
+	vec![spanned_token!(
+		Token::Operator(Operator::EventTrigger),
+		0..2,
+		Position::new(0, 0)
+	),]
+);
+
+all_tokenizer_test!(
 	operator_solidus,
 	"/",
 	vec![spanned_token!(

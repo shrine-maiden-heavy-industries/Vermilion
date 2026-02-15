@@ -150,7 +150,10 @@ impl VerilogTokenizer {
 			b'%' => self.token = Token::Operator(Operator::Percent).into(),
 			b'*' => self.token = Token::Operator(Operator::Asterisk).into(),
 			b'+' => self.token = Token::Operator(Operator::Plus).into(),
-			b'-' => self.token = Token::Operator(Operator::Minus).into(),
+			b'-' => {
+				self.read_minus_token();
+				return;
+			},
 			b'/' => {
 				self.read_solidus_token();
 				return;
@@ -430,6 +433,22 @@ impl VerilogTokenizer {
 			self.token = spanned_token!(Token::Operator(Operator::ShiftLeft), begin..end, context)
 		} else {
 			self.token = spanned_token!(Token::Operator(Operator::GreaterThan), begin..end, context)
+		}
+	}
+
+	fn read_minus_token(&mut self) {
+		let context = self.context;
+		let begin = self.position;
+		self.next_char();
+		let end = self.position;
+
+		if self.current_char == b'>' {
+			self.next_char();
+			let end = self.position;
+			self.token =
+				spanned_token!(Token::Operator(Operator::EventTrigger), begin..end, context);
+		} else {
+			self.token = spanned_token!(Token::Operator(Operator::Minus), begin..end, context);
 		}
 	}
 
