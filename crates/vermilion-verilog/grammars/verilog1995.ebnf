@@ -1,4 +1,4 @@
-(* SPDX-License-ident: BSD-3-Clause *)
+(* SPDX-License-Identifier: BSD-3-Clause *)
 (* EBNF grammar for Verilog 1995 (IEEE 1364-1995) *)
 (*
 	NOTE 1: The period (`.`) in any identifier shall not be preceded by a space
