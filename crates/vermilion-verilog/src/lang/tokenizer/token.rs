@@ -183,6 +183,7 @@ pub enum Keyword {
 	Trireg,
 	Unsigned, // Added: IEEE 1364-2001
 	Use,      // Added: IEEE 1364-2001
+	Uwire,    // Added: IEEE 1364-2005
 	Vectored,
 	Wait,
 	Wand,
@@ -447,6 +448,7 @@ impl Display for Keyword {
 				Self::Trireg => "trireg",
 				Self::Unsigned => "unsigned", // Added: IEEE 1364-2001
 				Self::Use => "use",           // Added: IEEE 1364-2001
+				Self::Uwire => "uwire",       // Added: IEEE 1364-2005
 				Self::Vectored => "vectored",
 				Self::Wait => "wait",
 				Self::Wand => "wand",
