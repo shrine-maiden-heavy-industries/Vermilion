@@ -73,6 +73,7 @@ pub enum Keyword {
 	Always,
 	And,
 	Assign,
+	Automatic, // Added: IEEE 1364-2001
 	Begin,
 	Buf,
 	BufIf0,
@@ -80,16 +81,21 @@ pub enum Keyword {
 	Case,
 	CaseX,
 	CaseZ,
+	Cell, // Added: IEEE 1364-2001
 	Cmos,
+	Config, // Added: IEEE 1364-2001
 	Deassign,
 	Default,
 	DefParam,
+	Design, // Added: IEEE 1364-2001
 	Disable,
 	Edge,
 	Else,
 	End,
 	EndCase,
+	EndConfig, // Added: IEEE 1364-2001
 	EndFunction,
+	EndGenerate, // Added: IEEE 1364-2001
 	EndModule,
 	EndPrimitive,
 	EndSpecify,
@@ -101,16 +107,24 @@ pub enum Keyword {
 	Forever,
 	Fork,
 	Function,
+	Generate, // Added: IEEE 1364-2001
+	Genvar,   // Added: IEEE 1364-2001
 	HighZ0,
 	HighZ1,
 	If,
 	IfNone,
+	IncDir,  // Added: IEEE 1364-2001
+	Include, // Added: IEEE 1364-2001
 	Initial,
 	InOut,
 	Input,
+	Instance, // Added: IEEE 1364-2001
 	Integer,
 	Join,
 	Large,
+	LibList,    // Added: IEEE 1364-2001
+	Library,    // Added: IEEE 1364-2001
+	LocalParam, // Added: IEEE 1364-2001
 	MacroModule,
 	Medium,
 	Module,
@@ -118,6 +132,7 @@ pub enum Keyword {
 	NegEdge,
 	Nmos,
 	Nor,
+	NoShowCancelled, // Added: IEEE 1364-2001
 	Not,
 	NotIf0,
 	NotIf1,
@@ -131,6 +146,8 @@ pub enum Keyword {
 	Pull1,
 	Pulldown,
 	Pullup,
+	PulseStyleOnDetect, // Added: IEEE 1364-2001
+	PulseStyleOnEvent,  // Added: IEEE 1364-2001
 	Rcmos,
 	Real,
 	Realtime,
@@ -143,6 +160,8 @@ pub enum Keyword {
 	RtranIf0,
 	RtranIf1,
 	Scalared,
+	ShowCancelled, // Added: IEEE 1364-2001
+	Signed,        // Added: IEEE 1364-2001
 	Small,
 	Specify,
 	SpecParam,
@@ -162,6 +181,8 @@ pub enum Keyword {
 	Triand,
 	Trior,
 	Trireg,
+	Unsigned, // Added: IEEE 1364-2001
+	Use,      // Added: IEEE 1364-2001
 	Vectored,
 	Wait,
 	Wand,
@@ -316,6 +337,7 @@ impl Display for Keyword {
 				Self::Always => "always",
 				Self::And => "and",
 				Self::Assign => "assign",
+				Self::Automatic => "automatic", // Added: IEEE 1364-2001
 				Self::Begin => "begin",
 				Self::Buf => "buf",
 				Self::BufIf0 => "bufif0",
@@ -323,16 +345,21 @@ impl Display for Keyword {
 				Self::Case => "case",
 				Self::CaseX => "casex",
 				Self::CaseZ => "casez",
+				Self::Cell => "cell", // Added: IEEE 1364-2001
 				Self::Cmos => "cmos",
+				Self::Config => "config", // Added: IEEE 1364-2001
 				Self::Deassign => "deassign",
 				Self::Default => "default",
 				Self::DefParam => "defparam",
+				Self::Design => "design", // Added: IEEE 1364-2001
 				Self::Disable => "disable",
 				Self::Edge => "edge",
 				Self::Else => "else",
 				Self::End => "end",
 				Self::EndCase => "endcase",
+				Self::EndConfig => "endconfig", // Added: IEEE 1364-2001
 				Self::EndFunction => "endfunction",
+				Self::EndGenerate => "endgenerate", // Added: IEEE 1364-2001
 				Self::EndModule => "endmodule",
 				Self::EndPrimitive => "endprimitive",
 				Self::EndSpecify => "endspecify",
@@ -344,16 +371,24 @@ impl Display for Keyword {
 				Self::Forever => "forever",
 				Self::Fork => "fork",
 				Self::Function => "function",
+				Self::Generate => "generate", // Added: IEEE 1364-2001
+				Self::Genvar => "genvar",     // Added: IEEE 1364-2001
 				Self::HighZ0 => "highz0",
 				Self::HighZ1 => "highz1",
 				Self::If => "if",
 				Self::IfNone => "ifnone",
+				Self::IncDir => "incdir",   // Added: IEEE 1364-2001
+				Self::Include => "include", // Added: IEEE 1364-2001
 				Self::Initial => "initial",
 				Self::InOut => "inout",
 				Self::Input => "input",
+				Self::Instance => "instance", // Added: IEEE 1364-2001
 				Self::Integer => "integer",
 				Self::Join => "join",
 				Self::Large => "large",
+				Self::LibList => "liblist",       // Added: IEEE 1364-2001
+				Self::Library => "library",       // Added: IEEE 1364-2001
+				Self::LocalParam => "localparam", // Added: IEEE 1364-2001
 				Self::MacroModule => "macromodule",
 				Self::Medium => "medium",
 				Self::Module => "module",
@@ -361,6 +396,7 @@ impl Display for Keyword {
 				Self::NegEdge => "negedge",
 				Self::Nmos => "nmos",
 				Self::Nor => "nor",
+				Self::NoShowCancelled => "noshowcancelled", // Added: IEEE 1364-2001
 				Self::Not => "not",
 				Self::NotIf0 => "notif0",
 				Self::NotIf1 => "notif1",
@@ -374,6 +410,8 @@ impl Display for Keyword {
 				Self::Pull1 => "pull1",
 				Self::Pulldown => "pulldown",
 				Self::Pullup => "pullup",
+				Self::PulseStyleOnDetect => "pulsestyle_ondetect", // Added: IEEE 1364-2001
+				Self::PulseStyleOnEvent => "pulsestyle_onevent",   // Added: IEEE 1364-2001
 				Self::Rcmos => "rcmos",
 				Self::Real => "real",
 				Self::Realtime => "realtime",
@@ -386,6 +424,8 @@ impl Display for Keyword {
 				Self::RtranIf0 => "rtranif0",
 				Self::RtranIf1 => "rtranif1",
 				Self::Scalared => "scalared",
+				Self::ShowCancelled => "showcancelled", // Added: IEEE 1364-2001
+				Self::Signed => "signed",               // Added: IEEE 1364-2001
 				Self::Small => "small",
 				Self::Specify => "specify",
 				Self::SpecParam => "specparam",
@@ -405,6 +445,8 @@ impl Display for Keyword {
 				Self::Triand => "triand",
 				Self::Trior => "trior",
 				Self::Trireg => "trireg",
+				Self::Unsigned => "unsigned", // Added: IEEE 1364-2001
+				Self::Use => "use",           // Added: IEEE 1364-2001
 				Self::Vectored => "vectored",
 				Self::Wait => "wait",
 				Self::Wand => "wand",
