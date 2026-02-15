@@ -218,13 +218,17 @@ impl VerilogTokenizer {
 	fn read_whitespace(&mut self) {
 		let context = self.context;
 		let begin = self.position;
+
 		while matches!(self.current_char, b' ' | b'\t') {
 			self.next_char();
 		}
-		let end = self.position;
+
 		self.token = spanned_token!(
-			Token::Whitespace(self.file.subtendril(begin as u32, (end - begin) as u32)),
-			begin..end,
+			Token::Whitespace(
+				self.file
+					.subtendril(begin as u32, (self.position - begin) as u32)
+			),
+			begin..self.position,
 			context
 		)
 	}
@@ -232,16 +236,20 @@ impl VerilogTokenizer {
 	fn read_newline(&mut self) {
 		let context = self.context;
 		let begin = self.position;
+
 		// Handle \r\n sequences
 		if self.next_char() == b'\r' && self.current_char == b'\n' {
 			self.next_char();
 		}
-		let end = self.position;
+
 		// Newlines reset the position context for the next token
 		self.context.next_line();
 		self.token = spanned_token!(
-			Token::Newline(self.file.subtendril(begin as u32, (end - begin) as u32)),
-			begin..end,
+			Token::Newline(
+				self.file
+					.subtendril(begin as u32, (self.position - begin) as u32)
+			),
+			begin..self.position,
 			context
 		)
 	}
@@ -250,25 +258,28 @@ impl VerilogTokenizer {
 		let context = self.context;
 		let begin = self.position;
 		self.next_char();
-		let end = self.position;
 
 		if self.current_char == b'*' {
 			self.next_char();
-			let end = self.position;
 			self.token = spanned_token!(
 				if self.standard == VerilogVariant::Verilog(VerilogStd::Vl95) {
 					Token::ContextuallyInvalid(
-						self.file.subtendril(begin as u32, (end - begin) as u32),
+						self.file
+							.subtendril(begin as u32, (self.position - begin) as u32),
 						VerilogVariant::Verilog(VerilogStd::Vl01),
 					)
 				} else {
 					Token::Control(Control::AttributeOpen)
 				},
-				begin..end,
+				begin..self.position,
 				context
 			)
 		} else {
-			self.token = spanned_token!(Token::Control(Control::ParenOpen), begin..end, context)
+			self.token = spanned_token!(
+				Token::Control(Control::ParenOpen),
+				begin..self.position,
+				context
+			)
 		}
 	}
 
@@ -280,26 +291,28 @@ impl VerilogTokenizer {
 
 		if self.current_char == b'=' {
 			self.next_char();
-			let end = self.position;
 
 			if self.current_char == b'=' {
 				self.next_char();
-				let end = self.position;
 
 				self.token = spanned_token!(
 					Token::Operator(Operator::CaseInequality),
-					begin..end,
+					begin..self.position,
 					context
 				)
 			} else {
 				self.token = spanned_token!(
 					Token::Operator(Operator::LogicalInequality),
-					begin..end,
+					begin..self.position,
 					context
 				)
 			}
 		} else {
-			self.token = spanned_token!(Token::Operator(Operator::Exclamation), begin..end, context)
+			self.token = spanned_token!(
+				Token::Operator(Operator::Exclamation),
+				begin..self.position,
+				context
+			)
 		}
 	}
 
@@ -307,27 +320,31 @@ impl VerilogTokenizer {
 		let context = self.context;
 		let begin = self.position;
 		self.next_char();
-		let end = self.position;
 
 		if self.current_char == b'=' {
 			self.next_char();
-			let end = self.position;
 
 			if self.current_char == b'=' {
 				self.next_char();
-				let end = self.position;
 
-				self.token =
-					spanned_token!(Token::Operator(Operator::CaseEquality), begin..end, context)
+				self.token = spanned_token!(
+					Token::Operator(Operator::CaseEquality),
+					begin..self.position,
+					context
+				)
 			} else {
 				self.token = spanned_token!(
 					Token::Operator(Operator::LogicalEquality),
-					begin..end,
+					begin..self.position,
 					context
 				)
 			}
 		} else {
-			self.token = spanned_token!(Token::Operator(Operator::Equals), begin..end, context)
+			self.token = spanned_token!(
+				Token::Operator(Operator::Equals),
+				begin..self.position,
+				context
+			)
 		}
 	}
 
@@ -335,22 +352,31 @@ impl VerilogTokenizer {
 		let context = self.context;
 		let begin = self.position;
 		self.next_char();
-		let end = self.position;
 
 		if self.current_char == b'&' {
 			self.next_char();
-			let end = self.position;
+
 			if self.current_char == b'&' {
 				self.next_char();
-				let end = self.position;
-				self.token =
-					spanned_token!(Token::Operator(Operator::TripleAnd), begin..end, context)
+
+				self.token = spanned_token!(
+					Token::Operator(Operator::TripleAnd),
+					begin..self.position,
+					context
+				)
 			} else {
-				self.token =
-					spanned_token!(Token::Operator(Operator::LogicalAnd), begin..end, context)
+				self.token = spanned_token!(
+					Token::Operator(Operator::LogicalAnd),
+					begin..self.position,
+					context
+				)
 			}
 		} else {
-			self.token = spanned_token!(Token::Operator(Operator::Ampersand), begin..end, context)
+			self.token = spanned_token!(
+				Token::Operator(Operator::Ampersand),
+				begin..self.position,
+				context
+			)
 		}
 	}
 
@@ -358,32 +384,37 @@ impl VerilogTokenizer {
 		let context = self.context;
 		let begin = self.position;
 		self.next_char();
-		let end = self.position;
 
 		if self.current_char == b'^' {
 			self.next_char();
-			let end = self.position;
+
 			self.token = spanned_token!(
 				Token::Operator(Operator::TildeCircumflex(false)),
-				begin..end,
+				begin..self.position,
 				context
 			)
 		} else if self.current_char == b'&' {
 			self.next_char();
-			let end = self.position;
+
 			self.token = spanned_token!(
 				Token::Operator(Operator::ReductionNand),
-				begin..end,
+				begin..self.position,
 				context
 			)
 		} else if self.current_char == b'|' {
 			self.next_char();
-			let end = self.position;
 
-			self.token =
-				spanned_token!(Token::Operator(Operator::ReductionNor), begin..end, context)
+			self.token = spanned_token!(
+				Token::Operator(Operator::ReductionNor),
+				begin..self.position,
+				context
+			)
 		} else {
-			self.token = spanned_token!(Token::Operator(Operator::Tilde), begin..end, context)
+			self.token = spanned_token!(
+				Token::Operator(Operator::Tilde),
+				begin..self.position,
+				context
+			)
 		}
 	}
 
@@ -391,18 +422,21 @@ impl VerilogTokenizer {
 		let context = self.context;
 		let begin = self.position;
 		self.next_char();
-		let end = self.position;
 
 		if self.current_char == b'~' {
 			self.next_char();
-			let end = self.position;
+
 			self.token = spanned_token!(
 				Token::Operator(Operator::TildeCircumflex(true)),
-				begin..end,
+				begin..self.position,
 				context
 			)
 		} else {
-			self.token = spanned_token!(Token::Operator(Operator::Circumflex), begin..end, context)
+			self.token = spanned_token!(
+				Token::Operator(Operator::Circumflex),
+				begin..self.position,
+				context
+			)
 		}
 	}
 
@@ -410,14 +444,21 @@ impl VerilogTokenizer {
 		let context = self.context;
 		let begin = self.position;
 		self.next_char();
-		let end = self.position;
 
 		if self.current_char == b'|' {
 			self.next_char();
-			let end = self.position;
-			self.token = spanned_token!(Token::Operator(Operator::LogicalOr), begin..end, context)
+
+			self.token = spanned_token!(
+				Token::Operator(Operator::LogicalOr),
+				begin..self.position,
+				context
+			)
 		} else {
-			self.token = spanned_token!(Token::Operator(Operator::Pipe), begin..end, context)
+			self.token = spanned_token!(
+				Token::Operator(Operator::Pipe),
+				begin..self.position,
+				context
+			)
 		}
 	}
 
@@ -425,41 +466,47 @@ impl VerilogTokenizer {
 		let context = self.context;
 		let begin = self.position;
 		self.next_char();
-		let end = self.position;
 
 		if self.current_char == b'=' {
 			self.next_char();
-			let end = self.position;
 
 			self.token = spanned_token!(
 				Token::Operator(Operator::LessThanEqual),
-				begin..end,
+				begin..self.position,
 				context
 			)
 		} else if self.current_char == b'>' {
 			self.next_char();
-			let end = self.position;
+
 			if self.current_char == b'>' {
 				self.next_char();
-				let end = self.position;
+
 				self.token = spanned_token!(
 					if self.standard == VerilogVariant::Verilog(VerilogStd::Vl95) {
 						Token::ContextuallyInvalid(
-							self.file.subtendril(begin as u32, (end - begin) as u32),
+							self.file
+								.subtendril(begin as u32, (self.position - begin) as u32),
 							VerilogVariant::Verilog(VerilogStd::Vl01),
 						)
 					} else {
 						Token::Operator(Operator::ArithmeticShr)
 					},
-					begin..end,
+					begin..self.position,
 					context
 				)
 			} else {
-				self.token =
-					spanned_token!(Token::Operator(Operator::ShiftRight), begin..end, context)
+				self.token = spanned_token!(
+					Token::Operator(Operator::ShiftRight),
+					begin..self.position,
+					context
+				)
 			}
 		} else {
-			self.token = spanned_token!(Token::Operator(Operator::LessThan), begin..end, context)
+			self.token = spanned_token!(
+				Token::Operator(Operator::LessThan),
+				begin..self.position,
+				context
+			)
 		}
 	}
 
@@ -467,41 +514,47 @@ impl VerilogTokenizer {
 		let context = self.context;
 		let begin = self.position;
 		self.next_char();
-		let end = self.position;
 
 		if self.current_char == b'=' {
 			self.next_char();
-			let end = self.position;
 
 			self.token = spanned_token!(
 				Token::Operator(Operator::GreaterThanEqual),
-				begin..end,
+				begin..self.position,
 				context
 			)
 		} else if self.current_char == b'<' {
 			self.next_char();
-			let end = self.position;
+
 			if self.current_char == b'<' {
 				self.next_char();
-				let end = self.position;
+
 				self.token = spanned_token!(
 					if self.standard == VerilogVariant::Verilog(VerilogStd::Vl95) {
 						Token::ContextuallyInvalid(
-							self.file.subtendril(begin as u32, (end - begin) as u32),
+							self.file
+								.subtendril(begin as u32, (self.position - begin) as u32),
 							VerilogVariant::Verilog(VerilogStd::Vl01),
 						)
 					} else {
 						Token::Operator(Operator::ArithmeticShl)
 					},
-					begin..end,
+					begin..self.position,
 					context
 				)
 			} else {
-				self.token =
-					spanned_token!(Token::Operator(Operator::ShiftLeft), begin..end, context)
+				self.token = spanned_token!(
+					Token::Operator(Operator::ShiftLeft),
+					begin..self.position,
+					context
+				)
 			}
 		} else {
-			self.token = spanned_token!(Token::Operator(Operator::GreaterThan), begin..end, context)
+			self.token = spanned_token!(
+				Token::Operator(Operator::GreaterThan),
+				begin..self.position,
+				context
+			)
 		}
 	}
 
@@ -509,25 +562,29 @@ impl VerilogTokenizer {
 		let context = self.context;
 		let begin = self.position;
 		self.next_char();
-		let end = self.position;
 
 		if self.current_char == b')' {
 			self.next_char();
-			let end = self.position;
+
 			self.token = spanned_token!(
 				if self.standard == VerilogVariant::Verilog(VerilogStd::Vl95) {
 					Token::ContextuallyInvalid(
-						self.file.subtendril(begin as u32, (end - begin) as u32),
+						self.file
+							.subtendril(begin as u32, (self.position - begin) as u32),
 						VerilogVariant::Verilog(VerilogStd::Vl01),
 					)
 				} else {
 					Token::Control(Control::AttributeClose)
 				},
-				begin..end,
+				begin..self.position,
 				context
 			)
 		} else {
-			self.token = spanned_token!(Token::Operator(Operator::Asterisk), begin..end, context)
+			self.token = spanned_token!(
+				Token::Operator(Operator::Asterisk),
+				begin..self.position,
+				context
+			)
 		}
 	}
 
@@ -535,25 +592,29 @@ impl VerilogTokenizer {
 		let context = self.context;
 		let begin = self.position;
 		self.next_char();
-		let end = self.position;
 
 		if self.current_char == b':' {
 			self.next_char();
-			let end = self.position;
+
 			self.token = spanned_token!(
 				if self.standard == VerilogVariant::Verilog(VerilogStd::Vl95) {
 					Token::ContextuallyInvalid(
-						self.file.subtendril(begin as u32, (end - begin) as u32),
+						self.file
+							.subtendril(begin as u32, (self.position - begin) as u32),
 						VerilogVariant::Verilog(VerilogStd::Vl01),
 					)
 				} else {
 					Token::Operator(Operator::IndexedPartPos)
 				},
-				begin..end,
+				begin..self.position,
 				context
 			);
 		} else {
-			self.token = spanned_token!(Token::Operator(Operator::Plus), begin..end, context);
+			self.token = spanned_token!(
+				Token::Operator(Operator::Plus),
+				begin..self.position,
+				context
+			);
 		}
 	}
 
@@ -561,27 +622,31 @@ impl VerilogTokenizer {
 		let context = self.context;
 		let begin = self.position;
 		self.next_char();
-		let end = self.position;
 
 		if matches!(self.current_char, b'>' | b':') {
 			let char = self.next_char();
-			let end = self.position;
+
 			self.token = spanned_token!(
 				if char == b'>' {
 					Token::Operator(Operator::EventTrigger)
 				} else if self.standard == VerilogVariant::Verilog(VerilogStd::Vl95) {
 					Token::ContextuallyInvalid(
-						self.file.subtendril(begin as u32, (end - begin) as u32),
+						self.file
+							.subtendril(begin as u32, (self.position - begin) as u32),
 						VerilogVariant::Verilog(VerilogStd::Vl01),
 					)
 				} else {
 					Token::Operator(Operator::IndexedPartNeg)
 				},
-				begin..end,
+				begin..self.position,
 				context
 			);
 		} else {
-			self.token = spanned_token!(Token::Operator(Operator::Minus), begin..end, context);
+			self.token = spanned_token!(
+				Token::Operator(Operator::Minus),
+				begin..self.position,
+				context
+			);
 		}
 	}
 
@@ -923,20 +988,22 @@ impl VerilogTokenizer {
 			None
 		};
 
-		let end = self.position;
-
 		// SAFETY:
 		// If we got to this point, then we have already ensured the contents are
 		// ASCII, which is a valid UTF-8 subset
-		let value = unsafe { str::from_utf8_unchecked(&self.file[begin..end]) };
+		let value = unsafe { str::from_utf8_unchecked(&self.file[begin..self.position]) };
 
 		// If we got a valid f64, then we use that, otherwise emit an invalid token
 		self.token = if let Ok(value) = value.parse() {
-			spanned_token!(Token::Real { value, exponent }, begin..end, context)
+			spanned_token!(
+				Token::Real { value, exponent },
+				begin..self.position,
+				context
+			)
 		} else {
 			spanned_token!(
 				Token::Invalid(Some(value.as_bytes().into())),
-				begin..end,
+				begin..self.position,
 				context
 			)
 		}
