@@ -176,6 +176,8 @@ macro_rules! all_tokenizer_test {
 	};
 }
 
+// Keyword map/set Tests
+include!("./tests/keywords.rs");
 // Common Tokenizer Tests
 include!("./tests/all_common.rs");
 // Verilog Tokenizer Tests
