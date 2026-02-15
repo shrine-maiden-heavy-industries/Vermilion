@@ -404,8 +404,25 @@ impl VerilogTokenizer {
 		} else if self.current_char == b'>' {
 			self.next_char();
 			let end = self.position;
-
-			self.token = spanned_token!(Token::Operator(Operator::ShiftRight), begin..end, context)
+			if self.current_char == b'>' {
+				self.next_char();
+				let end = self.position;
+				self.token = spanned_token!(
+					if self.standard == VerilogVariant::Verilog(crate::VerilogStd::Vl95) {
+						Token::ContextuallyInvalid(
+							self.file.subtendril(begin as u32, (end - begin) as u32),
+							VerilogVariant::Verilog(crate::VerilogStd::Vl01),
+						)
+					} else {
+						Token::Operator(Operator::ArithmeticShr)
+					},
+					begin..end,
+					context
+				)
+			} else {
+				self.token =
+					spanned_token!(Token::Operator(Operator::ShiftRight), begin..end, context)
+			}
 		} else {
 			self.token = spanned_token!(Token::Operator(Operator::LessThan), begin..end, context)
 		}
@@ -429,8 +446,25 @@ impl VerilogTokenizer {
 		} else if self.current_char == b'<' {
 			self.next_char();
 			let end = self.position;
-
-			self.token = spanned_token!(Token::Operator(Operator::ShiftLeft), begin..end, context)
+			if self.current_char == b'<' {
+				self.next_char();
+				let end = self.position;
+				self.token = spanned_token!(
+					if self.standard == VerilogVariant::Verilog(crate::VerilogStd::Vl95) {
+						Token::ContextuallyInvalid(
+							self.file.subtendril(begin as u32, (end - begin) as u32),
+							VerilogVariant::Verilog(crate::VerilogStd::Vl01),
+						)
+					} else {
+						Token::Operator(Operator::ArithmeticShl)
+					},
+					begin..end,
+					context
+				)
+			} else {
+				self.token =
+					spanned_token!(Token::Operator(Operator::ShiftLeft), begin..end, context)
+			}
 		} else {
 			self.token = spanned_token!(Token::Operator(Operator::GreaterThan), begin..end, context)
 		}

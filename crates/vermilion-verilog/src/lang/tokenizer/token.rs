@@ -411,6 +411,8 @@ pub enum Keyword {
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub enum Operator {
 	Ampersand,
+	ArithmeticShl, // Added: IEEE 1364-2001
+	ArithmeticShr, // Added: IEEE 1364-2001
 	Asterisk,
 	CaseEquality,
 	CaseInequality,
@@ -896,6 +898,8 @@ impl Display for Operator {
 			"Operator({})",
 			match self {
 				Self::Ampersand => "&",
+				Self::ArithmeticShl => "<<<", // Added: IEEE 1364-2001
+				Self::ArithmeticShr => ">>>", // Added: IEEE 1364-2001
 				Self::Asterisk => "*",
 				Self::CaseEquality => "===",
 				Self::CaseInequality => "!==",
