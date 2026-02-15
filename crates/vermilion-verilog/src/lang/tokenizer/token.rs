@@ -8,23 +8,22 @@ use crate::VerilogVariant;
 
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 pub enum Token {
-	Invalid(Option<AtomicByteTendril>),
-	/// Hold the verilog variant for when this token would become valid
-	ContextuallyInvalid(AtomicByteTendril, VerilogVariant),
 	BaseSpecifier(BaseSpecifier, bool),
 	Comment(Comment),
 	CompilerDirective(CompilerDirective),
+	/// Hold the verilog variant for when this token would become valid
+	ContextuallyInvalid(AtomicByteTendril, VerilogVariant),
 	Control(Control),
-	// We If the identifier is a keyword in a different version, store that
 	Identifier(AtomicByteTendril),
+	Invalid(Option<AtomicByteTendril>),
 	Keyword(Keyword),
 	Newline(AtomicByteTendril),
 	Number(AtomicByteTendril),
+	Operator(Operator),
 	Real {
 		value:    f64,
 		exponent: Option<AtomicByteTendril>,
 	},
-	Operator(Operator),
 	String(AtomicByteTendril),
 	UnsignedNumber(AtomicByteTendril),
 	Whitespace(AtomicByteTendril),
@@ -445,24 +444,24 @@ pub enum Operator {
 impl Display for Token {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
 		match self {
-			Self::Invalid(_tendril) => todo!(),
-			Self::ContextuallyInvalid(_tendril, _verilog_variant) => todo!(),
 			Self::BaseSpecifier(base_specifier, _) => base_specifier.fmt(f),
 			Self::Comment(comment) => comment.fmt(f),
 			Self::CompilerDirective(compiler_directive) => compiler_directive.fmt(f),
+			Self::ContextuallyInvalid(_tendril, _verilog_variant) => todo!(),
 			Self::Control(control) => control.fmt(f),
 			Self::Identifier(tendril) => write!(f, "Identifier({})", unsafe {
 				str::from_utf8_unchecked(tendril)
-			},),
+			}),
+			Self::Invalid(_tendril) => todo!(),
 			Self::Keyword(keyword) => keyword.fmt(f),
 			Self::Newline(tendril) => write!(f, "Newline({})", tendril.len()),
 			Self::Number(tendril) => write!(f, "Number({})", unsafe {
 				str::from_utf8_unchecked(tendril)
 			}),
+			Self::Operator(operator) => operator.fmt(f),
 			Self::Real { value, exponent } => {
 				write!(f, "RealNumber(value: {}, exp: {:?})", value, exponent)
 			},
-			Self::Operator(operator) => operator.fmt(f),
 			Self::String(tendril) => write!(f, "String(\"{}\")", unsafe {
 				str::from_utf8_unchecked(tendril)
 			}),
