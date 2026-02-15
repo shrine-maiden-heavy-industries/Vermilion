@@ -42,6 +42,7 @@ fluent-uri         = { version = "0.4", features = [ "serde" ] }
 notify             = { version = "8.2" }
 num-traits         = { version = "0.2" }
 paste              = { version = "1.0.15" }
+phf                = { version = "0.13", features = [ "macros" ] }
 proptest           = { version = "1.9" }
 pulldown-cmark     = { version = "0.13", default-features = false }
 ratatui            = { version = "0.30" }
