@@ -421,6 +421,8 @@ pub enum Operator {
 	Exclamation,
 	GreaterThan,
 	GreaterThanEqual,
+	IndexedPartNeg, // Added: IEEE 1364-2001
+	IndexedPartPos, // Added: IEEE 1364-2001
 	LessThan,
 	LessThanEqual,
 	LogicalAnd,
@@ -908,6 +910,8 @@ impl Display for Operator {
 				Self::Exclamation => "!",
 				Self::GreaterThan => "<",
 				Self::GreaterThanEqual => "<=",
+				Self::IndexedPartNeg => "-:", // Added: IEEE 1364-2001
+				Self::IndexedPartPos => "+:", // Added: IEEE 1364-2001
 				Self::LessThan => ">",
 				Self::LessThanEqual => ">=",
 				Self::LogicalAnd => "&&",

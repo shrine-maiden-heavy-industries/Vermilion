@@ -149,7 +149,10 @@ impl VerilogTokenizer {
 			},
 			b'%' => self.token = Token::Operator(Operator::Percent).into(),
 			b'*' => self.token = Token::Operator(Operator::Asterisk).into(),
-			b'+' => self.token = Token::Operator(Operator::Plus).into(),
+			b'+' => {
+				self.read_plus_token();
+				return;
+			},
 			b'-' => {
 				self.read_minus_token();
 				return;
@@ -470,17 +473,55 @@ impl VerilogTokenizer {
 		}
 	}
 
+	fn read_plus_token(&mut self) {
+		let context = self.context;
+		let begin = self.position;
+		self.next_char();
+		let end = self.position;
+
+		if self.current_char == b':' {
+			self.next_char();
+			let end = self.position;
+			self.token = spanned_token!(
+				if self.standard == VerilogVariant::Verilog(crate::VerilogStd::Vl95) {
+					Token::ContextuallyInvalid(
+						self.file.subtendril(begin as u32, (end - begin) as u32),
+						VerilogVariant::Verilog(crate::VerilogStd::Vl01),
+					)
+				} else {
+					Token::Operator(Operator::IndexedPartPos)
+				},
+				begin..end,
+				context
+			);
+		} else {
+			self.token = spanned_token!(Token::Operator(Operator::Plus), begin..end, context);
+		}
+	}
+
 	fn read_minus_token(&mut self) {
 		let context = self.context;
 		let begin = self.position;
 		self.next_char();
 		let end = self.position;
 
-		if self.current_char == b'>' {
-			self.next_char();
+		if matches!(self.current_char, b'>' | b':') {
+			let char = self.next_char();
 			let end = self.position;
-			self.token =
-				spanned_token!(Token::Operator(Operator::EventTrigger), begin..end, context);
+			self.token = spanned_token!(
+				if char == b'>' {
+					Token::Operator(Operator::EventTrigger)
+				} else if self.standard == VerilogVariant::Verilog(crate::VerilogStd::Vl95) {
+					Token::ContextuallyInvalid(
+						self.file.subtendril(begin as u32, (end - begin) as u32),
+						VerilogVariant::Verilog(crate::VerilogStd::Vl01),
+					)
+				} else {
+					Token::Operator(Operator::IndexedPartNeg)
+				},
+				begin..end,
+				context
+			);
 		} else {
 			self.token = spanned_token!(Token::Operator(Operator::Minus), begin..end, context);
 		}
