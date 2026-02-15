@@ -73,6 +73,7 @@ pub enum Keyword {
 	Above,      // Added: Verilog-AMS 2009
 	Abs,        // Added: Verilog-AMS 2009
 	AbsDelay,   // Added: Verilog-AMS 2009
+	AbsDelta,   // Added: Verilog-AMS 2014
 	AbsTol,     // Added: Verilog-AMS 2009
 	AcceptOn,   // Added: IEEE 1800-2009
 	Access,     // Added: Verilog-AMS 2009
@@ -263,7 +264,8 @@ pub enum Keyword {
 	New,           // Added: IEEE 1800-2005
 	NextTime,      // Added: IEEE 1800-2009
 	Nmos,
-	NoiseTable, // Added: Verilog-AMS 2009
+	NoiseTable,    // Added: Verilog-AMS 2009
+	NoiseTableLog, // Added: Verilog-AMS 2014
 	Nor,
 	NoShowCancelled, // Added: IEEE 1364-2001
 	Not,
@@ -545,6 +547,7 @@ impl Display for Keyword {
 				Self::Above => "above",           // Added: Verilog-AMS 2009
 				Self::Abs => "abs",               // Added: Verilog-AMS 2009
 				Self::AbsDelay => "absdelay",     // Added: Verilog-AMS 2009
+				Self::AbsDelta => "absdelta",     // Added: Verilog-AMS 2014
 				Self::AbsTol => "abstol",         // Added: Verilog-AMS 2009
 				Self::AcceptOn => "accept_on",    // Added: IEEE 1800-2009
 				Self::Access => "access",         // Added: Verilog-AMS 2009
@@ -736,6 +739,7 @@ impl Display for Keyword {
 				Self::NextTime => "nexttime",            // Added: IEEE 1800-2009
 				Self::Nmos => "nmos",
 				Self::NoiseTable => "noise_table", // Added: Verilog-AMS 2009
+				Self::NoiseTableLog => "noise_table_log", // Added: Verilog-AMS 2014
 				Self::Nor => "nor",
 				Self::NoShowCancelled => "noshowcancelled", // Added: IEEE 1364-2001
 				Self::Not => "not",
