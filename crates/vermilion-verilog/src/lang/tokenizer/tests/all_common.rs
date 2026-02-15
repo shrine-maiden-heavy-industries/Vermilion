@@ -1,8 +1,5 @@
 // SPDX-License-Identifier: BSD-3-Clause
 
-use super::*;
-use crate::{SystemVerilogStd, VerilogAmsStd, VerilogStd};
-
 all_tokenizer_test!(
 	whitespace_space,
 	" ",
