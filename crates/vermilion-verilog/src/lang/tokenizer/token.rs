@@ -91,7 +91,7 @@ pub enum Keyword {
 	And,
 	Asin,   // Added: Verilog-AMS 2009
 	Asinh,  // Added: Verilog-AMS 2009
-	Assert, // Added: IEEE 1800-2005 & Verilog-AMS 2009
+	Assert, // Added: IEEE 1800-2005 & Verilog-AMS 2009 Removed: Verilog-AMS 2023
 	Assign,
 	Assume,    // Added: IEEE 1800-2005
 	Atan,      // Added: Verilog-AMS 2009
@@ -105,7 +105,7 @@ pub enum Keyword {
 	BinsOf, // Added: IEEE 1800-2005
 	Bit,    // Added: IEEE 1800-2005
 	Branch, // Added: Verilog-AMS 2009
-	Break,  // Added: IEEE 1800-2005
+	Break,  // Added: IEEE 1800-2005 & Verilog-AMS 2023
 	Buf,
 	BufIf0,
 	BufIf1,
@@ -127,7 +127,7 @@ pub enum Keyword {
 	Const,         // Added: IEEE 1800-2005
 	Constraint,    // Added: IEEE 1800-2005
 	Context,       // Added: IEEE 1800-2005
-	Continue,      // Added: IEEE 1800-2005
+	Continue,      // Added: IEEE 1800-2005 & Verilog-AMS 2023
 	Continuous,    // Added: Verilog-AMS 2009
 	Cos,           // Added: Verilog-AMS 2009
 	Cosh,          // Added: Verilog-AMS 2009
@@ -180,6 +180,7 @@ pub enum Keyword {
 	Exclude,      // Added: Verilog-AMS 2009
 	Exp,          // Added: Verilog-AMS 2009
 	Expect,       // Added: IEEE 1800-2005
+	Expm1,        // Added: Verilog-AMS 2023
 	Export,       // Added: IEEE 1800-2005
 	Extends,      // Added: IEEE 1800-2005
 	Extern,       // Added: IEEE 1800-2005
@@ -243,6 +244,7 @@ pub enum Keyword {
 	Library,      // Added: IEEE 1364-2001
 	LimExp,       // Added: Verilog-AMS 2009
 	Ln,           // Added: Verilog-AMS 2009
+	Ln1p,         // Added: Verilog-AMS 2023
 	Local,        // Added: IEEE 1800-2005
 	LocalParam,   // Added: IEEE 1364-2001
 	Log,          // Added: Verilog-AMS 2009
@@ -259,7 +261,7 @@ pub enum Keyword {
 	Nand,
 	Nature, // Added: Verilog-AMS 2009
 	NegEdge,
-	NetResolution, // Added: Verilog-AMS 2009
+	NetResolution, // Added: Verilog-AMS 2009 Removed: Verilog-AMS 2023
 	NetType,       // Added: IEEE 1800-2012
 	New,           // Added: IEEE 1800-2005
 	NextTime,      // Added: IEEE 1800-2009
@@ -308,7 +310,7 @@ pub enum Keyword {
 	Repeat,
 	ResolveTo, // Added: Verilog-AMS 2009
 	Restrict,  // Added: IEEE 1800-2009
-	Return,    // Added: IEEE 1800-2005
+	Return,    // Added: IEEE 1800-2005 & Verilog-AMS 2023
 	Rnmos,
 	Rpmos,
 	Rtran,
@@ -565,7 +567,7 @@ impl Display for Keyword {
 				Self::And => "and",
 				Self::Asin => "asin",     // Added: Verilog-AMS 2009
 				Self::Asinh => "asinh",   // Added: Verilog-AMS 2009
-				Self::Assert => "assert", // Added: IEEE 1800-2005 & Verilog-AMS 2009
+				Self::Assert => "assert", // Added: IEEE 1800-2005 & Verilog-AMS 2009-2014
 				Self::Assign => "assign",
 				Self::Assume => "assume",       // Added: IEEE 1800-2005
 				Self::Atan => "atan",           // Added: Verilog-AMS 2009
@@ -579,7 +581,7 @@ impl Display for Keyword {
 				Self::BinsOf => "binsof", // Added: IEEE 1800-2005
 				Self::Bit => "bit",       // Added: IEEE 1800-2005
 				Self::Branch => "branch", // Added: Verilog-AMS 2009
-				Self::Break => "break",   // Added: IEEE 1800-2005
+				Self::Break => "break",   // Added: IEEE 1800-2005 & Verilog-AMS 2023
 				Self::Buf => "buf",
 				Self::BufIf0 => "bufif0",
 				Self::BufIf1 => "bufif1",
@@ -601,7 +603,7 @@ impl Display for Keyword {
 				Self::Const => "const",                 // Added: IEEE 1800-2005
 				Self::Constraint => "constraint",       // Added: IEEE 1800-2005
 				Self::Context => "context",             // Added: IEEE 1800-2005
-				Self::Continue => "continue",           // Added: IEEE 1800-2005
+				Self::Continue => "continue",           // Added: IEEE 1800-2005 & Verilog-AMS 2023
 				Self::Continuous => "continuous",       // Added: Verilog-AMS 2009
 				Self::Cos => "cos",                     // Added: Verilog-AMS 2009
 				Self::Cosh => "cosh",                   // Added: Verilog-AMS 2009
@@ -654,6 +656,7 @@ impl Display for Keyword {
 				Self::Exclude => "exclude",            // Added: Verilog-AMS 2009
 				Self::Exp => "exp",                    // Added: Verilog-AMS 2009
 				Self::Expect => "expect",              // Added: IEEE 1800-2005
+				Self::Expm1 => "expm1",                // Added:Verilog-AMS 2023
 				Self::Export => "export",              // Added: IEEE 1800-2005
 				Self::Extends => "extends",            // Added: IEEE 1800-2005
 				Self::Extern => "extern",              // Added: IEEE 1800-2005
@@ -717,6 +720,7 @@ impl Display for Keyword {
 				Self::Library => "library",            // Added: IEEE 1364-2001
 				Self::LimExp => "limexp",              // Added: Verilog-AMS 2009
 				Self::Ln => "ln",                      // Added: Verilog-AMS 2009
+				Self::Ln1p => "ln1p",                  // Added: Verilog-AMS 2023
 				Self::Local => "local",                // Added: IEEE 1800-2005
 				Self::LocalParam => "localparam",      // Added: IEEE 1364-2001
 				Self::Log => "log",                    // Added: Verilog-AMS 2009
@@ -733,7 +737,7 @@ impl Display for Keyword {
 				Self::Nand => "nand",
 				Self::Nature => "nature", // Added: Verilog-AMS 2009
 				Self::NegEdge => "negedge",
-				Self::NetResolution => "net_resolution", // Added: Verilog-AMS 2009
+				Self::NetResolution => "net_resolution", // Added: Verilog-AMS 2009-2014
 				Self::NetType => "nettype",              // Added: IEEE 1800-2012
 				Self::New => "new",                      // Added: IEEE 1800-2005
 				Self::NextTime => "nexttime",            // Added: IEEE 1800-2009
@@ -782,7 +786,7 @@ impl Display for Keyword {
 				Self::Repeat => "repeat",
 				Self::ResolveTo => "resolveto", // Added: Verilog-AMS 2009
 				Self::Restrict => "restrict",   // Added: IEEE 1800-2009
-				Self::Return => "return",       // Added: IEEE 1800-2005
+				Self::Return => "return",       // Added: IEEE 1800-2005 & Verilog-AMS 2023
 				Self::Rnmos => "rnmos",
 				Self::Rpmos => "rpmos",
 				Self::Rtran => "rtran",
