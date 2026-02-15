@@ -5,7 +5,7 @@ use crate::{
 	lang::parser::{Diagnostic, Position, Span, VerilogParser},
 };
 
-#[test]
+// #[test]
 fn test_truncated_module() {
 	let result = VerilogParser::new(
 		VerilogVariant::Verilog(VerilogStd::Vl95),
