@@ -70,16 +70,32 @@ pub enum Control {
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub enum Keyword {
-	AcceptOn, // Added: IEEE 1800-2009
-	Alias,    // Added: IEEE 1800-2005
+	Above,      // Added: Verilog-AMS 2009
+	Abs,        // Added: Verilog-AMS 2009
+	AbsDelay,   // Added: Verilog-AMS 2009
+	AbsTol,     // Added: Verilog-AMS 2009
+	AcceptOn,   // Added: IEEE 1800-2009
+	Access,     // Added: Verilog-AMS 2009
+	Acos,       // Added: Verilog-AMS 2009
+	Acosh,      // Added: Verilog-AMS 2009
+	AcStim,     // Added: Verilog-AMS 2009
+	Alias,      // Added: IEEE 1800-2005
+	Aliasparam, // Added: Verilog-AMS 2009
 	Always,
 	AlwaysComb,  // Added: IEEE 1800-2005
 	AlwaysFF,    // Added: IEEE 1800-2005
 	AlwaysLatch, // Added: IEEE 1800-2005
+	Analog,      // Added: Verilog-AMS 2009
+	Analysis,    // Added: Verilog-AMS 2009
 	And,
-	Assert, // Added: IEEE 1800-2005
+	Asin,   // Added: Verilog-AMS 2009
+	Asinh,  // Added: Verilog-AMS 2009
+	Assert, // Added: IEEE 1800-2005 & Verilog-AMS 2009
 	Assign,
 	Assume,    // Added: IEEE 1800-2005
+	Atan,      // Added: Verilog-AMS 2009
+	Atan2,     // Added: Verilog-AMS 2009
+	Atanh,     // Added: Verilog-AMS 2009
 	Automatic, // Added: IEEE 1364-2001
 	Before,    // Added: IEEE 1800-2005
 	Begin,
@@ -87,6 +103,7 @@ pub enum Keyword {
 	Bins,   // Added: IEEE 1800-2005
 	BinsOf, // Added: IEEE 1800-2005
 	Bit,    // Added: IEEE 1800-2005
+	Branch, // Added: Verilog-AMS 2009
 	Break,  // Added: IEEE 1800-2005
 	Buf,
 	BufIf0,
@@ -95,42 +112,60 @@ pub enum Keyword {
 	Case,
 	CaseX,
 	CaseZ,
+	Ceil,     // Added: Verilog-AMS 2009
 	Cell,     // Added: IEEE 1364-2001
 	CHandle,  // Added: IEEE 1800-2005
 	Checker,  // Added: IEEE 1800-2009
 	Class,    // Added: IEEE 1800-2005
 	Clocking, // Added: IEEE 1800-2005
 	Cmos,
-	Config,     // Added: IEEE 1364-2001
-	Const,      // Added: IEEE 1800-2005
-	Constraint, // Added: IEEE 1800-2005
-	Context,    // Added: IEEE 1800-2005
-	Continue,   // Added: IEEE 1800-2005
-	Cover,      // Added: IEEE 1800-2005
-	CoverGroup, // Added: IEEE 1800-2005
-	CoverPoint, // Added: IEEE 1800-2005
-	Cross,      // Added: IEEE 1800-2005
+	Config,        // Added: IEEE 1364-2001
+	Connect,       // Added: Verilog-AMS 2009
+	ConnectModule, // Added: Verilog-AMS 2009
+	ConnectRules,  // Added: Verilog-AMS 2009
+	Const,         // Added: IEEE 1800-2005
+	Constraint,    // Added: IEEE 1800-2005
+	Context,       // Added: IEEE 1800-2005
+	Continue,      // Added: IEEE 1800-2005
+	Continuous,    // Added: Verilog-AMS 2009
+	Cos,           // Added: Verilog-AMS 2009
+	Cosh,          // Added: Verilog-AMS 2009
+	Cover,         // Added: IEEE 1800-2005
+	CoverGroup,    // Added: IEEE 1800-2005
+	CoverPoint,    // Added: IEEE 1800-2005
+	Cross,         // Added: IEEE 1800-2005 & Verilog-AMS 2009
+	Ddt,           // Added: Verilog-AMS 2009
+	DdtNature,     // Added: Verilog-AMS 2009
+	Ddx,           // Added: Verilog-AMS 2009
 	Deassign,
 	Default,
 	DefParam,
 	Design, // Added: IEEE 1364-2001
 	Disable,
-	Dist, // Added: IEEE 1800-2005
-	Do,   // Added: IEEE 1800-2005
+	Discipline,   // Added: Verilog-AMS 2009
+	Discrete,     // Added: Verilog-AMS 2009
+	Dist,         // Added: IEEE 1800-2005
+	Do,           // Added: IEEE 1800-2005
+	Domain,       // Added: Verilog-AMS 2009
+	DriverUpdate, // Added: Verilog-AMS 2009
 	Edge,
 	Else,
 	End,
 	EndCase,
-	EndChecker,  // Added: IEEE 1800-2009
-	EndClass,    // Added: IEEE 1800-2005
-	EndClocking, // Added: IEEE 1800-2005
-	EndConfig,   // Added: IEEE 1364-2001
+	EndChecker,      // Added: IEEE 1800-2009
+	EndClass,        // Added: IEEE 1800-2005
+	EndClocking,     // Added: IEEE 1800-2005
+	EndConfig,       // Added: IEEE 1364-2001
+	EndConnectRules, // Added: Verilog-AMS 2009
+	EndDiscipline,   // Added: Verilog-AMS 2009
 	EndFunction,
 	EndGenerate,  // Added: IEEE 1364-2001
 	EndGroup,     // Added: IEEE 1800-2005
 	EndInterface, // Added: IEEE 1800-2005
 	EndModule,
-	EndPackage, // Added: IEEE 1800-2005
+	EndNature,   // Added: Verilog-AMS 2009
+	EndPackage,  // Added: IEEE 1800-2005
+	EndParamSet, // Added: Verilog-AMS 2009
 	EndPrimitive,
 	EndProgram,  // Added: IEEE 1800-2005
 	EndProperty, // Added: IEEE 1800-2005
@@ -140,25 +175,37 @@ pub enum Keyword {
 	EndTask,
 	Enum, // Added: IEEE 1800-2005
 	Event,
-	Eventually, // Added: IEEE 1800-2009
-	Expect,     // Added: IEEE 1800-2005
-	Export,     // Added: IEEE 1800-2005
-	Extends,    // Added: IEEE 1800-2005
-	Extern,     // Added: IEEE 1800-2005
-	Final,      // Added: IEEE 1800-2005
-	FirstMatch, // Added: IEEE 1800-2005
+	Eventually,   // Added: IEEE 1800-2009
+	Exclude,      // Added: Verilog-AMS 2009
+	Exp,          // Added: Verilog-AMS 2009
+	Expect,       // Added: IEEE 1800-2005
+	Export,       // Added: IEEE 1800-2005
+	Extends,      // Added: IEEE 1800-2005
+	Extern,       // Added: IEEE 1800-2005
+	Final,        // Added: IEEE 1800-2005
+	FinalStep,    // Added: Verilog-AMS 2009
+	FirstMatch,   // Added: IEEE 1800-2005
+	FlickerNoise, // Added: Verilog-AMS 2009
+	Floor,        // Added: Verilog-AMS 2009
+	Flow,         // Added: Verilog-AMS 2009
 	For,
 	Force,
 	ForEach, // Added: IEEE 1800-2005
 	Forever,
 	Fork,
 	ForkJoin, // Added: IEEE 1800-2005
+	From,     // Added: Verilog-AMS 2009
 	Function,
 	Generate, // Added: IEEE 1364-2001
 	Genvar,   // Added: IEEE 1364-2001
 	Global,   // Added: IEEE 1800-2009
+	Ground,   // Added: Verilog-AMS 2009
 	HighZ0,
 	HighZ1,
+	Hypot,     // Added: Verilog-AMS 2009
+	Idt,       // Added: Verilog-AMS 2009
+	IdtMod,    // Added: Verilog-AMS 2009
+	IdtNature, // Added: Verilog-AMS 2009
 	If,
 	Iff, // Added: IEEE 1800-2005
 	IfNone,
@@ -169,7 +216,9 @@ pub enum Keyword {
 	Import,      // Added: IEEE 1800-2005
 	IncDir,      // Added: IEEE 1364-2001
 	Include,     // Added: IEEE 1364-2001
+	Inf,         // Added: Verilog-AMS 2009
 	Initial,
+	InitialStep, // Added: Verilog-AMS 2009
 	InOut,
 	Input,
 	Inside,   // Added: IEEE 1800-2005
@@ -180,27 +229,41 @@ pub enum Keyword {
 	Interface,    // Added: IEEE 1800-2005
 	Intersect,    // Added: IEEE 1800-2005
 	Join,
-	JoinAny,  // Added: IEEE 1800-2005
-	JoinNone, // Added: IEEE 1800-2005
+	JoinAny,   // Added: IEEE 1800-2005
+	JoinNone,  // Added: IEEE 1800-2005
+	LaplaceNd, // Added: Verilog-AMS 2009
+	LaplaceNp, // Added: Verilog-AMS 2009
+	LaplaceZd, // Added: Verilog-AMS 2009
+	LaplaceZp, // Added: Verilog-AMS 2009
 	Large,
-	Let,        // Added: IEEE 1800-2009
-	LibList,    // Added: IEEE 1364-2001
-	Library,    // Added: IEEE 1364-2001
-	Local,      // Added: IEEE 1800-2005
-	LocalParam, // Added: IEEE 1364-2001
-	Logic,      // Added: IEEE 1800-2005
-	LongInt,    // Added: IEEE 1800-2005
+	LastCrossing, // Added: Verilog-AMS 2009
+	Let,          // Added: IEEE 1800-2009
+	LibList,      // Added: IEEE 1364-2001
+	Library,      // Added: IEEE 1364-2001
+	LimExp,       // Added: Verilog-AMS 2009
+	Ln,           // Added: Verilog-AMS 2009
+	Local,        // Added: IEEE 1800-2005
+	LocalParam,   // Added: IEEE 1364-2001
+	Log,          // Added: Verilog-AMS 2009
+	Logic,        // Added: IEEE 1800-2005
+	LongInt,      // Added: IEEE 1800-2005
 	MacroModule,
 	Matches, // Added: IEEE 1800-2005
+	Max,     // Added: Verilog-AMS 2009
 	Medium,
+	Merged,  // Added: Verilog-AMS 2009
+	Min,     // Added: Verilog-AMS 2009
 	ModPort, // Added: IEEE 1800-2005
 	Module,
 	Nand,
+	Nature, // Added: Verilog-AMS 2009
 	NegEdge,
-	NetType,  // Added: IEEE 1800-2012
-	New,      // Added: IEEE 1800-2005
-	NextTime, // Added: IEEE 1800-2009
+	NetResolution, // Added: Verilog-AMS 2009
+	NetType,       // Added: IEEE 1800-2012
+	New,           // Added: IEEE 1800-2005
+	NextTime,      // Added: IEEE 1800-2009
 	Nmos,
+	NoiseTable, // Added: Verilog-AMS 2009
 	Nor,
 	NoShowCancelled, // Added: IEEE 1364-2001
 	Not,
@@ -212,8 +275,11 @@ pub enum Keyword {
 	Package, // Added: IEEE 1800-2005
 	Packed,  // Added: IEEE 1800-2005
 	Parameter,
+	ParamSet, // Added: Verilog-AMS 2009
 	Pmos,
 	PosEdge,
+	Potential, // Added: Verilog-AMS 2009
+	Pow,       // Added: Verilog-AMS 2009
 	Primitive,
 	Priority,  // Added: IEEE 1800-2005
 	Program,   // Added: IEEE 1800-2005
@@ -238,51 +304,61 @@ pub enum Keyword {
 	RejectOn, // Added: IEEE 1800-2009
 	Release,
 	Repeat,
-	Restrict, // Added: IEEE 1800-2009
-	Return,   // Added: IEEE 1800-2005
+	ResolveTo, // Added: Verilog-AMS 2009
+	Restrict,  // Added: IEEE 1800-2009
+	Return,    // Added: IEEE 1800-2005
 	Rnmos,
 	Rpmos,
 	Rtran,
 	RtranIf0,
 	RtranIf1,
-	SAlways,     // Added: IEEE 1800-2009
-	SEventually, // Added: IEEE 1800-2009
-	SNextTime,   // Added: IEEE 1800-2009
-	SUntil,      // Added: IEEE 1800-2009
-	SUntilWith,  // Added: IEEE 1800-2009
+	SAlways, // Added: IEEE 1800-2009
 	Scalared,
 	Sequence,      // Added: IEEE 1800-2005
+	SEventually,   // Added: IEEE 1800-2009
 	ShortInt,      // Added: IEEE 1800-2005
 	ShortReal,     // Added: IEEE 1800-2005
 	ShowCancelled, // Added: IEEE 1364-2001
 	Signed,        // Added: IEEE 1364-2001
+	Sin,           // Added: Verilog-AMS 2009
+	Sinh,          // Added: Verilog-AMS 2009
+	Slew,          // Added: Verilog-AMS 2009
 	Small,
-	Soft,  // Added: IEEE 1800-2012
-	Solve, // Added: IEEE 1800-2005
+	SNextTime, // Added: IEEE 1800-2009
+	Soft,      // Added: IEEE 1800-2012
+	Solve,     // Added: IEEE 1800-2005
 	Specify,
 	SpecParam,
+	Split,  // Added: Verilog-AMS 2009
+	Sqrt,   // Added: Verilog-AMS 2009
 	Static, // Added: IEEE 1800-2005
-	String, // Added: IEEE 1800-2005
+	String, // Added: IEEE 1800-2005 & Verilog-AMS 2009
 	Strong, // Added: IEEE 1800-2009
 	Strong0,
 	Strong1,
-	Struct, // Added: IEEE 1800-2005
-	Super,  // Added: IEEE 1800-2005
+	Struct,     // Added: IEEE 1800-2005
+	SUntil,     // Added: IEEE 1800-2009
+	SUntilWith, // Added: IEEE 1800-2009
+	Super,      // Added: IEEE 1800-2005
 	Supply0,
 	Supply1,
 	SyncAcceptOn, // Added: IEEE 1800-2009
 	SyncRejectOn, // Added: IEEE 1800-2009
 	Table,
 	Tagged, // Added: IEEE 1800-2005
+	Tan,    // Added: Verilog-AMS 2009
+	Tanh,   // Added: Verilog-AMS 2009
 	Task,
 	This,       // Added: IEEE 1800-2005
 	Throughout, // Added: IEEE 1800-2005
 	Time,
 	TimePrecision, // Added: IEEE 1800-2005
+	Timer,         // Added: Verilog-AMS 2009
 	TimeUnit,      // Added: IEEE 1800-2005
 	Tran,
 	TranIf0,
 	TranIf1,
+	Transition, // Added: Verilog-AMS 2009
 	Tri,
 	Tri0,
 	Tri1,
@@ -294,6 +370,7 @@ pub enum Keyword {
 	Union,     // Added: IEEE 1800-2005
 	Unique,    // Added: IEEE 1800-2005
 	Unique0,   // Added: IEEE 1800-2009
+	Units,     // Added: Verilog-AMS 2009
 	Unsigned,  // Added: IEEE 1364-2001
 	Until,     // Added: IEEE 1800-2009
 	UntilWith, // Added: IEEE 1800-2009
@@ -311,13 +388,19 @@ pub enum Keyword {
 	Weak0,
 	Weak1,
 	While,
-	Wildcard, // Added: IEEE 1800-2005
+	WhiteNoise, // Added: Verilog-AMS 2009
+	Wildcard,   // Added: IEEE 1800-2005
 	Wire,
 	With,   // Added: IEEE 1800-2005
 	Within, // Added: IEEE 1800-2005
 	Wor,
+	Wreal, // Added: Verilog-AMS 2009
 	Xnor,
 	Xor,
+	ZiNd, // Added: Verilog-AMS 2009
+	ZiNp, // Added: Verilog-AMS 2009
+	ZiZd, // Added: Verilog-AMS 2009
+	ZiZp, // Added: Verilog-AMS 2009
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
@@ -459,16 +542,32 @@ impl Display for Keyword {
 			f,
 			"Keyword({})",
 			match self {
-				Self::AcceptOn => "accept_on", // Added: IEEE 1800-2009
-				Self::Alias => "alias",        // Added: IEEE 1800-2005
+				Self::Above => "above",           // Added: Verilog-AMS 2009
+				Self::Abs => "abs",               // Added: Verilog-AMS 2009
+				Self::AbsDelay => "absdelay",     // Added: Verilog-AMS 2009
+				Self::AbsTol => "abstol",         // Added: Verilog-AMS 2009
+				Self::AcceptOn => "accept_on",    // Added: IEEE 1800-2009
+				Self::Access => "access",         // Added: Verilog-AMS 2009
+				Self::Acos => "acos",             // Added: Verilog-AMS 2009
+				Self::Acosh => "acosh",           // Added: Verilog-AMS 2009
+				Self::AcStim => "ac_stim",        // Added: Verilog-AMS 2009
+				Self::Alias => "alias",           // Added: IEEE 1800-2005
+				Self::Aliasparam => "aliasparam", // Added: Verilog-AMS 2009
 				Self::Always => "always",
 				Self::AlwaysComb => "always_comb",   // Added: IEEE 1800-2005
 				Self::AlwaysFF => "always_ff",       // Added: IEEE 1800-2005
 				Self::AlwaysLatch => "always_latch", // Added: IEEE 1800-2005
+				Self::Analog => "analog",            // Added: Verilog-AMS 2009
+				Self::Analysis => "analysis",        // Added: Verilog-AMS 2009
 				Self::And => "and",
-				Self::Assert => "assert", // Added: IEEE 1800-2005
+				Self::Asin => "asin",     // Added: Verilog-AMS 2009
+				Self::Asinh => "asinh",   // Added: Verilog-AMS 2009
+				Self::Assert => "assert", // Added: IEEE 1800-2005 & Verilog-AMS 2009
 				Self::Assign => "assign",
 				Self::Assume => "assume",       // Added: IEEE 1800-2005
+				Self::Atan => "atan",           // Added: Verilog-AMS 2009
+				Self::Atan2 => "atan2",         // Added: Verilog-AMS 2009
+				Self::Atanh => "atanh",         // Added: Verilog-AMS 2009
 				Self::Automatic => "automatic", // Added: IEEE 1364-2001
 				Self::Before => "before",       // Added: IEEE 1800-2005
 				Self::Begin => "begin",
@@ -476,6 +575,7 @@ impl Display for Keyword {
 				Self::Bins => "bins",     // Added: IEEE 1800-2005
 				Self::BinsOf => "binsof", // Added: IEEE 1800-2005
 				Self::Bit => "bit",       // Added: IEEE 1800-2005
+				Self::Branch => "branch", // Added: Verilog-AMS 2009
 				Self::Break => "break",   // Added: IEEE 1800-2005
 				Self::Buf => "buf",
 				Self::BufIf0 => "bufif0",
@@ -484,28 +584,42 @@ impl Display for Keyword {
 				Self::Case => "case",
 				Self::CaseX => "casex",
 				Self::CaseZ => "casez",
+				Self::Ceil => "ceil",         // Added: Verilog-AMS 2009
 				Self::Cell => "cell",         // Added: IEEE 1364-2001
 				Self::CHandle => "chandle",   // Added: IEEE 1800-2005
 				Self::Checker => "checker",   // Added: IEEE 1800-2009
 				Self::Class => "class",       // Added: IEEE 1800-2005
 				Self::Clocking => "clocking", // Added: IEEE 1800-2005
 				Self::Cmos => "cmos",
-				Self::Config => "config",         // Added: IEEE 1364-2001
-				Self::Const => "const",           // Added: IEEE 1800-2005
-				Self::Constraint => "constraint", // Added: IEEE 1800-2005
-				Self::Context => "context",       // Added: IEEE 1800-2005
-				Self::Continue => "continue",     // Added: IEEE 1800-2005
-				Self::Cover => "cover",           // Added: IEEE 1800-2005
-				Self::CoverGroup => "covergroup", // Added: IEEE 1800-2005
-				Self::CoverPoint => "coverpoint", // Added: IEEE 1800-2005
-				Self::Cross => "cross",           // Added: IEEE 1800-2005
+				Self::Config => "config",               // Added: IEEE 1364-2001
+				Self::Connect => "connect",             // Added: Verilog-AMS 2009
+				Self::ConnectModule => "connectmodule", // Added: Verilog-AMS 2009
+				Self::ConnectRules => "connectrules",   // Added: Verilog-AMS 2009
+				Self::Const => "const",                 // Added: IEEE 1800-2005
+				Self::Constraint => "constraint",       // Added: IEEE 1800-2005
+				Self::Context => "context",             // Added: IEEE 1800-2005
+				Self::Continue => "continue",           // Added: IEEE 1800-2005
+				Self::Continuous => "continuous",       // Added: Verilog-AMS 2009
+				Self::Cos => "cos",                     // Added: Verilog-AMS 2009
+				Self::Cosh => "cosh",                   // Added: Verilog-AMS 2009
+				Self::Cover => "cover",                 // Added: IEEE 1800-2005
+				Self::CoverGroup => "covergroup",       // Added: IEEE 1800-2005
+				Self::CoverPoint => "coverpoint",       // Added: IEEE 1800-2005
+				Self::Cross => "cross",                 // Added: IEEE 1800-2005 & Verilog-AMS 2009
+				Self::Ddt => "ddt",                     // Added: Verilog-AMS 2009
+				Self::DdtNature => "ddt_nature",        // Added: Verilog-AMS 2009
+				Self::Ddx => "ddx",                     // Added: Verilog-AMS 2009
 				Self::Deassign => "deassign",
 				Self::Default => "default",
 				Self::DefParam => "defparam",
 				Self::Design => "design", // Added: IEEE 1364-2001
 				Self::Disable => "disable",
-				Self::Dist => "dist", // Added: IEEE 1800-2005
-				Self::Do => "do",     // Added: IEEE 1800-2005
+				Self::Discipline => "discipline", // Added: Verilog-AMS 2009
+				Self::Discrete => "discrete",     // Added: Verilog-AMS 2009
+				Self::Dist => "dist",             // Added: IEEE 1800-2005
+				Self::Do => "do",                 // Added: IEEE 1800-2005
+				Self::Domain => "domain",         // Added: Verilog-AMS 2009
+				Self::DriverUpdate => "driver_update", // Added: Verilog-AMS 2009
 				Self::Edge => "edge",
 				Self::Else => "else",
 				Self::End => "end",
@@ -514,12 +628,16 @@ impl Display for Keyword {
 				Self::EndClass => "endclass",       // Added: IEEE 1800-2005
 				Self::EndClocking => "endclocking", // Added: IEEE 1800-2005
 				Self::EndConfig => "endconfig",     // Added: IEEE 1364-2001
+				Self::EndConnectRules => "endconnectrules", // Added: Verilog-AMS 2009
+				Self::EndDiscipline => "enddiscipline", // Added: Verilog-AMS 2009
 				Self::EndFunction => "endfunction",
 				Self::EndGenerate => "endgenerate",   // Added: IEEE 1364-2001
 				Self::EndGroup => "endgroup",         // Added: IEEE 1800-2005
 				Self::EndInterface => "endinterface", // Added: IEEE 1800-2005
 				Self::EndModule => "endmodule",
-				Self::EndPackage => "endpackage", // Added: IEEE 1800-2005
+				Self::EndNature => "endnature",     // Added: Verilog-AMS 2009
+				Self::EndPackage => "endpackage",   // Added: IEEE 1800-2005
+				Self::EndParamSet => "endparamset", // Added: Verilog-AMS 2009
 				Self::EndPrimitive => "endprimitive",
 				Self::EndProgram => "endprogram",   // Added: IEEE 1800-2005
 				Self::EndProperty => "endproperty", // Added: IEEE 1800-2005
@@ -529,25 +647,37 @@ impl Display for Keyword {
 				Self::EndTask => "endtask",
 				Self::Enum => "enum", // Added: IEEE 1800-2005
 				Self::Event => "event",
-				Self::Eventually => "eventually",  // Added: IEEE 1800-2009
-				Self::Expect => "expect",          // Added: IEEE 1800-2005
-				Self::Export => "export",          // Added: IEEE 1800-2005
-				Self::Extends => "extends",        // Added: IEEE 1800-2005
-				Self::Extern => "extern",          // Added: IEEE 1800-2005
-				Self::Final => "final",            // Added: IEEE 1800-2005
-				Self::FirstMatch => "first_match", // Added: IEEE 1800-2005
+				Self::Eventually => "eventually",      // Added: IEEE 1800-2009
+				Self::Exclude => "exclude",            // Added: Verilog-AMS 2009
+				Self::Exp => "exp",                    // Added: Verilog-AMS 2009
+				Self::Expect => "expect",              // Added: IEEE 1800-2005
+				Self::Export => "export",              // Added: IEEE 1800-2005
+				Self::Extends => "extends",            // Added: IEEE 1800-2005
+				Self::Extern => "extern",              // Added: IEEE 1800-2005
+				Self::Final => "final",                // Added: IEEE 1800-2005
+				Self::FinalStep => "final_step",       // Added: Verilog-AMS 2009
+				Self::FirstMatch => "first_match",     // Added: IEEE 1800-2005
+				Self::FlickerNoise => "flicker_noise", // Added: Verilog-AMS 2009
+				Self::Floor => "floor",                // Added: Verilog-AMS 2009
+				Self::Flow => "flow",                  // Added: Verilog-AMS 2009
 				Self::For => "for",
 				Self::Force => "force",
 				Self::ForEach => "foreach", // Added: IEEE 1800-2005
 				Self::Forever => "forever",
 				Self::Fork => "fork",
 				Self::ForkJoin => "forkjoin", // Added: IEEE 1800-2005
+				Self::From => "from",         // Added: Verilog-AMS 2009
 				Self::Function => "function",
 				Self::Generate => "generate", // Added: IEEE 1364-2001
 				Self::Genvar => "genvar",     // Added: IEEE 1364-2001
 				Self::Global => "global",     // Added: IEEE 1800-2009
+				Self::Ground => "ground",     // Added: Verilog-AMS 2009
 				Self::HighZ0 => "highz0",
 				Self::HighZ1 => "highz1",
+				Self::Hypot => "hypot",          // Added: Verilog-AMS 2009
+				Self::Idt => "idt",              // Added: Verilog-AMS 2009
+				Self::IdtMod => "idtmod",        // Added: Verilog-AMS 2009
+				Self::IdtNature => "idt_nature", // Added: Verilog-AMS 2009
 				Self::If => "if",
 				Self::Iff => "iff", // Added: IEEE 1800-2005
 				Self::IfNone => "ifnone",
@@ -558,7 +688,9 @@ impl Display for Keyword {
 				Self::Import => "import",            // Added: IEEE 1800-2005
 				Self::IncDir => "incdir",            // Added: IEEE 1364-2001
 				Self::Include => "include",          // Added: IEEE 1364-2001
+				Self::Inf => "inf",                  // Added: Verilog-AMS 2009
 				Self::Initial => "initial",
+				Self::InitialStep => "initial_step", // Added: Verilog-AMS 2009
 				Self::InOut => "inout",
 				Self::Input => "input",
 				Self::Inside => "inside",     // Added: IEEE 1800-2005
@@ -569,27 +701,41 @@ impl Display for Keyword {
 				Self::Interface => "interface",       // Added: IEEE 1800-2005
 				Self::Intersect => "intersect",       // Added: IEEE 1800-2005
 				Self::Join => "join",
-				Self::JoinAny => "join_any",   // Added: IEEE 1800-2005
-				Self::JoinNone => "join_none", // Added: IEEE 1800-2005
+				Self::JoinAny => "join_any",     // Added: IEEE 1800-2005
+				Self::JoinNone => "join_none",   // Added: IEEE 1800-2005
+				Self::LaplaceNd => "laplace_nd", // Added: Verilog-AMS 2009
+				Self::LaplaceNp => "laplace_np", // Added: Verilog-AMS 2009
+				Self::LaplaceZd => "laplace_zd", // Added: Verilog-AMS 2009
+				Self::LaplaceZp => "laplace_zp", // Added: Verilog-AMS 2009
 				Self::Large => "large",
-				Self::Let => "let",               // Added: IEEE 1800-2009
-				Self::LibList => "liblist",       // Added: IEEE 1364-2001
-				Self::Library => "library",       // Added: IEEE 1364-2001
-				Self::Local => "local",           // Added: IEEE 1800-2005
-				Self::LocalParam => "localparam", // Added: IEEE 1364-2001
-				Self::Logic => "logic",           // Added: IEEE 1800-2005
-				Self::LongInt => "longint",       // Added: IEEE 1800-2005
+				Self::LastCrossing => "last_crossing", // Added: Verilog-AMS 2009
+				Self::Let => "let",                    // Added: IEEE 1800-2009
+				Self::LibList => "liblist",            // Added: IEEE 1364-2001
+				Self::Library => "library",            // Added: IEEE 1364-2001
+				Self::LimExp => "limexp",              // Added: Verilog-AMS 2009
+				Self::Ln => "ln",                      // Added: Verilog-AMS 2009
+				Self::Local => "local",                // Added: IEEE 1800-2005
+				Self::LocalParam => "localparam",      // Added: IEEE 1364-2001
+				Self::Log => "log",                    // Added: Verilog-AMS 2009
+				Self::Logic => "logic",                // Added: IEEE 1800-2005
+				Self::LongInt => "longint",            // Added: IEEE 1800-2005
 				Self::MacroModule => "macromodule",
 				Self::Matches => "matches", // Added: IEEE 1800-2005
+				Self::Max => "max",         // Added: Verilog-AMS 2009
 				Self::Medium => "medium",
+				Self::Merged => "merged",   // Added: Verilog-AMS 2009
+				Self::Min => "min",         // Added: Verilog-AMS 2009
 				Self::ModPort => "modport", // Added: IEEE 1800-2005
 				Self::Module => "module",
 				Self::Nand => "nand",
+				Self::Nature => "nature", // Added: Verilog-AMS 2009
 				Self::NegEdge => "negedge",
-				Self::NetType => "nettype",   // Added: IEEE 1800-2012
-				Self::New => "new",           // Added: IEEE 1800-2005
-				Self::NextTime => "nexttime", // Added: IEEE 1800-2009
+				Self::NetResolution => "net_resolution", // Added: Verilog-AMS 2009
+				Self::NetType => "nettype",              // Added: IEEE 1800-2012
+				Self::New => "new",                      // Added: IEEE 1800-2005
+				Self::NextTime => "nexttime",            // Added: IEEE 1800-2009
 				Self::Nmos => "nmos",
+				Self::NoiseTable => "noise_table", // Added: Verilog-AMS 2009
 				Self::Nor => "nor",
 				Self::NoShowCancelled => "noshowcancelled", // Added: IEEE 1364-2001
 				Self::Not => "not",
@@ -601,8 +747,11 @@ impl Display for Keyword {
 				Self::Package => "package", // Added: IEEE 1800-2005
 				Self::Packed => "packed",   // Added: IEEE 1800-2005
 				Self::Parameter => "parameter",
+				Self::ParamSet => "paramset", // Added: Verilog-AMS 2009
 				Self::Pmos => "pmos",
 				Self::PosEdge => "posedge",
+				Self::Potential => "potential", // Added: Verilog-AMS 2009
+				Self::Pow => "pow",             // Added: Verilog-AMS 2009
 				Self::Primitive => "primitive",
 				Self::Priority => "priority",   // Added: IEEE 1800-2005
 				Self::Program => "program",     // Added: IEEE 1800-2005
@@ -627,8 +776,9 @@ impl Display for Keyword {
 				Self::RejectOn => "reject_on", // Added: IEEE 1800-2009
 				Self::Release => "release",
 				Self::Repeat => "repeat",
-				Self::Restrict => "restrict", // Added: IEEE 1800-2009
-				Self::Return => "return",     // Added: IEEE 1800-2005
+				Self::ResolveTo => "resolveto", // Added: Verilog-AMS 2009
+				Self::Restrict => "restrict",   // Added: IEEE 1800-2009
+				Self::Return => "return",       // Added: IEEE 1800-2005
 				Self::Rnmos => "rnmos",
 				Self::Rpmos => "rpmos",
 				Self::Rtran => "rtran",
@@ -645,13 +795,18 @@ impl Display for Keyword {
 				Self::ShortReal => "shortreal",         // Added: IEEE 1800-2005
 				Self::ShowCancelled => "showcancelled", // Added: IEEE 1364-2001
 				Self::Signed => "signed",               // Added: IEEE 1364-2001
+				Self::Sin => "sin",                     // Added: Verilog-AMS 2009
+				Self::Sinh => "sinh",                   // Added: Verilog-AMS 2009
+				Self::Slew => "slew",                   // Added: Verilog-AMS 2009
 				Self::Small => "small",
 				Self::Soft => "soft",   // Added: IEEE 1800-2012
 				Self::Solve => "solve", // Added: IEEE 1800-2005
 				Self::Specify => "specify",
 				Self::SpecParam => "specparam",
+				Self::Split => "split",   // Added: Verilog-AMS 2009
+				Self::Sqrt => "sqrt",     // Added: Verilog-AMS 2009
 				Self::Static => "static", // Added: IEEE 1800-2005
-				Self::String => "string", // Added: IEEE 1800-2005
+				Self::String => "string", // Added: IEEE 1800-2005 & Verilog-AMS 2009
 				Self::Strong => "strong", // Added: IEEE 1800-2009
 				Self::Strong0 => "strong0",
 				Self::Strong1 => "strong1",
@@ -663,15 +818,19 @@ impl Display for Keyword {
 				Self::SyncRejectOn => "sync_reject_on", // Added: IEEE 1800-2009
 				Self::Table => "table",
 				Self::Tagged => "tagged", // Added: IEEE 1800-2005
+				Self::Tan => "tan",       // Added: Verilog-AMS 2009
+				Self::Tanh => "tanh",     // Added: Verilog-AMS 2009
 				Self::Task => "task",
 				Self::This => "this",             // Added: IEEE 1800-2005
 				Self::Throughout => "throughout", // Added: IEEE 1800-2005
 				Self::Time => "time",
 				Self::TimePrecision => "timeprecision", // Added: IEEE 1800-2005
+				Self::Timer => "timer",                 // Added: Verilog-AMS 2009
 				Self::TimeUnit => "timeunit",           // Added: IEEE 1800-2005
 				Self::Tran => "tran",
 				Self::TranIf0 => "tranif0",
 				Self::TranIf1 => "tranif1",
+				Self::Transition => "transition", // Added: Verilog-AMS 2009
 				Self::Tri => "tri",
 				Self::Tri0 => "tri0",
 				Self::Tri1 => "tri1",
@@ -683,6 +842,7 @@ impl Display for Keyword {
 				Self::Union => "union",          // Added: IEEE 1800-2005
 				Self::Unique => "unique",        // Added: IEEE 1800-2005
 				Self::Unique0 => "unique0",      // Added: IEEE 1800-2009
+				Self::Units => "units",          // Added: Verilog-AMS 2009
 				Self::Unsigned => "unsigned",    // Added: IEEE 1364-2001
 				Self::Until => "until",          // Added: IEEE 1800-2009
 				Self::UntilWith => "until_with", // Added: IEEE 1800-2009
@@ -700,13 +860,19 @@ impl Display for Keyword {
 				Self::Weak0 => "weak0",
 				Self::Weak1 => "weak1",
 				Self::While => "while",
-				Self::Wildcard => "wildcard", // Added: IEEE 1800-2005
+				Self::WhiteNoise => "white_noise", // Added: Verilog-AMS 2009
+				Self::Wildcard => "wildcard",      // Added: IEEE 1800-2005
 				Self::Wire => "wire",
 				Self::With => "with",     // Added: IEEE 1800-2005
 				Self::Within => "within", // Added: IEEE 1800-2005
 				Self::Wor => "wor",
+				Self::Wreal => "wreal", // Added: Verilog-AMS 2009
 				Self::Xnor => "xnor",
 				Self::Xor => "xor",
+				Self::ZiNd => "zi_nd", // Added: Verilog-AMS 2009
+				Self::ZiNp => "zi_np", // Added: Verilog-AMS 2009
+				Self::ZiZd => "zi_zd", // Added: Verilog-AMS 2009
+				Self::ZiZp => "zi_zp", // Added: Verilog-AMS 2009
 			}
 		)
 	}
