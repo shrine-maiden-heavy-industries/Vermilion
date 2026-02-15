@@ -4009,6 +4009,46 @@ library_text =
 (*
 	Keywords:
 		accept_on
+		alias
+		always
+		always_comb
+		always_ff
+		always_latch
+		and
+		assert
+		assign
+		assume
+		automatic
+		before
+		begin
+		bind
+		bins
+		binsof
+		bit
+		break
+		buf
+		bufif0
+		bufif1
+		byte
+		case
+		casex
+		casez
+		cell
+		chandle
+		checker
+		class
+		clocking
+		cmos
+		config
+		const
+		constraint
+		context
+		continue
+		cover
+		covergroup
+		coverpoint
+		cross
+		deassign
 		default
 		defparam
 		design
@@ -4091,6 +4131,48 @@ library_text =
 		macromodule
 		matches
 		medium
+		modport
+		module
+		nand
+		negedge
+		nettype
+		new
+		nexttime
+		nmos
+		nor
+		noshowcancelled
+		not
+		notif0
+		notif1
+		null
+		or
+		output
+		package
+		packed
+		parameter
+		pmos
+		posedge
+		primitive
+		priority
+		program
+		property
+		protected
+		pull0
+		pull1
+		pulldown
+		pullup
+		pulsestyle_ondetect
+		pulsestyle_onevent
+		pure
+		rand
+		randc
+		randcase
+		randsequence
+		rcmos
+		real
+		realtime
+		ref
+		reg
 		reject_on
 		release
 		repeat
@@ -4174,86 +4256,4 @@ library_text =
 		wor
 		xnor
 		xor
-		alias
-		always
-		always_comb
-		always_ff
-		always_latch
-		and
-		assert
-		assign
-		assume
-		automatic
-		before
-		begin
-		bind
-		bins
-		binsof
-		bit
-		break
-		buf
-		bufif0
-		bufif1
-		byte
-		case
-		casex
-		casez
-		cell
-		chandle
-		checker
-		class
-		clocking
-		cmos
-		config
-		const
-		constraint
-		context
-		continue
-		cover
-		covergroup
-		coverpoint
-		cross
-		deassign
-		modport
-		module
-		nand
-		negedge
-		nettype
-		new
-		nexttime
-		nmos
-		nor
-		noshowcancelled
-		not
-		notif0
-		notif1
-		null
-		or
-		output
-		package
-		packed
-		parameter
-		pmos
-		posedge
-		primitive
-		priority
-		program
-		property
-		protected
-		pull0
-		pull1
-		pulldown
-		pullup
-		pulsestyle_ondetect
-		pulsestyle_onevent
-		pure
-		rand
-		randc
-		randcase
-		randsequence
-		rcmos
-		real
-		realtime
-		ref
-		reg
 *)
