@@ -103,7 +103,10 @@ impl VerilogTokenizer {
 			},
 			b'@' => self.token = Token::Control(Control::At).into(),
 			b'#' => self.token = Token::Control(Control::Octothorp).into(),
-			b'(' => self.token = Token::Control(Control::ParenOpen).into(),
+			b'(' => {
+				self.read_paren_open_token();
+				return;
+			},
 			b')' => self.token = Token::Control(Control::ParenClose).into(),
 			b'[' => self.token = Token::Control(Control::BracketOpen).into(),
 			b']' => self.token = Token::Control(Control::BracketClose).into(),
@@ -148,7 +151,10 @@ impl VerilogTokenizer {
 				return;
 			},
 			b'%' => self.token = Token::Operator(Operator::Percent).into(),
-			b'*' => self.token = Token::Operator(Operator::Asterisk).into(),
+			b'*' => {
+				self.read_asterisk_token();
+				return;
+			},
 			b'+' => {
 				self.read_plus_token();
 				return;
@@ -238,6 +244,32 @@ impl VerilogTokenizer {
 			begin..end,
 			context
 		)
+	}
+
+	fn read_paren_open_token(&mut self) {
+		let context = self.context;
+		let begin = self.position;
+		self.next_char();
+		let end = self.position;
+
+		if self.current_char == b'*' {
+			self.next_char();
+			let end = self.position;
+			self.token = spanned_token!(
+				if self.standard == VerilogVariant::Verilog(crate::VerilogStd::Vl95) {
+					Token::ContextuallyInvalid(
+						self.file.subtendril(begin as u32, (end - begin) as u32),
+						VerilogVariant::Verilog(crate::VerilogStd::Vl01),
+					)
+				} else {
+					Token::Control(Control::AttributeOpen)
+				},
+				begin..end,
+				context
+			)
+		} else {
+			self.token = spanned_token!(Token::Control(Control::ParenOpen), begin..end, context)
+		}
 	}
 
 	fn read_exclame_token(&mut self) {
@@ -470,6 +502,32 @@ impl VerilogTokenizer {
 			}
 		} else {
 			self.token = spanned_token!(Token::Operator(Operator::GreaterThan), begin..end, context)
+		}
+	}
+
+	fn read_asterisk_token(&mut self) {
+		let context = self.context;
+		let begin = self.position;
+		self.next_char();
+		let end = self.position;
+
+		if self.current_char == b')' {
+			self.next_char();
+			let end = self.position;
+			self.token = spanned_token!(
+				if self.standard == VerilogVariant::Verilog(crate::VerilogStd::Vl95) {
+					Token::ContextuallyInvalid(
+						self.file.subtendril(begin as u32, (end - begin) as u32),
+						VerilogVariant::Verilog(crate::VerilogStd::Vl01),
+					)
+				} else {
+					Token::Control(Control::AttributeClose)
+				},
+				begin..end,
+				context
+			)
+		} else {
+			self.token = spanned_token!(Token::Operator(Operator::Asterisk), begin..end, context)
 		}
 	}
 

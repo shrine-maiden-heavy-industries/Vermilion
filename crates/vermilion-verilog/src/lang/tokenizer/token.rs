@@ -53,6 +53,8 @@ pub enum BaseSpecifier {
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub enum Control {
 	At,
+	AttributeClose, // Added: IEEE 1364-2001
+	AttributeOpen,  // Added: IEEE 1364-2001
 	BraceClose,
 	BraceOpen,
 	BracketClose,
@@ -528,6 +530,8 @@ impl Display for Control {
 			"'{}'",
 			match self {
 				Self::At => "@",
+				Self::AttributeClose => "*)", // Added: IEEE 1364-2001
+				Self::AttributeOpen => "(*",  // Added: IEEE 1364-2001
 				Self::BraceClose => "}",
 				Self::BraceOpen => "{",
 				Self::BracketClose => "]",

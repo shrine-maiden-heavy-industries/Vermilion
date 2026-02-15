@@ -51,3 +51,29 @@ verilog95_tokenizer_test!(
 		Position::new(0, 0)
 	),]
 );
+
+verilog95_tokenizer_test!(
+	operator_attribute_open,
+	"(*",
+	vec![spanned_token!(
+		Token::ContextuallyInvalid(
+			"(*".as_bytes().into(),
+			VerilogVariant::Verilog(VerilogStd::Vl01)
+		),
+		0..2,
+		Position::new(0, 0)
+	),]
+);
+
+verilog95_tokenizer_test!(
+	operator_attribute_close,
+	"*)",
+	vec![spanned_token!(
+		Token::ContextuallyInvalid(
+			"*)".as_bytes().into(),
+			VerilogVariant::Verilog(VerilogStd::Vl01)
+		),
+		0..2,
+		Position::new(0, 0)
+	),]
+);
