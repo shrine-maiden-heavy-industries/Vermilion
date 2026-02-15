@@ -76,6 +76,28 @@ macro_rules! all_verilog_tokenizer_test {
 	};
 }
 
+macro_rules! verilog95_and_up_tokenizer_test {
+	($test_name:ident, $input:literal, $tokens:expr) => {
+		all_verilog_tokenizer_test!($test_name, $input, $tokens);
+		all_system_verilog_tokenizer_test!($test_name, $input, $tokens);
+	};
+}
+
+macro_rules! verilog01_and_up_tokenizer_test {
+	($test_name:ident, $input:literal, $tokens:expr) => {
+		verilog01_tokenizer_test!($test_name, $input, $tokens);
+		verilog05_tokenizer_test!($test_name, $input, $tokens);
+		all_system_verilog_tokenizer_test!($test_name, $input, $tokens);
+	};
+}
+
+macro_rules! verilog05_and_up_tokenizer_test {
+	($test_name:ident, $input:literal, $tokens:expr) => {
+		verilog05_tokenizer_test!($test_name, $input, $tokens);
+		all_system_verilog_tokenizer_test!($test_name, $input, $tokens);
+	};
+}
+
 macro_rules! system_verilog_tokenizer_test {
 	($test_name:ident, $input:literal, $tokens:expr, $std:expr) => {
 		paste! { tokenizer_test!(
@@ -128,6 +150,30 @@ macro_rules! all_system_verilog_tokenizer_test {
 	};
 }
 
+macro_rules! system_verilog09_and_up_tokenizer_test {
+	($test_name:ident, $input:literal, $tokens:expr) => {
+		system_verilog09_tokenizer_test!($test_name, $input, $tokens);
+		system_verilog12_tokenizer_test!($test_name, $input, $tokens);
+		system_verilog17_tokenizer_test!($test_name, $input, $tokens);
+		system_verilog23_tokenizer_test!($test_name, $input, $tokens);
+	};
+}
+
+macro_rules! system_verilog12_and_up_tokenizer_test {
+	($test_name:ident, $input:literal, $tokens:expr) => {
+		system_verilog12_tokenizer_test!($test_name, $input, $tokens);
+		system_verilog17_tokenizer_test!($test_name, $input, $tokens);
+		system_verilog23_tokenizer_test!($test_name, $input, $tokens);
+	};
+}
+
+macro_rules! system_verilog17_and_up_tokenizer_test {
+	($test_name:ident, $input:literal, $tokens:expr) => {
+		system_verilog17_tokenizer_test!($test_name, $input, $tokens);
+		system_verilog23_tokenizer_test!($test_name, $input, $tokens);
+	};
+}
+
 macro_rules! verilog_ams_tokenizer_test {
 	($test_name:ident, $input:literal, $tokens:expr, $std:expr) => {
 		paste! { tokenizer_test!(
@@ -161,6 +207,13 @@ macro_rules! verilog_ams23_tokenizer_test {
 macro_rules! all_verilog_ams_tokenizer_test {
 	($test_name:ident, $input:literal, $tokens:expr) => {
 		verilog_ams09_tokenizer_test!($test_name, $input, $tokens);
+		verilog_ams14_tokenizer_test!($test_name, $input, $tokens);
+		verilog_ams23_tokenizer_test!($test_name, $input, $tokens);
+	};
+}
+
+macro_rules! verilog_ams14_and_up_tokenizer_test {
+	($test_name:ident, $input:literal, $tokens:expr) => {
 		verilog_ams14_tokenizer_test!($test_name, $input, $tokens);
 		verilog_ams23_tokenizer_test!($test_name, $input, $tokens);
 	};
