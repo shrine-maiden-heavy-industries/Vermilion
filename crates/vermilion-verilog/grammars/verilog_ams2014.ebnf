@@ -1,6 +1,8 @@
 (* SPDX-License-Identifier: BSD-3-Clause *)
 (* EBNF grammar for Verilog-AMS 2014 *)
 (*
+	Verilog-AMS 2014 is based on IEEE 1364-2005 (Verilog 2005)
+
 	NOTE 1: Function statements are limited by the rules of §4.7.1.
 	NOTE 2: Embedded spaces are illegal.
 	NOTE 3: A `simple_identifier` shall start with [a-zA-Z_], shall have at least one character,
