@@ -287,7 +287,6 @@ impl VerilogTokenizer {
 		let context = self.context;
 		let begin = self.position;
 		self.next_char();
-		let end = self.position;
 
 		if self.current_char == b'=' {
 			self.next_char();
