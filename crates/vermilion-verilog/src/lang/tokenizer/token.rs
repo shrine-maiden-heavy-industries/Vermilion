@@ -38,8 +38,8 @@ pub enum CompilerDirective {
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub enum Comment {
 	Invalid(AtomicByteTendril),
-	SingleLine(AtomicByteTendril),
 	MultiLine(AtomicByteTendril),
+	SingleLine(AtomicByteTendril),
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
@@ -494,10 +494,10 @@ impl Display for Comment {
 			Self::Invalid(tendril) => write!(f, "InvalidComment(\"{}\")", unsafe {
 				str::from_utf8_unchecked(tendril)
 			}),
-			Self::SingleLine(tendril) => write!(f, "SingleLineComment(\"// {}\")", unsafe {
+			Self::MultiLine(tendril) => write!(f, "MultiLineComment(\"{}\")", unsafe {
 				str::from_utf8_unchecked(tendril)
 			}),
-			Self::MultiLine(tendril) => write!(f, "MultiLineComment(\"{}\")", unsafe {
+			Self::SingleLine(tendril) => write!(f, "SingleLineComment(\"// {}\")", unsafe {
 				str::from_utf8_unchecked(tendril)
 			}),
 		}
