@@ -164,6 +164,7 @@ pub enum Keyword {
 	IfNone,
 	IgnoreBins,  // Added: IEEE 1800-2005
 	IllegalBins, // Added: IEEE 1800-2005
+	Implements,  // Added: IEEE 1800-2012
 	Implies,     // Added: IEEE 1800-2009
 	Import,      // Added: IEEE 1800-2005
 	IncDir,      // Added: IEEE 1364-2001
@@ -175,8 +176,9 @@ pub enum Keyword {
 	Instance, // Added: IEEE 1364-2001
 	Int,      // Added: IEEE 1800-2005
 	Integer,
-	Interface, // Added: IEEE 1800-2005
-	Intersect, // Added: IEEE 1800-2005
+	Interconnect, // Added: IEEE 1800-2012
+	Interface,    // Added: IEEE 1800-2005
+	Intersect,    // Added: IEEE 1800-2005
 	Join,
 	JoinAny,  // Added: IEEE 1800-2005
 	JoinNone, // Added: IEEE 1800-2005
@@ -195,6 +197,7 @@ pub enum Keyword {
 	Module,
 	Nand,
 	NegEdge,
+	NetType,  // Added: IEEE 1800-2012
 	New,      // Added: IEEE 1800-2005
 	NextTime, // Added: IEEE 1800-2009
 	Nmos,
@@ -254,6 +257,7 @@ pub enum Keyword {
 	ShowCancelled, // Added: IEEE 1364-2001
 	Signed,        // Added: IEEE 1364-2001
 	Small,
+	Soft,  // Added: IEEE 1800-2012
 	Solve, // Added: IEEE 1800-2005
 	Specify,
 	SpecParam,
@@ -549,6 +553,7 @@ impl Display for Keyword {
 				Self::IfNone => "ifnone",
 				Self::IgnoreBins => "ignore_bins",   // Added: IEEE 1800-2005
 				Self::IllegalBins => "illegal_bins", // Added: IEEE 1800-2005
+				Self::Implements => "implements",    // Added: IEEE 1800-2012
 				Self::Implies => "implies",          // Added: IEEE 1800-2009
 				Self::Import => "import",            // Added: IEEE 1800-2005
 				Self::IncDir => "incdir",            // Added: IEEE 1364-2001
@@ -560,8 +565,9 @@ impl Display for Keyword {
 				Self::Instance => "instance", // Added: IEEE 1364-2001
 				Self::Int => "int",           // Added: IEEE 1800-2005
 				Self::Integer => "integer",
-				Self::Interface => "interface", // Added: IEEE 1800-2005
-				Self::Intersect => "intersect", // Added: IEEE 1800-2005
+				Self::Interconnect => "interconnect", // Added: IEEE 1800-2012
+				Self::Interface => "interface",       // Added: IEEE 1800-2005
+				Self::Intersect => "intersect",       // Added: IEEE 1800-2005
 				Self::Join => "join",
 				Self::JoinAny => "join_any",   // Added: IEEE 1800-2005
 				Self::JoinNone => "join_none", // Added: IEEE 1800-2005
@@ -580,6 +586,7 @@ impl Display for Keyword {
 				Self::Module => "module",
 				Self::Nand => "nand",
 				Self::NegEdge => "negedge",
+				Self::NetType => "nettype",   // Added: IEEE 1800-2012
 				Self::New => "new",           // Added: IEEE 1800-2005
 				Self::NextTime => "nexttime", // Added: IEEE 1800-2009
 				Self::Nmos => "nmos",
@@ -639,6 +646,7 @@ impl Display for Keyword {
 				Self::ShowCancelled => "showcancelled", // Added: IEEE 1364-2001
 				Self::Signed => "signed",               // Added: IEEE 1364-2001
 				Self::Small => "small",
+				Self::Soft => "soft",   // Added: IEEE 1800-2012
 				Self::Solve => "solve", // Added: IEEE 1800-2005
 				Self::Specify => "specify",
 				Self::SpecParam => "specparam",
