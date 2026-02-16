@@ -77,3 +77,16 @@ verilog95_tokenizer_test!(
 		Position::new(0, 0)
 	),]
 );
+
+verilog95_tokenizer_test!(
+	operator_pow,
+	"**",
+	vec![spanned_token!(
+		Token::ContextuallyInvalid(
+			"**".as_bytes().into(),
+			LanguageSet::all_flags() & !LanguageSet::Vl95
+		),
+		0..2,
+		Position::new(0, 0)
+	),]
+);

@@ -660,19 +660,27 @@ impl VerilogTokenizer {
 		let begin = self.position;
 		self.next_char();
 
-		if self.current_char == b')' {
-			self.next_char();
+		if matches!(self.current_char, b')' | b'*') {
+			let char = self.next_char();
 
-			self.token = spanned_token!(
-				versioned_token!(
-					self,
-					begin,
-					Token::Control(Control::AttributeClose),
-					at_least_vl01
-				),
-				begin..self.position,
-				context
-			)
+			self.token = if char == b')' {
+				spanned_token!(
+					versioned_token!(
+						self,
+						begin,
+						Token::Control(Control::AttributeClose),
+						at_least_vl01
+					),
+					begin..self.position,
+					context
+				)
+			} else {
+				spanned_token!(
+					versioned_token!(self, begin, Token::Operator(Operator::Pow), at_least_vl01),
+					begin..self.position,
+					context
+				)
+			}
 		} else {
 			self.token = spanned_token!(
 				Token::Operator(Operator::Asterisk),

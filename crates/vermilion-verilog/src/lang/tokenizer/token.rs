@@ -435,6 +435,7 @@ pub enum Operator {
 	Percent,
 	Pipe,
 	Plus,
+	Pow, // Added: IEEE 1364-2001
 	ReductionNand,
 	ReductionNor,
 	ShiftLeft,
@@ -926,6 +927,7 @@ impl Display for Operator {
 				Self::Percent => "%",
 				Self::Pipe => "|",
 				Self::Plus => "+",
+				Self::Pow => "**", // Added: IEEE 1364-2001
 				Self::ReductionNand => "~&",
 				Self::ReductionNor => "~|",
 				Self::ShiftLeft => "<<",

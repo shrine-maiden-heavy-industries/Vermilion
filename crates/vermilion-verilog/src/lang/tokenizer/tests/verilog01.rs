@@ -59,3 +59,9 @@ verilog01_and_up_tokenizer_test!(
 		Position::new(0, 0)
 	),]
 );
+
+verilog01_and_up_tokenizer_test!(
+	operator_pow,
+	"**",
+	vec![spanned_token!(Token::Operator(Operator::Pow), 0..2, Position::new(0, 0)),]
+);
