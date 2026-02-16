@@ -421,6 +421,7 @@ pub enum Operator {
 	Equals,
 	EventTrigger,
 	Exclamation,
+	FullConnection,
 	GreaterThan,
 	GreaterThanEqual,
 	IndexedPartNeg, // Added: IEEE 1364-2001
@@ -432,6 +433,7 @@ pub enum Operator {
 	LogicalInequality,
 	LogicalOr,
 	Minus,
+	ParallelConnection,
 	Percent,
 	Pipe,
 	Plus,
@@ -913,6 +915,7 @@ impl Display for Operator {
 				Self::Equals => "=",
 				Self::EventTrigger => "->",
 				Self::Exclamation => "!",
+				Self::FullConnection => "*>",
 				Self::GreaterThan => "<",
 				Self::GreaterThanEqual => "<=",
 				Self::IndexedPartNeg => "-:", // Added: IEEE 1364-2001
@@ -924,6 +927,7 @@ impl Display for Operator {
 				Self::LogicalInequality => "!=",
 				Self::LogicalOr => "||",
 				Self::Minus => "-",
+				Self::ParallelConnection => "=>",
 				Self::Percent => "%",
 				Self::Pipe => "|",
 				Self::Plus => "+",

@@ -3161,3 +3161,23 @@ endmodule
 		),
 	]
 );
+
+all_tokenizer_test!(
+	operator_full_connection,
+	"*>",
+	vec![spanned_token!(
+		Token::Operator(Operator::FullConnection),
+		0..2,
+		Position::new(0, 0)
+	),]
+);
+
+all_tokenizer_test!(
+	operator_parallel_connection,
+	"=>",
+	vec![spanned_token!(
+		Token::Operator(Operator::ParallelConnection),
+		0..2,
+		Position::new(0, 0)
+	),]
+);

@@ -424,31 +424,28 @@ impl VerilogTokenizer {
 		let begin = self.position;
 		self.next_char();
 
-		if self.current_char == b'=' {
-			self.next_char();
+		self.token = spanned_token!(
+			match self.current_char {
+				b'=' => {
+					self.next_char();
+					if self.current_char == b'=' {
+						self.next_char();
 
-			if self.current_char == b'=' {
-				self.next_char();
+						Token::Operator(Operator::CaseEquality)
+					} else {
+						Token::Operator(Operator::LogicalEquality)
+					}
+				},
+				b'>' => {
+					self.next_char();
 
-				self.token = spanned_token!(
-					Token::Operator(Operator::CaseEquality),
-					begin..self.position,
-					context
-				)
-			} else {
-				self.token = spanned_token!(
-					Token::Operator(Operator::LogicalEquality),
-					begin..self.position,
-					context
-				)
-			}
-		} else {
-			self.token = spanned_token!(
-				Token::Operator(Operator::Equals),
-				begin..self.position,
-				context
-			)
-		}
+					Token::Operator(Operator::ParallelConnection)
+				},
+				_ => Token::Operator(Operator::Equals),
+			},
+			begin..self.position,
+			context
+		);
 	}
 
 	fn read_ampersand_token(&mut self) {
@@ -660,34 +657,33 @@ impl VerilogTokenizer {
 		let begin = self.position;
 		self.next_char();
 
-		if matches!(self.current_char, b')' | b'*') {
-			let char = self.next_char();
+		self.token = spanned_token!(
+			match self.current_char {
+				b')' => {
+					self.next_char();
 
-			self.token = if char == b')' {
-				spanned_token!(
 					versioned_token!(
 						self,
 						begin,
 						Token::Control(Control::AttributeClose),
 						at_least_vl01
-					),
-					begin..self.position,
-					context
-				)
-			} else {
-				spanned_token!(
-					versioned_token!(self, begin, Token::Operator(Operator::Pow), at_least_vl01),
-					begin..self.position,
-					context
-				)
-			}
-		} else {
-			self.token = spanned_token!(
-				Token::Operator(Operator::Asterisk),
-				begin..self.position,
-				context
-			)
-		}
+					)
+				},
+				b'*' => {
+					self.next_char();
+
+					versioned_token!(self, begin, Token::Operator(Operator::Pow), at_least_vl01)
+				},
+				b'>' => {
+					self.next_char();
+
+					Token::Operator(Operator::FullConnection)
+				},
+				_ => Token::Operator(Operator::Asterisk),
+			},
+			begin..self.position,
+			context
+		)
 	}
 
 	fn read_plus_token(&mut self) {
