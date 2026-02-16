@@ -2,7 +2,7 @@
 use paste::paste;
 
 use super::{token::Keyword, *};
-use crate::{SystemVerilogStd, VerilogAmsStd, VerilogStd};
+use crate::{LanguageSet, SystemVerilogStd, VerilogAmsStd, VerilogStd};
 
 macro_rules! tokenizer_test {
 	($test_name:ident, $input:literal, $tokens:expr, $variant:expr) => {

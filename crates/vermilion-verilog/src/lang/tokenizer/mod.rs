@@ -5,7 +5,7 @@ use std::{collections::VecDeque, ops::Range};
 use vermilion_lang::{AtomicByteTendril, Position, Span, Spanned, spanned_token};
 
 use self::token::{BaseSpecifier, Comment, CompilerDirective, Control, Operator, Token};
-use crate::{VerilogStd, VerilogVariant};
+use crate::VerilogVariant;
 
 mod keywords;
 pub mod token;
@@ -369,15 +369,12 @@ impl VerilogTokenizer {
 		if self.current_char == b'*' {
 			self.next_char();
 			self.token = spanned_token!(
-				if self.standard == VerilogVariant::Verilog(VerilogStd::Vl95) {
-					Token::ContextuallyInvalid(
-						self.file
-							.subtendril(begin as u32, (self.position - begin) as u32),
-						VerilogVariant::Verilog(VerilogStd::Vl01),
-					)
-				} else {
-					Token::Control(Control::AttributeOpen)
-				},
+				versioned_token!(
+					self,
+					begin,
+					Token::Control(Control::AttributeOpen),
+					at_least_vl01
+				),
 				begin..self.position,
 				context
 			)
@@ -588,15 +585,12 @@ impl VerilogTokenizer {
 				self.next_char();
 
 				self.token = spanned_token!(
-					if self.standard == VerilogVariant::Verilog(VerilogStd::Vl95) {
-						Token::ContextuallyInvalid(
-							self.file
-								.subtendril(begin as u32, (self.position - begin) as u32),
-							VerilogVariant::Verilog(VerilogStd::Vl01),
-						)
-					} else {
-						Token::Operator(Operator::ArithmeticShr)
-					},
+					versioned_token!(
+						self,
+						begin,
+						Token::Operator(Operator::ArithmeticShr),
+						at_least_vl01
+					),
 					begin..self.position,
 					context
 				)
@@ -636,15 +630,12 @@ impl VerilogTokenizer {
 				self.next_char();
 
 				self.token = spanned_token!(
-					if self.standard == VerilogVariant::Verilog(VerilogStd::Vl95) {
-						Token::ContextuallyInvalid(
-							self.file
-								.subtendril(begin as u32, (self.position - begin) as u32),
-							VerilogVariant::Verilog(VerilogStd::Vl01),
-						)
-					} else {
-						Token::Operator(Operator::ArithmeticShl)
-					},
+					versioned_token!(
+						self,
+						begin,
+						Token::Operator(Operator::ArithmeticShl),
+						at_least_vl01
+					),
 					begin..self.position,
 					context
 				)
@@ -673,15 +664,12 @@ impl VerilogTokenizer {
 			self.next_char();
 
 			self.token = spanned_token!(
-				if self.standard == VerilogVariant::Verilog(VerilogStd::Vl95) {
-					Token::ContextuallyInvalid(
-						self.file
-							.subtendril(begin as u32, (self.position - begin) as u32),
-						VerilogVariant::Verilog(VerilogStd::Vl01),
-					)
-				} else {
-					Token::Control(Control::AttributeClose)
-				},
+				versioned_token!(
+					self,
+					begin,
+					Token::Control(Control::AttributeClose),
+					at_least_vl01
+				),
 				begin..self.position,
 				context
 			)
@@ -703,15 +691,12 @@ impl VerilogTokenizer {
 			self.next_char();
 
 			self.token = spanned_token!(
-				if self.standard == VerilogVariant::Verilog(VerilogStd::Vl95) {
-					Token::ContextuallyInvalid(
-						self.file
-							.subtendril(begin as u32, (self.position - begin) as u32),
-						VerilogVariant::Verilog(VerilogStd::Vl01),
-					)
-				} else {
-					Token::Operator(Operator::IndexedPartPos)
-				},
+				versioned_token!(
+					self,
+					begin,
+					Token::Operator(Operator::IndexedPartPos),
+					at_least_vl01
+				),
 				begin..self.position,
 				context
 			);
@@ -735,14 +720,13 @@ impl VerilogTokenizer {
 			self.token = spanned_token!(
 				if char == b'>' {
 					Token::Operator(Operator::EventTrigger)
-				} else if self.standard == VerilogVariant::Verilog(VerilogStd::Vl95) {
-					Token::ContextuallyInvalid(
-						self.file
-							.subtendril(begin as u32, (self.position - begin) as u32),
-						VerilogVariant::Verilog(VerilogStd::Vl01),
-					)
 				} else {
-					Token::Operator(Operator::IndexedPartNeg)
+					versioned_token!(
+						self,
+						begin,
+						Token::Operator(Operator::IndexedPartNeg),
+						at_least_vl01
+					)
 				},
 				begin..self.position,
 				context

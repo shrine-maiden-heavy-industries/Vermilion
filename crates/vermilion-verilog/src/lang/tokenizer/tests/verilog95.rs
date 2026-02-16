@@ -6,7 +6,7 @@ verilog95_tokenizer_test!(
 	vec![spanned_token!(
 		Token::ContextuallyInvalid(
 			">>>".as_bytes().into(),
-			VerilogVariant::Verilog(VerilogStd::Vl01)
+			LanguageSet::all_flags() & !LanguageSet::Vl95
 		),
 		0..3,
 		Position::new(0, 0)
@@ -19,7 +19,7 @@ verilog95_tokenizer_test!(
 	vec![spanned_token!(
 		Token::ContextuallyInvalid(
 			"<<<".as_bytes().into(),
-			VerilogVariant::Verilog(VerilogStd::Vl01)
+			LanguageSet::all_flags() & !LanguageSet::Vl95
 		),
 		0..3,
 		Position::new(0, 0)
@@ -32,7 +32,7 @@ verilog95_tokenizer_test!(
 	vec![spanned_token!(
 		Token::ContextuallyInvalid(
 			"-:".as_bytes().into(),
-			VerilogVariant::Verilog(VerilogStd::Vl01)
+			LanguageSet::all_flags() & !LanguageSet::Vl95
 		),
 		0..2,
 		Position::new(0, 0)
@@ -45,7 +45,7 @@ verilog95_tokenizer_test!(
 	vec![spanned_token!(
 		Token::ContextuallyInvalid(
 			"+:".as_bytes().into(),
-			VerilogVariant::Verilog(VerilogStd::Vl01)
+			LanguageSet::all_flags() & !LanguageSet::Vl95
 		),
 		0..2,
 		Position::new(0, 0)
@@ -58,7 +58,7 @@ verilog95_tokenizer_test!(
 	vec![spanned_token!(
 		Token::ContextuallyInvalid(
 			"(*".as_bytes().into(),
-			VerilogVariant::Verilog(VerilogStd::Vl01)
+			LanguageSet::all_flags() & !LanguageSet::Vl95
 		),
 		0..2,
 		Position::new(0, 0)
@@ -71,7 +71,7 @@ verilog95_tokenizer_test!(
 	vec![spanned_token!(
 		Token::ContextuallyInvalid(
 			"*)".as_bytes().into(),
-			VerilogVariant::Verilog(VerilogStd::Vl01)
+			LanguageSet::all_flags() & !LanguageSet::Vl95
 		),
 		0..2,
 		Position::new(0, 0)
