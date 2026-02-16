@@ -307,71 +307,7 @@ path_delay_expression =
 	constant_mintypmax_expression
 	;
 
-t_path_delay_expression =
-	path_delay_expression
-	;
-
-t0x_path_delay_expression =
-	path_delay_expression
-	;
-
-t0z_path_delay_expression =
-	path_delay_expression
-	;
-
-t0z_path_delay_expression =
-	path_delay_expression
-	;
-
-t01_path_delay_expression =
-	path_delay_expression
-	;
-
-t01_path_delay_expression =
-	path_delay_expression
-	;
-
-t1x_path_delay_expression =
-	path_delay_expression
-	;
-
-t1z_path_delay_expression =
-	path_delay_expression
-	;
-
-t1z_path_delay_expression =
-	path_delay_expression
-	;
-
-t10_path_delay_expression =
-	path_delay_expression
-	;
-
-t10_path_delay_expression =
-	path_delay_expression
-	;
-
-tfall_path_delay_expression =
-	path_delay_expression
-	;
-
-tfall_path_delay_expression =
-	path_delay_expression
-	;
-
-trise_path_delay_expression =
-	path_delay_expression
-	;
-
-trise_path_delay_expression =
-	path_delay_expression
-	;
-
-tx0_path_delay_expression =
-	path_delay_expression
-	;
-
-tx1_path_delay_expression =
+tzx_path_delay_expression =
 	path_delay_expression
 	;
 
@@ -379,27 +315,59 @@ txz_path_delay_expression =
 	path_delay_expression
 	;
 
+tx0_path_delay_expression =
+	path_delay_expression
+	;
+
+t1x_path_delay_expression =
+	path_delay_expression
+	;
+
+tx1_path_delay_expression =
+	path_delay_expression
+	;
+
+t0x_path_delay_expression =
+	path_delay_expression
+	;
+
+tz0_path_delay_expression =
+	path_delay_expression
+	;
+
+t1z_path_delay_expression =
+	path_delay_expression
+	;
+
+tz1_path_delay_expression =
+	path_delay_expression
+	;
+
+t0z_path_delay_expression =
+	path_delay_expression
+	;
+
+t10_path_delay_expression =
+	path_delay_expression
+	;
+
+t01_path_delay_expression =
+	path_delay_expression
+	;
+
 tz_path_delay_expression =
 	path_delay_expression
 	;
 
-tz0_path_delay_expression =
+tfall_path_delay_expression =
 	path_delay_expression
 	;
 
-tz0_path_delay_expression =
+trise_path_delay_expression =
 	path_delay_expression
 	;
 
-tz1_path_delay_expression =
-	path_delay_expression
-	;
-
-tz1_path_delay_expression =
-	path_delay_expression
-	;
-
-tzx_path_delay_expression =
+t_path_delay_expression =
 	path_delay_expression
 	;
 
