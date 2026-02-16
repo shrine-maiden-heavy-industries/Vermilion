@@ -237,12 +237,7 @@ timing_check_condition =
 	;
 
 edge_descriptor =
-	"01" |
-	"10" |
-	"0x" |
-	"x0" |
-	"1x" |
-	"x1"
+	"01" | "10" | "0x" | "x0" | "1x" | "x1"
 	;
 
 edge_control_specifier =
