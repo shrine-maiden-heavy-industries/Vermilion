@@ -935,12 +935,12 @@ strength0 =
 	;
 
 drive_strength =
-	"(", strength0, strength1, ")" |
-	"(", strength1, strength0, ")" |
-	"(", strength0, "highz1", ")" |
-	"(", strength1, "highz0", ")" |
-	"(", "highz1", strength0, ")" |
-	"(", "highz0", strength1, ")"
+	"(", strength0, ",", strength1, ")" |
+	"(", strength1, ",", strength0, ")" |
+	"(", strength0, ",", "highz1", ")" |
+	"(", strength1, ",", "highz0", ")" |
+	"(", "highz0", ",", strength1, ")" |
+	"(", "highz1", ",", strength0, ")"
 	;
 
 list_of_net_identifiers =
