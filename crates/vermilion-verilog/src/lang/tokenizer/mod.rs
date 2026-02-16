@@ -10,6 +10,113 @@ use crate::{VerilogStd, VerilogVariant};
 mod keywords;
 pub mod token;
 
+macro_rules! versioned_token {
+	($self:path, $begin:path, $token:expr,at_least_vl01) => {
+		versioned_token!(
+			$self,
+			$begin,
+			$token,
+			crate::LanguageSet::Vl01 |
+				crate::LanguageSet::Vl05 |
+				crate::LanguageSet::SYSTEM_VERILOG_STDS |
+				crate::LanguageSet::VERILOG_AMS_STDS
+		)
+	};
+	($self:path, $begin:path, $token:expr,at_least_vl05) => {
+		versioned_token!(
+			$self,
+			$begin,
+			$token,
+			crate::LanguageSet::Vl05 |
+				crate::LanguageSet::SYSTEM_VERILOG_STDS |
+				crate::LanguageSet::VERILOG_AMS_STDS
+		)
+	};
+	($self:path, $begin:path, $token:expr,at_least_sv05) => {
+		versioned_token!(
+			$self,
+			$begin,
+			$token,
+			crate::LanguageSet::SYSTEM_VERILOG_STDS
+		)
+	};
+	($self:path, $begin:path, $token:expr,at_least_sv09) => {
+		versioned_token!(
+			$self,
+			$begin,
+			$token,
+			crate::LanguageSet::Sv09 |
+				crate::LanguageSet::Sv12 |
+				crate::LanguageSet::Sv17 |
+				crate::LanguageSet::Sv23
+		)
+	};
+	($self:path, $begin:path, $token:expr,at_least_sv12) => {
+		versioned_token!(
+			$self,
+			$begin,
+			$token,
+			crate::LanguageSet::Sv12 | crate::LanguageSet::Sv17 | crate::LanguageSet::Sv23
+		)
+	};
+	($self:path, $begin:path, $token:expr,at_least_sv17) => {
+		versioned_token!(
+			$self,
+			$begin,
+			$token,
+			crate::LanguageSet::Sv17 | crate::LanguageSet::Sv23
+		)
+	};
+	($self:path, $begin:path, $token:expr,at_least_sv23) => {
+		versioned_token!($self, $begin, $token, crate::LanguageSet::Sv23)
+	};
+	($self:path, $begin:path, $token:expr,at_least_vams09) => {
+		versioned_token!($self, $begin, $token, crate::LanguageSet::VERILOG_AMS_STDS)
+	};
+	($self:path, $begin:path, $token:expr,at_least_vams14) => {
+		versioned_token!(
+			$self,
+			$begin,
+			$token,
+			crate::LanguageSet::Vams14 | crate::LanguageSet::Vams23
+		)
+	};
+	($self:path, $begin:path, $token:expr,at_least_vams23) => {
+		versioned_token!($self, $begin, $token, crate::LanguageSet::Vams23)
+	};
+	($self:path, $begin:path, $token:expr,only_verilog) => {
+		versioned_token!($self, $begin, $token, crate::LanguageSet::VERILOG_STDS)
+	};
+	($self:path, $begin:path, $token:expr,only_system_verilog) => {
+		versioned_token!(
+			$self,
+			$begin,
+			$token,
+			crate::LanguageSet::SYSTEM_VERILOG_STDS
+		)
+	};
+	($self:path, $begin:path, $token:expr,only_verilog_ams) => {
+		versioned_token!(
+			$self,
+			$begin,
+			$token,
+			crate::LanguageSet::SYSTEM_VERILOG_STDS
+		)
+	};
+	($self:path, $begin:path, $token:expr, $stds:expr) => {
+		if $stds.contains($self.standard.into()) {
+			$token
+		} else {
+			Token::ContextuallyInvalid(
+				$self
+					.file
+					.subtendril($begin as u32, ($self.position - $begin) as u32),
+				$stds,
+			)
+		}
+	};
+}
+
 pub struct VerilogTokenizer {
 	standard:     VerilogVariant,
 	file:         AtomicByteTendril,
