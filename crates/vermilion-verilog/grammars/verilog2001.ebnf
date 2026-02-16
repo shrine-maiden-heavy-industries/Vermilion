@@ -1721,7 +1721,7 @@ reg_declaration =
 	;
 
 realtime_declaration =
-	"realtime", list_of_real_identifiers, ";",
+	"realtime", list_of_real_identifiers, ";"
 	;
 
 real_declaration =

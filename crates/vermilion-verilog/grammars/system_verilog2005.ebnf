@@ -2597,7 +2597,7 @@ variable_decl_assignment =
 	dynamic_array_variable_identifier, "[", "]", [ "=", dynamic_array_new ] |
 	class_variable_identifier, [ "=", class_new ] |
 	(* See NOTE 15 *)
-	[ covergroup_variable_identifier ], "=", "new", [ "(", list_of_arguments, ")" ],
+	[ covergroup_variable_identifier ], "=", "new", [ "(", list_of_arguments, ")" ]
 	;
 
 limit_value =
