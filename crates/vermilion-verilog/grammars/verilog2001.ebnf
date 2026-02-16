@@ -610,16 +610,7 @@ concatenation =
 	;
 
 scalar_constant =
-	"1'b0" |
-	"1'b1" |
-	"1'B0" |
-	"1'B1" |
-	"'b0" |
-	"'b1" |
-	"'B0" |
-	"'B1" |
-	"0" |
-	"1"
+	"1'b0" | "1'b1" | "1'B0" | "1'B1" | "'b0" | "'b1" | "'B0" | "'B1" | "0" | "1"
 	;
 
 scalar_timing_check_condition =
