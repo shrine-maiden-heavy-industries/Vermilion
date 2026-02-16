@@ -725,7 +725,7 @@ data_source_expression =
 	;
 
 full_edge_sensitive_path_description =
-	"(", [ edge_identifier ], list_of_path_inputs, "=>", "(", list_of_path_outputs, [ polarity_operator ], ":", data_source_expression, ")", ")"
+	"(", [ edge_identifier ], list_of_path_inputs, "*>", "(", list_of_path_outputs, [ polarity_operator ], ":", data_source_expression, ")", ")"
 	;
 
 parallel_edge_sensitive_path_description =
