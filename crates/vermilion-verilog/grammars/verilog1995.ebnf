@@ -157,7 +157,7 @@ primary =
 binary_operator =
 	"+" | "-" | "*" | "/" | "%" | "==" | "!=" | "===" | "!==" | "&&" | "||" |
 	"<" | "<=" | ">" | ">=" | "&" | "|" | "^" | "^~" | "~^" | ">>" | "<<"
-;
+ 	;
 
 unary_operator =
 	"+" | "-" | "!" | "~" | "&" | "~&" | "|" | "~|" | "^" | "~^" | "^~"
@@ -413,7 +413,7 @@ list_of_path_delay_expressions =
 	tz1_path_delay_expression, ",", t1z_path_delay_expression, ",", tz0_path_delay_expression, ",",
 	t0x_path_delay_expression, ",", tx1_path_delay_expression, ",", t1x_path_delay_expression, ",",
 	tx0_path_delay_expression, ",", txz_path_delay_expression, ",", tzx_path_delay_expression
-;
+ 	;
 
 path_delay_value =
 	list_of_path_delay_expressions |
@@ -451,7 +451,7 @@ list_of_path_outputs =
 	;
 
 list_of_path_inputs =
-	specify_input_terminal_descriptor, { ",",  specify_input_terminal_descriptor }
+	specify_input_terminal_descriptor, { ",", specify_input_terminal_descriptor }
 	;
 
 full_path_description =
@@ -871,7 +871,6 @@ mos_gate_instance =
 	[ name_of_gate_instance ], "(", output_terminal, ",", input_terminal, ",", enable_terminal, ")"
 	;
 
-
 enable_gate_instance =
 	[ name_of_gate_instance ], "(", output_terminal, ",", input_terminal, ",", enable_terminal, ")"
 	;
@@ -891,7 +890,7 @@ gate_instantiation =
 	mos_switchtype, [ delay3 ], mos_switch_instance, { ",", mos_switch_instance }, ";" |
 	pass_switchtype, pass_switch_instance, { ",", pass_switch_instance }, ";" |
 	pass_en_switchtype, [ delay3 ], pass_en_switch_instance, { ",", pass_en_switch_instance }, ";" |
-	cmos_switchtype, [ delay3 ], cmos_switch_instance, { ",", cmos_switch_instance }, ";"  |
+	cmos_switchtype, [ delay3 ], cmos_switch_instance, { ",", cmos_switch_instance }, ";" |
 	"pullup", [ pullup_strength ], pull_gate_instance, { ",", pull_gate_instance }, ";" |
 	"pulldown", [ pulldown_strength ], pull_gate_instance, { ",", pull_gate_instance }, ";"
 	;

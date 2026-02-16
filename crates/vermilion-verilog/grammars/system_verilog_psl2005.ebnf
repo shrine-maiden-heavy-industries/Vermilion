@@ -148,7 +148,7 @@ assert_directive =
 	"assert", property, "[", "report", string, "]", ";"
 	;
 
-assume_directive  =
+assume_directive =
 	"assume", property, ";"
 	;
 
@@ -243,15 +243,15 @@ fl_property =
 	fl_property, "before!_", fl_property |
 	fl_property, "before_", fl_property |
 	(* : Extended Next (Event) Operators : *)
-	"X", "[", number,  "]", "(", fl_property, ")" |
-	"X!", "[", number,  "]", "(", fl_property, ")" |
-	"next", "[", number,  "]", "(", fl_property, ")" |
-	"next!", "[", number,  "]", "(", fl_property, ")" |
+	"X", "[", number, "]", "(", fl_property, ")" |
+	"X!", "[", number, "]", "(", fl_property, ")" |
+	"next", "[", number, "]", "(", fl_property, ")" |
+	"next!", "[", number, "]", "(", fl_property, ")" |
 	(* : See A.4.7 *)
-	"next_a", "[", finite_range,  "]", "(", fl_property, ")" |
-	"next_a!", "[", finite_range,  "]", "(", fl_property, ")" |
-	"next_e", "[", finite_range,  "]", "(", fl_property, ")" |
-	"next_e!", "[", finite_range,  "]", "(", fl_property, ")" |
+	"next_a", "[", finite_range, "]", "(", fl_property, ")" |
+	"next_a!", "[", finite_range, "]", "(", fl_property, ")" |
+	"next_e", "[", finite_range, "]", "(", fl_property, ")" |
+	"next_e!", "[", finite_range, "]", "(", fl_property, ")" |
 	(* : *)
 	"next_event!", "(", boolean, ")", "(", fl_property, ")" |
 	"next_event", "(", boolean, ")", "(", fl_property, ")" |
@@ -380,7 +380,6 @@ bitvector =
 number =
 	numeric_hdl_or_psl_expression
 	;
-
 
 string =
 	string_hdl_or_psl_expression

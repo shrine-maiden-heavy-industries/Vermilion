@@ -4,9 +4,9 @@
 	NOTE 1: Function statements are limited by the rules of IEEE 1364-2005 §10.4.4.
 	NOTE 2: Embedded spaces are illegal.
 	NOTE 3: A `simple_identifier` shall start with [a-zA-Z_], shall have at least one character, and
-	        shall not have any spaces.
+			shall not have any spaces.
 	NOTE 4: The dollar sign (`$`) in a a `system_function_identifier` of `system_task_identifier`
-	        shall not be followed by any `white_space`. A `system_function_identifier` or
+			shall not be followed by any `white_space`. A `system_function_identifier` or
 			`system_task_identifier` shall not be escaped.
 	NOTE 5: EOF (End Of File) is a valid `white_space` character.
 *)
@@ -580,7 +580,6 @@ controlled_timing_check_event =
 	timing_check_event_control, specify_terminal_descriptor, [ "&&&", timing_check_condition ]
 	;
 
-
 timing_check_event =
 	[ timing_check_event_control ], specify_terminal_descriptor, [ "&&&", timing_check_condition ]
 	;
@@ -648,35 +647,35 @@ setup_timing_check =
 	;
 
 hold_timing_check =
-	"$hold", "(", reference_event, ",", data_event, ",",  timing_check_limit, [ ",", [ notifier ] ], ")", ";"
+	"$hold", "(", reference_event, ",", data_event, ",", timing_check_limit, [ ",", [ notifier ] ], ")", ";"
 	;
 
 setuphold_timing_check =
-	"$setuphold", "(", reference_event, ",", data_event, ",",  timing_check_limit, ",", timing_check_limit, [ ",", [ notifier ], [ ",", [ stamptime_condition ], [ ",", [ checktime_condition ], [ ",", [ delayed_reference ], [ ",", [ delayed_data ] ] ] ] ] ], ")", ";"
+	"$setuphold", "(", reference_event, ",", data_event, ",", timing_check_limit, ",", timing_check_limit, [ ",", [ notifier ], [ ",", [ stamptime_condition ], [ ",", [ checktime_condition ], [ ",", [ delayed_reference ], [ ",", [ delayed_data ] ] ] ] ] ], ")", ";"
 	;
 
 recovery_timing_check =
-	"$recovery", "(", reference_event, ",", data_event, ",",  timing_check_limit, [ ",", [ notifier ] ], ")", ";"
+	"$recovery", "(", reference_event, ",", data_event, ",", timing_check_limit, [ ",", [ notifier ] ], ")", ";"
 	;
 
 removal_timing_check =
-	"$removal", "(", reference_event, ",", data_event, ",",  timing_check_limit, [ ",", [ notifier ] ], ")", ";"
+	"$removal", "(", reference_event, ",", data_event, ",", timing_check_limit, [ ",", [ notifier ] ], ")", ";"
 	;
 
 recrem_timing_check =
-	"$recrem", "(", reference_event, ",", data_event, ",",  timing_check_limit, ",", timing_check_limit, [ ",", [ notifier ], [ ",", [ stamptime_condition ], [ ",", [ checktime_condition ], [ ",", [ delayed_reference ], [ ",", [ delayed_data ] ] ] ] ] ], ")", ";"
+	"$recrem", "(", reference_event, ",", data_event, ",", timing_check_limit, ",", timing_check_limit, [ ",", [ notifier ], [ ",", [ stamptime_condition ], [ ",", [ checktime_condition ], [ ",", [ delayed_reference ], [ ",", [ delayed_data ] ] ] ] ] ], ")", ";"
 	;
 
 skew_timing_check =
-	"$skew", "(", reference_event, ",", data_event, ",",  timing_check_limit, [ ",", [ notifier ] ], ")", ";"
+	"$skew", "(", reference_event, ",", data_event, ",", timing_check_limit, [ ",", [ notifier ] ], ")", ";"
 	;
 
 timeskew_timing_check =
-	"$timeskew", "(", reference_event, ",", data_event, ",",  timing_check_limit, [ ",", [ notifier ], [ ",", [ event_based_flag ], [ ",", [ remain_active_flag ] ] ] ], ")", ";"
+	"$timeskew", "(", reference_event, ",", data_event, ",", timing_check_limit, [ ",", [ notifier ], [ ",", [ event_based_flag ], [ ",", [ remain_active_flag ] ] ] ], ")", ";"
 	;
 
 fullskew_timing_check =
-	"$fullskew", "(", reference_event, ",", data_event, ",",  timing_check_limit, [ ",", [ notifier ], [ ",", [ event_based_flag ], [ ",", [ remain_active_flag ] ] ] ], ")", ";"
+	"$fullskew", "(", reference_event, ",", data_event, ",", timing_check_limit, [ ",", [ notifier ], [ ",", [ event_based_flag ], [ ",", [ remain_active_flag ] ] ] ], ")", ";"
 	;
 
 period_timing_check =
@@ -944,7 +943,7 @@ event_trigger =
 	;
 
 event_control =
-	"@",  hierarchical_event_identifier |
+	"@", hierarchical_event_identifier |
 	"@", "(", event_expression, ")" |
 	"@", "*" |
 	"@", "(", "*", ")"
@@ -1139,7 +1138,7 @@ udp_port_declaration =
 	;
 
 udp_declaration_port_list =
-	udp_output_declaration, ",", udp_input_declaration, { ",", udp_input_declaration  }
+	udp_output_declaration, ",", udp_input_declaration, { ",", udp_input_declaration }
 	;
 
 udp_port_list =
@@ -1365,7 +1364,7 @@ gate_instantiation =
 	pass_en_switchtype, [ delay2 ], pass_enable_switch_instance, { ",", pass_enable_switch_instance }, ";" |
 	pass_switchtype, pass_switch_instance, { ",", pass_switch_instance }, ";" |
 	"pulldown", [ pulldown_strength ], pull_gate_instance, { ",", pull_gate_instance }, ";" |
-	"pullup", [ pullup_strength ],  pull_gate_instance, { ",", pull_gate_instance }, ";"
+	"pullup", [ pullup_strength ], pull_gate_instance, { ",", pull_gate_instance }, ";"
 	;
 
 block_real_type =
@@ -1820,7 +1819,6 @@ library_description =
 library_text =
 	{ library_description }
 	;
-
 
 (*
 	Keywords:

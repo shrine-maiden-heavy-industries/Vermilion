@@ -445,7 +445,7 @@ cell_identifier =
 	identifier
 	;
 
-(*  See NOTE 54 *)
+(* See NOTE 54 *)
 c_identifier =
 	a-zA-Z_, { a-zA-Z0-9_ }
 	;
@@ -686,7 +686,7 @@ variable_lvalue =
 
 net_lvalue =
 	ps_or_hierarchical_net_identifier, constant_select |
-	"{",  net_lvalue, { ",", net_lvalue }, "}" |
+	"{", net_lvalue, { ",", net_lvalue }, "}" |
 	[ assignment_pattern_expression_type ], assignment_pattern_net_lvalue
 	;
 
@@ -1011,7 +1011,7 @@ stream_operator =
 	;
 
 streaming_concatenation =
-	"{",  stream_operator, [ slice_size ], stream_concatenation, "}"
+	"{", stream_operator, [ slice_size ], stream_concatenation, "}"
 	;
 
 (* See NOTE 39 *)
@@ -1157,7 +1157,7 @@ controlled_reference_event =
 
 nochange_timing_check =
 	"$nochange", "(", reference_event, ",", data_event, ",", start_edge_offset, ",", end_edge_offset,
-		[ ",", [ notifier ] ] ,")", ";"
+		[ ",", [ notifier ] ],")", ";"
 	;
 
 width_timing_check =
@@ -1166,7 +1166,7 @@ width_timing_check =
 	;
 
 period_timing_check =
-	"$period", "(", controlled_reference_event, ",", timing_check_limit, [ ",", [ notifier ]  ], ")", ";"
+	"$period", "(", controlled_reference_event, ",", timing_check_limit, [ ",", [ notifier ] ], ")", ";"
 	;
 
 fullskew_timing_check =
@@ -1184,7 +1184,7 @@ skew_timing_check =
 	;
 
 recrem_timing_check =
-	"$recrem", "(",  reference_event, ",", data_event, ",", timing_check_limit, ",", timing_check_limit,
+	"$recrem", "(", reference_event, ",", data_event, ",", timing_check_limit, ",", timing_check_limit,
 		[ ",", [ notifier ], [ ",", [ timestamp_condition ], [ ",", [ timecheck_condition,
 			[ ",", [ delayed_reference ], [ ",", [ delayed_data ] ] ] ] ] ] ], ")", ";"
 	;
@@ -1627,11 +1627,11 @@ loop_statement =
 	;
 
 assignment_pattern_variable_lvalue =
-	"'", "{",  variable_lvalue, { ",", variable_lvalue }, "}"
+	"'", "{", variable_lvalue, { ",", variable_lvalue }, "}"
 	;
 
 assignment_pattern_net_lvalue =
-	"'", "{",  net_lvalue, { ",", net_lvalue }, "}"
+	"'", "{", net_lvalue, { ",", net_lvalue }, "}"
 	;
 
 (* See NOTE 37 *)
@@ -1757,7 +1757,7 @@ unique_priority =
 
 conditional_statement =
 	[ unique_priority ], "if", "(", cond_predicate, ")", statement_or_null,
-		{ "else", "if", "(", cond_predicate, ")", statement_or_null  }, [ "else", statement_or_null ]
+		{ "else", "if", "(", cond_predicate, ")", statement_or_null }, [ "else", statement_or_null ]
 	;
 
 disable_statement =
@@ -2129,7 +2129,7 @@ generate_region =
 	;
 
 named_checker_port_connection =
-	{ attribute_instance }, ".", formal_port_identifier, [ "(", [  property_actual_arg ], ")" ] |
+	{ attribute_instance }, ".", formal_port_identifier, [ "(", [ property_actual_arg ], ")" ] |
 	{ attribute_instance }, ".*"
 	;
 
@@ -2175,7 +2175,7 @@ name_of_instance =
 	;
 
 hierarchical_instance =
-	name_of_instance, "(", [ list_of_port_connections ] , ")"
+	name_of_instance, "(", [ list_of_port_connections ], ")"
 	;
 
 named_parameter_assignment =
@@ -2582,7 +2582,7 @@ sequence_actual_arg =
 
 sequence_list_of_arguments =
 	[ sequence_actual_arg ], { ",", [ sequence_actual_arg ] }, { ",", ".", identifier, "(", [ sequence_actual_arg ], ")" } |
-	".", identifier, "(", [ sequence_actual_arg ], ")", { ",", identifier, "(", [  sequence_actual_arg, ], ")" }
+	".", identifier, "(", [ sequence_actual_arg ], ")", { ",", identifier, "(", [ sequence_actual_arg, ], ")" }
 	;
 
 sequence_instance =
@@ -3308,7 +3308,6 @@ package_import_declaration =
 	"import", package_import_item, { ",", package_import_item }, ";"
 	;
 
-
 data_declaration =
 	(* See NOTE 14 *)
 	[ "const" ], [ "var" ], [ lifetime ], data_type_or_implicit, list_of_variable_decl_assignments, ";" |
@@ -3752,7 +3751,7 @@ module_or_generate_item_declaration =
 	package_or_generate_item_declaration |
 	genvar_declaration |
 	clocking_declaration |
-	"default", "clocking", clocking_identifier,  ";" |
+	"default", "clocking", clocking_identifier, ";" |
 	"default", "disable", "iff", expression_or_dist, ";"
 	;
 
@@ -3794,7 +3793,7 @@ finish_number =
 	;
 
 severity_system_task =
-	"$fatal", [ "(", finish_number, [ ",", list_of_arguments ], ")"  ], ";" |
+	"$fatal", [ "(", finish_number, [ ",", list_of_arguments ], ")" ], ";" |
 	"$error", [ "(", [ list_of_arguments ], ")" ], ";" |
 	"$warning", [ "(", [ list_of_arguments ], ")" ], ";" |
 	"$info", [ "(", [ list_of_arguments ], ")" ], ";"
@@ -3802,7 +3801,7 @@ severity_system_task =
 
 ansi_port_declaration =
 	[ net_port_header | interface_port_header ], port_identifier, { unpacked_dimension },
-		[ "=", constant_expression ]  |
+		[ "=", constant_expression ] |
 	[ variable_port_header ], port_identifier, { variable_dimension }, [ "=", constant_expression ] |
 	[ port_direction ], ".", port_identifier, "(", [ expression ], ")"
 	;

@@ -368,7 +368,7 @@ cell_identifier =
 	identifier
 	;
 
-(*  See NOTE 2 *)
+(* See NOTE 2 *)
 c_identifier =
 	a-zA-Z_, { a-zA-Z0-9_ }
 	;
@@ -589,7 +589,7 @@ variable_lvalue =
 
 net_lvalue =
 	ps_or_hierarchical_net_identifier, constant_select |
-	"{",  net_lvalue, { ",", net_lvalue }, "}" |
+	"{", net_lvalue, { ",", net_lvalue }, "}" |
 	[ assignment_pattern_expression_type ], assignment_pattern_net_lvalue
 	;
 
@@ -893,7 +893,7 @@ stream_operator =
 	;
 
 streaming_concatenation =
-	"{",  stream_operator, [ slice_size ], stream_concatenation, "}"
+	"{", stream_operator, [ slice_size ], stream_concatenation, "}"
 	;
 
 (* See NOTE 18 *)
@@ -1038,7 +1038,7 @@ checktime_condition =
 
 nochange_timing_check =
 	"$nochange", "(", reference_event, ",", data_event, ",", start_edge_offset, ",", end_edge_offset,
-		[ ",", [ notifier ] ] ,")", ";"
+		[ ",", [ notifier ] ],")", ";"
 	;
 
 width_timing_check =
@@ -1047,7 +1047,7 @@ width_timing_check =
 	;
 
 period_timing_check =
-	"$period", "(", controlled_reference_event, ",", timing_check_limit, [ ",", [ notifier ]  ], ")", ";"
+	"$period", "(", controlled_reference_event, ",", timing_check_limit, [ ",", [ notifier ] ], ")", ";"
 	;
 
 fullskew_timing_check =
@@ -1065,7 +1065,7 @@ skew_timing_check =
 	;
 
 recrem_timing_check =
-	"$recrem", "(",  reference_event, ",", data_event, ",", timing_check_limit, ",", timing_check_limit,
+	"$recrem", "(", reference_event, ",", data_event, ",", timing_check_limit, ",", timing_check_limit,
 		[ ",", [ notifier ], [ ",", [ stamptime_condition ], [ ",", [ checktime_condition,
 			[ ",", [ delayed_reference ], [ ",", [ delayed_data ] ] ] ] ] ] ], ")", ";"
 	;
@@ -1459,11 +1459,11 @@ loop_statement =
 	;
 
 assignment_pattern_variable_lvalue =
-	"'", "{",  variable_lvalue, { ",", variable_lvalue }, "}"
+	"'", "{", variable_lvalue, { ",", variable_lvalue }, "}"
 	;
 
 assignment_pattern_net_lvalue =
-	"'", "{",  net_lvalue, { ",", net_lvalue }, "}"
+	"'", "{", net_lvalue, { ",", net_lvalue }, "}"
 	;
 
 (* See NOTE 35 *)
@@ -1566,7 +1566,7 @@ unique_priority =
 
 unique_priority_if_statement =
 	[ unique_priority ], "if", "(", cond_predicate, ")", statement_or_null,
-		{ "else", "if", "(", cond_predicate, ")", statement_or_null  }, [ "else", statement_or_null ]
+		{ "else", "if", "(", cond_predicate, ")", statement_or_null }, [ "else", statement_or_null ]
 	;
 
 conditional_statement =
@@ -1968,7 +1968,7 @@ name_of_instance =
 	;
 
 hierarchical_instance =
-	name_of_instance, "(", [ list_of_port_connections ] , ")"
+	name_of_instance, "(", [ list_of_port_connections ], ")"
 	;
 
 named_parameter_assignment =
@@ -3217,7 +3217,7 @@ module_or_generate_item_declaration =
 	package_or_generate_item_declaration |
 	genvar_declaration |
 	clocking_declaration |
-	"default", "clocking", clocking_identifier,  ";"
+	"default", "clocking", clocking_identifier, ";"
 	;
 
 module_or_generate_item =

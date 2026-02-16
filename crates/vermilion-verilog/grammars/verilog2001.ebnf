@@ -3,13 +3,13 @@
 (*
 	NOTE 1: Embedded spaces are illegal.
 	NOTE 2: A `simple_identifier` and `arrayed_reference` shall start with [a-zA-Z_], shall have at
-	        least one character, and shall not have any spaces.
+			least one character, and shall not have any spaces.
 	NOTE 3: The period (`.`) in `simple_hierarchical_identifier` and `simple_hierarchical_branch`
-	        shall not be preceded or followed by `white_space`
-	NOTE 4: The period (`.`) in  `escaped_hierarchical_identifier` and `escaped_hierarchical_branch`
-	        shall be preceded by `white_space`, but shall not be followed by `white_space`
+			shall not be preceded or followed by `white_space`
+	NOTE 4: The period (`.`) in `escaped_hierarchical_identifier` and `escaped_hierarchical_branch`
+			shall be preceded by `white_space`, but shall not be followed by `white_space`
 	NOTE 5: The dollar (`$`) character in a `system_function_identifier` or `system_task_identifier`
-	        shall not be followed by `white_space`. A `system_function_identifier` or `system_task_identifier`
+			shall not be followed by `white_space`. A `system_function_identifier` or `system_task_identifier`
 			shall not be escaped.
 	NOTE 6: EOF (End Of File) is a valid `white_space` character.
 *)
@@ -756,11 +756,11 @@ skew_timing_check =
 	;
 
 timeskew_timing_check =
-	"$timeskew",  "(", reference_event, ",", data_event, ",", timing_check_limit, [ ",", [ notify_reg ], [ ",", [ event_based_flag ], [ ",", [ remain_active_flag ] ] ] ], ")", ";"
+	"$timeskew", "(", reference_event, ",", data_event, ",", timing_check_limit, [ ",", [ notify_reg ], [ ",", [ event_based_flag ], [ ",", [ remain_active_flag ] ] ] ], ")", ";"
 	;
 
 fullskew_timing_check =
-	"$fullskew",  "(", reference_event, ",", data_event, ",", timing_check_limit, [ ",", [ notify_reg ], [ ",", [ event_based_flag ], [ ",", [ remain_active_flag ] ] ] ], ")", ";"
+	"$fullskew", "(", reference_event, ",", data_event, ",", timing_check_limit, [ ",", [ notify_reg ], [ ",", [ event_based_flag ], [ ",", [ remain_active_flag ] ] ] ], ")", ";"
 	;
 
 period_timing_check =
@@ -899,7 +899,7 @@ list_of_path_delay_expressions =
 	tz1_path_delay_expression, ",", t1z_path_delay_expression, ",", tz0_path_delay_expression, ",",
 	t0x_path_delay_expression, ",", tx1_path_delay_expression, ",", t1x_path_delay_expression, ",",
 	tx0_path_delay_expression, ",", txz_path_delay_expression, ",", tzx_path_delay_expression
-;
+ 	;
 
 path_delay_value =
 	list_of_path_delay_expressions |
@@ -1473,7 +1473,7 @@ cmos_switch_instance =
 	;
 
 gate_instantiation =
-	cmos_switchtype, [ delay3 ], cmos_switch_instance, { ",", cmos_switch_instance } , ";" |
+	cmos_switchtype, [ delay3 ], cmos_switch_instance, { ",", cmos_switch_instance }, ";" |
 	enable_gatetype, [ drive_strength ], [ delay3 ], enable_gate_instance, { ",", enable_gate_instance }, ";" |
 	mos_switchtype, [ delay3 ], mos_switch_instance, { ",", mos_switch_instance }, ";" |
 	n_input_gatetype, [ drive_strength ], [ delay2 ], n_input_gate_instance, { ",", n_input_gate_instance }, ";" |
@@ -1630,7 +1630,7 @@ list_of_param_assignments =
 	;
 
 list_of_net_identifiers =
-	net_identifier, [ dimension, { dimension } ], { ",",  net_identifier, [ dimension, { dimension } ] }
+	net_identifier, [ dimension, { dimension } ], { ",", net_identifier, [ dimension, { dimension } ] }
 	;
 
 list_of_net_decl_assignments =
@@ -1642,7 +1642,7 @@ list_of_genvar_identifiers =
 	;
 
 list_of_event_identifiers =
-	event_identifier, [ dimension, { dimension } ], { ",",  event_identifier, [ dimension, { dimension } ] }
+	event_identifier, [ dimension, { dimension } ], { ",", event_identifier, [ dimension, { dimension } ] }
 	;
 
 delay_value =
@@ -1952,7 +1952,6 @@ library_descriptions =
 library_text =
 	{ library_descriptions }
 	;
-
 
 (*
 	Keywords:

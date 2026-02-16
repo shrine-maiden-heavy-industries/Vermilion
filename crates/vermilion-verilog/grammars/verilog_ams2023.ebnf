@@ -6,13 +6,12 @@
 	NOTE 1: Function statements are limited by the rules of §4.7.1.
 	NOTE 2: Embedded spaces are illegal.
 	NOTE 3: A `simple_identifier` shall start with [a-zA-Z_], shall have at least one character,
-	        and shall not have any spaces.
+			and shall not have any spaces.
 	NOTE 4: The dollar (`$`) character in a `system_function_identifier` or `system_task_identifier`
-	        shall not be followed by `white_space`. A `system_function_identifier` or
+			shall not be followed by `white_space`. A `system_function_identifier` or
 			`system_task_identifier` shall not be escaped.
 	NOTE 5: EOF (End Of File) is valid white space
 *)
-
 
 white_space =
 	" " | "\t" | "\n"
@@ -112,7 +111,7 @@ module_parameter_identifier =
 	identifier
 	;
 
-module_output_variable_identifier  =
+module_output_variable_identifier =
 	identifier
 	;
 
@@ -1013,35 +1012,35 @@ setup_timing_check =
 	;
 
 hold_timing_check =
-	"$hold", "(", reference_event, ",", data_event, ",",  timing_check_limit, [ ",", [ notifier ] ], ")", ";"
+	"$hold", "(", reference_event, ",", data_event, ",", timing_check_limit, [ ",", [ notifier ] ], ")", ";"
 	;
 
 setuphold_timing_check =
-	"$setuphold", "(", reference_event, ",", data_event, ",",  timing_check_limit, ",", timing_check_limit, [ ",", [ notifier ], [ ",", [ stamptime_condition ], [ ",", [ checktime_condition ], [ ",", [ delayed_reference ], [ ",", [ delayed_data ] ] ] ] ] ], ")", ";"
+	"$setuphold", "(", reference_event, ",", data_event, ",", timing_check_limit, ",", timing_check_limit, [ ",", [ notifier ], [ ",", [ stamptime_condition ], [ ",", [ checktime_condition ], [ ",", [ delayed_reference ], [ ",", [ delayed_data ] ] ] ] ] ], ")", ";"
 	;
 
 recovery_timing_check =
-	"$recovery", "(", reference_event, ",", data_event, ",",  timing_check_limit, [ ",", [ notifier ] ], ")", ";"
+	"$recovery", "(", reference_event, ",", data_event, ",", timing_check_limit, [ ",", [ notifier ] ], ")", ";"
 	;
 
 removal_timing_check =
-	"$removal", "(", reference_event, ",", data_event, ",",  timing_check_limit, [ ",", [ notifier ] ], ")", ";"
+	"$removal", "(", reference_event, ",", data_event, ",", timing_check_limit, [ ",", [ notifier ] ], ")", ";"
 	;
 
 recrem_timing_check =
-	"$recrem", "(", reference_event, ",", data_event, ",",  timing_check_limit, ",", timing_check_limit, [ ",", [ notifier ], [ ",", [ stamptime_condition ], [ ",", [ checktime_condition ], [ ",", [ delayed_reference ], [ ",", [ delayed_data ] ] ] ] ] ], ")", ";"
+	"$recrem", "(", reference_event, ",", data_event, ",", timing_check_limit, ",", timing_check_limit, [ ",", [ notifier ], [ ",", [ stamptime_condition ], [ ",", [ checktime_condition ], [ ",", [ delayed_reference ], [ ",", [ delayed_data ] ] ] ] ] ], ")", ";"
 	;
 
 skew_timing_check =
-	"$skew", "(", reference_event, ",", data_event, ",",  timing_check_limit, [ ",", [ notifier ] ], ")", ";"
+	"$skew", "(", reference_event, ",", data_event, ",", timing_check_limit, [ ",", [ notifier ] ], ")", ";"
 	;
 
 timeskew_timing_check =
-	"$timeskew", "(", reference_event, ",", data_event, ",",  timing_check_limit, [ ",", [ notifier ], [ ",", [ event_based_flag ], [ ",", [ remain_active_flag ] ] ] ], ")", ";"
+	"$timeskew", "(", reference_event, ",", data_event, ",", timing_check_limit, [ ",", [ notifier ], [ ",", [ event_based_flag ], [ ",", [ remain_active_flag ] ] ] ], ")", ";"
 	;
 
 fullskew_timing_check =
-	"$fullskew", "(", reference_event, ",", data_event, ",",  timing_check_limit, [ ",", [ notifier ], [ ",", [ event_based_flag ], [ ",", [ remain_active_flag ] ] ] ], ")", ";"
+	"$fullskew", "(", reference_event, ",", data_event, ",", timing_check_limit, [ ",", [ notifier ], [ ",", [ event_based_flag ], [ ",", [ remain_active_flag ] ] ] ], ")", ";"
 	;
 
 period_timing_check =
@@ -1263,15 +1262,15 @@ contribution_statement =
 	;
 
 task_enable =
-	hierarchical_task_identifier, [ "(", [ expression ], { ",", [ expression ] }, ")"  ], ";"
+	hierarchical_task_identifier, [ "(", [ expression ], { ",", [ expression ] }, ")" ], ";"
 	;
 
 system_task_enable =
-	system_task_identifier, [ "(", [ expression ], { ",", [ expression ] }, ")"  ], ";"
+	system_task_identifier, [ "(", [ expression ], { ",", [ expression ] }, ")" ], ";"
 	;
 
 analog_system_task_enable =
-	analog_system_task_identifier, [ "(", [ analog_expression ], { ",", [ analog_expression ] }, ")"  ], ";"
+	analog_system_task_identifier, [ "(", [ analog_expression ], { ",", [ analog_expression ] }, ")" ], ";"
 	;
 
 loop_statement =
@@ -2064,7 +2063,7 @@ error_limit_value =
 	;
 
 pulse_control_specparam =
-	"PATHPULSE$", "=", "(", reject_limit_value, [ ",", error_limit_value ],  ")" |
+	"PATHPULSE$", "=", "(", reject_limit_value, [ ",", error_limit_value ], ")" |
 	"PATHPULSE$", specify_input_terminal_descriptor, "$", specify_output_terminal_descriptor, "=", "(", reject_limit_value, [ ",", error_limit_value ], ")"
 	;
 
