@@ -226,7 +226,7 @@ case_generate_alternative =
 
 case_generate_statement =
 	generate_label, ":", "case", expression, "generate", case_generate_alternative,
-		{ case_generate_alternative }, "end", "generate",  [ generate_label ], ";"
+		{ case_generate_alternative }, "end", "generate", [ generate_label ], ";"
 	;
 
 case_statement =
@@ -863,7 +863,7 @@ interface_package_generic_map_aspect =
 	;
 
 interface_procedure_specification =
-	"procedure", designator,  [ [ "parameter" ], "(", formal_parameter_list, ")" ]
+	"procedure", designator, [ [ "parameter" ], "(", formal_parameter_list, ")" ]
 	;
 
 interface_signal_declaration =

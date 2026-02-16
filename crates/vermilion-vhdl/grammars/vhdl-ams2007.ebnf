@@ -1466,7 +1466,6 @@ unconstrained_array_definition =
 		"of", element_subtype_indication
 	;
 
-
 unconstrained_nature_definition =
 	"array", "(", index_subtype_definition, { ",", index_subtype_definition }, ")",
 		"of", subnature_indication

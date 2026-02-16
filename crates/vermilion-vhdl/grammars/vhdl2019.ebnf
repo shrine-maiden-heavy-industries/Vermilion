@@ -245,7 +245,7 @@ case_generate_alternative =
 
 case_generate_statement =
 	generate_label, ":", "case", expression, "generate", case_generate_alternative,
-		{ case_generate_alternative }, "end", "generate",  [ generate_label ], ";"
+		{ case_generate_alternative }, "end", "generate", [ generate_label ], ";"
 	;
 
 case_statement =
@@ -931,7 +931,7 @@ interface_package_generic_map_aspect =
 	;
 
 interface_procedure_specification =
-	"procedure", identifier,  [ [ "parameter" ], "(", formal_parameter_list, ")" ]
+	"procedure", identifier, [ [ "parameter" ], "(", formal_parameter_list, ")" ]
 	;
 
 interface_signal_declaration =
@@ -1485,7 +1485,7 @@ sequence_of_statements =
 
 sequential_block_statement =
 	[ sequential_block_label, ":" ], "block", [ "is" ], sequential_block_declarative_part, "begin",
-		sequential_block_statement_part, "end", [ "block" ], [ sequential_block_label ] , ";"
+		sequential_block_statement_part, "end", [ "block" ], [ sequential_block_label ], ";"
 	;
 
 sequential_block_declarative_part =

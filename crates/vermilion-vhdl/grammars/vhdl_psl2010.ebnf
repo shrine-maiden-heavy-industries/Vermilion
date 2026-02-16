@@ -145,7 +145,7 @@ hdl_or_psl_identifier =
 	;
 
 assert_directive =
-	"assert", property, "[",  "report", string, "]", ";"
+	"assert", property, "[", "report", string, "]", ";"
 	;
 
 assume_directive =
@@ -412,7 +412,7 @@ psl_expression =
 
 built_in_function_call =
 	"prev", "(", any_type, [ ",", number, [ ",", clock_expression ] ], ")" |
-	"next", "(",  any_type, ")" |
+	"next", "(", any_type, ")" |
 	"stable", "(", any_type, [ ",", clock_expression ], ")" |
 	"rose", "(", bit, [ ",", clock_expression ], ")" |
 	"fell", "(", bit, [ ",", clock_expression ], ")" |
