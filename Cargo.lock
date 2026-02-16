@@ -3423,6 +3423,7 @@ dependencies = [
 name = "vermilion-verilog"
 version = "0.0.0"
 dependencies = [
+ "bitmask-enum",
  "clap",
  "criterion",
  "eyre",

@@ -16,6 +16,7 @@ vermilion-diagnostics = { workspace = true }
 vermilion-fmt         = { workspace = true }
 vermilion-lang        = { workspace = true }
 
+bitmask-enum          = { workspace = true }
 clap                  = { workspace = true, optional = true }
 eyre                  = { workspace = true }
 phf                   = { workspace = true }
