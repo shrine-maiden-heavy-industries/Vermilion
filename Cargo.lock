@@ -3442,6 +3442,7 @@ dependencies = [
 name = "vermilion-vhdl"
 version = "0.0.0"
 dependencies = [
+ "bitmask-enum",
  "clap",
  "criterion",
  "eyre",
