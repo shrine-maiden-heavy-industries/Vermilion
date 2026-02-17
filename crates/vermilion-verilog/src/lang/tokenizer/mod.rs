@@ -96,12 +96,7 @@ macro_rules! versioned_token {
 		)
 	};
 	($self:path, $begin:path, $token:expr,only_verilog_ams) => {
-		versioned_token!(
-			$self,
-			$begin,
-			$token,
-			crate::LanguageSet::SYSTEM_VERILOG_STDS
-		)
+		versioned_token!($self, $begin, $token, crate::LanguageSet::VERILOG_AMS_STDS)
 	};
 	($self:path, $begin:path, $token:expr, $stds:expr) => {
 		if $stds.contains($self.standard.into()) {
