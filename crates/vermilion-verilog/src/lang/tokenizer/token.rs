@@ -415,6 +415,7 @@ pub enum Operator {
 	ArithmeticShl, // Added: IEEE 1364-2001
 	ArithmeticShr, // Added: IEEE 1364-2001
 	Asterisk,
+	BranchContribution, // Added: Verilog-AMS 2009
 	CaseEquality,
 	CaseInequality,
 	Circumflex,
@@ -909,6 +910,7 @@ impl Display for Operator {
 				Self::ArithmeticShl => "<<<", // Added: IEEE 1364-2001
 				Self::ArithmeticShr => ">>>", // Added: IEEE 1364-2001
 				Self::Asterisk => "*",
+				Self::BranchContribution => "<+", // Added: Verilog-AMS 2009
 				Self::CaseEquality => "===",
 				Self::CaseInequality => "!==",
 				Self::Circumflex => "^",

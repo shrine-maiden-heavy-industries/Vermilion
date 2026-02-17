@@ -607,44 +607,43 @@ impl VerilogTokenizer {
 		let begin = self.position;
 		self.next_char();
 
-		if self.current_char == b'=' {
-			self.next_char();
+		self.token = spanned_token!(
+			match self.current_char {
+				b'=' => {
+					self.next_char();
 
-			self.token = spanned_token!(
-				Token::Operator(Operator::GreaterThanEqual),
-				begin..self.position,
-				context
-			)
-		} else if self.current_char == b'<' {
-			self.next_char();
+					Token::Operator(Operator::GreaterThanEqual)
+				},
+				b'<' => {
+					self.next_char();
+					if self.current_char == b'<' {
+						self.next_char();
 
-			if self.current_char == b'<' {
-				self.next_char();
+						versioned_token!(
+							self,
+							begin,
+							Token::Operator(Operator::ArithmeticShl),
+							at_least_vl01
+						)
+					} else {
+						Token::Operator(Operator::ShiftLeft)
+					}
+				},
+				b'+' => {
+					self.next_char();
 
-				self.token = spanned_token!(
 					versioned_token!(
 						self,
 						begin,
-						Token::Operator(Operator::ArithmeticShl),
-						at_least_vl01
-					),
-					begin..self.position,
-					context
-				)
-			} else {
-				self.token = spanned_token!(
-					Token::Operator(Operator::ShiftLeft),
-					begin..self.position,
-					context
-				)
-			}
-		} else {
-			self.token = spanned_token!(
-				Token::Operator(Operator::GreaterThan),
-				begin..self.position,
-				context
-			)
-		}
+						Token::Operator(Operator::BranchContribution),
+						only_verilog_ams
+					)
+				},
+				_ => Token::Operator(Operator::GreaterThan),
+			},
+			begin..self.position,
+			context
+		)
 	}
 
 	fn read_asterisk_token(&mut self) {

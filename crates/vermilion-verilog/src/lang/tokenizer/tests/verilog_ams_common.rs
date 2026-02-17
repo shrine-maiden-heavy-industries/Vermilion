@@ -19,3 +19,13 @@ all_verilog_ams_tokenizer_test!(
 		Position::new(0, 0)
 	),]
 );
+
+all_verilog_ams_tokenizer_test!(
+	operator_branch_contribution,
+	"<+",
+	vec![spanned_token!(
+		Token::Operator(Operator::BranchContribution),
+		0..2,
+		Position::new(0, 0)
+	),]
+);
