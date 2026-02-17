@@ -265,17 +265,17 @@ x_digit =
 	;
 
 hex_digit =
-	x_digit | z_digit | "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" |
+	"0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" |
 	"a" | "b" | "c" | "d" | "e" | "f" |
-	"A" | "B" | "C" | "D" | "E" | "F"
+	"A" | "B" | "C" | "D" | "E" | "F" | x_digit | z_digit
 	;
 
 octal_digit =
-	x_digit | z_digit | "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7"
+	"0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | x_digit | z_digit
 	;
 
 binary_digit =
-	x_digit | z_digit | "0" | "1"
+	"0" | "1" | x_digit | z_digit
 	;
 
 decimal_digit =
@@ -477,7 +477,7 @@ module_path_expression =
 	;
 
 module_path_conditional_expression =
-	module_path_expression, '?', { attribute_instance }, module_path_expression, ":", module_path_expression
+	module_path_expression, "?", { attribute_instance }, module_path_expression, ":", module_path_expression
 	;
 
 mintypmax_expression =
@@ -610,7 +610,7 @@ concatenation =
 	;
 
 scalar_constant =
-	"1'b0" | "1'b1" | "1'B0" | "1'B1" | "'b0" | "'b1" | "'B0" | "'B1" | "0" | "1"
+	"1'b0" | "1'b1" | "1'B0" | "1'B1" | "'b0" | "'b1" | "'B0" | "'B1" | "1" | "0"
 	;
 
 scalar_timing_check_condition =
@@ -649,7 +649,9 @@ specify_terminal_descriptor =
 	;
 
 timing_check_event_control =
-	"posedge" | "negedge" | edge_control_specifier
+	"posedge" |
+	"negedge" |
+	edge_control_specifier
 	;
 
 controlled_timing_check_event =
@@ -787,7 +789,7 @@ polarity_operator =
 
 state_dependent_path_declaration =
 	"if", "(", module_path_expression, ")", simple_path_declaration |
-	"if", "(", module_path_expression, ")", edge_sensitive_path_declaration, |
+	"if", "(", module_path_expression, ")", edge_sensitive_path_declaration |
 	"ifnone", simple_path_declaration
 	;
 
@@ -1193,8 +1195,7 @@ output_symbol =
 	;
 
 next_state =
-	output_symbol |
-	"-"
+	output_symbol | "-"
 	;
 
 current_state =
@@ -1202,8 +1203,7 @@ current_state =
 	;
 
 edge_indicator =
-	"(", level_symbol, level_symbol, ")" |
-	edge_symbol
+	"(", level_symbol, level_symbol, ")" | edge_symbol
 	;
 
 edge_input_list =
@@ -1224,7 +1224,7 @@ sequential_entry =
 	;
 
 init_val =
-	"1'b0" | "1'b1" | "1'bx" | "1'bX" | "1'B0" | "1'B1" | "1'Bx" | "1'BX" | "0" | "1"
+	"1'b0" | "1'b1" | "1'bx" | "1'bX" | "1'B0" | "1'B1" | "1'Bx" | "1'BX" | "1" | "0"
 	;
 
 udp_initial_statement =
@@ -1500,7 +1500,7 @@ block_item_declaration =
 	;
 
 task_port_type =
-	"time" | "real" | "realtime" | "integer"
+	"integer" | "real" | "realtime" | "time"
 	;
 
 tf_inout_declaration =
@@ -1691,16 +1691,8 @@ output_variable_type =
 	;
 
 net_type =
-	"supply0" |
-	"supply1" |
-	"tri" |
-	"triand" |
-	"trior" |
-	"tri0" |
-	"tri1" |
-	"wire" |
-	"wand" |
-	"wor"
+	"supply0" | "supply1" | "tri" | "triand" | "trior" | "tri0" | "tri1" |
+	"wire" | "wand" | "wor"
 	;
 
 time_declaration =

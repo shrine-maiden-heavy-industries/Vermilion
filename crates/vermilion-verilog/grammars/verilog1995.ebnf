@@ -245,7 +245,9 @@ edge_control_specifier =
 	;
 
 timing_check_event_control =
-	"posedge" | "negedge" | edge_control_specifier
+	"posedge" |
+	"negedge" |
+	edge_control_specifier
 	;
 
 controlled_timing_check_event =
@@ -655,8 +657,7 @@ current_state =
 	;
 
 edge_indicator =
-	"(", level_symbol, level_symbol, ")" |
-	edge_symbol
+	"(", level_symbol, level_symbol, ")" | edge_symbol
 	;
 
 edge_input_list =

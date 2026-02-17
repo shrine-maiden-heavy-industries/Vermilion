@@ -342,8 +342,8 @@ unary_module_path_operator =
 	;
 
 binary_operator =
-	"+" | "-" | "*" | "/" | "%" | "==" | "!=" | "===" | "!== "| "&&" | "||" | "**" |
-	"<" | "<=" | ">" | ">=" | "&" | "|" | "^" | "^~" | "~^" | ">>" | "<<" | ">>>" | "<<<"
+	"+" | "-" | "*" | "/" | "%" | "==" | "!=" | "===" | "!==" | "&&" | "||" |
+	"**" | "<" | "<=" | ">" | ">=" | "&" | "|" | "^" | "^~" | "~^" | ">>" | "<<" | ">>>" | "<<<"
 	;
 
 unary_operator =
@@ -1086,7 +1086,8 @@ level_input_list =
 	;
 
 seq_input_list =
-	level_input_list | edge_input_list
+	level_input_list |
+	edge_input_list
 	;
 
 sequential_entry =
