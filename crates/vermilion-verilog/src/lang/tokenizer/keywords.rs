@@ -2736,7 +2736,7 @@ pub fn get_verilog_95_keyword(ident: &str) -> Option<Keyword> {
 
 /// Check to see if the given identifier is a Verilog 1995 keyword
 ///
-/// This is used rather than [`verilog_95_keyword`] to test if the
+/// This is used rather than [`get_verilog_95_keyword`] to test if the
 /// found identifier for a lower Verilog standard is a keyword in this
 /// standard.
 ///
@@ -2756,7 +2756,7 @@ pub fn get_verilog_01_keyword(ident: &str) -> Option<Keyword> {
 
 /// Check to see if the given identifier is a Verilog 2001 keyword
 ///
-/// This is used rather than [`verilog_01_keyword`] to test if the
+/// This is used rather than [`get_verilog_01_keyword`] to test if the
 /// found identifier for a lower Verilog standard is a keyword in this
 /// standard.
 ///
@@ -2776,7 +2776,7 @@ pub fn get_verilog_05_keyword(ident: &str) -> Option<Keyword> {
 
 /// Check to see if the given identifier is a Verilog 2005 keyword
 ///
-/// This is used rather than [`verilog_05_keyword`] to test if the
+/// This is used rather than [`get_verilog_05_keyword`] to test if the
 /// found identifier for a lower Verilog standard is a keyword in this
 /// standard.
 ///
@@ -2807,7 +2807,7 @@ pub fn get_system_verilog_05_keyword(ident: &str) -> Option<Keyword> {
 
 /// Check to see if the given identifier is a SystemVerilog 2005 keyword
 ///
-/// This is used rather than [`system_verilog_05_keyword`] to test if the
+/// This is used rather than [`get_system_verilog_05_keyword`] to test if the
 /// found identifier for a lower Verilog standard is a keyword in this
 /// standard.
 ///
@@ -2827,7 +2827,7 @@ pub fn get_system_verilog_09_keyword(ident: &str) -> Option<Keyword> {
 
 /// Check to see if the given identifier is a SystemVerilog 2009 keyword
 ///
-/// This is used rather than [`system_verilog_09_keyword`] to test if the
+/// This is used rather than [`get_system_verilog_09_keyword`] to test if the
 /// found identifier for a lower Verilog standard is a keyword in this
 /// standard.
 ///
@@ -2847,7 +2847,7 @@ pub fn get_system_verilog_12_keyword(ident: &str) -> Option<Keyword> {
 
 /// Check to see if the given identifier is a SystemVerilog 2012 keyword
 ///
-/// This is used rather than [`system_verilog_12_keyword`] to test if the
+/// This is used rather than [`get_system_verilog_12_keyword`] to test if the
 /// found identifier for a lower Verilog standard is a keyword in this
 /// standard.
 ///
@@ -2867,7 +2867,7 @@ pub fn get_system_verilog_17_keyword(ident: &str) -> Option<Keyword> {
 
 /// Check to see if the given identifier is a SystemVerilog 2017 keyword
 ///
-/// This is used rather than [`system_verilog_17_keyword`] to test if the
+/// This is used rather than [`get_system_verilog_17_keyword`] to test if the
 /// found identifier for a lower Verilog standard is a keyword in this
 /// standard.
 ///
@@ -2887,7 +2887,7 @@ pub fn get_system_verilog_23_keyword(ident: &str) -> Option<Keyword> {
 
 /// Check to see if the given identifier is a SystemVerilog 2023 keyword
 ///
-/// This is used rather than [`system_verilog_23_keyword`] to test if the
+/// This is used rather than [`get_system_verilog_23_keyword`] to test if the
 /// found identifier for a lower Verilog standard is a keyword in this
 /// standard.
 ///
@@ -2920,7 +2920,7 @@ pub fn get_verilog_ams_09_keyword(ident: &str) -> Option<Keyword> {
 
 /// Check to see if the given identifier is a Verilog-AMS 2009 keyword
 ///
-/// This is used rather than [`verilog_ams_09_keyword`] to test if the
+/// This is used rather than [`get_verilog_ams_09_keyword`] to test if the
 /// found identifier for a lower Verilog standard is a keyword in this
 /// standard.
 ///
@@ -2940,7 +2940,7 @@ pub fn get_verilog_ams_14_keyword(ident: &str) -> Option<Keyword> {
 
 /// Check to see if the given identifier is a Verilog-AMS 2014 keyword
 ///
-/// This is used rather than [`verilog_ams_14_keyword`] to test if the
+/// This is used rather than [`get_verilog_ams_14_keyword`] to test if the
 /// found identifier for a lower Verilog standard is a keyword in this
 /// standard.
 ///
@@ -2960,7 +2960,7 @@ pub fn get_verilog_ams_23_keyword(ident: &str) -> Option<Keyword> {
 
 /// Check to see if the given identifier is a Verilog-AMS 2023 keyword
 ///
-/// This is used rather than [`verilog_ams_23_keyword`] to test if the
+/// This is used rather than [`get_verilog_ams_23_keyword`] to test if the
 /// found identifier for a lower Verilog standard is a keyword in this
 /// standard.
 ///
