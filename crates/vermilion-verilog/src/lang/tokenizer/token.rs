@@ -108,6 +108,7 @@ pub enum Control {
 	ParenClose,
 	ParenOpen,
 	Question,
+	ReverseSolidus,
 	Semicolon,
 }
 
@@ -644,6 +645,7 @@ impl Display for Control {
 				Self::ParenClose => ")",
 				Self::ParenOpen => "(",
 				Self::Question => "?",
+				Self::ReverseSolidus => "\\",
 				Self::Semicolon => ";",
 			}
 		)
