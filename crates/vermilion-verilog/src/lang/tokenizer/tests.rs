@@ -229,6 +229,8 @@ macro_rules! all_tokenizer_test {
 	};
 }
 
+// Directive map/set Tests
+include!("./tests/directives.rs");
 // Keyword map/set Tests
 include!("./tests/keywords.rs");
 // Common Tokenizer Tests

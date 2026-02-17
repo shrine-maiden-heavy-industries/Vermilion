@@ -7,6 +7,7 @@ use vermilion_lang::{AtomicByteTendril, Position, Span, Spanned, spanned_token};
 use self::token::{BaseSpecifier, Comment, CompilerDirective, Control, Operator, Token};
 use crate::VerilogVariant;
 
+mod directives;
 mod keywords;
 pub mod token;
 
