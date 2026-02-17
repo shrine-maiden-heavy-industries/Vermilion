@@ -1272,7 +1272,7 @@ n_input_gatetype =
 	;
 
 mos_switchtype =
-	"nmos" | "pmos" | "rnmos" | "rnmos" | "rpmos"
+	"nmos" | "pmos" | "rnmos" | "rpmos"
 	;
 
 enable_gatetype =
@@ -1308,15 +1308,15 @@ enable_terminal =
 	;
 
 pullup_strength =
-	"(", strength0, strength1, ")" |
-	"(", strength1, strength0, ")" |
-	"(", strength0, ")"
+	"(", strength0, ",", strength1, ")" |
+	"(", strength1, ",", strength0, ")" |
+	"(", strength1, ")"
 	;
 
 pulldown_strength =
-	"(", strength0, strength1, ")" |
-	"(", strength1, strength0, ")" |
-	"(", strength1, ")"
+	"(", strength0, ",", strength1, ")" |
+	"(", strength1, ",", strength0, ")" |
+	"(", strength0, ")"
 	;
 
 name_of_gate_instance =
@@ -1570,12 +1570,12 @@ strength0 =
 	;
 
 drive_strength =
-	"(", strength0, strength1, ")" |
-	"(", strength1, strength0, ")" |
-	"(", strength0, "highz1", ")" |
-	"(", strength1, "highz0", ")" |
-	"(", "highz0", strength1, ")" |
-	"(", "highz1", strength0, ")"
+	"(", strength0, ",", strength1, ")" |
+	"(", strength1, ",", strength0, ")" |
+	"(", strength0, ",", "highz1", ")" |
+	"(", strength1, ",", "highz0", ")" |
+	"(", "highz0", ",", strength1, ")" |
+	"(", "highz1", ",", strength0, ")"
 	;
 
 variable_type =

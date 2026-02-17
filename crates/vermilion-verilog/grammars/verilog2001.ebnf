@@ -312,22 +312,22 @@ decimal_base =
 
 (* See NOTE 1 *)
 hex_value =
-	hex_digit, { "_", hex_digit }
+	hex_digit, { "_" | hex_digit }
 	;
 
 (* See NOTE 1 *)
 octal_value =
-	octal_digit, { "_", octal_digit }
+	octal_digit, { "_" | octal_digit }
 	;
 
 (* See NOTE 1 *)
 binary_value =
-	binary_digit, { "_", binary_digit }
+	binary_digit, { "_" | binary_digit }
 	;
 
 (* See NOTE 1 *)
 unsigned_number =
-	decimal_digit, { "_", decimal_digit }
+	decimal_digit, { "_" | decimal_digit }
 	;
 
 (* See NOTE 1 *)
@@ -1031,7 +1031,7 @@ conditional_statement =
 	;
 
 wait_statement =
-	wait, "(", expression, ")", statement_or_null
+	"wait", "(", expression, ")", statement_or_null
 	;
 
 procedural_timing_control_statement =
@@ -1070,7 +1070,7 @@ delay_or_event_control =
 	;
 
 delay_control =
-	"#", delay_value, |
+	"#", delay_value |
 	"#", "(", mintypmax_expression, ")"
 	;
 
@@ -1673,7 +1673,7 @@ drive_strength =
 	"(", strength0, ",", "highz1", ")" |
 	"(", strength1, ",", "highz0", ")" |
 	"(", "highz0", ",", strength1, ")" |
-	"(", "highz1", ",", strength0, ")" |
+	"(", "highz1", ",", strength0, ")"
 	;
 
 variable_type =
