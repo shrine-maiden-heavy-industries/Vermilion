@@ -25,8 +25,16 @@ pub enum Token {
 		exponent: Option<AtomicByteTendril>,
 	},
 	String(AtomicByteTendril),
+	TextMacro(TextMacro),
 	UnsignedNumber(AtomicByteTendril),
 	Whitespace(AtomicByteTendril),
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
+pub enum TextMacro {
+	DunderFile, // Added: Verilog-AMS 2023 & IEEE 1800-2009
+	DunderLine, // Added: Verilog-AMS 2023 & IEEE 1800-2009
+	Other(AtomicByteTendril),
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
@@ -505,6 +513,7 @@ impl Display for Token {
 			Self::String(tendril) => write!(f, "String(\"{}\")", unsafe {
 				str::from_utf8_unchecked(tendril)
 			}),
+			Self::TextMacro(text_macro) => write!(f, "TextMacro(\"{}\")", text_macro),
 			Self::UnsignedNumber(tendril) => write!(f, "UnsignedNumber({})", unsafe {
 				str::from_utf8_unchecked(tendril)
 			}),
@@ -512,6 +521,20 @@ impl Display for Token {
 				str::from_utf8_unchecked(tendril)
 			}),
 		}
+	}
+}
+
+impl Display for TextMacro {
+	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+		write!(
+			f,
+			"`{}",
+			match self {
+				Self::DunderFile => "__FILE__", // Added: Verilog-AMS 2023 & IEEE 1800-2009
+				Self::DunderLine => "__LINE__", // Added: Verilog-AMS 2023 & IEEE 1800-2009
+				Self::Other(tendril) => unsafe { str::from_utf8_unchecked(tendril) },
+			}
+		)
 	}
 }
 
