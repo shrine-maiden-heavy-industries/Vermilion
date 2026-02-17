@@ -1783,7 +1783,7 @@ list_of_ports =
 	;
 
 module_parameter_port_list =
-	"#(", parameter_declaration, { ",", parameter_declaration }, ")"
+	"#", "(", parameter_declaration, { ",", parameter_declaration }, ")"
 	;
 
 module_keyword =

@@ -3862,9 +3862,9 @@ parameter_port_declaration =
 	;
 
 parameter_port_list =
-	"#(", list_of_param_assignments, { ",", parameter_port_declaration }, ")" |
-	"#(", parameter_port_declaration, { ",", parameter_port_declaration }, ")" |
-	"#(", ")"
+	"#", "(", list_of_param_assignments, { ",", parameter_port_declaration }, ")" |
+	"#", "(", parameter_port_declaration, { ",", parameter_port_declaration }, ")" |
+	"#", "(", ")"
 	;
 
 timeunits_declaration =
