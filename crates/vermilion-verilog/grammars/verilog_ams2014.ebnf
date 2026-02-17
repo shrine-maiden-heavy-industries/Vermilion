@@ -905,7 +905,7 @@ scalar_timing_check_condition =
 	;
 
 timing_check_condition =
-	scalar_timing_check_condition, |
+	scalar_timing_check_condition |
 	"(", scalar_timing_check_condition, ")"
 	;
 
@@ -1923,7 +1923,7 @@ block_item_declaration =
 	{ attribute_instance }, "time", list_of_block_variable_identifiers, ";" |
 	{ attribute_instance }, "real", list_of_block_real_identifiers, ";" |
 	{ attribute_instance }, "realtime", list_of_block_real_identifiers, ";" |
-	{ attribute_instance }, event_declaration, |
+	{ attribute_instance }, event_declaration |
 	{ attribute_instance }, local_parameter_declaration, ";" |
 	{ attribute_instance }, parameter_declaration, ";"
 	;

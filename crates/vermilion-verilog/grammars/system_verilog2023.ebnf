@@ -1307,7 +1307,7 @@ list_of_path_delay_expressions =
 	;
 
 path_delay_value =
-	list_of_path_delay_expressions, |
+	list_of_path_delay_expressions |
 	"(", list_of_path_delay_expressions, ")"
 	;
 
