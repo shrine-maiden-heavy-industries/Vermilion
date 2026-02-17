@@ -934,12 +934,16 @@ procedural_timing_control =
 	event_control
 	;
 
-event_trigger =
+event_expression =
 	expression |
 	"posedge", expression |
 	"negedge", expression |
 	event_expression, "or", event_expression |
 	event_expression, ",", event_expression
+	;
+
+event_trigger =
+	"->", hierarchical_event_identifier, { "[", expression, "]" }, ";"
 	;
 
 event_control =
