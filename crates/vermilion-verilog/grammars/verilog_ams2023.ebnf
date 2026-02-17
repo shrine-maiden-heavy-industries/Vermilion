@@ -797,11 +797,11 @@ noise_table_input_arg =
 	;
 
 analog_small_signal_function_call =
-	"ac_stim","(", [ '"', analysis_identifier, '"', [ ",", analog_expression, [ ",", analog_expression ] ] ], ")" |
-	"white_noise","(", analog_expression, [ ",", string_literal ], ")" |
-	"flicker_noise","(", analog_expression, ",", analog_expression, [ ",", string_literal ], ")" |
-	"noise_table","(", noise_table_input_arg, [ ",", string_literal ], ")" |
-	"noise_table_log","(", noise_table_input_arg, [ ",", string_literal ], ")"
+	"ac_stim", "(", [ '"', analysis_identifier, '"', [ ",", analog_expression, [ ",", analog_expression ] ] ], ")" |
+	"white_noise", "(", analog_expression, [ ",", string_literal ], ")" |
+	"flicker_noise", "(", analog_expression, ",", analog_expression, [ ",", string_literal ], ")" |
+	"noise_table", "(", noise_table_input_arg, [ ",", string_literal ], ")" |
+	"noise_table_log", "(", noise_table_input_arg, [ ",", string_literal ], ")"
 	;
 
 analog_filter_function_arg =
