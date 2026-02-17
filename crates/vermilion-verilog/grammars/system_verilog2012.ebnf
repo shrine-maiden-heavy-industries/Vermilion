@@ -114,6 +114,7 @@
 	NOTE 50: The `$` character in a `system_tf_identifier` shall not be followed by one or more
 			 `white_space`. A `system_tf_identifier` shall not be escaped
 	NOTE 51: EOF (End Of File) is valid white space.
+	NOTE 52: The grave ('`') character may not be followed by `white_space`
 *)
 
 (* See NOTE 51 *)
@@ -3912,6 +3913,218 @@ library_description =
 
 library_text =
 	{ library_description }
+	;
+
+(* Compiler Directives *)
+
+(* See NOTE 52 *)
+cell_define_compiler_directive =
+	"`", "celldefine"
+	;
+
+(* See NOTE 52 *)
+end_cell_define_compiler_directive =
+	"`", "endcelldefine"
+	;
+
+(* See NOTE 52 *)
+default_nettype_compiler_directive =
+	"`", "default_nettype", directive_net_type
+	;
+
+directive_net_type =
+	"wire" | "tri" | "tri0" | "wand" | "triand" | "tri1" | "wor" | "trior" | "trireg" | "none" |
+	"uwire"
+	;
+
+(* See NOTE 52 *)
+text_macro_definition =
+	"`", "define", text_macro_name, macro_text
+	;
+
+text_macro_name =
+	text_macro_identifier, [ "(", list_of_formal_arguments, ")" ]
+	;
+
+list_of_formal_arguments =
+	formal_argument, { ",", formal_argument }
+	;
+
+formal_argument =
+	simple_identifier, [ "=", default_text ]
+	;
+
+text_macro_identifier =
+	identifier
+	;
+
+(* See NOTE 52 *)
+text_macro_usage =
+	"`", text_macro_identifier, [ "(", list_of_actual_arguments, ")" ]
+	;
+
+list_of_actual_arguments =
+	actual_argument, { ",", actual_argument }
+	;
+
+actual_argument =
+	expression
+	;
+
+(* See NOTE 52 *)
+undefine_compiler_directive =
+	"`", "undef", text_macro_name
+	;
+
+(* See NOTE 52 *)
+undefineall_compiler_directive =
+	"`", "undefineall"
+	;
+
+conditional_compilation_directive =
+	ifdef_directive |
+	ifndef_directive
+	;
+
+(* See NOTE 52 *)
+ifdef_directive =
+	"`", "ifdef", text_macro_identifier, ifdef_group_of_lines,
+	{ "`", "elsif", text_macro_identifier, elsif_group_of_lines },
+	[ "`", "else", else_group_of_lines ],
+	"`", "endif"
+	;
+
+(* See NOTE 52 *)
+ifndef_directive =
+	"`", "ifndef", text_macro_identifier, ifndef_group_of_lines,
+	{ "`", "elsif", text_macro_identifier, elsif_group_of_lines },
+	[ "`", "else", else_group_of_lines ],
+	"`", "endif"
+	;
+
+
+(* See NOTE 52 *)
+include_compiler_directive =
+	"`", "include", '"', filename, '"' |
+	"`", "include", '<', filename, '>'
+	;
+
+(* See NOTE 52 *)
+resetall_compiler_directive =
+	"`", "resetall"
+	;
+
+(* See NOTE 52 *)
+line_compiler_directive =
+	"`", "line", unsigned_number, '"', filename, '"', line_level
+	;
+
+line_level =
+	"0" | "1" | "2"
+	;
+
+(* See NOTE 52 *)
+timescale_compiler_directive =
+	"`", "timescale", time_scale, time_unit, "/", time_scale, time_unit
+	;
+
+time_scale =
+	"1" | "10" | "100"
+	;
+
+time_unit =
+	"s" | "ms" | "us" | "ns" | "ps" | "fs"
+	;
+
+(* See NOTE 52 *)
+nounconnected_drive_compiler_directive =
+	"`", "nounconnected_drive"
+	;
+
+(* See NOTE 52 *)
+unconnected_drive_compiler_directive =
+	"`", "unconnected_drive", drive_pull
+	;
+
+drive_pull =
+	"pull0" | "pull1"
+	;
+
+(* See NOTE 52 *)
+pragma =
+	"`", "pragma", pragma_name, [ pragma_expression, { ",", pragma_expression } ]
+	;
+
+pragma_name =
+	simple_identifier
+	;
+
+pragma_expression =
+	pragma_keyword |
+	pragma_keyword, "=", pragma_value |
+	pragma_value
+	;
+
+pragma_value =
+	"(", pragma_expression, { ",", pragma_expression }, ")" |
+	number |
+	string |
+	identifier
+	;
+
+pragma_keyword =
+	simple_identifier
+	;
+
+(* See NOTE 52 *)
+keywords_directive =
+	"`", "begin_kewords", '"', version_spec, '"'
+	;
+
+version_spec =
+	"1364-1995" | "1364-2001" | "1364-2001-noconfig" | "1364-2005" | "1800-2005" | "1800-2009" |
+	"1800-2012"
+	;
+
+(* See NOTE 52 *)
+endkeywords_directive =
+	"`", "end_keywords"
+	;
+
+(* See NOTE 52 *)
+default_decay_time_compiler_directive =
+	"`", "default_decay_time", decay_time
+	;
+
+decay_time =
+	integer_constant |
+	real_constant |
+	"infinite"
+	;
+
+(* See NOTE 52 *)
+default_trireg_strength_compiler_directive =
+	"`", "default_trireg_strength", ? Integer_Constant_Between_0_And_250 ?
+	;
+
+(* See NOTE 52 *)
+delay_mode_distributed_compiler_directive =
+	"`", "delay_mode_distributed"
+	;
+
+(* See NOTE 52 *)
+delay_mode_path_compiler_directive =
+	"`", "delay_mode_path"
+	;
+
+(* See NOTE 52 *)
+delay_mode_unit_compiler_directive =
+	"`", "delay_mode_unit"
+	;
+
+(* See NOTE 52 *)
+delay_mode_zero_compiler_directive =
+	"`", "delay_mode_zero"
 	;
 
 (*

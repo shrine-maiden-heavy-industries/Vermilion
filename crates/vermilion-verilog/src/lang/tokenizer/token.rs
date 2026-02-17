@@ -41,6 +41,7 @@ pub enum TextMacro {
 pub enum CompilerDirective {
 	Arg(AtomicByteTendril),
 	Name(AtomicByteTendril),
+	// Name(Directive),
 }
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq, PartialOrd, Ord)]
@@ -549,6 +550,7 @@ impl Display for CompilerDirective {
 			Self::Name(tendril) => write!(f, "CompilerDirective(`{})", unsafe {
 				str::from_utf8_unchecked(tendril)
 			}),
+			// Self::Name(directive) => write!(f, "CompilerDirective({})", directive),
 		}
 	}
 }
