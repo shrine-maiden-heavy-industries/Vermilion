@@ -833,6 +833,19 @@ impl VerilogTokenizer {
 		);
 	}
 
+	// BUG(aki):
+	// This will fail for using defines to replace tokens, e.g:
+	//
+	//    `define width 8
+	//    reg [0:`width] buf;
+	//
+	// As written, this will consume "`width] buf;", to fix this we
+	// need a way of having a list of compiler directives that take
+	// arguments.
+	//
+	// If it is one of those, then we behave as normal, otherwise we
+	// just consume a valid identifier and stop once we hit the first
+	// non-valid identifier character.
 	fn read_compiler_directive_token(&mut self) {
 		let context = self.context;
 		let begin = self.position;
