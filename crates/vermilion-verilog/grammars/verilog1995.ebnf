@@ -3,6 +3,7 @@
 (*
 	NOTE 1: The period (`.`) in any identifier shall not be preceded by a space
 	NOTE 2: The dollar (`$`) character may not be followed by `white_space`
+	NOTE 3: The grave ('`') character may not be followed by `white_space`
 *)
 
 white_space =
@@ -1089,6 +1090,140 @@ description =
 
 source_text =
 	{ description }
+	;
+
+(* Compiler Directives *)
+
+(* See NOTE 3 *)
+cell_define_compiler_directive =
+	"`", "celldefine"
+	;
+
+(* See NOTE 3 *)
+end_cell_define_compiler_directive =
+	"`", "endcelldefine"
+	;
+
+(* See NOTE 3 *)
+default_nettype_compiler_directive =
+	"`", "default_nettype", directive_net_type
+	;
+
+directive_net_type =
+	"wire" | "tri" | "tri0" | "wand" | "triand" | "tri1" | "wor" | "trior" | "trireg"
+	;
+
+(* See NOTE 3 *)
+text_macro_definition =
+	"`", "define", text_macro_name, macro_text
+	;
+
+text_macro_name =
+	text_macro_identifier, [ "(", list_of_formal_arguments, ")" ]
+	;
+
+list_of_formal_arguments =
+	formal_argument_identifier, { ",", formal_argument_identifier }
+	;
+
+(* See NOTE 3 *)
+text_macro_usage =
+	"`", text_macro_identifier, [ "(", list_of_actual_arguments, ")" ]
+	;
+
+list_of_actual_arguments =
+	actual_argument, { ",", actual_argument }
+	;
+
+actual_argument =
+	expression
+	;
+
+(* See NOTE 3 *)
+undefine_compiler_directive =
+	"`", "undef", text_macro_name
+	;
+
+(* See NOTE 3 *)
+conditional_compilation_directive =
+	"`", "ifdef", text_macro_name,
+	first_group_of_lines,
+	["`", "else", second_group_of_lines ],
+	["`", "endif"]
+	;
+
+
+(* See NOTE 3 *)
+include_compiler_directive =
+	"`", "include", '"', filename, '"'
+	;
+
+(* See NOTE 3 *)
+resetall_compiler_directive =
+	"`", "resetall"
+	;
+
+(* See NOTE 3 *)
+timescale_compiler_directive =
+	"`", "timescale", time_scale, time_unit, "/", time_scale, time_unit
+	;
+
+time_scale =
+	"1" | "10" | "100"
+	;
+
+time_unit =
+	"s" | "ms" | "us" | "ns" | "ps" | "fs"
+	;
+
+(* See NOTE 3 *)
+nounconnected_drive_compiler_directive =
+	"`", "nounconnected_drive"
+	;
+
+(* See NOTE 3 *)
+unconnected_drive_compiler_directive =
+	"`", "unconnected_drive", drive_pull
+	;
+
+drive_pull =
+	"pull0" | "pull1"
+	;
+
+(* See NOTE 3 *)
+default_decay_time_compiler_directive =
+	"`", "default_decay_time", decay_time
+	;
+
+decay_time =
+	integer_constant |
+	real_constant |
+	"infinite"
+	;
+
+(* See NOTE 3 *)
+default_trireg_strength_compiler_directive =
+	"`", "default_trireg_strength", ? Integer_Constant_Between_0_And_250 ?
+	;
+
+(* See NOTE 3 *)
+delay_mode_distributed_compiler_directive =
+	"`", "delay_mode_distributed"
+	;
+
+(* See NOTE 3 *)
+delay_mode_path_compiler_directive =
+	"`", "delay_mode_path"
+	;
+
+(* See NOTE 3 *)
+delay_mode_unit_compiler_directive =
+	"`", "delay_mode_unit"
+	;
+
+(* See NOTE 3 *)
+delay_mode_zero_compiler_directive =
+	"`", "delay_mode_zero"
 	;
 
 (*
