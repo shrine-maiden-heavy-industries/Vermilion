@@ -545,10 +545,10 @@ all_tokenizer_test!(
 );
 
 all_tokenizer_test!(
-	compiler_directive_standalone,
+	defined_text_macro,
 	"`meow",
 	vec![spanned_token!(
-		Token::CompilerDirective(CompilerDirective::Name("meow".as_bytes().into())),
+		Token::TextMacro(TextMacro::Other("meow".as_bytes().into())),
 		0..5,
 		Position::new(0, 0)
 	),]
@@ -559,7 +559,7 @@ all_tokenizer_test!(
 	"`define meow",
 	vec![
 		spanned_token!(
-			Token::CompilerDirective(CompilerDirective::Name("define".as_bytes().into())),
+			Token::CompilerDirective(CompilerDirective::Name(Directive::Define)),
 			0..7,
 			Position::new(0, 0)
 		),
@@ -581,7 +581,7 @@ all_tokenizer_test!(
 	"`define nya 8",
 	vec![
 		spanned_token!(
-			Token::CompilerDirective(CompilerDirective::Name("define".as_bytes().into())),
+			Token::CompilerDirective(CompilerDirective::Name(Directive::Define)),
 			0..7,
 			Position::new(0, 0)
 		),

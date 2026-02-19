@@ -1,7 +1,10 @@
 // SPDX-License-Identifier: BSD-3-Clause
 use paste::paste;
 
-use super::{token::Keyword, *};
+use super::{
+	token::{Directive, Keyword, TextMacro},
+	*,
+};
 use crate::{LanguageSet, SystemVerilogStd, VerilogAmsStd, VerilogStd};
 
 macro_rules! tokenizer_test {

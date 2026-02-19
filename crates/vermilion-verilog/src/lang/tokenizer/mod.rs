@@ -4,7 +4,7 @@ use std::{collections::VecDeque, ops::Range};
 
 use vermilion_lang::{AtomicByteTendril, Position, Span, Spanned, spanned_token};
 
-use self::token::{BaseSpecifier, Comment, CompilerDirective, Control, Operator, Token};
+use self::token::{BaseSpecifier, Comment, CompilerDirective, Control, Operator, TextMacro, Token};
 use crate::VerilogVariant;
 
 mod directives;
@@ -271,7 +271,7 @@ impl VerilogTokenizer {
 				return;
 			},
 			b'`' => {
-				self.read_compiler_directive_token();
+				self.read_grave_token();
 				return;
 			},
 			b'"' => {
@@ -828,20 +828,7 @@ impl VerilogTokenizer {
 		);
 	}
 
-	// BUG(aki):
-	// This will fail for using defines to replace tokens, e.g:
-	//
-	//    `define width 8
-	//    reg [0:`width] buf;
-	//
-	// As written, this will consume "`width] buf;", to fix this we
-	// need a way of having a list of compiler directives that take
-	// arguments.
-	//
-	// If it is one of those, then we behave as normal, otherwise we
-	// just consume a valid identifier and stop once we hit the first
-	// non-valid identifier character.
-	fn read_compiler_directive_token(&mut self) {
+	fn read_grave_token(&mut self) {
 		let context = self.context;
 		let begin = self.position;
 		self.next_char(); // Skip the '`'
@@ -868,57 +855,85 @@ impl VerilogTokenizer {
 			self.next_char();
 		}
 
-		// The current character is no longer a valid identifier, push the token back onto the token
-		// stream
-		self.token_stream.push_back(spanned_token!(
-			Token::CompilerDirective(CompilerDirective::Name(
-				self.file
-					.subtendril((begin + 1) as u32, (self.position - (begin + 1)) as u32),
-			)),
-			begin..self.position,
-			context
-		));
+		let ident_range = begin + 1..=(self.position - (begin + 1));
+		// We've already validated via the above read, that the entire token is valid UTF-8.
+		// Just make it a string.
+		let ident = unsafe { str::from_utf8_unchecked(&self.file[ident_range.clone()]) };
 
-		if self.current_is_whitespace() {
-			self.read_whitespace();
-			self.token_stream.push_back(self.token.clone())
-		}
+		self.token = if let Some(directive) = directives::get_directive(ident, self.standard) {
+			self.token_stream.push_back(spanned_token!(
+				Token::CompilerDirective(CompilerDirective::Name(directive)),
+				begin..self.position,
+				context
+			));
 
-		// Consume arguments up until we get to a newline
-		while !matches!(self.current_char, b'\r' | b'\n') && !self.eof {
-			// Deal with  whitespace
 			if self.current_is_whitespace() {
 				self.read_whitespace();
 				self.token_stream.push_back(self.token.clone())
 			}
 
-			let begin = self.position;
-			let context = self.context;
+			// Consume arguments up until we get to a newline
+			while !matches!(self.current_char, b'\r' | b'\n') && !self.eof {
+				// Deal with  whitespace
+				if self.current_is_whitespace() {
+					self.read_whitespace();
+					self.token_stream.push_back(self.token.clone())
+				}
 
-			// Consume argument
-			while self.is_ascii_printable() && !self.eof {
-				self.next_char();
+				let begin = self.position;
+				let context = self.context;
+
+				// Consume argument
+				while self.is_ascii_printable() && !self.eof {
+					self.next_char();
+				}
+
+				self.token_stream.push_back(spanned_token!(
+					Token::CompilerDirective(CompilerDirective::Arg(
+						self.file
+							.subtendril(begin as u32, (self.position - begin) as u32),
+					)),
+					begin..self.position,
+					context
+				));
 			}
 
-			self.token_stream.push_back(spanned_token!(
-				Token::CompilerDirective(CompilerDirective::Arg(
-					self.file
-						.subtendril(begin as u32, (self.position - begin) as u32),
-				)),
+			// Stuff the compiler directive name back front and center
+			// SAFETY:
+			// If we're here, we have to have pushed stuff to the token stream, so this is always
+			// okay.
+			#[allow(clippy::expect_used)]
+			let token = self
+				.token_stream
+				.pop_front()
+				.expect("Unable to pop token from token stream");
+			token
+		} else {
+			spanned_token!(
+				Token::TextMacro(
+					if (crate::LanguageSet::SYSTEM_VERILOG_STDS & !crate::LanguageSet::Sv05 |
+						crate::LanguageSet::Vams23)
+						.contains(self.standard.into())
+					{
+						match ident {
+							"__FILE__" => TextMacro::DunderFile,
+							"__LINE__" => TextMacro::DunderLine,
+							_ => TextMacro::Other(self.file.subtendril(
+								*ident_range.start() as u32,
+								*ident_range.end() as u32,
+							)),
+						}
+					} else {
+						TextMacro::Other(
+							self.file
+								.subtendril(*ident_range.start() as u32, *ident_range.end() as u32),
+						)
+					}
+				),
 				begin..self.position,
 				context
-			));
-		}
-
-		// Stuff the compiler directive name back front and center
-		// SAFETY:
-		// If we're here, we have to have pushed stuff to the token stream, so this is always okay.
-		#[allow(clippy::expect_used)]
-		let token = self
-			.token_stream
-			.pop_front()
-			.expect("Unable to pop token from token stream");
-		self.token = token;
+			)
+		};
 	}
 
 	fn read_string_token(&mut self) {
