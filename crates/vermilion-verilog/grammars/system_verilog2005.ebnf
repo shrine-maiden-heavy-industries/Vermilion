@@ -2344,6 +2344,7 @@ property_expr =
 	property_expr, "or", property_expr |
 	property_expr, "and", property_expr |
 	sequence_expr, "|->", property_expr |
+	sequence_expr, "|=>", property_expr |
 	"if", "(", expression_or_dist, ")", property_expr, [ "else", property_expr ] |
 	property_instance |
 	clocking_event, property_expr
