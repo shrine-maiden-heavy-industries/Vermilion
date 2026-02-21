@@ -498,6 +498,7 @@ pub enum Operator {
 	ShiftLeft,
 	ShiftLeftEquals, // Added: IEEE 1800-2005
 	ShiftRight,
+	ShiftRightEquals, // Added: IEEE 1800-2005
 	Solidus,
 	SubEquals, // Added: IEEE 1800-2005
 	Tilde,
@@ -1063,6 +1064,7 @@ impl Display for Operator {
 				Self::ShiftLeft => "<<",
 				Self::ShiftLeftEquals => "<<=", // Added: IEEE 1800-2005
 				Self::ShiftRight => ">>",
+				Self::ShiftRightEquals => ">>=", // Added: IEEE 1800-2005
 				Self::Solidus => "/",
 				Self::SubEquals => "-=", // Added: IEEE 1800-2005
 				Self::Tilde => "~",

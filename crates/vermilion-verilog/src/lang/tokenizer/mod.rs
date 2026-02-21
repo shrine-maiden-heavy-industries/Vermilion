@@ -618,6 +618,19 @@ impl VerilogTokenizer {
 						context
 					)
 				}
+			} else if self.current_char == b'=' {
+				self.next_char();
+
+				self.token = spanned_token!(
+					versioned_token!(
+						self,
+						begin,
+						Token::Operator(Operator::ShiftRightEquals),
+						at_least_sv05
+					),
+					begin..self.position,
+					context
+				)
 			} else {
 				self.token = spanned_token!(
 					Token::Operator(Operator::ShiftRight),

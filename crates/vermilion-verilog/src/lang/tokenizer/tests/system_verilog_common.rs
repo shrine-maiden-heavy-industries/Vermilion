@@ -140,3 +140,12 @@ all_system_verilog_tokenizer_test!(
 	),]
 );
 
+all_system_verilog_tokenizer_test!(
+	operator_shr_equals,
+	">>=",
+	vec![spanned_token!(
+		Token::Operator(Operator::ShiftRightEquals),
+		0..3,
+		Position::new(0, 0)
+	),]
+);
