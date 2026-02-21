@@ -249,3 +249,13 @@ all_verilog_tokenizer_test!(
 		Position::new(0, 0)
 	),]
 );
+
+all_verilog_tokenizer_test!(
+	operator_cycle_delay,
+	"##",
+	vec![spanned_token!(
+		Token::ContextuallyInvalid("##".as_bytes().into(), LanguageSet::SYSTEM_VERILOG_STDS),
+		0..2,
+		Position::new(0, 0)
+	),]
+);

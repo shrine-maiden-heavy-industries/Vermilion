@@ -468,6 +468,7 @@ pub enum Operator {
 	CaseInequality,
 	Circumflex,
 	ClassScopeResolution, // Added: IEEE 1800-2005
+	CycleDelay,           // Added: IEEE 1800-2005
 	Decrement,            // Added: IEEE 1800-2005
 	DivEquals,            // Added: IEEE 1800-2005
 	Equals,
@@ -1041,6 +1042,7 @@ impl Display for Operator {
 				Self::CaseInequality => "!==",
 				Self::Circumflex => "^",
 				Self::ClassScopeResolution => "::", // Added: IEEE 1800-2005
+				Self::CycleDelay => "##",           // Added: IEEE 1800-2005
 				Self::Decrement => "--",            // Added: IEEE 1800-2005
 				Self::DivEquals => "/=",            // Added: IEEE 1800-2005
 				Self::Equals => "=",

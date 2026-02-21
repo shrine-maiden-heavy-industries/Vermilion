@@ -205,7 +205,10 @@ impl VerilogTokenizer {
 				return;
 			},
 			b'@' => self.token = Token::Control(Control::At).into(),
-			b'#' => self.token = Token::Control(Control::Octothorp).into(),
+			b'#' => {
+				self.read_octothorp_token();
+				return;
+			},
 			b'(' => {
 				self.read_paren_open_token();
 				return;
@@ -368,6 +371,29 @@ impl VerilogTokenizer {
 			begin..self.position,
 			context
 		)
+	}
+
+	fn read_octothorp_token(&mut self) {
+		let context = self.context;
+		let begin = self.position;
+		self.next_char();
+
+		self.token = spanned_token!(
+			match self.current_char {
+				b'#' => {
+					self.next_char();
+					versioned_token!(
+						self,
+						begin,
+						Token::Operator(Operator::CycleDelay),
+						at_least_sv05
+					)
+				},
+				_ => Token::Control(Control::Octothorp),
+			},
+			begin..self.position,
+			context
+		);
 	}
 
 	fn read_paren_open_token(&mut self) {
