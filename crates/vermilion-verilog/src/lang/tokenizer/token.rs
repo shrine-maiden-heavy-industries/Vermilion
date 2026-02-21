@@ -458,6 +458,10 @@ pub enum Operator {
 	AddEquals, // Added: IEEE 1800-2005
 	Ampersand,
 	AndEquals,           // Added: IEEE 1800-2005
+	ArithmeticShl,       // Added: IEEE 1364-2001
+	ArithmeticShlEquals, // Added: IEEE 1800-2005
+	ArithmeticShr,       // Added: IEEE 1364-2001
+	ArithmeticShrEquals, // Added: IEEE 1800-2005
 	Asterisk,
 	BranchContribution, // Added: Verilog-AMS 2009
 	CaseEquality,
@@ -1012,6 +1016,10 @@ impl Display for Operator {
 				Self::AddEquals => "+=", // Added: IEEE 1800-2005
 				Self::Ampersand => "&",
 				Self::AndEquals => "&=",             // Added: IEEE 1800-2005
+				Self::ArithmeticShl => "<<<",        // Added: IEEE 1364-2001
+				Self::ArithmeticShlEquals => "<<<=", // Added: IEEE 1800-2005
+				Self::ArithmeticShr => ">>>",        // Added: IEEE 1364-2001
+				Self::ArithmeticShrEquals => ">>>=", // Added: IEEE 1800-2005
 				Self::Asterisk => "*",
 				Self::BranchContribution => "<+", // Added: Verilog-AMS 2009
 				Self::CaseEquality => "===",

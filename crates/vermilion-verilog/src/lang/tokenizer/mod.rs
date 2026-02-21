@@ -583,17 +583,31 @@ impl VerilogTokenizer {
 
 			if self.current_char == b'>' {
 				self.next_char();
+				if self.current_char == b'=' {
+					self.next_char();
 
-				self.token = spanned_token!(
-					versioned_token!(
-						self,
-						begin,
-						Token::Operator(Operator::ArithmeticShr),
-						at_least_vl01
-					),
-					begin..self.position,
-					context
-				)
+					self.token = spanned_token!(
+						versioned_token!(
+							self,
+							begin,
+							Token::Operator(Operator::ArithmeticShrEquals),
+							at_least_sv05
+						),
+						begin..self.position,
+						context
+					)
+				} else {
+					self.token = spanned_token!(
+						versioned_token!(
+							self,
+							begin,
+							Token::Operator(Operator::ArithmeticShr),
+							at_least_vl01
+						),
+						begin..self.position,
+						context
+					)
+				}
 			} else {
 				self.token = spanned_token!(
 					Token::Operator(Operator::ShiftRight),
@@ -627,12 +641,23 @@ impl VerilogTokenizer {
 					if self.current_char == b'<' {
 						self.next_char();
 
-						versioned_token!(
-							self,
-							begin,
-							Token::Operator(Operator::ArithmeticShl),
-							at_least_vl01
-						)
+						if self.current_char == b'=' {
+							self.next_char();
+
+							versioned_token!(
+								self,
+								begin,
+								Token::Operator(Operator::ArithmeticShlEquals),
+								at_least_sv05
+							)
+						} else {
+							versioned_token!(
+								self,
+								begin,
+								Token::Operator(Operator::ArithmeticShl),
+								at_least_vl01
+							)
+						}
 					} else {
 						Token::Operator(Operator::ShiftLeft)
 					}

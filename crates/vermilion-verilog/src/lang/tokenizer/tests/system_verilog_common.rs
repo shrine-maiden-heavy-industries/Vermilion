@@ -49,3 +49,23 @@ all_system_verilog_tokenizer_test!(
 		Position::new(0, 0)
 	),]
 );
+
+all_system_verilog_tokenizer_test!(
+	operator_arithmetic_shr_equals,
+	">>>=",
+	vec![spanned_token!(
+		Token::Operator(Operator::ArithmeticShrEquals),
+		0..4,
+		Position::new(0, 0)
+	),]
+);
+
+all_system_verilog_tokenizer_test!(
+	operator_arithmetic_shl_equals,
+	"<<<=",
+	vec![spanned_token!(
+		Token::Operator(Operator::ArithmeticShlEquals),
+		0..4,
+		Position::new(0, 0)
+	),]
+);
