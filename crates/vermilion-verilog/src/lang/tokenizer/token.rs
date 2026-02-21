@@ -507,6 +507,7 @@ pub enum Operator {
 	TripleAnd,
 	WeightAssignDist, // Added: IEEE 1800-2005
 	WeightAssignUnit, // Added: IEEE 1800-2005
+	Wildcard,         // Added: IEEE 1800-2005
 	WildcardEqual,    // Added: IEEE 1800-2005
 	WildcardNotEqual, // Added: IEEE 1800-2005
 	XorEquals,        // Added: IEEE 1800-2005
@@ -1084,6 +1085,7 @@ impl Display for Operator {
 				Self::TripleAnd => "&&&",
 				Self::WeightAssignDist => ":/",  // Added: IEEE 1800-2005
 				Self::WeightAssignUnit => ":=",  // Added: IEEE 1800-2005
+				Self::Wildcard => ".*",          // Added: IEEE 1800-2005
 				Self::WildcardEqual => "==?",    // Added: IEEE 1800-2005
 				Self::WildcardNotEqual => "!=?", // Added: IEEE 1800-2005
 				Self::XorEquals => "^=",         // Added: IEEE 1800-2005
