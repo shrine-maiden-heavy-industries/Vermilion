@@ -492,6 +492,7 @@ pub enum Operator {
 	Pow, // Added: IEEE 1364-2001
 	ReductionNand,
 	ReductionNor,
+	RemEquals,    // Added: IEEE 1800-2005
 	ShiftLeft,
 	ShiftRight,
 	Solidus,
@@ -1053,6 +1054,7 @@ impl Display for Operator {
 				Self::Pow => "**", // Added: IEEE 1364-2001
 				Self::ReductionNand => "~&",
 				Self::ReductionNor => "~|",
+				Self::RemEquals => "%=",     // Added: IEEE 1800-2005
 				Self::ShiftLeft => "<<",
 				Self::ShiftRight => ">>",
 				Self::Solidus => "/",
