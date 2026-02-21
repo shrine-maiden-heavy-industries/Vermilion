@@ -473,6 +473,7 @@ pub enum Operator {
 	DivEquals,            // Added: IEEE 1800-2005
 	Equals,
 	EventTrigger,
+	EventTriggerNb, // Added: IEEE 1800-2005
 	Exclamation,
 	FullConnection,
 	GreaterThan,
@@ -1047,6 +1048,7 @@ impl Display for Operator {
 				Self::DivEquals => "/=",            // Added: IEEE 1800-2005
 				Self::Equals => "=",
 				Self::EventTrigger => "->",
+				Self::EventTriggerNb => "->>", // Added: IEEE 1800-2005
 				Self::Exclamation => "!",
 				Self::FullConnection => "*>",
 				Self::GreaterThan => "<",

@@ -229,3 +229,13 @@ all_system_verilog_tokenizer_test!(
 		Position::new(0, 0)
 	),]
 );
+
+all_system_verilog_tokenizer_test!(
+	operator_event_trigger_nonblocking,
+	"->>",
+	vec![spanned_token!(
+		Token::Operator(Operator::EventTriggerNb),
+		0..3,
+		Position::new(0, 0)
+	),]
+);

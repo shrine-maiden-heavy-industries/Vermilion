@@ -924,7 +924,18 @@ impl VerilogTokenizer {
 				b'>' => {
 					self.next_char();
 
-					Token::Operator(Operator::EventTrigger)
+					if self.current_char == b'>' {
+						self.next_char();
+
+						versioned_token!(
+							self,
+							begin,
+							Token::Operator(Operator::EventTriggerNb),
+							at_least_sv05
+						)
+					} else {
+						Token::Operator(Operator::EventTrigger)
+					}
 				},
 				b':' => {
 					self.next_char();
