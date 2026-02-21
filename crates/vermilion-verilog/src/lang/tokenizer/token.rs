@@ -457,8 +457,7 @@ pub enum Keyword {
 pub enum Operator {
 	AddEquals, // Added: IEEE 1800-2005
 	Ampersand,
-	ArithmeticShl, // Added: IEEE 1364-2001
-	ArithmeticShr, // Added: IEEE 1364-2001
+	AndEquals,           // Added: IEEE 1800-2005
 	Asterisk,
 	BranchContribution, // Added: Verilog-AMS 2009
 	CaseEquality,
@@ -1012,8 +1011,7 @@ impl Display for Operator {
 			match self {
 				Self::AddEquals => "+=", // Added: IEEE 1800-2005
 				Self::Ampersand => "&",
-				Self::ArithmeticShl => "<<<", // Added: IEEE 1364-2001
-				Self::ArithmeticShr => ">>>", // Added: IEEE 1364-2001
+				Self::AndEquals => "&=",             // Added: IEEE 1800-2005
 				Self::Asterisk => "*",
 				Self::BranchContribution => "<+", // Added: Verilog-AMS 2009
 				Self::CaseEquality => "===",
