@@ -169,3 +169,13 @@ all_system_verilog_tokenizer_test!(
 		Position::new(0, 0)
 	),]
 );
+
+all_system_verilog_tokenizer_test!(
+	operator_weight_assign_unit,
+	":=",
+	vec![spanned_token!(
+		Token::Operator(Operator::WeightAssignUnit),
+		0..2,
+		Position::new(0, 0)
+	),]
+);
