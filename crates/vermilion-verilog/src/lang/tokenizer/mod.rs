@@ -701,6 +701,16 @@ impl VerilogTokenizer {
 
 					versioned_token!(self, begin, Token::Operator(Operator::Pow), at_least_vl01)
 				},
+				b'=' => {
+					self.next_char();
+
+					versioned_token!(
+						self,
+						begin,
+						Token::Operator(Operator::MulEquals),
+						at_least_sv05
+					)
+				},
 				b'>' => {
 					self.next_char();
 

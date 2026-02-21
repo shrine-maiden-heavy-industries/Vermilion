@@ -71,6 +71,16 @@ all_system_verilog_tokenizer_test!(
 );
 
 all_system_verilog_tokenizer_test!(
+	operator_mul_equals,
+	"*=",
+	vec![spanned_token!(
+		Token::Operator(Operator::MulEquals),
+		0..2,
+		Position::new(0, 0)
+	),]
+);
+
+all_system_verilog_tokenizer_test!(
 	operator_div_equals,
 	"/=",
 	vec![spanned_token!(
