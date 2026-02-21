@@ -369,25 +369,23 @@ impl VerilogTokenizer {
 		let begin = self.position;
 		self.next_char();
 
-		if self.current_char == b'*' {
-			self.next_char();
-			self.token = spanned_token!(
-				versioned_token!(
-					self,
-					begin,
-					Token::Control(Control::AttributeOpen),
-					at_least_vl01
-				),
-				begin..self.position,
-				context
-			)
-		} else {
-			self.token = spanned_token!(
-				Token::Control(Control::ParenOpen),
-				begin..self.position,
-				context
-			)
-		}
+		self.token = spanned_token!(
+			match self.current_char {
+				b'*' => {
+					self.next_char();
+
+					versioned_token!(
+						self,
+						begin,
+						Token::Control(Control::AttributeOpen),
+						at_least_vl01
+					)
+				},
+				_ => Token::Control(Control::ParenOpen),
+			},
+			begin..self.position,
+			context
+		);
 	}
 
 	fn read_exclame_token(&mut self) {
@@ -395,31 +393,24 @@ impl VerilogTokenizer {
 		let begin = self.position;
 		self.next_char();
 
-		if self.current_char == b'=' {
-			self.next_char();
+		self.token = spanned_token!(
+			match self.current_char {
+				b'=' => {
+					self.next_char();
 
-			if self.current_char == b'=' {
-				self.next_char();
-
-				self.token = spanned_token!(
-					Token::Operator(Operator::CaseInequality),
-					begin..self.position,
-					context
-				)
-			} else {
-				self.token = spanned_token!(
-					Token::Operator(Operator::LogicalInequality),
-					begin..self.position,
-					context
-				)
-			}
-		} else {
-			self.token = spanned_token!(
-				Token::Operator(Operator::Exclamation),
-				begin..self.position,
-				context
-			)
-		}
+					match self.current_char {
+						b'=' => {
+							self.next_char();
+							Token::Operator(Operator::CaseInequality)
+						},
+						_ => Token::Operator(Operator::LogicalInequality),
+					}
+				},
+				_ => Token::Operator(Operator::Exclamation),
+			},
+			begin..self.position,
+			context
+		);
 	}
 
 	fn read_equals_token(&mut self) {
@@ -491,37 +482,28 @@ impl VerilogTokenizer {
 		let begin = self.position;
 		self.next_char();
 
-		if self.current_char == b'^' {
-			self.next_char();
+		self.token = spanned_token!(
+			match self.current_char {
+				b'^' => {
+					self.next_char();
 
-			self.token = spanned_token!(
-				Token::Operator(Operator::TildeCircumflex(false)),
-				begin..self.position,
-				context
-			)
-		} else if self.current_char == b'&' {
-			self.next_char();
+					Token::Operator(Operator::TildeCircumflex(false))
+				},
+				b'&' => {
+					self.next_char();
 
-			self.token = spanned_token!(
-				Token::Operator(Operator::ReductionNand),
-				begin..self.position,
-				context
-			)
-		} else if self.current_char == b'|' {
-			self.next_char();
+					Token::Operator(Operator::ReductionNand)
+				},
+				b'|' => {
+					self.next_char();
 
-			self.token = spanned_token!(
-				Token::Operator(Operator::ReductionNor),
-				begin..self.position,
-				context
-			)
-		} else {
-			self.token = spanned_token!(
-				Token::Operator(Operator::Tilde),
-				begin..self.position,
-				context
-			)
-		}
+					Token::Operator(Operator::ReductionNor)
+				},
+				_ => Token::Operator(Operator::Tilde),
+			},
+			begin..self.position,
+			context
+		);
 	}
 
 	fn read_circumflex_token(&mut self) {
@@ -529,21 +511,17 @@ impl VerilogTokenizer {
 		let begin = self.position;
 		self.next_char();
 
-		if self.current_char == b'~' {
-			self.next_char();
-
-			self.token = spanned_token!(
-				Token::Operator(Operator::TildeCircumflex(true)),
-				begin..self.position,
-				context
-			)
-		} else {
-			self.token = spanned_token!(
-				Token::Operator(Operator::Circumflex),
-				begin..self.position,
-				context
-			)
-		}
+		self.token = spanned_token!(
+			match self.current_char {
+				b'~' => {
+					self.next_char();
+					Token::Operator(Operator::TildeCircumflex(true))
+				},
+				_ => Token::Operator(Operator::Circumflex),
+			},
+			begin..self.position,
+			context
+		);
 	}
 
 	fn read_pipe_token(&mut self) {
@@ -580,71 +558,55 @@ impl VerilogTokenizer {
 		let begin = self.position;
 		self.next_char();
 
-		if self.current_char == b'=' {
-			self.next_char();
-
-			self.token = spanned_token!(
-				Token::Operator(Operator::LessThanEqual),
-				begin..self.position,
-				context
-			)
-		} else if self.current_char == b'>' {
-			self.next_char();
-
-			if self.current_char == b'>' {
-				self.next_char();
-				if self.current_char == b'=' {
+		self.token = spanned_token!(
+			match self.current_char {
+				b'=' => {
+					self.next_char();
+					Token::Operator(Operator::LessThanEqual)
+				},
+				b'>' => {
 					self.next_char();
 
-					self.token = spanned_token!(
-						versioned_token!(
-							self,
-							begin,
-							Token::Operator(Operator::ArithmeticShrEquals),
-							at_least_sv05
-						),
-						begin..self.position,
-						context
-					)
-				} else {
-					self.token = spanned_token!(
-						versioned_token!(
-							self,
-							begin,
-							Token::Operator(Operator::ArithmeticShr),
-							at_least_vl01
-						),
-						begin..self.position,
-						context
-					)
-				}
-			} else if self.current_char == b'=' {
-				self.next_char();
+					match self.current_char {
+						b'>' => {
+							self.next_char();
 
-				self.token = spanned_token!(
-					versioned_token!(
-						self,
-						begin,
-						Token::Operator(Operator::ShiftRightEquals),
-						at_least_sv05
-					),
-					begin..self.position,
-					context
-				)
-			} else {
-				self.token = spanned_token!(
-					Token::Operator(Operator::ShiftRight),
-					begin..self.position,
-					context
-				)
-			}
-		} else {
-			self.token = spanned_token!(
-				Token::Operator(Operator::LessThan),
-				begin..self.position,
-				context
-			)
-		}
+							if self.current_char == b'=' {
+								self.next_char();
+
+								versioned_token!(
+									self,
+									begin,
+									Token::Operator(Operator::ArithmeticShrEquals),
+									at_least_sv05
+								)
+							} else {
+								versioned_token!(
+									self,
+									begin,
+									Token::Operator(Operator::ArithmeticShr),
+									at_least_vl01
+								)
+							}
+						},
+						b'=' => {
+							self.next_char();
+
+							versioned_token!(
+								self,
+								begin,
+								Token::Operator(Operator::ShiftRightEquals),
+								at_least_sv05
+							)
+						},
+						_ => Token::Operator(Operator::ShiftRight),
+					}
+				},
+				_ => Token::Operator(Operator::LessThan),
+			},
+			begin..self.position,
+			context
+		);
 	}
 
 	fn read_greater_than_token(&mut self) {
