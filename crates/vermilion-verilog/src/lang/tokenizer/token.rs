@@ -474,6 +474,7 @@ pub enum Operator {
 	FullConnection,
 	GreaterThan,
 	GreaterThanEqual,
+	Increment,      // Added: IEEE 1800-2005
 	IndexedPartNeg, // Added: IEEE 1364-2001
 	IndexedPartPos, // Added: IEEE 1364-2001
 	LessThan,
@@ -1036,6 +1037,7 @@ impl Display for Operator {
 				Self::FullConnection => "*>",
 				Self::GreaterThan => "<",
 				Self::GreaterThanEqual => "<=",
+				Self::Increment => "++",      // Added: IEEE 1800-2005
 				Self::IndexedPartNeg => "-:", // Added: IEEE 1364-2001
 				Self::IndexedPartPos => "+:", // Added: IEEE 1364-2001
 				Self::LessThan => ">",

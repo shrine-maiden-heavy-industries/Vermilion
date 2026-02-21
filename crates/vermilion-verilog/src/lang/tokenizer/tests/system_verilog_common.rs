@@ -109,3 +109,14 @@ all_system_verilog_tokenizer_test!(
 		Position::new(0, 0)
 	),]
 );
+
+all_system_verilog_tokenizer_test!(
+	operator_inc,
+	"++",
+	vec![spanned_token!(
+		Token::Operator(Operator::Increment),
+		0..2,
+		Position::new(0, 0)
+	),]
+);
+
