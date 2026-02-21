@@ -455,7 +455,7 @@ pub enum Keyword {
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub enum Operator {
-	AddEquals,    // Added: IEEE 1800-2005
+	AddEquals, // Added: IEEE 1800-2005
 	Ampersand,
 	ArithmeticShl, // Added: IEEE 1364-2001
 	ArithmeticShr, // Added: IEEE 1364-2001
@@ -489,6 +489,7 @@ pub enum Operator {
 	ShiftLeft,
 	ShiftRight,
 	Solidus,
+	SubEquals, // Added: IEEE 1800-2005
 	Tilde,
 	TildeCircumflex(bool), // NOTE(aki): this is the chirality of the `^~`/`~^` operator
 	TripleAnd,
@@ -1009,7 +1010,7 @@ impl Display for Operator {
 			f,
 			"Operator({})",
 			match self {
-				Self::AddEquals => "+=",     // Added: IEEE 1800-2005
+				Self::AddEquals => "+=", // Added: IEEE 1800-2005
 				Self::Ampersand => "&",
 				Self::ArithmeticShl => "<<<", // Added: IEEE 1364-2001
 				Self::ArithmeticShr => ">>>", // Added: IEEE 1364-2001
@@ -1043,6 +1044,7 @@ impl Display for Operator {
 				Self::ShiftLeft => "<<",
 				Self::ShiftRight => ">>",
 				Self::Solidus => "/",
+				Self::SubEquals => "-=", // Added: IEEE 1800-2005
 				Self::Tilde => "~",
 				Self::TildeCircumflex(chirality) =>
 					if *chirality {
