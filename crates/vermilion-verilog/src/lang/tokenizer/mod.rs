@@ -1011,6 +1011,25 @@ impl VerilogTokenizer {
 						at_least_sv05
 					)
 				},
+				b'/' => {
+					self.next_char();
+
+					if self.current_char == b'-' {
+						self.next_char();
+
+						versioned_token!(
+							self,
+							begin,
+							Token::Operator(Operator::AbsTolerance),
+							at_least_sv23
+						)
+					} else {
+						Token::Invalid(Some(
+							self.file
+								.subtendril(begin as u32, (self.position - begin) as u32),
+						))
+					}
+				},
 				_ => Token::Operator(Operator::Plus),
 			},
 			begin..self.position,

@@ -29,3 +29,13 @@ system_verilog23_tokenizer_test!(
 		Position::new(0, 0)
 	),]
 );
+
+system_verilog23_tokenizer_test!(
+	operator_abs_tolerance,
+	"+/-",
+	vec![spanned_token!(
+		Token::Operator(Operator::AbsTolerance),
+		0..3,
+		Position::new(0, 0)
+	),]
+);
