@@ -561,6 +561,16 @@ impl VerilogTokenizer {
 					self.next_char();
 					Token::Operator(Operator::TildeCircumflex(true))
 				},
+				b'=' => {
+					self.next_char();
+
+					versioned_token!(
+						self,
+						begin,
+						Token::Operator(Operator::XorEquals),
+						at_least_sv05
+					)
+				},
 				_ => Token::Operator(Operator::Circumflex),
 			},
 			begin..self.position,

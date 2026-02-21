@@ -179,3 +179,13 @@ all_system_verilog_tokenizer_test!(
 		Position::new(0, 0)
 	),]
 );
+
+all_system_verilog_tokenizer_test!(
+	operator_xor_equals,
+	"^=",
+	vec![spanned_token!(
+		Token::Operator(Operator::XorEquals),
+		0..2,
+		Position::new(0, 0)
+	),]
+);
