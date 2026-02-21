@@ -447,6 +447,15 @@ impl VerilogTokenizer {
 							self.next_char();
 							Token::Operator(Operator::CaseInequality)
 						},
+						b'?' => {
+							self.next_char();
+							versioned_token!(
+								self,
+								begin,
+								Token::Operator(Operator::WildcardNotEqual),
+								at_least_sv05
+							)
+						},
 						_ => Token::Operator(Operator::LogicalInequality),
 					}
 				},
