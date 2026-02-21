@@ -467,6 +467,7 @@ pub enum Operator {
 	CaseEquality,
 	CaseInequality,
 	Circumflex,
+	DivEquals,            // Added: IEEE 1800-2005
 	Equals,
 	EventTrigger,
 	Exclamation,
@@ -1025,6 +1026,7 @@ impl Display for Operator {
 				Self::CaseEquality => "===",
 				Self::CaseInequality => "!==",
 				Self::Circumflex => "^",
+				Self::DivEquals => "/=",            // Added: IEEE 1800-2005
 				Self::Equals => "=",
 				Self::EventTrigger => "->",
 				Self::Exclamation => "!",

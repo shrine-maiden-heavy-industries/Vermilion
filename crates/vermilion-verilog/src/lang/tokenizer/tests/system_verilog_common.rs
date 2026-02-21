@@ -69,3 +69,13 @@ all_system_verilog_tokenizer_test!(
 		Position::new(0, 0)
 	),]
 );
+
+all_system_verilog_tokenizer_test!(
+	operator_div_equals,
+	"/=",
+	vec![spanned_token!(
+		Token::Operator(Operator::DivEquals),
+		0..2,
+		Position::new(0, 0)
+	),]
+);

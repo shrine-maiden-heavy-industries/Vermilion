@@ -797,6 +797,19 @@ impl VerilogTokenizer {
 			} else {
 				self.read_singleline_comment(context, begin);
 			}
+		} else if self.current_char == b'=' {
+			self.next_char();
+
+			self.token = spanned_token!(
+				versioned_token!(
+					self,
+					begin,
+					Token::Operator(Operator::DivEquals),
+					at_least_sv05
+				),
+				begin..self.position,
+				context
+			);
 		} else {
 			self.token = spanned_token!(
 				Token::Operator(Operator::Solidus),
