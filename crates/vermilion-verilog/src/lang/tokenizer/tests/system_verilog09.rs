@@ -39,3 +39,13 @@ system_verilog09_and_up_tokenizer_test!(
 		Position::new(0, 0)
 	),]
 );
+
+system_verilog09_and_up_tokenizer_test!(
+	operator_followed_by_nonoverlapped,
+	"#=#",
+	vec![spanned_token!(
+		Token::Operator(Operator::FollowedByNonOverlapped),
+		0..3,
+		Position::new(0, 0)
+	),]
+);

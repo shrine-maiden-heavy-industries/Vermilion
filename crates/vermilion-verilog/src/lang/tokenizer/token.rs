@@ -476,6 +476,7 @@ pub enum Operator {
 	EventTrigger,
 	EventTriggerNb, // Added: IEEE 1800-2005
 	Exclamation,
+	FollowedByNonOverlapped, // Added: IEEE 1800-2009
 	FullConnection,
 	GreaterThan,
 	GreaterThanEqual,
@@ -1054,6 +1055,7 @@ impl Display for Operator {
 				Self::EventTrigger => "->",
 				Self::EventTriggerNb => "->>", // Added: IEEE 1800-2005
 				Self::Exclamation => "!",
+				Self::FollowedByNonOverlapped => "#=#", // Added: IEEE 1800-2009
 				Self::FullConnection => "*>",
 				Self::GreaterThan => "<",
 				Self::GreaterThanEqual => "<=",

@@ -389,6 +389,22 @@ impl VerilogTokenizer {
 						at_least_sv05
 					)
 				},
+				b'=' => {
+					self.next_char();
+
+					if self.current_char == b'#' {
+						self.next_char();
+
+						versioned_token!(
+							self,
+							begin,
+							Token::Operator(Operator::FollowedByNonOverlapped),
+							at_least_sv09
+						)
+					} else {
+						return;
+					}
+				},
 				_ => Token::Control(Control::Octothorp),
 			},
 			begin..self.position,
