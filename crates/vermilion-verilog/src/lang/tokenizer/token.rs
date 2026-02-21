@@ -455,6 +455,7 @@ pub enum Keyword {
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub enum Operator {
+	AddEquals,    // Added: IEEE 1800-2005
 	Ampersand,
 	ArithmeticShl, // Added: IEEE 1364-2001
 	ArithmeticShr, // Added: IEEE 1364-2001
@@ -1008,6 +1009,7 @@ impl Display for Operator {
 			f,
 			"Operator({})",
 			match self {
+				Self::AddEquals => "+=",     // Added: IEEE 1800-2005
 				Self::Ampersand => "&",
 				Self::ArithmeticShl => "<<<", // Added: IEEE 1364-2001
 				Self::ArithmeticShr => ">>>", // Added: IEEE 1364-2001

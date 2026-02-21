@@ -19,3 +19,14 @@ all_system_verilog_tokenizer_test!(
 		Position::new(0, 0)
 	),]
 );
+
+all_system_verilog_tokenizer_test!(
+	operator_add_equals,
+	"+=",
+	vec![spanned_token!(
+		Token::Operator(Operator::AddEquals),
+		0..2,
+		Position::new(0, 0)
+	),]
+);
+
