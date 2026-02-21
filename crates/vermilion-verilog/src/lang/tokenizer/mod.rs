@@ -407,6 +407,15 @@ impl VerilogTokenizer {
 						at_least_sv05
 					)
 				},
+				b'/' => {
+					self.next_char();
+					versioned_token!(
+						self,
+						begin,
+						Token::Operator(Operator::WeightAssignDist),
+						at_least_sv05
+					)
+				},
 				_ => Token::Control(Control::Colon),
 			},
 			begin..self.position,

@@ -505,6 +505,7 @@ pub enum Operator {
 	Tilde,
 	TildeCircumflex(bool), // NOTE(aki): this is the chirality of the `^~`/`~^` operator
 	TripleAnd,
+	WeightAssignDist, // Added: IEEE 1800-2005
 }
 
 impl Display for Token {
@@ -1077,6 +1078,7 @@ impl Display for Operator {
 						"~^"
 					},
 				Self::TripleAnd => "&&&",
+				Self::WeightAssignDist => ":/",  // Added: IEEE 1800-2005
 			}
 		)
 	}
