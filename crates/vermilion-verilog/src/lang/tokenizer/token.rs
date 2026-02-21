@@ -494,7 +494,8 @@ pub enum Operator {
 	Percent,
 	Pipe,
 	Plus,
-	Pow, // Added: IEEE 1364-2001
+	Pow,                // Added: IEEE 1364-2001
+	PropImplNonOverlap, // Added: IEEE 1800-2005
 	ReductionNand,
 	ReductionNor,
 	RemEquals,    // Added: IEEE 1800-2005
@@ -1069,7 +1070,8 @@ impl Display for Operator {
 				Self::Percent => "%",
 				Self::Pipe => "|",
 				Self::Plus => "+",
-				Self::Pow => "**", // Added: IEEE 1364-2001
+				Self::Pow => "**",                 // Added: IEEE 1364-2001
+				Self::PropImplNonOverlap => "|=>", // Added: IEEE 1800-2005
 				Self::ReductionNand => "~&",
 				Self::ReductionNor => "~|",
 				Self::RemEquals => "%=",     // Added: IEEE 1800-2005

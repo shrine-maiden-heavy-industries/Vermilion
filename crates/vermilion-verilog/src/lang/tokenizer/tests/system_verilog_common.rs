@@ -239,3 +239,13 @@ all_system_verilog_tokenizer_test!(
 		Position::new(0, 0)
 	),]
 );
+
+all_system_verilog_tokenizer_test!(
+	operator_property_implies_non_overlap,
+	"|=>",
+	vec![spanned_token!(
+		Token::Operator(Operator::PropImplNonOverlap),
+		0..3,
+		Position::new(0, 0)
+	),]
+);

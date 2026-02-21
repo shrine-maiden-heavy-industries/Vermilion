@@ -665,13 +665,22 @@ impl VerilogTokenizer {
 				},
 				b'=' => {
 					self.next_char();
-
-					versioned_token!(
-						self,
-						begin,
-						Token::Operator(Operator::OrEquals),
-						at_least_sv05
-					)
+					if self.current_char == b'>' {
+						self.next_char();
+						versioned_token!(
+							self,
+							begin,
+							Token::Operator(Operator::PropImplNonOverlap),
+							at_least_sv05
+						)
+					} else {
+						versioned_token!(
+							self,
+							begin,
+							Token::Operator(Operator::OrEquals),
+							at_least_sv05
+						)
+					}
 				},
 				_ => Token::Operator(Operator::Pipe),
 			},
