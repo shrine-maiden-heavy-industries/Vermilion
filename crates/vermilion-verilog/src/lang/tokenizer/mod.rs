@@ -682,6 +682,23 @@ impl VerilogTokenizer {
 						)
 					}
 				},
+				b'-' => {
+					self.next_char();
+
+					if self.current_char == b'>' {
+						self.next_char();
+
+						versioned_token!(
+							self,
+							begin,
+							Token::Operator(Operator::PropImplOverlap),
+							at_least_sv05
+						)
+					} else {
+						// Don't over-consume, the `-` might be valid in another context
+						return;
+					}
+				},
 				_ => Token::Operator(Operator::Pipe),
 			},
 			begin..self.position,
