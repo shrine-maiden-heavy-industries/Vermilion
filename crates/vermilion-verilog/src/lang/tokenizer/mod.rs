@@ -833,6 +833,16 @@ impl VerilogTokenizer {
 						at_least_sv05
 					)
 				},
+				b'-' => {
+					self.next_char();
+
+					versioned_token!(
+						self,
+						begin,
+						Token::Operator(Operator::Decrement),
+						at_least_sv05
+					)
+				},
 				_ => Token::Operator(Operator::Minus),
 			},
 			begin..self.position,

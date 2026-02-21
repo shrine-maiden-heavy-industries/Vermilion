@@ -120,3 +120,12 @@ all_system_verilog_tokenizer_test!(
 	),]
 );
 
+all_system_verilog_tokenizer_test!(
+	operator_dec,
+	"--",
+	vec![spanned_token!(
+		Token::Operator(Operator::Decrement),
+		0..2,
+		Position::new(0, 0)
+	),]
+);
