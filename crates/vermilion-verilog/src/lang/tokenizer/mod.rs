@@ -648,28 +648,39 @@ impl VerilogTokenizer {
 				},
 				b'<' => {
 					self.next_char();
-					if self.current_char == b'<' {
-						self.next_char();
+					match self.current_char {
+						b'<' => {
+							self.next_char();
 
-						if self.current_char == b'=' {
+							if self.current_char == b'=' {
+								self.next_char();
+
+								versioned_token!(
+									self,
+									begin,
+									Token::Operator(Operator::ArithmeticShlEquals),
+									at_least_sv05
+								)
+							} else {
+								versioned_token!(
+									self,
+									begin,
+									Token::Operator(Operator::ArithmeticShl),
+									at_least_vl01
+								)
+							}
+						},
+						b'=' => {
 							self.next_char();
 
 							versioned_token!(
 								self,
 								begin,
-								Token::Operator(Operator::ArithmeticShlEquals),
+								Token::Operator(Operator::ShiftLeftEquals),
 								at_least_sv05
 							)
-						} else {
-							versioned_token!(
-								self,
-								begin,
-								Token::Operator(Operator::ArithmeticShl),
-								at_least_vl01
-							)
-						}
-					} else {
-						Token::Operator(Operator::ShiftLeft)
+						},
+						_ => Token::Operator(Operator::ShiftLeft),
 					}
 				},
 				b'+' => {

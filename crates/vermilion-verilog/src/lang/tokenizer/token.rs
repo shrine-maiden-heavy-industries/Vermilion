@@ -496,6 +496,7 @@ pub enum Operator {
 	ReductionNor,
 	RemEquals,    // Added: IEEE 1800-2005
 	ShiftLeft,
+	ShiftLeftEquals, // Added: IEEE 1800-2005
 	ShiftRight,
 	Solidus,
 	SubEquals, // Added: IEEE 1800-2005
@@ -1060,6 +1061,7 @@ impl Display for Operator {
 				Self::ReductionNor => "~|",
 				Self::RemEquals => "%=",     // Added: IEEE 1800-2005
 				Self::ShiftLeft => "<<",
+				Self::ShiftLeftEquals => "<<=", // Added: IEEE 1800-2005
 				Self::ShiftRight => ">>",
 				Self::Solidus => "/",
 				Self::SubEquals => "-=", // Added: IEEE 1800-2005
