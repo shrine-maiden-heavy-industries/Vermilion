@@ -9,3 +9,13 @@ all_system_verilog_tokenizer_test!(
 		Position::new(0, 0)
 	),]
 );
+
+all_system_verilog_tokenizer_test!(
+	control_apostrophe,
+	"'",
+	vec![spanned_token!(
+		Token::Control(Control::Apostrophe),
+		0..1,
+		Position::new(0, 0)
+	),]
+);

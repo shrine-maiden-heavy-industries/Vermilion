@@ -93,6 +93,7 @@ pub enum BaseSpecifier {
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub enum Control {
+	Apostrophe, // Added: IEEE 1800-2005
 	At,
 	AttributeClose, // Added: IEEE 1364-2001
 	AttributeOpen,  // Added: IEEE 1364-2001
@@ -631,6 +632,7 @@ impl Display for Control {
 			f,
 			"'{}'",
 			match self {
+				Self::Apostrophe => "'", // Added: IEEE 1800-2005
 				Self::At => "@",
 				Self::AttributeClose => "*)", // Added: IEEE 1364-2001
 				Self::AttributeOpen => "(*",  // Added: IEEE 1364-2001

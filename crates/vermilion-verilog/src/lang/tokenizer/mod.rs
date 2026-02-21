@@ -278,6 +278,10 @@ impl VerilogTokenizer {
 				self.read_quote_token();
 				return;
 			},
+			b'\'' => {
+				self.read_apostrophe_token();
+				return;
+			},
 			_ => {
 				self.read_extended_token();
 				return;
@@ -313,8 +317,8 @@ impl VerilogTokenizer {
 				range,
 				context
 			);
-		} else if self.current_char.is_ascii_digit() || self.current_char == b'\'' {
-			self.read_number_token();
+		} else if self.current_char.is_ascii_digit() {
+			self.read_number_token(false);
 		}
 	}
 
@@ -997,7 +1001,32 @@ impl VerilogTokenizer {
 		)
 	}
 
-	fn read_number_token(&mut self) {
+	fn read_apostrophe_token(&mut self) {
+		let context = self.context;
+		let begin = self.position;
+		self.next_char();
+
+		// If there is a base specifier right after us, then it's a number token
+		if matches!(
+			self.current_char,
+			b'b' | b'B' | b'o' | b'O' | b'd' | b'D' | b'h' | b'H'
+		) {
+			self.read_number_token(true);
+		} else {
+			self.token = spanned_token!(
+				versioned_token!(
+					self,
+					begin,
+					Token::Control(Control::Apostrophe),
+					at_least_sv05
+				),
+				begin..self.position,
+				context
+			);
+		}
+	}
+
+	fn read_number_token(&mut self, from_apostrophe: bool) {
 		// Pop out a size if available
 		if self.current_char.is_ascii_digit() {
 			let context = self.context;
@@ -1033,7 +1062,7 @@ impl VerilogTokenizer {
 
 		// If we get here and we don't yet have a `'`,  we've consumed a decimal number - we're
 		// done.
-		if self.current_char != b'\'' {
+		if self.current_char != b'\'' && !from_apostrophe {
 			// SAFETY:
 			// If we're here, we have to have pushed stuff to the token stream, so this is always
 			// okay.
@@ -1048,9 +1077,18 @@ impl VerilogTokenizer {
 		}
 
 		// Grab the position for and start matching a base specifier
-		let context = self.context;
-		let begin = self.position;
-		self.next_char();
+		let mut context = self.context;
+		let mut begin = self.position;
+		// If we're not coming from the `parse_apostrophe_token` then we need to advance
+		if !from_apostrophe {
+			self.next_char();
+		} else {
+			// If we're coming from the `parse_apostrophe_token` then we need to roll back
+			// `begin` and `context`
+			context = Position::new(*context.line(), context.character() - 1);
+			begin -= 1;
+		}
+
 		// Having consumed the `'` we should now be left with a base specifier, and if not then
 		// this is an invalid token.
 		match self.current_char {

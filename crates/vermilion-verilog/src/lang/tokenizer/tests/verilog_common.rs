@@ -39,3 +39,13 @@ all_verilog_tokenizer_test!(
 		Position::new(0, 0)
 	),]
 );
+
+all_verilog_tokenizer_test!(
+	control_apostrophe,
+	"'",
+	vec![spanned_token!(
+		Token::ContextuallyInvalid("'".as_bytes().into(), LanguageSet::SYSTEM_VERILOG_STDS),
+		0..1,
+		Position::new(0, 0)
+	),]
+);
