@@ -466,12 +466,24 @@ impl VerilogTokenizer {
 			match self.current_char {
 				b'=' => {
 					self.next_char();
-					if self.current_char == b'=' {
-						self.next_char();
 
-						Token::Operator(Operator::CaseEquality)
-					} else {
-						Token::Operator(Operator::LogicalEquality)
+					match self.current_char {
+						b'=' => {
+							self.next_char();
+
+							Token::Operator(Operator::CaseEquality)
+						},
+						b'?' => {
+							self.next_char();
+
+							versioned_token!(
+								self,
+								begin,
+								Token::Operator(Operator::WildcardEqual),
+								at_least_sv05
+							)
+						},
+						_ => Token::Operator(Operator::LogicalEquality),
 					}
 				},
 				b'>' => {
