@@ -821,6 +821,22 @@ impl VerilogTokenizer {
 						only_verilog_ams
 					)
 				},
+				b'-' => {
+					self.next_char();
+
+					if self.current_char == b'>' {
+						self.next_char();
+
+						versioned_token!(
+							self,
+							begin,
+							Token::Operator(Operator::Equivalence),
+							at_least_sv09
+						)
+					} else {
+						return;
+					}
+				},
 				_ => Token::Operator(Operator::GreaterThan),
 			},
 			begin..self.position,

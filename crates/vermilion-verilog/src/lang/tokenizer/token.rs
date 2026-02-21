@@ -472,6 +472,7 @@ pub enum Operator {
 	Decrement,            // Added: IEEE 1800-2005
 	DivEquals,            // Added: IEEE 1800-2005
 	Equals,
+	Equivalence, // Added: IEEE 1800-2009
 	EventTrigger,
 	EventTriggerNb, // Added: IEEE 1800-2005
 	Exclamation,
@@ -1049,6 +1050,7 @@ impl Display for Operator {
 				Self::Decrement => "--",            // Added: IEEE 1800-2005
 				Self::DivEquals => "/=",            // Added: IEEE 1800-2005
 				Self::Equals => "=",
+				Self::Equivalence => "<->", // Added: IEEE 1800-2009
 				Self::EventTrigger => "->",
 				Self::EventTriggerNb => "->>", // Added: IEEE 1800-2005
 				Self::Exclamation => "!",
