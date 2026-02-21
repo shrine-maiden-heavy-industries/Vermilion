@@ -19,3 +19,13 @@ system_verilog23_tokenizer_test!(
 		Position::new(0, 0)
 	),]
 );
+
+system_verilog23_tokenizer_test!(
+	triple_quote_string,
+	r#""""meow meow""""#,
+	vec![spanned_token!(
+		Token::TripleQuotedString("meow meow".as_bytes().into()),
+		0..15,
+		Position::new(0, 0)
+	),]
+);

@@ -5,7 +5,7 @@ use std::{collections::VecDeque, ops::Range};
 use vermilion_lang::{AtomicByteTendril, Position, Span, Spanned, spanned_token};
 
 use self::token::{BaseSpecifier, Comment, CompilerDirective, Control, Operator, TextMacro, Token};
-use crate::VerilogVariant;
+use crate::{LanguageSet, VerilogVariant};
 
 mod directives;
 mod keywords;
@@ -275,7 +275,7 @@ impl VerilogTokenizer {
 				return;
 			},
 			b'"' => {
-				self.read_string_token();
+				self.read_quote_token();
 				return;
 			},
 			_ => {
@@ -936,10 +936,23 @@ impl VerilogTokenizer {
 		};
 	}
 
-	fn read_string_token(&mut self) {
+	// BUG(aki):
+	// This is likely really fragile in some specific cases with miss-matching or many quotes in a
+	// row. for instance, what would `""test""` tokenize as? How about `"test"""`, or `"""test""`,
+	// etc. so we need to iron out this a bit eventually.
+	fn read_quote_token(&mut self) {
 		let context = self.context;
 		let quote_begin = self.position;
 		self.next_char(); // Consume the first `"`
+
+		// Check to see if we're a triple-quoted string
+		let triple_quote = if self.current_char == b'"' {
+			self.next_char();
+			self.next_char() == b'"'
+		} else {
+			false
+		};
+
 		let str_begin = self.position;
 
 		while self.current_char != b'"' && !self.eof {
@@ -953,13 +966,32 @@ impl VerilogTokenizer {
 		// Consume the last `"`
 		let str_end = self.position;
 		self.next_char();
+		if triple_quote {
+			self.next_char();
+			self.next_char();
+		}
 		let quote_end = self.position;
 
 		self.token = spanned_token!(
-			Token::String(
-				self.file
-					.subtendril(str_begin as u32, (str_end - str_begin) as u32),
-			),
+			if triple_quote {
+				if LanguageSet::Sv23.contains(self.standard.into()) {
+					Token::TripleQuotedString(
+						self.file
+							.subtendril(str_begin as u32, (str_end - str_begin) as u32),
+					)
+				} else {
+					Token::ContextuallyInvalid(
+						self.file
+							.subtendril(quote_begin as u32, (quote_end - quote_begin) as u32),
+						LanguageSet::Sv23,
+					)
+				}
+			} else {
+				Token::String(
+					self.file
+						.subtendril(str_begin as u32, (str_end - str_begin) as u32),
+				)
+			},
 			quote_begin..quote_end,
 			context
 		)

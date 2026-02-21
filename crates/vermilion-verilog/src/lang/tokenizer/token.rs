@@ -26,6 +26,7 @@ pub enum Token {
 	},
 	String(AtomicByteTendril),
 	TextMacro(TextMacro),
+	TripleQuotedString(AtomicByteTendril), // Added: IEEE 1800-2023
 	UnsignedNumber(AtomicByteTendril),
 	Whitespace(AtomicByteTendril),
 }
@@ -516,6 +517,9 @@ impl Display for Token {
 				str::from_utf8_unchecked(tendril)
 			}),
 			Self::TextMacro(text_macro) => write!(f, "TextMacro(\"{}\")", text_macro),
+			Self::TripleQuotedString(tendril) => write!(f, "TripleQuotedString(\"{}\")", unsafe {
+				str::from_utf8_unchecked(tendril)
+			}),
 			Self::UnsignedNumber(tendril) => write!(f, "UnsignedNumber({})", unsafe {
 				str::from_utf8_unchecked(tendril)
 			}),

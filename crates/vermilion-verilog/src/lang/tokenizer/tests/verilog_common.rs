@@ -29,3 +29,13 @@ all_verilog_tokenizer_test!(
 		Position::new(0, 0)
 	),]
 );
+
+all_verilog_tokenizer_test!(
+	triple_quote_string,
+	r#""""meow meow""""#,
+	vec![spanned_token!(
+		Token::ContextuallyInvalid(r#""""meow meow""""#.as_bytes().into(), LanguageSet::Sv23),
+		0..15,
+		Position::new(0, 0)
+	),]
+);
