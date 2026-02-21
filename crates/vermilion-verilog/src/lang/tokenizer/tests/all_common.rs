@@ -3211,3 +3211,13 @@ all_tokenizer_test!(
 		Position::new(0, 0)
 	),]
 );
+
+all_tokenizer_test!(
+	operator_rel_tolerance_partial,
+	"+%",
+	vec![spanned_token!(
+		Token::Invalid(Some("+%".as_bytes().into())),
+		0..2,
+		Position::new(0, 0)
+	),]
+);

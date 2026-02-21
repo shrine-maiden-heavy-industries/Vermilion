@@ -503,6 +503,7 @@ pub enum Operator {
 	PropImplOverlap,    // Added: IEEE 1800-2005
 	ReductionNand,
 	ReductionNor,
+	RelTolerance, // Added: IEEE 1800-2023
 	RemEquals,    // Added: IEEE 1800-2005
 	ShiftLeft,
 	ShiftLeftEquals, // Added: IEEE 1800-2005
@@ -1085,6 +1086,7 @@ impl Display for Operator {
 				Self::PropImplOverlap => "|->",    // Added: IEEE 1800-2005
 				Self::ReductionNand => "~&",
 				Self::ReductionNor => "~|",
+				Self::RelTolerance => "+%-", // Added: IEEE 1800-2023
 				Self::RemEquals => "%=",     // Added: IEEE 1800-2005
 				Self::ShiftLeft => "<<",
 				Self::ShiftLeftEquals => "<<=", // Added: IEEE 1800-2005

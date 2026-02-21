@@ -39,3 +39,13 @@ system_verilog12_tokenizer_test!(
 		Position::new(0, 0)
 	),]
 );
+
+system_verilog12_tokenizer_test!(
+	operator_rel_tolerance,
+	"+%-",
+	vec![spanned_token!(
+		Token::ContextuallyInvalid("+%-".as_bytes().into(), LanguageSet::Sv23),
+		0..3,
+		Position::new(0, 0)
+	),]
+);
