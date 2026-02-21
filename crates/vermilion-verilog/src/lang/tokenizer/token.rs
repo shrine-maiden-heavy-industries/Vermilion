@@ -484,6 +484,7 @@ pub enum Operator {
 	LogicalOr,
 	Minus,
 	MulEquals, // Added: IEEE 1800-2005
+	OrEquals,  // Added: IEEE 1800-2005
 	ParallelConnection,
 	Percent,
 	Pipe,
@@ -1044,6 +1045,7 @@ impl Display for Operator {
 				Self::LogicalOr => "||",
 				Self::Minus => "-",
 				Self::MulEquals => "*=", // Added: IEEE 1800-2005
+				Self::OrEquals => "|=",  // Added: IEEE 1800-2005
 				Self::ParallelConnection => "=>",
 				Self::Percent => "%",
 				Self::Pipe => "|",
