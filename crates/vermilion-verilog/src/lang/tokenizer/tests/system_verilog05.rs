@@ -68,3 +68,16 @@ system_verilog05_tokenizer_test!(
 		Position::new(0, 0)
 	),]
 );
+
+system_verilog05_tokenizer_test!(
+	operator_wildcard_export,
+	"*::*",
+	vec![spanned_token!(
+		Token::ContextuallyInvalid(
+			"*::*".as_bytes().into(),
+			LanguageSet::SYSTEM_VERILOG_STDS & !LanguageSet::Sv05
+		),
+		0..4,
+		Position::new(0, 0)
+	),]
+);

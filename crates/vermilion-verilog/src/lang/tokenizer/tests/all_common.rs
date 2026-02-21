@@ -3181,3 +3181,23 @@ all_tokenizer_test!(
 		Position::new(0, 0)
 	),]
 );
+
+all_tokenizer_test!(
+	operator_wildcard_export_partial_01,
+	"*:",
+	vec![spanned_token!(
+		Token::Invalid(Some("*:".as_bytes().into())),
+		0..2,
+		Position::new(0, 0)
+	),]
+);
+
+all_tokenizer_test!(
+	operator_wildcard_export_partial_02,
+	"*::",
+	vec![spanned_token!(
+		Token::Invalid(Some("*::".as_bytes().into())),
+		0..3,
+		Position::new(0, 0)
+	),]
+);

@@ -516,6 +516,7 @@ pub enum Operator {
 	WeightAssignUnit, // Added: IEEE 1800-2005
 	Wildcard,         // Added: IEEE 1800-2005
 	WildcardEqual,    // Added: IEEE 1800-2005
+	WildcardExport,   // Added: IEEE 1800-2009
 	WildcardNotEqual, // Added: IEEE 1800-2005
 	XorEquals,        // Added: IEEE 1800-2005
 }
@@ -1101,6 +1102,7 @@ impl Display for Operator {
 				Self::WeightAssignUnit => ":=",  // Added: IEEE 1800-2005
 				Self::Wildcard => ".*",          // Added: IEEE 1800-2005
 				Self::WildcardEqual => "==?",    // Added: IEEE 1800-2005
+				Self::WildcardExport => "*::*",  // Added: IEEE 1800-2009
 				Self::WildcardNotEqual => "!=?", // Added: IEEE 1800-2005
 				Self::XorEquals => "^=",         // Added: IEEE 1800-2005
 			}

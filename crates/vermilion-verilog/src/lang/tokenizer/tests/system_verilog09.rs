@@ -59,3 +59,13 @@ system_verilog09_and_up_tokenizer_test!(
 		Position::new(0, 0)
 	),]
 );
+
+system_verilog09_and_up_tokenizer_test!(
+	operator_wildcard_export,
+	"*::*",
+	vec![spanned_token!(
+		Token::Operator(Operator::WildcardExport),
+		0..4,
+		Position::new(0, 0)
+	),]
+);

@@ -937,6 +937,36 @@ impl VerilogTokenizer {
 
 					Token::Operator(Operator::FullConnection)
 				},
+				b':' => {
+					self.next_char();
+
+					if self.current_char == b':' {
+						self.next_char();
+
+						if self.current_char == b'*' {
+							self.next_char();
+
+							versioned_token!(
+								self,
+								begin,
+								Token::Operator(Operator::WildcardExport),
+								at_least_sv09
+							)
+						} else {
+							// There should be no cases in which `*::` is valid
+							Token::Invalid(Some(
+								self.file
+									.subtendril(begin as u32, (self.position - begin) as u32),
+							))
+						}
+					} else {
+						// There should be no cases in which `*:` is valid
+						Token::Invalid(Some(
+							self.file
+								.subtendril(begin as u32, (self.position - begin) as u32),
+						))
+					}
+				},
 				_ => Token::Operator(Operator::Asterisk),
 			},
 			begin..self.position,
