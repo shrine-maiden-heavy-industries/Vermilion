@@ -539,7 +539,14 @@ impl Display for Token {
 			},
 			Self::Comment(comment) => comment.fmt(f),
 			Self::CompilerDirective(compiler_directive) => compiler_directive.fmt(f),
-			Self::ContextuallyInvalid(_tendril, _verilog_variant) => todo!(),
+			Self::ContextuallyInvalid(tendril, verilog_variant) => {
+				write!(
+					f,
+					"ContextuallyInvalid(\"{}\", {:?})",
+					unsafe { str::from_utf8_unchecked(tendril) },
+					verilog_variant
+				)
+			},
 			Self::Control(control) => control.fmt(f),
 			Self::Identifier(tendril) => write!(f, "Identifier({})", unsafe {
 				str::from_utf8_unchecked(tendril)
@@ -575,7 +582,7 @@ impl Display for TextMacro {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
 		write!(
 			f,
-			"`{}",
+			"TextMacro({})",
 			match self {
 				Self::DunderFile => "__FILE__", // Added: Verilog-AMS 2023 & IEEE 1800-2009
 				Self::DunderLine => "__LINE__", // Added: Verilog-AMS 2023 & IEEE 1800-2009
@@ -600,7 +607,7 @@ impl Display for Directive {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
 		write!(
 			f,
-			"`{}",
+			"Directive({})",
 			match self {
 				Self::BeginKeywords => "begin_keywords", // Added: IEEE 1364-2005
 				Self::CellDefine => "celldefine",
@@ -670,7 +677,7 @@ impl Display for Control {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
 		write!(
 			f,
-			"'{}'",
+			"Control({})",
 			match self {
 				Self::Apostrophe => "'", // Added: IEEE 1800-2005
 				Self::At => "@",
