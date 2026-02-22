@@ -1420,7 +1420,11 @@ all_tokenizer_test!(
 			Position::new(0, 0)
 		),
 		spanned_token!(
-			Token::BaseSpecifier(token::BaseSpecifier::Binary, false),
+			Token::BaseSpecifier {
+				specifier: token::BaseSpecifier::Binary,
+				uppercase: false,
+				signed:    false,
+			},
 			1..3,
 			Position::new(0, 1)
 		),
@@ -1442,7 +1446,11 @@ all_tokenizer_test!(
 			Position::new(0, 0)
 		),
 		spanned_token!(
-			Token::BaseSpecifier(token::BaseSpecifier::Binary, false),
+			Token::BaseSpecifier {
+				specifier: token::BaseSpecifier::Binary,
+				uppercase: false,
+				signed:    false,
+			},
 			1..3,
 			Position::new(0, 1)
 		),
@@ -1463,7 +1471,11 @@ all_tokenizer_test!(
 			Position::new(0, 0)
 		),
 		spanned_token!(
-			Token::BaseSpecifier(token::BaseSpecifier::Binary, false),
+			Token::BaseSpecifier {
+				specifier: token::BaseSpecifier::Binary,
+				uppercase: false,
+				signed:    false,
+			},
 			1..3,
 			Position::new(0, 1)
 		),
@@ -1485,7 +1497,11 @@ all_tokenizer_test!(
 			Position::new(0, 0)
 		),
 		spanned_token!(
-			Token::BaseSpecifier(token::BaseSpecifier::Binary, false),
+			Token::BaseSpecifier {
+				specifier: token::BaseSpecifier::Binary,
+				uppercase: false,
+				signed:    false,
+			},
 			1..3,
 			Position::new(0, 1)
 		),
@@ -1507,7 +1523,11 @@ all_tokenizer_test!(
 			Position::new(0, 0)
 		),
 		spanned_token!(
-			Token::BaseSpecifier(token::BaseSpecifier::Binary, false),
+			Token::BaseSpecifier {
+				specifier: token::BaseSpecifier::Binary,
+				uppercase: false,
+				signed:    false,
+			},
 			1..3,
 			Position::new(0, 1)
 		),
@@ -1534,7 +1554,11 @@ all_tokenizer_test!(
 			Position::new(0, 1)
 		),
 		spanned_token!(
-			Token::BaseSpecifier(token::BaseSpecifier::Binary, false),
+			Token::BaseSpecifier {
+				specifier: token::BaseSpecifier::Binary,
+				uppercase: false,
+				signed:    false,
+			},
 			2..4,
 			Position::new(0, 2)
 		),
@@ -1561,7 +1585,11 @@ all_tokenizer_test!(
 			Position::new(0, 1)
 		),
 		spanned_token!(
-			Token::BaseSpecifier(token::BaseSpecifier::Binary, false),
+			Token::BaseSpecifier {
+				specifier: token::BaseSpecifier::Binary,
+				uppercase: false,
+				signed:    false,
+			},
 			2..4,
 			Position::new(0, 2)
 		),
@@ -1587,7 +1615,11 @@ all_tokenizer_test!(
 			Position::new(0, 1)
 		),
 		spanned_token!(
-			Token::BaseSpecifier(token::BaseSpecifier::Binary, false),
+			Token::BaseSpecifier {
+				specifier: token::BaseSpecifier::Binary,
+				uppercase: false,
+				signed:    false,
+			},
 			2..4,
 			Position::new(0, 2)
 		),
@@ -1614,7 +1646,11 @@ all_tokenizer_test!(
 			Position::new(0, 1)
 		),
 		spanned_token!(
-			Token::BaseSpecifier(token::BaseSpecifier::Binary, false),
+			Token::BaseSpecifier {
+				specifier: token::BaseSpecifier::Binary,
+				uppercase: false,
+				signed:    false,
+			},
 			2..4,
 			Position::new(0, 2)
 		),
@@ -1641,7 +1677,11 @@ all_tokenizer_test!(
 			Position::new(0, 1)
 		),
 		spanned_token!(
-			Token::BaseSpecifier(token::BaseSpecifier::Binary, false),
+			Token::BaseSpecifier {
+				specifier: token::BaseSpecifier::Binary,
+				uppercase: false,
+				signed:    false,
+			},
 			2..4,
 			Position::new(0, 2)
 		),
@@ -1658,7 +1698,11 @@ all_tokenizer_test!(
 	"'b10",
 	vec![
 		spanned_token!(
-			Token::BaseSpecifier(token::BaseSpecifier::Binary, false),
+			Token::BaseSpecifier {
+				specifier: token::BaseSpecifier::Binary,
+				uppercase: false,
+				signed:    false,
+			},
 			0..2,
 			Position::new(0, 0)
 		),
@@ -1675,7 +1719,11 @@ all_tokenizer_test!(
 	"'bxx1x",
 	vec![
 		spanned_token!(
-			Token::BaseSpecifier(token::BaseSpecifier::Binary, false),
+			Token::BaseSpecifier {
+				specifier: token::BaseSpecifier::Binary,
+				uppercase: false,
+				signed:    false,
+			},
 			0..2,
 			Position::new(0, 0)
 		),
@@ -1692,7 +1740,11 @@ all_tokenizer_test!(
 	"'bx",
 	vec![
 		spanned_token!(
-			Token::BaseSpecifier(token::BaseSpecifier::Binary, false),
+			Token::BaseSpecifier {
+				specifier: token::BaseSpecifier::Binary,
+				uppercase: false,
+				signed:    false,
+			},
 			0..2,
 			Position::new(0, 0)
 		),
@@ -1709,7 +1761,11 @@ all_tokenizer_test!(
 	"'bzz11",
 	vec![
 		spanned_token!(
-			Token::BaseSpecifier(token::BaseSpecifier::Binary, false),
+			Token::BaseSpecifier {
+				specifier: token::BaseSpecifier::Binary,
+				uppercase: false,
+				signed:    false,
+			},
 			0..2,
 			Position::new(0, 0)
 		),
@@ -1726,7 +1782,11 @@ all_tokenizer_test!(
 	"'bz",
 	vec![
 		spanned_token!(
-			Token::BaseSpecifier(token::BaseSpecifier::Binary, false),
+			Token::BaseSpecifier {
+				specifier: token::BaseSpecifier::Binary,
+				uppercase: false,
+				signed:    false,
+			},
 			0..2,
 			Position::new(0, 0)
 		),
@@ -1755,7 +1815,11 @@ all_tokenizer_test!(
 			Position::new(0, 1)
 		),
 		spanned_token!(
-			Token::BaseSpecifier(BaseSpecifier::Binary, false),
+			Token::BaseSpecifier {
+				specifier: BaseSpecifier::Binary,
+				uppercase: false,
+				signed:    false,
+			},
 			2..4,
 			Position::new(0, 2)
 		),
@@ -1776,7 +1840,11 @@ all_tokenizer_test!(
 			Position::new(1, 1)
 		),
 		spanned_token!(
-			Token::BaseSpecifier(BaseSpecifier::Binary, true),
+			Token::BaseSpecifier {
+				specifier: BaseSpecifier::Binary,
+				uppercase: true,
+				signed:    false,
+			},
 			11..13,
 			Position::new(1, 2)
 		),
@@ -1801,7 +1869,11 @@ all_tokenizer_test!(
 			Position::new(2, 0)
 		),
 		spanned_token!(
-			Token::BaseSpecifier(BaseSpecifier::Binary, false),
+			Token::BaseSpecifier {
+				specifier: BaseSpecifier::Binary,
+				uppercase: false,
+				signed:    false,
+			},
 			17..19,
 			Position::new(2, 1)
 		),
@@ -1828,7 +1900,11 @@ all_tokenizer_test!(
 			Position::new(0, 0)
 		),
 		spanned_token!(
-			Token::BaseSpecifier(token::BaseSpecifier::Octal, false),
+			Token::BaseSpecifier {
+				specifier: token::BaseSpecifier::Octal,
+				uppercase: false,
+				signed:    false,
+			},
 			1..3,
 			Position::new(0, 1)
 		),
@@ -1850,7 +1926,11 @@ all_tokenizer_test!(
 			Position::new(0, 0)
 		),
 		spanned_token!(
-			Token::BaseSpecifier(token::BaseSpecifier::Octal, false),
+			Token::BaseSpecifier {
+				specifier: token::BaseSpecifier::Octal,
+				uppercase: false,
+				signed:    false,
+			},
 			1..3,
 			Position::new(0, 1)
 		),
@@ -1871,7 +1951,11 @@ all_tokenizer_test!(
 			Position::new(0, 0)
 		),
 		spanned_token!(
-			Token::BaseSpecifier(token::BaseSpecifier::Octal, false),
+			Token::BaseSpecifier {
+				specifier: token::BaseSpecifier::Octal,
+				uppercase: false,
+				signed:    false,
+			},
 			1..3,
 			Position::new(0, 1)
 		),
@@ -1893,7 +1977,11 @@ all_tokenizer_test!(
 			Position::new(0, 0)
 		),
 		spanned_token!(
-			Token::BaseSpecifier(token::BaseSpecifier::Octal, false),
+			Token::BaseSpecifier {
+				specifier: token::BaseSpecifier::Octal,
+				uppercase: false,
+				signed:    false,
+			},
 			1..3,
 			Position::new(0, 1)
 		),
@@ -1915,7 +2003,11 @@ all_tokenizer_test!(
 			Position::new(0, 0)
 		),
 		spanned_token!(
-			Token::BaseSpecifier(token::BaseSpecifier::Octal, false),
+			Token::BaseSpecifier {
+				specifier: token::BaseSpecifier::Octal,
+				uppercase: false,
+				signed:    false,
+			},
 			1..3,
 			Position::new(0, 1)
 		),
@@ -1942,7 +2034,11 @@ all_tokenizer_test!(
 			Position::new(0, 1)
 		),
 		spanned_token!(
-			Token::BaseSpecifier(token::BaseSpecifier::Octal, false),
+			Token::BaseSpecifier {
+				specifier: token::BaseSpecifier::Octal,
+				uppercase: false,
+				signed:    false,
+			},
 			2..4,
 			Position::new(0, 2)
 		),
@@ -1969,7 +2065,11 @@ all_tokenizer_test!(
 			Position::new(0, 1)
 		),
 		spanned_token!(
-			Token::BaseSpecifier(token::BaseSpecifier::Octal, false),
+			Token::BaseSpecifier {
+				specifier: token::BaseSpecifier::Octal,
+				uppercase: false,
+				signed:    false,
+			},
 			2..4,
 			Position::new(0, 2)
 		),
@@ -1995,7 +2095,11 @@ all_tokenizer_test!(
 			Position::new(0, 1)
 		),
 		spanned_token!(
-			Token::BaseSpecifier(token::BaseSpecifier::Octal, false),
+			Token::BaseSpecifier {
+				specifier: token::BaseSpecifier::Octal,
+				uppercase: false,
+				signed:    false,
+			},
 			2..4,
 			Position::new(0, 2)
 		),
@@ -2022,7 +2126,11 @@ all_tokenizer_test!(
 			Position::new(0, 1)
 		),
 		spanned_token!(
-			Token::BaseSpecifier(token::BaseSpecifier::Octal, false),
+			Token::BaseSpecifier {
+				specifier: token::BaseSpecifier::Octal,
+				uppercase: false,
+				signed:    false,
+			},
 			2..4,
 			Position::new(0, 2)
 		),
@@ -2049,7 +2157,11 @@ all_tokenizer_test!(
 			Position::new(0, 1)
 		),
 		spanned_token!(
-			Token::BaseSpecifier(token::BaseSpecifier::Octal, false),
+			Token::BaseSpecifier {
+				specifier: token::BaseSpecifier::Octal,
+				uppercase: false,
+				signed:    false,
+			},
 			2..4,
 			Position::new(0, 2)
 		),
@@ -2066,7 +2178,11 @@ all_tokenizer_test!(
 	"'o66",
 	vec![
 		spanned_token!(
-			Token::BaseSpecifier(token::BaseSpecifier::Octal, false),
+			Token::BaseSpecifier {
+				specifier: token::BaseSpecifier::Octal,
+				uppercase: false,
+				signed:    false,
+			},
 			0..2,
 			Position::new(0, 0)
 		),
@@ -2083,7 +2199,11 @@ all_tokenizer_test!(
 	"'ox3x",
 	vec![
 		spanned_token!(
-			Token::BaseSpecifier(token::BaseSpecifier::Octal, false),
+			Token::BaseSpecifier {
+				specifier: token::BaseSpecifier::Octal,
+				uppercase: false,
+				signed:    false,
+			},
 			0..2,
 			Position::new(0, 0)
 		),
@@ -2100,7 +2220,11 @@ all_tokenizer_test!(
 	"'ox",
 	vec![
 		spanned_token!(
-			Token::BaseSpecifier(token::BaseSpecifier::Octal, false),
+			Token::BaseSpecifier {
+				specifier: token::BaseSpecifier::Octal,
+				uppercase: false,
+				signed:    false,
+			},
 			0..2,
 			Position::new(0, 0)
 		),
@@ -2117,7 +2241,11 @@ all_tokenizer_test!(
 	"'ozz7",
 	vec![
 		spanned_token!(
-			Token::BaseSpecifier(token::BaseSpecifier::Octal, false),
+			Token::BaseSpecifier {
+				specifier: token::BaseSpecifier::Octal,
+				uppercase: false,
+				signed:    false,
+			},
 			0..2,
 			Position::new(0, 0)
 		),
@@ -2134,7 +2262,11 @@ all_tokenizer_test!(
 	"'oz",
 	vec![
 		spanned_token!(
-			Token::BaseSpecifier(token::BaseSpecifier::Octal, false),
+			Token::BaseSpecifier {
+				specifier: token::BaseSpecifier::Octal,
+				uppercase: false,
+				signed:    false,
+			},
 			0..2,
 			Position::new(0, 0)
 		),
@@ -2163,7 +2295,11 @@ all_tokenizer_test!(
 			Position::new(0, 1)
 		),
 		spanned_token!(
-			Token::BaseSpecifier(BaseSpecifier::Octal, false),
+			Token::BaseSpecifier {
+				specifier: BaseSpecifier::Octal,
+				uppercase: false,
+				signed:    false,
+			},
 			2..4,
 			Position::new(0, 2)
 		),
@@ -2184,7 +2320,11 @@ all_tokenizer_test!(
 			Position::new(1, 1)
 		),
 		spanned_token!(
-			Token::BaseSpecifier(BaseSpecifier::Octal, true),
+			Token::BaseSpecifier {
+				specifier: BaseSpecifier::Octal,
+				uppercase: true,
+				signed:    false,
+			},
 			11..13,
 			Position::new(1, 2)
 		),
@@ -2209,7 +2349,11 @@ all_tokenizer_test!(
 			Position::new(2, 0)
 		),
 		spanned_token!(
-			Token::BaseSpecifier(BaseSpecifier::Octal, false),
+			Token::BaseSpecifier {
+				specifier: BaseSpecifier::Octal,
+				uppercase: false,
+				signed:    false,
+			},
 			17..19,
 			Position::new(2, 1)
 		),
@@ -2236,7 +2380,11 @@ all_tokenizer_test!(
 			Position::new(0, 0)
 		),
 		spanned_token!(
-			Token::BaseSpecifier(token::BaseSpecifier::Decimal, false),
+			Token::BaseSpecifier {
+				specifier: token::BaseSpecifier::Decimal,
+				uppercase: false,
+				signed:    false,
+			},
 			1..3,
 			Position::new(0, 1)
 		),
@@ -2258,7 +2406,11 @@ all_tokenizer_test!(
 			Position::new(0, 0)
 		),
 		spanned_token!(
-			Token::BaseSpecifier(token::BaseSpecifier::Decimal, false),
+			Token::BaseSpecifier {
+				specifier: token::BaseSpecifier::Decimal,
+				uppercase: false,
+				signed:    false,
+			},
 			1..3,
 			Position::new(0, 1)
 		),
@@ -2280,7 +2432,11 @@ all_tokenizer_test!(
 			Position::new(0, 0)
 		),
 		spanned_token!(
-			Token::BaseSpecifier(token::BaseSpecifier::Decimal, false),
+			Token::BaseSpecifier {
+				specifier: token::BaseSpecifier::Decimal,
+				uppercase: false,
+				signed:    false,
+			},
 			1..3,
 			Position::new(0, 1)
 		),
@@ -2302,7 +2458,11 @@ all_tokenizer_test!(
 			Position::new(0, 0)
 		),
 		spanned_token!(
-			Token::BaseSpecifier(token::BaseSpecifier::Decimal, false),
+			Token::BaseSpecifier {
+				specifier: token::BaseSpecifier::Decimal,
+				uppercase: false,
+				signed:    false,
+			},
 			1..3,
 			Position::new(0, 1)
 		),
@@ -2324,7 +2484,11 @@ all_tokenizer_test!(
 			Position::new(0, 0)
 		),
 		spanned_token!(
-			Token::BaseSpecifier(token::BaseSpecifier::Decimal, false),
+			Token::BaseSpecifier {
+				specifier: token::BaseSpecifier::Decimal,
+				uppercase: false,
+				signed:    false,
+			},
 			1..3,
 			Position::new(0, 1)
 		),
@@ -2351,7 +2515,11 @@ all_tokenizer_test!(
 			Position::new(0, 1)
 		),
 		spanned_token!(
-			Token::BaseSpecifier(token::BaseSpecifier::Decimal, false),
+			Token::BaseSpecifier {
+				specifier: token::BaseSpecifier::Decimal,
+				uppercase: false,
+				signed:    false,
+			},
 			2..4,
 			Position::new(0, 2)
 		),
@@ -2378,7 +2546,11 @@ all_tokenizer_test!(
 			Position::new(0, 1)
 		),
 		spanned_token!(
-			Token::BaseSpecifier(token::BaseSpecifier::Decimal, false),
+			Token::BaseSpecifier {
+				specifier: token::BaseSpecifier::Decimal,
+				uppercase: false,
+				signed:    false,
+			},
 			2..4,
 			Position::new(0, 2)
 		),
@@ -2405,7 +2577,11 @@ all_tokenizer_test!(
 			Position::new(0, 1)
 		),
 		spanned_token!(
-			Token::BaseSpecifier(token::BaseSpecifier::Decimal, false),
+			Token::BaseSpecifier {
+				specifier: token::BaseSpecifier::Decimal,
+				uppercase: false,
+				signed:    false,
+			},
 			2..4,
 			Position::new(0, 2)
 		),
@@ -2432,7 +2608,11 @@ all_tokenizer_test!(
 			Position::new(0, 1)
 		),
 		spanned_token!(
-			Token::BaseSpecifier(token::BaseSpecifier::Decimal, false),
+			Token::BaseSpecifier {
+				specifier: token::BaseSpecifier::Decimal,
+				uppercase: false,
+				signed:    false,
+			},
 			2..4,
 			Position::new(0, 2)
 		),
@@ -2459,7 +2639,11 @@ all_tokenizer_test!(
 			Position::new(0, 1)
 		),
 		spanned_token!(
-			Token::BaseSpecifier(token::BaseSpecifier::Decimal, false),
+			Token::BaseSpecifier {
+				specifier: token::BaseSpecifier::Decimal,
+				uppercase: false,
+				signed:    false,
+			},
 			2..4,
 			Position::new(0, 2)
 		),
@@ -2476,7 +2660,11 @@ all_tokenizer_test!(
 	"'d90",
 	vec![
 		spanned_token!(
-			Token::BaseSpecifier(token::BaseSpecifier::Decimal, false),
+			Token::BaseSpecifier {
+				specifier: token::BaseSpecifier::Decimal,
+				uppercase: false,
+				signed:    false,
+			},
 			0..2,
 			Position::new(0, 0)
 		),
@@ -2493,7 +2681,11 @@ all_tokenizer_test!(
 	"'dx9x",
 	vec![
 		spanned_token!(
-			Token::BaseSpecifier(token::BaseSpecifier::Decimal, false),
+			Token::BaseSpecifier {
+				specifier: token::BaseSpecifier::Decimal,
+				uppercase: false,
+				signed:    false,
+			},
 			0..2,
 			Position::new(0, 0)
 		),
@@ -2510,7 +2702,11 @@ all_tokenizer_test!(
 	"'dx",
 	vec![
 		spanned_token!(
-			Token::BaseSpecifier(token::BaseSpecifier::Decimal, false),
+			Token::BaseSpecifier {
+				specifier: token::BaseSpecifier::Decimal,
+				uppercase: false,
+				signed:    false,
+			},
 			0..2,
 			Position::new(0, 0)
 		),
@@ -2527,7 +2723,11 @@ all_tokenizer_test!(
 	"'dzz9",
 	vec![
 		spanned_token!(
-			Token::BaseSpecifier(token::BaseSpecifier::Decimal, false),
+			Token::BaseSpecifier {
+				specifier: token::BaseSpecifier::Decimal,
+				uppercase: false,
+				signed:    false,
+			},
 			0..2,
 			Position::new(0, 0)
 		),
@@ -2544,7 +2744,11 @@ all_tokenizer_test!(
 	"'dz",
 	vec![
 		spanned_token!(
-			Token::BaseSpecifier(token::BaseSpecifier::Decimal, false),
+			Token::BaseSpecifier {
+				specifier: token::BaseSpecifier::Decimal,
+				uppercase: false,
+				signed:    false,
+			},
 			0..2,
 			Position::new(0, 0)
 		),
@@ -2573,7 +2777,11 @@ all_tokenizer_test!(
 			Position::new(0, 1)
 		),
 		spanned_token!(
-			Token::BaseSpecifier(BaseSpecifier::Decimal, false),
+			Token::BaseSpecifier {
+				specifier: BaseSpecifier::Decimal,
+				uppercase: false,
+				signed:    false,
+			},
 			2..4,
 			Position::new(0, 2)
 		),
@@ -2594,7 +2802,11 @@ all_tokenizer_test!(
 			Position::new(1, 1)
 		),
 		spanned_token!(
-			Token::BaseSpecifier(BaseSpecifier::Decimal, true),
+			Token::BaseSpecifier {
+				specifier: BaseSpecifier::Decimal,
+				uppercase: true,
+				signed:    false,
+			},
 			11..13,
 			Position::new(1, 2)
 		),
@@ -2619,7 +2831,11 @@ all_tokenizer_test!(
 			Position::new(2, 0)
 		),
 		spanned_token!(
-			Token::BaseSpecifier(BaseSpecifier::Decimal, false),
+			Token::BaseSpecifier {
+				specifier: BaseSpecifier::Decimal,
+				uppercase: false,
+				signed:    false,
+			},
 			17..19,
 			Position::new(2, 1)
 		),
@@ -2646,7 +2862,11 @@ all_tokenizer_test!(
 			Position::new(0, 0)
 		),
 		spanned_token!(
-			Token::BaseSpecifier(token::BaseSpecifier::Hexadecimal, false),
+			Token::BaseSpecifier {
+				specifier: token::BaseSpecifier::Hexadecimal,
+				uppercase: false,
+				signed:    false,
+			},
 			1..3,
 			Position::new(0, 1)
 		),
@@ -2668,7 +2888,11 @@ all_tokenizer_test!(
 			Position::new(0, 0)
 		),
 		spanned_token!(
-			Token::BaseSpecifier(token::BaseSpecifier::Hexadecimal, false),
+			Token::BaseSpecifier {
+				specifier: token::BaseSpecifier::Hexadecimal,
+				uppercase: false,
+				signed:    false,
+			},
 			1..3,
 			Position::new(0, 1)
 		),
@@ -2689,7 +2913,11 @@ all_tokenizer_test!(
 			Position::new(0, 0)
 		),
 		spanned_token!(
-			Token::BaseSpecifier(token::BaseSpecifier::Hexadecimal, false),
+			Token::BaseSpecifier {
+				specifier: token::BaseSpecifier::Hexadecimal,
+				uppercase: false,
+				signed:    false,
+			},
 			1..3,
 			Position::new(0, 1)
 		),
@@ -2711,7 +2939,11 @@ all_tokenizer_test!(
 			Position::new(0, 0)
 		),
 		spanned_token!(
-			Token::BaseSpecifier(token::BaseSpecifier::Hexadecimal, false),
+			Token::BaseSpecifier {
+				specifier: token::BaseSpecifier::Hexadecimal,
+				uppercase: false,
+				signed:    false,
+			},
 			1..3,
 			Position::new(0, 1)
 		),
@@ -2733,7 +2965,11 @@ all_tokenizer_test!(
 			Position::new(0, 0)
 		),
 		spanned_token!(
-			Token::BaseSpecifier(token::BaseSpecifier::Hexadecimal, false),
+			Token::BaseSpecifier {
+				specifier: token::BaseSpecifier::Hexadecimal,
+				uppercase: false,
+				signed:    false,
+			},
 			1..3,
 			Position::new(0, 1)
 		),
@@ -2760,7 +2996,11 @@ all_tokenizer_test!(
 			Position::new(0, 1)
 		),
 		spanned_token!(
-			Token::BaseSpecifier(token::BaseSpecifier::Hexadecimal, false),
+			Token::BaseSpecifier {
+				specifier: token::BaseSpecifier::Hexadecimal,
+				uppercase: false,
+				signed:    false,
+			},
 			2..4,
 			Position::new(0, 2)
 		),
@@ -2787,7 +3027,11 @@ all_tokenizer_test!(
 			Position::new(0, 1)
 		),
 		spanned_token!(
-			Token::BaseSpecifier(token::BaseSpecifier::Hexadecimal, false),
+			Token::BaseSpecifier {
+				specifier: token::BaseSpecifier::Hexadecimal,
+				uppercase: false,
+				signed:    false,
+			},
 			2..4,
 			Position::new(0, 2)
 		),
@@ -2813,7 +3057,11 @@ all_tokenizer_test!(
 			Position::new(0, 1)
 		),
 		spanned_token!(
-			Token::BaseSpecifier(token::BaseSpecifier::Hexadecimal, false),
+			Token::BaseSpecifier {
+				specifier: token::BaseSpecifier::Hexadecimal,
+				uppercase: false,
+				signed:    false,
+			},
 			2..4,
 			Position::new(0, 2)
 		),
@@ -2840,7 +3088,11 @@ all_tokenizer_test!(
 			Position::new(0, 1)
 		),
 		spanned_token!(
-			Token::BaseSpecifier(token::BaseSpecifier::Hexadecimal, false),
+			Token::BaseSpecifier {
+				specifier: token::BaseSpecifier::Hexadecimal,
+				uppercase: false,
+				signed:    false,
+			},
 			2..4,
 			Position::new(0, 2)
 		),
@@ -2867,7 +3119,11 @@ all_tokenizer_test!(
 			Position::new(0, 1)
 		),
 		spanned_token!(
-			Token::BaseSpecifier(token::BaseSpecifier::Hexadecimal, false),
+			Token::BaseSpecifier {
+				specifier: token::BaseSpecifier::Hexadecimal,
+				uppercase: false,
+				signed:    false,
+			},
 			2..4,
 			Position::new(0, 2)
 		),
@@ -2884,7 +3140,11 @@ all_tokenizer_test!(
 	"'h7F",
 	vec![
 		spanned_token!(
-			Token::BaseSpecifier(token::BaseSpecifier::Hexadecimal, false),
+			Token::BaseSpecifier {
+				specifier: token::BaseSpecifier::Hexadecimal,
+				uppercase: false,
+				signed:    false,
+			},
 			0..2,
 			Position::new(0, 0)
 		),
@@ -2901,7 +3161,11 @@ all_tokenizer_test!(
 	"'hxAx",
 	vec![
 		spanned_token!(
-			Token::BaseSpecifier(token::BaseSpecifier::Hexadecimal, false),
+			Token::BaseSpecifier {
+				specifier: token::BaseSpecifier::Hexadecimal,
+				uppercase: false,
+				signed:    false,
+			},
 			0..2,
 			Position::new(0, 0)
 		),
@@ -2918,7 +3182,11 @@ all_tokenizer_test!(
 	"'hx",
 	vec![
 		spanned_token!(
-			Token::BaseSpecifier(token::BaseSpecifier::Hexadecimal, false),
+			Token::BaseSpecifier {
+				specifier: token::BaseSpecifier::Hexadecimal,
+				uppercase: false,
+				signed:    false,
+			},
 			0..2,
 			Position::new(0, 0)
 		),
@@ -2935,7 +3203,11 @@ all_tokenizer_test!(
 	"'hzz7",
 	vec![
 		spanned_token!(
-			Token::BaseSpecifier(token::BaseSpecifier::Hexadecimal, false),
+			Token::BaseSpecifier {
+				specifier: token::BaseSpecifier::Hexadecimal,
+				uppercase: false,
+				signed:    false,
+			},
 			0..2,
 			Position::new(0, 0)
 		),
@@ -2952,7 +3224,11 @@ all_tokenizer_test!(
 	"'hz",
 	vec![
 		spanned_token!(
-			Token::BaseSpecifier(token::BaseSpecifier::Hexadecimal, false),
+			Token::BaseSpecifier {
+				specifier: token::BaseSpecifier::Hexadecimal,
+				uppercase: false,
+				signed:    false,
+			},
 			0..2,
 			Position::new(0, 0)
 		),
@@ -2981,7 +3257,11 @@ all_tokenizer_test!(
 			Position::new(0, 1)
 		),
 		spanned_token!(
-			Token::BaseSpecifier(BaseSpecifier::Hexadecimal, false),
+			Token::BaseSpecifier {
+				specifier: BaseSpecifier::Hexadecimal,
+				uppercase: false,
+				signed:    false,
+			},
 			2..4,
 			Position::new(0, 2)
 		),
@@ -3002,7 +3282,11 @@ all_tokenizer_test!(
 			Position::new(1, 1)
 		),
 		spanned_token!(
-			Token::BaseSpecifier(BaseSpecifier::Hexadecimal, true),
+			Token::BaseSpecifier {
+				specifier: BaseSpecifier::Hexadecimal,
+				uppercase: true,
+				signed:    false,
+			},
 			11..13,
 			Position::new(1, 2)
 		),
@@ -3027,7 +3311,11 @@ all_tokenizer_test!(
 			Position::new(2, 0)
 		),
 		spanned_token!(
-			Token::BaseSpecifier(BaseSpecifier::Hexadecimal, false),
+			Token::BaseSpecifier {
+				specifier: BaseSpecifier::Hexadecimal,
+				uppercase: false,
+				signed:    false,
+			},
 			17..19,
 			Position::new(2, 1)
 		),
@@ -3125,7 +3413,11 @@ endmodule
 			Position::new(2, 10)
 		),
 		spanned_token!(
-			Token::BaseSpecifier(BaseSpecifier::Binary, false),
+			Token::BaseSpecifier {
+				specifier: BaseSpecifier::Binary,
+				uppercase: false,
+				signed:    false,
+			},
 			26..28,
 			Position::new(2, 11)
 		),

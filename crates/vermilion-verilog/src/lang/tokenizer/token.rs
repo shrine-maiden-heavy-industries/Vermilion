@@ -8,7 +8,11 @@ use crate::LanguageSet;
 
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 pub enum Token {
-	BaseSpecifier(BaseSpecifier, bool),
+	BaseSpecifier {
+		specifier: BaseSpecifier,
+		uppercase: bool,
+		signed:    bool,
+	},
 	Comment(Comment),
 	CompilerDirective(CompilerDirective),
 	/// Hold the verilog variant for when this token would become valid
@@ -526,7 +530,13 @@ pub enum Operator {
 impl Display for Token {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
 		match self {
-			Self::BaseSpecifier(base_specifier, _) => base_specifier.fmt(f),
+			Self::BaseSpecifier { specifier, uppercase, signed } => {
+				write!(
+					f,
+					"BaseSpecifier({}, uppercase: {}, signed: {})",
+					specifier, uppercase, signed
+				)
+			},
 			Self::Comment(comment) => comment.fmt(f),
 			Self::CompilerDirective(compiler_directive) => compiler_directive.fmt(f),
 			Self::ContextuallyInvalid(_tendril, _verilog_variant) => todo!(),

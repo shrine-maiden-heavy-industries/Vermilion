@@ -5,7 +5,7 @@ use std::{collections::VecDeque, ops::Range};
 use vermilion_lang::{AtomicByteTendril, Position, Span, Spanned, spanned_token};
 
 use self::token::{BaseSpecifier, Comment, CompilerDirective, Control, Operator, TextMacro, Token};
-use crate::{LanguageSet, VerilogVariant};
+use crate::{LanguageSet, VerilogStd, VerilogVariant};
 
 mod directives;
 mod keywords;
@@ -1395,7 +1395,7 @@ impl VerilogTokenizer {
 		// If there is a base specifier right after us, then it's a number token
 		if matches!(
 			self.current_char,
-			b'b' | b'B' | b'o' | b'O' | b'd' | b'D' | b'h' | b'H'
+			b'b' | b'B' | b'o' | b'O' | b'd' | b'D' | b'h' | b'H' | b's' | b'S'
 		) {
 			self.read_number_token(true);
 		} else {
@@ -1475,23 +1475,58 @@ impl VerilogTokenizer {
 			begin -= 1;
 		}
 
+		let signed = if matches!(self.current_char, b's' | b'S') {
+			self.next_char();
+
+			// If we are in Verilog 95, we don't have support for signed base specifiers
+			if self.standard == VerilogVariant::Verilog(VerilogStd::Vl95) {
+				self.token_stream.push_back(spanned_token!(
+					Token::ContextuallyInvalid(
+						self.file
+							.subtendril((begin + 1) as u32, (self.position - (begin + 1)) as u32),
+						LanguageSet::all_flags() & !LanguageSet::Vl95
+					),
+					(begin + 1)..self.position,
+					context
+				));
+				false
+			} else {
+				true
+			}
+		} else {
+			false
+		};
+
 		// Having consumed the `'` we should now be left with a base specifier, and if not then
 		// this is an invalid token.
 		match self.current_char {
-			b'b' | b'B' => self.read_based_token(context, begin, BaseSpecifier::Binary, |char| {
-				matches!(char, b'x' | b'X' | b'z' | b'Z' | b'?' | b'0' | b'1')
-			}),
-			b'o' | b'O' => self.read_based_token(context, begin, BaseSpecifier::Octal, |char| {
-				matches!(char, b'x' | b'X' | b'z' | b'Z' | b'?' | b'0'..=b'7')
-			}),
-			b'd' | b'D' => self.read_based_token(context, begin, BaseSpecifier::Decimal, |char| {
-				char.is_ascii_digit()
-			}),
+			b'b' | b'B' => self.read_based_token(
+				context,
+				begin,
+				BaseSpecifier::Binary,
+				|char| matches!(char, b'x' | b'X' | b'z' | b'Z' | b'?' | b'0' | b'1'),
+				signed,
+			),
+			b'o' | b'O' => self.read_based_token(
+				context,
+				begin,
+				BaseSpecifier::Octal,
+				|char| matches!(char, b'x' | b'X' | b'z' | b'Z' | b'?' | b'0'..=b'7'),
+				signed,
+			),
+			b'd' | b'D' => self.read_based_token(
+				context,
+				begin,
+				BaseSpecifier::Decimal,
+				|char| char.is_ascii_digit(),
+				signed,
+			),
 			b'h' | b'H' => self.read_based_token(
 				context,
 				begin,
 				BaseSpecifier::Hexadecimal,
 				|c| matches!(c, b'x' | b'X' | b'z' | b'Z' | b'?' | b'0'..=b'9' | b'a'..=b'f' | b'A'..=b'F'),
+				signed,
 			),
 			_ => {
 				self.token_stream.push_back(spanned_token!(
@@ -1586,12 +1621,13 @@ impl VerilogTokenizer {
 		&mut self,
 		context: Position,
 		begin: usize,
-		spec: BaseSpecifier,
+		specifier: BaseSpecifier,
 		digit_filter: fn(u8) -> bool,
+		signed: bool,
 	) {
-		let upper_case = self.next_char().is_ascii_uppercase();
+		let uppercase = self.next_char().is_ascii_uppercase();
 		self.token_stream.push_back(spanned_token!(
-			Token::BaseSpecifier(spec, upper_case),
+			Token::BaseSpecifier { specifier, uppercase, signed },
 			begin..self.position,
 			context
 		));
@@ -1637,7 +1673,7 @@ impl VerilogTokenizer {
 
 			// If we're consuming a decimal number, we need to ensure we also consume trailing
 			// [xz?]'s to generate an invalid token if there are any
-			if spec == BaseSpecifier::Decimal &&
+			if specifier == BaseSpecifier::Decimal &&
 				matches!(self.current_char, b'x' | b'X' | b'z' | b'Z' | b'?')
 			{
 				while matches!(self.current_char, b'x' | b'X' | b'z' | b'Z' | b'?') &&

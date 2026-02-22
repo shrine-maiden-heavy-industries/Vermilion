@@ -90,3 +90,61 @@ verilog95_tokenizer_test!(
 		Position::new(0, 0)
 	),]
 );
+
+verilog95_tokenizer_test!(
+	naked_based_number_hex_signed_lowercase,
+	"'sh1",
+	vec![
+		spanned_token!(
+			Token::ContextuallyInvalid(
+				"s".as_bytes().into(),
+				LanguageSet::all_flags() & !LanguageSet::Vl95
+			),
+			1..2,
+			Position::new(0, 0)
+		),
+		spanned_token!(
+			Token::BaseSpecifier {
+				specifier: BaseSpecifier::Hexadecimal,
+				uppercase: false,
+				signed:    false,
+			},
+			0..3,
+			Position::new(0, 0)
+		),
+		spanned_token!(
+			Token::Number("1".as_bytes().into()),
+			3..4,
+			Position::new(0, 3)
+		),
+	]
+);
+
+verilog95_tokenizer_test!(
+	naked_based_number_hex_signed_uppercase,
+	"'Sh1",
+	vec![
+		spanned_token!(
+			Token::ContextuallyInvalid(
+				"S".as_bytes().into(),
+				LanguageSet::all_flags() & !LanguageSet::Vl95
+			),
+			1..2,
+			Position::new(0, 0)
+		),
+		spanned_token!(
+			Token::BaseSpecifier {
+				specifier: BaseSpecifier::Hexadecimal,
+				uppercase: false,
+				signed:    false,
+			},
+			0..3,
+			Position::new(0, 0)
+		),
+		spanned_token!(
+			Token::Number("1".as_bytes().into()),
+			3..4,
+			Position::new(0, 3)
+		),
+	]
+);
