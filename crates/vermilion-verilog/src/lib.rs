@@ -299,3 +299,99 @@ impl TryFrom<LanguageSet> for VerilogVariant {
 		}
 	}
 }
+
+#[cfg(feature = "serde")]
+impl<'de> serde::Deserialize<'de> for LanguageSet {
+	fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+	where
+		D: serde::Deserializer<'de>,
+	{
+		static VALUES: [&str; 11] = [
+			"Vl95", "Vl01", "Vl05", "Sv05", "Sv09", "Sv12", "Sv17", "Sv23", "Vams09", "Vams14",
+			"Vams23",
+		];
+
+		struct ValueVisitor;
+		impl<'de> serde::de::Visitor<'de> for ValueVisitor {
+			type Value = LanguageSet;
+
+			fn expecting(&self, formatter: &mut std::fmt::Formatter) -> std::fmt::Result {
+				formatter.write_str(
+					"`Vl95`, `Vl01`, `Vl05`, `Sv05`, `Sv09`, `Sv12`, `Sv17`, `Sv23`, `Vams09`, \
+					 `Vams14`, or `Vams23`",
+				)
+			}
+
+			fn visit_str<E>(self, value: &str) -> Result<Self::Value, E>
+			where
+				E: serde::de::Error,
+			{
+				match value {
+					"Vl95" => Ok(LanguageSet::Vl95),
+					"Vl01" => Ok(LanguageSet::Vl01),
+					"Vl05" => Ok(LanguageSet::Vl05),
+					"Sv05" => Ok(LanguageSet::Sv05),
+					"Sv09" => Ok(LanguageSet::Sv09),
+					"Sv12" => Ok(LanguageSet::Sv12),
+					"Sv17" => Ok(LanguageSet::Sv17),
+					"Sv23" => Ok(LanguageSet::Sv23),
+					"Vams09" => Ok(LanguageSet::Vams09),
+					"Vams14" => Ok(LanguageSet::Vams14),
+					"Vams23" => Ok(LanguageSet::Vams23),
+					_ => Err(serde::de::Error::unknown_variant(value, &VALUES)),
+				}
+			}
+		}
+
+		deserializer.deserialize_str(ValueVisitor)
+	}
+}
+
+#[cfg(feature = "serde")]
+impl serde::Serialize for LanguageSet {
+	fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+	where
+		S: serde::Serializer,
+	{
+		match *self {
+			LanguageSet::Vl95 => serializer.serialize_str("Vl95"),
+			LanguageSet::Vl01 => serializer.serialize_str("Vl01"),
+			LanguageSet::Vl05 => serializer.serialize_str("Vl05"),
+			LanguageSet::Sv05 => serializer.serialize_str("Sv05"),
+			LanguageSet::Sv09 => serializer.serialize_str("Sv09"),
+			LanguageSet::Sv12 => serializer.serialize_str("Sv12"),
+			LanguageSet::Sv17 => serializer.serialize_str("Sv17"),
+			LanguageSet::Sv23 => serializer.serialize_str("Sv23"),
+			LanguageSet::Vams09 => serializer.serialize_str("Vams09"),
+			LanguageSet::Vams14 => serializer.serialize_str("Vams14"),
+			LanguageSet::Vams23 => serializer.serialize_str("Vams23"),
+			_ => Err(serde::ser::Error::custom(
+				"Unable to serialize `LanguageSet` with more than one bit set",
+			)),
+		}
+	}
+}
+
+#[cfg(test)]
+mod test {
+	#[cfg(feature = "serde")]
+	use serde_test::{Token, assert_tokens};
+
+	use super::*;
+
+	#[test]
+	#[cfg(feature = "serde")]
+	fn test_language_set_serialize() {
+		assert_tokens(&LanguageSet::Vl95, &[Token::Str("Vl95")]);
+		assert_tokens(&LanguageSet::Vl01, &[Token::Str("Vl01")]);
+		assert_tokens(&LanguageSet::Vl05, &[Token::Str("Vl05")]);
+		assert_tokens(&LanguageSet::Sv05, &[Token::Str("Sv05")]);
+		assert_tokens(&LanguageSet::Sv09, &[Token::Str("Sv09")]);
+		assert_tokens(&LanguageSet::Sv12, &[Token::Str("Sv12")]);
+		assert_tokens(&LanguageSet::Sv17, &[Token::Str("Sv17")]);
+		assert_tokens(&LanguageSet::Sv23, &[Token::Str("Sv23")]);
+		assert_tokens(&LanguageSet::Vams09, &[Token::Str("Vams09")]);
+		assert_tokens(&LanguageSet::Vams14, &[Token::Str("Vams14")]);
+		assert_tokens(&LanguageSet::Vams23, &[Token::Str("Vams23")]);
+	}
+}
