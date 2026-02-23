@@ -25,10 +25,11 @@ serde                 = { workspace = true, optional = true }
 tendril               = { workspace = true }
 
 [dev-dependencies]
-criterion = { workspace = true }
-paste     = { workspace = true }
-proptest  = { workspace = true }
-test-log  = { workspace = true }
+criterion  = { workspace = true }
+paste      = { workspace = true }
+proptest   = { workspace = true }
+serde_test = { workspace = true }
+test-log   = { workspace = true }
 
 [features]
 default = []

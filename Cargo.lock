@@ -3462,6 +3462,7 @@ dependencies = [
  "proptest",
  "schemars",
  "serde",
+ "serde_test",
  "tendril",
  "test-log",
  "vermilion-diagnostics",
