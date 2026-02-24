@@ -4,7 +4,7 @@ use std::fmt::Display;
 
 use vermilion_lang::{AtomicByteTendril, Position, Spanned};
 
-use crate::LanguageSet;
+use crate::LanguageStd;
 
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 pub enum Token {
@@ -16,7 +16,7 @@ pub enum Token {
 	Comment(Comment),
 	CompilerDirective(CompilerDirective),
 	/// Hold the verilog variant for when this token would become valid
-	ContextuallyInvalid(AtomicByteTendril, LanguageSet),
+	ContextuallyInvalid(AtomicByteTendril, LanguageStd),
 	Control(Control),
 	Identifier(AtomicByteTendril),
 	Invalid(Option<AtomicByteTendril>),

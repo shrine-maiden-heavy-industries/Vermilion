@@ -5,14 +5,16 @@ use super::{
 	token::{Directive, Keyword, TextMacro},
 	*,
 };
-use crate::{LanguageSet, SystemVerilogStd, VerilogAmsStd, VerilogStd};
+use crate::LanguageStd;
 
 macro_rules! tokenizer_test {
-	($test_name:ident, $input:literal, $tokens:expr, $variant:expr) => {
+	($test_name:ident, $input:literal, $tokens:expr, $std:expr) => {
 		paste! {
 			#[test]
 			fn [<test_tokenize_ $test_name>] () {
-				let tokenizer = VerilogTokenizer::new($variant, $input.as_bytes().into());
+				// SAFETY: We're in a testing context, panicking here is fine
+				#[allow(clippy::unwrap_used)]
+				let tokenizer = VerilogTokenizer::new($std, $input.as_bytes().into()).unwrap();
 
 				let parsed = tokenizer.collect::<Vec<_>>();
 				let expected = $tokens;
@@ -27,26 +29,13 @@ macro_rules! tokenizer_test {
 }
 
 #[allow(unused)]
-macro_rules! verilog_tokenizer_test {
-	($test_name:ident, $input:literal, $tokens:expr, $std:expr) => {
-		paste! { tokenizer_test!(
-				[<verilog $test_name>],
-				$input,
-				$tokens,
-				VerilogVariant::Verilog($std)
-			);
-		}
-	};
-}
-
-#[allow(unused)]
 macro_rules! verilog95_tokenizer_test {
 	($test_name:ident, $input:literal, $tokens:expr) => {
-		paste! { verilog_tokenizer_test!(
-			[<_95_ $test_name>],
+		paste! { tokenizer_test!(
+			[<verilog_95_ $test_name>],
 			$input,
 			$tokens,
-			VerilogStd::Vl95
+			LanguageStd::Vl95
 		); }
 	};
 }
@@ -54,11 +43,11 @@ macro_rules! verilog95_tokenizer_test {
 #[allow(unused)]
 macro_rules! verilog01_tokenizer_test {
 	($test_name:ident, $input:literal, $tokens:expr) => {
-		paste! { verilog_tokenizer_test!(
-			[<_01_ $test_name>],
+		paste! { tokenizer_test!(
+			[<verilog_01_ $test_name>],
 			$input,
 			$tokens,
-			VerilogStd::Vl01
+			LanguageStd::Vl01
 		); }
 	};
 }
@@ -66,11 +55,11 @@ macro_rules! verilog01_tokenizer_test {
 #[allow(unused)]
 macro_rules! verilog05_tokenizer_test {
 	($test_name:ident, $input:literal, $tokens:expr) => {
-		paste! { verilog_tokenizer_test!(
-			[<_05_ $test_name>],
+		paste! { tokenizer_test!(
+			[<verilog_05_ $test_name>],
 			$input,
 			$tokens,
-			VerilogStd::Vl05
+			LanguageStd::Vl05
 		); }
 	};
 }
@@ -110,50 +99,37 @@ macro_rules! verilog05_and_up_tokenizer_test {
 }
 
 #[allow(unused)]
-macro_rules! system_verilog_tokenizer_test {
-	($test_name:ident, $input:literal, $tokens:expr, $std:expr) => {
-		paste! { tokenizer_test!(
-				[<system_verilog $test_name>],
-				$input,
-				$tokens,
-				VerilogVariant::SystemVerilog($std)
-			);
-		}
-	};
-}
-
-#[allow(unused)]
 macro_rules! system_verilog05_tokenizer_test {
 	($test_name:ident, $input:literal, $tokens:expr) => {
-		paste! { system_verilog_tokenizer_test!([<_05_ $test_name>], $input, $tokens, SystemVerilogStd::Sv05); }
+		paste! { tokenizer_test!([<system_verilog_05_ $test_name>], $input, $tokens, LanguageStd::Sv05); }
 	};
 }
 
 #[allow(unused)]
 macro_rules! system_verilog09_tokenizer_test {
 	($test_name:ident, $input:literal, $tokens:expr) => {
-		paste! { system_verilog_tokenizer_test!([<_09_ $test_name>], $input, $tokens, SystemVerilogStd::Sv09); }
+		paste! { tokenizer_test!([<system_verilog_09_ $test_name>], $input, $tokens, LanguageStd::Sv09); }
 	};
 }
 
 #[allow(unused)]
 macro_rules! system_verilog12_tokenizer_test {
 	($test_name:ident, $input:literal, $tokens:expr) => {
-		paste! { system_verilog_tokenizer_test!([<_12_ $test_name>], $input, $tokens, SystemVerilogStd::Sv12); }
+		paste! { tokenizer_test!([<system_verilog_12_ $test_name>], $input, $tokens, LanguageStd::Sv12); }
 	};
 }
 
 #[allow(unused)]
 macro_rules! system_verilog17_tokenizer_test {
 	($test_name:ident, $input:literal, $tokens:expr) => {
-		paste! { system_verilog_tokenizer_test!([<_17_ $test_name>], $input, $tokens, SystemVerilogStd::Sv17); }
+		paste! { tokenizer_test!([<system_verilog_17_ $test_name>], $input, $tokens, LanguageStd::Sv17); }
 	};
 }
 
 #[allow(unused)]
 macro_rules! system_verilog23_tokenizer_test {
 	($test_name:ident, $input:literal, $tokens:expr) => {
-		paste! { system_verilog_tokenizer_test!([<_23_ $test_name>], $input, $tokens, SystemVerilogStd::Sv23); }
+		paste! { tokenizer_test!([<system_verilog_23_ $test_name>], $input, $tokens, LanguageStd::Sv23); }
 	};
 }
 
@@ -196,36 +172,23 @@ macro_rules! system_verilog17_and_up_tokenizer_test {
 }
 
 #[allow(unused)]
-macro_rules! verilog_ams_tokenizer_test {
-	($test_name:ident, $input:literal, $tokens:expr, $std:expr) => {
-		paste! { tokenizer_test!(
-				[<verilog_ams $test_name>],
-				$input,
-				$tokens,
-				VerilogVariant::VerilogAms($std)
-			);
-		}
-	};
-}
-
-#[allow(unused)]
 macro_rules! verilog_ams09_tokenizer_test {
 	($test_name:ident, $input:literal, $tokens:expr) => {
-		paste! { verilog_ams_tokenizer_test!([<_09_ $test_name>], $input, $tokens, VerilogAmsStd::Vams09); }
+		paste! { tokenizer_test!([<verilog_ams_09_ $test_name>], $input, $tokens, LanguageStd::Vams09); }
 	};
 }
 
 #[allow(unused)]
 macro_rules! verilog_ams14_tokenizer_test {
 	($test_name:ident, $input:literal, $tokens:expr) => {
-		paste! { verilog_ams_tokenizer_test!([<_14_ $test_name>], $input, $tokens, VerilogAmsStd::Vams14); }
+		paste! { tokenizer_test!([<verilog_ams_14_ $test_name>], $input, $tokens, LanguageStd::Vams14); }
 	};
 }
 
 #[allow(unused)]
 macro_rules! verilog_ams23_tokenizer_test {
 	($test_name:ident, $input:literal, $tokens:expr) => {
-		paste! { verilog_ams_tokenizer_test!([<_23_ $test_name>], $input, $tokens, VerilogAmsStd::Vams23); }
+		paste! { tokenizer_test!([<verilog_ams_23_ $test_name>], $input, $tokens, LanguageStd::Vams23); }
 	};
 }
 

@@ -2,9 +2,7 @@
 
 use phf::{phf_map, phf_set};
 
-use crate::{
-	SystemVerilogStd, VerilogAmsStd, VerilogStd, VerilogVariant, lang::tokenizer::token::Directive,
-};
+use crate::{LanguageStd, lang::tokenizer::token::Directive};
 
 /// IEEE 1364-1995 (Verilog 1995) Directive to [`Directive`] token map
 pub static VERILOG_95_DIRECTIVE_MAP: phf::Map<&'static str, Directive> = phf_map! {
@@ -542,11 +540,12 @@ pub fn is_verilog_05_directive(ident: &str) -> bool {
 /// Get the Verilog directive for the given standard if it exists
 #[allow(unused)]
 #[inline]
-pub fn get_verilog_directive(ident: &str, std: VerilogStd) -> Option<Directive> {
+pub fn get_verilog_directive(ident: &str, std: LanguageStd) -> Option<Directive> {
 	match std {
-		VerilogStd::Vl95 => get_verilog_95_directive(ident),
-		VerilogStd::Vl01 => get_verilog_01_directive(ident),
-		VerilogStd::Vl05 => get_verilog_05_directive(ident),
+		LanguageStd::Vl95 => get_verilog_95_directive(ident),
+		LanguageStd::Vl01 => get_verilog_01_directive(ident),
+		LanguageStd::Vl05 => get_verilog_05_directive(ident),
+		_ => None,
 	}
 }
 
@@ -653,13 +652,14 @@ pub fn is_system_verilog_23_directive(ident: &str) -> bool {
 /// Get the SystemVerilog directive for the given standard if it exists
 #[allow(unused)]
 #[inline]
-pub fn get_system_verilog_directive(ident: &str, std: SystemVerilogStd) -> Option<Directive> {
+pub fn get_system_verilog_directive(ident: &str, std: LanguageStd) -> Option<Directive> {
 	match std {
-		SystemVerilogStd::Sv05 => get_system_verilog_05_directive(ident),
-		SystemVerilogStd::Sv09 => get_system_verilog_09_directive(ident),
-		SystemVerilogStd::Sv12 => get_system_verilog_12_directive(ident),
-		SystemVerilogStd::Sv17 => get_system_verilog_17_directive(ident),
-		SystemVerilogStd::Sv23 => get_system_verilog_23_directive(ident),
+		LanguageStd::Sv05 => get_system_verilog_05_directive(ident),
+		LanguageStd::Sv09 => get_system_verilog_09_directive(ident),
+		LanguageStd::Sv12 => get_system_verilog_12_directive(ident),
+		LanguageStd::Sv17 => get_system_verilog_17_directive(ident),
+		LanguageStd::Sv23 => get_system_verilog_23_directive(ident),
+		_ => None,
 	}
 }
 
@@ -726,22 +726,32 @@ pub fn is_verilog_ams_23_directive(ident: &str) -> bool {
 /// Get the Verilog-AMS directive for the given standard if it exists
 #[allow(unused)]
 #[inline]
-pub fn get_verilog_ams_directive(ident: &str, std: VerilogAmsStd) -> Option<Directive> {
+pub fn get_verilog_ams_directive(ident: &str, std: LanguageStd) -> Option<Directive> {
 	match std {
-		VerilogAmsStd::Vams09 => get_verilog_ams_09_directive(ident),
-		VerilogAmsStd::Vams14 => get_verilog_ams_14_directive(ident),
-		VerilogAmsStd::Vams23 => get_verilog_ams_23_directive(ident),
+		LanguageStd::Vams09 => get_verilog_ams_09_directive(ident),
+		LanguageStd::Vams14 => get_verilog_ams_14_directive(ident),
+		LanguageStd::Vams23 => get_verilog_ams_23_directive(ident),
+		_ => None,
 	}
 }
 
 /// Get the Verilog/Verilog-AMS/SystemVerilog directive for the given standard if it exists
 #[allow(unused)]
 #[inline]
-pub fn get_directive(ident: &str, variant: VerilogVariant) -> Option<Directive> {
-	match variant {
-		VerilogVariant::Verilog(std) => get_verilog_directive(ident, std),
-		VerilogVariant::SystemVerilog(std) => get_system_verilog_directive(ident, std),
-		VerilogVariant::VerilogAms(std) => get_verilog_ams_directive(ident, std),
+pub fn get_directive(ident: &str, std: LanguageStd) -> Option<Directive> {
+	match std {
+		LanguageStd::Vl95 => get_verilog_95_directive(ident),
+		LanguageStd::Vl01 => get_verilog_01_directive(ident),
+		LanguageStd::Vl05 => get_verilog_05_directive(ident),
+		LanguageStd::Sv05 => get_system_verilog_05_directive(ident),
+		LanguageStd::Sv09 => get_system_verilog_09_directive(ident),
+		LanguageStd::Sv12 => get_system_verilog_12_directive(ident),
+		LanguageStd::Sv17 => get_system_verilog_17_directive(ident),
+		LanguageStd::Sv23 => get_system_verilog_23_directive(ident),
+		LanguageStd::Vams09 => get_verilog_ams_09_directive(ident),
+		LanguageStd::Vams14 => get_verilog_ams_14_directive(ident),
+		LanguageStd::Vams23 => get_verilog_ams_23_directive(ident),
+		_ => None,
 	}
 }
 

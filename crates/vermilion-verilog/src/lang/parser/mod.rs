@@ -4,7 +4,7 @@ use eyre::OptionExt;
 use vermilion_lang::{AtomicByteTendril, Position, Span, Spanned};
 
 use crate::{
-	VerilogVariant,
+	LanguageStd,
 	lang::{
 		ast::{Ast, Diagnostic, Module, PortList, Primitive},
 		tokenizer::{
@@ -17,18 +17,18 @@ use crate::{
 pub mod error;
 
 pub struct VerilogParser {
-	std:           VerilogVariant,
+	std:           LanguageStd,
 	tokenizer:     VerilogTokenizer,
 	current_token: Option<Spanned<Token, Position>>,
 }
 
 impl VerilogParser {
-	pub fn new(std: VerilogVariant, content: AtomicByteTendril) -> Self {
-		Self {
+	pub fn new(std: LanguageStd, content: AtomicByteTendril) -> eyre::Result<Self> {
+		Ok(Self {
 			std,
-			tokenizer: VerilogTokenizer::new(std, content),
+			tokenizer: VerilogTokenizer::new(std, content)?,
 			current_token: None,
-		}
+		})
 	}
 
 	fn parse_port_expression(&mut self) {

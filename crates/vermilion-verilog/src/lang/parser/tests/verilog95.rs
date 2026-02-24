@@ -1,17 +1,17 @@
 // SPDX-License-Identifier: BSD-3-Clause
 
 use crate::{
-	VerilogStd, VerilogVariant,
+	LanguageStd,
 	lang::parser::{Diagnostic, Position, Span, VerilogParser},
 };
 
 // #[test]
 fn test_truncated_module() {
-	let result = VerilogParser::new(
-		VerilogVariant::Verilog(VerilogStd::Vl95),
-		"module".as_bytes().into(),
-	)
-	.parse();
+	// SAFETY: We're in a testing context, panicking here is fine
+	#[allow(clippy::unwrap_used)]
+	let result = VerilogParser::new(LanguageStd::Vl95, "module".as_bytes().into())
+		.unwrap()
+		.parse();
 
 	assert!(result.is_ok());
 	#[allow(clippy::unwrap_used)]
@@ -27,11 +27,11 @@ fn test_truncated_module() {
 		)]
 	);
 
-	let result = VerilogParser::new(
-		VerilogVariant::Verilog(VerilogStd::Vl95),
-		"module;".as_bytes().into(),
-	)
-	.parse();
+	// SAFETY: We're in a testing context, panicking here is fine
+	#[allow(clippy::unwrap_used)]
+	let result = VerilogParser::new(LanguageStd::Vl95, "module;".as_bytes().into())
+		.unwrap()
+		.parse();
 
 	assert!(result.is_ok());
 	#[allow(clippy::unwrap_used)]
@@ -47,11 +47,11 @@ fn test_truncated_module() {
 		)]
 	);
 
-	let result = VerilogParser::new(
-		VerilogVariant::Verilog(VerilogStd::Vl95),
-		"module a".as_bytes().into(),
-	)
-	.parse();
+	// SAFETY: We're in a testing context, panicking here is fine
+	#[allow(clippy::unwrap_used)]
+	let result = VerilogParser::new(LanguageStd::Vl95, "module a".as_bytes().into())
+		.unwrap()
+		.parse();
 
 	assert!(result.is_ok());
 	#[allow(clippy::unwrap_used)]

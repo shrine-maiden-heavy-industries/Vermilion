@@ -2,10 +2,11 @@
 
 use std::{collections::VecDeque, ops::Range};
 
+use eyre::eyre;
 use vermilion_lang::{AtomicByteTendril, Position, Span, Spanned, spanned_token};
 
 use self::token::{BaseSpecifier, Comment, CompilerDirective, Control, Operator, TextMacro, Token};
-use crate::{LanguageSet, VerilogStd, VerilogVariant};
+use crate::LanguageStd;
 
 mod directives;
 mod keywords;
@@ -17,10 +18,10 @@ macro_rules! versioned_token {
 			$self,
 			$begin,
 			$token,
-			crate::LanguageSet::Vl01 |
-				crate::LanguageSet::Vl05 |
-				crate::LanguageSet::SYSTEM_VERILOG_STDS |
-				crate::LanguageSet::VERILOG_AMS_STDS
+			crate::LanguageStd::Vl01 |
+				crate::LanguageStd::Vl05 |
+				crate::LanguageStd::SYSTEM_VERILOG_STDS |
+				crate::LanguageStd::VERILOG_AMS_STDS
 		)
 	};
 	($self:path, $begin:path, $token:expr,at_least_vl05) => {
@@ -28,9 +29,9 @@ macro_rules! versioned_token {
 			$self,
 			$begin,
 			$token,
-			crate::LanguageSet::Vl05 |
-				crate::LanguageSet::SYSTEM_VERILOG_STDS |
-				crate::LanguageSet::VERILOG_AMS_STDS
+			crate::LanguageStd::Vl05 |
+				crate::LanguageStd::SYSTEM_VERILOG_STDS |
+				crate::LanguageStd::VERILOG_AMS_STDS
 		)
 	};
 	($self:path, $begin:path, $token:expr,at_least_sv05) => {
@@ -38,7 +39,7 @@ macro_rules! versioned_token {
 			$self,
 			$begin,
 			$token,
-			crate::LanguageSet::SYSTEM_VERILOG_STDS
+			crate::LanguageStd::SYSTEM_VERILOG_STDS
 		)
 	};
 	($self:path, $begin:path, $token:expr,at_least_sv09) => {
@@ -46,10 +47,10 @@ macro_rules! versioned_token {
 			$self,
 			$begin,
 			$token,
-			crate::LanguageSet::Sv09 |
-				crate::LanguageSet::Sv12 |
-				crate::LanguageSet::Sv17 |
-				crate::LanguageSet::Sv23
+			crate::LanguageStd::Sv09 |
+				crate::LanguageStd::Sv12 |
+				crate::LanguageStd::Sv17 |
+				crate::LanguageStd::Sv23
 		)
 	};
 	($self:path, $begin:path, $token:expr,at_least_sv12) => {
@@ -57,7 +58,7 @@ macro_rules! versioned_token {
 			$self,
 			$begin,
 			$token,
-			crate::LanguageSet::Sv12 | crate::LanguageSet::Sv17 | crate::LanguageSet::Sv23
+			crate::LanguageStd::Sv12 | crate::LanguageStd::Sv17 | crate::LanguageStd::Sv23
 		)
 	};
 	($self:path, $begin:path, $token:expr,at_least_sv17) => {
@@ -65,39 +66,39 @@ macro_rules! versioned_token {
 			$self,
 			$begin,
 			$token,
-			crate::LanguageSet::Sv17 | crate::LanguageSet::Sv23
+			crate::LanguageStd::Sv17 | crate::LanguageStd::Sv23
 		)
 	};
 	($self:path, $begin:path, $token:expr,at_least_sv23) => {
-		versioned_token!($self, $begin, $token, crate::LanguageSet::Sv23)
+		versioned_token!($self, $begin, $token, crate::LanguageStd::Sv23)
 	};
 	($self:path, $begin:path, $token:expr,at_least_vams09) => {
-		versioned_token!($self, $begin, $token, crate::LanguageSet::VERILOG_AMS_STDS)
+		versioned_token!($self, $begin, $token, crate::LanguageStd::VERILOG_AMS_STDS)
 	};
 	($self:path, $begin:path, $token:expr,at_least_vams14) => {
 		versioned_token!(
 			$self,
 			$begin,
 			$token,
-			crate::LanguageSet::Vams14 | crate::LanguageSet::Vams23
+			crate::LanguageStd::Vams14 | crate::LanguageStd::Vams23
 		)
 	};
 	($self:path, $begin:path, $token:expr,at_least_vams23) => {
-		versioned_token!($self, $begin, $token, crate::LanguageSet::Vams23)
+		versioned_token!($self, $begin, $token, crate::LanguageStd::Vams23)
 	};
 	($self:path, $begin:path, $token:expr,only_verilog) => {
-		versioned_token!($self, $begin, $token, crate::LanguageSet::VERILOG_STDS)
+		versioned_token!($self, $begin, $token, crate::LanguageStd::VERILOG_STDS)
 	};
 	($self:path, $begin:path, $token:expr,only_system_verilog) => {
 		versioned_token!(
 			$self,
 			$begin,
 			$token,
-			crate::LanguageSet::SYSTEM_VERILOG_STDS
+			crate::LanguageStd::SYSTEM_VERILOG_STDS
 		)
 	};
 	($self:path, $begin:path, $token:expr,only_verilog_ams) => {
-		versioned_token!($self, $begin, $token, crate::LanguageSet::VERILOG_AMS_STDS)
+		versioned_token!($self, $begin, $token, crate::LanguageStd::VERILOG_AMS_STDS)
 	};
 	($self:path, $begin:path, $token:expr, $stds:expr) => {
 		if $stds.contains($self.standard.into()) {
@@ -114,7 +115,7 @@ macro_rules! versioned_token {
 }
 
 pub struct VerilogTokenizer {
-	standard:     VerilogVariant,
+	standard:     LanguageStd,
 	file:         AtomicByteTendril,
 	current_char: u8,
 	position:     usize,
@@ -125,7 +126,12 @@ pub struct VerilogTokenizer {
 }
 
 impl VerilogTokenizer {
-	pub fn new(standard: VerilogVariant, file: AtomicByteTendril) -> VerilogTokenizer {
+	pub fn new(standard: LanguageStd, file: AtomicByteTendril) -> eyre::Result<VerilogTokenizer> {
+		// Check to see if more than one language standard is set
+		if !standard.has_single_std() {
+			return Err(eyre!("More than one language standard set: {:?}", standard));
+		}
+
 		let mut tokenizer = Self {
 			standard,
 			file,
@@ -144,7 +150,7 @@ impl VerilogTokenizer {
 			tokenizer.current_char = tokenizer.file[tokenizer.position];
 		}
 
-		tokenizer
+		Ok(tokenizer)
 	}
 
 	pub fn document_length(&self) -> usize {
@@ -1301,8 +1307,8 @@ impl VerilogTokenizer {
 		} else {
 			spanned_token!(
 				Token::TextMacro(
-					if (crate::LanguageSet::SYSTEM_VERILOG_STDS & !crate::LanguageSet::Sv05 |
-						crate::LanguageSet::Vams23)
+					if (crate::LanguageStd::SYSTEM_VERILOG_STDS & !crate::LanguageStd::Sv05 |
+						crate::LanguageStd::Vams23)
 						.contains(self.standard.into())
 					{
 						match ident {
@@ -1364,7 +1370,7 @@ impl VerilogTokenizer {
 
 		self.token = spanned_token!(
 			if triple_quote {
-				if LanguageSet::Sv23.contains(self.standard.into()) {
+				if LanguageStd::Sv23.contains(self.standard.into()) {
 					Token::TripleQuotedString(
 						self.file
 							.subtendril(str_begin as u32, (str_end - str_begin) as u32),
@@ -1373,7 +1379,7 @@ impl VerilogTokenizer {
 					Token::ContextuallyInvalid(
 						self.file
 							.subtendril(quote_begin as u32, (quote_end - quote_begin) as u32),
-						LanguageSet::Sv23,
+						LanguageStd::Sv23,
 					)
 				}
 			} else {
@@ -1479,12 +1485,12 @@ impl VerilogTokenizer {
 			self.next_char();
 
 			// If we are in Verilog 95, we don't have support for signed base specifiers
-			if self.standard == VerilogVariant::Verilog(VerilogStd::Vl95) {
+			if self.standard == LanguageStd::Vl95 {
 				self.token_stream.push_back(spanned_token!(
 					Token::ContextuallyInvalid(
 						self.file
 							.subtendril((begin + 1) as u32, (self.position - (begin + 1)) as u32),
-						LanguageSet::all_flags() & !LanguageSet::Vl95
+						LanguageStd::all_flags() & !LanguageStd::Vl95
 					),
 					(begin + 1)..self.position,
 					context

@@ -6,7 +6,7 @@ verilog95_tokenizer_test!(
 	vec![spanned_token!(
 		Token::ContextuallyInvalid(
 			">>>".as_bytes().into(),
-			LanguageSet::all_flags() & !LanguageSet::Vl95
+			LanguageStd::all_flags() & !LanguageStd::Vl95
 		),
 		0..3,
 		Position::new(0, 0)
@@ -19,7 +19,7 @@ verilog95_tokenizer_test!(
 	vec![spanned_token!(
 		Token::ContextuallyInvalid(
 			"<<<".as_bytes().into(),
-			LanguageSet::all_flags() & !LanguageSet::Vl95
+			LanguageStd::all_flags() & !LanguageStd::Vl95
 		),
 		0..3,
 		Position::new(0, 0)
@@ -32,7 +32,7 @@ verilog95_tokenizer_test!(
 	vec![spanned_token!(
 		Token::ContextuallyInvalid(
 			"-:".as_bytes().into(),
-			LanguageSet::all_flags() & !LanguageSet::Vl95
+			LanguageStd::all_flags() & !LanguageStd::Vl95
 		),
 		0..2,
 		Position::new(0, 0)
@@ -45,7 +45,7 @@ verilog95_tokenizer_test!(
 	vec![spanned_token!(
 		Token::ContextuallyInvalid(
 			"+:".as_bytes().into(),
-			LanguageSet::all_flags() & !LanguageSet::Vl95
+			LanguageStd::all_flags() & !LanguageStd::Vl95
 		),
 		0..2,
 		Position::new(0, 0)
@@ -58,7 +58,7 @@ verilog95_tokenizer_test!(
 	vec![spanned_token!(
 		Token::ContextuallyInvalid(
 			"(*".as_bytes().into(),
-			LanguageSet::all_flags() & !LanguageSet::Vl95
+			LanguageStd::all_flags() & !LanguageStd::Vl95
 		),
 		0..2,
 		Position::new(0, 0)
@@ -71,7 +71,7 @@ verilog95_tokenizer_test!(
 	vec![spanned_token!(
 		Token::ContextuallyInvalid(
 			"*)".as_bytes().into(),
-			LanguageSet::all_flags() & !LanguageSet::Vl95
+			LanguageStd::all_flags() & !LanguageStd::Vl95
 		),
 		0..2,
 		Position::new(0, 0)
@@ -84,7 +84,7 @@ verilog95_tokenizer_test!(
 	vec![spanned_token!(
 		Token::ContextuallyInvalid(
 			"**".as_bytes().into(),
-			LanguageSet::all_flags() & !LanguageSet::Vl95
+			LanguageStd::all_flags() & !LanguageStd::Vl95
 		),
 		0..2,
 		Position::new(0, 0)
@@ -98,7 +98,7 @@ verilog95_tokenizer_test!(
 		spanned_token!(
 			Token::ContextuallyInvalid(
 				"s".as_bytes().into(),
-				LanguageSet::all_flags() & !LanguageSet::Vl95
+				LanguageStd::all_flags() & !LanguageStd::Vl95
 			),
 			1..2,
 			Position::new(0, 0)
@@ -127,7 +127,7 @@ verilog95_tokenizer_test!(
 		spanned_token!(
 			Token::ContextuallyInvalid(
 				"S".as_bytes().into(),
-				LanguageSet::all_flags() & !LanguageSet::Vl95
+				LanguageStd::all_flags() & !LanguageStd::Vl95
 			),
 			1..2,
 			Position::new(0, 0)

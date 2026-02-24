@@ -24,7 +24,7 @@ system_verilog05_tokenizer_test!(
 	triple_quote_string,
 	r#""""meow meow""""#,
 	vec![spanned_token!(
-		Token::ContextuallyInvalid(r#""""meow meow""""#.as_bytes().into(), LanguageSet::Sv23),
+		Token::ContextuallyInvalid(r#""""meow meow""""#.as_bytes().into(), LanguageStd::Sv23),
 		0..15,
 		Position::new(0, 0)
 	),]
@@ -36,7 +36,7 @@ system_verilog05_tokenizer_test!(
 	vec![spanned_token!(
 		Token::ContextuallyInvalid(
 			"<->".as_bytes().into(),
-			LanguageSet::SYSTEM_VERILOG_STDS & !LanguageSet::Sv05
+			LanguageStd::SYSTEM_VERILOG_STDS & !LanguageStd::Sv05
 		),
 		0..3,
 		Position::new(0, 0)
@@ -49,7 +49,7 @@ system_verilog05_tokenizer_test!(
 	vec![spanned_token!(
 		Token::ContextuallyInvalid(
 			"#=#".as_bytes().into(),
-			LanguageSet::SYSTEM_VERILOG_STDS & !LanguageSet::Sv05
+			LanguageStd::SYSTEM_VERILOG_STDS & !LanguageStd::Sv05
 		),
 		0..3,
 		Position::new(0, 0)
@@ -62,7 +62,7 @@ system_verilog05_tokenizer_test!(
 	vec![spanned_token!(
 		Token::ContextuallyInvalid(
 			"#-#".as_bytes().into(),
-			LanguageSet::SYSTEM_VERILOG_STDS & !LanguageSet::Sv05
+			LanguageStd::SYSTEM_VERILOG_STDS & !LanguageStd::Sv05
 		),
 		0..3,
 		Position::new(0, 0)
@@ -75,7 +75,7 @@ system_verilog05_tokenizer_test!(
 	vec![spanned_token!(
 		Token::ContextuallyInvalid(
 			"*::*".as_bytes().into(),
-			LanguageSet::SYSTEM_VERILOG_STDS & !LanguageSet::Sv05
+			LanguageStd::SYSTEM_VERILOG_STDS & !LanguageStd::Sv05
 		),
 		0..4,
 		Position::new(0, 0)
@@ -86,7 +86,7 @@ system_verilog05_tokenizer_test!(
 	operator_abs_tolerance,
 	"+/-",
 	vec![spanned_token!(
-		Token::ContextuallyInvalid("+/-".as_bytes().into(), LanguageSet::Sv23),
+		Token::ContextuallyInvalid("+/-".as_bytes().into(), LanguageStd::Sv23),
 		0..3,
 		Position::new(0, 0)
 	),]
@@ -96,7 +96,7 @@ system_verilog05_tokenizer_test!(
 	operator_rel_tolerance,
 	"+%-",
 	vec![spanned_token!(
-		Token::ContextuallyInvalid("+%-".as_bytes().into(), LanguageSet::Sv23),
+		Token::ContextuallyInvalid("+%-".as_bytes().into(), LanguageStd::Sv23),
 		0..3,
 		Position::new(0, 0)
 	),]

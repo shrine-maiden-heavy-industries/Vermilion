@@ -2,9 +2,7 @@
 
 use phf::{phf_map, phf_set};
 
-use crate::{
-	SystemVerilogStd, VerilogAmsStd, VerilogStd, VerilogVariant, lang::tokenizer::token::Keyword,
-};
+use crate::{LanguageStd, lang::tokenizer::token::Keyword};
 
 /// IEEE 1364-1995 (Verilog 1995) Keyword to [`Keyword`] token map
 pub static VERILOG_95_KEYWORD_MAP: phf::Map<&'static str, Keyword> = phf_map! {
@@ -2790,11 +2788,12 @@ pub fn is_verilog_05_keyword(ident: &str) -> bool {
 /// Get the Verilog keyword for the given standard if it exists
 #[allow(unused)]
 #[inline]
-pub fn get_verilog_keyword(ident: &str, std: VerilogStd) -> Option<Keyword> {
+pub fn get_verilog_keyword(ident: &str, std: LanguageStd) -> Option<Keyword> {
 	match std {
-		VerilogStd::Vl95 => get_verilog_95_keyword(ident),
-		VerilogStd::Vl01 => get_verilog_01_keyword(ident),
-		VerilogStd::Vl05 => get_verilog_05_keyword(ident),
+		LanguageStd::Vl95 => get_verilog_95_keyword(ident),
+		LanguageStd::Vl01 => get_verilog_01_keyword(ident),
+		LanguageStd::Vl05 => get_verilog_05_keyword(ident),
+		_ => None,
 	}
 }
 
@@ -2901,13 +2900,14 @@ pub fn is_system_verilog_23_keyword(ident: &str) -> bool {
 /// Get the SystemVerilog keyword for the given standard if it exists
 #[allow(unused)]
 #[inline]
-pub fn get_system_verilog_keyword(ident: &str, std: SystemVerilogStd) -> Option<Keyword> {
+pub fn get_system_verilog_keyword(ident: &str, std: LanguageStd) -> Option<Keyword> {
 	match std {
-		SystemVerilogStd::Sv05 => get_system_verilog_05_keyword(ident),
-		SystemVerilogStd::Sv09 => get_system_verilog_09_keyword(ident),
-		SystemVerilogStd::Sv12 => get_system_verilog_12_keyword(ident),
-		SystemVerilogStd::Sv17 => get_system_verilog_17_keyword(ident),
-		SystemVerilogStd::Sv23 => get_system_verilog_23_keyword(ident),
+		LanguageStd::Sv05 => get_system_verilog_05_keyword(ident),
+		LanguageStd::Sv09 => get_system_verilog_09_keyword(ident),
+		LanguageStd::Sv12 => get_system_verilog_12_keyword(ident),
+		LanguageStd::Sv17 => get_system_verilog_17_keyword(ident),
+		LanguageStd::Sv23 => get_system_verilog_23_keyword(ident),
+		_ => None,
 	}
 }
 
@@ -2974,27 +2974,35 @@ pub fn is_verilog_ams_23_keyword(ident: &str) -> bool {
 /// Get the Verilog-AMS keyword for the given standard if it exists
 #[allow(unused)]
 #[inline]
-pub fn get_verilog_ams_keyword(ident: &str, std: VerilogAmsStd) -> Option<Keyword> {
+pub fn get_verilog_ams_keyword(ident: &str, std: LanguageStd) -> Option<Keyword> {
 	match std {
-		VerilogAmsStd::Vams09 => get_verilog_ams_09_keyword(ident),
-		VerilogAmsStd::Vams14 => get_verilog_ams_14_keyword(ident),
-		VerilogAmsStd::Vams23 => get_verilog_ams_23_keyword(ident),
+		LanguageStd::Vams09 => get_verilog_ams_09_keyword(ident),
+		LanguageStd::Vams14 => get_verilog_ams_14_keyword(ident),
+		LanguageStd::Vams23 => get_verilog_ams_23_keyword(ident),
+		_ => None,
 	}
 }
 
 /// Get the given Verilog/Verilog-AMS/SystemVerilog keyword for the given standard if it exists
 #[allow(unused)]
 #[inline]
-pub fn get_keyword(ident: &str, variant: VerilogVariant) -> Option<Keyword> {
-	match variant {
-		VerilogVariant::Verilog(std) => get_verilog_keyword(ident, std),
-		VerilogVariant::SystemVerilog(std) => get_system_verilog_keyword(ident, std),
-		VerilogVariant::VerilogAms(std) => get_verilog_ams_keyword(ident, std),
+pub fn get_keyword(ident: &str, std: LanguageStd) -> Option<Keyword> {
+	match std {
+		LanguageStd::Vl95 => get_verilog_95_keyword(ident),
+		LanguageStd::Vl01 => get_verilog_01_keyword(ident),
+		LanguageStd::Vl05 => get_verilog_05_keyword(ident),
+		LanguageStd::Sv05 => get_system_verilog_05_keyword(ident),
+		LanguageStd::Sv09 => get_system_verilog_09_keyword(ident),
+		LanguageStd::Sv12 => get_system_verilog_12_keyword(ident),
+		LanguageStd::Sv17 => get_system_verilog_17_keyword(ident),
+		LanguageStd::Sv23 => get_system_verilog_23_keyword(ident),
+		LanguageStd::Vams09 => get_verilog_ams_09_keyword(ident),
+		LanguageStd::Vams14 => get_verilog_ams_14_keyword(ident),
+		LanguageStd::Vams23 => get_verilog_ams_23_keyword(ident),
+		_ => None,
 	}
 }
 
-// XXX(aki):  This is very likely less than ideal, and stupidly expensive, but I cant think of a
-// better way
 /// Check to see if the given identifier is a keyword in a future Verilog standard, returning
 /// the standard version if so.
 #[allow(unused)]
