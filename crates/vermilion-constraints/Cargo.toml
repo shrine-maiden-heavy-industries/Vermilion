@@ -1,0 +1,40 @@
+# SPDX-License-Identifier: BSD-3-Clause
+[package]
+name          = "vermilion-constraints"
+description   = "EDA Tooling constraint file support for Vermilion"
+documentation = { workspace = true }
+edition       = { workspace = true }
+homepage      = { workspace = true }
+license       = { workspace = true }
+publish       = { workspace = true }
+repository    = { workspace = true }
+rust-version  = { workspace = true }
+version       = { workspace = true }
+
+[dependencies]
+vermilion-diagnostics = { workspace = true }
+vermilion-fmt         = { workspace = true }
+vermilion-lang        = { workspace = true }
+
+bitmask-enum          = { workspace = true }
+clap                  = { workspace = true, optional = true }
+eyre                  = { workspace = true }
+phf                   = { workspace = true }
+schemars              = { workspace = true, optional = true }
+serde                 = { workspace = true, optional = true }
+tendril               = { workspace = true }
+
+[dev-dependencies]
+criterion  = { workspace = true }
+paste      = { workspace = true }
+proptest   = { workspace = true }
+serde_test = { workspace = true }
+test-log   = { workspace = true }
+
+[features]
+default = []
+
+graphviz-output = [ "vermilion-lang/graphviz-output" ]
+schema          = [ "serde", "dep:schemars", "vermilion-fmt/schema", "vermilion-diagnostics/schema" ]
+serde           = [ "dep:serde", "vermilion-fmt/serde", "vermilion-diagnostics/serde" ]
+vermilion-cli   = [ "dep:clap" ]

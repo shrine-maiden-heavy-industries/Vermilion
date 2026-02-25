@@ -13,9 +13,10 @@ rust-version  = { workspace = true }
 version       = { workspace = true }
 
 [dependencies]
+vermilion-constraints = { workspace = true, features = [ "schema", "vermilion-cli" ] }
+vermilion-diagnostics = { workspace = true, features = [ "schema", "pretty-diagnostics" ] }
 vermilion-fmt         = { workspace = true, features = [ "schema" ] }
 vermilion-lang        = { workspace = true }
-vermilion-diagnostics = { workspace = true, features = [ "schema", "pretty-diagnostics" ] }
 vermilion-lsp         = { workspace = true, features = [ "transport", "trace", "trace-server" ] }
 vermilion-verilog     = { workspace = true, features = [ "schema", "vermilion-cli" ] }
 vermilion-vhdl        = { workspace = true, features = [ "schema", "vermilion-cli" ] }

@@ -3359,12 +3359,34 @@ dependencies = [
  "toml",
  "tracing",
  "tracing-subscriber",
+ "vermilion-constraints",
  "vermilion-diagnostics",
  "vermilion-fmt",
  "vermilion-lang",
  "vermilion-lsp",
  "vermilion-verilog",
  "vermilion-vhdl",
+]
+
+[[package]]
+name = "vermilion-constraints"
+version = "0.0.0"
+dependencies = [
+ "bitmask-enum",
+ "clap",
+ "criterion",
+ "eyre",
+ "paste",
+ "phf 0.13.1",
+ "proptest",
+ "schemars",
+ "serde",
+ "serde_test",
+ "tendril",
+ "test-log",
+ "vermilion-diagnostics",
+ "vermilion-fmt",
+ "vermilion-lang",
 ]
 
 [[package]]
