@@ -1309,7 +1309,7 @@ impl VerilogTokenizer {
 				Token::TextMacro(
 					if (crate::LanguageStd::SYSTEM_VERILOG_STDS & !crate::LanguageStd::Sv05 |
 						crate::LanguageStd::Vams23)
-						.contains(self.standard.into())
+						.contains(self.standard)
 					{
 						match ident {
 							"__FILE__" => TextMacro::DunderFile,
@@ -1370,7 +1370,7 @@ impl VerilogTokenizer {
 
 		self.token = spanned_token!(
 			if triple_quote {
-				if LanguageStd::Sv23.contains(self.standard.into()) {
+				if LanguageStd::Sv23.contains(self.standard) {
 					Token::TripleQuotedString(
 						self.file
 							.subtendril(str_begin as u32, (str_end - str_begin) as u32),
