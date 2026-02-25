@@ -66,9 +66,11 @@ fn dump_ast(args: &ArgMatches, language: Language) -> eyre::Result<()> {
 			hdl_file.read_to_end(&mut data)?;
 
 			match language.parser(data.as_slice().into()) {
-				crate::lang::Parser::Verilog(parser) => dump_parser(parser.parse()),
-				// crate::lang::Parser::Vhdl(parser) => dump_parser(parser.parse()),
-				_ => unimplemented!(),
+				Ok(crate::lang::Parser::Verilog(parser)) => dump_parser(parser.parse()),
+				Ok(crate::lang::Parser::Vhdl(_parser)) => unimplemented!(),
+				Err(err) => {
+					return Err(err);
+				},
 			}
 		}
 	}
@@ -93,8 +95,11 @@ fn dump_tokens(args: &ArgMatches, language: Language) -> eyre::Result<()> {
 			hdl_file.read_to_end(&mut data)?;
 
 			match language.tokenizer(data.as_slice().into()) {
-				crate::lang::Tokenizer::Verilog(tokenizer) => dump_iter(tokenizer),
-				crate::lang::Tokenizer::Vhdl(tokenizer) => dump_iter(tokenizer),
+				Ok(crate::lang::Tokenizer::Verilog(tokenizer)) => dump_iter(tokenizer),
+				Ok(crate::lang::Tokenizer::Vhdl(tokenizer)) => dump_iter(tokenizer),
+				Err(err) => {
+					return Err(err);
+				},
 			}
 		}
 	}

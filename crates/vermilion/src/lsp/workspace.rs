@@ -8,7 +8,8 @@ use vermilion_lsp::types::{
 	Diagnostic, LanguageId, TextDocumentContentChangeEvent, TextDocumentItem, Uri,
 	semantic_tokens::{SemanticToken, SemanticTokens},
 };
-use vermilion_verilog::{SystemVerilogStd, VerilogAmsStd};
+use vermilion_verilog::LanguageStd as VerilogStd;
+use vermilion_vhdl::LanguageStd as VhdlStd;
 
 use crate::lang::{Ast, Language, VerilogAst, VhdlAst};
 
@@ -26,10 +27,11 @@ pub struct Document {
 fn language_for(id: &LanguageId) -> Option<Language> {
 	match id {
 		LanguageId::Other(language) => match language.as_str() {
-			"verilog" => Some(Language::Verilog(vermilion_verilog::VerilogStd::Vl95)),
-			"vhdl" => Some(Language::Vhdl(vermilion_vhdl::VhdlStd::Vh87)),
-			"system-verilog" => Some(Language::SystemVerilog(SystemVerilogStd::Sv05)),
-			"verilog-ams" => Some(Language::VerilogAms(VerilogAmsStd::Vams09)),
+			"verilog" => Some(Language::Verilog(VerilogStd::Vl95)),
+			"vhdl" => Some(Language::Vhdl(VhdlStd::Vh87)),
+			"system-verilog" => Some(Language::Verilog(VerilogStd::Sv05)),
+			"verilog-ams" => Some(Language::Verilog(VerilogStd::Vams09)),
+			"vhdl-ams" => Some(Language::Vhdl(VhdlStd::Vhams99)),
 			&_ => None,
 		},
 		_ => None,
