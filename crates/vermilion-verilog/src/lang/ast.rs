@@ -35,8 +35,8 @@ pub enum AstContents<T> {
 
 #[derive(Debug)]
 pub struct AstNode<T> {
-	source_position: Option<Span<usize, Position>>,
-	contents:        AstContents<T>,
+	_source_position: Option<Span<usize, Position>>,
+	contents:         AstContents<T>,
 }
 
 #[derive(Debug)]
@@ -58,8 +58,8 @@ impl Module {
 	) -> Self {
 		Self {
 			inner: AstNode {
-				source_position,
-				contents: AstContents::Valid(ModuleInner {
+				_source_position: source_position,
+				contents:         AstContents::Valid(ModuleInner {
 					name,
 					diagnostics: Vec::new(),
 					ports: None,
@@ -74,8 +74,8 @@ impl Module {
 	) -> Self {
 		Self {
 			inner: AstNode {
-				source_position,
-				contents: AstContents::Invalid(diagnostic),
+				_source_position: source_position,
+				contents:         AstContents::Invalid(diagnostic),
 			},
 		}
 	}
@@ -119,13 +119,13 @@ pub struct Port {}
 
 #[derive(Debug, Default)]
 pub struct PortList {
-	ports:       Vec<Port>,
+	_ports:      Vec<Port>,
 	diagnostics: Vec<Diagnostic>,
 }
 
 impl PortList {
 	pub fn new() -> Self {
-		Self { ports: Vec::new(), diagnostics: Vec::new() }
+		Self { _ports: Vec::new(), diagnostics: Vec::new() }
 	}
 
 	pub fn append_diagnostic(&mut self, diagnostic: Diagnostic) {
@@ -147,7 +147,7 @@ pub struct Primitive {
 pub struct Ast {
 	modules:     HashMap<AtomicByteTendril, Module>,
 	primitives:  HashMap<AtomicByteTendril, Primitive>,
-	directives:  Vec<Spanned<CompilerDirective, Position>>,
+	_directives: Vec<Spanned<CompilerDirective, Position>>,
 	comments:    Vec<Spanned<Comment, Position>>,
 	diagnostics: Vec<Diagnostic>,
 }

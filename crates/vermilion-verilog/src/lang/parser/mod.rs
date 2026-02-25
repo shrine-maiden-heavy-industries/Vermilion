@@ -17,7 +17,7 @@ use crate::{
 pub mod error;
 
 pub struct VerilogParser {
-	std:           LanguageStd,
+	_std:          LanguageStd,
 	tokenizer:     VerilogTokenizer,
 	current_token: Option<Spanned<Token, Position>>,
 }
@@ -25,8 +25,8 @@ pub struct VerilogParser {
 impl VerilogParser {
 	pub fn new(std: LanguageStd, content: AtomicByteTendril) -> eyre::Result<Self> {
 		Ok(Self {
-			std,
-			tokenizer: VerilogTokenizer::new(std, content)?,
+			_std:          std,
+			tokenizer:     VerilogTokenizer::new(std, content)?,
 			current_token: None,
 		})
 	}
