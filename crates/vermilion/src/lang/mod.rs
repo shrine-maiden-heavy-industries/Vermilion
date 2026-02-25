@@ -29,6 +29,8 @@ pub(crate) enum Parser {
 	Vhdl(Box<VhdlParser>),
 }
 
+// TODO(aki): Remove once used
+#[allow(unused)]
 pub(crate) enum Ast {
 	Verilog(VerilogAst),
 	Vhdl(VhdlAst),

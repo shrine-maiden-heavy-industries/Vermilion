@@ -18,10 +18,10 @@ pub struct Workspace {
 }
 
 pub struct Document {
-	content:     AtomicByteTendril,
-	language:    Language,
-	ast:         Ast,
-	diagnostics: Vec<Diagnostic>,
+	content:      AtomicByteTendril,
+	_language:    Language,
+	ast:          Ast,
+	_diagnostics: Vec<Diagnostic>,
 }
 
 fn language_for(id: &LanguageId) -> Option<Language> {
@@ -64,7 +64,12 @@ impl Workspace {
 
 		self.documents.insert(
 			document.uri().clone(),
-			Document { content, language, ast, diagnostics: Vec::new() },
+			Document {
+				content,
+				_language: language,
+				ast,
+				_diagnostics: Vec::new(),
+			},
 		);
 	}
 
