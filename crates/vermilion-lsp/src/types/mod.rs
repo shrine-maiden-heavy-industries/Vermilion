@@ -4867,6 +4867,12 @@ impl WorkDoneProgressBegin {
 	}
 }
 
+impl Default for WorkDoneProgressReport {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl WorkDoneProgressReport {
 	pub fn new() -> Self {
 		Self {
@@ -4925,6 +4931,12 @@ impl WorkDoneProgressReport {
 	pub fn percentage(&self) -> Option<&u32> {
 		self.percentage.as_ref()
 	}
+}
+
+impl Default for WorkDoneProgressEnd {
+    fn default() -> Self {
+        Self::new()
+    }
 }
 
 impl WorkDoneProgressEnd {
