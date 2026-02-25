@@ -208,9 +208,7 @@ impl Display for Comment {
 		write!(
 			f,
 			"Comment({})",
-			match self {
-				_ => todo!(),
-			}
+			todo!()
 		)
 	}
 }
@@ -220,9 +218,7 @@ impl Display for Control {
 		write!(
 			f,
 			"Control({})",
-			match self {
-				_ => todo!(),
-			}
+			todo!()
 		)
 	}
 }
@@ -374,9 +370,7 @@ impl Display for Operator {
 		write!(
 			f,
 			"Operator({})",
-			match self {
-				_ => todo!(),
-			}
+			todo!()
 		)
 	}
 }
