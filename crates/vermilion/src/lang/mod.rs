@@ -20,13 +20,13 @@ pub(crate) enum Language {
 }
 
 pub(crate) enum Tokenizer {
-	Verilog(VerilogTokenizer),
-	Vhdl(VhdlTokenizer),
+	Verilog(Box<VerilogTokenizer>),
+	Vhdl(Box<VhdlTokenizer>),
 }
 
 pub(crate) enum Parser {
-	Verilog(VerilogParser),
-	Vhdl(VhdlParser),
+	Verilog(Box<VerilogParser>),
+	Vhdl(Box<VhdlParser>),
 }
 
 pub(crate) enum Ast {
@@ -76,15 +76,17 @@ impl Language {
 
 	pub fn tokenizer(self, content: AtomicByteTendril) -> eyre::Result<Tokenizer> {
 		Ok(match self {
-			Self::Verilog(std) => Tokenizer::Verilog(VerilogTokenizer::new(std, content)?),
-			Self::Vhdl(std) => Tokenizer::Vhdl(VhdlTokenizer::new(std, content)?),
+			Self::Verilog(std) => {
+				Tokenizer::Verilog(Box::new(VerilogTokenizer::new(std, content)?))
+			},
+			Self::Vhdl(std) => Tokenizer::Vhdl(Box::new(VhdlTokenizer::new(std, content)?)),
 		})
 	}
 
 	pub fn parser(self, content: AtomicByteTendril) -> eyre::Result<Parser> {
 		Ok(match self {
-			Self::Verilog(std) => Parser::Verilog(VerilogParser::new(std, content)?),
-			Self::Vhdl(std) => Parser::Vhdl(VhdlParser::new(std, content)?),
+			Self::Verilog(std) => Parser::Verilog(Box::new(VerilogParser::new(std, content)?)),
+			Self::Vhdl(std) => Parser::Vhdl(Box::new(VhdlParser::new(std, content)?)),
 		})
 	}
 
