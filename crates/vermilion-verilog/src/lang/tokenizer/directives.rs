@@ -759,152 +759,238 @@ pub fn get_directive(ident: &str, std: LanguageStd) -> Option<Directive> {
 /// the standard version if so.
 #[allow(unused)]
 #[inline]
-pub fn is_future_verilog_directive(ident: &str, variant: VerilogVariant) -> Option<VerilogVariant> {
-	match variant {
-		VerilogVariant::Verilog(std) => match std {
-			VerilogStd::Vl95 => {
-				if is_verilog_95_directive(ident) {
-					Some(VerilogVariant::Verilog(VerilogStd::Vl95))
-				} else if is_verilog_01_directive(ident) {
-					Some(VerilogVariant::Verilog(VerilogStd::Vl01))
-				} else if is_verilog_05_directive(ident) {
-					Some(VerilogVariant::Verilog(VerilogStd::Vl05))
-				} else if is_system_verilog_05_directive(ident) {
-					Some(VerilogVariant::SystemVerilog(SystemVerilogStd::Sv05))
-				} else if is_system_verilog_09_directive(ident) {
-					Some(VerilogVariant::SystemVerilog(SystemVerilogStd::Sv09))
-				} else if is_system_verilog_12_directive(ident) {
-					Some(VerilogVariant::SystemVerilog(SystemVerilogStd::Sv12))
-				} else if is_system_verilog_17_directive(ident) {
-					Some(VerilogVariant::SystemVerilog(SystemVerilogStd::Sv17))
-				} else if is_system_verilog_23_directive(ident) {
-					Some(VerilogVariant::SystemVerilog(SystemVerilogStd::Sv23))
-				} else {
-					None
-				}
-			},
-			VerilogStd::Vl01 => {
-				if is_verilog_01_directive(ident) {
-					Some(VerilogVariant::Verilog(VerilogStd::Vl01))
-				} else if is_verilog_05_directive(ident) {
-					Some(VerilogVariant::Verilog(VerilogStd::Vl05))
-				} else if is_system_verilog_05_directive(ident) {
-					Some(VerilogVariant::SystemVerilog(SystemVerilogStd::Sv05))
-				} else if is_system_verilog_09_directive(ident) {
-					Some(VerilogVariant::SystemVerilog(SystemVerilogStd::Sv09))
-				} else if is_system_verilog_12_directive(ident) {
-					Some(VerilogVariant::SystemVerilog(SystemVerilogStd::Sv12))
-				} else if is_system_verilog_17_directive(ident) {
-					Some(VerilogVariant::SystemVerilog(SystemVerilogStd::Sv17))
-				} else if is_system_verilog_23_directive(ident) {
-					Some(VerilogVariant::SystemVerilog(SystemVerilogStd::Sv23))
-				} else {
-					None
-				}
-			},
-			VerilogStd::Vl05 => {
-				if is_verilog_05_directive(ident) {
-					Some(VerilogVariant::Verilog(VerilogStd::Vl05))
-				} else if is_system_verilog_05_directive(ident) {
-					Some(VerilogVariant::SystemVerilog(SystemVerilogStd::Sv05))
-				} else if is_system_verilog_09_directive(ident) {
-					Some(VerilogVariant::SystemVerilog(SystemVerilogStd::Sv09))
-				} else if is_system_verilog_12_directive(ident) {
-					Some(VerilogVariant::SystemVerilog(SystemVerilogStd::Sv12))
-				} else if is_system_verilog_17_directive(ident) {
-					Some(VerilogVariant::SystemVerilog(SystemVerilogStd::Sv17))
-				} else if is_system_verilog_23_directive(ident) {
-					Some(VerilogVariant::SystemVerilog(SystemVerilogStd::Sv23))
-				} else {
-					None
-				}
-			},
-		},
-		VerilogVariant::SystemVerilog(std) => match std {
-			SystemVerilogStd::Sv05 => {
-				if is_system_verilog_05_directive(ident) {
-					Some(VerilogVariant::SystemVerilog(SystemVerilogStd::Sv05))
-				} else if is_system_verilog_09_directive(ident) {
-					Some(VerilogVariant::SystemVerilog(SystemVerilogStd::Sv09))
-				} else if is_system_verilog_12_directive(ident) {
-					Some(VerilogVariant::SystemVerilog(SystemVerilogStd::Sv12))
-				} else if is_system_verilog_17_directive(ident) {
-					Some(VerilogVariant::SystemVerilog(SystemVerilogStd::Sv17))
-				} else if is_system_verilog_23_directive(ident) {
-					Some(VerilogVariant::SystemVerilog(SystemVerilogStd::Sv23))
-				} else {
-					None
-				}
-			},
-			SystemVerilogStd::Sv09 => {
-				if is_system_verilog_09_directive(ident) {
-					Some(VerilogVariant::SystemVerilog(SystemVerilogStd::Sv09))
-				} else if is_system_verilog_12_directive(ident) {
-					Some(VerilogVariant::SystemVerilog(SystemVerilogStd::Sv12))
-				} else if is_system_verilog_17_directive(ident) {
-					Some(VerilogVariant::SystemVerilog(SystemVerilogStd::Sv17))
-				} else if is_system_verilog_23_directive(ident) {
-					Some(VerilogVariant::SystemVerilog(SystemVerilogStd::Sv23))
-				} else {
-					None
-				}
-			},
-			SystemVerilogStd::Sv12 => {
-				if is_system_verilog_12_directive(ident) {
-					Some(VerilogVariant::SystemVerilog(SystemVerilogStd::Sv12))
-				} else if is_system_verilog_17_directive(ident) {
-					Some(VerilogVariant::SystemVerilog(SystemVerilogStd::Sv17))
-				} else if is_system_verilog_23_directive(ident) {
-					Some(VerilogVariant::SystemVerilog(SystemVerilogStd::Sv23))
-				} else {
-					None
-				}
-			},
-			SystemVerilogStd::Sv17 => {
-				if is_system_verilog_17_directive(ident) {
-					Some(VerilogVariant::SystemVerilog(SystemVerilogStd::Sv17))
-				} else if is_system_verilog_23_directive(ident) {
-					Some(VerilogVariant::SystemVerilog(SystemVerilogStd::Sv23))
-				} else {
-					None
-				}
-			},
-			SystemVerilogStd::Sv23 => {
-				if is_system_verilog_23_directive(ident) {
-					Some(VerilogVariant::SystemVerilog(SystemVerilogStd::Sv23))
-				} else {
-					None
-				}
-			},
-		},
-		VerilogVariant::VerilogAms(std) => match std {
-			VerilogAmsStd::Vams09 => {
-				if is_verilog_ams_09_directive(ident) {
-					Some(VerilogVariant::VerilogAms(VerilogAmsStd::Vams09))
-				} else if is_verilog_ams_14_directive(ident) {
-					Some(VerilogVariant::VerilogAms(VerilogAmsStd::Vams14))
-				} else if is_verilog_ams_23_directive(ident) {
-					Some(VerilogVariant::VerilogAms(VerilogAmsStd::Vams23))
-				} else {
-					None
-				}
-			},
-			VerilogAmsStd::Vams14 => {
-				if is_verilog_ams_14_directive(ident) {
-					Some(VerilogVariant::VerilogAms(VerilogAmsStd::Vams14))
-				} else if is_verilog_ams_23_directive(ident) {
-					Some(VerilogVariant::VerilogAms(VerilogAmsStd::Vams23))
-				} else {
-					None
-				}
-			},
-			VerilogAmsStd::Vams23 => {
-				if is_verilog_ams_23_directive(ident) {
-					Some(VerilogVariant::VerilogAms(VerilogAmsStd::Vams23))
-				} else {
-					None
-				}
-			},
-		},
+pub fn directive_in(ident: &str) -> LanguageStd {
+	let mut supported = LanguageStd::none();
+
+	if is_verilog_95_directive(ident) {
+		supported |= LanguageStd::Vl95;
+	}
+
+	if is_verilog_01_directive(ident) {
+		supported |= LanguageStd::Vl01;
+	}
+
+	if is_verilog_05_directive(ident) {
+		supported |= LanguageStd::Vl05;
+	}
+
+	if is_system_verilog_05_directive(ident) {
+		supported |= LanguageStd::Sv05;
+	}
+
+	if is_system_verilog_09_directive(ident) {
+		supported |= LanguageStd::Sv09;
+	}
+
+	if is_system_verilog_12_directive(ident) {
+		supported |= LanguageStd::Sv12;
+	}
+
+	if is_system_verilog_17_directive(ident) {
+		supported |= LanguageStd::Sv17;
+	}
+
+	if is_system_verilog_23_directive(ident) {
+		supported |= LanguageStd::Sv23;
+	}
+
+	if is_verilog_ams_09_directive(ident) {
+		supported |= LanguageStd::Vams09;
+	}
+
+	if is_verilog_ams_14_directive(ident) {
+		supported |= LanguageStd::Vams14;
+	}
+
+	if is_verilog_ams_23_directive(ident) {
+		supported |= LanguageStd::Vams23;
+	}
+
+	supported
+}
+
+#[cfg(test)]
+mod test {
+	use super::*;
+
+	#[test]
+	fn test_directive_verilog_95() {
+		// If it's a normal identifier, then we shouldn't get anything back
+		assert!(!is_verilog_95_directive("nya"));
+		assert_eq!(directive_in("nya"), LanguageStd::none());
+
+		// A directive that is at least in the current version
+		assert!(is_verilog_95_directive("endcelldefine"));
+		assert!(directive_in("endcelldefine").contains(LanguageStd::Vl95));
+
+		// A directive that is one version up
+		assert!(!is_verilog_95_directive("elsif"));
+		assert!(directive_in("elsif").contains(LanguageStd::Vl01));
+
+		// Two versions up
+		assert!(!is_verilog_95_directive("line"));
+		assert!(directive_in("line").contains(LanguageStd::Vl05));
+
+		// Three versions up
+		assert!(!is_verilog_95_directive("pragma"));
+		assert!(directive_in("pragma").contains(LanguageStd::Sv05));
+
+		// Four versions up
+		assert!(!is_verilog_95_directive("undefineall"));
+		assert!(directive_in("undefineall").contains(LanguageStd::Sv09));
+
+		// SystemVerilog 2009, 2012, 2017, and 2023 all have the same directives
+	}
+
+	#[test]
+	fn test_directive_verilog_01() {
+		// If it's a normal identifier, then we shouldn't get anything back
+		assert!(!is_verilog_01_directive("meow"));
+		assert_eq!(directive_in("meow"), LanguageStd::none());
+
+		// A directive that is at least in the current version
+		assert!(is_verilog_01_directive("line"));
+		assert!(directive_in("line").contains(LanguageStd::Vl01));
+
+		// A directive that is one version up
+		assert!(!is_verilog_01_directive("pragma"));
+		assert!(directive_in("pragma").contains(LanguageStd::Vl05));
+
+		// Two versions up
+		assert!(!is_verilog_01_directive("pragma"));
+		assert!(directive_in("pragma").contains(LanguageStd::Sv05));
+
+		// Three versions up
+		assert!(!is_verilog_01_directive("undefineall"));
+		assert!(directive_in("undefineall").contains(LanguageStd::Sv09));
+
+		// SystemVerilog 2009, 2012, 2017, and 2023 all have the same directives
+	}
+
+	#[test]
+	fn test_directive_verilog_05() {
+		// If it's a normal identifier, then we shouldn't get anything back
+		assert!(!is_verilog_05_directive("awoo"));
+		assert_eq!(directive_in("awoo"), LanguageStd::none());
+
+		// A directive that is at least in the current version
+		assert!(is_verilog_05_directive("end_keywords"));
+		assert!(directive_in("end_keywords").contains(LanguageStd::Vl05));
+
+		// A directive that is one version up
+		assert!(directive_in("pragma").contains(LanguageStd::Sv05));
+
+		// Two versions up
+		assert!(directive_in("delay_mode_distributed").contains(LanguageStd::Sv09));
+
+		// SystemVerilog 2009, 2012, 2017, and 2023 all have the same directives
+	}
+
+	#[test]
+	fn test_directive_system_verilog_05() {
+		// If it's a normal identifier, then we shouldn't get anything back
+		assert!(!is_system_verilog_05_directive("kon"));
+		assert_eq!(directive_in("kon"), LanguageStd::none());
+
+		// A directive that is at least in the current version
+		assert!(is_system_verilog_05_directive("begin_keywords"));
+		assert!(directive_in("begin_keywords").contains(LanguageStd::Sv05));
+
+		// A directive that is one version up
+		assert!(!is_system_verilog_05_directive("undefineall"));
+		assert!(directive_in("undefineall").contains(LanguageStd::Sv09));
+
+		// SystemVerilog 2009, 2012, 2017, and 2023 all have the same directives
+	}
+
+	#[test]
+	fn test_directive_system_verilog_09() {
+		// If it's a normal identifier, then we shouldn't get anything back
+		assert!(!is_system_verilog_09_directive("wah"));
+		assert_eq!(directive_in("wah"), LanguageStd::none());
+
+		// A directive that is at least in the current version
+		assert!(is_system_verilog_09_directive("undefineall"));
+		assert!(directive_in("undefineall").contains(LanguageStd::Sv09));
+
+		// SystemVerilog 2009, 2012, 2017, and 2023 all have the same directives
+	}
+
+	#[test]
+	fn test_directive_system_verilog_12() {
+		// If it's a normal identifier, then we shouldn't get anything back
+		assert!(!is_system_verilog_12_directive("meow"));
+		assert_eq!(directive_in("meow"), LanguageStd::none());
+
+		// A directive that is at least in the current version
+		assert!(is_system_verilog_12_directive("delay_mode_distributed"));
+		assert!(directive_in("delay_mode_distributed").contains(LanguageStd::Sv12));
+
+		// SystemVerilog 2009, 2012, 2017, and 2023 all have the same directives
+	}
+
+	#[test]
+	fn test_directive_system_verilog_17() {
+		// If it's a normal identifier, then we shouldn't get anything back
+		assert!(!is_system_verilog_17_directive("nya"));
+		assert_eq!(directive_in("nya"), LanguageStd::none());
+
+		// A directive that is at least in the current version
+		assert!(is_system_verilog_17_directive("line"));
+		assert!(directive_in("line").contains(LanguageStd::Sv17));
+
+		// SystemVerilog 2009, 2012, 2017, and 2023 all have the same directives
+	}
+
+	#[test]
+	fn test_directive_system_verilog_23() {
+		// If it's a normal identifier, then we shouldn't get anything back
+		assert!(!is_system_verilog_23_directive("kon"));
+		assert_eq!(directive_in("kon"), LanguageStd::none());
+
+		// A directive that is at least in the current version
+		assert!(is_system_verilog_23_directive("undefineall"));
+		assert!(directive_in("undefineall").contains(LanguageStd::Sv23));
+
+		// SystemVerilog 2009, 2012, 2017, and 2023 all have the same directives
+	}
+
+	#[test]
+	fn test_directive_verilog_ams_09() {
+		// If it's a normal identifier, then we shouldn't get anything back
+		assert!(!is_verilog_ams_09_directive("wah"));
+		assert_eq!(directive_in("wah"), LanguageStd::none());
+
+		// A directive that is at least in the current version
+		assert!(is_verilog_ams_09_directive("default_discipline"));
+		assert!(directive_in("default_discipline").contains(LanguageStd::Vams09));
+
+		// Verilog-AMS 2009, 2014, and 2023 all have the same directives
+	}
+
+	#[test]
+	fn test_directive_verilog_ams_14() {
+		// If it's a normal identifier, then we shouldn't get anything back
+		assert!(!is_verilog_ams_14_directive("nya"));
+		assert_eq!(directive_in("nya"), LanguageStd::none());
+
+		// A directive that is at least in the current version
+		assert!(is_verilog_ams_14_directive("default_transition"));
+		assert!(directive_in("default_transition").contains(LanguageStd::Vams14));
+
+		// Verilog-AMS 2009, 2014, and 2023 all have the same directives
+	}
+
+	#[test]
+	fn test_directive_verilog_ams_23() {
+		// If it's a normal identifier, then we shouldn't get anything back
+		assert!(!is_verilog_ams_23_directive("meow"));
+		assert_eq!(directive_in("meow"), LanguageStd::none());
+
+		// A directive that is at least in the current version
+		assert!(is_verilog_ams_23_directive("default_discipline"));
+		assert!(directive_in("default_discipline").contains(LanguageStd::Vams23));
+
+		// Verilog-AMS 2009, 2014, and 2023 all have the same directives
 	}
 }

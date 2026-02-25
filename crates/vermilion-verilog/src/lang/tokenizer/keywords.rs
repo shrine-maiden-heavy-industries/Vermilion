@@ -3007,152 +3007,266 @@ pub fn get_keyword(ident: &str, std: LanguageStd) -> Option<Keyword> {
 /// the standard version if so.
 #[allow(unused)]
 #[inline]
-pub fn is_future_verilog_keyword(ident: &str, variant: VerilogVariant) -> Option<VerilogVariant> {
-	match variant {
-		VerilogVariant::Verilog(std) => match std {
-			VerilogStd::Vl95 => {
-				if is_verilog_95_keyword(ident) {
-					Some(VerilogVariant::Verilog(VerilogStd::Vl95))
-				} else if is_verilog_01_keyword(ident) {
-					Some(VerilogVariant::Verilog(VerilogStd::Vl01))
-				} else if is_verilog_05_keyword(ident) {
-					Some(VerilogVariant::Verilog(VerilogStd::Vl05))
-				} else if is_system_verilog_05_keyword(ident) {
-					Some(VerilogVariant::SystemVerilog(SystemVerilogStd::Sv05))
-				} else if is_system_verilog_09_keyword(ident) {
-					Some(VerilogVariant::SystemVerilog(SystemVerilogStd::Sv09))
-				} else if is_system_verilog_12_keyword(ident) {
-					Some(VerilogVariant::SystemVerilog(SystemVerilogStd::Sv12))
-				} else if is_system_verilog_17_keyword(ident) {
-					Some(VerilogVariant::SystemVerilog(SystemVerilogStd::Sv17))
-				} else if is_system_verilog_23_keyword(ident) {
-					Some(VerilogVariant::SystemVerilog(SystemVerilogStd::Sv23))
-				} else {
-					None
-				}
-			},
-			VerilogStd::Vl01 => {
-				if is_verilog_01_keyword(ident) {
-					Some(VerilogVariant::Verilog(VerilogStd::Vl01))
-				} else if is_verilog_05_keyword(ident) {
-					Some(VerilogVariant::Verilog(VerilogStd::Vl05))
-				} else if is_system_verilog_05_keyword(ident) {
-					Some(VerilogVariant::SystemVerilog(SystemVerilogStd::Sv05))
-				} else if is_system_verilog_09_keyword(ident) {
-					Some(VerilogVariant::SystemVerilog(SystemVerilogStd::Sv09))
-				} else if is_system_verilog_12_keyword(ident) {
-					Some(VerilogVariant::SystemVerilog(SystemVerilogStd::Sv12))
-				} else if is_system_verilog_17_keyword(ident) {
-					Some(VerilogVariant::SystemVerilog(SystemVerilogStd::Sv17))
-				} else if is_system_verilog_23_keyword(ident) {
-					Some(VerilogVariant::SystemVerilog(SystemVerilogStd::Sv23))
-				} else {
-					None
-				}
-			},
-			VerilogStd::Vl05 => {
-				if is_verilog_05_keyword(ident) {
-					Some(VerilogVariant::Verilog(VerilogStd::Vl05))
-				} else if is_system_verilog_05_keyword(ident) {
-					Some(VerilogVariant::SystemVerilog(SystemVerilogStd::Sv05))
-				} else if is_system_verilog_09_keyword(ident) {
-					Some(VerilogVariant::SystemVerilog(SystemVerilogStd::Sv09))
-				} else if is_system_verilog_12_keyword(ident) {
-					Some(VerilogVariant::SystemVerilog(SystemVerilogStd::Sv12))
-				} else if is_system_verilog_17_keyword(ident) {
-					Some(VerilogVariant::SystemVerilog(SystemVerilogStd::Sv17))
-				} else if is_system_verilog_23_keyword(ident) {
-					Some(VerilogVariant::SystemVerilog(SystemVerilogStd::Sv23))
-				} else {
-					None
-				}
-			},
-		},
-		VerilogVariant::SystemVerilog(std) => match std {
-			SystemVerilogStd::Sv05 => {
-				if is_system_verilog_05_keyword(ident) {
-					Some(VerilogVariant::SystemVerilog(SystemVerilogStd::Sv05))
-				} else if is_system_verilog_09_keyword(ident) {
-					Some(VerilogVariant::SystemVerilog(SystemVerilogStd::Sv09))
-				} else if is_system_verilog_12_keyword(ident) {
-					Some(VerilogVariant::SystemVerilog(SystemVerilogStd::Sv12))
-				} else if is_system_verilog_17_keyword(ident) {
-					Some(VerilogVariant::SystemVerilog(SystemVerilogStd::Sv17))
-				} else if is_system_verilog_23_keyword(ident) {
-					Some(VerilogVariant::SystemVerilog(SystemVerilogStd::Sv23))
-				} else {
-					None
-				}
-			},
-			SystemVerilogStd::Sv09 => {
-				if is_system_verilog_09_keyword(ident) {
-					Some(VerilogVariant::SystemVerilog(SystemVerilogStd::Sv09))
-				} else if is_system_verilog_12_keyword(ident) {
-					Some(VerilogVariant::SystemVerilog(SystemVerilogStd::Sv12))
-				} else if is_system_verilog_17_keyword(ident) {
-					Some(VerilogVariant::SystemVerilog(SystemVerilogStd::Sv17))
-				} else if is_system_verilog_23_keyword(ident) {
-					Some(VerilogVariant::SystemVerilog(SystemVerilogStd::Sv23))
-				} else {
-					None
-				}
-			},
-			SystemVerilogStd::Sv12 => {
-				if is_system_verilog_12_keyword(ident) {
-					Some(VerilogVariant::SystemVerilog(SystemVerilogStd::Sv12))
-				} else if is_system_verilog_17_keyword(ident) {
-					Some(VerilogVariant::SystemVerilog(SystemVerilogStd::Sv17))
-				} else if is_system_verilog_23_keyword(ident) {
-					Some(VerilogVariant::SystemVerilog(SystemVerilogStd::Sv23))
-				} else {
-					None
-				}
-			},
-			SystemVerilogStd::Sv17 => {
-				if is_system_verilog_17_keyword(ident) {
-					Some(VerilogVariant::SystemVerilog(SystemVerilogStd::Sv17))
-				} else if is_system_verilog_23_keyword(ident) {
-					Some(VerilogVariant::SystemVerilog(SystemVerilogStd::Sv23))
-				} else {
-					None
-				}
-			},
-			SystemVerilogStd::Sv23 => {
-				if is_system_verilog_23_keyword(ident) {
-					Some(VerilogVariant::SystemVerilog(SystemVerilogStd::Sv23))
-				} else {
-					None
-				}
-			},
-		},
-		VerilogVariant::VerilogAms(std) => match std {
-			VerilogAmsStd::Vams09 => {
-				if is_verilog_ams_09_keyword(ident) {
-					Some(VerilogVariant::VerilogAms(VerilogAmsStd::Vams09))
-				} else if is_verilog_ams_14_keyword(ident) {
-					Some(VerilogVariant::VerilogAms(VerilogAmsStd::Vams14))
-				} else if is_verilog_ams_23_keyword(ident) {
-					Some(VerilogVariant::VerilogAms(VerilogAmsStd::Vams23))
-				} else {
-					None
-				}
-			},
-			VerilogAmsStd::Vams14 => {
-				if is_verilog_ams_14_keyword(ident) {
-					Some(VerilogVariant::VerilogAms(VerilogAmsStd::Vams14))
-				} else if is_verilog_ams_23_keyword(ident) {
-					Some(VerilogVariant::VerilogAms(VerilogAmsStd::Vams23))
-				} else {
-					None
-				}
-			},
-			VerilogAmsStd::Vams23 => {
-				if is_verilog_ams_23_keyword(ident) {
-					Some(VerilogVariant::VerilogAms(VerilogAmsStd::Vams23))
-				} else {
-					None
-				}
-			},
-		},
+pub fn keyword_in(ident: &str) -> LanguageStd {
+	let mut supported = LanguageStd::none();
+
+	if is_verilog_95_keyword(ident) {
+		supported |= LanguageStd::Vl95;
+	}
+
+	if is_verilog_01_keyword(ident) {
+		supported |= LanguageStd::Vl01;
+	}
+
+	if is_verilog_05_keyword(ident) {
+		supported |= LanguageStd::Vl05;
+	}
+
+	if is_system_verilog_05_keyword(ident) {
+		supported |= LanguageStd::Sv05;
+	}
+
+	if is_system_verilog_09_keyword(ident) {
+		supported |= LanguageStd::Sv09;
+	}
+
+	if is_system_verilog_12_keyword(ident) {
+		supported |= LanguageStd::Sv12;
+	}
+
+	if is_system_verilog_17_keyword(ident) {
+		supported |= LanguageStd::Sv17;
+	}
+
+	if is_system_verilog_23_keyword(ident) {
+		supported |= LanguageStd::Sv23;
+	}
+
+	if is_verilog_ams_09_keyword(ident) {
+		supported |= LanguageStd::Vams09;
+	}
+
+	if is_verilog_ams_14_keyword(ident) {
+		supported |= LanguageStd::Vams14;
+	}
+
+	if is_verilog_ams_23_keyword(ident) {
+		supported |= LanguageStd::Vams23;
+	}
+
+	supported
+}
+
+#[cfg(test)]
+mod test {
+	use super::*;
+
+	#[test]
+	fn test_keyword_verilog_95() {
+		// If it's a normal identifier, then we shouldn't get anything back
+		assert!(!is_verilog_95_keyword("nya"));
+		assert_eq!(keyword_in("nya"), LanguageStd::none());
+
+		// A keyword that is at least in the current version
+		assert!(is_verilog_95_keyword("always"));
+		assert!(keyword_in("always").contains(LanguageStd::Vl95));
+
+		// A keyword that is one version up
+		assert!(!is_verilog_95_keyword("endconfig"));
+		assert!(keyword_in("endconfig").contains(LanguageStd::Vl01));
+
+		// Two versions up
+		assert!(!is_verilog_95_keyword("uwire"));
+		assert!(keyword_in("uwire").contains(LanguageStd::Vl05));
+
+		// Three versions up
+		assert!(!is_verilog_95_keyword("shortint"));
+		assert!(keyword_in("shortint").contains(LanguageStd::Sv05));
+
+		// Four versions up
+		assert!(!is_verilog_95_keyword("accept_on"));
+		assert!(keyword_in("accept_on").contains(LanguageStd::Sv09));
+
+		// Five versions up
+		assert!(!is_verilog_95_keyword("soft"));
+		assert!(keyword_in("soft").contains(LanguageStd::Sv12));
+
+		// SystemVerilog 2012, 2017, and 2023 all have the same keywords
+	}
+
+	#[test]
+	fn test_keyword_verilog_01() {
+		// If it's a normal identifier, then we shouldn't get anything back
+		assert!(!is_verilog_01_keyword("meow"));
+		assert_eq!(keyword_in("meow"), LanguageStd::none());
+
+		// A keyword that is at least in the current version
+		assert!(is_verilog_01_keyword("include"));
+		assert!(keyword_in("include").contains(LanguageStd::Vl01));
+
+		// A keyword that is one version up
+		assert!(!is_verilog_01_keyword("uwire"));
+		assert!(keyword_in("uwire").contains(LanguageStd::Vl05));
+
+		// Two versions up
+		assert!(!is_verilog_01_keyword("wait_order"));
+		assert!(keyword_in("wait_order").contains(LanguageStd::Sv05));
+
+		// Three versions up
+		assert!(!is_verilog_01_keyword("s_nexttime"));
+		assert!(keyword_in("s_nexttime").contains(LanguageStd::Sv09));
+
+		// Four versions up
+		assert!(!is_verilog_01_keyword("interconnect"));
+		assert!(keyword_in("interconnect").contains(LanguageStd::Sv12));
+
+		// SystemVerilog 2012, 2017, and 2023 all have the same keywords
+	}
+
+	#[test]
+	fn test_keyword_verilog_05() {
+		// If it's a normal identifier, then we shouldn't get anything back
+		assert!(!is_verilog_05_keyword("awoo"));
+		assert_eq!(keyword_in("awoo"), LanguageStd::none());
+
+		// A keyword that is at least in the current version
+		assert!(is_verilog_05_keyword("rtran"));
+		assert!(keyword_in("rtran").contains(LanguageStd::Vl05));
+
+		// A keyword that is one version up
+		assert!(!is_verilog_05_keyword("throughout"));
+		assert!(keyword_in("throughout").contains(LanguageStd::Sv05));
+
+		// Two versions up
+		assert!(!is_verilog_05_keyword("untyped"));
+		assert!(keyword_in("untyped").contains(LanguageStd::Sv09));
+
+		// Three versions up
+		assert!(!is_verilog_05_keyword("implements"));
+		assert!(keyword_in("implements").contains(LanguageStd::Sv12));
+
+		// SystemVerilog 2012, 2017, and 2023 all have the same keywords
+	}
+
+	#[test]
+	fn test_keyword_system_verilog_05() {
+		// If it's a normal identifier, then we shouldn't get anything back
+		assert!(!is_system_verilog_05_keyword("kon"));
+		assert_eq!(keyword_in("kon"), LanguageStd::none());
+
+		// A keyword that is at least in the current version
+		assert!(is_system_verilog_05_keyword("property"));
+		assert!(keyword_in("property").contains(LanguageStd::Sv05));
+
+		// A keyword that is one version up
+		assert!(!is_system_verilog_05_keyword("unique0"));
+		assert!(keyword_in("unique0").contains(LanguageStd::Sv09));
+
+		// Two versions up
+		assert!(!is_system_verilog_05_keyword("nettype"));
+		assert!(keyword_in("nettype").contains(LanguageStd::Sv12));
+
+		// SystemVerilog 2012, 2017, and 2023 all have the same keywords
+	}
+
+	#[test]
+	fn test_keyword_system_verilog_09() {
+		// If it's a normal identifier, then we shouldn't get anything back
+		assert!(!is_system_verilog_09_keyword("wah"));
+		assert_eq!(keyword_in("wah"), LanguageStd::none());
+
+		// A keyword that is at least in the current version
+		assert!(is_system_verilog_09_keyword("ignore_bins"));
+		assert!(keyword_in("ignore_bins").contains(LanguageStd::Sv09));
+
+		// A keyword that is one version up
+		assert!(!is_system_verilog_09_keyword("implements"));
+		assert!(keyword_in("implements").contains(LanguageStd::Sv12));
+
+		// SystemVerilog 2012, 2017, and 2023 all have the same keywords
+	}
+
+	#[test]
+	fn test_keyword_system_verilog_12() {
+		// If it's a normal identifier, then we shouldn't get anything back
+		assert!(!is_system_verilog_12_keyword("meow"));
+		assert_eq!(keyword_in("meow"), LanguageStd::none());
+
+		// A keyword that is at least in the current version
+		assert!(is_system_verilog_12_keyword("soft"));
+		assert!(keyword_in("soft").contains(LanguageStd::Sv12));
+
+		// SystemVerilog 2012, 2017, and 2023 all have the same keywords
+	}
+
+	#[test]
+	fn test_keyword_system_verilog_17() {
+		// If it's a normal identifier, then we shouldn't get anything back
+		assert!(!is_system_verilog_17_keyword("nya"));
+		assert_eq!(keyword_in("nya"), LanguageStd::none());
+
+		// A keyword that is at least in the current version
+		assert!(is_system_verilog_17_keyword("soft"));
+		assert!(keyword_in("soft").contains(LanguageStd::Sv17));
+
+		// SystemVerilog 2012, 2017, and 2023 all have the same keywords
+	}
+
+	#[test]
+	fn test_keyword_system_verilog_23() {
+		// If it's a normal identifier, then we shouldn't get anything back
+		assert!(!is_system_verilog_23_keyword("kon"));
+		assert_eq!(keyword_in("kon"), LanguageStd::none());
+
+		// A keyword that is at least in the current version
+		assert!(is_system_verilog_23_keyword("nettype"));
+		assert!(keyword_in("nettype").contains(LanguageStd::Sv23));
+
+		// SystemVerilog 2012, 2017, and 2023 all have the same keywords
+	}
+
+	#[test]
+	fn test_keyword_verilog_ams_09() {
+		// If it's a normal identifier, then we shouldn't get anything back
+		assert!(!is_verilog_ams_09_keyword("wah"));
+		assert_eq!(keyword_in("wah"), LanguageStd::none());
+
+		// A keyword that is at least in the current version
+		assert!(is_verilog_ams_09_keyword("laplace_zp"));
+		assert!(keyword_in("laplace_zp").contains(LanguageStd::Vams09));
+
+		// A keyword that is one version up
+		assert!(!is_verilog_ams_09_keyword("noise_table_log"));
+		assert!(keyword_in("noise_table_log").contains(LanguageStd::Vams14));
+
+		// Two versions up
+		assert!(!is_verilog_ams_09_keyword("ln1p"));
+		assert!(keyword_in("ln1p").contains(LanguageStd::Vams23));
+	}
+
+	#[test]
+	fn test_keyword_verilog_ams_14() {
+		// If it's a normal identifier, then we shouldn't get anything back
+		assert!(!is_verilog_ams_14_keyword("nya"));
+		assert_eq!(keyword_in("nya"), LanguageStd::none());
+
+		// A keyword that is at least in the current version
+		assert!(is_verilog_ams_14_keyword("absdelta"));
+		assert!(keyword_in("absdelta").contains(LanguageStd::Vams14));
+
+		// A keyword that is one version up
+		assert!(!is_verilog_ams_14_keyword("break"));
+		assert!(keyword_in("break").contains(LanguageStd::Vams23));
+	}
+
+	#[test]
+	fn test_keyword_verilog_ams_23() {
+		// If it's a normal identifier, then we shouldn't get anything back
+		assert!(!is_verilog_ams_23_keyword("meow"));
+		assert_eq!(keyword_in("meow"), LanguageStd::none());
+
+		// A keyword that is at least in the current version
+		assert!(is_verilog_ams_23_keyword("expm1"));
+		assert!(keyword_in("expm1").contains(LanguageStd::Vams23));
 	}
 }
