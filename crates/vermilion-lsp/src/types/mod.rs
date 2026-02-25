@@ -4868,9 +4868,9 @@ impl WorkDoneProgressBegin {
 }
 
 impl Default for WorkDoneProgressReport {
-    fn default() -> Self {
-        Self::new()
-    }
+	fn default() -> Self {
+		Self::new()
+	}
 }
 
 impl WorkDoneProgressReport {
@@ -4934,9 +4934,9 @@ impl WorkDoneProgressReport {
 }
 
 impl Default for WorkDoneProgressEnd {
-    fn default() -> Self {
-        Self::new()
-    }
+	fn default() -> Self {
+		Self::new()
+	}
 }
 
 impl WorkDoneProgressEnd {
