@@ -35,17 +35,48 @@ pub enum Token {
 	Whitespace(AtomicByteTendril),
 }
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
+pub enum BaseSpecifier {
+	Binary,
+	Decimal,
+	Hexadecimal,
+	Octal,
+}
+
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
-pub enum TextMacro {
-	DunderFile, // Added: Verilog-AMS 2023 & IEEE 1800-2009
-	DunderLine, // Added: Verilog-AMS 2023 & IEEE 1800-2009
-	Other(AtomicByteTendril),
+pub enum Comment {
+	Invalid(AtomicByteTendril),
+	MultiLine(AtomicByteTendril),
+	SingleLine(AtomicByteTendril),
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub enum CompilerDirective {
 	Arg(AtomicByteTendril),
 	Name(Directive),
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
+pub enum Control {
+	Apostrophe, // Added: IEEE 1800-2005
+	At,
+	AttributeClose, // Added: IEEE 1364-2001
+	AttributeOpen,  // Added: IEEE 1364-2001
+	BraceClose,
+	BraceOpen,
+	BracketClose,
+	BracketOpen,
+	Colon,
+	Comma,
+	Dollar,
+	Dot,
+	Grave,
+	Octothorp,
+	ParenClose,
+	ParenOpen,
+	Question,
+	ReverseSolidus,
+	Semicolon,
 }
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq, PartialOrd, Ord)]
@@ -78,44 +109,6 @@ pub enum Directive {
 	UnconnectedDrive,
 	Undef,
 	UndefineAll, // Added: IEEE 1800-2009
-}
-
-#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
-pub enum Comment {
-	Invalid(AtomicByteTendril),
-	MultiLine(AtomicByteTendril),
-	SingleLine(AtomicByteTendril),
-}
-
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
-pub enum BaseSpecifier {
-	Binary,
-	Decimal,
-	Hexadecimal,
-	Octal,
-}
-
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
-pub enum Control {
-	Apostrophe, // Added: IEEE 1800-2005
-	At,
-	AttributeClose, // Added: IEEE 1364-2001
-	AttributeOpen,  // Added: IEEE 1364-2001
-	BraceClose,
-	BraceOpen,
-	BracketClose,
-	BracketOpen,
-	Colon,
-	Comma,
-	Dollar,
-	Dot,
-	Grave,
-	Octothorp,
-	ParenClose,
-	ParenOpen,
-	Question,
-	ReverseSolidus,
-	Semicolon,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
@@ -527,6 +520,13 @@ pub enum Operator {
 	XorEquals,        // Added: IEEE 1800-2005
 }
 
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
+pub enum TextMacro {
+	DunderFile, // Added: Verilog-AMS 2023 & IEEE 1800-2009
+	DunderLine, // Added: Verilog-AMS 2023 & IEEE 1800-2009
+	Other(AtomicByteTendril),
+}
+
 impl Display for Token {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
 		match self {
@@ -539,12 +539,12 @@ impl Display for Token {
 			},
 			Self::Comment(comment) => comment.fmt(f),
 			Self::CompilerDirective(compiler_directive) => compiler_directive.fmt(f),
-			Self::ContextuallyInvalid(tendril, verilog_variant) => {
+			Self::ContextuallyInvalid(tendril, std) => {
 				write!(
 					f,
 					"ContextuallyInvalid(\"{}\", {:?})",
 					unsafe { str::from_utf8_unchecked(tendril) },
-					verilog_variant
+					std
 				)
 			},
 			Self::Control(control) => control.fmt(f),
@@ -578,17 +578,34 @@ impl Display for Token {
 	}
 }
 
-impl Display for TextMacro {
+impl Display for BaseSpecifier {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
 		write!(
 			f,
-			"TextMacro({})",
+			"BaseSpecifier({})",
 			match self {
-				Self::DunderFile => "__FILE__", // Added: Verilog-AMS 2023 & IEEE 1800-2009
-				Self::DunderLine => "__LINE__", // Added: Verilog-AMS 2023 & IEEE 1800-2009
-				Self::Other(tendril) => unsafe { str::from_utf8_unchecked(tendril) },
+				Self::Binary => "'b",
+				Self::Decimal => "'d",
+				Self::Hexadecimal => "'h",
+				Self::Octal => "'o",
 			}
 		)
+	}
+}
+
+impl Display for Comment {
+	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+		match self {
+			Self::Invalid(tendril) => write!(f, "InvalidComment(\"{}\")", unsafe {
+				str::from_utf8_unchecked(tendril)
+			}),
+			Self::MultiLine(tendril) => write!(f, "MultiLineComment(\"{}\")", unsafe {
+				str::from_utf8_unchecked(tendril)
+			}),
+			Self::SingleLine(tendril) => write!(f, "SingleLineComment(\"// {}\")", unsafe {
+				str::from_utf8_unchecked(tendril)
+			}),
+		}
 	}
 }
 
@@ -600,6 +617,36 @@ impl Display for CompilerDirective {
 			}),
 			Self::Name(directive) => write!(f, "CompilerDirective({})", directive),
 		}
+	}
+}
+
+impl Display for Control {
+	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+		write!(
+			f,
+			"Control({})",
+			match self {
+				Self::Apostrophe => "'", // Added: IEEE 1800-2005
+				Self::At => "@",
+				Self::AttributeClose => "*)", // Added: IEEE 1364-2001
+				Self::AttributeOpen => "(*",  // Added: IEEE 1364-2001
+				Self::BraceClose => "}",
+				Self::BraceOpen => "{",
+				Self::BracketClose => "]",
+				Self::BracketOpen => "[",
+				Self::Colon => ":",
+				Self::Comma => ",",
+				Self::Dollar => "$",
+				Self::Dot => ".",
+				Self::Grave => "`",
+				Self::Octothorp => "#",
+				Self::ParenClose => ")",
+				Self::ParenOpen => "(",
+				Self::Question => "?",
+				Self::ReverseSolidus => "\\",
+				Self::Semicolon => ";",
+			}
+		)
 	}
 }
 
@@ -637,67 +684,6 @@ impl Display for Directive {
 				Self::UnconnectedDrive => "unconnected_drive",
 				Self::Undef => "undef",
 				Self::UndefineAll => "undefineall", // Added: IEEE 1800-2009
-			}
-		)
-	}
-}
-
-impl Display for Comment {
-	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-		match self {
-			Self::Invalid(tendril) => write!(f, "InvalidComment(\"{}\")", unsafe {
-				str::from_utf8_unchecked(tendril)
-			}),
-			Self::MultiLine(tendril) => write!(f, "MultiLineComment(\"{}\")", unsafe {
-				str::from_utf8_unchecked(tendril)
-			}),
-			Self::SingleLine(tendril) => write!(f, "SingleLineComment(\"// {}\")", unsafe {
-				str::from_utf8_unchecked(tendril)
-			}),
-		}
-	}
-}
-
-impl Display for BaseSpecifier {
-	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-		write!(
-			f,
-			"BaseSpecifier({})",
-			match self {
-				Self::Binary => "'b",
-				Self::Decimal => "'d",
-				Self::Hexadecimal => "'h",
-				Self::Octal => "'o",
-			}
-		)
-	}
-}
-
-impl Display for Control {
-	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-		write!(
-			f,
-			"Control({})",
-			match self {
-				Self::Apostrophe => "'", // Added: IEEE 1800-2005
-				Self::At => "@",
-				Self::AttributeClose => "*)", // Added: IEEE 1364-2001
-				Self::AttributeOpen => "(*",  // Added: IEEE 1364-2001
-				Self::BraceClose => "}",
-				Self::BraceOpen => "{",
-				Self::BracketClose => "]",
-				Self::BracketOpen => "[",
-				Self::Colon => ":",
-				Self::Comma => ",",
-				Self::Dollar => "$",
-				Self::Dot => ".",
-				Self::Grave => "`",
-				Self::Octothorp => "#",
-				Self::ParenClose => ")",
-				Self::ParenOpen => "(",
-				Self::Question => "?",
-				Self::ReverseSolidus => "\\",
-				Self::Semicolon => ";",
 			}
 		)
 	}
@@ -1126,6 +1112,20 @@ impl Display for Operator {
 				Self::WildcardExport => "*::*",  // Added: IEEE 1800-2009
 				Self::WildcardNotEqual => "!=?", // Added: IEEE 1800-2005
 				Self::XorEquals => "^=",         // Added: IEEE 1800-2005
+			}
+		)
+	}
+}
+
+impl Display for TextMacro {
+	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+		write!(
+			f,
+			"TextMacro({})",
+			match self {
+				Self::DunderFile => "__FILE__", // Added: Verilog-AMS 2023 & IEEE 1800-2009
+				Self::DunderLine => "__LINE__", // Added: Verilog-AMS 2023 & IEEE 1800-2009
+				Self::Other(tendril) => unsafe { str::from_utf8_unchecked(tendril) },
 			}
 		)
 	}
