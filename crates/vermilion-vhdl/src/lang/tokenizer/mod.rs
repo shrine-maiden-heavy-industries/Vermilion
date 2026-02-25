@@ -8,6 +8,7 @@ use vermilion_lang::{AtomicByteTendril, Position, Spanned};
 use self::token::Token;
 use crate::LanguageStd;
 
+mod keywords;
 pub mod token;
 
 pub struct VhdlTokenizer {
