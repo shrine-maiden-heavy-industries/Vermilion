@@ -2,18 +2,18 @@
 
 use vermilion_lang::AtomicByteTendril;
 
-use crate::VhdlVariant;
+use crate::LanguageStd;
 
 pub mod error;
 
 pub struct VhdlParser {
-	_std:     VhdlVariant,
+	_std:     LanguageStd,
 	_content: AtomicByteTendril,
 }
 
 impl VhdlParser {
-	pub fn new(_std: VhdlVariant, _content: AtomicByteTendril) -> Self {
-		Self { _std, _content }
+	pub fn new(_std: LanguageStd, _content: AtomicByteTendril) -> eyre::Result<Self> {
+		Ok(Self { _std, _content })
 	}
 }
 

@@ -2,15 +2,16 @@
 
 use std::collections::VecDeque;
 
+use eyre::eyre;
 use vermilion_lang::{AtomicByteTendril, Position, Spanned};
 
 use self::token::Token;
-use crate::VhdlVariant;
+use crate::LanguageStd;
 
 pub mod token;
 
 pub struct VhdlTokenizer {
-	_standard:    VhdlVariant,
+	_standard:    LanguageStd,
 	file:         AtomicByteTendril,
 	current_char: u8,
 	position:     usize,
@@ -21,7 +22,12 @@ pub struct VhdlTokenizer {
 }
 
 impl VhdlTokenizer {
-	pub fn new(standard: VhdlVariant, file: AtomicByteTendril) -> VhdlTokenizer {
+	pub fn new(standard: LanguageStd, file: AtomicByteTendril) -> eyre::Result<VhdlTokenizer> {
+		// Check to see if more than one language standard is set
+		if !standard.has_single_std() {
+			return Err(eyre!("More than one language standard set"));
+		}
+
 		let mut tokenizer = Self {
 			_standard: standard,
 			file,
@@ -40,7 +46,7 @@ impl VhdlTokenizer {
 			tokenizer.current_char = tokenizer.file[tokenizer.position];
 		}
 
-		tokenizer
+		Ok(tokenizer)
 	}
 
 	fn read_token(&mut self) {}

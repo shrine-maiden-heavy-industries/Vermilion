@@ -2,14 +2,16 @@
 use paste::paste;
 
 use super::*;
-use crate::{VhdlAmsStd, VhdlStd, VhdlVariant};
+use crate::LanguageStd;
 
 macro_rules! tokenizer_test {
-	($test_name:ident, $input:literal, $tokens:expr, $variant:expr) => {
+	($test_name:ident, $input:literal, $tokens:expr, $std:expr) => {
 		paste! {
 			#[test]
 			fn [<test_tokenize_ $test_name>] () {
-				let tokenizer = VhdlTokenizer::new($variant, $input.as_bytes().into());
+				// SAFETY: We're in a testing context, panicking here is fine
+				#[allow(clippy::unwrap_used)]
+				let tokenizer = VhdlTokenizer::new($std, $input.as_bytes().into());
 
 				let parsed = tokenizer.collect::<Vec<_>>();
 				let expected = $tokens;
@@ -23,111 +25,87 @@ macro_rules! tokenizer_test {
 	};
 }
 
-macro_rules! vhdl_tokenizer_test {
-	($test_name:ident, $input:literal, $tokens:expr, $std:expr) => {
-		paste! { tokenizer_test!(
-				[ <vhdl $test_name> ],
-				$input,
-				$tokens,
-				VhdlVariant::Vhdl($std)
-			);
-		}
-	};
-}
-
-macro_rules! vhdl_ams_tokenizer_test {
-	($test_name:ident, $input:literal, $tokens:expr, $std:expr) => {
-		paste! { tokenizer_test!(
-				[ <vhdl_ams $test_name> ],
-				$input,
-				$tokens,
-				VhdlVariant::VhdlAms($std)
-			);
-		}
-	};
-}
-
 macro_rules! vhdl87_tokenizer_test {
 	($test_name:ident, $input:literal, $tokens:expr) => {
-		paste! { vhdl_tokenizer_test!([<_87_ $test_name>], $input, $tokens, VhdlStd::Vh87); }
+		paste! { tokenizer_test!([<vhdl_87_ $test_name>], $input, $tokens, LanguageStd::Vh87); }
 	};
 }
 
 macro_rules! vhdl93_tokenizer_test {
 	($test_name:ident, $input:literal, $tokens:expr) => {
-		paste! { vhdl_tokenizer_test!([<_93_ $test_name>], $input, $tokens, VhdlStd::Vh93); }
+		paste! { tokenizer_test!([<vhdl_93_ $test_name>], $input, $tokens, LanguageStd::Vh93); }
 	};
 }
 
 macro_rules! vhdl2k_tokenizer_test {
 	($test_name:ident, $input:literal, $tokens:expr) => {
-		paste! {  vhdl_tokenizer_test!([<_2k_ $test_name>], $input, $tokens, VhdlStd::Vh2k); }
+		paste! {  tokenizer_test!([<vhdl_2k_ $test_name>], $input, $tokens, LanguageStd::Vh2k); }
 	};
 }
 
 macro_rules! vhdl02_tokenizer_test {
 	($test_name:ident, $input:literal, $tokens:expr) => {
-		paste! { vhdl_tokenizer_test!([<_02_ $test_name>], $input, $tokens, VhdlStd::Vh02); }
+		paste! { tokenizer_test!([<vhdl_02_ $test_name>], $input, $tokens, LanguageStd::Vh02); }
 	};
 }
 
 macro_rules! vhdl04_tokenizer_test {
 	($test_name:ident, $input:literal, $tokens:expr) => {
-		paste! { vhdl_tokenizer_test!([<_04_ $test_name>], $input, $tokens, VhdlStd::Vh04); }
+		paste! { tokenizer_test!([<vhdl_04_ $test_name>], $input, $tokens, LanguageStd::Vh04); }
 	};
 }
 
 macro_rules! vhdl08_tokenizer_test {
 	($test_name:ident, $input:literal, $tokens:expr) => {
-		paste! { vhdl_tokenizer_test!([<_08_ $test_name>], $input, $tokens, VhdlStd::Vh08); }
+		paste! { tokenizer_test!([<vhdl_08_ $test_name>], $input, $tokens, LanguageStd::Vh08); }
 	};
 }
 
 macro_rules! vhdl11_tokenizer_test {
 	($test_name:ident, $input:literal, $tokens:expr) => {
-		paste! { vhdl_tokenizer_test!([<_11_ $test_name>], $input, $tokens, VhdlStd::Vh11); }
+		paste! { tokenizer_test!([<vhdl_11_ $test_name>], $input, $tokens, LanguageStd::Vh11); }
 	};
 }
 
 macro_rules! vhdl19_tokenizer_test {
 	($test_name:ident, $input:literal, $tokens:expr) => {
-		paste! { vhdl_tokenizer_test!([<_19_ $test_name>], $input, $tokens, VhdlStd::Vh19); }
+		paste! { tokenizer_test!([<vhdl_19_ $test_name>], $input, $tokens, LanguageStd::Vh19); }
 	};
 }
 
 macro_rules! vhdl23_tokenizer_test {
 	($test_name:ident, $input:literal, $tokens:expr) => {
-		paste! { vhdl_tokenizer_test!([<_23_ $test_name>], $input, $tokens, VhdlStd::Vh23); }
+		paste! { tokenizer_test!([<vhdl_23_ $test_name>], $input, $tokens, LanguageStd::Vh23); }
 	};
 }
 
 macro_rules! vhdl_ams_99_tokenizer_test {
 	($test_name:ident, $input:literal, $tokens:expr) => {
-		paste! { vhdl_ams_tokenizer_test!([<_99_ $test_name>], $input, $tokens, VhdlAms::Vhams99); }
+		paste! { tokenizer_test!([<vhdl_ams_99_ $test_name>], $input, $tokens, LanguageStd::Vhams99); }
 	};
 }
 
 macro_rules! vhdl_ams_07_tokenizer_test {
 	($test_name:ident, $input:literal, $tokens:expr) => {
-		paste! { vhdl_ams_tokenizer_test!([<_07_ $test_name>], $input, $tokens, VhdlAms::Vhams07); }
+		paste! { tokenizer_test!([<vhdl_ams_07_ $test_name>], $input, $tokens, LanguageStd::Vhams07); }
 	};
 }
 
 macro_rules! vhdl_ams_09_tokenizer_test {
 	($test_name:ident, $input:literal, $tokens:expr) => {
-		paste! { vhdl_ams_tokenizer_test!([<_09_ $test_name>], $input, $tokens, VhdlAms::Vhams09); }
+		paste! { tokenizer_test!([<vhdl_ams_09_ $test_name>], $input, $tokens, LanguageStd::Vhams09); }
 	};
 }
 
 macro_rules! vhdl_ams_17_tokenizer_test {
 	($test_name:ident, $input:literal, $tokens:expr) => {
-		paste! { vhdl_ams_tokenizer_test!([<_17_ $test_name>], $input, $tokens, VhdlAms::Vhams17); }
+		paste! { tokenizer_test!([<vhdl_ams_17_ $test_name>], $input, $tokens, LanguageStd::Vhams17); }
 	};
 }
 
 macro_rules! vhdl_ams_21_tokenizer_test {
 	($test_name:ident, $input:literal, $tokens:expr) => {
-		paste! { vhdl_ams_tokenizer_test!([<_21_ $test_name>], $input, $tokens, VhdlAms::Vhams21); }
+		paste! { tokenizer_test!([<vhdl_ams_21_ $test_name>], $input, $tokens, LanguageStd::Vhams21); }
 	};
 }
 
