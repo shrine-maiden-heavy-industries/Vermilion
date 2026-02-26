@@ -116,7 +116,7 @@ impl serde::Serialize for LanguageStd {
 			LanguageStd::Sdc => serializer.serialize_str("sdc"),
 			LanguageStd::Xdc => serializer.serialize_str("xdc"),
 			_ => Err(serde::ser::Error::custom(
-				"Unable to serialize `LanguageSet` with more than one bit set",
+				"Unable to serialize `LanguageStd` with more than one bit set",
 			)),
 		}
 	}

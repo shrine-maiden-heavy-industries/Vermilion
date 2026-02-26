@@ -209,7 +209,7 @@ impl serde::Serialize for LanguageStd {
 			LanguageStd::Vhams17 => serializer.serialize_str("Vhams17"),
 			LanguageStd::Vhams21 => serializer.serialize_str("Vhams21"),
 			_ => Err(serde::ser::Error::custom(
-				"Unable to serialize `LanguageSet` with more than one bit set",
+				"Unable to serialize `LanguageStd` with more than one bit set",
 			)),
 		}
 	}
