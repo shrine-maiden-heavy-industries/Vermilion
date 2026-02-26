@@ -21,6 +21,7 @@ vermilion-constraints = { path = "crates/vermilion-constraints" }
 vermilion-diagnostics = { path = "crates/vermilion-diagnostics" }
 vermilion-fmt         = { path = "crates/vermilion-fmt"         }
 vermilion-lang        = { path = "crates/vermilion-lang"        }
+vermilion-liberty     = { path = "crates/vermilion-liberty"     }
 vermilion-lsp         = { path = "crates/vermilion-lsp"         }
 vermilion-verilog     = { path = "crates/vermilion-verilog"     }
 vermilion-vhdl        = { path = "crates/vermilion-vhdl"        }
