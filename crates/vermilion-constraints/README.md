@@ -1,5 +1,10 @@
 # `vermilion-constraints`
 
+> [!WARNING]
+> This is currently a stub crate for eventual constraint support in Vermilion, it is not the focus until
+> the main HDL language support is implemented and working well enough to add ancillary support for
+> EDA tooling constraint files.
+
 EDA Tooling constraint file (XDC, SDC, LPF, etc) support for Vermilion.
 
 ## License
