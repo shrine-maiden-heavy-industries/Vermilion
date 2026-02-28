@@ -1,7 +1,7 @@
 {
 	"name": "vermilion",
 	"displayName": "Vermilion",
-	"description": "Vermilion is a Verilog, Verilog-AMS, SystemVerilog, and VHDL linter and formatter, and language server.",
+	"description": "Vermilion is a Verilog, Verilog-AMS, SystemVerilog, VHDL, and VHDL-AMS linter and formatter, and language server.",
 	"version": "0.0.1",
 	"publisher": "shrine-maiden-heavy-industries",
 	"engines":
@@ -126,6 +126,20 @@
 					"dark": "./languages/vhdl/icon_dark.svg",
 					"light": "./languages/vhdl/icon_light.svg"
 				}
+			},
+			{
+				"id": "vhdl-ams",
+				"extensions":
+				[
+					".vhdl",
+					".vhd"
+				],
+				"configuration": "./languages/vhdl_ams/configuration.json",
+				"icon":
+				{
+					"dark": "./languages/vhdl_ams/icon_dark.svg",
+					"light": "./languages/vhdl_ams/icon_light.svg"
+				}
 			}
 		],
 		"grammars": [
@@ -148,6 +162,11 @@
 				"language": "vhdl",
 				"scopeName": "source.vhdl",
 				"path": "./languages/vhdl/base.tmLanguage.json"
+			},
+			{
+				"language": "vhdl-ams",
+				"scopeName": "source.vhdl_ams",
+				"path": "./languages/vhdl_ams/base.tmLanguage.json"
 			}
 		],
 		"configuration":
