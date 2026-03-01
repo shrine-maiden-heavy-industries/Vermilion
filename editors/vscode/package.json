@@ -166,6 +166,19 @@
 					"dark": "./languages/sdc/icon_dark.svg",
 					"light": "./languages/sdc/icon_light.svg"
 				}
+			},
+			{
+				"id": "xdc",
+				"extensions":
+				[
+					".xdc"
+				],
+				"configuration": "./languages/xdc/configuration.json",
+				"icon":
+				{
+					"dark": "./languages/xdc/icon_dark.svg",
+					"light": "./languages/xdc/icon_light.svg"
+				}
 			}
 		],
 		"grammars": [
@@ -203,6 +216,11 @@
 				"language": "sdc",
 				"scopeName": "source.sdc",
 				"path": "./languages/sdc/base.tmLanguage.json"
+			},
+			{
+				"language": "xdc",
+				"scopeName": "source.xdc",
+				"path": "./languages/xdc/base.tmLanguage.json"
 			}
 		],
 		"configuration":
