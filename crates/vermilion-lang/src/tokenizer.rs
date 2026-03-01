@@ -28,7 +28,7 @@ impl CoreTokenizer {
 		if tokenizer.text.is_empty() {
 			tokenizer.eof = true;
 		} else {
-			tokenizer.next_char();
+			tokenizer.current = tokenizer.text[tokenizer.offset]
 		}
 
 		tokenizer
