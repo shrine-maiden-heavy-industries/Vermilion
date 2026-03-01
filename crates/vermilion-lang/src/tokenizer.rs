@@ -60,31 +60,37 @@ impl CoreTokenizer {
 	}
 
 	/// Advance the line counter and reset the character position to 0 of the context
+	#[inline(always)]
 	pub fn advance_line(&mut self) {
 		self.position.next_line();
 	}
 
 	/// Returns the current byte offset into the input the tokenizer currently is
+	#[inline(always)]
 	pub fn offset(&self) -> usize {
 		self.offset
 	}
 
 	/// Returns the current [`Position`] of the tokenizer
-	pub fn position(&self) -> &Position {
-		&self.position
+	#[inline(always)]
+	pub fn position(&self) -> Position {
+		self.position
 	}
 
 	/// Returns if the tokenizer has hit the end of the input or not
+	#[inline(always)]
 	pub fn is_eof(&self) -> bool {
 		self.eof
 	}
 
 	/// Returns if the tokenizer is at the start of the input or not
+	#[inline(always)]
 	pub fn is_sof(&self) -> bool {
 		self.offset == 0
 	}
 
 	/// Get the current character the tokenizer is on
+	#[inline(always)]
 	pub fn current_byte(&self) -> u8 {
 		self.current
 	}
