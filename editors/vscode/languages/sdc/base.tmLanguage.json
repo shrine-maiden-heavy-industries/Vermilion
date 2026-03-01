@@ -1,0 +1,14 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "Synopsys Design Constraints",
+	"scopeName": "source.sdc",
+	"fileTypes": [
+		"sdc"
+	],
+	"patterns": [
+
+	],
+	"repository": {
+
+	}
+}

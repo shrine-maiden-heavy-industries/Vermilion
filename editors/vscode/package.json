@@ -153,6 +153,19 @@
 					"dark": "./languages/liberty/icon_dark.svg",
 					"light": "./languages/liberty/icon_light.svg"
 				}
+			},
+			{
+				"id": "sdc",
+				"extensions":
+				[
+					".sdc"
+				],
+				"configuration": "./languages/sdc/configuration.json",
+				"icon":
+				{
+					"dark": "./languages/sdc/icon_dark.svg",
+					"light": "./languages/sdc/icon_light.svg"
+				}
 			}
 		],
 		"grammars": [
@@ -185,6 +198,11 @@
 				"language": "liberty",
 				"scopeName": "source.liberty",
 				"path": "./languages/liberty/base.tmLanguage.json"
+			},
+			{
+				"language": "sdc",
+				"scopeName": "source.sdc",
+				"path": "./languages/sdc/base.tmLanguage.json"
 			}
 		],
 		"configuration":
