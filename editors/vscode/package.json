@@ -140,6 +140,19 @@
 					"dark": "./languages/vhdl_ams/icon_dark.svg",
 					"light": "./languages/vhdl_ams/icon_light.svg"
 				}
+			},
+			{
+				"id": "liberty",
+				"extensions":
+				[
+					".lib"
+				],
+				"configuration": "./languages/liberty/configuration.json",
+				"icon":
+				{
+					"dark": "./languages/liberty/icon_dark.svg",
+					"light": "./languages/liberty/icon_light.svg"
+				}
 			}
 		],
 		"grammars": [
@@ -167,6 +180,11 @@
 				"language": "vhdl-ams",
 				"scopeName": "source.vhdl_ams",
 				"path": "./languages/vhdl_ams/base.tmLanguage.json"
+			},
+			{
+				"language": "liberty",
+				"scopeName": "source.liberty",
+				"path": "./languages/liberty/base.tmLanguage.json"
 			}
 		],
 		"configuration":
