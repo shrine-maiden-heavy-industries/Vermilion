@@ -1,12 +1,10 @@
 // SPDX-License-Identifier: BSD-3-Clause
 
-use tendril::ByteTendril;
-
-use crate::Position;
+use crate::{AtomicByteTendril, Position};
 
 /// The underlying tokenization machinery for all other Vermilion tokenizers
 pub struct CoreTokenizer {
-	text:     ByteTendril,
+	text:     AtomicByteTendril,
 	offset:   usize,
 	eof:      bool,
 	current:  u8,
@@ -15,8 +13,8 @@ pub struct CoreTokenizer {
 
 // TODO(aki): We need to deal with UTF-8/UTF-16/UTF-32/WTF-8 inputs not just ASCII
 impl CoreTokenizer {
-	/// Create a new [`CoreTokenizer`] with the given [`ByteTendril`] as it's backing store
-	pub fn new(text: ByteTendril) -> Self {
+	/// Create a new [`CoreTokenizer`] with the given [`AtomicByteTendril`] as it's backing store
+	pub fn new(text: AtomicByteTendril) -> Self {
 		let mut tokenizer = Self {
 			text,
 			offset: 0,
