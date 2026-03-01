@@ -1,0 +1,10 @@
+(* SPDX-License-Identifier: BSD-3-Clause *)
+(* EBNF grammar for Synopsys Design Constraints *)
+(*
+	NOTE: SDC Files are effectively just TCL files, however, rather than implement an entire
+		  TCL grammar and therefore an entire TCL parser, we only really have a specific
+		  subset defined in order to consume the constraint files and extract the needed info.
+
+		  As such, this is likely very brittle and might need to be turned into a full TCL grammar
+		  in the future based on any edge cases found.
+*)
