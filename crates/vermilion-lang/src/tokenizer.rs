@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: BSD-3-Clause
 
+use std::ops::Range;
+
 use crate::{AtomicByteTendril, Position};
 
 /// The underlying tokenization machinery for all other Vermilion tokenizers
@@ -93,5 +95,14 @@ impl CoreTokenizer {
 	#[inline(always)]
 	pub fn current_byte(&self) -> u8 {
 		self.current
+	}
+
+	/// Get a subslice of [`Self::text`]
+	///
+	/// Panics on bounds or validity check failure.
+	#[inline(always)]
+	pub fn subtendril(&self, range: Range<usize>) -> AtomicByteTendril {
+		self.text
+			.subtendril(range.start as u32, (range.end - range.start) as u32)
 	}
 }
