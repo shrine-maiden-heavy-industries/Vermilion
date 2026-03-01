@@ -36,7 +36,7 @@ impl CoreTokenizer {
 
 	// XXX(aki): I'm not sure that we should return the previous character, feels, off
 	/// Advances the position in the input, returning the previous character
-	/// and setting [`Self::current_char`] to the next character in the stream
+	/// and setting [`Self::current`] to the next character in the stream
 	///
 	/// This method also sets [`Self::is_eof`] appropriately if we reach the end
 	/// of the input stream,
