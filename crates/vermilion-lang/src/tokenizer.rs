@@ -97,6 +97,18 @@ impl CoreTokenizer {
 		self.current
 	}
 
+	/// Get the length of the tokenizers text buffer
+	#[inline(always)]
+	pub fn len(&self) -> usize {
+		self.text.len()
+	}
+
+	/// Check to see if the tokenizer text buffer is empty or not
+	#[inline(always)]
+	pub fn is_empty(&self) -> bool {
+		self.text.is_empty()
+	}
+
 	/// Get a subslice of [`Self::text`]
 	///
 	/// Panics on bounds or validity check failure.
