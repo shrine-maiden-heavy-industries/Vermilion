@@ -4,6 +4,18 @@ use std::ops::{Index, Range, RangeFrom, RangeFull, RangeInclusive, RangeTo, Rang
 
 use crate::{AtomicByteTendril, Position};
 
+#[macro_export]
+macro_rules! simple_token {
+	($self:path, $token:expr) => {{
+		let context = $self.tokenizer.position();
+		let begin = $self.tokenizer.offset();
+		$self.tokenizer.next_char();
+
+		$self.token = spanned_token!($token, begin..$self.tokenizer.offset(), context);
+	}};
+}
+
+
 /// The underlying tokenization machinery for all other Vermilion tokenizers
 pub struct CoreTokenizer {
 	text:     AtomicByteTendril,

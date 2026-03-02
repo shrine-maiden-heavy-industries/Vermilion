@@ -4,7 +4,7 @@ use std::{collections::VecDeque, ops::Range};
 
 use eyre::eyre;
 use vermilion_lang::{
-	AtomicByteTendril, Position, Span, Spanned, spanned_token, tokenizer::CoreTokenizer,
+	AtomicByteTendril, Position, Spanned, simple_token, spanned_token, tokenizer::CoreTokenizer,
 };
 
 use self::token::{BaseSpecifier, Comment, CompilerDirective, Control, Operator, TextMacro, Token};
@@ -13,16 +13,6 @@ use crate::LanguageStd;
 mod directives;
 mod keywords;
 pub mod token;
-
-macro_rules! simple_token {
-	($self:path, $token:expr) => {{
-		let context = $self.tokenizer.position();
-		let begin = $self.tokenizer.offset();
-		$self.tokenizer.next_char();
-
-		$self.token = spanned_token!($token, begin..$self.tokenizer.offset(), context);
-	}};
-}
 
 macro_rules! versioned_token {
 	($self:path, $begin:path, $token:expr,at_least_vl01) => {
