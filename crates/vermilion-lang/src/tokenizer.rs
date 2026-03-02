@@ -15,6 +15,16 @@ macro_rules! simple_token {
 	}};
 }
 
+#[macro_export]
+macro_rules! versioned_token {
+	($self:path, $range:expr, $token:expr, $($stds:path),+) => {
+		if ($($stds)|+).contains($self.standard) {
+			$token
+		} else {
+			Token::ContextuallyInvalid($self.tokenizer.subtendril($range), $($stds)|+)
+		}
+	};
+}
 
 /// The underlying tokenization machinery for all other Vermilion tokenizers
 pub struct CoreTokenizer {
