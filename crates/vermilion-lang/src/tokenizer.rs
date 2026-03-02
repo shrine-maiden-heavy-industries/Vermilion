@@ -117,6 +117,17 @@ impl CoreTokenizer {
 		self.text
 			.subtendril(range.start as u32, (range.end - range.start) as u32)
 	}
+
+	/// Get a subslice of [`Self::text`]
+	///
+	/// Panics on bounds or validity check failure.
+	#[inline(always)]
+	pub fn subtendril_inclusive(&self, range: RangeInclusive<usize>) -> AtomicByteTendril {
+		self.text
+			.subtendril(*range.start() as u32, *range.end() as u32)
+	}
+}
+
 impl Index<usize> for CoreTokenizer {
 	type Output = u8;
 
