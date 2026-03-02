@@ -1,9 +1,6 @@
 // SPDX-License-Identifier: BSD-3-Clause
 
-use crate::{
-	LanguageStd,
-	lang::parser::{Diagnostic, Position, Span, VerilogParser},
-};
+use crate::lang::parser::{Diagnostic, Position, Span};
 
 // #[test]
 #[allow(unused)]
