@@ -6,6 +6,7 @@ use crate::{
 };
 
 // #[test]
+#[allow(unused)]
 fn test_truncated_module() {
 	// SAFETY: We're in a testing context, panicking here is fine
 	#[allow(clippy::unwrap_used)]
