@@ -9,7 +9,7 @@ use crate::LanguageStd;
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub enum Token {
 	Comment(Comment),
-	/// Hold the verilog variant for when this token would become valid
+	/// Hold the VHDL variant for when this token would become valid
 	ContextuallyInvalid(AtomicByteTendril, LanguageStd),
 	Control(Control),
 	Identifier(AtomicByteTendril),
