@@ -7,7 +7,6 @@ pub mod tokenizer;
 
 #[cfg(test)]
 mod tests {
-	use test_log::test;
-
+	#[allow(unused)]
 	use super::*;
 }

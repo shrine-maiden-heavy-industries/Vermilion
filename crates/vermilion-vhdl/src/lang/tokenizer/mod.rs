@@ -7,8 +7,7 @@ use vermilion_lang::{
 	versioned_token,
 };
 
-use self::token::Token;
-use crate::LanguageStd;
+use crate::{LanguageStd, lang::tokenizer::token::Token};
 
 pub mod token;
 

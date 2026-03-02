@@ -5,7 +5,6 @@ pub struct Ast {}
 
 #[cfg(test)]
 mod tests {
-	use test_log::test;
-
+	#[allow(unused)]
 	use super::*;
 }
