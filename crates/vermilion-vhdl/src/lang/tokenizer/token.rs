@@ -2,7 +2,7 @@
 
 use std::fmt::Display;
 
-use vermilion_lang::{AtomicByteTendril, Position, Spanned};
+use vermilion_lang::AtomicByteTendril;
 
 use crate::LanguageStd;
 
@@ -366,11 +366,5 @@ impl Display for Operator {
 impl Default for Token {
 	fn default() -> Self {
 		Self::Invalid(None)
-	}
-}
-
-impl From<Token> for Spanned<Token, Position> {
-	fn from(token: Token) -> Self {
-		Self::new(token, None)
 	}
 }
