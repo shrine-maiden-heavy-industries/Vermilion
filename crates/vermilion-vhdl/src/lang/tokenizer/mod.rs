@@ -1,11 +1,8 @@
 // SPDX-License-Identifier: BSD-3-Clause
-use std::{collections::VecDeque, ops::Range};
+use std::collections::VecDeque;
 
 use eyre::eyre;
-use vermilion_lang::{
-	AtomicByteTendril, Position, Spanned, simple_token, spanned_token, tokenizer::CoreTokenizer,
-	versioned_token,
-};
+use vermilion_lang::{AtomicByteTendril, Position, Spanned, tokenizer::CoreTokenizer};
 
 use crate::{LanguageStd, lang::tokenizer::token::Token};
 
@@ -57,6 +54,8 @@ impl VhdlTokenizer {
 			return;
 		}
 
+		// XXX(aki): Temporary until we start fleshing out the Tokenizer
+		#[allow(clippy::match_single_binding)]
 		match self.tokenizer.current_byte() {
 			_ => self.read_extended_token(),
 		}
