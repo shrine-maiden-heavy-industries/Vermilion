@@ -10,7 +10,6 @@ use vermilion_lang::{
 use self::token::Token;
 use crate::LanguageStd;
 
-mod keywords;
 pub mod token;
 
 pub struct VhdlTokenizer {
