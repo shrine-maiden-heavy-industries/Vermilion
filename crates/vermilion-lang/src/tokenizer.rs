@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: BSD-3-Clause
 
-use std::ops::Range;
+use std::ops::{Index, Range, RangeFrom, RangeFull, RangeInclusive, RangeTo, RangeToInclusive};
 
 use crate::{AtomicByteTendril, Position};
 
@@ -116,5 +116,66 @@ impl CoreTokenizer {
 	pub fn subtendril(&self, range: Range<usize>) -> AtomicByteTendril {
 		self.text
 			.subtendril(range.start as u32, (range.end - range.start) as u32)
+	}
+impl Index<usize> for CoreTokenizer {
+	type Output = u8;
+
+	#[inline(always)]
+	fn index(&self, index: usize) -> &Self::Output {
+		&self.text[index]
+	}
+}
+
+impl Index<RangeFull> for CoreTokenizer {
+	type Output = [u8];
+
+	#[inline(always)]
+	fn index(&self, index: RangeFull) -> &Self::Output {
+		&self.text[index]
+	}
+}
+
+impl Index<Range<usize>> for CoreTokenizer {
+	type Output = [u8];
+
+	#[inline(always)]
+	fn index(&self, index: Range<usize>) -> &Self::Output {
+		&self.text[index]
+	}
+}
+
+impl Index<RangeFrom<usize>> for CoreTokenizer {
+	type Output = [u8];
+
+	#[inline(always)]
+	fn index(&self, index: RangeFrom<usize>) -> &Self::Output {
+		&self.text[index]
+	}
+}
+
+impl Index<RangeTo<usize>> for CoreTokenizer {
+	type Output = [u8];
+
+	#[inline(always)]
+	fn index(&self, index: RangeTo<usize>) -> &Self::Output {
+		&self.text[index]
+	}
+}
+
+impl Index<RangeInclusive<usize>> for CoreTokenizer {
+	type Output = [u8];
+
+	#[inline(always)]
+	fn index(&self, index: RangeInclusive<usize>) -> &Self::Output {
+		&self.text[index]
+	}
+}
+
+impl Index<RangeToInclusive<usize>> for CoreTokenizer {
+	type Output = [u8];
+
+	#[inline(always)]
+	fn index(&self, index: RangeToInclusive<usize>) -> &Self::Output {
+		&self.text[index]
 	}
 }
