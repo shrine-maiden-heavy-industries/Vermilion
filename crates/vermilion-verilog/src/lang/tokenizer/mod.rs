@@ -14,6 +14,16 @@ mod directives;
 mod keywords;
 pub mod token;
 
+macro_rules! simple_token {
+	($self:path, $token:expr) => {{
+		let context = $self.tokenizer.position();
+		let begin = $self.tokenizer.offset();
+		$self.tokenizer.next_char();
+
+		$self.token = spanned_token!($token, begin..$self.tokenizer.offset(), context);
+	}};
+}
+
 macro_rules! versioned_token {
 	($self:path, $begin:path, $token:expr,at_least_vl01) => {
 		versioned_token!(
@@ -169,115 +179,42 @@ impl VerilogTokenizer {
 			self.token = token;
 			return;
 		}
-		let context = self.tokenizer.position();
-		let begin = self.tokenizer.offset();
+
 		match self.tokenizer.current_byte() {
-			b' ' | b'\t' => {
-				self.read_whitespace();
-				return;
-			},
-			b'\r' | b'\n' => {
-				self.read_newline();
-				return;
-			},
-			b'@' => self.token = Token::Control(Control::At).into(),
-			b'#' => {
-				self.read_octothorp_token();
-				return;
-			},
-			b'(' => {
-				self.read_paren_open_token();
-				return;
-			},
-			b')' => self.token = Token::Control(Control::ParenClose).into(),
-			b'[' => self.token = Token::Control(Control::BracketOpen).into(),
-			b']' => self.token = Token::Control(Control::BracketClose).into(),
-			b'{' => self.token = Token::Control(Control::BraceOpen).into(),
-			b'}' => self.token = Token::Control(Control::BraceClose).into(),
-			b':' => {
-				self.read_colon_token();
-				return;
-			},
-			b';' => self.token = Token::Control(Control::Semicolon).into(),
-			b',' => self.token = Token::Control(Control::Comma).into(),
-			b'.' => {
-				self.read_dot_token();
-				return;
-			},
-			b'$' => self.token = Token::Control(Control::Dollar).into(),
-			b'?' => self.token = Token::Control(Control::Question).into(),
-			b'!' => {
-				self.read_exclame_token();
-				return;
-			},
-			b'=' => {
-				self.read_equals_token();
-				return;
-			},
-			b'&' => {
-				self.read_ampersand_token();
-				return;
-			},
-			b'~' => {
-				self.read_tilde_token();
-				return;
-			},
-			b'^' => {
-				self.read_circumflex_token();
-				return;
-			},
-			b'|' => {
-				self.read_pipe_token();
-				return;
-			},
-			b'>' => {
-				self.read_less_than_token();
-				return;
-			},
-			b'<' => {
-				self.read_greater_than_token();
-				return;
-			},
-			b'%' => {
-				self.read_percent_token();
-				return;
-			},
-			b'*' => {
-				self.read_asterisk_token();
-				return;
-			},
-			b'+' => {
-				self.read_plus_token();
-				return;
-			},
-			b'-' => {
-				self.read_minus_token();
-				return;
-			},
-			b'/' => {
-				self.read_solidus_token();
-				return;
-			},
-			b'`' => {
-				self.read_grave_token();
-				return;
-			},
-			b'"' => {
-				self.read_quote_token();
-				return;
-			},
-			b'\'' => {
-				self.read_apostrophe_token();
-				return;
-			},
-			_ => {
-				self.read_extended_token();
-				return;
-			},
+			b' ' | b'\t' => self.read_whitespace(),
+			b'\r' | b'\n' => self.read_newline(),
+			b'@' => simple_token!(self, Token::Control(Control::At)),
+			b'#' => self.read_octothorp_token(),
+			b'(' => self.read_paren_open_token(),
+			b')' => simple_token!(self, Token::Control(Control::ParenClose)),
+			b'[' => simple_token!(self, Token::Control(Control::BracketOpen)),
+			b']' => simple_token!(self, Token::Control(Control::BracketClose)),
+			b'{' => simple_token!(self, Token::Control(Control::BraceOpen)),
+			b'}' => simple_token!(self, Token::Control(Control::BraceClose)),
+			b':' => self.read_colon_token(),
+			b';' => simple_token!(self, Token::Control(Control::Semicolon)),
+			b',' => simple_token!(self, Token::Control(Control::Comma)),
+			b'.' => self.read_dot_token(),
+			b'$' => simple_token!(self, Token::Control(Control::Dollar)),
+			b'?' => simple_token!(self, Token::Control(Control::Question)),
+			b'!' => self.read_exclame_token(),
+			b'=' => self.read_equals_token(),
+			b'&' => self.read_ampersand_token(),
+			b'~' => self.read_tilde_token(),
+			b'^' => self.read_circumflex_token(),
+			b'|' => self.read_pipe_token(),
+			b'>' => self.read_less_than_token(),
+			b'<' => self.read_greater_than_token(),
+			b'%' => self.read_percent_token(),
+			b'*' => self.read_asterisk_token(),
+			b'+' => self.read_plus_token(),
+			b'-' => self.read_minus_token(),
+			b'/' => self.read_solidus_token(),
+			b'`' => self.read_grave_token(),
+			b'"' => self.read_quote_token(),
+			b'\'' => self.read_apostrophe_token(),
+			_ => self.read_extended_token(),
 		}
-		self.tokenizer.next_char();
-		let end = self.tokenizer.offset();
-		self.token.attach_span(Span::new(begin..end, context));
 	}
 
 	fn read_extended_token(&mut self) {
