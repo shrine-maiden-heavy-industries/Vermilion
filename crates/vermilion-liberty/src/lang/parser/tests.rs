@@ -12,7 +12,7 @@ macro_rules! parser_test {
 		paste! { parser_test!(
 			[<liberty_2014_09_ $test_name>],
 			$input,
-			LanguageStd::liberty2014_09,
+			LanguageStd::Liberty2014_09,
 			$($tokens),+
 		); }
 	};
@@ -20,7 +20,7 @@ macro_rules! parser_test {
 		paste! { parser_test!(
 			[<liberty_2015_12_ $test_name>],
 			$input,
-			LanguageStd::liberty2015_12,
+			LanguageStd::Liberty2015_12,
 			$($tokens),+
 		); }
 	};
@@ -38,7 +38,7 @@ macro_rules! parser_test {
 		paste! { parser_test!(
 			[<liberty_2016_06_ $test_name>],
 			$input,
-			LanguageStd::liberty2016_06,
+			LanguageStd::Liberty2016_06,
 			$($tokens),+
 		); }
 	};
@@ -55,7 +55,7 @@ macro_rules! parser_test {
 		paste! { parser_test!(
 			[<liberty_2016_12_ $test_name>],
 			$input,
-			LanguageStd::liberty2016_12,
+			LanguageStd::Liberty2016_12,
 			$($tokens),+
 		); }
 	};
@@ -71,7 +71,7 @@ macro_rules! parser_test {
 		paste! { parser_test!(
 			[<liberty_2017_06_ $test_name>],
 			$input,
-			LanguageStd::liberty2017_06,
+			LanguageStd::Liberty2017_06,
 			$($tokens),+
 		); }
 	};
@@ -86,7 +86,7 @@ macro_rules! parser_test {
 		paste! { parser_test!(
 			[<liberty_2018_06_ $test_name>],
 			$input,
-			LanguageStd::liberty2018_06,
+			LanguageStd::Liberty2018_06,
 			$($tokens),+
 		); }
 	};
@@ -100,7 +100,7 @@ macro_rules! parser_test {
 		paste! { parser_test!(
 			[<liberty_2019_03_ $test_name>],
 			$input,
-			LanguageStd::liberty2019_03,
+			LanguageStd::Liberty2019_03,
 			$($tokens),+
 		); }
 	};
@@ -113,7 +113,7 @@ macro_rules! parser_test {
 		paste! { parser_test!(
 			[<liberty_2019_12_ $test_name>],
 			$input,
-			LanguageStd::liberty2019_12,
+			LanguageStd::Liberty2019_12,
 			$($tokens),+
 		); }
 	};
@@ -125,7 +125,7 @@ macro_rules! parser_test {
 		paste! { parser_test!(
 			[<liberty_2020_09_ $test_name>],
 			$input,
-			LanguageStd::liberty2014_09,
+			LanguageStd::Liberty2014_09,
 			$($tokens),+
 		); }
 	};
