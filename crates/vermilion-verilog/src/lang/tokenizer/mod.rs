@@ -8,11 +8,16 @@ use vermilion_lang::{
 	versioned_token,
 };
 
-use self::token::{BaseSpecifier, Comment, CompilerDirective, Control, Operator, TextMacro, Token};
-use crate::LanguageStd;
+use crate::{
+	LanguageStd,
+	lang::{
+		directives, keywords,
+		tokenizer::token::{
+			BaseSpecifier, Comment, CompilerDirective, Control, Operator, TextMacro, Token,
+		},
+	},
+};
 
-mod directives;
-mod keywords;
 pub mod token;
 
 pub struct VerilogTokenizer {
