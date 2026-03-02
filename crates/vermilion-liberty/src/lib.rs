@@ -9,6 +9,8 @@ use std::fmt::Display;
 
 use bitmask_enum::bitmask;
 
+pub mod lang;
+
 #[bitmask(u16)]
 pub enum LanguageStd {
 	Liberty2014_09,
