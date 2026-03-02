@@ -146,12 +146,12 @@ impl VerilogTokenizer {
 		self.tokenizer.is_empty()
 	}
 
-	#[inline]
+	#[inline(always)]
 	fn current_is_whitespace(&self) -> bool {
 		matches!(self.tokenizer.current_byte(), b' ' | b'\t')
 	}
 
-	#[inline]
+	#[inline(always)]
 	fn current_is_newline(&self) -> bool {
 		matches!(self.tokenizer.current_byte(), b'\r' | b'\n')
 	}
