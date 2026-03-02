@@ -36,7 +36,6 @@ pub static VERILOG_95_DIRECTIVE_SET: phf::Set<&'static str> = phf_set! {
 	"define",                  "endif",           "undef",
 	"delay_mode_distributed",  "ifdef",
 	"delay_mode_path",         "include",
-
 };
 
 /// IEEE 1364-2001 (Verilog 2001) Directive to [`Directive`] token map
