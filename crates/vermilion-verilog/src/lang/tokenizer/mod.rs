@@ -5,6 +5,7 @@ use std::{collections::VecDeque, ops::Range};
 use eyre::eyre;
 use vermilion_lang::{
 	AtomicByteTendril, Position, Spanned, simple_token, spanned_token, tokenizer::CoreTokenizer,
+	versioned_token,
 };
 
 use self::token::{BaseSpecifier, Comment, CompilerDirective, Control, Operator, TextMacro, Token};
@@ -13,106 +14,6 @@ use crate::LanguageStd;
 mod directives;
 mod keywords;
 pub mod token;
-
-macro_rules! versioned_token {
-	($self:path, $begin:path, $token:expr,at_least_vl01) => {
-		versioned_token!(
-			$self,
-			$begin,
-			$token,
-			crate::LanguageStd::Vl01 |
-				crate::LanguageStd::Vl05 |
-				crate::LanguageStd::SYSTEM_VERILOG_STDS |
-				crate::LanguageStd::VERILOG_AMS_STDS
-		)
-	};
-	($self:path, $begin:path, $token:expr,at_least_vl05) => {
-		versioned_token!(
-			$self,
-			$begin,
-			$token,
-			crate::LanguageStd::Vl05 |
-				crate::LanguageStd::SYSTEM_VERILOG_STDS |
-				crate::LanguageStd::VERILOG_AMS_STDS
-		)
-	};
-	($self:path, $begin:path, $token:expr,at_least_sv05) => {
-		versioned_token!(
-			$self,
-			$begin,
-			$token,
-			crate::LanguageStd::SYSTEM_VERILOG_STDS
-		)
-	};
-	($self:path, $begin:path, $token:expr,at_least_sv09) => {
-		versioned_token!(
-			$self,
-			$begin,
-			$token,
-			crate::LanguageStd::Sv09 |
-				crate::LanguageStd::Sv12 |
-				crate::LanguageStd::Sv17 |
-				crate::LanguageStd::Sv23
-		)
-	};
-	($self:path, $begin:path, $token:expr,at_least_sv12) => {
-		versioned_token!(
-			$self,
-			$begin,
-			$token,
-			crate::LanguageStd::Sv12 | crate::LanguageStd::Sv17 | crate::LanguageStd::Sv23
-		)
-	};
-	($self:path, $begin:path, $token:expr,at_least_sv17) => {
-		versioned_token!(
-			$self,
-			$begin,
-			$token,
-			crate::LanguageStd::Sv17 | crate::LanguageStd::Sv23
-		)
-	};
-	($self:path, $begin:path, $token:expr,at_least_sv23) => {
-		versioned_token!($self, $begin, $token, crate::LanguageStd::Sv23)
-	};
-	($self:path, $begin:path, $token:expr,at_least_vams09) => {
-		versioned_token!($self, $begin, $token, crate::LanguageStd::VERILOG_AMS_STDS)
-	};
-	($self:path, $begin:path, $token:expr,at_least_vams14) => {
-		versioned_token!(
-			$self,
-			$begin,
-			$token,
-			crate::LanguageStd::Vams14 | crate::LanguageStd::Vams23
-		)
-	};
-	($self:path, $begin:path, $token:expr,at_least_vams23) => {
-		versioned_token!($self, $begin, $token, crate::LanguageStd::Vams23)
-	};
-	($self:path, $begin:path, $token:expr,only_verilog) => {
-		versioned_token!($self, $begin, $token, crate::LanguageStd::VERILOG_STDS)
-	};
-	($self:path, $begin:path, $token:expr,only_system_verilog) => {
-		versioned_token!(
-			$self,
-			$begin,
-			$token,
-			crate::LanguageStd::SYSTEM_VERILOG_STDS
-		)
-	};
-	($self:path, $begin:path, $token:expr,only_verilog_ams) => {
-		versioned_token!($self, $begin, $token, crate::LanguageStd::VERILOG_AMS_STDS)
-	};
-	($self:path, $begin:path, $token:expr, $stds:expr) => {
-		if $stds.contains($self.standard.into()) {
-			$token
-		} else {
-			Token::ContextuallyInvalid(
-				$self.tokenizer.subtendril($begin..$self.tokenizer.offset()),
-				$stds,
-			)
-		}
-	};
-}
 
 pub struct VerilogTokenizer {
 	standard:     LanguageStd,
@@ -283,9 +184,9 @@ impl VerilogTokenizer {
 					self.tokenizer.next_char();
 					versioned_token!(
 						self,
-						begin,
+						begin..self.tokenizer.offset(),
 						Token::Operator(Operator::CycleDelay),
-						at_least_sv05
+						LanguageStd::SYSTEM_VERILOG_STDS
 					)
 				},
 				b'=' => {
@@ -296,9 +197,12 @@ impl VerilogTokenizer {
 
 						versioned_token!(
 							self,
-							begin,
+							begin..self.tokenizer.offset(),
 							Token::Operator(Operator::FollowedByNonOverlapped),
-							at_least_sv09
+							LanguageStd::Sv09,
+							LanguageStd::Sv12,
+							LanguageStd::Sv17,
+							LanguageStd::Sv23
 						)
 					} else {
 						return;
@@ -312,9 +216,12 @@ impl VerilogTokenizer {
 
 						versioned_token!(
 							self,
-							begin,
+							begin..self.tokenizer.offset(),
 							Token::Operator(Operator::FollowedByOverlapped),
-							at_least_sv09
+							LanguageStd::Sv09,
+							LanguageStd::Sv12,
+							LanguageStd::Sv17,
+							LanguageStd::Sv23
 						)
 					} else {
 						return;
@@ -339,9 +246,12 @@ impl VerilogTokenizer {
 
 					versioned_token!(
 						self,
-						begin,
+						begin..self.tokenizer.offset(),
 						Token::Control(Control::AttributeOpen),
-						at_least_vl01
+						LanguageStd::Vl01,
+						LanguageStd::Vl05,
+						LanguageStd::SYSTEM_VERILOG_STDS,
+						LanguageStd::VERILOG_AMS_STDS
 					)
 				},
 				_ => Token::Control(Control::ParenOpen),
@@ -362,27 +272,27 @@ impl VerilogTokenizer {
 					self.tokenizer.next_char();
 					versioned_token!(
 						self,
-						begin,
+						begin..self.tokenizer.offset(),
 						Token::Operator(Operator::ClassScopeResolution),
-						at_least_sv05
+						LanguageStd::SYSTEM_VERILOG_STDS
 					)
 				},
 				b'/' => {
 					self.tokenizer.next_char();
 					versioned_token!(
 						self,
-						begin,
+						begin..self.tokenizer.offset(),
 						Token::Operator(Operator::WeightAssignDist),
-						at_least_sv05
+						LanguageStd::SYSTEM_VERILOG_STDS
 					)
 				},
 				b'=' => {
 					self.tokenizer.next_char();
 					versioned_token!(
 						self,
-						begin,
+						begin..self.tokenizer.offset(),
 						Token::Operator(Operator::WeightAssignUnit),
-						at_least_sv05
+						LanguageStd::SYSTEM_VERILOG_STDS
 					)
 				},
 				_ => Token::Control(Control::Colon),
@@ -403,9 +313,9 @@ impl VerilogTokenizer {
 					self.tokenizer.next_char();
 					versioned_token!(
 						self,
-						begin,
+						begin..self.tokenizer.offset(),
 						Token::Operator(Operator::Wildcard),
-						at_least_sv05
+						LanguageStd::SYSTEM_VERILOG_STDS
 					)
 				},
 				_ => Token::Control(Control::Dot),
@@ -434,9 +344,9 @@ impl VerilogTokenizer {
 							self.tokenizer.next_char();
 							versioned_token!(
 								self,
-								begin,
+								begin..self.tokenizer.offset(),
 								Token::Operator(Operator::WildcardNotEqual),
-								at_least_sv05
+								LanguageStd::SYSTEM_VERILOG_STDS
 							)
 						},
 						_ => Token::Operator(Operator::LogicalInequality),
@@ -470,9 +380,9 @@ impl VerilogTokenizer {
 
 							versioned_token!(
 								self,
-								begin,
+								begin..self.tokenizer.offset(),
 								Token::Operator(Operator::WildcardEqual),
-								at_least_sv05
+								LanguageStd::SYSTEM_VERILOG_STDS
 							)
 						},
 						_ => Token::Operator(Operator::LogicalEquality),
@@ -513,9 +423,9 @@ impl VerilogTokenizer {
 
 					versioned_token!(
 						self,
-						begin,
+						begin..self.tokenizer.offset(),
 						Token::Operator(Operator::AndEquals),
-						at_least_sv05
+						LanguageStd::SYSTEM_VERILOG_STDS
 					)
 				},
 				_ => Token::Operator(Operator::Ampersand),
@@ -570,9 +480,9 @@ impl VerilogTokenizer {
 
 					versioned_token!(
 						self,
-						begin,
+						begin..self.tokenizer.offset(),
 						Token::Operator(Operator::XorEquals),
-						at_least_sv05
+						LanguageStd::SYSTEM_VERILOG_STDS
 					)
 				},
 				_ => Token::Operator(Operator::Circumflex),
@@ -600,16 +510,16 @@ impl VerilogTokenizer {
 						self.tokenizer.next_char();
 						versioned_token!(
 							self,
-							begin,
+							begin..self.tokenizer.offset(),
 							Token::Operator(Operator::PropImplNonOverlap),
-							at_least_sv05
+							LanguageStd::SYSTEM_VERILOG_STDS
 						)
 					} else {
 						versioned_token!(
 							self,
-							begin,
+							begin..self.tokenizer.offset(),
 							Token::Operator(Operator::OrEquals),
-							at_least_sv05
+							LanguageStd::SYSTEM_VERILOG_STDS
 						)
 					}
 				},
@@ -621,9 +531,9 @@ impl VerilogTokenizer {
 
 						versioned_token!(
 							self,
-							begin,
+							begin..self.tokenizer.offset(),
 							Token::Operator(Operator::PropImplOverlap),
-							at_least_sv05
+							LanguageStd::SYSTEM_VERILOG_STDS
 						)
 					} else {
 						// Don't over-consume, the `-` might be valid in another context
@@ -660,16 +570,19 @@ impl VerilogTokenizer {
 
 								versioned_token!(
 									self,
-									begin,
+									begin..self.tokenizer.offset(),
 									Token::Operator(Operator::ArithmeticShrEquals),
-									at_least_sv05
+									LanguageStd::SYSTEM_VERILOG_STDS
 								)
 							} else {
 								versioned_token!(
 									self,
-									begin,
+									begin..self.tokenizer.offset(),
 									Token::Operator(Operator::ArithmeticShr),
-									at_least_vl01
+									LanguageStd::Vl01,
+									LanguageStd::Vl05,
+									LanguageStd::SYSTEM_VERILOG_STDS,
+									LanguageStd::VERILOG_AMS_STDS
 								)
 							}
 						},
@@ -678,9 +591,9 @@ impl VerilogTokenizer {
 
 							versioned_token!(
 								self,
-								begin,
+								begin..self.tokenizer.offset(),
 								Token::Operator(Operator::ShiftRightEquals),
-								at_least_sv05
+								LanguageStd::SYSTEM_VERILOG_STDS
 							)
 						},
 						_ => Token::Operator(Operator::ShiftRight),
@@ -716,16 +629,19 @@ impl VerilogTokenizer {
 
 								versioned_token!(
 									self,
-									begin,
+									begin..self.tokenizer.offset(),
 									Token::Operator(Operator::ArithmeticShlEquals),
-									at_least_sv05
+									LanguageStd::SYSTEM_VERILOG_STDS
 								)
 							} else {
 								versioned_token!(
 									self,
-									begin,
+									begin..self.tokenizer.offset(),
 									Token::Operator(Operator::ArithmeticShl),
-									at_least_vl01
+									LanguageStd::Vl01,
+									LanguageStd::Vl05,
+									LanguageStd::SYSTEM_VERILOG_STDS,
+									LanguageStd::VERILOG_AMS_STDS
 								)
 							}
 						},
@@ -734,9 +650,9 @@ impl VerilogTokenizer {
 
 							versioned_token!(
 								self,
-								begin,
+								begin..self.tokenizer.offset(),
 								Token::Operator(Operator::ShiftLeftEquals),
-								at_least_sv05
+								LanguageStd::SYSTEM_VERILOG_STDS
 							)
 						},
 						_ => Token::Operator(Operator::ShiftLeft),
@@ -747,9 +663,9 @@ impl VerilogTokenizer {
 
 					versioned_token!(
 						self,
-						begin,
+						begin..self.tokenizer.offset(),
 						Token::Operator(Operator::BranchContribution),
-						only_verilog_ams
+						LanguageStd::VERILOG_AMS_STDS
 					)
 				},
 				b'-' => {
@@ -760,9 +676,12 @@ impl VerilogTokenizer {
 
 						versioned_token!(
 							self,
-							begin,
+							begin..self.tokenizer.offset(),
 							Token::Operator(Operator::Equivalence),
-							at_least_sv09
+							LanguageStd::Sv09,
+							LanguageStd::Sv12,
+							LanguageStd::Sv17,
+							LanguageStd::Sv23
 						)
 					} else {
 						return;
@@ -787,9 +706,9 @@ impl VerilogTokenizer {
 
 					versioned_token!(
 						self,
-						begin,
+						begin..self.tokenizer.offset(),
 						Token::Operator(Operator::RemEquals),
-						at_least_sv05
+						LanguageStd::SYSTEM_VERILOG_STDS
 					)
 				},
 				_ => Token::Operator(Operator::Percent),
@@ -811,24 +730,35 @@ impl VerilogTokenizer {
 
 					versioned_token!(
 						self,
-						begin,
+						begin..self.tokenizer.offset(),
 						Token::Control(Control::AttributeClose),
-						at_least_vl01
+						LanguageStd::Vl01,
+						LanguageStd::Vl05,
+						LanguageStd::SYSTEM_VERILOG_STDS,
+						LanguageStd::VERILOG_AMS_STDS
 					)
 				},
 				b'*' => {
 					self.tokenizer.next_char();
 
-					versioned_token!(self, begin, Token::Operator(Operator::Pow), at_least_vl01)
+					versioned_token!(
+						self,
+						begin..self.tokenizer.offset(),
+						Token::Operator(Operator::Pow),
+						LanguageStd::Vl01,
+						LanguageStd::Vl05,
+						LanguageStd::SYSTEM_VERILOG_STDS,
+						LanguageStd::VERILOG_AMS_STDS
+					)
 				},
 				b'=' => {
 					self.tokenizer.next_char();
 
 					versioned_token!(
 						self,
-						begin,
+						begin..self.tokenizer.offset(),
 						Token::Operator(Operator::MulEquals),
-						at_least_sv05
+						LanguageStd::SYSTEM_VERILOG_STDS
 					)
 				},
 				b'>' => {
@@ -847,9 +777,12 @@ impl VerilogTokenizer {
 
 							versioned_token!(
 								self,
-								begin,
+								begin..self.tokenizer.offset(),
 								Token::Operator(Operator::WildcardExport),
-								at_least_sv09
+								LanguageStd::Sv09,
+								LanguageStd::Sv12,
+								LanguageStd::Sv17,
+								LanguageStd::Sv23
 							)
 						} else {
 							// There should be no cases in which `*::` is valid
@@ -883,9 +816,12 @@ impl VerilogTokenizer {
 
 					versioned_token!(
 						self,
-						begin,
+						begin..self.tokenizer.offset(),
 						Token::Operator(Operator::IndexedPartPos),
-						at_least_vl01
+						LanguageStd::Vl01,
+						LanguageStd::Vl05,
+						LanguageStd::SYSTEM_VERILOG_STDS,
+						LanguageStd::VERILOG_AMS_STDS
 					)
 				},
 				b'=' => {
@@ -893,9 +829,9 @@ impl VerilogTokenizer {
 
 					versioned_token!(
 						self,
-						begin,
+						begin..self.tokenizer.offset(),
 						Token::Operator(Operator::AddEquals),
-						at_least_sv05
+						LanguageStd::SYSTEM_VERILOG_STDS
 					)
 				},
 				b'+' => {
@@ -903,9 +839,9 @@ impl VerilogTokenizer {
 
 					versioned_token!(
 						self,
-						begin,
+						begin..self.tokenizer.offset(),
 						Token::Operator(Operator::Increment),
-						at_least_sv05
+						LanguageStd::SYSTEM_VERILOG_STDS
 					)
 				},
 				b'/' => {
@@ -916,9 +852,9 @@ impl VerilogTokenizer {
 
 						versioned_token!(
 							self,
-							begin,
+							begin..self.tokenizer.offset(),
 							Token::Operator(Operator::AbsTolerance),
-							at_least_sv23
+							LanguageStd::Sv23
 						)
 					} else {
 						Token::Invalid(Some(
@@ -934,9 +870,9 @@ impl VerilogTokenizer {
 
 						versioned_token!(
 							self,
-							begin,
+							begin..self.tokenizer.offset(),
 							Token::Operator(Operator::RelTolerance),
-							at_least_sv23
+							LanguageStd::Sv23
 						)
 					} else {
 						Token::Invalid(Some(
@@ -966,9 +902,9 @@ impl VerilogTokenizer {
 
 						versioned_token!(
 							self,
-							begin,
+							begin..self.tokenizer.offset(),
 							Token::Operator(Operator::EventTriggerNb),
-							at_least_sv05
+							LanguageStd::SYSTEM_VERILOG_STDS
 						)
 					} else {
 						Token::Operator(Operator::EventTrigger)
@@ -979,9 +915,12 @@ impl VerilogTokenizer {
 
 					versioned_token!(
 						self,
-						begin,
+						begin..self.tokenizer.offset(),
 						Token::Operator(Operator::IndexedPartNeg),
-						at_least_vl01
+						LanguageStd::Vl01,
+						LanguageStd::Vl05,
+						LanguageStd::SYSTEM_VERILOG_STDS,
+						LanguageStd::VERILOG_AMS_STDS
 					)
 				},
 				b'=' => {
@@ -989,9 +928,9 @@ impl VerilogTokenizer {
 
 					versioned_token!(
 						self,
-						begin,
+						begin..self.tokenizer.offset(),
 						Token::Operator(Operator::SubEquals),
-						at_least_sv05
+						LanguageStd::SYSTEM_VERILOG_STDS
 					)
 				},
 				b'-' => {
@@ -999,9 +938,9 @@ impl VerilogTokenizer {
 
 					versioned_token!(
 						self,
-						begin,
+						begin..self.tokenizer.offset(),
 						Token::Operator(Operator::Decrement),
-						at_least_sv05
+						LanguageStd::SYSTEM_VERILOG_STDS
 					)
 				},
 				_ => Token::Operator(Operator::Minus),
@@ -1028,9 +967,9 @@ impl VerilogTokenizer {
 			self.token = spanned_token!(
 				versioned_token!(
 					self,
-					begin,
+					begin..self.tokenizer.offset(),
 					Token::Operator(Operator::DivEquals),
-					at_least_sv05
+					LanguageStd::SYSTEM_VERILOG_STDS
 				),
 				begin..self.tokenizer.offset(),
 				context
@@ -1287,9 +1226,9 @@ impl VerilogTokenizer {
 			self.token = spanned_token!(
 				versioned_token!(
 					self,
-					begin,
+					begin..self.tokenizer.offset(),
 					Token::Control(Control::Apostrophe),
-					at_least_sv05
+					LanguageStd::SYSTEM_VERILOG_STDS
 				),
 				begin..self.tokenizer.offset(),
 				context
