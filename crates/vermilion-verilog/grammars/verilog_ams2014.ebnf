@@ -2815,4 +2815,15 @@ delay_mode_zero_compiler_directive =
 		cross         genvar          noise_table     sqrt
 		ddt_nature    ground          nor             string
 		ddt           highz0          noshowcancelled strong0
+
+	Directives:
+		begin_keywords          delay_mode_path ifndef
+		celldefine              delay_mode_unit include
+		default_decay_time      delay_mode_zero line
+		default_discipline      else            nounconnected_drive
+		default_nettype         elsif           pragma
+		default_transition      endcelldefine   resetall
+		default_trireg_strength endif           timescale
+		define                  end_keywords    unconnected_drive
+		delay_mode_distributed  ifdef           undef
 *)

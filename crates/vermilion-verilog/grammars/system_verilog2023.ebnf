@@ -4277,4 +4277,15 @@ delay_mode_zero_compiler_directive =
 		edge         incdir       property        super               xor
 		else         include      protected       supply0
 		end          initial      pull0           supply1
+
+	Directives:
+		begin_keywords          delay_mode_zero line
+		celldefine              else            nounconnected_drive
+		default_decay_time      elsif           pragma
+		default_nettype         endcelldefine   resetall
+		default_trireg_strength endif           timescale
+		define                  end_keywords    unconnected_drive
+		delay_mode_distributed  ifdef           undef
+		delay_mode_path         ifndef          undefineall
+		delay_mode_unit         include
 *)

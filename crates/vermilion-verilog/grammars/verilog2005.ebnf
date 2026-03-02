@@ -2054,4 +2054,15 @@ delay_mode_zero_compiler_directive =
 		endcase     input        pull0           supply0             xnor
 		endconfig   instance     pull1           supply1             xor
 		endfunction integer      pulldown        table
+
+	Directives:
+		begin_keywords          delay_mode_zero line
+		celldefine              else            nounconnected_drive
+		default_decay_time      elsif           pragma
+		default_nettype         endcelldefine   resetall
+		default_trireg_strength endif           timescale
+		define                  end_keywords    unconnected_drive
+		delay_mode_distributed  ifdef           undef
+		delay_mode_path         ifndef
+		delay_mode_unit         include
 *)
