@@ -964,14 +964,15 @@ impl VerilogTokenizer {
 		} else if self.tokenizer.current_byte() == b'=' {
 			self.tokenizer.next_char();
 
+			let token_range = begin..self.tokenizer.offset();
 			self.token = spanned_token!(
 				versioned_token!(
 					self,
-					begin..self.tokenizer.offset(),
+					token_range.clone(),
 					Token::Operator(Operator::DivEquals),
 					LanguageStd::SYSTEM_VERILOG_STDS
 				),
-				begin..self.tokenizer.offset(),
+				token_range,
 				context
 			);
 		} else {
@@ -1041,6 +1042,7 @@ impl VerilogTokenizer {
 			self.tokenizer.next_char();
 		}
 
+		// XXX(aki): Do we actually want to strip the `//`?
 		self.token = spanned_token!(
 			Token::Comment(Comment::SingleLine(
 				self.tokenizer
@@ -1223,14 +1225,15 @@ impl VerilogTokenizer {
 		) {
 			self.read_number_token(true);
 		} else {
+			let token_range = begin..self.tokenizer.offset();
 			self.token = spanned_token!(
 				versioned_token!(
 					self,
-					begin..self.tokenizer.offset(),
+					token_range.clone(),
 					Token::Control(Control::Apostrophe),
 					LanguageStd::SYSTEM_VERILOG_STDS
 				),
-				begin..self.tokenizer.offset(),
+				token_range,
 				context
 			);
 		}
@@ -1353,11 +1356,10 @@ impl VerilogTokenizer {
 				signed,
 			),
 			_ => {
+				let token_range = begin..self.tokenizer.offset();
 				self.token_stream.push_back(spanned_token!(
-					Token::Invalid(Some(
-						self.tokenizer.subtendril(begin..self.tokenizer.offset())
-					)),
-					begin..self.tokenizer.offset(),
+					Token::Invalid(Some(self.tokenizer.subtendril(token_range.clone()))),
+					token_range,
 					context
 				));
 			},
