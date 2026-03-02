@@ -1,9 +1,11 @@
 // SPDX-License-Identifier: BSD-3-Clause
-
-use std::collections::VecDeque;
+use std::{collections::VecDeque, ops::Range};
 
 use eyre::eyre;
-use vermilion_lang::{AtomicByteTendril, Position, Spanned};
+use vermilion_lang::{
+	AtomicByteTendril, Position, Spanned, simple_token, spanned_token, tokenizer::CoreTokenizer,
+	versioned_token,
+};
 
 use self::token::Token;
 use crate::LanguageStd;
@@ -13,11 +15,7 @@ pub mod token;
 
 pub struct VhdlTokenizer {
 	_standard:    LanguageStd,
-	file:         AtomicByteTendril,
-	current_char: u8,
-	position:     usize,
-	_context:     Position,
-	eof:          bool,
+	tokenizer:    CoreTokenizer,
 	token:        Spanned<Token, Position>,
 	token_stream: VecDeque<Spanned<Token, Position>>,
 }
@@ -29,28 +27,46 @@ impl VhdlTokenizer {
 			return Err(eyre!("More than one language standard set"));
 		}
 
-		let mut tokenizer = Self {
-			_standard: standard,
-			file,
-			current_char: 0,
-			position: 0,
-			_context: Position::sof(),
-			eof: false,
-			token: Spanned::new(Token::default(), None),
+		Ok(Self {
+			_standard:    standard,
+			tokenizer:    CoreTokenizer::new(file),
+			token:        Spanned::new(Token::default(), None),
 			token_stream: VecDeque::new(),
-		};
-
-		// If we somehow created a tokenizer on an empty input, make sure we set EOF right away
-		if tokenizer.file.is_empty() {
-			tokenizer.eof = true;
-		} else {
-			tokenizer.current_char = tokenizer.file[tokenizer.position];
-		}
-
-		Ok(tokenizer)
+		})
 	}
 
-	fn read_token(&mut self) {}
+	#[inline(always)]
+	pub fn len(&self) -> usize {
+		self.tokenizer.len()
+	}
+
+	#[inline(always)]
+	pub fn is_empty(&self) -> bool {
+		self.tokenizer.is_empty()
+	}
+
+	fn read_token(&mut self) {
+		if !self.token_stream.is_empty() {
+			// SAFETY:
+			// This has to work or the stream is empty, thus the if condition fails.
+			#[allow(clippy::expect_used)]
+			let token = self
+				.token_stream
+				.pop_front()
+				.expect("Unable to pop token from token stream");
+
+			self.token = token;
+			return;
+		}
+
+		match self.tokenizer.current_byte() {
+			_ => self.read_extended_token(),
+		}
+	}
+
+	fn read_extended_token(&mut self) {
+		let _context = self.tokenizer.position();
+	}
 }
 
 impl Iterator for VhdlTokenizer {
@@ -58,7 +74,7 @@ impl Iterator for VhdlTokenizer {
 
 	fn next(&mut self) -> Option<Self::Item> {
 		// If we hit the end of the file, we've nothing more to give
-		if self.eof && self.token_stream.is_empty() {
+		if self.tokenizer.is_eof() && self.token_stream.is_empty() {
 			return None;
 		}
 		self.read_token();
