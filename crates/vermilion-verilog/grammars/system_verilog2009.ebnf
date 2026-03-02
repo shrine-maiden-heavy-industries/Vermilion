@@ -4033,248 +4033,53 @@ delay_mode_zero_compiler_directive =
 
 (*
 	Keywords:
-		accept_on
-		alias
-		always
-		always_comb
-		always_ff
-		always_latch
-		and
-		assert
-		assign
-		assume
-		automatic
-		before
-		begin
-		bind
-		bins
-		binsof
-		bit
-		break
-		buf
-		bufif0
-		bufif1
-		byte
-		case
-		casex
-		casez
-		cell
-		chandle
-		checker
-		class
-		clocking
-		cmos
-		config
-		const
-		constraint
-		context
-		continue
-		cover
-		covergroup
-		coverpoint
-		cross
-		deassign
-		default
-		defparam
-		design
-		disable
-		dist
-		do
-		edge
-		else
-		end
-		endcase
-		endchecker
-		endclass
-		endclocking
-		endconfig
-		endfunction
-		endgenerate
-		endgroup
-		endinterface
-		endmodule
-		endpackage
-		endprimitive
-		endprogram
-		endproperty
-		endsequence
-		endspecify
-		endtable
-		endtask
-		enum
-		event
-		eventually
-		expect
-		export
-		extends
-		extern
-		final
-		first_match
-		for
-		force
-		foreach
-		forever
-		fork
-		forkjoin
-		function
-		generate
-		genvar
-		global
-		highz0
-		highz1
-		if
-		iff
-		ifnone
-		ignore_bins
-		illegal_bins
-		implies
-		import
-		incdir
-		include
-		initial
-		inout
-		input
-		inside
-		instance
-		int
-		integer
-		interface
-		intersect
-		join
-		join_any
-		join_none
-		large
-		let
-		liblist
-		library
-		local
-		localparam
-		logic
-		longint
-		macromodule
-		matches
-		medium
-		modport
-		module
-		nand
-		negedge
-		new
-		nexttime
-		nmos
-		nor
-		noshowcancelled
-		not
-		notif0
-		notif1
-		null
-		or
-		output
-		package
-		packed
-		parameter
-		pmos
-		posedge
-		primitive
-		priority
-		program
-		property
-		protected
-		pull0
-		pull1
-		pulldown
-		pullup
-		pulsestyle_ondetect
-		pulsestyle_onevent
-		pure
-		rand
-		randc
-		randcase
-		randsequence
-		rcmos
-		real
-		realtime
-		ref
-		reg
-		reject_on
-		release
-		repeat
-		restrict
-		return
-		rnmos
-		rpmos
-		rtran
-		rtranif0
-		rtranif1
-		s_always
-		s_eventually
-		s_nexttime
-		s_until
-		s_until_with
-		scalared
-		sequence
-		shortint
-		shortreal
-		showcancelled
-		signed
-		small
-		solve
-		specify
-		specparam
-		static
-		string
-		strong
-		strong0
-		strong1
-		struct
-		super
-		supply0
-		supply1
-		sync_accept_on
-		sync_reject_on
-		table
-		tagged
-		task
-		this
-		throughout
-		time
-		timeprecision
-		timeunit
-		tran
-		tranif0
-		tranif1
-		tri
-		tri0
-		tri1
-		triand
-		trior
-		trireg
-		type
-		typedef
-		union
-		unique
-		unique0
-		unsigned
-		until
-		until_with
-		untyped
-		use
-		uwire
-		var
-		vectored
-		virtual
-		void
-		wait
-		wait_order
-		wand
-		weak
-		weak0
-		weak1
-		while
-		wildcard
-		wire
-		with
-		within
-		wor
-		xnor
-		xor
+		accept_on    end          initial         pull1               sync_accpet_on
+		alias        endcase      inout           pulldown            sync_reject_on
+		always_comb  endchecker   input           pullup              table
+		always_ff    endclass     inside          pulsestyle_ondetect tagged
+		always_latch endclocking  instance        pulsestyle_onevent  task
+		always       endconfig    int             pure                this
+		and          endfunction  integer         rand                throughout
+		assert       endgenerate  interface       randc               time
+		assign       endgroup     intersect       randcase            timeprecision
+		assume       endinterface join_any        randsequence        timeunit
+		automatic    endmodule    join_none       rcmos               tran
+		before       endpackage   join            real                tranif0
+		begin        endprimitive large           realtime            tranif1
+		bind         endprogram   let             ref                 tri
+		bins         endproperty  liblist         reg                 tri0
+		binsof       endsequence  library         reject_on           tri1
+		bit          endspecify   local           release             triand
+		break        endtable     localparam      repeat              trior
+		buf          endtask      logic           restrict            trireg
+		bufif0       enum         longint         return              type
+		bufif1       event        macromodule     rnmos               typedef
+		byte         eventually   matches         rpmos               union
+		case         expect       medium          rtran               unique
+		casex        export       modport         rtranif0            unique0
+		casez        extends      module          rtranif1            unsigned
+		cell         extern       nand            s_always            until_with
+		chandle      final        negedge         s_eventually        until
+		checker      first_match  new             s_nexttime          untyped
+		class        for          nexttime        s_until_with        use
+		clocking     force        nmos            s_until             uwire
+		cmos         foreach      nor             scalared            var
+		config       forever      noshowcancelled sequence            vectored
+		const        fork         not             shortint            virtual
+		constraint   forkjoin     notif0          shortreal           void
+		context      function     notif1          showcancelled       wait_order
+		continue     generate     null            signed              wait
+		cover        genvar       or              small               wand
+		covergroup   global       output          solve               weak
+		coverpoint   highz0       package         specify             weak0
+		cross        highz1       packed          specparam           weak1
+		deassign     if           parameter       static              while
+		default      iff          pmos            string              wildcard
+		defparam     ifnone       posedge         strong              wire
+		design       ignore_bins  primitive       strong0             with
+		disable      illegal_bins priority        strong1             within
+		dist         implies      program         struct              wor
+		do           import       property        super               xnor
+		edge         incdir       protected       supply0             xor
+		else         include      pull0           supply1
 *)

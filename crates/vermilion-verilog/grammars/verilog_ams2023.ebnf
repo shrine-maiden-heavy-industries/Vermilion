@@ -2788,219 +2788,47 @@ delay_mode_zero_compiler_directive =
 
 (*
 	Keywords:
-		above
-		abs
-		absdelay
-		absdelta
-		abstol
-		ac_stim
-		access
-		acos
-		acosh
-		aliasparam
-		always
-		analog
-		analysis
-		and
-		asin
-		asinh
-		assign
-		atan
-		atan2
-		atanh
-		automatic
-		begin
-		branch
-		break
-		buf
-		bufif0
-		bufif1
-		case
-		casex
-		casez
-		ceil
-		cell
-		cmos
-		config
-		connect
-		connectmodule
-		connectrules
-		continue
-		continuous
-		cos
-		cosh
-		cross
-		ddt
-		ddt_nature
-		ddx
-		deassign
-		default
-		defparam
-		design
-		disable
-		discipline
-		discrete
-		domain
-		driver_update
-		edge
-		else
-		end
-		endcase
-		endconfig
-		endconnectrules
-		enddiscipline
-		endfunction
-		endgenerate
-		endmodule
-		endnature
-		endparamset
-		endprimitive
-		endspecify
-		endtable
-		endtask
-		event
-		exclude
-		exp
-		expm1
-		final_step
-		flicker_noise
-		floor
-		flow
-		for
-		force
-		forever
-		fork
-		from
-		function
-		generate
-		genvar
-		ground
-		highz0
-		highz1
-		hypot
-		idt
-		idt_nature
-		idtmod
-		if
-		ifnone
-		incdir
-		include
-		inf
-		initial
-		initial_step
-		inout
-		input
-		instance
-		integer
-		join
-		laplace_nd
-		laplace_np
-		laplace_zd
-		laplace_zp
-		large
-		last_crossing
-		liblist
-		library
-		limexp
-		ln
-		ln1p
-		localparam
-		log
-		macromodule
-		max
-		medium
-		merged
-		min
-		module
-		nand
-		nature
-		negedge
-		nmos
-		noise_table
-		noise_table_log
-		nor
-		noshowcancelled
-		not
-		notif0
-		notif1
-		or
-		output
-		parameter
-		paramset
-		pmos
-		posedge
-		potential
-		pow
-		primitive
-		pull0
-		pull1
-		pulldown
-		pullup
-		pulsestyle_ondetect
-		pulsestyle_onevent
-		rcmos
-		real
-		realtime
-		reg
-		release
-		repeat
-		resolveto
-		return
-		rnmos
-		rpmos
-		rtran
-		rtranif0
-		rtranif1
-		scalared
-		showcancelled
-		signed
-		sin
-		sinh
-		slew
-		small
-		specify
-		specparam
-		split
-		sqrt
-		string
-		strong0
-		strong1
-		supply0
-		supply1
-		table
-		tan
-		tanh
-		task
-		time
-		timer
-		tran
-		tranif0
-		tranif1
-		transition
-		tri
-		tri0
-		tri1
-		triand
-		trior
-		trireg
-		units
-		unsigned
-		use
-		uwire
-		vectored
-		wait
-		wand
-		weak0
-		weak1
-		while
-		white_noise
-		wire
-		wor
-		wreal
-		xnor
-		xor
-		zi_nd
-		zi_np
-		zi_zd
-		zi_zp
+		above         ddt             ground          nor                 sqrt
+		abs           ddx             highz0          noshowcancelled     string
+		absdelay      deassign        highz1          not                 strong0
+		absdelta      default         hypot           notif0              strong1
+		abstol        defparam        idt_nature      notif1              supply0
+		ac_stim       design          idt             or                  supply1
+		access        disable         idtmod          output              table
+		acos          discipline      if              parameter           tan
+		acosh         discrete        ifnone          paramset            tanh
+		aliasparam    domain          incdir          pmos                task
+		always        driver_update   include         posedge             time
+		analog        edge            inf             potential           timer
+		analysis      else            initial_step    pow                 tran
+		and           end             initial         primitive           tranif0
+		asin          endcase         inout           pull0               tranif1
+		asinh         endconfig       input           pull1               transition
+		assign        endconnectrules instance        pulldown            tri
+		atan          enddiscipline   integer         pullup              tri0
+		atan2         endfunction     join            pulsestyle_ondetect tri1
+		atanh         endgenerate     laplace_nd      pulsestyle_onevent  triand
+		automatic     endmodule       laplace_np      rcmos               trior
+		begin         endnature       laplace_zd      real                trireg
+		branch        endparamset     laplace_zp      realtime            units
+		break         endprimitive    large           reg                 unsigned
+		buf           endspecify      last_crossing   release             use
+		bufif0        endtable        liblist         repeat              uwire
+		bufif1        endtask         library         resolveto           vectored
+		case          event           limexp          return              wait
+		casex         exclude         ln              rnmos               wand
+		casez         exp             ln1p            rpmos               weak0
+		ceil          expm1           localparam      rtran               weak1
+		cell          final_step      log             rtranif0            while
+		cmos          flicker_noise   macromodule     rtranif1            white_noise
+		config        floor           max             scalared            wire
+		connect       flow            medium          showcancelled       wor
+		connectmodule for             merged          signed              wreal
+		connectrules  force           min             sin                 xnor
+		continue      forever         module          sinh                xor
+		continuous    fork            nand            slew                zi_nd
+		cos           from            negedge         small               zi_np
+		cosh          function        nmos            specify             zi_zd
+		cross         generate        noise_table_log specparam           zi_zp
+		ddt_nature    genvar          noise_table     split
 *)

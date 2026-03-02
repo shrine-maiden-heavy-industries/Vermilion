@@ -458,86 +458,15 @@ existential_operators =
 
 (*
 	Keywords:
-		A
-		abort
-		AF
-		AG
-		always
-		assert
-		assume
-		async_abort
-		AX
-		before
-		before_
-		before!
-		before!_
-		bit
-		bitvector
-		boolean
-		clock
-		const
-		countones
-		cover
-		default
-		E
-		EF
-		EG
-		ended
-		eventually!
-		EX
-		F
-		fairness
-		fell
-		for
-		forall
-		G
-		hdltype
-		in
-		inf
-		inherit
-		isunknown
-		mutable
-		never
-		next
-		next_a
-		next_a!
-		next_e
-		next_e!
-		next_event
-		next_event_a
-		next_event_a!
-		next_event_e
-		next_event_e!
-		next_event!
-		next!
-		nondet
-		nondet_vector
-		numeric
-		onehot
-		onehot0
-		prev
-		property
-		report
-		restrict
-		restrict!
-		rose
-		sequence
-		stable
-		string
-		strong
-		sync_abort
-		U
-		union
-		until
-		until_
-		until!
-		until!_
-		vmode
-		vpkg
-		vprop
-		vunit
-		W
-		within
-		X
-		X!
+		A           before!   EF          hdltype   next_e!       onehot    strong     vunit
+		abort       before!_  EG          in        next_event    onehot0   sync_abort W
+		AF          bit       ended       inf       next_event_a  prev      U          within
+		AG          bitvector eventually! inherit   next_event_a! property  union      X
+		always      boolean   EX          isunknown next_event_e  report    until      X!
+		assert      clock     F           mutable   next_event_e! restrict  until_
+		assume      const     fairness    never     next_event!   restrict! until!
+		async_abort countones fell        next      next!         rose      until!_
+		AX          cover     for         next_a    nondet        sequence  vmode
+		before      default   forall      next_a!   nondet_vector stable    vpkg
+		before_     E         G           next_e    numeric       string    vprop
 *)

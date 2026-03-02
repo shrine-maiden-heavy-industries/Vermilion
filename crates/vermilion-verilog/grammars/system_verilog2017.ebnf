@@ -4120,252 +4120,54 @@ delay_mode_zero_compiler_directive =
 
 (*
 	Keywords:
-		accept_on
-		alias
-		always
-		always_comb
-		always_ff
-		always_latch
-		and
-		assert
-		assign
-		assume
-		automatic
-		before
-		begin
-		bind
-		bins
-		binsof
-		bit
-		break
-		buf
-		bufif0
-		bufif1
-		byte
-		case
-		casex
-		casez
-		cell
-		chandle
-		checker
-		class
-		clocking
-		cmos
-		config
-		const
-		constraint
-		context
-		continue
-		cover
-		covergroup
-		coverpoint
-		cross
-		deassign
-		default
-		defparam
-		design
-		disable
-		dist
-		do
-		edge
-		else
-		end
-		endcase
-		endchecker
-		endclass
-		endclocking
-		endconfig
-		endfunction
-		endgenerate
-		endgroup
-		endinterface
-		endmodule
-		endpackage
-		endprimitive
-		endprogram
-		endproperty
-		endsequence
-		endspecify
-		endtable
-		endtask
-		enum
-		event
-		eventually
-		expect
-		export
-		extends
-		extern
-		final
-		first_match
-		for
-		force
-		foreach
-		forever
-		fork
-		forkjoin
-		function
-		generate
-		genvar
-		global
-		highz0
-		highz1
-		if
-		iff
-		ifnone
-		ignore_bins
-		illegal_bins
-		implements
-		implies
-		import
-		incdir
-		include
-		initial
-		inout
-		input
-		inside
-		instance
-		int
-		integer
-		interconnect
-		interface
-		intersect
-		join
-		join_any
-		join_none
-		large
-		let
-		liblist
-		library
-		local
-		localparam
-		logic
-		longint
-		macromodule
-		matches
-		medium
-		modport
-		module
-		nand
-		negedge
-		nettype
-		new
-		nexttime
-		nmos
-		nor
-		noshowcancelled
-		not
-		notif0
-		notif1
-		null
-		or
-		output
-		package
-		packed
-		parameter
-		pmos
-		posedge
-		primitive
-		priority
-		program
-		property
-		protected
-		pull0
-		pull1
-		pulldown
-		pullup
-		pulsestyle_ondetect
-		pulsestyle_onevent
-		pure
-		rand
-		randc
-		randcase
-		randsequence
-		rcmos
-		real
-		realtime
-		ref
-		reg
-		reject_on
-		release
-		repeat
-		restrict
-		return
-		rnmos
-		rpmos
-		rtran
-		rtranif0
-		rtranif1
-		s_always
-		s_eventually
-		s_nexttime
-		s_until
-		s_until_with
-		scalared
-		sequence
-		shortint
-		shortreal
-		showcancelled
-		signed
-		small
-		soft
-		solve
-		specify
-		specparam
-		static
-		string
-		strong
-		strong0
-		strong1
-		struct
-		super
-		supply0
-		supply1
-		sync_accept_on
-		sync_reject_on
-		table
-		tagged
-		task
-		this
-		throughout
-		time
-		timeprecision
-		timeunit
-		tran
-		tranif0
-		tranif1
-		tri
-		tri0
-		tri1
-		triand
-		trior
-		trireg
-		type
-		typedef
-		union
-		unique
-		unique0
-		unsigned
-		until
-		until_with
-		untyped
-		use
-		uwire
-		var
-		vectored
-		virtual
-		void
-		wait
-		wait_order
-		wand
-		weak
-		weak0
-		weak1
-		while
-		wildcard
-		wire
-		with
-		within
-		wor
-		xnor
-		xor
+		accept_on    endcase      inout           pull1               sync_accpet_on
+		alias        endchecker   input           pulldown            sync_reject_on
+		always_comb  endclass     inside          pullup              table
+		always_ff    endclocking  instance        pulsestyle_ondetect tagged
+		always_latch endconfig    int             pulsestyle_onevent  task
+		always       endfunction  integer         pure                this
+		and          endgenerate  interconnect    rand                throughout
+		assert       endgroup     interface       randc               time
+		assign       endinterface intersect       randcase            timeprecision
+		assume       endmodule    join_any        randsequence        timeunit
+		automatic    endpackage   join_none       rcmos               tran
+		before       endprimitive join            real                tranif0
+		begin        endprogram   large           realtime            tranif1
+		bind         endproperty  let             ref                 tri
+		bins         endsequence  liblist         reg                 tri0
+		binsof       endspecify   library         reject_on           tri1
+		bit          endtable     local           release             triand
+		break        endtask      localparam      repeat              trior
+		buf          enum         logic           restrict            trireg
+		bufif0       event        longint         return              type
+		bufif1       eventually   macromodule     rnmos               typedef
+		byte         expect       matches         rpmos               union
+		case         export       medium          rtran               unique
+		casex        extends      modport         rtranif0            unique0
+		casez        extern       module          rtranif1            unsigned
+		cell         final        nand            s_always            until_with
+		chandle      first_match  negedge         s_eventually        until
+		checker      for          nettype         s_nexttime          untyped
+		class        force        new             s_until_with        use
+		clocking     foreach      nexttime        s_until             uwire
+		cmos         forever      nmos            scalared            var
+		config       fork         nor             sequence            vectored
+		const        forkjoin     noshowcancelled shortint            virtual
+		constraint   function     not             shortreal           void
+		context      generate     notif0          showcancelled       wait_order
+		continue     genvar       notif1          signed              wait
+		cover        global       null            small               wand
+		covergroup   highz0       or              soft                weak
+		coverpoint   highz1       output          solve               weak0
+		cross        if           package         specify             weak1
+		deassign     iff          packed          specparam           while
+		default      ifnone       parameter       static              wildcard
+		defparam     ignore_bins  pmos            string              wire
+		design       illegal_bins posedge         strong              with
+		disable      implements   primitive       strong0             within
+		dist         implies      priority        strong1             wor
+		do           import       program         struct              xnor
+		edge         incdir       property        super               xor
+		else         include      protected       supply0
+		end          initial      pull0           supply1
 *)
