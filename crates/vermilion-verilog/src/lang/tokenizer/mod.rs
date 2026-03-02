@@ -1609,7 +1609,7 @@ impl VerilogTokenizer {
 		}
 	}
 
-	#[inline]
+	#[inline(always)]
 	fn read_normal_ident(&mut self) -> Range<usize> {
 		let begin = self.tokenizer.offset();
 		// Scan through till we get something that's not a-zA-Z0-9_$
@@ -1652,7 +1652,7 @@ impl VerilogTokenizer {
 			| '\\')
 	}
 
-	#[inline]
+	#[inline(always)]
 	fn read_escaped_ident(&mut self) -> Range<usize> {
 		let begin = self.tokenizer.offset();
 		// Scan through till we get something that's not ASCII printable
