@@ -1,405 +1,438 @@
 // SPDX-License-Identifier: BSD-3-Clause
 
-all_verilog_ams_tokenizer_test!(
+tokenizer_test!(
+	verilog_ams_all,
 	operator_arithmetic_shift_right,
 	">>>",
-	vec![spanned_token!(
+	spanned_token!(
 		Token::Operator(Operator::ArithmeticShr),
 		0..3,
 		Position::new(0, 0)
-	),]
+	)
 );
 
-all_verilog_ams_tokenizer_test!(
+tokenizer_test!(
+	verilog_ams_all,
 	operator_arithmetic_shift_left,
 	"<<<",
-	vec![spanned_token!(
+	spanned_token!(
 		Token::Operator(Operator::ArithmeticShl),
 		0..3,
 		Position::new(0, 0)
-	),]
+	)
 );
 
-all_verilog_ams_tokenizer_test!(
+tokenizer_test!(
+	verilog_ams_all,
 	operator_branch_contribution,
 	"<+",
-	vec![spanned_token!(
+	spanned_token!(
 		Token::Operator(Operator::BranchContribution),
 		0..2,
 		Position::new(0, 0)
-	),]
+	)
 );
 
-all_verilog_ams_tokenizer_test!(
+tokenizer_test!(
+	verilog_ams_all,
 	triple_quote_string,
 	r#""""meow meow""""#,
-	vec![spanned_token!(
+	spanned_token!(
 		Token::ContextuallyInvalid(r#""""meow meow""""#.as_bytes().into(), LanguageStd::Sv23),
 		0..15,
 		Position::new(0, 0)
-	),]
+	)
 );
 
-all_verilog_ams_tokenizer_test!(
+tokenizer_test!(
+	verilog_ams_all,
 	control_apostrophe,
 	"'",
-	vec![spanned_token!(
+	spanned_token!(
 		Token::ContextuallyInvalid("'".as_bytes().into(), LanguageStd::SYSTEM_VERILOG_STDS),
 		0..1,
 		Position::new(0, 0)
-	),]
+	)
 );
 
-all_verilog_ams_tokenizer_test!(
+tokenizer_test!(
+	verilog_ams_all,
 	operator_add_equals,
 	"+=",
-	vec![spanned_token!(
+	spanned_token!(
 		Token::ContextuallyInvalid("+=".as_bytes().into(), LanguageStd::SYSTEM_VERILOG_STDS),
 		0..2,
 		Position::new(0, 0)
-	),]
+	)
 );
 
-all_verilog_ams_tokenizer_test!(
+tokenizer_test!(
+	verilog_ams_all,
 	operator_sub_equals,
 	"-=",
-	vec![spanned_token!(
+	spanned_token!(
 		Token::ContextuallyInvalid("-=".as_bytes().into(), LanguageStd::SYSTEM_VERILOG_STDS),
 		0..2,
 		Position::new(0, 0)
-	),]
+	)
 );
 
-all_verilog_ams_tokenizer_test!(
+tokenizer_test!(
+	verilog_ams_all,
 	operator_and_equals,
 	"&=",
-	vec![spanned_token!(
+	spanned_token!(
 		Token::ContextuallyInvalid("&=".as_bytes().into(), LanguageStd::SYSTEM_VERILOG_STDS),
 		0..2,
 		Position::new(0, 0)
-	),]
+	)
 );
 
-all_verilog_ams_tokenizer_test!(
+tokenizer_test!(
+	verilog_ams_all,
 	operator_arithmetic_shr_equals,
 	">>>=",
-	vec![spanned_token!(
+	spanned_token!(
 		Token::ContextuallyInvalid(">>>=".as_bytes().into(), LanguageStd::SYSTEM_VERILOG_STDS),
 		0..4,
 		Position::new(0, 0)
-	),]
+	)
 );
 
-all_verilog_ams_tokenizer_test!(
+tokenizer_test!(
+	verilog_ams_all,
 	operator_arithmetic_shl_equals,
 	"<<<=",
-	vec![spanned_token!(
+	spanned_token!(
 		Token::ContextuallyInvalid("<<<=".as_bytes().into(), LanguageStd::SYSTEM_VERILOG_STDS),
 		0..4,
 		Position::new(0, 0)
-	),]
+	)
 );
 
-all_verilog_ams_tokenizer_test!(
+tokenizer_test!(
+	verilog_ams_all,
 	operator_or_equals,
 	"|=",
-	vec![spanned_token!(
+	spanned_token!(
 		Token::ContextuallyInvalid("|=".as_bytes().into(), LanguageStd::SYSTEM_VERILOG_STDS),
 		0..2,
 		Position::new(0, 0)
-	),]
+	)
 );
 
-all_verilog_ams_tokenizer_test!(
+tokenizer_test!(
+	verilog_ams_all,
 	operator_mul_equals,
 	"*=",
-	vec![spanned_token!(
+	spanned_token!(
 		Token::ContextuallyInvalid("*=".as_bytes().into(), LanguageStd::SYSTEM_VERILOG_STDS),
 		0..2,
 		Position::new(0, 0)
-	),]
+	)
 );
 
-all_verilog_ams_tokenizer_test!(
+tokenizer_test!(
+	verilog_ams_all,
 	operator_rem_equals,
 	"%=",
-	vec![spanned_token!(
+	spanned_token!(
 		Token::ContextuallyInvalid("%=".as_bytes().into(), LanguageStd::SYSTEM_VERILOG_STDS),
 		0..2,
 		Position::new(0, 0)
-	),]
+	)
 );
 
-all_verilog_ams_tokenizer_test!(
+tokenizer_test!(
+	verilog_ams_all,
 	operator_div_equals,
 	"/=",
-	vec![spanned_token!(
+	spanned_token!(
 		Token::ContextuallyInvalid("/=".as_bytes().into(), LanguageStd::SYSTEM_VERILOG_STDS),
 		0..2,
 		Position::new(0, 0)
-	),]
+	)
 );
 
-all_verilog_ams_tokenizer_test!(
+tokenizer_test!(
+	verilog_ams_all,
 	operator_inc,
 	"++",
-	vec![spanned_token!(
+	spanned_token!(
 		Token::ContextuallyInvalid("++".as_bytes().into(), LanguageStd::SYSTEM_VERILOG_STDS),
 		0..2,
 		Position::new(0, 0)
-	),]
+	)
 );
 
-all_verilog_ams_tokenizer_test!(
+tokenizer_test!(
+	verilog_ams_all,
 	operator_dec,
 	"--",
-	vec![spanned_token!(
+	spanned_token!(
 		Token::ContextuallyInvalid("--".as_bytes().into(), LanguageStd::SYSTEM_VERILOG_STDS),
 		0..2,
 		Position::new(0, 0)
-	),]
+	)
 );
 
-all_verilog_ams_tokenizer_test!(
+tokenizer_test!(
+	verilog_ams_all,
 	operator_shl_equals,
 	"<<=",
-	vec![spanned_token!(
+	spanned_token!(
 		Token::ContextuallyInvalid("<<=".as_bytes().into(), LanguageStd::SYSTEM_VERILOG_STDS),
 		0..3,
 		Position::new(0, 0)
-	),]
+	)
 );
 
-all_verilog_ams_tokenizer_test!(
+tokenizer_test!(
+	verilog_ams_all,
 	operator_shr_equals,
 	">>=",
-	vec![spanned_token!(
+	spanned_token!(
 		Token::ContextuallyInvalid(">>=".as_bytes().into(), LanguageStd::SYSTEM_VERILOG_STDS),
 		0..3,
 		Position::new(0, 0)
-	),]
+	)
 );
 
-all_verilog_ams_tokenizer_test!(
+tokenizer_test!(
+	verilog_ams_all,
 	operator_class_scope_resolution,
 	"::",
-	vec![spanned_token!(
+	spanned_token!(
 		Token::ContextuallyInvalid("::".as_bytes().into(), LanguageStd::SYSTEM_VERILOG_STDS),
 		0..2,
 		Position::new(0, 0)
-	),]
+	)
 );
 
-all_verilog_ams_tokenizer_test!(
+tokenizer_test!(
+	verilog_ams_all,
 	operator_weight_assign_dist,
 	":/",
-	vec![spanned_token!(
+	spanned_token!(
 		Token::ContextuallyInvalid(":/".as_bytes().into(), LanguageStd::SYSTEM_VERILOG_STDS),
 		0..2,
 		Position::new(0, 0)
-	),]
+	)
 );
 
-all_verilog_ams_tokenizer_test!(
+tokenizer_test!(
+	verilog_ams_all,
 	operator_weight_assign_unit,
 	":=",
-	vec![spanned_token!(
+	spanned_token!(
 		Token::ContextuallyInvalid(":=".as_bytes().into(), LanguageStd::SYSTEM_VERILOG_STDS),
 		0..2,
 		Position::new(0, 0)
-	),]
+	)
 );
 
-all_verilog_ams_tokenizer_test!(
+tokenizer_test!(
+	verilog_ams_all,
 	operator_xor_equals,
 	"^=",
-	vec![spanned_token!(
+	spanned_token!(
 		Token::ContextuallyInvalid("^=".as_bytes().into(), LanguageStd::SYSTEM_VERILOG_STDS),
 		0..2,
 		Position::new(0, 0)
-	),]
+	)
 );
 
-all_verilog_ams_tokenizer_test!(
+tokenizer_test!(
+	verilog_ams_all,
 	operator_wildcard_equal,
 	"==?",
-	vec![spanned_token!(
+	spanned_token!(
 		Token::ContextuallyInvalid("==?".as_bytes().into(), LanguageStd::SYSTEM_VERILOG_STDS),
 		0..3,
 		Position::new(0, 0)
-	),]
+	)
 );
 
-all_verilog_ams_tokenizer_test!(
+tokenizer_test!(
+	verilog_ams_all,
 	operator_wildcard_not_equal,
 	"!=?",
-	vec![spanned_token!(
+	spanned_token!(
 		Token::ContextuallyInvalid("!=?".as_bytes().into(), LanguageStd::SYSTEM_VERILOG_STDS),
 		0..3,
 		Position::new(0, 0)
-	),]
+	)
 );
 
-all_verilog_ams_tokenizer_test!(
+tokenizer_test!(
+	verilog_ams_all,
 	operator_wildcard,
 	".*",
-	vec![spanned_token!(
+	spanned_token!(
 		Token::ContextuallyInvalid(".*".as_bytes().into(), LanguageStd::SYSTEM_VERILOG_STDS),
 		0..2,
 		Position::new(0, 0)
-	),]
+	)
 );
 
-all_verilog_ams_tokenizer_test!(
+tokenizer_test!(
+	verilog_ams_all,
 	operator_cycle_delay,
 	"##",
-	vec![spanned_token!(
+	spanned_token!(
 		Token::ContextuallyInvalid("##".as_bytes().into(), LanguageStd::SYSTEM_VERILOG_STDS),
 		0..2,
 		Position::new(0, 0)
-	),]
+	)
 );
 
-all_verilog_ams_tokenizer_test!(
+tokenizer_test!(
+	verilog_ams_all,
 	operator_event_trigger_nonblocking,
 	"->>",
-	vec![spanned_token!(
+	spanned_token!(
 		Token::ContextuallyInvalid("->>".as_bytes().into(), LanguageStd::SYSTEM_VERILOG_STDS),
 		0..3,
 		Position::new(0, 0)
-	),]
+	)
 );
 
-all_verilog_ams_tokenizer_test!(
+tokenizer_test!(
+	verilog_ams_all,
 	operator_property_implies_non_overlap,
 	"|=>",
-	vec![spanned_token!(
+	spanned_token!(
 		Token::ContextuallyInvalid("|=>".as_bytes().into(), LanguageStd::SYSTEM_VERILOG_STDS),
 		0..3,
 		Position::new(0, 0)
-	),]
+	)
 );
 
-all_verilog_ams_tokenizer_test!(
+tokenizer_test!(
+	verilog_ams_all,
 	operator_property_implies_overlap,
 	"|->",
-	vec![spanned_token!(
+	spanned_token!(
 		Token::ContextuallyInvalid("|->".as_bytes().into(), LanguageStd::SYSTEM_VERILOG_STDS),
 		0..3,
 		Position::new(0, 0)
-	),]
+	)
 );
 
-all_verilog_ams_tokenizer_test!(
+tokenizer_test!(
+	verilog_ams_all,
 	operator_equivalences,
 	"<->",
-	vec![spanned_token!(
+	spanned_token!(
 		Token::ContextuallyInvalid(
 			"<->".as_bytes().into(),
 			LanguageStd::SYSTEM_VERILOG_STDS & !LanguageStd::Sv05
 		),
 		0..3,
 		Position::new(0, 0)
-	),]
+	)
 );
 
-all_verilog_ams_tokenizer_test!(
+tokenizer_test!(
+	verilog_ams_all,
 	operator_followed_by_nonoverlapped,
 	"#=#",
-	vec![spanned_token!(
+	spanned_token!(
 		Token::ContextuallyInvalid(
 			"#=#".as_bytes().into(),
 			LanguageStd::SYSTEM_VERILOG_STDS & !LanguageStd::Sv05
 		),
 		0..3,
 		Position::new(0, 0)
-	),]
+	)
 );
 
-all_verilog_ams_tokenizer_test!(
+tokenizer_test!(
+	verilog_ams_all,
 	operator_followed_by_overlapped,
 	"#-#",
-	vec![spanned_token!(
+	spanned_token!(
 		Token::ContextuallyInvalid(
 			"#-#".as_bytes().into(),
 			LanguageStd::SYSTEM_VERILOG_STDS & !LanguageStd::Sv05
 		),
 		0..3,
 		Position::new(0, 0)
-	),]
+	)
 );
 
-all_verilog_ams_tokenizer_test!(
+tokenizer_test!(
+	verilog_ams_all,
 	operator_wildcard_export,
 	"*::*",
-	vec![spanned_token!(
+	spanned_token!(
 		Token::ContextuallyInvalid(
 			"*::*".as_bytes().into(),
 			LanguageStd::SYSTEM_VERILOG_STDS & !LanguageStd::Sv05
 		),
 		0..4,
 		Position::new(0, 0)
-	),]
+	)
 );
 
-all_verilog_ams_tokenizer_test!(
+tokenizer_test!(
+	verilog_ams_all,
 	operator_abs_tolerance,
 	"+/-",
-	vec![spanned_token!(
+	spanned_token!(
 		Token::ContextuallyInvalid("+/-".as_bytes().into(), LanguageStd::Sv23),
 		0..3,
 		Position::new(0, 0)
-	),]
+	)
 );
 
-all_verilog_ams_tokenizer_test!(
+tokenizer_test!(
+	verilog_ams_all,
 	operator_rel_tolerance,
 	"+%-",
-	vec![spanned_token!(
+	spanned_token!(
 		Token::ContextuallyInvalid("+%-".as_bytes().into(), LanguageStd::Sv23),
 		0..3,
 		Position::new(0, 0)
-	),]
+	)
 );
 
-all_verilog_ams_tokenizer_test!(
+tokenizer_test!(
+	verilog_ams_all,
 	naked_based_number_hex_signed_lowercase,
 	"'sh1",
-	vec![
-		spanned_token!(
-			Token::BaseSpecifier {
-				specifier: BaseSpecifier::Hexadecimal,
-				uppercase: false,
-				signed:    true,
-			},
-			0..3,
-			Position::new(0, 0)
-		),
-		spanned_token!(
-			Token::Number("1".as_bytes().into()),
-			3..4,
-			Position::new(0, 3)
-		),
-	]
+	spanned_token!(
+		Token::BaseSpecifier {
+			specifier: BaseSpecifier::Hexadecimal,
+			uppercase: false,
+			signed:    true,
+		},
+		0..3,
+		Position::new(0, 0)
+	),
+	spanned_token!(
+		Token::Number("1".as_bytes().into()),
+		3..4,
+		Position::new(0, 3)
+	)
 );
 
-all_verilog_ams_tokenizer_test!(
+tokenizer_test!(
+	verilog_ams_all,
 	naked_based_number_hex_signed_uppercase,
 	"'Sh1",
-	vec![
-		spanned_token!(
-			Token::BaseSpecifier {
-				specifier: BaseSpecifier::Hexadecimal,
-				uppercase: false,
-				signed:    true,
-			},
-			0..3,
-			Position::new(0, 0)
-		),
-		spanned_token!(
-			Token::Number("1".as_bytes().into()),
-			3..4,
-			Position::new(0, 3)
-		),
-	]
+	spanned_token!(
+		Token::BaseSpecifier {
+			specifier: BaseSpecifier::Hexadecimal,
+			uppercase: false,
+			signed:    true,
+		},
+		0..3,
+		Position::new(0, 0)
+	),
+	spanned_token!(
+		Token::Number("1".as_bytes().into()),
+		3..4,
+		Position::new(0, 3)
+	)
 );
