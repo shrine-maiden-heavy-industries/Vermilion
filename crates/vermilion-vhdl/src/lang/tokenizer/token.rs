@@ -205,21 +205,13 @@ impl Display for Token {
 
 impl Display for Comment {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-		write!(
-			f,
-			"Comment({})",
-			todo!()
-		)
+		write!(f, "Comment({})", todo!())
 	}
 }
 
 impl Display for Control {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-		write!(
-			f,
-			"Control({})",
-			todo!()
-		)
+		write!(f, "Control({})", todo!())
 	}
 }
 
@@ -367,11 +359,7 @@ impl Display for Keyword {
 
 impl Display for Operator {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-		write!(
-			f,
-			"Operator({})",
-			todo!()
-		)
+		write!(f, "Operator({})", todo!())
 	}
 }
 
