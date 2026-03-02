@@ -1606,119 +1606,27 @@ waveform_element =
 
 (*
 	Keywords:
-		abs
-		access
-		after
-		alias
-		all
-		and
-		architecture
-		array
-		assert
-		assume
-		assume_guarantee
-		attribute
-		begin
-		block
-		body
-		buffer
-		bus
-		case
-		component
-		configuration
-		constant
-		context
-		cover
-		default
-		disconnect
-		downto
-		else
-		elsif
-		end
-		entity
-		exit
-		fairness
-		file
-		for
-		force
-		function
-		generate
-		generic
-		group
-		guarded
-		if
-		impure
-		in
-		inertial
-		inout
-		is
-		label
-		library
-		linkage
-		literal
-		loop
-		map
-		mod
-		nand
-		new
-		next
-		nor
-		not
-		null
-		of
-		on
-		open
-		or
-		others
-		out
-		package
-		parameter
-		port
-		postponed
-		procedure
-		process
-		property
-		protected
-		pure
-		range
-		record
-		register
-		reject
-		release
-		rem
-		report
-		restrict
-		restrict_guarantee
-		return
-		rol
-		ror
-		select
-		sequence
-		severity
-		shared
-		signal
-		sla
-		sll
-		sra
-		srl
-		strong
-		subtype
-		then
-		to
-		transport
-		type
-		unaffected
-		units
-		until
-		use
-		variable
-		vmode
-		vprop
-		vunit
-		wait
-		when
-		while
-		with
-		xnor
-		xor
+		abs              default    label     procedure          sll
+		access           disconnect library   process            sra
+		after            downto     linkage   property           srl
+		alias            else       literal   protected          strong
+		all              elsif      loop      pure               subtype
+		and              end        map       range              then
+		architecture     entity     mod       record             to
+		array            exit       nand      register           transport
+		assert           fairness   new       reject             type
+		assume           file       next      release            unaffected
+		assume_guarantee for        nor       rem                units
+		attribute        force      not       report             until
+		begin            function   null      restrict           use
+		block            generate   of        restrict_guarantee variable
+		body             generic    on        return             vmode
+		buffer           group      open      rol                vprop
+		bus              guarded    or        ror                vunit
+		case             if         others    select             wait
+		component        impure     out       sequence           when
+		configuration    in         package   severity           while
+		constant         inertial   parameter shared             with
+		context          inout      port      signal             xnor
+		cover            is         postponed sla                xor
 *)

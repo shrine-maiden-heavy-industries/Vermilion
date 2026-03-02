@@ -1089,85 +1089,21 @@ waveform_element =
 
 (*
 	Keywords:
-		abs
-		access
-		after
-		alias
-		all
-		and
-		architecture
-		array
-		assert
-		attribute
-		begin
-		block
-		body
-		buffer
-		bus
-		case
-		component
-		configuration
-		constant
-		disconnect
-		downto
-		else
-		elsif
-		end
-		entity
-		exit
-		file
-		for
-		function
-		generate
-		generic
-		guarded
-		if
-		in
-		inout
-		is
-		label
-		library
-		linkage
-		loop
-		map
-		mod
-		nand
-		new
-		next
-		nor
-		not
-		null
-		of
-		on
-		open
-		or
-		others
-		out
-		package
-		port
-		procedure
-		process
-		range
-		record
-		register
-		rem
-		report
-		return
-		select
-		severity
-		signal
-		subtype
-		then
-		to
-		transport
-		type
-		units
-		until
-		use
-		variable
-		wait
-		when
-		while
-		with
-		xor
+		abs          configuration inout   or        then
+		access       constant      is      others    to
+		after        disconnect    label   out       transport
+		alias        downto        library package   type
+		all          else          linkage port      units
+		and          elsif         loop    procedure until
+		architecture end           map     process   use
+		array        entity        mod     range     variable
+		assert       exit          nand    record    wait
+		attribute    file          new     register  when
+		begin        for           next    rem       while
+		block        function      nor     report    with
+		body         generate      not     return    xor
+		buffer       generic       null    select
+		bus          guarded       of      severity
+		case         if            on      signal
+		component    in            open    subtype
 *)

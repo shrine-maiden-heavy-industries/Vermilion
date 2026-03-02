@@ -1499,115 +1499,27 @@ waveform_element =
 
 (*
 	Keywords:
-		abs
-		access
-		across
-		after
-		alias
-		all
-		and
-		architecture
-		array
-		assert
-		attribute
-		begin
-		block
-		body
-		break
-		buffer
-		bus
-		case
-		component
-		configuration
-		constant
-		disconnect
-		downto
-		else
-		elsif
-		end
-		entity
-		exit
-		file
-		for
-		function
-		generate
-		generic
-		group
-		guarded
-		if
-		impure
-		in
-		inertial
-		inout
-		is
-		label
-		library
-		limit
-		linkage
-		literal
-		loop
-		map
-		mod
-		nand
-		nature
-		new
-		next
-		noise
-		nor
-		not
-		null
-		of
-		on
-		open
-		or
-		others
-		out
-		package
-		port
-		postponed
-		procedural
-		procedure
-		process
-		protected
-		pure
-		quantity
-		range
-		record
-		reference
-		register
-		reject
-		rem
-		report
-		return
-		rol
-		ror
-		select
-		severity
-		shared
-		signal
-		sla
-		sll
-		spectrum
-		sra
-		srl
-		subnature
-		subtype
-		terminal
-		then
-		through
-		to
-		tolerance
-		transport
-		type
-		unaffected
-		units
-		until
-		use
-		variable
-		wait
-		when
-		while
-		with
-		xnor
-		xor
+		abs           else     loop       protected subtype
+		access        elsif    map        pure      terminal
+		across        end      mod        quantity  then
+		after         entity   nand       range     through
+		alias         exit     nature     record    to
+		all           file     new        reference tolerance
+		and           for      next       register  transport
+		architecture  function noise      reject    type
+		array         generate nor        rem       unaffected
+		assert        generic  not        report    units
+		attribute     group    null       return    until
+		begin         guarded  of         rol       use
+		block         if       on         ror       variable
+		body          impure   open       select    wait
+		break         in       or         severity  when
+		buffer        inertial others     shared    while
+		bus           inout    out        signal    with
+		case          is       package    sla       xnor
+		component     label    port       sll       xor
+		configuration library  postponed  spectrum
+		constant      limit    procedural sra
+		disconnect    linkage  procedure  srl
+		downto        literal  process    subnature
 *)

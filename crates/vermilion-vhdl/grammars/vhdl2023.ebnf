@@ -1769,120 +1769,28 @@ waveform_element =
 
 (*
 	Keywords:
-		abs
-		access
-		after
-		alias
-		all
-		and
-		architecture
-		array
-		assert
-		assume
-		attribute
-		begin
-		block
-		body
-		buffer
-		bus
-		case
-		component
-		configuration
-		constant
-		context
-		cover
-		default
-		disconnect
-		downto
-		else
-		elsif
-		end
-		entity
-		exit
-		fairness
-		file
-		for
-		force
-		function
-		generate
-		generic
-		group
-		guarded
-		if
-		impure
-		in
-		inertial
-		inout
-		is
-		label
-		library
-		linkage
-		literal
-		loop
-		map
-		mod
-		nand
-		new
-		next
-		nor
-		not
-		null
-		of
-		on
-		open
-		or
-		others
-		out
-		package
-		parameter
-		port
-		postponed
-		private
-		procedure
-		process
-		property
-		protected
-		pure
-		range
-		record
-		register
-		reject
-		release
-		rem
-		report
-		restrict
-		return
-		rol
-		ror
-		select
-		sequence
-		severity
-		shared
-		signal
-		sla
-		sll
-		sra
-		srl
-		strong
-		subtype
-		then
-		to
-		transport
-		type
-		unaffected
-		units
-		until
-		use
-		variable
-		view
-		vmode
-		vpkg
-		vprop
-		vunit
-		wait
-		when
-		while
-		with
-		xnor
-		xor
+		abs           downto   literal    property  strong
+		access        else     loop       protected subtype
+		after         elsif    map        pure      then
+		alias         end      mod        range     to
+		all           entity   nand       record    transport
+		and           exit     new        reference type
+		architecture  fairness next       register  unaffected
+		array         file     nor        reject    units
+		assert        for      not        release   until
+		assume        force    null       rem       use
+		attribute     function of         report    variable
+		begin         generate on         restrict  view
+		block         generic  open       return    vmode
+		body          group    or         rol       vpkg
+		buffer        guarded  others     ror       vprop
+		bus           if       out        select    vunit
+		case          impure   package    sequence  wait
+		component     in       parameter  severity  when
+		configuration inertial port       shared    while
+		constant      inout    postponed  signal    with
+		context       is       private    sla       xnor
+		cover         label    procedural sll       xor
+		default       library  procedure  sra
+		disconnect    linkage  process    srl
 *)
