@@ -112,7 +112,7 @@ mod tests {
 		}));
 
 		let mut buffer = Vec::new();
-		let _ = message.serialize(&mut buffer)?;
+		message.serialize(&mut buffer)?;
 
 		assert_eq!(message_text, str::from_utf8(&buffer)?);
 
@@ -145,7 +145,7 @@ mod tests {
 		});
 
 		let mut buffer = Vec::new();
-		let _ = message.serialize(&mut buffer)?;
+		message.serialize(&mut buffer)?;
 
 		assert_eq!(message_text, str::from_utf8(&buffer)?);
 
@@ -183,7 +183,7 @@ mod tests {
 		});
 
 		let mut buffer = Vec::new();
-		let _ = message.serialize(&mut buffer)?;
+		message.serialize(&mut buffer)?;
 
 		assert_eq!(message_text, str::from_utf8(&buffer)?);
 
@@ -218,7 +218,7 @@ mod tests {
 		let message = Message::Notification(Notification::TelemetryEven("meow".into()));
 
 		let mut buffer = Vec::new();
-		let _ = message.serialize(&mut buffer)?;
+		message.serialize(&mut buffer)?;
 
 		assert_eq!(message_text, str::from_utf8(&buffer)?);
 
@@ -244,7 +244,7 @@ mod tests {
 		let message = Message::Notification(Notification::Exit);
 
 		let mut buffer = Vec::new();
-		let _ = message.serialize(&mut buffer)?;
+		message.serialize(&mut buffer)?;
 
 		assert_eq!(message_text, str::from_utf8(&buffer)?);
 
