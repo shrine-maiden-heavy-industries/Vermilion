@@ -3179,8 +3179,8 @@ impl SelectionRange {
 	/// The parent selection range containing this range.
 	///
 	/// Therefore `parent.range` must contain `this.range`.
-	pub fn parent(&self) -> Option<&Box<SelectionRange>> {
-		self.parent.as_ref()
+	pub fn parent(&self) -> Option<&SelectionRange> {
+		self.parent.as_ref().map(|f| f.as_ref())
 	}
 }
 
