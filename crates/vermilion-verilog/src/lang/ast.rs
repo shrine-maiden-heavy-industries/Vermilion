@@ -194,6 +194,6 @@ impl Ast {
 
 #[cfg(test)]
 mod tests {
-	// use test_log::test;
-	// use super::*;
+	#[allow(unused)]
+	use super::*;
 }

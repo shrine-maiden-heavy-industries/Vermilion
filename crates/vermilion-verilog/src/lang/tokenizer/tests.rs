@@ -1,11 +1,13 @@
 // SPDX-License-Identifier: BSD-3-Clause
 use paste::paste;
 
-use super::{
-	token::{Directive, Keyword, TextMacro},
-	*,
+use crate::{
+	LanguageStd,
+	lang::tokenizer::{
+		token::{Directive, Keyword, TextMacro},
+		*,
+	},
 };
-use crate::LanguageStd;
 
 macro_rules! tokenizer_test {
 	($test_name:ident, $input:literal, $tokens:expr, $std:expr) => {
