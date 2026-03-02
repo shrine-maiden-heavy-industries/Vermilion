@@ -9,6 +9,8 @@ use std::fmt::Display;
 
 use bitmask_enum::bitmask;
 
+pub mod sdc;
+
 #[bitmask(u16)]
 pub enum LanguageStd {
 	Lpf,
