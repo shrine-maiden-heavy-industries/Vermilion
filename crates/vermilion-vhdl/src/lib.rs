@@ -37,7 +37,13 @@ pub enum LanguageStd {
 
 impl LanguageStd {
 	pub const VHDL_AMS_KNOWN_EXTS: [&'static str; 2] = ["vhd", "vhdl"];
-	pub const VHDL_AMS_STDS: LanguageStd = LanguageStd::Vh87
+	pub const VHDL_AMS_STDS: LanguageStd = LanguageStd::Vhams99
+		.or(LanguageStd::Vhams07)
+		.or(LanguageStd::Vhams09)
+		.or(LanguageStd::Vhams17)
+		.or(LanguageStd::Vhams21);
+	pub const VHDL_KNOWN_EXTS: [&'static str; 2] = ["vhd", "vhdl"];
+	pub const VHDL_STDS: LanguageStd = LanguageStd::Vh87
 		.or(LanguageStd::Vh93)
 		.or(LanguageStd::Vh2k)
 		.or(LanguageStd::Vh02)
@@ -47,12 +53,6 @@ impl LanguageStd {
 		.or(LanguageStd::Vh11)
 		.or(LanguageStd::Vh19)
 		.or(LanguageStd::Vh23);
-	pub const VHDL_KNOWN_EXTS: [&'static str; 2] = ["vhd", "vhdl"];
-	pub const VHDL_STDS: LanguageStd = LanguageStd::Vhams99
-		.or(LanguageStd::Vhams07)
-		.or(LanguageStd::Vhams09)
-		.or(LanguageStd::Vhams17)
-		.or(LanguageStd::Vhams21);
 
 	pub fn has_single_std(&self) -> bool {
 		self.bits.count_ones() == 1
