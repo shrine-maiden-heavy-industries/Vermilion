@@ -29,6 +29,7 @@ pub enum Token {
 		exponent: Option<AtomicByteTendril>,
 	},
 	String(AtomicByteTendril),
+	SystemFunc(SystemFunc),
 	TextMacro(TextMacro),
 	TripleQuotedString(AtomicByteTendril), // Added: IEEE 1800-2023
 	UnsignedNumber(AtomicByteTendril),
@@ -41,6 +42,252 @@ pub enum BaseSpecifier {
 	Decimal,
 	Hexadecimal,
 	Octal,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
+pub enum BuiltinSysFunc {
+	Acos,               // Added: IEEE 1364-2005
+	Acosh,              // Added: IEEE 1364-2005
+	AnalogNodeAlias,    // Added: Verilog-AMS 2.4.0
+	AnalogPortAlias,    // Added: Verilog-AMS 2.4.0
+	Asin,               // Added: IEEE 1364-2005
+	Asinh,              // Added: IEEE 1364-2005
+	AssertControl,      // Added: IEEE 1800-2012
+	AssertFailOff,      // Added: IEEE 1800-2009
+	AssertFailOn,       // Added: IEEE 1800-2009
+	AssertKill,         // Added: IEEE 1800-2005
+	AssertNonVacuousOn, // Added: IEEE 1800-2009
+	AssertOff,          // Added: IEEE 1800-2005
+	AssertOn,           // Added: IEEE 1800-2005
+	AssertPassOff,      // Added: IEEE 1800-2009
+	AssertPassOn,       // Added: IEEE 1800-2009
+	AssertVacuousOff,   // Added: IEEE 1800-2009
+	AsyncAndArray,
+	AsyncAndPlane,
+	AsyncNandArray,
+	AsyncNandPlane,
+	AsyncNorArray,
+	AsyncNorPlane,
+	AsyncOrArray,
+	AsyncOrPlane,
+	Atan,  // Added: IEEE 1364-2005
+	Atan2, // Added: IEEE 1364-2005
+	Atanh, // Added: IEEE 1364-2005
+	Bits,  // Added: IEEE 1800-2005
+	BitsToReal,
+	BitsToShortReal, // Added: IEEE 1800-2005
+	Cast,            // Added: IEEE 1800-2005
+	Ceil,            // Added: IEEE 1364-2005
+	Changed,         // Added: IEEE 1800-2009
+	ChangedGclk,     // Added: IEEE 1800-2009
+	ChangingGclk,    // Added: IEEE 1800-2009
+	Clog2,           // Added: IEEE 1364-2005
+	Cos,             // Added: IEEE 1364-2005
+	Cosh,            // Added: IEEE 1364-2005
+	CountBits,       // Added: IEEE 1800-2012
+	CountDrivers,
+	CountOnes,       // Added: IEEE 1800-2005
+	CoverageControl, // Added: IEEE 1800-2005
+	CoverageGet,     // Added: IEEE 1800-2005
+	CoverageGetMax,  // Added: IEEE 1800-2005
+	CoverageMerge,   // Added: IEEE 1800-2005
+	CoverageSave,    // Added: IEEE 1800-2005
+	Dimensions,      // Added: IEEE 1800-2005
+	Display,
+	DisplayB,
+	DisplayH,
+	DisplayO,
+	DistChiSquare,
+	DistErlang,
+	DistExponential,
+	DistNormal,
+	DistPoisson,
+	DistT,
+	DistUniform,
+	DumpAll,
+	DumpFile,
+	DumpFlush,
+	DumpLimit,
+	DumpOff,
+	DumpOn,
+	DumpPorts,      // Added: IEEE 1364-2001
+	DumpPortsAll,   // Added: IEEE 1364-2001
+	DumpPortsFlush, // Added: IEEE 1364-2001
+	DumpPortsLimit, // Added: IEEE 1364-2001
+	DumpPortsOff,   // Added: IEEE 1364-2001
+	DumpPortsOn,    // Added: IEEE 1364-2001
+	DumpVars,
+	Error,       // Added: IEEE 1800-2005
+	Exit,        // Added: IEEE 1800-2005
+	Exp,         // Added: IEEE 1364-2005
+	FallingGclk, // Added: IEEE 1800-2009
+	Fatal,       // Added: IEEE 1800-2005
+	Fclose,
+	Fdisplay,
+	FdisplayB,
+	FdisplayH,
+	FdisplayO,
+	Fell,     // Added: IEEE 1800-2005
+	FellGclk, // Added: IEEE 1800-2009
+	Feof,     // Added: IEEE 1364-2005
+	Ferror,   // Added: IEEE 1364-2001
+	Fflush,   // Added: IEEE 1364-2001
+	Fgetc,    // Added: IEEE 1364-2001
+	Fgets,    // Added: IEEE 1364-2001
+	Finish,
+	Floor, // Added: IEEE 1364-2005
+	Fmonitor,
+	FmonitorB,
+	FmonitorH,
+	FmonitorO,
+	Fopen,
+	Fread,  // Added: IEEE 1364-2001
+	Fscanf, // Added: IEEE 1364-2001
+	Fseek,  // Added: IEEE 1364-2001
+	Fstrobe,
+	FstrobeB,
+	FstrobeH,
+	FstrobeO,
+	Ftell,      // Added: IEEE 1364-2001
+	FutureGclk, // Added: IEEE 1800-2009
+	Fwrite,
+	FwriteB,
+	FwriteH,
+	FwriteO,
+	GetCoverage, // Added: IEEE 1800-2005
+	GetPattern,
+	High,      // Added: IEEE 1800-2005
+	Hold,      // Removed: IEEE 1364-2001
+	Hypot,     // Added: IEEE 1364-2005
+	Increment, // Added: IEEE 1800-2005
+	IncSave,
+	Info, // Added: IEEE 1800-2005
+	Input,
+	IsUnbounded, // Added: IEEE 1800-2005
+	IsUnknown,   // Added: IEEE 1800-2005
+	Itor,
+	Key,
+	Left, // Added: IEEE 1800-2005
+	List,
+	Ln,             // Added: IEEE 1364-2005
+	LoadCoverageDB, // Added: IEEE 1800-2005
+	Log,
+	Log10, // Added: IEEE 1364-2005
+	Low,   // Added: IEEE 1800-2005
+	Monitor,
+	MonitorB,
+	MonitorH,
+	MonitorO,
+	MonitorOff,
+	MonitorOn,
+	NoChange, // Removed: IEEE 1364-2001
+	NoKey,
+	NoLog,
+	OneHot,   // Added: IEEE 1800-2005
+	OneHot0,  // Added: IEEE 1800-2005
+	Past,     // Added: IEEE 1800-2005
+	PastGclk, // Added: IEEE 1800-2009
+	Period,   // Removed: IEEE 1364-2001
+	Pow,      // Added: IEEE 1800-2009
+	PrintTimescale,
+	QAdd,
+	QExam,
+	QFull,
+	QInitialize,
+	QRemove,
+	Random,
+	ReadmemB,
+	ReadmemH,
+	RealTime,
+	RealToBits,
+	ReceiverCount, // Added: Verilog-AMS 23
+	Recovery,      // Removed: IEEE 1364-2001
+	Reset,
+	ResetCount,
+	ResetValue,
+	Restart,
+	Rewind,     // Added: IEEE 1364-2001
+	Right,      // Added: IEEE 1800-2005
+	RisingGclk, // Added: IEEE 1800-2009
+	Rose,       // Added: IEEE 1800-2005
+	RoseGclk,   // Added: IEEE 1800-2009
+	Rtoi,
+	Sampled, // Added: IEEE 1800-2005
+	Save,
+	Scale,
+	Scope,
+	SdfAnnotate,       // Added: IEEE 1364-2001
+	SetCoverageDb,     // Added: IEEE 1800-2005-IEEE 1800-2009
+	SetCoverageDbName, // Added: IEEE 1800-2009
+	Setup,             // Removed: IEEE 1364-2001
+	Setuphold,         // Removed: IEEE 1364-2001
+	Sformat,           // Added: IEEE 1364-2001
+	Sformatf,          // Added: IEEE 1800-2009
+	ShortRealToBits,   // Added: IEEE 1800-2005
+	Showscopes,
+	Showvars,
+	Signed,      // Added: IEEE 1364-2001
+	SimParam,    // Added: Verilog-AMS 2.3.1
+	SimParamStr, // Added: Verilog-AMS 2.3.1
+	SimProbe,    // Added: Verilog-AMS 2.3.1
+	Sin,         // Added: IEEE 1364-2005
+	Sinh,        // Added: IEEE 1800-2009
+	Size,        // Added: IEEE 1800-2005
+	Skew,        // Removed: IEEE 1364-2001
+	Sqrt,        // Added: IEEE 1364-2005
+	SreadmemB,
+	SreadmemH,
+	Sscanf,     // Added: IEEE 1364-2001
+	Stable,     // Added: IEEE 1800-2005
+	StableGclk, // Added: IEEE 1800-2009
+	Stacktrace, // Added: IEEE 1800-2023
+	SteadyGclk, // Added: IEEE 1800-2009
+	Stime,
+	Stop,
+	Strobe,
+	StrobeB,
+	StrobeH,
+	StrobeO,
+	Swrite,  // Added: IEEE 1364-2001
+	SwriteB, // Added: IEEE 1364-2001
+	SwriteH, // Added: IEEE 1364-2001
+	SwriteO, // Added: IEEE 1364-2001
+	SyncAndArray,
+	SyncAndPlane,
+	SyncNandArray,
+	SyncNandPlane,
+	SyncNorArray,
+	SyncNorPlane,
+	SyncOrArray,
+	SyncOrPlane,
+	System,       // Added: IEEE 1800-2009
+	TableModel,   // Added: Verilog-AMS 2.3.1
+	Tan,          // Added: IEEE 1364-2005
+	Tanh,         // Added: IEEE 1364-2005
+	Temperature,  // Added: Verilog-AMS 2.3.1
+	TestPlusArgs, // Added: IEEE 1364-2001
+	Time,
+	TimeFormat,
+	TimePrecision,      // Added: IEEE 1800-2023
+	TimeUnit,           // Added: IEEE 1800-2023
+	TypeName,           // Added: IEEE 1800-2005
+	Ungetc,             // Added: IEEE 1364-2001
+	UnpackedDimensions, // Added: IEEE 1800-2005
+	Unsigned,           // Added: IEEE 1364-2001
+	ValuePlusArgs,      // Added: IEEE 1364-2001
+	VcdClose,           // Added: IEEE 1364-2001
+	Vflip,              // Added: Verilog-AMS 2.3.1
+	Vt,                 // Added: Verilog-AMS 2.3.1
+	Warning,            // Added: IEEE 1800-2005 & Verilog-AMS 2.3.1
+	Width,              // Removed: IEEE 1364-2001
+	Write,
+	WriteB,
+	WriteH,
+	WritememB, // Added: IEEE 1800-2009
+	WritememH, // Added: IEEE 1800-2009
+	WriteO,
+	XPosition, // Added: Verilog-AMS 2.3.1
+	YPosition, // Added: Verilog-AMS 2.3.1
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
@@ -521,6 +768,12 @@ pub enum Operator {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
+pub enum SystemFunc {
+	Builtin(BuiltinSysFunc),
+	Other(AtomicByteTendril),
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub enum TextMacro {
 	DunderFile, // Added: Verilog-AMS 2023 & IEEE 1800-2009
 	DunderLine, // Added: Verilog-AMS 2023 & IEEE 1800-2009
@@ -564,6 +817,7 @@ impl Display for Token {
 			Self::String(tendril) => write!(f, "String(\"{}\")", unsafe {
 				str::from_utf8_unchecked(tendril)
 			}),
+			Self::SystemFunc(sysfunc) => sysfunc.fmt(f),
 			Self::TextMacro(text_macro) => write!(f, "TextMacro(\"{}\")", text_macro),
 			Self::TripleQuotedString(tendril) => write!(f, "TripleQuotedString(\"{}\")", unsafe {
 				str::from_utf8_unchecked(tendril)
@@ -588,6 +842,260 @@ impl Display for BaseSpecifier {
 				Self::Decimal => "'d",
 				Self::Hexadecimal => "'h",
 				Self::Octal => "'o",
+			}
+		)
+	}
+}
+
+impl Display for BuiltinSysFunc {
+	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+		write!(
+			f,
+			"BuiltinSysFunc(${})",
+			match self {
+				Self::Acos => "acos",                             // Added: IEEE 1364-2005
+				Self::Acosh => "acosh",                           // Added: IEEE 1364-2005
+				Self::AnalogNodeAlias => "analog_node_alias",     // Added: Verilog-AMS 2.4.0
+				Self::AnalogPortAlias => "analog_port_alias",     // Added: Verilog-AMS 2.4.0
+				Self::Asin => "asin",                             // Added: IEEE 1364-2005
+				Self::Asinh => "asinh",                           // Added: IEEE 1364-2005
+				Self::AssertControl => "assertcontrol",           // Added: IEEE 1800-2012
+				Self::AssertFailOff => "assertfailoff",           // Added: IEEE 1800-2009
+				Self::AssertFailOn => "assertfailon",             // Added: IEEE 1800-2009
+				Self::AssertKill => "assertkill",                 // Added: IEEE 1800-2005
+				Self::AssertNonVacuousOn => "assertnonvacuouson", // Added: IEEE 1800-2009
+				Self::AssertOff => "assertoff",                   // Added: IEEE 1800-2005
+				Self::AssertOn => "asserton",                     // Added: IEEE 1800-2005
+				Self::AssertPassOff => "assertpassoff",           // Added: IEEE 1800-2009
+				Self::AssertPassOn => "assertpasson",             // Added: IEEE 1800-2009
+				Self::AssertVacuousOff => "assertvacuousoff",     // Added: IEEE 1800-2009
+				Self::AsyncAndArray => "async$and$array",
+				Self::AsyncAndPlane => "async$and$plane",
+				Self::AsyncNandArray => "async$nand$array",
+				Self::AsyncNandPlane => "async$nand$plane",
+				Self::AsyncNorArray => "async$nor$array",
+				Self::AsyncNorPlane => "async$nor$plane",
+				Self::AsyncOrArray => "async$or$array",
+				Self::AsyncOrPlane => "async$or$plane",
+				Self::Atan => "atan",   // Added: IEEE 1364-2005
+				Self::Atan2 => "atan2", // Added: IEEE 1364-2005
+				Self::Atanh => "atanh", // Added: IEEE 1364-2005
+				Self::Bits => "bits",   // Added: IEEE 1800-2005
+				Self::BitsToReal => "bitstoreal",
+				Self::BitsToShortReal => "bitstoshortreal", // Added: IEEE 1800-2005
+				Self::Cast => "cast",                       // Added: IEEE 1800-2005
+				Self::Ceil => "ceil",                       // Added: IEEE 1364-2005
+				Self::Changed => "changed",                 // Added: IEEE 1800-2009
+				Self::ChangedGclk => "changed_gclk",        // Added: IEEE 1800-2009
+				Self::ChangingGclk => "changing_gclk",      // Added: IEEE 1800-2009
+				Self::Clog2 => "clog2",                     // Added: IEEE 1364-2005
+				Self::Cos => "cos",                         // Added: IEEE 1364-2005
+				Self::Cosh => "cosh",                       // Added: IEEE 1364-2005
+				Self::CountBits => "countbits",             // Added: IEEE 1800-2012
+				Self::CountDrivers => "countdrivers",
+				Self::CountOnes => "countones", // Added: IEEE 1800-2005
+				Self::CoverageControl => "coverage_control", // Added: IEEE 1800-2005
+				Self::CoverageGet => "coverage_get", // Added: IEEE 1800-2005
+				Self::CoverageGetMax => "coverage_get_max", // Added: IEEE 1800-2005
+				Self::CoverageMerge => "coverage_merge", // Added: IEEE 1800-2005
+				Self::CoverageSave => "coverage_save", // Added: IEEE 1800-2005
+				Self::Dimensions => "dimensions", // Added: IEEE 1800-2005
+				Self::Display => "display",
+				Self::DisplayB => "displayb",
+				Self::DisplayH => "displayh",
+				Self::DisplayO => "displayo",
+				Self::DistChiSquare => "dist_chi_square",
+				Self::DistErlang => "dist_erlang",
+				Self::DistExponential => "dist_exponential",
+				Self::DistNormal => "dist_normal",
+				Self::DistPoisson => "dist_poisson",
+				Self::DistT => "dist_t",
+				Self::DistUniform => "dist_uniform",
+				Self::DumpAll => "dumpall",
+				Self::DumpFile => "dumpfile",
+				Self::DumpFlush => "dumpflush",
+				Self::DumpLimit => "dumplimit",
+				Self::DumpOff => "dumpoff",
+				Self::DumpOn => "dumpon",
+				Self::DumpPorts => "dumpports",           // Added: IEEE 1364-2001
+				Self::DumpPortsAll => "dumpportsall",     // Added: IEEE 1364-2001
+				Self::DumpPortsFlush => "dumpportsflush", // Added: IEEE 1364-2001
+				Self::DumpPortsLimit => "dumpportslimit", // Added: IEEE 1364-2001
+				Self::DumpPortsOff => "dumpportsoff",     // Added: IEEE 1364-2001
+				Self::DumpPortsOn => "dumpportson",       // Added: IEEE 1364-2001
+				Self::DumpVars => "dumpvars",
+				Self::Error => "error",              // Added: IEEE 1800-2005
+				Self::Exit => "exit",                // Added: IEEE 1800-2005
+				Self::Exp => "exp",                  // Added: IEEE 1364-2005
+				Self::FallingGclk => "falling_gclk", // Added: IEEE 1800-2009
+				Self::Fatal => "fatal",              // Added: IEEE 1800-2005
+				Self::Fclose => "fclose",
+				Self::Fdisplay => "fdisplay",
+				Self::FdisplayB => "fdisplayb",
+				Self::FdisplayH => "fdisplayh",
+				Self::FdisplayO => "fdisplayo",
+				Self::Fell => "fell",          // Added: IEEE 1800-2005
+				Self::FellGclk => "fell_gclk", // Added: IEEE 1800-2009
+				Self::Feof => "feof",          // Added: IEEE 1364-2005
+				Self::Ferror => "ferror",      // Added: IEEE 1364-2001
+				Self::Fflush => "fflush",      // Added: IEEE 1364-2001
+				Self::Fgetc => "fgetc",        // Added: IEEE 1364-2001
+				Self::Fgets => "fgets",        // Added: IEEE 1364-2001
+				Self::Finish => "finish",
+				Self::Floor => "floor", // Added: IEEE 1364-2005
+				Self::Fmonitor => "fmonitor",
+				Self::FmonitorB => "fmonitorb",
+				Self::FmonitorH => "fmonitorh",
+				Self::FmonitorO => "fmonitoro",
+				Self::Fopen => "fopen",
+				Self::Fread => "fread",   // Added: IEEE 1364-2001
+				Self::Fscanf => "fscanf", // Added: IEEE 1364-2001
+				Self::Fseek => "fseek",   // Added: IEEE 1364-2001
+				Self::Fstrobe => "fstrobe",
+				Self::FstrobeB => "fstrobeb",
+				Self::FstrobeH => "fstrobeh",
+				Self::FstrobeO => "fstrobeo",
+				Self::Ftell => "ftell",            // Added: IEEE 1364-2001
+				Self::FutureGclk => "future_gclk", // Added: IEEE 1800-2009
+				Self::Fwrite => "fwrite",
+				Self::FwriteB => "fwriteb",
+				Self::FwriteH => "fwriteh",
+				Self::FwriteO => "fwriteo",
+				Self::GetCoverage => "get_coverage", // Added: IEEE 1800-2005
+				Self::GetPattern => "getpattern",
+				Self::High => "high",           // Added: IEEE 1800-2005
+				Self::Hold => "hold",           // Removed: IEEE 1364-2001
+				Self::Hypot => "hypot",         // Added: IEEE 1364-2005
+				Self::Increment => "increment", // Added: IEEE 1800-2005
+				Self::IncSave => "incsave",
+				Self::Info => "info", // Added: IEEE 1800-2005
+				Self::Input => "input",
+				Self::IsUnbounded => "isunbounded", // Added: IEEE 1800-2005
+				Self::IsUnknown => "isunknown",     // Added: IEEE 1800-2005
+				Self::Itor => "itor",
+				Self::Key => "key",
+				Self::Left => "left", // Added: IEEE 1800-2005
+				Self::List => "list",
+				Self::Ln => "ln",                           // Added: IEEE 1364-2005
+				Self::LoadCoverageDB => "load_coverage_db", // Added: IEEE 1800-2005
+				Self::Log => "log",
+				Self::Log10 => "log10", // Added: IEEE 1364-2005
+				Self::Low => "low",     // Added: IEEE 1800-2005
+				Self::Monitor => "monitor",
+				Self::MonitorB => "monitorb",
+				Self::MonitorH => "monitorh",
+				Self::MonitorO => "monitoro",
+				Self::MonitorOff => "monitoroff",
+				Self::MonitorOn => "monitoron",
+				Self::NoChange => "nochange", // Removed: IEEE 1364-2001
+				Self::NoKey => "nokey",
+				Self::NoLog => "nolog",
+				Self::OneHot => "onehot",      // Added: IEEE 1800-2005
+				Self::OneHot0 => "onehot0",    // Added: IEEE 1800-2005
+				Self::Past => "past",          // Added: IEEE 1800-2005
+				Self::PastGclk => "past_gclk", // Added: IEEE 1800-2009
+				Self::Period => "period",      // Removed: IEEE 1364-2001
+				Self::Pow => "pow",            // Added: IEEE 1800-2009
+				Self::PrintTimescale => "printtimescale",
+				Self::QAdd => "q_add",
+				Self::QExam => "q_exam",
+				Self::QFull => "q_full",
+				Self::QInitialize => "q_initialize",
+				Self::QRemove => "q_remove",
+				Self::Random => "random",
+				Self::ReadmemB => "readmemb",
+				Self::ReadmemH => "readmemh",
+				Self::RealTime => "realtime",
+				Self::RealToBits => "realtobits",
+				Self::Recovery => "recovery",            // Removed: IEEE 1364-2001
+				Self::ReceiverCount => "receiver_count", // Added: Verilog-AMS 23
+				Self::Reset => "reset",
+				Self::ResetCount => "reset_count",
+				Self::ResetValue => "reset_value",
+				Self::Restart => "restart",
+				Self::Rewind => "rewind",          // Added: IEEE 1364-2001
+				Self::Right => "right",            // Added: IEEE 1800-2005
+				Self::RisingGclk => "rising_gclk", // Added: IEEE 1800-2009
+				Self::Rose => "rose",              // Added: IEEE 1800-2005
+				Self::RoseGclk => "rose_gclk",     // Added: IEEE 1800-2009
+				Self::Rtoi => "rtoi",
+				Self::Sampled => "sampled", // Added: IEEE 1800-2005
+				Self::Save => "save",
+				Self::Scale => "scale",
+				Self::Scope => "scope",
+				Self::SdfAnnotate => "sdf_annotate", // Added: IEEE 1364-2001
+				Self::SetCoverageDb => "set_coverage_db", // Added: IEEE 1800-2005-IEEE 1800-2009
+				Self::SetCoverageDbName => "set_coverage_db_name", // Added: IEEE 1800-2009
+				Self::Setup => "setup",              // Removed: IEEE 1364-2001
+				Self::Setuphold => "setuphold",      // Removed: IEEE 1364-2001
+				Self::Sformat => "sformat",          // Added: IEEE 1364-2001
+				Self::Sformatf => "sformatf",        // Added: IEEE 1800-2009
+				Self::ShortRealToBits => "shortrealtobits", // Added: IEEE 1800-2005
+				Self::Showscopes => "showscopes",
+				Self::Showvars => "showvars",
+				Self::Signed => "signed",           // Added: IEEE 1364-2001
+				Self::SimParam => "simparam",       // Added: Verilog-AMS 2.3.1
+				Self::SimParamStr => "simparamstr", // Added: Verilog-AMS 2.3.1
+				Self::SimProbe => "simprobe",       // Added: Verilog-AMS 2.3.1
+				Self::Sin => "sin",                 // Added: IEEE 1364-2005
+				Self::Sinh => "sinh",               // Added: IEEE 1800-2009
+				Self::Size => "size",               // Added: IEEE 1800-2005
+				Self::Skew => "skew",               // Removed: IEEE 1364-2001
+				Self::Sqrt => "sqrt",               // Added: IEEE 1364-2005
+				Self::SreadmemB => "sreadmemb",
+				Self::SreadmemH => "sreadmemh",
+				Self::Sscanf => "sscanf",          // Added: IEEE 1364-2001
+				Self::Stable => "stable",          // Added: IEEE 1800-2005
+				Self::StableGclk => "stable_gclk", // Added: IEEE 1800-2009
+				Self::Stacktrace => "stacktrace",  // Added: IEEE 1800-2023
+				Self::SteadyGclk => "steady_gclk", // Added: IEEE 1800-2009
+				Self::Stime => "stime",
+				Self::Stop => "stop",
+				Self::Strobe => "strobe",
+				Self::StrobeB => "strobeb",
+				Self::StrobeH => "strobeh",
+				Self::StrobeO => "strobeo",
+				Self::Swrite => "swrite",   // Added: IEEE 1364-2001
+				Self::SwriteB => "swriteb", // Added: IEEE 1364-2001
+				Self::SwriteH => "swriteh", // Added: IEEE 1364-2001
+				Self::SwriteO => "swriteo", // Added: IEEE 1364-2001
+				Self::SyncAndArray => "sync$and$array",
+				Self::SyncAndPlane => "sync$and$plane",
+				Self::SyncNandArray => "sync$nand$array",
+				Self::SyncNandPlane => "sync$nand$plane",
+				Self::SyncNorArray => "sync$nor$array",
+				Self::SyncNorPlane => "sync$nor$plane",
+				Self::SyncOrArray => "sync$or$array",
+				Self::SyncOrPlane => "sync$or$plane",
+				Self::System => "system",              // Added: IEEE 1800-2009
+				Self::TableModel => "table_model",     // Added: Verilog-AMS 2.3.1
+				Self::Tan => "tan",                    // Added: IEEE 1364-2005
+				Self::Tanh => "tanh",                  // Added: IEEE 1364-2005
+				Self::Temperature => "temperature",    // Added: Verilog-AMS 2.3.1
+				Self::TestPlusArgs => "test$plusargs", // Added: IEEE 1364-2001
+				Self::Time => "time",
+				Self::TimeFormat => "timeformat",
+				Self::TimePrecision => "timeprecision", // Added: IEEE 1800-2023
+				Self::TimeUnit => "timeunit",           // Added: IEEE 1800-2023
+				Self::TypeName => "typename",           // Added: IEEE 1800-2005
+				Self::Ungetc => "ungetc",               // Added: IEEE 1364-2001
+				Self::UnpackedDimensions => "unpacked_dimensions", // Added: IEEE 1800-2005
+				Self::Unsigned => "unsigned",           // Added: IEEE 1364-2001
+				Self::ValuePlusArgs => "value$plusargs", // Added: IEEE 1364-2001
+				Self::VcdClose => "vcdclose",           // Added: IEEE 1364-2001
+				Self::Vflip => "vflip",                 // Added: Verilog-AMS 2.3.1
+				Self::Vt => "vt",                       // Added: Verilog-AMS 2.3.1
+				Self::Warning => "warning",             // Added: IEEE 1800-2005 & Verilog-AMS
+				// 2.3.1
+				Self::Width => "width", // Removed: IEEE 1364-2001
+				Self::Write => "write",
+				Self::WriteB => "writeb",
+				Self::WriteH => "writeh",
+				Self::WritememB => "writememb", // Added: IEEE 1800-2009
+				Self::WritememH => "writememh", // Added: IEEE 1800-2009
+				Self::WriteO => "writeo",
+				Self::XPosition => "xposition", // Added: Verilog-AMS 2.3.1
+				Self::YPosition => "yposition", // Added: Verilog-AMS 2.3.1
 			}
 		)
 	}
@@ -1114,6 +1622,17 @@ impl Display for Operator {
 				Self::XorEquals => "^=",         // Added: IEEE 1800-2005
 			}
 		)
+	}
+}
+
+impl Display for SystemFunc {
+	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+		match self {
+			SystemFunc::Builtin(builtin) => write!(f, "SystemFunc({})", builtin),
+			SystemFunc::Other(tendril) => write!(f, "SystemFunc(Other(${}))", unsafe {
+				str::from_utf8_unchecked(tendril)
+			}),
+		}
 	}
 }
 

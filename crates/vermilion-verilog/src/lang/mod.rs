@@ -4,6 +4,7 @@ pub mod ast;
 pub mod directives;
 pub mod keywords;
 pub mod parser;
+pub mod sysfuncs;
 pub mod tokenizer;
 
 #[cfg(test)]
