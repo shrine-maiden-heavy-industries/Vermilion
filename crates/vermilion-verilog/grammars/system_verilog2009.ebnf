@@ -4031,6 +4031,966 @@ delay_mode_zero_compiler_directive =
 	"`", "delay_mode_zero"
 	;
 
+(* Builtin System Functions/Tasks *)
+
+(* See NOTE 46 *)
+simulation_control_task =
+	"$", "stop", [ "(", expression, ")" ], ";" |
+	"$", "finish", [ "(", expression, ")" ], ";" |
+	"$", "exit", [ "(", ")" ], ";"
+	;
+
+(* See NOTE 46 *)
+time_function =
+	"$", "time" |
+	"$", "stime" |
+	"$", "realtime"
+	;
+
+(* See NOTE 46 *)
+printtimescale_task =
+	"$", "printtimescale", [ "(", hierarchical_identifier, ")" ], ";"
+	;
+
+(* See NOTE 46 *)
+timeformat_task =
+	"$", "timeformat", [ "(", units_number, ",", precision_number, ",", suffix_string, ",", min_width, ")" ], ";"
+	;
+
+units_number =
+	"0" | "-1" | "-2" | "-3" | "-4" | "-5" | "-6" | "-7" |
+	"-8" | "-9" | "-10" | "-11" | "-12" | "-13" | "-14" | "-15"
+	;
+
+precision_number =
+	unsigned_number
+	;
+
+suffix_string =
+	string_literal
+	;
+
+min_width =
+	unsigned_number
+	;
+
+(* See NOTE 46 *)
+real_to_integer_function =
+	"$", "rtoi", "(", expression, ")"
+	;
+
+(* See NOTE 46 *)
+integer_to_real_funciton =
+	"$", "itor", "(", expression, ")"
+	;
+
+(* See NOTE 46 *)
+real_to_bits_function =
+	"$", "realtobits", "(", expression, ")"
+	;
+
+(* See NOTE 46 *)
+bits_to_real_function =
+	"$", "bitstoreal", "(", expression, ")"
+	;
+
+(* See NOTE 46 *)
+shortreal_to_bits_function =
+	"$", "shortrealtobits", "(", expression, ")"
+	;
+
+(* See NOTE 46 *)
+bits_to_shortreal_function =
+	"$", "bitstoshortreal", "(", expression, ")"
+	;
+
+(* See NOTE 46 *)
+signed_function =
+	"$", "signed", "(", expression, ")"
+	;
+
+(* See NOTE 46 *)
+unsigned_function =
+	"$", "unsigned", "(", expression, ")"
+	;
+
+(* See NOTE 46 *)
+typename_function =
+	"$", "typename", "(", expression, ")" |
+	"$", "typename", "(", data_type, ")"
+	;
+
+(* See NOTE 46 *)
+size_function =
+	"$", "bits", "(", expression, ")" |
+	"$", "bits", "(", data_type, ")"
+	;
+
+(* See NOTE 46 *)
+range_function =
+	"$", "isunbounded", "(", constant_expression, ")"
+	;
+
+array_query_function =
+	array_dimension_function, "(", array_expression, [ "," , dimension_expresion ], ")" |
+	array_dimension_function, "(", data_type, [ ",", dimension_expresion ], ")" |
+	array_dimensions_function, "(", array_expression, ")" |
+	array_dimensions_function, "(", data_type, ")"
+	;
+
+(* See NOTE 46 *)
+array_dimensions_function =
+	"$", "dimensions" |
+	"$", "unpacked_dimensions"
+	;
+
+(* See NOTE 46 *)
+array_dimension_function =
+	"$", "left" |
+	"$", "right" |
+	"$", "low" |
+	"$", "high" |
+	"$", "increment" |
+	"$", "size"
+	;
+
+array_expression =
+	expression
+	;
+
+dimension_expresion =
+	expression
+	;
+
+(* See NOTE 46 *)
+clog2_function =
+	"$", "clog2", "(", expression, ")"
+	;
+
+(* See NOTE 46 *)
+ln_function =
+	"$", "ln", "(", expression, ")"
+	;
+
+(* See NOTE 46 *)
+log10_function =
+	"$", "log10", "(", expression, ")"
+	;
+
+(* See NOTE 46 *)
+exp_function =
+	"$", "exp", "(", expression, ")"
+	;
+
+(* See NOTE 46 *)
+sqrt_function =
+	"$", "sqrt", "(", expression, ")"
+	;
+
+(* See NOTE 46 *)
+pow_function =
+	"$", "pow", "(", expression, ",", expression, ")"
+	;
+
+(* See NOTE 46 *)
+floor_function =
+	"$", "floor", "(", expression, ")"
+	;
+
+(* See NOTE 46 *)
+ceil_function =
+	"$", "ceil", "(", expression, ")"
+	;
+
+(* See NOTE 46 *)
+sin_function =
+	"$", "sin", "(", expression, ")"
+	;
+
+(* See NOTE 46 *)
+cos_function =
+	"$", "cos", "(", expression, ")"
+	;
+
+(* See NOTE 46 *)
+tan_function =
+	"$", "tan", "(", expression, ")"
+	;
+
+(* See NOTE 46 *)
+asin_function =
+	"$", "asin", "(", expression, ")"
+	;
+
+(* See NOTE 46 *)
+acos_function =
+	"$", "acos", "(", expression, ")"
+	;
+
+(* See NOTE 46 *)
+atan_function =
+	"$", "atan", "(", expression, ")"
+	;
+
+(* See NOTE 46 *)
+atan2_function =
+	"$", "atan2", "(", expression, ",", expression, ")"
+	;
+
+(* See NOTE 46 *)
+hypot_function =
+	"$", "hypot", "(", expression, ",", expression, ")"
+	;
+
+(* See NOTE 46 *)
+sinh_function =
+	"$", "sinh", "(", expression, ")"
+	;
+
+(* See NOTE 46 *)
+cosh_function =
+	"$", "cosh", "(", expression, ")"
+	;
+
+(* See NOTE 46 *)
+tanh_function =
+	"$", "tanh", "(", expression, ")"
+	;
+
+(* See NOTE 46 *)
+asinh_function =
+	"$", "asinh", "(", expression, ")"
+	;
+
+(* See NOTE 46 *)
+acosh_function =
+	"$", "acosh", "(", expression, ")"
+	;
+
+(* See NOTE 46 *)
+atanh_function =
+	"$", "atanh", "(", expression, ")"
+	;
+
+severity_message_task =
+	fatal_message_task |
+	nonfatal_message_task
+	;
+
+(* See NOTE 46 *)
+fatal_message_task =
+	"$", "fatal", [ "(", finish_number, [ ",", list_of_arguments ], ")" ], ";"
+	;
+
+nonfatal_message_task =
+	severity_task, [ "(", [ list_of_arguments ], ")" ], ";"
+	;
+
+(* See NOTE 46 *)
+severity_task =
+	"$", "error" |
+	"$", "warning" |
+	"$", "info"
+	;
+
+assert_control_task =
+	assert_task, [ "(", levels, [ ",", list_of_modules_or_assertions ], ")" ], ";"
+	;
+
+(* See NOTE 46 *)
+assert_task =
+	"$", "asserton" |
+	"$", "assertoff" |
+	"$", "assertkill"
+	;
+
+list_of_modules_or_assertions =
+	module_or_assertion, { ",", module_or_assertion }
+	;
+
+module_or_assertion =
+	module_identifier |
+	assertion_identifier |
+	hierarchical_identifier
+	;
+
+assert_action_control_task =
+	assert_action_task, [ levels, [ ",", list_of_modules_or_assertions ], ")" ], ";"
+	;
+
+(* See NOTE 46 *)
+assert_action_task =
+	"$", "assertpasson" |
+	"$", "assertpassoff" |
+	"$", "assertfailon" |
+	"$", "assertfailoff" |
+	"$", "assertnonvacuouson" |
+	"$", "assertvacuousoff"
+	;
+
+assert_boolean_function =
+	assert_function, "(", expression, ")"
+	;
+
+(* See NOTE 46 *)
+assert_function =
+	"$", "onehot" |
+	"$", "onehot0" |
+	"$", "isunknown"
+	;
+
+(* See NOTE 46 *)
+sampled_function =
+	"$", "sampled", "(", expression, ")"
+	;
+
+clocked_sample_functions =
+	clocked_sample_name, "(", expression, [ ",", clocking_event ], ")"
+	;
+
+(* See NOTE 46 *)
+clocked_sample_name =
+	"$", "rose" |
+	"$", "fell" |
+	"$", "stable" |
+	"$", "changed"
+	;
+
+(* See NOTE 46 *)
+past_sample_function =
+	"$", "past", "(", expression, [ ",", [ number_of_ticks ],
+		[ ",", [ expression2 ], [ ",", [ clocking_event ] ] ] ], ")"
+	;
+
+(* See NOTE 46 *)
+countones_function =
+	"$", "countones", "(", expression, ")"
+	;
+
+global_clock_sample_function =
+	past_sample_name, "(", expression, ")" |
+	future_sample_name, "(", expression, ")"
+	;
+
+(* See NOTE 46 *)
+past_sample_name =
+	"$", "past_gclk" |
+	"$", "rose_gclk" |
+	"$", "fell_gclk" |
+	"$", "stable_gclk" |
+	"$", "changed_gclk" |
+	;
+
+(* See NOTE 46 *)
+future_sample_name =
+	"$", "future_gclk" |
+	"$", "rising_gclk" |
+	"$", "falling_gclk" |
+	"$", "steady_gclk" |
+	"$", "changing_clk"
+	;
+
+(* See NOTE 46 *)
+coverage_control_function =
+	"$", "coverage_control", "(", control_constant, ",", coverage_type,
+		",", scope_def, ",", modules_or_instance, ")"
+	;
+
+(* See NOTE 46 *)
+coverage_get_max_function =
+	"$", "coverage_get_max", "(", coverage_type, ",", scope_def, ",", modules_or_instance, ")"
+	;
+
+(* See NOTE 46 *)
+coverage_get_function =
+	"$", "coverage_get", "(", coverage_type, ",", scope_def, ",", modules_or_instance, ")"
+	;
+
+(* See NOTE 46 *)
+coverage_merge_function =
+	"$", "coverage_merge", "(", coverage_type, ",", string, ")"
+	;
+
+(* See NOTE 46 *)
+coverage_save_function =
+	"$", "coverage_save", "(", coverage_type, ",", string, ")"
+	;
+
+(* See NOTE 46 *)
+set_coverage_db_name_function =
+	"$", "set_coverage_db_name", "(", filename, ")"
+	;
+
+(* See NOTE 46 *)
+load_coverage_db_function =
+	"$", "load_coverage_db", "(", filename, ")"
+	;
+
+(* See NOTE 46 *)
+get_coverage_function =
+	"$", "get_coverage", "(", ")"
+	;
+
+(* See NOTE 46 *)
+urandom_function =
+	"$", "urandom", [ "(", urandom_seed, ")" ]
+	;
+
+urandom_seed =
+	expression
+	;
+
+(* See NOTE 46 *)
+urandom_range_function =
+	"$", "urandom_range", "(", urandom_minval, [ ",", urandom_maxval ], ")"
+	;
+
+urandom_minval =
+	unsigned_number
+	;
+
+urandom_maxval =
+	unsigned_number
+	;
+
+(* See NOTE 46 *)
+random_function =
+	"$", "random", [ "(", seed, ")" ]
+	;
+
+(* See NOTE 46 *)
+dist_functions =
+	"$", "dist_uniform", "(", seed, ",", start, ",", end, ")" |
+	"$", "dist_normal", "(", seed, ",", mean, ",", standard_deviation, ")" |
+	"$", "dist_exponential", "(", seed, ",", mean, ")" |
+	"$", "dist_poisson", "(", seed, ",", mean, ")" |
+	"$", "dist_chi_square", "(", seed, ",", degree_of_freedom, ")" |
+	"$", "dist_t", "(", seed, ",", degree_of_freedom, ")" |
+	"$", "dist_erlang", "(", seed, ",", k_stage, ",", mean, ")"
+	;
+
+seed =
+	variable_lvalue
+	;
+
+start =
+	unsigned_number
+	;
+
+end =
+	unsigned_number
+	;
+
+mean =
+	unsigned_number
+	;
+
+standard_deviation =
+	unsigned_number
+	;
+
+degree_of_freedom =
+	unsigned_number
+	;
+
+k_stage =
+	unsigned_number
+	;
+
+(* See NOTE 46 *)
+queue_initialize_function =
+	"$", "q_initialize", "(", queue_id, ",", queue_type, ",", max_length, ",", queue_status, ")", ";"
+	;
+
+(* See NOTE 46 *)
+queue_add_function =
+	"$", "q_add", "(", queue_id, ",", job_id, ",", inform_id, ",", queue_status, ")", ";"
+	;
+
+(* See NOTE 46 *)
+queue_remove_function =
+	"$", "q_remove", "(", queue_id, ",", job_id, ",", inform_id, ",", queue_status, ")", ";"
+	;
+
+(* See NOTE 46 *)
+queue_full_function =
+	"$", "q_full", "(", queue_id, ",", queue_status, ")", ";"
+	;
+
+(* See NOTE 46 *)
+queue_exam_function =
+	"$", "q_exam", "(", queue_id, ",", queue_stat_code, ",", queue_stat_value, ",", queue_status, ")", ";"
+	;
+
+
+queue_id =
+	unsigned_number
+	;
+
+queue_type =
+	"1" | "2"
+	;
+
+max_length =
+	unsigned_number
+	;
+
+queue_status =
+	variable_lvalue
+	;
+
+job_id =
+	unsigned_number
+	;
+
+inform_id =
+	unsigned_number
+	;
+
+queue_stat_code =
+	variable_lvalue
+	;
+
+queue_stat_value =
+	variable_lvalue
+	;
+
+(* See NOTE 46 *)
+pla_system_task =
+	"$", pla_array_type, "$", pla_logic_type, "$", pla_format,
+		"(", memory_identifier, ",", pla_input_terms, ",", pla_output_terms, ")", ";"
+	;
+
+pla_array_type =
+	"sync" | "async"
+	;
+
+pla_logic_type =
+	"and" | "nand" | "or" | "nor"
+	;
+
+pla_format =
+	"array" | "plane"
+	;
+
+pla_input_terms =
+	expression
+	;
+
+pla_output_terms =
+	variable_lvalue
+	;
+
+(* See NOTE 46 *)
+system_call =
+	"$", "system", "(", [ '"', terminal_command_line, '"' ], ")"
+	;
+
+display_tasks =
+	display_task_name, [ "(", list_of_arguments, ")" ], ";"
+	;
+
+(* See NOTE 46 *)
+display_task_name =
+	"$", "display" |
+	"$", "displayb" |
+	"$", "displayh" |
+	"$", "displayo" |
+	"$", "write" |
+	"$", "writeb" |
+	"$", "writeh" |
+	"$", "writeo"
+	;
+
+strobe_tasks =
+	strobe_task_name, [ "(", list_of_arguments, ")" ], ";"
+	;
+
+(* See NOTE 46 *)
+strobe_task_name =
+	"$", "strobe" |
+	"$", "strobeb" |
+	"$", "strobeh" |
+	"$", "strobeo"
+	;
+
+(* See NOTE 46 *)
+monitor_tasks =
+	monitor_task_name, [ "(", list_of_arguments, ")" ], ";" |
+	"$", "monitoron", ";" |
+	"$", "monitoroff", ";"
+	;
+
+(* See NOTE 46 *)
+monitor_task_name =
+	"$", "monitor" |
+	"$", "monitorb" |
+	"$", "monitorh" |
+	"$", "monitoro"
+	;
+
+(* See NOTE 46 *)
+file_open_function =
+	multi_channel_descriptor, "=", "$", "fopen", "(", filename, ")", ";" |
+	fd, "=", "$", "fopen", "(", filename, ",", fopen_type, ")", ";"
+	;
+
+fopen_type =
+	"r" | "rb" | "r+" | "r+b" | "rb+" |
+	"w" | "wb" | "w+" | "w+b" | "wb+" |
+	"a" | "ab" | "a+" | "a+b" | "ab+"
+	;
+
+(* See NOTE 46 *)
+file_close_task =
+	"$", "fclose", "(", multi_channel_descriptor, ")", ";" |
+	"$", "fclose", "(", fd, ")", ";"
+	;
+
+file_output_tasks =
+	file_output_task_name, "(", multi_channel_descriptor, [ ",", list_of_arguments ], ")", ";" |
+	file_output_task_name, "(", fd, [ ",", list_of_arguments ], ")", ";"
+	;
+
+(* See NOTE 46 *)
+file_output_task_name =
+	"$", "fdisplay" |
+	"$", "fdisplayb" |
+	"$", "fdisplayh" |
+	"$", "fdisplayo" |
+	"$", "fwrite" |
+	"$", "fwriteb" |
+	"$", "fwriteh" |
+	"$", "fwriteo" |
+	"$", "fstrobe" |
+	"$", "fstrobeb" |
+	"$", "fstrobeh" |
+	"$", "fstrobeo" |
+	"$", "fmonitor" |
+	"$", "fmonitorb" |
+	"$", "fmonitorh" |
+	"$", "fmonitoro"
+	;
+
+string_output_tasks =
+	string_output_task_name, "(", output_var, [ ",", list_of_arguments ], ")", ";"
+	;
+
+(* See NOTE 46 *)
+string_output_task_name =
+	"$", "swrite" |
+	"$", "swriteb" |
+	"$", "swriteh" |
+	"$", "swriteo"
+	;
+
+(* See NOTE 46 *)
+variable_format_string_output_task =
+	"$", "sformat", "(", output_var, ",", format_string, [ ",", list_of_arguments ], ")", ";"
+	;
+
+(* See NOTE 46 *)
+variable_format_string_output_function =
+	"$", "sformatf", "(", format_string, [ ",", list_of_arguments ], ")"
+	;
+
+(* See NOTE 46 *)
+file_read_functions =
+	"$", "fgetc", "(", fd, ")" |
+	"$", "ungetc", "(", c, ",", fd, ")" |
+	"$", "fgets", "(", str, ",", fd, ")" |
+	"$", "fscanf", "(", fd, ",", format, ",", args, ")" |
+	"$", "sscanf", "(", str, ",", format, ",", args, ")" |
+	"$", "fread", "(", integral_var, ",", fd, ")" |
+	"$", "fread", "(", memory_identifier, ",", fd, [ ",", [ start ], [ ",", count ] ], ")"
+	;
+
+(* See NOTE 46 *)
+file_positioning_functions =
+	"$", "ftell", "(", fd, ")" |
+	"$", "fseek", "(", fd, ",", offset, ",", operation, ")" |
+	"$", "rewind", "(", fd, ")"
+	;
+
+(* See NOTE 46 *)
+file_flush_task =
+	"$", "fflush", "(", [ multi_channel_descriptor | fd ], ")", ";"
+	;
+
+(* See NOTE 46 *)
+file_error_detect_function =
+	"$", "fereror", "(", fd, ",", str, ")"
+	;
+
+(* See NOTE 46 *)
+file_eof_detect_function =
+	"$", "feof", "(", fd, ")"
+	;
+
+(* See NOTE 46 *)
+load_memory_tasks =
+	"$", "readmemb", "(", filename, ",", memory_identifier,
+		[ ",", start_address, [ ",", finish_address ] ], ")", ";" |
+	"$", "readmemh", "(", filename, ",", memory_identifier,
+		[ ",", start_address, [ ",", finish_address ] ], ")", ";"
+	;
+
+(* See NOTE 46 *)
+writemem_tasks =
+	"$", "writememb", "(", filename, ",", memory_identifier,
+		[ ",", start_address, [ ",", finish_address ] ], ")", ";" |
+	"$", "writememh", "(", filename, ",", memory_identifier,
+		[ ",", start_address, [ ",", finish_address ] ], ")", ";"
+	;
+
+(* See NOTE 46 *)
+test_plusargs_function =
+	"$", "test", "$", "plusargs", "(", string, ")"
+	;
+
+(* See NOTE 46 *)
+value_plusargs_function =
+	"$", "value", "$", "plusargs", "(", user_string, ",", variable, ")"
+	;
+
+(* See NOTE 46 *)
+dumpfile_task =
+	"$", "dumpfile", "(", filename, ")", ";"
+	;
+
+(* See NOTE 46 *)
+dumpvars_task =
+	"$", "dumpvars", ";" |
+	"$", "dumpvars", "(", levels, [ ",", list_of_modules_or_variables ], ")", ";"
+	;
+
+list_of_modules_or_variables =
+	module_or_variable, { ",", module_or_variable }
+	;
+
+module_or_variable =
+	module_identifier |
+	variable_identifier
+	;
+
+(* See NOTE 46 *)
+dumpoff_task =
+	"$", "dumpoff", ";"
+	;
+
+(* See NOTE 46 *)
+dumpon_task =
+	"$", "dumpon", ";"
+	;
+
+(* See NOTE 46 *)
+dumpall_task =
+	"$", "dumpall", ";"
+	;
+
+(* See NOTE 46 *)
+dumplimit_task =
+	"$", "dumplimit", "(", filesize, ")", ";"
+	;
+
+(* See NOTE 46 *)
+dumpflush_task =
+	"$", "dumpflush", ";"
+	;
+
+(* See NOTE 46 *)
+dumpports_task =
+	"$", "dumpports", "(", scope_list, ",", filename, ")", ";"
+	;
+
+scope_list =
+	module_identifier, { ",", module_identifier }
+	;
+
+(* See NOTE 46 *)
+dumpportsoff_task =
+	"$", "dumpportsoff", "(", filename, ")", ";"
+	;
+
+(* See NOTE 46 *)
+dumpportson_task =
+	"$", "dumpportson", "(", filename, ")", ";"
+	;
+
+(* See NOTE 46 *)
+dumpportsall_task =
+	"$", "dumpportsall", "(", filename, ")", ";"
+	;
+
+(* See NOTE 46 *)
+dumpportslimit_task =
+	"$", "dumpportslimit", "(", filesize, ",", filename, ")", ";"
+	;
+
+(* See NOTE 46 *)
+dumpportsflush_task =
+	"$", "dumpportsflush", "(", filename, ")", ";"
+	;
+
+(* Optional System Functions/Tasks *)
+
+(* See NOTE 46 *)
+countdrivers =
+	"$", "countdrivers", "(", net_identifier, [ ",", net_is_forced,
+		",", number_of_01x_drivers, ",", number_of_0_drivers,
+		",", number_of_1_drivers, ",", number_of_x_drivers,
+		], ")", ";"
+	;
+
+net_is_forced =
+	net_identifier
+	;
+
+number_of_01x_drivers =
+	net_identifier
+	;
+
+number_of_0_drivers =
+	net_identifier
+	;
+
+number_of_1_drivers =
+	net_identifier
+	;
+
+number_of_x_drivers =
+	net_identifier
+	;
+
+(* See NOTE 46 *)
+getpattern =
+	"$", "getpattern", "(", mem_element, ")", ";"
+	;
+
+mem_element =
+	memory_identifier
+	;
+
+(* See NOTE 46 *)
+input =
+	"$", "input", "(", '"', filename, '"', ")", ";"
+	;
+
+(* See NOTE 46 *)
+key =
+	"$", "key", [ "(", '"', filename, '"', ")" ], ";"
+	;
+
+(* See NOTE 46 *)
+nokey =
+	"$", "nokey", ";"
+	;
+
+(* See NOTE 46 *)
+list =
+	"$", "list", [ "(", hierarchical_name, ")" ], ";"
+	;
+
+(* See NOTE 46 *)
+log =
+	"$", "log", [ "(", '"', filename, '"', ")" ], ";"
+	;
+
+(* See NOTE 46 *)
+nolog =
+	"$", "nolog", ";"
+	;
+
+(* See NOTE 46 *)
+reset =
+	"$", "reset", [ "(", stop_value, [ ",", reset_value, [ ",", diagnostics_value ] ], ")" ], ";"
+	;
+
+stop_value =
+	constant_expression
+	;
+
+reset_value =
+	net_identifier
+	;
+
+reset_value =
+	diagnostics_value
+	;
+
+(* See NOTE 46 *)
+reset_count =
+	"$", "reset_count", ";"
+	;
+
+(* See NOTE 46 *)
+reset_value =
+	"$", "reset_value", ";"
+	;
+
+(* See NOTE 46 *)
+save =
+	"$", "save", "(", '"', filename, '"', ")", ";"
+	;
+
+(* See NOTE 46 *)
+restart =
+	"$", "restart", "(", '"', filename, '"', ")", ";"
+	;
+
+(* See NOTE 46 *)
+incsave =
+	"$", "incsave", "(", '"', filename, '"', ")", ";"
+	;
+
+(* See NOTE 46 *)
+scale =
+	"$", "scale", "(", hierarchical_name, ")", ";"
+	;
+
+(* See NOTE 46 *)
+scope =
+	"$", "scope", "(", hierarchical_name, ")", ";"
+	;
+
+(* See NOTE 46 *)
+showscopes =
+	"$", "showscopes", [ "(", unsigned_number, ")" ], ";"
+	;
+
+(* See NOTE 46 *)
+showvars =
+	"$", "showvars", [ "(", list_of_variables, ")" ], ";"
+	;
+
+list_of_variables =
+	net_identifier, { ",", net_identifier }
+	;
+
+(* See NOTE 46 *)
+sreadmemb =
+	"$", "sreadmemb", "(", mem_name, ",", start_address, ",", finish_address, ",",
+		string, { ",", string },  ")", ";"
+	;
+
+(* See NOTE 46 *)
+sreadmemh =
+	"$", "sreadmemh", "(", mem_name, ",", start_address, ",", finish_address, ",",
+		string, { ",", string },  ")", ";"
+	;
+
+mem_name =
+	memory_identifier
+	;
+
+start_address =
+	unsigned_number
+	;
+
+finish_address =
+	unsigned_number
+	;
+
 (*
 	Keywords:
 		accept_on    end          initial         pull1               sync_accpet_on
