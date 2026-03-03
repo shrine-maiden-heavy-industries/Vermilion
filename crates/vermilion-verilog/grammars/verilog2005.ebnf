@@ -2065,4 +2065,37 @@ delay_mode_zero_compiler_directive =
 		delay_mode_distributed  ifdef           undef
 		delay_mode_path         ifndef
 		delay_mode_unit         include
+
+	System Tasks/Functions:
+		acos             dist_uniform   fopen      printtimescale stop
+		acosh            dumpall        fread      q_add          strobe
+		asin             dumpfile       fscanf     q_exam         strobeb
+		asinh            dumpflush      fseek      q_full         strobeh
+		async$and$array  dumplimit      fstrobe    q_initialize   strobeo
+		async$and$plane  dumpoff        fstrobeb   q_remove       swrite
+		async$nand$array dumpon         fstrobeh   random         swriteb
+		async$nand$plane dumpports      fstrobeo   readmemb       swriteh
+		async$nor$array  dumpportsall   ftell      readmemh       swriteo
+		async$nor$plane  dumpportsflush fwrite     realtime       sync$and$array
+		async$or$array   dumpportslimit fwriteb    realtobits     sync$and$plane
+		async$or$plane   dumpportsoff   fwriteh    reset          sync$nand$array
+		atan             dumpportson    fwriteo    reset_count    sync$nand$plane
+		atan2            dumpvars       getpattern reset_value    sync$nor$array
+		atanh            exp            hypot      restart        sync$nor$plane
+		bitstoreal       fclose         incsave    rewind         sync$or$array
+		ceil             fdisplay       input      rtoi           sync$or$plane
+		clog2            fdisplayb      itor       save           tan
+		cos              fdisplayh      key        scale          tanh
+		cosh             fdisplayo      list       scope          test$plusargs
+		countdrivers     feof           ln         sdf_annotate   time
+		display          ferror         log        sformat        timeformat
+		displayb         fflush         log10      showscopes     ungetc
+		displayh         fgetc          monitor    showvars       unsigned
+		displayo         fgets          monitorb   signed         value$plusargs
+		dist_chi_square  finish         monitorh   sin            vcdclose
+		dist_erlang      floor          monitoro   sqrt           write
+		dist_exponential fmonitor       monitoroff sreadmemb      writeb
+		dist_normal      fmonitorb      monitoron  sreadmemh      writeh
+		dist_poisson     fmonitorh      nokey      sscanf         writeo
+		dist_t           fmonitoro      nolog      stime
 *)

@@ -1252,4 +1252,29 @@ delay_mode_zero_compiler_directive =
 		define                  endif           undef
 		delay_mode_distributed  ifdef
 		delay_mode_path         include
+
+	System Tasks/Functions:
+		async$and$array  dumpflush fwriteo        q_initialize stime
+		async$and$plane  dumplimit getpattern     q_remove     stop
+		async$nand$array dumpoff   hold           random       strobe
+		async$nand$plane dumpon    incsave        readmemb     strobeb
+		async$nor$array  dumpvars  input          readmemh     strobeh
+		async$nor$plane  fclose    itor           realtime     strobeo
+		async$or$array   fdisplay  key            realtobits   sync$and$array
+		async$or$plane   fdisplayb list           recovery     sync$and$plane
+		bitstoreal       fdisplayh log            reset        sync$nand$array
+		countdrivers     fdisplayo monitor        reset_count  sync$nand$plane
+		display          finish    monitorb       reset_value  sync$nor$array
+		displayb         fmonitor  monitorh       restart      sync$nor$plane
+		displayh         fmonitorb monitoro       rtoi         sync$or$array
+		displayo         fmonitorh monitoroff     save         sync$or$plane
+		dist_chi_square  fmonitoro monitoron      scale        time
+		dist_erlang      fopen     nochange       scope        timeformat
+		dist_exponential fstrobe   nokey          setup        width
+		dist_normal      fstrobeb  nolog          setuphold    write
+		dist_poisson     fstrobeh  period         showscopes   writeb
+		dist_t           fstrobeo  printtimescale showvars     writeh
+		dist_uniform     fwrite    q_add          skew         writeo
+		dumpall          fwriteb   q_exame        sreadmemb
+		dumpfile         fwriteh   q_full         sreadmemh
 *)

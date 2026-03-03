@@ -2130,4 +2130,33 @@ delay_mode_zero_compiler_directive =
 		delay_mode_distributed  ifdef           undef
 		delay_mode_path         ifndef
 		delay_mode_unit         include
+
+	System Tasks/Functions:
+		async$and$array  dumpports      fstrobeh       q_remove     strobeh
+		async$and$plane  dumpportsall   fstrobeo       random       strobeo
+		async$nand$array dumpportsflush ftell          readmemb     swrite
+		async$nand$plane dumpportslimit fwrite         readmemh     swriteb
+		async$nor$array  dumpportsoff   fwriteb        realtime     swriteh
+		async$nor$plane  dumpportson    fwriteh        realtobits   swriteo
+		async$or$array   dumpvars       fwriteo        reset        sync$and$array
+		async$or$plane   fclose         getpattern     reset_count  sync$and$plane
+		bitstoreal       fdisplay       incsave        rest_value   sync$nand$array
+		countdrivers     fdisplayb      input          restart      sync$nand$plane
+		display          fdisplayh      itor           rewind       sync$nor$array
+		displayb         fdisplayo      key            rtoi         sync$nor$plane
+		displayh         ferror         list           save         sync$or$array
+		displayo         fflush         log            scale        sync$or$plane
+		dist_chi_square  fgetc          monitor        scope        test$plusargs
+		dist_erlang      fgets          monitorb       sdf_annotate time
+		dist_exponential finish         monitorh       sformat      timeformat
+		dist_normal      fmonitor       monitoro       showscopes   ungetc
+		dist_poisson     fmonitorb      monitoroff     showvars     unsigned
+		dist_t           fmonitorh      monitoron      signed       value$plusargs
+		dist_uniform     fmonitoro      nokey          sreadmemb    vcdclose
+		dumpall          fopen          nolog          sreadmemh    write
+		dumpfile         fread          printtimescale sscanf       writeb
+		dumpflush        fscanf         q_add          stime        writeh
+		dumplimit        fseek          q_exam         stop         writeo
+		dumpoff          fstrobe        q_full         strobe
+		dumpon           fstrobeb       q_initialize   strobeb
 *)
