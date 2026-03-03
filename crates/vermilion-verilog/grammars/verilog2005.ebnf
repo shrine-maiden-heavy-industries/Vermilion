@@ -2913,10 +2913,10 @@ finish_address =
 		displayb         fflush         log10      showscopes     ungetc
 		displayh         fgetc          monitor    showvars       unsigned
 		displayo         fgets          monitorb   signed         value$plusargs
-		dist_chi_square  finish         monitorh   sin            vcdclose
-		dist_erlang      floor          monitoro   sqrt           write
-		dist_exponential fmonitor       monitoroff sreadmemb      writeb
-		dist_normal      fmonitorb      monitoron  sreadmemh      writeh
-		dist_poisson     fmonitorh      nokey      sscanf         writeo
+		dist_chi_square  finish         monitorh   sin            write
+		dist_erlang      floor          monitoro   sqrt           writeb
+		dist_exponential fmonitor       monitoroff sreadmemb      writeh
+		dist_normal      fmonitorb      monitoron  sreadmemh      writeo
+		dist_poisson     fmonitorh      nokey      sscanf
 		dist_t           fmonitoro      nolog      stime
 *)

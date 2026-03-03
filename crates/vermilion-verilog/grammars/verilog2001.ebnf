@@ -2858,11 +2858,11 @@ finish_address =
 		dist_normal      fmonitor       monitoro       showscopes   ungetc
 		dist_poisson     fmonitorb      monitoroff     showvars     unsigned
 		dist_t           fmonitorh      monitoron      signed       value$plusargs
-		dist_uniform     fmonitoro      nokey          sreadmemb    vcdclose
-		dumpall          fopen          nolog          sreadmemh    write
-		dumpfile         fread          printtimescale sscanf       writeb
-		dumpflush        fscanf         q_add          stime        writeh
-		dumplimit        fseek          q_exam         stop         writeo
+		dist_uniform     fmonitoro      nokey          sreadmemb    write
+		dumpall          fopen          nolog          sreadmemh    writeb
+		dumpfile         fread          printtimescale sscanf       writeh
+		dumpflush        fscanf         q_add          stime        writeo
+		dumplimit        fseek          q_exam         stop
 		dumpoff          fstrobe        q_full         strobe
 		dumpon           fstrobeb       q_initialize   strobeb
 *)
