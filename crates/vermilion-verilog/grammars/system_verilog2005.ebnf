@@ -3698,4 +3698,45 @@ delay_mode_zero_compiler_directive =
 		delay_mode_distributed  ifdef           undef
 		delay_mode_path         ifndef
 		delay_mode_unit         include
+
+	System Tasks/Functions:
+		acos             dist_erlang      fmonitoro        nokey           sreadmemh
+		acosh            dist_exponential fopen            nolog           sscanf
+		asin             dist_normal      fread            onehot          stable
+		asinh            dist_poisson     fscanf           onehot0         stime
+		assertkill       dist_t           fseek            past            stop
+		assertoff        dist_uniform     fstrobe          printtimescale  strobe
+		asserton         dumpall          fstrobeb         q_add           strobeb
+		async$and$array  dumpfile         fstrobeh         q_exam          strobeh
+		async$and$plane  dumpflush        fstrobeo         q_full          strobeo
+		async$nand$array dumplimit        ftell            q_initialize    swrite
+		async$nand$plane dumpoff          fwrite           q_remove        swriteb
+		async$nor$array  dumpon           fwriteb          random          swriteh
+		async$nor$plane  dumpports        fwriteh          readmemb        swriteo
+		async$or$array   dumpportsall     fwriteo          readmemh        sync$and$array
+		async$or$plane   dumpportsflush   get_coverage     realtime        sync$and$plane
+		atan             dumpportslimit   getpattern       realtobits      sync$nand$array
+		atan2            dumpportsoff     high             reset           sync$nand$plane
+		atanh            dumpportson      hypot            reset_count     sync$nor$array
+		bits             dumpvars         increment        reset_value     sync$nor$plane
+		bitstoreal       error            incsave          restart         sync$or$array
+		bitstoshortreal  exit             info             rewind          sync$or$plane
+		cast             exp              input            right           tan
+		ceil             fatal            isunbounded      rose            tanh
+		clog2            fclose           isunknown        rtoi            test$plusargs
+		cos              fdisplay         itor             sampled         time
+		cosh             fdisplayb        key              save            timeformat
+		countdrivers     fdisplayh        left             scale           typename
+		countones        fdisplayo        list             scope           ungetc
+		coverage_control fell             ln               sdf_annotate    unpacked_dimensions
+		coverage_get     feof             load_coverage_db set_coverage_db unsigned
+		coverage_get_max ferror           log              sformat         value$plusargs
+		coverage_merge   fflush           log10            shortrealtobits vcdclose
+		coverage_save    fgetc            low              showscopes      warning
+		dimensions       fgets            monitor          showvars        write
+		display          finish           monitorb         signed          writeb
+		displayb         floor            monitorh         sin             writeh
+		displayh         fmonitor         monitoro         size            writeo
+		displayo         fmonitorb        monitoroff       sqrt
+		dist_chi_square  fmonitorh        monitoron        sreadmemb
 *)

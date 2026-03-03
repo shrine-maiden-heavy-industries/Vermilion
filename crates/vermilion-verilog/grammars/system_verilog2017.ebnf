@@ -4181,4 +4181,61 @@ delay_mode_zero_compiler_directive =
 		delay_mode_distributed  ifdef           undef
 		delay_mode_path         ifndef          undefineall
 		delay_mode_unit         include
+
+	System Tasks/Functions:
+		acos               dist_uniform   increment            sformat
+		acosh              dumpall        incsave              sformatf
+		asin               dumpfile       info                 shortrealtobits
+		asinh              dumpflush      input                showscopes
+		assertcontrol      dumplimit      isunbounded          showvars
+		assertfailoff      dumpoff        isunknown            signed
+		assertfailon       dumpon         itor                 sin
+		assertkill         dumpports      key                  sinh
+		assertnonvacuouson dumpportsall   left                 size
+		assertoff          dumpportsflush list                 sqrt
+		asserton           dumpportslimit ln                   sreadmemb
+		assertpassoff      dumpportsoff   load_coverage_db     sreadmemh
+		assertpasson       dumpportson    log                  sscanf
+		assertvacuousoff   dumpvars       log10                stable
+		async$and$array    error          low                  stable_gclk
+		async$and$plane    exit           monitor              steady_gclk
+		async$nand$array   exp            monitorb             stime
+		async$nand$plane   falling_gclk   monitorh             stop
+		async$nor$array    fatal          monitoro             strobe
+		async$nor$plane    fclose         monitoroff           strobeb
+		async$or$array     fdisplay       monitoron            strobeh
+		async$or$plane     fdisplayb      nokey                strobeo
+		atan               fdisplayh      nolog                swrite
+		atan2              fdisplayo      onehot               swriteb
+		atanh              fell           onehot0              swriteh
+		bits               fell_gclk      past                 swriteo
+		bitstoreal         feof           past_gclk            sync$and$array
+		bitstoshortreal    ferror         pow                  sync$and$plane
+		cast               fflush         printtimescale       sync$nand$array
+		ceil               fgetc          q_add                sync$nand$plane
+		changed            fgets          q_exam               sync$nor$array
+		changed_gclk       finish         q_full               sync$nor$plane
+		changing_gclk      floor          q_initialize         sync$or$array
+		clog2              fmonitor       q_remove             sync$or$plane
+		cos                fmonitorb      random               system
+		cosh               fmonitorh      readmemb             tan
+		countbits          fmonitoro      readmemh             tanh
+		countdrivers       fopen          realtime             test$plusargs
+		countones          fread          realtobits           time
+		coverage_control   fscanf         reset                timeformat
+		coverage_get       fseek          reset_count          typename
+		coverage_get_max   fstrobe        reset_value          ungetc
+		coverage_merge     fstrobeb       restart              unpacked_dimensions
+		coverage_save      fstrobeh       rewind               unsigned
+		dimensions         fstrobeo       right                value$plusargs
+		display            ftell          rising_gclk          vcdclose
+		displayb           future_gclk    rose                 warning
+		displayh           fwrite         rose_gclk            write
+		displayo           fwriteb        rtoi                 writeb
+		dist_chi_square    fwriteh        sampled              writeh
+		dist_erlang        fwriteo        save                 writememb
+		dist_exponential   get_coverage   scale                writememh
+		dist_normal        getpattern     scope                writeo
+		dist_poisson       high           sdf_annotate
+		dist_t             hypot          set_coverage_db_name
 *)
