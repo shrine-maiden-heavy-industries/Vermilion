@@ -21,6 +21,7 @@ vermilion-liberty     = { workspace = true, features = [ "schema", "vermilion-cl
 vermilion-lsp         = { workspace = true, features = [ "transport", "trace", "trace-server" ] }
 vermilion-verilog     = { workspace = true, features = [ "schema", "vermilion-cli" ] }
 vermilion-vhdl        = { workspace = true, features = [ "schema", "vermilion-cli" ] }
+vermilion-xact        = { workspace = true, features = [ "schema", "vermilion-cli" ] }
 
 clap                  = { workspace = true }
 clap_complete         = { workspace = true }

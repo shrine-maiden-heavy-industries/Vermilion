@@ -25,6 +25,7 @@ vermilion-liberty     = { path = "crates/vermilion-liberty"     }
 vermilion-lsp         = { path = "crates/vermilion-lsp"         }
 vermilion-verilog     = { path = "crates/vermilion-verilog"     }
 vermilion-vhdl        = { path = "crates/vermilion-vhdl"        }
+vermilion-xact        = { path = "crates/vermilion-xact"        }
 
 # External Deps
 ariadne            = { version = "0.6", features = ["auto-color"] }

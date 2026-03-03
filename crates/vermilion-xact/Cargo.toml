@@ -1,0 +1,36 @@
+# SPDX-License-Identifier: BSD-3-Clause
+[package]
+name          = "vermilion-xact"
+description   = "IP-XACT Support for Vermilion"
+documentation = { workspace = true }
+edition       = { workspace = true }
+homepage      = { workspace = true }
+license       = { workspace = true }
+publish       = { workspace = true }
+repository    = { workspace = true }
+rust-version  = { workspace = true }
+version       = { workspace = true }
+
+[dependencies]
+vermilion-diagnostics = { workspace = true }
+
+bitmask-enum          = { workspace = true }
+clap                  = { workspace = true, optional = true }
+eyre                  = { workspace = true }
+phf                   = { workspace = true }
+schemars              = { workspace = true, optional = true }
+serde                 = { workspace = true, optional = true }
+
+[dev-dependencies]
+criterion  = { workspace = true }
+paste      = { workspace = true }
+proptest   = { workspace = true }
+serde_test = { workspace = true }
+test-log   = { workspace = true }
+
+[features]
+default = []
+
+schema          = [ "serde", "dep:schemars", "vermilion-diagnostics/schema" ]
+serde           = [ "dep:serde", "vermilion-diagnostics/serde" ]
+vermilion-cli   = [ "dep:clap" ]

@@ -3367,6 +3367,7 @@ dependencies = [
  "vermilion-lsp",
  "vermilion-verilog",
  "vermilion-vhdl",
+ "vermilion-xact",
 ]
 
 [[package]]
@@ -3512,6 +3513,24 @@ dependencies = [
  "vermilion-diagnostics",
  "vermilion-fmt",
  "vermilion-lang",
+]
+
+[[package]]
+name = "vermilion-xact"
+version = "0.0.0"
+dependencies = [
+ "bitmask-enum",
+ "clap",
+ "criterion",
+ "eyre",
+ "paste",
+ "phf 0.13.1",
+ "proptest",
+ "schemars",
+ "serde",
+ "serde_test",
+ "test-log",
+ "vermilion-diagnostics",
 ]
 
 [[package]]
