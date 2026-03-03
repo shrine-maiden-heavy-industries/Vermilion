@@ -4227,15 +4227,15 @@ delay_mode_zero_compiler_directive =
 		coverage_get_max   fstrobe        reset_value          ungetc
 		coverage_merge     fstrobeb       restart              unpacked_dimensions
 		coverage_save      fstrobeh       rewind               unsigned
-		dimensions         fstrobeo       right                value$plusargs
-		display            ftell          rising_gclk          warning
-		displayb           future_gclk    rose                 write
-		displayh           fwrite         rose_gclk            writeb
-		displayo           fwriteb        rtoi                 writeh
-		dist_chi_square    fwriteh        sampled              writememb
-		dist_erlang        fwriteo        save                 writememh
-		dist_exponential   get_coverage   scale                writeo
-		dist_normal        getpattern     scope
-		dist_poisson       high           sdf_annotate
+		dimensions         fstrobeo       right                urandom
+		display            ftell          rising_gclk          urandom_range
+		displayb           future_gclk    rose                 value$plusargs
+		displayh           fwrite         rose_gclk            warning
+		displayo           fwriteb        rtoi                 write
+		dist_chi_square    fwriteh        sampled              writeb
+		dist_erlang        fwriteo        save                 writeh
+		dist_exponential   get_coverage   scale                writememb
+		dist_normal        getpattern     scope                writememh
+		dist_poisson       high           sdf_annotate         writeo
 		dist_t             hypot          set_coverage_db_name
 *)

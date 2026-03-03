@@ -4095,7 +4095,7 @@ delay_mode_zero_compiler_directive =
 		delay_mode_unit         include
 
 	System Tasks/Functions:
-		acos               dumpall        increment        set_coverage_db_name
+		acos               dumpall        increment        set_coverage_db_name writeo
 		acosh              dumpfile       incsave          sformat
 		asin               dumpflush      info             sformatf
 		asinh              dumplimit      input            shortrealtobits
@@ -4140,13 +4140,13 @@ delay_mode_zero_compiler_directive =
 		dimensions         fstrobeh       restart          ungetc
 		display            fstrobeo       rewind           unpacked_dimensions
 		displayb           ftell          right            unsigned
-		displayh           future_gclk    rising_gclk      value$plusargs
-		displayo           fwrite         rose             warning
-		dist_chi_square    fwriteb        rose_gclk        write
-		dist_erlang        fwriteh        rtoi             writeb
-		dist_exponential   fwriteo        sampled          writeh
-		dist_normal        get_coverage   save             writememb
-		dist_poisson       getpattern     scale            writememh
-		dist_t             high           scope            writeo
-		dist_uniform       hypot          sdf_annotate
+		displayh           future_gclk    rising_gclk      urandom
+		displayo           fwrite         rose             urandom_range
+		dist_chi_square    fwriteb        rose_gclk        value$plusargs
+		dist_erlang        fwriteh        rtoi             warning
+		dist_exponential   fwriteo        sampled          write
+		dist_normal        get_coverage   save             writeb
+		dist_poisson       getpattern     scale            writeh
+		dist_t             high           scope            writememb
+		dist_uniform       hypot          sdf_annotate     writememh
 *)
