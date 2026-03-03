@@ -10,6 +10,16 @@ pub static TIMING_TASKS_SET: phf::Set<&'static str> = phf_set! {
 	"hold",     "period",   "recrem",   "setup",   "skew",      "width",
 };
 
+/// Builtin System Functions that are not technically required.
+///
+/// See [`is_optional_builtin_sysfunc`] for more details.
+pub static OPTIONAL_BUILTIN_SYSFUNC_SET: phf::Set<&'static str> = phf_set! {
+	"countdrivers", "key",   "nolog",       "restart", "showscopes",
+	"getpattern",   "list",  "reset",       "save",    "showvars",
+	"incsave",      "log",   "reset_count", "scale",   "sreadmemb",
+	"input",        "nokey", "reset_value", "scope",   "sreadmemh",
+};
+
 /// IEEE 1364-1995 (Verilog 1995) Builtin System Function to [`BuiltinSysFunc`] token map
 pub static VERILOG_95_BUILTIN_SYSFUNC_MAP: phf::Map<&'static str, BuiltinSysFunc> = phf_map! {
 	"async$and$array" => BuiltinSysFunc::AsyncAndArray,
@@ -2845,6 +2855,19 @@ pub fn get_builtin_sysfunc(ident: &str, std: LanguageStd) -> Option<BuiltinSysFu
 #[inline]
 pub fn is_timing_task(ident: &str) -> bool {
 	TIMING_TASKS_SET.contains(ident)
+}
+
+/// Check to see if the given name is one of the optional system functions
+///
+/// There are a collection of optional system functions that are listed in the
+/// standards, but are not required to be implemented by tools.
+///
+/// This allows us to check to see if the given name is one of those, if so, we can
+/// possibly emit a diagnostic if requested.
+#[allow(unused)]
+#[inline]
+pub fn is_optional_builtin_sysfunc(ident: &str) -> bool {
+	OPTIONAL_BUILTIN_SYSFUNC_SET.contains(ident)
 }
 
 /// Get the bitmap of Verilog/SystemVerilog/Verilog-AMS standards that
