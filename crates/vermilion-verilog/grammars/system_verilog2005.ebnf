@@ -3731,12 +3731,12 @@ delay_mode_zero_compiler_directive =
 		coverage_control fell             ln               sdf_annotate    unpacked_dimensions
 		coverage_get     feof             load_coverage_db set_coverage_db unsigned
 		coverage_get_max ferror           log              sformat         value$plusargs
-		coverage_merge   fflush           log10            shortrealtobits vcdclose
-		coverage_save    fgetc            low              showscopes      warning
-		dimensions       fgets            monitor          showvars        write
-		display          finish           monitorb         signed          writeb
-		displayb         floor            monitorh         sin             writeh
-		displayh         fmonitor         monitoro         size            writeo
+		coverage_merge   fflush           log10            shortrealtobits warning
+		coverage_save    fgetc            low              showscopes      write
+		dimensions       fgets            monitor          showvars        writeb
+		display          finish           monitorb         signed          writeh
+		displayb         floor            monitorh         sin             writeo
+		displayh         fmonitor         monitoro         size
 		displayo         fmonitorb        monitoroff       sqrt
 		dist_chi_square  fmonitorh        monitoron        sreadmemb
 *)

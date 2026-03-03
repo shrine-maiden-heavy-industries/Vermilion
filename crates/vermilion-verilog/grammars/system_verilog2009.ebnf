@@ -4141,12 +4141,12 @@ delay_mode_zero_compiler_directive =
 		display            fstrobeo       rewind           unpacked_dimensions
 		displayb           ftell          right            unsigned
 		displayh           future_gclk    rising_gclk      value$plusargs
-		displayo           fwrite         rose             vcdclose
-		dist_chi_square    fwriteb        rose_gclk        warning
-		dist_erlang        fwriteh        rtoi             write
-		dist_exponential   fwriteo        sampled          writeb
-		dist_normal        get_coverage   save             writeh
-		dist_poisson       getpattern     scale            writememb
-		dist_t             high           scope            writememh
-		dist_uniform       hypot          sdf_annotate     writeo
+		displayo           fwrite         rose             warning
+		dist_chi_square    fwriteb        rose_gclk        write
+		dist_erlang        fwriteh        rtoi             writeb
+		dist_exponential   fwriteo        sampled          writeh
+		dist_normal        get_coverage   save             writememb
+		dist_poisson       getpattern     scale            writememh
+		dist_t             high           scope            writeo
+		dist_uniform       hypot          sdf_annotate
 *)
