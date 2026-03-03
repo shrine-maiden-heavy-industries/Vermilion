@@ -2883,14 +2883,14 @@ delay_mode_zero_compiler_directive =
 		dist_normal          fstrobeb       realtobits        ungetc
 		dist_poisson         fstrobeh       receiver_count    unsigned
 		dist_t               fstrobeo       reset             value$plusargs
-		dist_uniform         ftell          reset_count       vcdclose
-		driver_count         fwrite         reset_value       vflip
-		driver_delay         fwriteb        restart           vt
-		driver_next_state    fwriteh        rewind            warning
-		driver_next_strength fwriteo        rtoi              write
-		driver_state         getpattern     save              writeb
-		driver_strength      hflip          scale             writeh
-		driver_type          hypot          scope             writeo
-		dumpall              incsave        sdf_annotate      xposition
-		dumpfile             info           sformat           yposition
+		dist_uniform         ftell          reset_count       vflip
+		driver_count         fwrite         reset_value       vt
+		driver_delay         fwriteb        restart           warning
+		driver_next_state    fwriteh        rewind            write
+		driver_next_strength fwriteo        rtoi              writeb
+		driver_state         getpattern     save              writeh
+		driver_strength      hflip          scale             writeo
+		driver_type          hypot          scope             xposition
+		dumpall              incsave        sdf_annotate      yposition
+		dumpfile             info           sformat
 *)
