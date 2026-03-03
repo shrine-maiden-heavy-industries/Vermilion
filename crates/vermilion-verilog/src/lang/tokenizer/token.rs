@@ -275,7 +275,6 @@ pub enum BuiltinSysFunc {
 	UnpackedDimensions, // Added: IEEE 1800-2005
 	Unsigned,           // Added: IEEE 1364-2001
 	ValuePlusArgs,      // Added: IEEE 1364-2001
-	VcdClose,           // Added: IEEE 1364-2001
 	Vflip,              // Added: Verilog-AMS 2.3.1
 	Vt,                 // Added: Verilog-AMS 2.3.1
 	Warning,            // Added: IEEE 1800-2005 & Verilog-AMS 2.3.1
@@ -1082,7 +1081,6 @@ impl Display for BuiltinSysFunc {
 				Self::UnpackedDimensions => "unpacked_dimensions", // Added: IEEE 1800-2005
 				Self::Unsigned => "unsigned",           // Added: IEEE 1364-2001
 				Self::ValuePlusArgs => "value$plusargs", // Added: IEEE 1364-2001
-				Self::VcdClose => "vcdclose",           // Added: IEEE 1364-2001
 				Self::Vflip => "vflip",                 // Added: Verilog-AMS 2.3.1
 				Self::Vt => "vt",                       // Added: Verilog-AMS 2.3.1
 				Self::Warning => "warning",             // Added: IEEE 1800-2005 & Verilog-AMS
