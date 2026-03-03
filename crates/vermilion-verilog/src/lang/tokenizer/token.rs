@@ -274,6 +274,8 @@ pub enum BuiltinSysFunc {
 	Ungetc,             // Added: IEEE 1364-2001
 	UnpackedDimensions, // Added: IEEE 1800-2005
 	Unsigned,           // Added: IEEE 1364-2001
+	Urandom,            // Added: IEEE 1800-2005
+	UrandomRange,       // Added: IEEE 1800-2005
 	ValuePlusArgs,      // Added: IEEE 1364-2001
 	Vflip,              // Added: Verilog-AMS 2.3.1
 	Vt,                 // Added: Verilog-AMS 2.3.1
@@ -282,8 +284,8 @@ pub enum BuiltinSysFunc {
 	Write,
 	WriteB,
 	WriteH,
-	WritememB, // Added: IEEE 1800-2009
-	WritememH, // Added: IEEE 1800-2009
+	WritememB, // Added: IEEE 1800-2005
+	WritememH, // Added: IEEE 1800-2005
 	WriteO,
 	XPosition, // Added: Verilog-AMS 2.3.1
 	YPosition, // Added: Verilog-AMS 2.3.1
@@ -1080,6 +1082,8 @@ impl Display for BuiltinSysFunc {
 				Self::Ungetc => "ungetc",               // Added: IEEE 1364-2001
 				Self::UnpackedDimensions => "unpacked_dimensions", // Added: IEEE 1800-2005
 				Self::Unsigned => "unsigned",           // Added: IEEE 1364-2001
+				Self::Urandom => "urandom",             // Added: IEEE 1800-2005
+				Self::UrandomRange => "urandom_range",  // Added: IEEE 1800-2005
 				Self::ValuePlusArgs => "value$plusargs", // Added: IEEE 1364-2001
 				Self::Vflip => "vflip",                 // Added: Verilog-AMS 2.3.1
 				Self::Vt => "vt",                       // Added: Verilog-AMS 2.3.1
