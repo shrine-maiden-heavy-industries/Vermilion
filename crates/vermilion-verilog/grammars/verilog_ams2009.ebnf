@@ -2765,4 +2765,55 @@ delay_mode_zero_compiler_directive =
 		default_trireg_strength endif           timescale
 		define                  end_keywords    unconnected_drive
 		delay_mode_distributed  ifdef           undef
+
+	System Tasks/Functions:
+		abstime              dumpoff        key               simparam
+		acos                 dumpon         limit             simparam$str
+		acosh                dumpports      list              simprobe
+		angle                dumpportsall   ln                sin
+		arandom              dumpportsflush log               sqrt
+		asin                 dumpportslimit log10             sreadmemb
+		asinh                dumpportsoff   mfactor           sreadmemh
+		async$and$array      dumpportson    monitor           sscanf
+		async$and$plane      dumpvars       monitorb          stime
+		async$nand$array     error          monitorh          stop
+		async$nand$plane     exp            monitoro          strobe
+		async$nor$array      fatal          monitoroff        strobeb
+		async$nor$plane      fclose         monitoron         strobeh
+		async$or$array       fdebug         nokey             strobeo
+		async$or$plane       fdisplay       nolog             swrite
+		atan                 fdisplayb      param_given       swriteb
+		atan2                fdisplayh      port_connected    swriteh
+		atanh                fdisplayo      printtimescale    swriteo
+		bitstoreal           feof           q_add             sync$and$array
+		bound_step           ferror         q_exam            sync$and$plane
+		ceil                 fflush         q_full            sync$nand$array
+		clog2                fgetc          q_initialize      sync$nand$plane
+		cos                  fgets          q_remove          sync$nor$array
+		cosh                 finish         random            sync$nor$plane
+		countdrivers         floor          rdist_chi_square  sync$or$array
+		debug                fmonitor       rdist_erlang      sync$or$plane
+		discontinuity        fmonitorb      rdist_exponential table_model
+		display              fmonitorh      rdist_normal      tan
+		displayb             fmonitoro      rdist_poisson     tanh
+		displayh             fopen          rdist_t           temperature
+		displayo             fread          rdist_uniform     test$plusargs
+		dist_chi_square      fscanf         readmemb          time
+		dist_erlang          fseek          readmemh          timeformat
+		dist_exponential     fstrobe        realtime          ungetc
+		dist_normal          fstrobeb       realtobits        unsigned
+		dist_poisson         fstrobeh       reset             value$plusargs
+		dist_t               fstrobeo       reset_count       vcdclose
+		dist_uniform         ftell          reset_value       vflip
+		driver_count         fwrite         restart           vt
+		driver_delay         fwriteb        rewind            warning
+		driver_next_state    fwriteh        rtoi              write
+		driver_next_strength fwriteo        save              writeb
+		driver_state         getpattern     scale             writeh
+		driver_strength      hflip          scope             writeo
+		driver_type          hypot          sdf_annotate      xposition
+		dumpall              incsave        sformat           yposition
+		dumpfile             info           showscopes
+		dumpflush            input          showvars
+		dumplimit            itor           signed
 *)
