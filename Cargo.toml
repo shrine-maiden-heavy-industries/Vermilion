@@ -48,6 +48,7 @@ paste              = { version = "1.0.15" }
 phf                = { version = "0.13", features = [ "macros" ] }
 proptest           = { version = "1.9" }
 pulldown-cmark     = { version = "0.13", default-features = false }
+quick-xml          = { version = "0.39", features = [ "serialize" ] }
 ratatui            = { version = "0.30" }
 rayon              = { version = "1.11.0" }
 schemars           = { version = "1.1", features = [ "derive" ] }
