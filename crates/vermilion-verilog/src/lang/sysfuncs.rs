@@ -711,17 +711,21 @@ pub static SYSTEM_VERILOG_05_BUILTIN_SYSFUNC_MAP: phf::Map<&'static str, Builtin
 	"ungetc" => BuiltinSysFunc::Ungetc,
 	"unpacked_dimensions" => BuiltinSysFunc::UnpackedDimensions,
 	"unsigned" => BuiltinSysFunc::Unsigned,
+	"urandom" => BuiltinSysFunc::Urandom,
+	"urandom_range" => BuiltinSysFunc::UrandomRange,
 	"value$plusargs" => BuiltinSysFunc::ValuePlusArgs,
 	"warning" => BuiltinSysFunc::Warning,
 	"write" => BuiltinSysFunc::Write,
 	"writeb" => BuiltinSysFunc::WriteB,
 	"writeh" => BuiltinSysFunc::WriteH,
+	"writememb" => BuiltinSysFunc::WritememB,
+	"writememh" => BuiltinSysFunc::WritememH,
 	"writeo	" => BuiltinSysFunc::WriteO,
 };
 
 /// IEEE 1800-2005 (SystemVerilog 2005) Builtin System Function set
 pub static SYSTEM_VERILOG_05_BUILTIN_SYSFUNC_SET: phf::Set<&'static str> = phf_set! {
-	"acos",             "dist_erlang",      "fmonitoro",        "nokey",           "sreadmemh",
+	"acos",             "dist_erlang",      "fmonitoro",        "nokey",           "sreadmemh",       "writeo",
 	"acosh",            "dist_exponential", "fopen",            "nolog",           "sscanf",
 	"asin",             "dist_normal",      "fread",            "onehot",          "stable",
 	"asinh",            "dist_poisson",     "fscanf",           "onehot0",         "stime",
@@ -751,15 +755,15 @@ pub static SYSTEM_VERILOG_05_BUILTIN_SYSFUNC_SET: phf::Set<&'static str> = phf_s
 	"countones",        "fdisplayo",        "list",             "scope",           "ungetc",
 	"coverage_control", "fell",             "ln",               "sdf_annotate",    "unpacked_dimensions",
 	"coverage_get",     "feof",             "load_coverage_db", "set_coverage_db", "unsigned",
-	"coverage_get_max", "ferror",           "log",              "sformat",         "value$plusargs",
-	"coverage_merge",   "fflush",           "log10",            "shortrealtobits", "warning",
-	"coverage_save",    "fgetc",            "low",              "showscopes",      "write",
-	"dimensions",       "fgets",            "monitor",          "showvars",        "writeb",
-	"display",          "finish",           "monitorb",         "signed",          "writeh",
-	"displayb",         "floor",            "monitorh",         "sin",             "writeo",
-	"displayh",         "fmonitor",         "monitoro",         "size",
-	"displayo",         "fmonitorb",        "monitoroff",       "sqrt",
-	"dist_chi_square",  "fmonitorh",        "monitoron",        "sreadmemb",
+	"coverage_get_max", "ferror",           "log",              "sformat",         "urandom",
+	"coverage_merge",   "fflush",           "log10",            "shortrealtobits", "urandom_range",
+	"coverage_save",    "fgetc",            "low",              "showscopes",      "value$plusargs",
+	"dimensions",       "fgets",            "monitor",          "showvars",        "warning",
+	"display",          "finish",           "monitorb",         "signed",          "write",
+	"displayb",         "floor",            "monitorh",         "sin",             "writeb",
+	"displayh",         "fmonitor",         "monitoro",         "size",            "writeh",
+	"displayo",         "fmonitorb",        "monitoroff",       "sqrt",            "writememh",
+	"dist_chi_square",  "fmonitorh",        "monitoron",        "sreadmemb",       "writememb",
 };
 
 /// IEEE 1800-2009 (SystemVerilog 2009) Builtin System Function to [`BuiltinSysFunc`] token map
