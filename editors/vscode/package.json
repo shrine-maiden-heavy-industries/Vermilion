@@ -104,7 +104,8 @@
 				"id": "system-verilog",
 				"extensions":
 				[
-					".sv"
+					".sv",
+					".svh"
 				],
 				"configuration": "./languages/system_verilog/configuration.json",
 				"icon":

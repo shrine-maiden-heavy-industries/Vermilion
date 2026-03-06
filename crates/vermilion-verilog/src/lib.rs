@@ -32,7 +32,7 @@ pub enum LanguageStd {
 }
 
 impl LanguageStd {
-	pub const SYSTEM_VERILOG_KNOWN_EXTS: [&'static str; 1] = ["sv"];
+	pub const SYSTEM_VERILOG_KNOWN_EXTS: [&'static str; 2] = ["sv", "svh"];
 	pub const SYSTEM_VERILOG_STDS: LanguageStd = LanguageStd::Sv05
 		.or(LanguageStd::Sv09)
 		.or(LanguageStd::Sv12)
