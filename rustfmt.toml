@@ -1,5 +1,4 @@
 # SPDX-License-Identifier: BSD-3-Clause
-
 array_width = 80
 attr_fn_like_width = 80
 binop_separator = "Back"
