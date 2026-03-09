@@ -8,6 +8,7 @@ use serde::{Deserialize, Serialize};
 use tracing::debug;
 use vermilion_verilog::workspace::{SystemVerilogConfig, VerilogAmsConfig, VerilogConfig};
 use vermilion_vhdl::workspace::{VhdlAmsConfig, VhdlConfig};
+use vermilion_xact::workspace::XactConfig;
 
 use crate::paths;
 
@@ -19,6 +20,7 @@ pub struct WorkspaceConfig {
 	verilog_ams:    Option<VerilogAmsConfig>,
 	vhdl:           Option<VhdlConfig>,
 	vhdl_ams:       Option<VhdlAmsConfig>,
+	xact:           Option<XactConfig>,
 }
 
 /// This method loads the Vermilion workspace configuration file if found.
