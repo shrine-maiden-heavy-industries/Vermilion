@@ -1,1 +1,25 @@
 // SPDX-License-Identifier: BSD-3-Clause
+
+pub mod auto_configure;
+pub mod bus_definition;
+pub mod bus_interface;
+pub mod common_structures;
+pub mod component;
+pub mod configurable;
+pub mod configurator;
+pub mod constraints;
+pub mod design;
+pub mod design_config;
+pub mod file;
+pub mod file_type;
+pub mod generator;
+pub mod identifier;
+pub mod loose_generator_changes;
+pub mod loose_generator_invocation;
+pub mod memory_map;
+pub mod model;
+pub mod pmd;
+pub mod signal;
+pub mod signal_drivers;
+pub mod simple_types;
+pub mod sub_instances;
