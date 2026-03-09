@@ -78,11 +78,11 @@ tokenizer_test!(
 	naked_based_number_hex_signed_lowercase,
 	"'sh1",
 	spanned_token!(
-		Token::BaseSpecifier {
-			specifier: BaseSpecifier::Hexadecimal,
-			uppercase: false,
-			signed:    true,
-		},
+		Token::BasedLiteralSpecifier(BasedLiteralSpecifier::new(
+			BaseSpecifier::Hexadecimal,
+			false,
+			true,
+		)),
 		0..3,
 		Position::new(0, 0)
 	),
@@ -98,11 +98,11 @@ tokenizer_test!(
 	naked_based_number_hex_signed_uppercase,
 	"'Sh1",
 	spanned_token!(
-		Token::BaseSpecifier {
-			specifier: BaseSpecifier::Hexadecimal,
-			uppercase: false,
-			signed:    true,
-		},
+		Token::BasedLiteralSpecifier(BasedLiteralSpecifier::new(
+			BaseSpecifier::Hexadecimal,
+			false,
+			true,
+		)),
 		0..3,
 		Position::new(0, 0)
 	),

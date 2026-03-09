@@ -111,11 +111,11 @@ tokenizer_test!(
 		Position::new(0, 0)
 	),
 	spanned_token!(
-		Token::BaseSpecifier {
-			specifier: BaseSpecifier::Hexadecimal,
-			uppercase: false,
-			signed:    false,
-		},
+		Token::BasedLiteralSpecifier(BasedLiteralSpecifier::new(
+			BaseSpecifier::Hexadecimal,
+			false,
+			false,
+		)),
 		0..3,
 		Position::new(0, 0)
 	),
@@ -139,11 +139,11 @@ tokenizer_test!(
 		Position::new(0, 0)
 	),
 	spanned_token!(
-		Token::BaseSpecifier {
-			specifier: BaseSpecifier::Hexadecimal,
-			uppercase: false,
-			signed:    false,
-		},
+		Token::BasedLiteralSpecifier(BasedLiteralSpecifier::new(
+			BaseSpecifier::Hexadecimal,
+			false,
+			false,
+		)),
 		0..3,
 		Position::new(0, 0)
 	),
