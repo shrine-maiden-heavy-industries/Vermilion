@@ -8,7 +8,7 @@ use crate::{
 	LanguageStd,
 	lang::{
 		keywords::Keyword,
-		types::{Comment, CompilerDirective, Control, SystemFunc, TextMacro},
+		types::{Comment, CompilerDirective, Control, Operator, SystemFunc, TextMacro},
 	},
 };
 
@@ -48,76 +48,6 @@ pub enum BaseSpecifier {
 	Decimal,
 	Hexadecimal,
 	Octal,
-}
-
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
-pub enum Operator {
-	AbsTolerance, // Added: IEEE 1800-2023
-	AddEquals,    // Added: IEEE 1800-2005
-	Ampersand,
-	AndEquals,           // Added: IEEE 1800-2005
-	ArithmeticShl,       // Added: IEEE 1364-2001
-	ArithmeticShlEquals, // Added: IEEE 1800-2005
-	ArithmeticShr,       // Added: IEEE 1364-2001
-	ArithmeticShrEquals, // Added: IEEE 1800-2005
-	Asterisk,
-	BranchContribution, // Added: Verilog-AMS 2009
-	CaseEquality,
-	CaseInequality,
-	Circumflex,
-	ClassScopeResolution, // Added: IEEE 1800-2005
-	CycleDelay,           // Added: IEEE 1800-2005
-	Decrement,            // Added: IEEE 1800-2005
-	DivEquals,            // Added: IEEE 1800-2005
-	Equals,
-	Equivalence, // Added: IEEE 1800-2009
-	EventTrigger,
-	EventTriggerNb, // Added: IEEE 1800-2005
-	Exclamation,
-	FollowedByNonOverlapped, // Added: IEEE 1800-2009
-	FollowedByOverlapped,    // Added: IEEE 1800-2009
-	FullConnection,
-	GreaterThan,
-	GreaterThanEqual,
-	Increment,      // Added: IEEE 1800-2005
-	IndexedPartNeg, // Added: IEEE 1364-2001
-	IndexedPartPos, // Added: IEEE 1364-2001
-	LessThan,
-	LessThanEqual,
-	LogicalAnd,
-	LogicalEquality,
-	LogicalInequality,
-	LogicalOr,
-	Minus,
-	MulEquals, // Added: IEEE 1800-2005
-	OrEquals,  // Added: IEEE 1800-2005
-	ParallelConnection,
-	Percent,
-	Pipe,
-	Plus,
-	Pow,                // Added: IEEE 1364-2001
-	PropImplNonOverlap, // Added: IEEE 1800-2005
-	PropImplOverlap,    // Added: IEEE 1800-2005
-	ReductionNand,
-	ReductionNor,
-	RelTolerance, // Added: IEEE 1800-2023
-	RemEquals,    // Added: IEEE 1800-2005
-	ShiftLeft,
-	ShiftLeftEquals, // Added: IEEE 1800-2005
-	ShiftRight,
-	ShiftRightEquals, // Added: IEEE 1800-2005
-	Solidus,
-	SubEquals, // Added: IEEE 1800-2005
-	Tilde,
-	TildeCircumflex(bool), // NOTE(aki): this is the chirality of the `^~`/`~^` operator
-	TripleAnd,
-	WeightAssignDist, // Added: IEEE 1800-2005
-	WeightAssignUnit, // Added: IEEE 1800-2005
-	Wildcard,         // Added: IEEE 1800-2005
-	WildcardEqual,    // Added: IEEE 1800-2005
-	WildcardExport,   // Added: IEEE 1800-2009
-	WildcardNotEqual, // Added: IEEE 1800-2005
-	XorEquals,        // Added: IEEE 1800-2005
 }
 
 impl Display for Token {
@@ -182,88 +112,6 @@ impl Display for BaseSpecifier {
 				Self::Decimal => "'d",
 				Self::Hexadecimal => "'h",
 				Self::Octal => "'o",
-			}
-		)
-	}
-}
-
-impl Display for Operator {
-	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-		write!(
-			f,
-			"Operator({})",
-			match self {
-				Self::AddEquals => "+=",     // Added: IEEE 1800-2005
-				Self::AbsTolerance => "+/-", // Added: IEEE 1800-2023
-				Self::Ampersand => "&",
-				Self::AndEquals => "&=",             // Added: IEEE 1800-2005
-				Self::ArithmeticShl => "<<<",        // Added: IEEE 1364-2001
-				Self::ArithmeticShlEquals => "<<<=", // Added: IEEE 1800-2005
-				Self::ArithmeticShr => ">>>",        // Added: IEEE 1364-2001
-				Self::ArithmeticShrEquals => ">>>=", // Added: IEEE 1800-2005
-				Self::Asterisk => "*",
-				Self::BranchContribution => "<+", // Added: Verilog-AMS 2009
-				Self::CaseEquality => "===",
-				Self::CaseInequality => "!==",
-				Self::Circumflex => "^",
-				Self::ClassScopeResolution => "::", // Added: IEEE 1800-2005
-				Self::CycleDelay => "##",           // Added: IEEE 1800-2005
-				Self::Decrement => "--",            // Added: IEEE 1800-2005
-				Self::DivEquals => "/=",            // Added: IEEE 1800-2005
-				Self::Equals => "=",
-				Self::Equivalence => "<->", // Added: IEEE 1800-2009
-				Self::EventTrigger => "->",
-				Self::EventTriggerNb => "->>", // Added: IEEE 1800-2005
-				Self::Exclamation => "!",
-				Self::FollowedByNonOverlapped => "#=#", // Added: IEEE 1800-2009
-				Self::FollowedByOverlapped => "#-#",    // Added: IEEE 1800-2009
-				Self::FullConnection => "*>",
-				Self::GreaterThan => "<",
-				Self::GreaterThanEqual => "<=",
-				Self::Increment => "++",      // Added: IEEE 1800-2005
-				Self::IndexedPartNeg => "-:", // Added: IEEE 1364-2001
-				Self::IndexedPartPos => "+:", // Added: IEEE 1364-2001
-				Self::LessThan => ">",
-				Self::LessThanEqual => ">=",
-				Self::LogicalAnd => "&&",
-				Self::LogicalEquality => "==",
-				Self::LogicalInequality => "!=",
-				Self::LogicalOr => "||",
-				Self::Minus => "-",
-				Self::MulEquals => "*=", // Added: IEEE 1800-2005
-				Self::OrEquals => "|=",  // Added: IEEE 1800-2005
-				Self::ParallelConnection => "=>",
-				Self::Percent => "%",
-				Self::Pipe => "|",
-				Self::Plus => "+",
-				Self::Pow => "**",                 // Added: IEEE 1364-2001
-				Self::PropImplNonOverlap => "|=>", // Added: IEEE 1800-2005
-				Self::PropImplOverlap => "|->",    // Added: IEEE 1800-2005
-				Self::ReductionNand => "~&",
-				Self::ReductionNor => "~|",
-				Self::RelTolerance => "+%-", // Added: IEEE 1800-2023
-				Self::RemEquals => "%=",     // Added: IEEE 1800-2005
-				Self::ShiftLeft => "<<",
-				Self::ShiftLeftEquals => "<<=", // Added: IEEE 1800-2005
-				Self::ShiftRight => ">>",
-				Self::ShiftRightEquals => ">>=", // Added: IEEE 1800-2005
-				Self::Solidus => "/",
-				Self::SubEquals => "-=", // Added: IEEE 1800-2005
-				Self::Tilde => "~",
-				Self::TildeCircumflex(chirality) =>
-					if *chirality {
-						"^~"
-					} else {
-						"~^"
-					},
-				Self::TripleAnd => "&&&",
-				Self::WeightAssignDist => ":/",  // Added: IEEE 1800-2005
-				Self::WeightAssignUnit => ":=",  // Added: IEEE 1800-2005
-				Self::Wildcard => ".*",          // Added: IEEE 1800-2005
-				Self::WildcardEqual => "==?",    // Added: IEEE 1800-2005
-				Self::WildcardExport => "*::*",  // Added: IEEE 1800-2009
-				Self::WildcardNotEqual => "!=?", // Added: IEEE 1800-2005
-				Self::XorEquals => "^=",         // Added: IEEE 1800-2005
 			}
 		)
 	}
