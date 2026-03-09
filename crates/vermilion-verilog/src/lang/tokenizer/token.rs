@@ -9,8 +9,8 @@ use crate::{
 	lang::{
 		keywords::Keyword,
 		types::{
-			BasedLiteralSpecifier, Comment, CompilerDirective, Control, Operator, SystemFunc,
-			TextMacro,
+			BasedLiteralSpecifier, Comment, CompilerDirective, Control, Operator,
+			SingleQuotedString, SystemFunc, TextMacro, TripleQuotedString,
 		},
 	},
 };
@@ -33,10 +33,10 @@ pub enum Token {
 		value:    f64,
 		exponent: Option<AtomicByteTendril>,
 	},
-	String(AtomicByteTendril),
+	SingleQuotedString(SingleQuotedString),
 	SystemFunc(SystemFunc),
 	TextMacro(TextMacro),
-	TripleQuotedString(AtomicByteTendril), // Added: IEEE 1800-2023
+	TripleQuotedString(TripleQuotedString), // Added: IEEE 1800-2023
 	UnsignedNumber(AtomicByteTendril),
 	Whitespace(AtomicByteTendril),
 }
@@ -69,14 +69,10 @@ impl Display for Token {
 			Self::Real { value, exponent } => {
 				write!(f, "RealNumber(value: {}, exp: {:?})", value, exponent)
 			},
-			Self::String(tendril) => write!(f, "String(\"{}\")", unsafe {
-				str::from_utf8_unchecked(tendril)
-			}),
+			Self::SingleQuotedString(string) => string.fmt(f),
 			Self::SystemFunc(sysfunc) => sysfunc.fmt(f),
 			Self::TextMacro(text_macro) => write!(f, "TextMacro(\"{}\")", text_macro),
-			Self::TripleQuotedString(tendril) => write!(f, "TripleQuotedString(\"{}\")", unsafe {
-				str::from_utf8_unchecked(tendril)
-			}),
+			Self::TripleQuotedString(string) => string.fmt(f),
 			Self::UnsignedNumber(tendril) => write!(f, "UnsignedNumber({})", unsafe {
 				str::from_utf8_unchecked(tendril)
 			}),

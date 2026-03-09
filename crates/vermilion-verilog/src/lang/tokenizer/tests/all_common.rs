@@ -662,7 +662,9 @@ tokenizer_test!(
 	string,
 	r#""This Is A Simple String :3""#,
 	spanned_token!(
-		Token::String("This Is A Simple String :3".as_bytes().into()),
+		Token::SingleQuotedString(SingleQuotedString::new(
+			"This Is A Simple String :3".as_bytes().into()
+		)),
 		0..28,
 		Position::new(0, 0)
 	)
@@ -673,7 +675,9 @@ tokenizer_test!(
 	string_eof,
 	r#""This Is A Simple String :3"#,
 	spanned_token!(
-		Token::String("This Is A Simple String :3".as_bytes().into()),
+		Token::SingleQuotedString(SingleQuotedString::new(
+			"This Is A Simple String :3".as_bytes().into()
+		)),
 		0..27,
 		Position::new(0, 0)
 	)

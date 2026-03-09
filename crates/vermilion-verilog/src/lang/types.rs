@@ -196,6 +196,9 @@ pub enum Operator {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
+pub struct SingleQuotedString(AtomicByteTendril);
+
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub enum SystemFunc {
 	Builtin(BuiltinSysFunc),
 	Other(AtomicByteTendril),
@@ -208,9 +211,24 @@ pub enum TextMacro {
 	Other(AtomicByteTendril),
 }
 
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
+pub struct TripleQuotedString(AtomicByteTendril); // Added: IEEE 1800-2023
+
 impl BasedLiteralSpecifier {
 	pub fn new(specifier: BaseSpecifier, uppercase: bool, signed: bool) -> Self {
 		Self { specifier, uppercase, signed }
+	}
+}
+
+impl SingleQuotedString {
+	pub fn new(tendril: AtomicByteTendril) -> Self {
+		Self(tendril)
+	}
+}
+
+impl TripleQuotedString {
+	pub fn new(tendril: AtomicByteTendril) -> Self {
+		Self(tendril)
 	}
 }
 
@@ -378,6 +396,14 @@ impl Display for Operator {
 	}
 }
 
+impl Display for SingleQuotedString {
+	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+		write!(f, "SingleQuotedString(\"{}\")", unsafe {
+			str::from_utf8_unchecked(&self.0)
+		})
+	}
+}
+
 impl Display for SystemFunc {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
 		match self {
@@ -400,5 +426,13 @@ impl Display for TextMacro {
 				Self::Other(tendril) => unsafe { str::from_utf8_unchecked(tendril) },
 			}
 		)
+	}
+}
+
+impl Display for TripleQuotedString {
+	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+		write!(f, "TripleQuotedString(\"{}\")", unsafe {
+			str::from_utf8_unchecked(&self.0)
+		})
 	}
 }

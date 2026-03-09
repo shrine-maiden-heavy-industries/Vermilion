@@ -15,7 +15,7 @@ use crate::{
 		tokenizer::token::Token,
 		types::{
 			BaseSpecifier, BasedLiteralSpecifier, Comment, CompilerDirective, Control, Operator,
-			TextMacro,
+			SingleQuotedString, TextMacro, TripleQuotedString,
 		},
 	},
 };
@@ -1205,7 +1205,9 @@ impl VerilogTokenizer {
 		self.token = spanned_token!(
 			if triple_quote {
 				if LanguageStd::Sv23.contains(self.standard) {
-					Token::TripleQuotedString(self.tokenizer.subtendril(str_range))
+					Token::TripleQuotedString(TripleQuotedString::new(
+						self.tokenizer.subtendril(str_range),
+					))
 				} else {
 					Token::ContextuallyInvalid(
 						self.tokenizer.subtendril(quote_range.clone()),
@@ -1213,7 +1215,9 @@ impl VerilogTokenizer {
 					)
 				}
 			} else {
-				Token::String(self.tokenizer.subtendril(str_range))
+				Token::SingleQuotedString(SingleQuotedString::new(
+					self.tokenizer.subtendril(str_range),
+				))
 			},
 			quote_range,
 			context

@@ -27,7 +27,7 @@ tokenizer_test!(
 	triple_quote_string,
 	r#""""meow meow""""#,
 	spanned_token!(
-		Token::TripleQuotedString("meow meow".as_bytes().into()),
+		Token::TripleQuotedString(TripleQuotedString::new("meow meow".as_bytes().into())),
 		0..15,
 		Position::new(0, 0)
 	)
