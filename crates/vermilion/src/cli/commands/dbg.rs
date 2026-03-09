@@ -3,7 +3,7 @@
 use std::{fs::File, io::Read};
 
 use clap::{Arg, ArgAction, ArgMatches, Command};
-use eyre::{OptionExt, eyre};
+use eyre::eyre;
 
 use crate::lang::Language;
 
@@ -40,19 +40,22 @@ pub(crate) fn init() -> eyre::Result<Command> {
 		.subcommands(subcommands()))
 }
 
-pub(crate) fn exec(_: &mut Command, args: &ArgMatches) -> eyre::Result<()> {
-	let lang = args
-		.try_get_one::<Language>("lang-std")?
-		.cloned()
-		.ok_or_eyre("Language standard not specified")?;
-
-	match args.subcommand() {
-		Some((cmd, cmd_args)) => match cmd {
-			"dump-ast" => dump_ast(cmd_args, lang),
-			"dump-tokens" => dump_tokens(cmd_args, lang),
-			_ => unreachable!(),
-		},
-		_ => Err(eyre!("No subcommand")),
+pub(crate) fn exec(cmd: &mut Command, args: &ArgMatches) -> eyre::Result<()> {
+	if let Some(lang) = args.try_get_one::<Language>("lang-std")?.cloned() {
+		match args.subcommand() {
+			Some((cmd, cmd_args)) => match cmd {
+				"dump-ast" => dump_ast(cmd_args, lang),
+				"dump-tokens" => dump_tokens(cmd_args, lang),
+				_ => unreachable!(),
+			},
+			_ => Err(eyre!("No subcommand")),
+		}
+	} else {
+		cmd.error(
+			clap::error::ErrorKind::MissingRequiredArgument,
+			"No language standard specified",
+		)
+		.exit();
 	}
 }
 
