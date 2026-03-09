@@ -86,29 +86,6 @@ pub(crate) fn init() -> eyre::Result<Command> {
 				.value_hint(ValueHint::FilePath)
 				.value_name("WORKSPACE_FILE"),
 		)
-		.arg(
-			Arg::new("dump-schema")
-				.long("dump-schema")
-				.action(ArgAction::SetTrue)
-				.help("Dump the Vermilion configuration schema to stdout")
-				.hide_short_help(true),
-		)
-		.arg(
-			Arg::new("dump-config")
-				.long("dump-config")
-				.action(ArgAction::SetTrue)
-				.help("Dump the default Vermilion configuration to stdout")
-				.hide_short_help(true),
-		)
-		.arg(
-			Arg::new("dump-completions")
-				.long("dump-completions")
-				.action(ArgAction::Set)
-				.help("Dump shell completion file for the given shell to stdout")
-				.hide_short_help(true)
-				.value_parser(value_parser!(clap_complete::Shell))
-				.value_name("SHELL"),
-		)
 		.subcommands(init_commands()?))
 }
 
@@ -116,6 +93,7 @@ fn init_commands() -> eyre::Result<Vec<Command>> {
 	Ok(vec![
 		#[cfg(debug_assertions)]
 		lang_common(commands::dbg::init()?, false),
+		commands::dump::init()?,
 		commands::explain::init()?,
 		commands::init::init()?,
 		lang_common(commands::fmt::init()?, true),
@@ -128,6 +106,7 @@ pub(crate) fn exec_command(command: &str) -> Option<CmdExec> {
 	match command {
 		#[cfg(debug_assertions)]
 		commands::dbg::COMMAND_NAME => Some(commands::dbg::exec),
+		commands::dump::COMMAND_NAME => Some(commands::dump::exec),
 		commands::explain::COMMAND_NAME => Some(commands::explain::exec),
 		commands::fmt::COMMAND_NAME => Some(commands::fmt::exec),
 		commands::init::COMMAND_NAME => Some(commands::init::exec),

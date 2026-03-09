@@ -2,6 +2,7 @@
 
 #[cfg(debug_assertions)]
 pub(crate) mod dbg;
+pub(crate) mod dump;
 pub(crate) mod explain;
 pub(crate) mod fmt;
 pub(crate) mod init;

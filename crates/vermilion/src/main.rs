@@ -19,7 +19,6 @@
 use std::io;
 
 use eyre::{Context, OptionExt};
-use schemars::schema_for;
 use tracing_subscriber::{
 	Layer,
 	filter::{EnvFilter, LevelFilter},
@@ -100,42 +99,6 @@ fn main() -> eyre::Result<()> {
 		},
 		None => colorchoice::ColorChoice::Auto,
 	});
-
-	// If the user wants us to dump the configuration schema, do so and exit right away
-	if args.get_flag("dump-schema") {
-		println!(
-			"{}",
-			serde_json::to_string_pretty(&schema_for!(crate::workspace::WorkspaceConfig))?
-		);
-
-		return Ok(());
-	}
-
-	// Likewise, if we want to dump the default config, do that
-	if args.get_flag("dump-config") {
-		println!(
-			"{}",
-			toml::to_string(&crate::workspace::WorkspaceConfig::default())?
-		);
-
-		return Ok(());
-	}
-
-	// If the user wants us to print completions, then do so
-	if let Some(shell) = args
-		.get_one::<clap_complete::Shell>("dump-completions")
-		.copied()
-	{
-		let mut comp_cli = cli.clone();
-		clap_complete::generate(
-			shell,
-			&mut comp_cli,
-			env!("CARGO_PKG_NAME"),
-			&mut std::io::stdout(),
-		);
-
-		return Ok(());
-	}
 
 	// Initialize tracing with the appropriate log level
 	initialize_tracing({
