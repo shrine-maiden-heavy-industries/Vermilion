@@ -69,7 +69,7 @@ impl Display for Token {
 			},
 			Self::SingleQuotedString(string) => string.fmt(f),
 			Self::SystemFunc(sysfunc) => sysfunc.fmt(f),
-			Self::TextMacro(text_macro) => write!(f, "TextMacro(\"{}\")", text_macro),
+			Self::TextMacro(text_macro) => text_macro.fmt(f),
 			Self::TripleQuotedString(string) => string.fmt(f),
 			Self::UnsignedNumber(tendril) => write!(f, "UnsignedNumber({})", unsafe {
 				str::from_utf8_unchecked(tendril)
