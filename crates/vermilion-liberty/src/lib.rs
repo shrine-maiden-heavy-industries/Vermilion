@@ -10,6 +10,7 @@ use std::fmt::Display;
 use bitmask_enum::bitmask;
 
 pub mod lang;
+pub mod workspace;
 
 #[bitmask(u16)]
 pub enum LanguageStd {
