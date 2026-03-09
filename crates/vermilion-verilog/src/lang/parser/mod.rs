@@ -8,10 +8,8 @@ use crate::{
 	lang::{
 		ast::{Ast, Diagnostic, Module, PortList, Primitive},
 		keywords::Keyword,
-		tokenizer::{
-			VerilogTokenizer,
-			token::{Control, Token},
-		},
+		tokenizer::{VerilogTokenizer, token::Token},
+		types::Control,
 	},
 };
 

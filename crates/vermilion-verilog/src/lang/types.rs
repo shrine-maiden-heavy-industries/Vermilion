@@ -87,6 +87,29 @@ pub enum CompilerDirective {
 	Name(Directive),
 }
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
+pub enum Control {
+	Apostrophe, // Added: IEEE 1800-2005
+	At,
+	AttributeClose, // Added: IEEE 1364-2001
+	AttributeOpen,  // Added: IEEE 1364-2001
+	BraceClose,
+	BraceOpen,
+	BracketClose,
+	BracketOpen,
+	Colon,
+	Comma,
+	Dollar,
+	Dot,
+	Grave,
+	Octothorp,
+	ParenClose,
+	ParenOpen,
+	Question,
+	ReverseSolidus,
+	Semicolon,
+}
+
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub enum SystemFunc {
 	Builtin(BuiltinSysFunc),
@@ -124,6 +147,36 @@ impl Display for CompilerDirective {
 			}),
 			Self::Name(directive) => write!(f, "CompilerDirective({})", directive),
 		}
+	}
+}
+
+impl Display for Control {
+	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+		write!(
+			f,
+			"Control({})",
+			match self {
+				Self::Apostrophe => "'", // Added: IEEE 1800-2005
+				Self::At => "@",
+				Self::AttributeClose => "*)", // Added: IEEE 1364-2001
+				Self::AttributeOpen => "(*",  // Added: IEEE 1364-2001
+				Self::BraceClose => "}",
+				Self::BraceOpen => "{",
+				Self::BracketClose => "]",
+				Self::BracketOpen => "[",
+				Self::Colon => ":",
+				Self::Comma => ",",
+				Self::Dollar => "$",
+				Self::Dot => ".",
+				Self::Grave => "`",
+				Self::Octothorp => "#",
+				Self::ParenClose => ")",
+				Self::ParenOpen => "(",
+				Self::Question => "?",
+				Self::ReverseSolidus => "\\",
+				Self::Semicolon => ";",
+			}
+		)
 	}
 }
 
