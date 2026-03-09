@@ -12,6 +12,7 @@ use bitmask_enum::bitmask;
 pub mod lpf;
 pub mod pdc;
 pub mod sdc;
+pub mod workspace;
 
 #[bitmask(u16)]
 pub enum LanguageStd {

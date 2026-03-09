@@ -6,6 +6,7 @@ use clap::ArgMatches;
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 use tracing::debug;
+use vermilion_constraints::workspace::ConstraintConfig;
 use vermilion_liberty::workspace::LibertyConfig;
 use vermilion_verilog::workspace::{SystemVerilogConfig, VerilogAmsConfig, VerilogConfig};
 use vermilion_vhdl::workspace::{VhdlAmsConfig, VhdlConfig};
@@ -21,6 +22,7 @@ pub struct WorkspaceConfig {
 	verilog_ams:    Option<VerilogAmsConfig>,
 	vhdl:           Option<VhdlConfig>,
 	vhdl_ams:       Option<VhdlAmsConfig>,
+	constraints:    Option<ConstraintConfig>,
 	liberty:        Option<LibertyConfig>,
 	xact:           Option<XactConfig>,
 }
