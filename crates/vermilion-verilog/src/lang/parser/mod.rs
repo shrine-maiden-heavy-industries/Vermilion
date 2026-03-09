@@ -7,9 +7,10 @@ use crate::{
 	LanguageStd,
 	lang::{
 		ast::{Ast, Diagnostic, Module, PortList, Primitive},
+		keywords::Keyword,
 		tokenizer::{
 			VerilogTokenizer,
-			token::{Control, Keyword, Token},
+			token::{Control, Token},
 		},
 	},
 };
