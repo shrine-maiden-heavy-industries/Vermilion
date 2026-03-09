@@ -1,5 +1,11 @@
 // SPDX-License-Identifier: BSD-3-Clause
 
+use std::fmt::Display;
+
+use vermilion_lang::AtomicByteTendril;
+
+use crate::lang::sysfuncs::BuiltinSysFunc;
+
 #[derive(Clone, Copy, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
 pub enum NetType {
 	Supply0,
@@ -66,4 +72,21 @@ pub enum TimeUnit {
 	Nanoseconds,
 	Picoseconds,
 	Femtoseconds,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
+pub enum SystemFunc {
+	Builtin(BuiltinSysFunc),
+	Other(AtomicByteTendril),
+}
+
+impl Display for SystemFunc {
+	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+		match self {
+			SystemFunc::Builtin(builtin) => write!(f, "SystemFunc({})", builtin),
+			SystemFunc::Other(tendril) => write!(f, "SystemFunc(Other(${}))", unsafe {
+				str::from_utf8_unchecked(tendril)
+			}),
+		}
+	}
 }
