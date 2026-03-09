@@ -66,7 +66,7 @@ pub(crate) fn init() -> eyre::Result<Command> {
 		))
 }
 
-pub(crate) fn exec(args: &ArgMatches) -> eyre::Result<()> {
+pub(crate) fn exec(_: &mut Command, args: &ArgMatches) -> eyre::Result<()> {
 	// If we get passed `--clientProcessId` we want to watch for that PID to die
 	let client_pid = args.try_get_one::<usize>("client-pid")?.copied();
 

@@ -9,7 +9,7 @@ use crate::{env::VERMILION_LOG_LEVEL, lang::Language};
 
 mod commands;
 
-pub(crate) type CmdExec = fn(&ArgMatches) -> eyre::Result<()>;
+pub(crate) type CmdExec = fn(&mut Command, &ArgMatches) -> eyre::Result<()>;
 
 pub(crate) fn init() -> eyre::Result<Command> {
 	Ok(Command::new(env!("CARGO_PKG_NAME"))

@@ -40,7 +40,7 @@ pub(crate) fn init() -> eyre::Result<Command> {
 		.subcommands(subcommands()))
 }
 
-pub(crate) fn exec(args: &ArgMatches) -> eyre::Result<()> {
+pub(crate) fn exec(_: &mut Command, args: &ArgMatches) -> eyre::Result<()> {
 	let lang = args
 		.try_get_one::<Language>("lang-std")?
 		.cloned()

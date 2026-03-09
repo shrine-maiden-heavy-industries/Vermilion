@@ -16,6 +16,6 @@ pub(crate) fn init() -> eyre::Result<Command> {
 		))
 }
 
-pub(crate) fn exec(_args: &ArgMatches) -> eyre::Result<()> {
+pub(crate) fn exec(_: &mut Command, _args: &ArgMatches) -> eyre::Result<()> {
 	Ok(())
 }

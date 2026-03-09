@@ -152,10 +152,10 @@ fn main() -> eyre::Result<()> {
 
 	// Try to invoke the command
 	match args.subcommand() {
-		Some((cmd, args)) => {
-			cli::exec_command(cmd)
-				.ok_or_eyre(format!("Unable to find command entry point for `{}`!", cmd))?(args)
-		},
+		Some((sub_cmd, args)) => cli::exec_command(sub_cmd).ok_or_eyre(format!(
+			"Unable to find command entry point for `{}`!",
+			sub_cmd
+		))?(&mut cli, args),
 		_ => cli.print_help().wrap_err("Unable to write CLI help?"),
 	}
 }

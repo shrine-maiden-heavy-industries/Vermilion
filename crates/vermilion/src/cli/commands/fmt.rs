@@ -11,7 +11,7 @@ pub(crate) fn init() -> eyre::Result<Command> {
 	Ok(Command::new(COMMAND_NAME).about("Format the given HDL source files"))
 }
 
-pub(crate) fn exec(args: &ArgMatches) -> eyre::Result<()> {
+pub(crate) fn exec(_: &mut Command, args: &ArgMatches) -> eyre::Result<()> {
 	let _workspace_config = crate::workspace::load_workspace_config(args)?;
 	let _lang = args
 		.try_get_one::<Language>("lang-std")?
