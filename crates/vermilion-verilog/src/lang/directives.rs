@@ -7,7 +7,7 @@ use phf::{phf_map, phf_set};
 use crate::LanguageStd;
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq, PartialOrd, Ord)]
-pub enum Directive {
+pub enum BuiltinDirective {
 	BeginKeywords, // Added: IEEE 1364-2005
 	CellDefine,
 	DefaultDecayTime,
@@ -38,31 +38,31 @@ pub enum Directive {
 	UndefineAll, // Added: IEEE 1800-2009
 }
 
-/// IEEE 1364-1995 (Verilog 1995) Directive to [`Directive`] token map
-pub static VERILOG_95_DIRECTIVE_MAP: phf::Map<&'static str, Directive> = phf_map! {
-	"celldefine" => Directive::CellDefine,
-	"default_decay_time" => Directive::DefaultDecayTime,
-	"default_nettype" => Directive::DefaultNetType,
-	"default_trireg_strength" => Directive::DefaultTriRegStrength,
-	"define" => Directive::Define,
-	"delay_mode_distributed" => Directive::DelayModeDistributed,
-	"delay_mode_path" => Directive::DelayModePath,
-	"delay_mode_unit" => Directive::DelayModeUnit,
-	"delay_mode_zero" => Directive::DelayModeZero,
-	"else" => Directive::Else,
-	"endcelldefine" => Directive::EndCellDefine,
-	"endif" => Directive::EndIf,
-	"ifdef" => Directive::IfDef,
-	"include" => Directive::Include,
-	"nounconnected_drive" => Directive::NoUnconnectedDrive,
-	"resetall" => Directive::ResetAll,
-	"timescale" => Directive::TimeScale,
-	"unconnected_drive" => Directive::UnconnectedDrive,
-	"undef" => Directive::Undef,
+/// IEEE 1364-1995 (Verilog 1995) Builtin Directive to [`BuiltinDirective`] token map
+pub static VERILOG_95_BUILTIN_DIRECTIVE_MAP: phf::Map<&'static str, BuiltinDirective> = phf_map! {
+	"celldefine" => BuiltinDirective::CellDefine,
+	"default_decay_time" => BuiltinDirective::DefaultDecayTime,
+	"default_nettype" => BuiltinDirective::DefaultNetType,
+	"default_trireg_strength" => BuiltinDirective::DefaultTriRegStrength,
+	"define" => BuiltinDirective::Define,
+	"delay_mode_distributed" => BuiltinDirective::DelayModeDistributed,
+	"delay_mode_path" => BuiltinDirective::DelayModePath,
+	"delay_mode_unit" => BuiltinDirective::DelayModeUnit,
+	"delay_mode_zero" => BuiltinDirective::DelayModeZero,
+	"else" => BuiltinDirective::Else,
+	"endcelldefine" => BuiltinDirective::EndCellDefine,
+	"endif" => BuiltinDirective::EndIf,
+	"ifdef" => BuiltinDirective::IfDef,
+	"include" => BuiltinDirective::Include,
+	"nounconnected_drive" => BuiltinDirective::NoUnconnectedDrive,
+	"resetall" => BuiltinDirective::ResetAll,
+	"timescale" => BuiltinDirective::TimeScale,
+	"unconnected_drive" => BuiltinDirective::UnconnectedDrive,
+	"undef" => BuiltinDirective::Undef,
 };
 
-/// IEEE 1364-1995 (Verilog 1995) Directive set
-pub static VERILOG_95_DIRECTIVE_SET: phf::Set<&'static str> = phf_set! {
+/// IEEE 1364-1995 (Verilog 1995) Builtin Directive set
+pub static VERILOG_95_BUILTIN_DIRECTIVE_SET: phf::Set<&'static str> = phf_set! {
 	"celldefine",              "delay_mode_unit", "nounconnected_drive",
 	"default_decay_time",      "delay_mode_zero", "resetall",
 	"default_nettype",         "else",            "timescale",
@@ -72,34 +72,34 @@ pub static VERILOG_95_DIRECTIVE_SET: phf::Set<&'static str> = phf_set! {
 	"delay_mode_path",         "include",
 };
 
-/// IEEE 1364-2001 (Verilog 2001) Directive to [`Directive`] token map
-pub static VERILOG_01_DIRECTIVE_MAP: phf::Map<&'static str, Directive> = phf_map! {
-	"celldefine" => Directive::CellDefine,
-	"default_decay_time" => Directive::DefaultDecayTime,
-	"default_nettype" => Directive::DefaultNetType,
-	"default_trireg_strength" => Directive::DefaultTriRegStrength,
-	"define" => Directive::Define,
-	"delay_mode_distributed" => Directive::DelayModeDistributed,
-	"delay_mode_path" => Directive::DelayModePath,
-	"delay_mode_unit" => Directive::DelayModeUnit,
-	"delay_mode_zero" => Directive::DelayModeZero,
-	"else" => Directive::Else,
-	"elsif" => Directive::ElsIf,
-	"endcelldefine" => Directive::EndCellDefine,
-	"endif" => Directive::EndIf,
-	"ifdef" => Directive::IfDef,
-	"ifndef" => Directive::IfNotDef,
-	"include" => Directive::Include,
-	"line" => Directive::Line,
-	"nounconnected_drive" => Directive::NoUnconnectedDrive,
-	"resetall" => Directive::ResetAll,
-	"timescale" => Directive::TimeScale,
-	"unconnected_drive" => Directive::UnconnectedDrive,
-	"undef" => Directive::Undef,
+/// IEEE 1364-2001 (Verilog 2001) Builtin Directive to [`BuiltinDirective`] token map
+pub static VERILOG_01_BUILTIN_DIRECTIVE_MAP: phf::Map<&'static str, BuiltinDirective> = phf_map! {
+	"celldefine" => BuiltinDirective::CellDefine,
+	"default_decay_time" => BuiltinDirective::DefaultDecayTime,
+	"default_nettype" => BuiltinDirective::DefaultNetType,
+	"default_trireg_strength" => BuiltinDirective::DefaultTriRegStrength,
+	"define" => BuiltinDirective::Define,
+	"delay_mode_distributed" => BuiltinDirective::DelayModeDistributed,
+	"delay_mode_path" => BuiltinDirective::DelayModePath,
+	"delay_mode_unit" => BuiltinDirective::DelayModeUnit,
+	"delay_mode_zero" => BuiltinDirective::DelayModeZero,
+	"else" => BuiltinDirective::Else,
+	"elsif" => BuiltinDirective::ElsIf,
+	"endcelldefine" => BuiltinDirective::EndCellDefine,
+	"endif" => BuiltinDirective::EndIf,
+	"ifdef" => BuiltinDirective::IfDef,
+	"ifndef" => BuiltinDirective::IfNotDef,
+	"include" => BuiltinDirective::Include,
+	"line" => BuiltinDirective::Line,
+	"nounconnected_drive" => BuiltinDirective::NoUnconnectedDrive,
+	"resetall" => BuiltinDirective::ResetAll,
+	"timescale" => BuiltinDirective::TimeScale,
+	"unconnected_drive" => BuiltinDirective::UnconnectedDrive,
+	"undef" => BuiltinDirective::Undef,
 };
 
-/// IEEE 1364-2001 (Verilog 2001) Directive set
-pub static VERILOG_01_DIRECTIVE_SET: phf::Set<&'static str> = phf_set! {
+/// IEEE 1364-2001 (Verilog 2001) Builtin Directive set
+pub static VERILOG_01_BUILTIN_DIRECTIVE_SET: phf::Set<&'static str> = phf_set! {
 	"celldefine",              "delay_mode_zero", "line",
 	"default_decay_time",      "else",            "nounconnected_drive",
 	"default_nettype",         "elsif",           "resetall",
@@ -110,37 +110,37 @@ pub static VERILOG_01_DIRECTIVE_SET: phf::Set<&'static str> = phf_set! {
 	"delay_mode_unit",         "include",
 };
 
-/// IEEE 1364-2005 (Verilog 2005) Directive to [`Directive`] token map
-pub static VERILOG_05_DIRECTIVE_MAP: phf::Map<&'static str, Directive> = phf_map! {
-	"begin_keywords" => Directive::BeginKeywords,
-	"celldefine" => Directive::CellDefine,
-	"default_decay_time" => Directive::DefaultDecayTime,
-	"default_nettype" => Directive::DefaultNetType,
-	"default_trireg_strength" => Directive::DefaultTriRegStrength,
-	"define" => Directive::Define,
-	"delay_mode_distributed" => Directive::DelayModeDistributed,
-	"delay_mode_path" => Directive::DelayModePath,
-	"delay_mode_unit" => Directive::DelayModeUnit,
-	"delay_mode_zero" => Directive::DelayModeZero,
-	"else" => Directive::Else,
-	"elsif" => Directive::ElsIf,
-	"endcelldefine" => Directive::EndCellDefine,
-	"endif" => Directive::EndIf,
-	"end_keywords" => Directive::EndKeywords,
-	"ifdef" => Directive::IfDef,
-	"ifndef" => Directive::IfNotDef,
-	"include" => Directive::Include,
-	"line" => Directive::Line,
-	"nounconnected_drive" => Directive::NoUnconnectedDrive,
-	"pragma" => Directive::Pragma,
-	"resetall" => Directive::ResetAll,
-	"timescale" => Directive::TimeScale,
-	"unconnected_drive" => Directive::UnconnectedDrive,
-	"undef" => Directive::Undef,
+/// IEEE 1364-2005 (Verilog 2005) Builtin Directive to [`BuiltinDirective`] token map
+pub static VERILOG_05_BUILTIN_DIRECTIVE_MAP: phf::Map<&'static str, BuiltinDirective> = phf_map! {
+	"begin_keywords" => BuiltinDirective::BeginKeywords,
+	"celldefine" => BuiltinDirective::CellDefine,
+	"default_decay_time" => BuiltinDirective::DefaultDecayTime,
+	"default_nettype" => BuiltinDirective::DefaultNetType,
+	"default_trireg_strength" => BuiltinDirective::DefaultTriRegStrength,
+	"define" => BuiltinDirective::Define,
+	"delay_mode_distributed" => BuiltinDirective::DelayModeDistributed,
+	"delay_mode_path" => BuiltinDirective::DelayModePath,
+	"delay_mode_unit" => BuiltinDirective::DelayModeUnit,
+	"delay_mode_zero" => BuiltinDirective::DelayModeZero,
+	"else" => BuiltinDirective::Else,
+	"elsif" => BuiltinDirective::ElsIf,
+	"endcelldefine" => BuiltinDirective::EndCellDefine,
+	"endif" => BuiltinDirective::EndIf,
+	"end_keywords" => BuiltinDirective::EndKeywords,
+	"ifdef" => BuiltinDirective::IfDef,
+	"ifndef" => BuiltinDirective::IfNotDef,
+	"include" => BuiltinDirective::Include,
+	"line" => BuiltinDirective::Line,
+	"nounconnected_drive" => BuiltinDirective::NoUnconnectedDrive,
+	"pragma" => BuiltinDirective::Pragma,
+	"resetall" => BuiltinDirective::ResetAll,
+	"timescale" => BuiltinDirective::TimeScale,
+	"unconnected_drive" => BuiltinDirective::UnconnectedDrive,
+	"undef" => BuiltinDirective::Undef,
 };
 
-/// IEEE 1364-2005 (Verilog 2005) Directive set
-pub static VERILOG_05_DIRECTIVE_SET: phf::Set<&'static str> = phf_set! {
+/// IEEE 1364-2005 (Verilog 2005) Builtin Directive set
+pub static VERILOG_05_BUILTIN_DIRECTIVE_SET: phf::Set<&'static str> = phf_set! {
 	"begin_keywords",          "delay_mode_zero", "line",
 	"celldefine",              "else",            "nounconnected_drive",
 	"default_decay_time",      "elsif",           "pragma",
@@ -152,39 +152,39 @@ pub static VERILOG_05_DIRECTIVE_SET: phf::Set<&'static str> = phf_set! {
 	"delay_mode_unit",         "include",
 };
 
-// NOTE(aki): Identical to `VERILOG_05_DIRECTIVE_MAP`
-/// IEEE 1800-2005 (SystemVerilog 2005) Directive to [`Directive`] token map
-pub static SYSTEM_VERILOG_05_DIRECTIVE_MAP: phf::Map<&'static str, Directive> = phf_map! {
-	"begin_keywords" => Directive::BeginKeywords,
-	"celldefine" => Directive::CellDefine,
-	"default_decay_time" => Directive::DefaultDecayTime,
-	"default_nettype" => Directive::DefaultNetType,
-	"default_trireg_strength" => Directive::DefaultTriRegStrength,
-	"define" => Directive::Define,
-	"delay_mode_distributed" => Directive::DelayModeDistributed,
-	"delay_mode_path" => Directive::DelayModePath,
-	"delay_mode_unit" => Directive::DelayModeUnit,
-	"delay_mode_zero" => Directive::DelayModeZero,
-	"else" => Directive::Else,
-	"elsif" => Directive::ElsIf,
-	"endcelldefine" => Directive::EndCellDefine,
-	"endif" => Directive::EndIf,
-	"end_keywords" => Directive::EndKeywords,
-	"ifdef" => Directive::IfDef,
-	"ifndef" => Directive::IfNotDef,
-	"include" => Directive::Include,
-	"line" => Directive::Line,
-	"nounconnected_drive" => Directive::NoUnconnectedDrive,
-	"pragma" => Directive::Pragma,
-	"resetall" => Directive::ResetAll,
-	"timescale" => Directive::TimeScale,
-	"unconnected_drive" => Directive::UnconnectedDrive,
-	"undef" => Directive::Undef,
+// NOTE(aki): Identical to `VERILOG_05_BUILTIN_DIRECTIVE_MAP`
+/// IEEE 1800-2005 (SystemVerilog 2005) Builtin Directive to [`BuiltinDirective`] token map
+pub static SYSTEM_VERILOG_05_BUILTIN_DIRECTIVE_MAP: phf::Map<&'static str, BuiltinDirective> = phf_map! {
+	"begin_keywords" => BuiltinDirective::BeginKeywords,
+	"celldefine" => BuiltinDirective::CellDefine,
+	"default_decay_time" => BuiltinDirective::DefaultDecayTime,
+	"default_nettype" => BuiltinDirective::DefaultNetType,
+	"default_trireg_strength" => BuiltinDirective::DefaultTriRegStrength,
+	"define" => BuiltinDirective::Define,
+	"delay_mode_distributed" => BuiltinDirective::DelayModeDistributed,
+	"delay_mode_path" => BuiltinDirective::DelayModePath,
+	"delay_mode_unit" => BuiltinDirective::DelayModeUnit,
+	"delay_mode_zero" => BuiltinDirective::DelayModeZero,
+	"else" => BuiltinDirective::Else,
+	"elsif" => BuiltinDirective::ElsIf,
+	"endcelldefine" => BuiltinDirective::EndCellDefine,
+	"endif" => BuiltinDirective::EndIf,
+	"end_keywords" => BuiltinDirective::EndKeywords,
+	"ifdef" => BuiltinDirective::IfDef,
+	"ifndef" => BuiltinDirective::IfNotDef,
+	"include" => BuiltinDirective::Include,
+	"line" => BuiltinDirective::Line,
+	"nounconnected_drive" => BuiltinDirective::NoUnconnectedDrive,
+	"pragma" => BuiltinDirective::Pragma,
+	"resetall" => BuiltinDirective::ResetAll,
+	"timescale" => BuiltinDirective::TimeScale,
+	"unconnected_drive" => BuiltinDirective::UnconnectedDrive,
+	"undef" => BuiltinDirective::Undef,
 };
 
-// NOTE(aki): Identical to `VERILOG_05_DIRECTIVE_SET`
-/// IEEE 1800-2005 (SystemVerilog 2005) Directive set
-pub static SYSTEM_VERILOG_05_DIRECTIVE_SET: phf::Set<&'static str> = phf_set! {
+// NOTE(aki): Identical to `VERILOG_05_BUILTIN_DIRECTIVE_SET`
+/// IEEE 1800-2005 (SystemVerilog 2005) Builtin Directive set
+pub static SYSTEM_VERILOG_05_BUILTIN_DIRECTIVE_SET: phf::Set<&'static str> = phf_set! {
 	"begin_keywords",          "delay_mode_zero", "line",
 	"celldefine",              "else",            "nounconnected_drive",
 	"default_decay_time",      "elsif",           "pragma",
@@ -196,38 +196,38 @@ pub static SYSTEM_VERILOG_05_DIRECTIVE_SET: phf::Set<&'static str> = phf_set! {
 	"delay_mode_unit",         "include",
 };
 
-/// IEEE 1800-2009 (SystemVerilog 2009) Directive to [`Directive`] token map
-pub static SYSTEM_VERILOG_09_DIRECTIVE_MAP: phf::Map<&'static str, Directive> = phf_map! {
-	"begin_keywords" => Directive::BeginKeywords,
-	"celldefine" => Directive::CellDefine,
-	"default_decay_time" => Directive::DefaultDecayTime,
-	"default_nettype" => Directive::DefaultNetType,
-	"default_trireg_strength" => Directive::DefaultTriRegStrength,
-	"define" => Directive::Define,
-	"delay_mode_distributed" => Directive::DelayModeDistributed,
-	"delay_mode_path" => Directive::DelayModePath,
-	"delay_mode_unit" => Directive::DelayModeUnit,
-	"delay_mode_zero" => Directive::DelayModeZero,
-	"else" => Directive::Else,
-	"elsif" => Directive::ElsIf,
-	"endcelldefine" => Directive::EndCellDefine,
-	"endif" => Directive::EndIf,
-	"end_keywords" => Directive::EndKeywords,
-	"ifdef" => Directive::IfDef,
-	"ifndef" => Directive::IfNotDef,
-	"include" => Directive::Include,
-	"line" => Directive::Line,
-	"nounconnected_drive" => Directive::NoUnconnectedDrive,
-	"pragma" => Directive::Pragma,
-	"resetall" => Directive::ResetAll,
-	"timescale" => Directive::TimeScale,
-	"unconnected_drive" => Directive::UnconnectedDrive,
-	"undef" => Directive::Undef,
-	"undefineall" => Directive::UndefineAll,
+/// IEEE 1800-2009 (SystemVerilog 2009) Builtin Directive to [`BuiltinDirective`] token map
+pub static SYSTEM_VERILOG_09_BUILTIN_DIRECTIVE_MAP: phf::Map<&'static str, BuiltinDirective> = phf_map! {
+	"begin_keywords" => BuiltinDirective::BeginKeywords,
+	"celldefine" => BuiltinDirective::CellDefine,
+	"default_decay_time" => BuiltinDirective::DefaultDecayTime,
+	"default_nettype" => BuiltinDirective::DefaultNetType,
+	"default_trireg_strength" => BuiltinDirective::DefaultTriRegStrength,
+	"define" => BuiltinDirective::Define,
+	"delay_mode_distributed" => BuiltinDirective::DelayModeDistributed,
+	"delay_mode_path" => BuiltinDirective::DelayModePath,
+	"delay_mode_unit" => BuiltinDirective::DelayModeUnit,
+	"delay_mode_zero" => BuiltinDirective::DelayModeZero,
+	"else" => BuiltinDirective::Else,
+	"elsif" => BuiltinDirective::ElsIf,
+	"endcelldefine" => BuiltinDirective::EndCellDefine,
+	"endif" => BuiltinDirective::EndIf,
+	"end_keywords" => BuiltinDirective::EndKeywords,
+	"ifdef" => BuiltinDirective::IfDef,
+	"ifndef" => BuiltinDirective::IfNotDef,
+	"include" => BuiltinDirective::Include,
+	"line" => BuiltinDirective::Line,
+	"nounconnected_drive" => BuiltinDirective::NoUnconnectedDrive,
+	"pragma" => BuiltinDirective::Pragma,
+	"resetall" => BuiltinDirective::ResetAll,
+	"timescale" => BuiltinDirective::TimeScale,
+	"unconnected_drive" => BuiltinDirective::UnconnectedDrive,
+	"undef" => BuiltinDirective::Undef,
+	"undefineall" => BuiltinDirective::UndefineAll,
 };
 
-/// IEEE 1800-2009 (SystemVerilog 2009) Directive set
-pub static SYSTEM_VERILOG_09_DIRECTIVE_SET: phf::Set<&'static str> = phf_set! {
+/// IEEE 1800-2009 (SystemVerilog 2009) Builtin Directive set
+pub static SYSTEM_VERILOG_09_BUILTIN_DIRECTIVE_SET: phf::Set<&'static str> = phf_set! {
 	"begin_keywords",          "delay_mode_zero", "line",
 	"celldefine",              "else",            "nounconnected_drive",
 	"default_decay_time",      "elsif",           "pragma",
@@ -239,40 +239,40 @@ pub static SYSTEM_VERILOG_09_DIRECTIVE_SET: phf::Set<&'static str> = phf_set! {
 	"delay_mode_unit",         "include",
 };
 
-// NOTE(aki): Identical to `SYSTEM_VERILOG_09_DIRECTIVE_MAP`
-/// IEEE 1800-2012 (SystemVerilog 2012) Directive to [`Directive`] token map
-pub static SYSTEM_VERILOG_12_DIRECTIVE_MAP: phf::Map<&'static str, Directive> = phf_map! {
-	"begin_keywords" => Directive::BeginKeywords,
-	"celldefine" => Directive::CellDefine,
-	"default_decay_time" => Directive::DefaultDecayTime,
-	"default_nettype" => Directive::DefaultNetType,
-	"default_trireg_strength" => Directive::DefaultTriRegStrength,
-	"define" => Directive::Define,
-	"delay_mode_distributed" => Directive::DelayModeDistributed,
-	"delay_mode_path" => Directive::DelayModePath,
-	"delay_mode_unit" => Directive::DelayModeUnit,
-	"delay_mode_zero" => Directive::DelayModeZero,
-	"else" => Directive::Else,
-	"elsif" => Directive::ElsIf,
-	"endcelldefine" => Directive::EndCellDefine,
-	"endif" => Directive::EndIf,
-	"end_keywords" => Directive::EndKeywords,
-	"ifdef" => Directive::IfDef,
-	"ifndef" => Directive::IfNotDef,
-	"include" => Directive::Include,
-	"line" => Directive::Line,
-	"nounconnected_drive" => Directive::NoUnconnectedDrive,
-	"pragma" => Directive::Pragma,
-	"resetall" => Directive::ResetAll,
-	"timescale" => Directive::TimeScale,
-	"unconnected_drive" => Directive::UnconnectedDrive,
-	"undef" => Directive::Undef,
-	"undefineall" => Directive::UndefineAll,
+// NOTE(aki): Identical to `SYSTEM_VERILOG_09_BUILTIN_DIRECTIVE_MAP`
+/// IEEE 1800-2012 (SystemVerilog 2012) Builtin Directive to [`BuiltinDirective`] token map
+pub static SYSTEM_VERILOG_12_BUILTIN_DIRECTIVE_MAP: phf::Map<&'static str, BuiltinDirective> = phf_map! {
+	"begin_keywords" => BuiltinDirective::BeginKeywords,
+	"celldefine" => BuiltinDirective::CellDefine,
+	"default_decay_time" => BuiltinDirective::DefaultDecayTime,
+	"default_nettype" => BuiltinDirective::DefaultNetType,
+	"default_trireg_strength" => BuiltinDirective::DefaultTriRegStrength,
+	"define" => BuiltinDirective::Define,
+	"delay_mode_distributed" => BuiltinDirective::DelayModeDistributed,
+	"delay_mode_path" => BuiltinDirective::DelayModePath,
+	"delay_mode_unit" => BuiltinDirective::DelayModeUnit,
+	"delay_mode_zero" => BuiltinDirective::DelayModeZero,
+	"else" => BuiltinDirective::Else,
+	"elsif" => BuiltinDirective::ElsIf,
+	"endcelldefine" => BuiltinDirective::EndCellDefine,
+	"endif" => BuiltinDirective::EndIf,
+	"end_keywords" => BuiltinDirective::EndKeywords,
+	"ifdef" => BuiltinDirective::IfDef,
+	"ifndef" => BuiltinDirective::IfNotDef,
+	"include" => BuiltinDirective::Include,
+	"line" => BuiltinDirective::Line,
+	"nounconnected_drive" => BuiltinDirective::NoUnconnectedDrive,
+	"pragma" => BuiltinDirective::Pragma,
+	"resetall" => BuiltinDirective::ResetAll,
+	"timescale" => BuiltinDirective::TimeScale,
+	"unconnected_drive" => BuiltinDirective::UnconnectedDrive,
+	"undef" => BuiltinDirective::Undef,
+	"undefineall" => BuiltinDirective::UndefineAll,
 };
 
-// NOTE(aki): Identical to `SYSTEM_VERILOG_09_DIRECTIVE_SET`
-/// IEEE 1800-2012 (SystemVerilog 2012) Directive set
-pub static SYSTEM_VERILOG_12_DIRECTIVE_SET: phf::Set<&'static str> = phf_set! {
+// NOTE(aki): Identical to `SYSTEM_VERILOG_09_BUILTIN_DIRECTIVE_SET`
+/// IEEE 1800-2012 (SystemVerilog 2012) Builtin Directive set
+pub static SYSTEM_VERILOG_12_BUILTIN_DIRECTIVE_SET: phf::Set<&'static str> = phf_set! {
 	"begin_keywords",          "delay_mode_zero", "line",
 	"celldefine",              "else",            "nounconnected_drive",
 	"default_decay_time",      "elsif",           "pragma",
@@ -284,40 +284,40 @@ pub static SYSTEM_VERILOG_12_DIRECTIVE_SET: phf::Set<&'static str> = phf_set! {
 	"delay_mode_unit",         "include",
 };
 
-// NOTE(aki): Identical to `SYSTEM_VERILOG_09_DIRECTIVE_MAP`
-/// IEEE 1800-2017 (SystemVerilog 2017) Directive to [`Directive`] token map
-pub static SYSTEM_VERILOG_17_DIRECTIVE_MAP: phf::Map<&'static str, Directive> = phf_map! {
-	"begin_keywords" => Directive::BeginKeywords,
-	"celldefine" => Directive::CellDefine,
-	"default_decay_time" => Directive::DefaultDecayTime,
-	"default_nettype" => Directive::DefaultNetType,
-	"default_trireg_strength" => Directive::DefaultTriRegStrength,
-	"define" => Directive::Define,
-	"delay_mode_distributed" => Directive::DelayModeDistributed,
-	"delay_mode_path" => Directive::DelayModePath,
-	"delay_mode_unit" => Directive::DelayModeUnit,
-	"delay_mode_zero" => Directive::DelayModeZero,
-	"else" => Directive::Else,
-	"elsif" => Directive::ElsIf,
-	"endcelldefine" => Directive::EndCellDefine,
-	"endif" => Directive::EndIf,
-	"end_keywords" => Directive::EndKeywords,
-	"ifdef" => Directive::IfDef,
-	"ifndef" => Directive::IfNotDef,
-	"include" => Directive::Include,
-	"line" => Directive::Line,
-	"nounconnected_drive" => Directive::NoUnconnectedDrive,
-	"pragma" => Directive::Pragma,
-	"resetall" => Directive::ResetAll,
-	"timescale" => Directive::TimeScale,
-	"unconnected_drive" => Directive::UnconnectedDrive,
-	"undef" => Directive::Undef,
-	"undefineall" => Directive::UndefineAll,
+// NOTE(aki): Identical to `SYSTEM_VERILOG_09_BUILTIN_DIRECTIVE_MAP`
+/// IEEE 1800-2017 (SystemVerilog 2017) Builtin Directive to [`BuiltinDirective`] token map
+pub static SYSTEM_VERILOG_17_BUILTIN_DIRECTIVE_MAP: phf::Map<&'static str, BuiltinDirective> = phf_map! {
+	"begin_keywords" => BuiltinDirective::BeginKeywords,
+	"celldefine" => BuiltinDirective::CellDefine,
+	"default_decay_time" => BuiltinDirective::DefaultDecayTime,
+	"default_nettype" => BuiltinDirective::DefaultNetType,
+	"default_trireg_strength" => BuiltinDirective::DefaultTriRegStrength,
+	"define" => BuiltinDirective::Define,
+	"delay_mode_distributed" => BuiltinDirective::DelayModeDistributed,
+	"delay_mode_path" => BuiltinDirective::DelayModePath,
+	"delay_mode_unit" => BuiltinDirective::DelayModeUnit,
+	"delay_mode_zero" => BuiltinDirective::DelayModeZero,
+	"else" => BuiltinDirective::Else,
+	"elsif" => BuiltinDirective::ElsIf,
+	"endcelldefine" => BuiltinDirective::EndCellDefine,
+	"endif" => BuiltinDirective::EndIf,
+	"end_keywords" => BuiltinDirective::EndKeywords,
+	"ifdef" => BuiltinDirective::IfDef,
+	"ifndef" => BuiltinDirective::IfNotDef,
+	"include" => BuiltinDirective::Include,
+	"line" => BuiltinDirective::Line,
+	"nounconnected_drive" => BuiltinDirective::NoUnconnectedDrive,
+	"pragma" => BuiltinDirective::Pragma,
+	"resetall" => BuiltinDirective::ResetAll,
+	"timescale" => BuiltinDirective::TimeScale,
+	"unconnected_drive" => BuiltinDirective::UnconnectedDrive,
+	"undef" => BuiltinDirective::Undef,
+	"undefineall" => BuiltinDirective::UndefineAll,
 };
 
-// NOTE(aki): Identical to `SYSTEM_VERILOG_09_DIRECTIVE_SET`
-/// IEEE 1800-2017 (SystemVerilog 2017) Directive set
-pub static SYSTEM_VERILOG_17_DIRECTIVE_SET: phf::Set<&'static str> = phf_set! {
+// NOTE(aki): Identical to `SYSTEM_VERILOG_09_BUILTIN_DIRECTIVE_SET`
+/// IEEE 1800-2017 (SystemVerilog 2017) Builtin Directive set
+pub static SYSTEM_VERILOG_17_BUILTIN_DIRECTIVE_SET: phf::Set<&'static str> = phf_set! {
 	"begin_keywords",          "delay_mode_zero", "line",
 	"celldefine",              "else",            "nounconnected_drive",
 	"default_decay_time",      "elsif",           "pragma",
@@ -329,40 +329,40 @@ pub static SYSTEM_VERILOG_17_DIRECTIVE_SET: phf::Set<&'static str> = phf_set! {
 	"delay_mode_unit",         "include",
 };
 
-// NOTE(aki): Identical to `SYSTEM_VERILOG_09_DIRECTIVE_MAP`
-/// IEEE 1800-2023 (SystemVerilog 2023) Directive to [`Directive`] token map
-pub static SYSTEM_VERILOG_23_DIRECTIVE_MAP: phf::Map<&'static str, Directive> = phf_map! {
-	"begin_keywords" => Directive::BeginKeywords,
-	"celldefine" => Directive::CellDefine,
-	"default_decay_time" => Directive::DefaultDecayTime,
-	"default_nettype" => Directive::DefaultNetType,
-	"default_trireg_strength" => Directive::DefaultTriRegStrength,
-	"define" => Directive::Define,
-	"delay_mode_distributed" => Directive::DelayModeDistributed,
-	"delay_mode_path" => Directive::DelayModePath,
-	"delay_mode_unit" => Directive::DelayModeUnit,
-	"delay_mode_zero" => Directive::DelayModeZero,
-	"else" => Directive::Else,
-	"elsif" => Directive::ElsIf,
-	"endcelldefine" => Directive::EndCellDefine,
-	"endif" => Directive::EndIf,
-	"end_keywords" => Directive::EndKeywords,
-	"ifdef" => Directive::IfDef,
-	"ifndef" => Directive::IfNotDef,
-	"include" => Directive::Include,
-	"line" => Directive::Line,
-	"nounconnected_drive" => Directive::NoUnconnectedDrive,
-	"pragma" => Directive::Pragma,
-	"resetall" => Directive::ResetAll,
-	"timescale" => Directive::TimeScale,
-	"unconnected_drive" => Directive::UnconnectedDrive,
-	"undef" => Directive::Undef,
-	"undefineall" => Directive::UndefineAll,
+// NOTE(aki): Identical to `SYSTEM_VERILOG_09_BUILTIN_DIRECTIVE_MAP`
+/// IEEE 1800-2023 (SystemVerilog 2023) Builtin Directive to [`BuiltinDirective`] token map
+pub static SYSTEM_VERILOG_23_BUILTIN_DIRECTIVE_MAP: phf::Map<&'static str, BuiltinDirective> = phf_map! {
+	"begin_keywords" => BuiltinDirective::BeginKeywords,
+	"celldefine" => BuiltinDirective::CellDefine,
+	"default_decay_time" => BuiltinDirective::DefaultDecayTime,
+	"default_nettype" => BuiltinDirective::DefaultNetType,
+	"default_trireg_strength" => BuiltinDirective::DefaultTriRegStrength,
+	"define" => BuiltinDirective::Define,
+	"delay_mode_distributed" => BuiltinDirective::DelayModeDistributed,
+	"delay_mode_path" => BuiltinDirective::DelayModePath,
+	"delay_mode_unit" => BuiltinDirective::DelayModeUnit,
+	"delay_mode_zero" => BuiltinDirective::DelayModeZero,
+	"else" => BuiltinDirective::Else,
+	"elsif" => BuiltinDirective::ElsIf,
+	"endcelldefine" => BuiltinDirective::EndCellDefine,
+	"endif" => BuiltinDirective::EndIf,
+	"end_keywords" => BuiltinDirective::EndKeywords,
+	"ifdef" => BuiltinDirective::IfDef,
+	"ifndef" => BuiltinDirective::IfNotDef,
+	"include" => BuiltinDirective::Include,
+	"line" => BuiltinDirective::Line,
+	"nounconnected_drive" => BuiltinDirective::NoUnconnectedDrive,
+	"pragma" => BuiltinDirective::Pragma,
+	"resetall" => BuiltinDirective::ResetAll,
+	"timescale" => BuiltinDirective::TimeScale,
+	"unconnected_drive" => BuiltinDirective::UnconnectedDrive,
+	"undef" => BuiltinDirective::Undef,
+	"undefineall" => BuiltinDirective::UndefineAll,
 };
 
-// NOTE(aki): Identical to `SYSTEM_VERILOG_09_DIRECTIVE_SET`
-/// IEEE 1800-2023 (SystemVerilog 2023) Directive set
-pub static SYSTEM_VERILOG_23_DIRECTIVE_SET: phf::Set<&'static str> = phf_set! {
+// NOTE(aki): Identical to `SYSTEM_VERILOG_09_BUILTIN_DIRECTIVE_SET`
+/// IEEE 1800-2023 (SystemVerilog 2023) Builtin Directive set
+pub static SYSTEM_VERILOG_23_BUILTIN_DIRECTIVE_SET: phf::Set<&'static str> = phf_set! {
 	"begin_keywords",          "delay_mode_zero", "line",
 	"celldefine",              "else",            "nounconnected_drive",
 	"default_decay_time",      "elsif",           "pragma",
@@ -374,39 +374,39 @@ pub static SYSTEM_VERILOG_23_DIRECTIVE_SET: phf::Set<&'static str> = phf_set! {
 	"delay_mode_unit",         "include",
 };
 
-/// Verilog-AMS 2.3.1 (Verilog-AMS 2009) Directive to [`Directive`] token map
-pub static VERILOG_AMS_09_DIRECTIVE_MAP: phf::Map<&'static str, Directive> = phf_map! {
-	"begin_keywords" => Directive::BeginKeywords,
-	"celldefine" => Directive::CellDefine,
-	"default_decay_time" => Directive::DefaultDecayTime,
-	"default_discipline" => Directive::DefaultDiscipline,
-	"default_nettype" => Directive::DefaultNetType,
-	"default_transition" => Directive::DefaultTransition,
-	"default_trireg_strength" => Directive::DefaultTriRegStrength,
-	"define" => Directive::Define,
-	"delay_mode_distributed" => Directive::DelayModeDistributed,
-	"delay_mode_path" => Directive::DelayModePath,
-	"delay_mode_unit" => Directive::DelayModeUnit,
-	"delay_mode_zero" => Directive::DelayModeZero,
-	"else" => Directive::Else,
-	"elsif" => Directive::ElsIf,
-	"endcelldefine" => Directive::EndCellDefine,
-	"endif" => Directive::EndIf,
-	"end_keywords" => Directive::EndKeywords,
-	"ifdef" => Directive::IfDef,
-	"ifndef" => Directive::IfNotDef,
-	"include" => Directive::Include,
-	"line" => Directive::Line,
-	"nounconnected_drive" => Directive::NoUnconnectedDrive,
-	"pragma" => Directive::Pragma,
-	"resetall" => Directive::ResetAll,
-	"timescale" => Directive::TimeScale,
-	"unconnected_drive" => Directive::UnconnectedDrive,
-	"undef" => Directive::Undef,
+/// Verilog-AMS 2.3.1 (Verilog-AMS 2009) Builtin Directive to [`BuiltinDirective`] token map
+pub static VERILOG_AMS_09_BUILTIN_DIRECTIVE_MAP: phf::Map<&'static str, BuiltinDirective> = phf_map! {
+	"begin_keywords" => BuiltinDirective::BeginKeywords,
+	"celldefine" => BuiltinDirective::CellDefine,
+	"default_decay_time" => BuiltinDirective::DefaultDecayTime,
+	"default_discipline" => BuiltinDirective::DefaultDiscipline,
+	"default_nettype" => BuiltinDirective::DefaultNetType,
+	"default_transition" => BuiltinDirective::DefaultTransition,
+	"default_trireg_strength" => BuiltinDirective::DefaultTriRegStrength,
+	"define" => BuiltinDirective::Define,
+	"delay_mode_distributed" => BuiltinDirective::DelayModeDistributed,
+	"delay_mode_path" => BuiltinDirective::DelayModePath,
+	"delay_mode_unit" => BuiltinDirective::DelayModeUnit,
+	"delay_mode_zero" => BuiltinDirective::DelayModeZero,
+	"else" => BuiltinDirective::Else,
+	"elsif" => BuiltinDirective::ElsIf,
+	"endcelldefine" => BuiltinDirective::EndCellDefine,
+	"endif" => BuiltinDirective::EndIf,
+	"end_keywords" => BuiltinDirective::EndKeywords,
+	"ifdef" => BuiltinDirective::IfDef,
+	"ifndef" => BuiltinDirective::IfNotDef,
+	"include" => BuiltinDirective::Include,
+	"line" => BuiltinDirective::Line,
+	"nounconnected_drive" => BuiltinDirective::NoUnconnectedDrive,
+	"pragma" => BuiltinDirective::Pragma,
+	"resetall" => BuiltinDirective::ResetAll,
+	"timescale" => BuiltinDirective::TimeScale,
+	"unconnected_drive" => BuiltinDirective::UnconnectedDrive,
+	"undef" => BuiltinDirective::Undef,
 };
 
-/// Verilog-AMS 2.3.1 (Verilog-AMS 2009) Directive set
-pub static VERILOG_AMS_09_DIRECTIVE_SET: phf::Set<&'static str> = phf_set! {
+/// Verilog-AMS 2.3.1 (Verilog-AMS 2009) Builtin Directive set
+pub static VERILOG_AMS_09_BUILTIN_DIRECTIVE_SET: phf::Set<&'static str> = phf_set! {
 	"begin_keywords",          "delay_mode_path", "ifndef",
 	"celldefine",              "delay_mode_unit", "include",
 	"default_decay_time",      "delay_mode_zero", "line",
@@ -418,41 +418,41 @@ pub static VERILOG_AMS_09_DIRECTIVE_SET: phf::Set<&'static str> = phf_set! {
 	"delay_mode_distributed",  "ifdef",           "undef",
 };
 
-// NOTE(aki): Identical to `VERILOG_AMS_09_DIRECTIVE_MAP`
-/// Verilog-AMS 2.4.0 (Verilog-AMS 2014) Directive to [`Directive`] token map
-pub static VERILOG_AMS_14_DIRECTIVE_MAP: phf::Map<&'static str, Directive> = phf_map! {
-	"begin_keywords" => Directive::BeginKeywords,
-	"celldefine" => Directive::CellDefine,
-	"default_decay_time" => Directive::DefaultDecayTime,
-	"default_discipline" => Directive::DefaultDiscipline,
-	"default_nettype" => Directive::DefaultNetType,
-	"default_transition" => Directive::DefaultTransition,
-	"default_trireg_strength" => Directive::DefaultTriRegStrength,
-	"define" => Directive::Define,
-	"delay_mode_distributed" => Directive::DelayModeDistributed,
-	"delay_mode_path" => Directive::DelayModePath,
-	"delay_mode_unit" => Directive::DelayModeUnit,
-	"delay_mode_zero" => Directive::DelayModeZero,
-	"else" => Directive::Else,
-	"elsif" => Directive::ElsIf,
-	"endcelldefine" => Directive::EndCellDefine,
-	"endif" => Directive::EndIf,
-	"end_keywords" => Directive::EndKeywords,
-	"ifdef" => Directive::IfDef,
-	"ifndef" => Directive::IfNotDef,
-	"include" => Directive::Include,
-	"line" => Directive::Line,
-	"nounconnected_drive" => Directive::NoUnconnectedDrive,
-	"pragma" => Directive::Pragma,
-	"resetall" => Directive::ResetAll,
-	"timescale" => Directive::TimeScale,
-	"unconnected_drive" => Directive::UnconnectedDrive,
-	"undef" => Directive::Undef,
+// NOTE(aki): Identical to `VERILOG_AMS_09_BUILTIN_DIRECTIVE_MAP`
+/// Verilog-AMS 2.4.0 (Verilog-AMS 2014) Builtin Directive to [`BuiltinDirective`] token map
+pub static VERILOG_AMS_14_BUILTIN_DIRECTIVE_MAP: phf::Map<&'static str, BuiltinDirective> = phf_map! {
+	"begin_keywords" => BuiltinDirective::BeginKeywords,
+	"celldefine" => BuiltinDirective::CellDefine,
+	"default_decay_time" => BuiltinDirective::DefaultDecayTime,
+	"default_discipline" => BuiltinDirective::DefaultDiscipline,
+	"default_nettype" => BuiltinDirective::DefaultNetType,
+	"default_transition" => BuiltinDirective::DefaultTransition,
+	"default_trireg_strength" => BuiltinDirective::DefaultTriRegStrength,
+	"define" => BuiltinDirective::Define,
+	"delay_mode_distributed" => BuiltinDirective::DelayModeDistributed,
+	"delay_mode_path" => BuiltinDirective::DelayModePath,
+	"delay_mode_unit" => BuiltinDirective::DelayModeUnit,
+	"delay_mode_zero" => BuiltinDirective::DelayModeZero,
+	"else" => BuiltinDirective::Else,
+	"elsif" => BuiltinDirective::ElsIf,
+	"endcelldefine" => BuiltinDirective::EndCellDefine,
+	"endif" => BuiltinDirective::EndIf,
+	"end_keywords" => BuiltinDirective::EndKeywords,
+	"ifdef" => BuiltinDirective::IfDef,
+	"ifndef" => BuiltinDirective::IfNotDef,
+	"include" => BuiltinDirective::Include,
+	"line" => BuiltinDirective::Line,
+	"nounconnected_drive" => BuiltinDirective::NoUnconnectedDrive,
+	"pragma" => BuiltinDirective::Pragma,
+	"resetall" => BuiltinDirective::ResetAll,
+	"timescale" => BuiltinDirective::TimeScale,
+	"unconnected_drive" => BuiltinDirective::UnconnectedDrive,
+	"undef" => BuiltinDirective::Undef,
 };
 
-// NOTE(aki): Identical to `VERILOG_AMS_09_DIRECTIVE_SET`
-/// Verilog-AMS 2.4.0 (Verilog-AMS 2014) Directive set
-pub static VERILOG_AMS_14_DIRECTIVE_SET: phf::Set<&'static str> = phf_set! {
+// NOTE(aki): Identical to `VERILOG_AMS_09_BUILTIN_DIRECTIVE_SET`
+/// Verilog-AMS 2.4.0 (Verilog-AMS 2014) Builtin Directive set
+pub static VERILOG_AMS_14_BUILTIN_DIRECTIVE_SET: phf::Set<&'static str> = phf_set! {
 	"begin_keywords",          "delay_mode_path", "ifndef",
 	"celldefine",              "delay_mode_unit", "include",
 	"default_decay_time",      "delay_mode_zero", "line",
@@ -464,41 +464,41 @@ pub static VERILOG_AMS_14_DIRECTIVE_SET: phf::Set<&'static str> = phf_set! {
 	"delay_mode_distributed",  "ifdef",           "undef",
 };
 
-// NOTE(aki): Identical to `VERILOG_AMS_09_DIRECTIVE_MAP`
-/// Verilog-AMS 2023 Directive to [`Directive`] token map
-pub static VERILOG_AMS_23_DIRECTIVE_MAP: phf::Map<&'static str, Directive> = phf_map! {
-	"begin_keywords" => Directive::BeginKeywords,
-	"celldefine" => Directive::CellDefine,
-	"default_decay_time" => Directive::DefaultDecayTime,
-	"default_discipline" => Directive::DefaultDiscipline,
-	"default_nettype" => Directive::DefaultNetType,
-	"default_transition" => Directive::DefaultTransition,
-	"default_trireg_strength" => Directive::DefaultTriRegStrength,
-	"define" => Directive::Define,
-	"delay_mode_distributed" => Directive::DelayModeDistributed,
-	"delay_mode_path" => Directive::DelayModePath,
-	"delay_mode_unit" => Directive::DelayModeUnit,
-	"delay_mode_zero" => Directive::DelayModeZero,
-	"else" => Directive::Else,
-	"elsif" => Directive::ElsIf,
-	"endcelldefine" => Directive::EndCellDefine,
-	"endif" => Directive::EndIf,
-	"end_keywords" => Directive::EndKeywords,
-	"ifdef" => Directive::IfDef,
-	"ifndef" => Directive::IfNotDef,
-	"include" => Directive::Include,
-	"line" => Directive::Line,
-	"nounconnected_drive" => Directive::NoUnconnectedDrive,
-	"pragma" => Directive::Pragma,
-	"resetall" => Directive::ResetAll,
-	"timescale" => Directive::TimeScale,
-	"unconnected_drive" => Directive::UnconnectedDrive,
-	"undef" => Directive::Undef,
+// NOTE(aki): Identical to `VERILOG_AMS_09_BUILTIN_DIRECTIVE_MAP`
+/// Verilog-AMS 2023 Builtin Directive to [`BuiltinDirective`] token map
+pub static VERILOG_AMS_23_BUILTIN_DIRECTIVE_MAP: phf::Map<&'static str, BuiltinDirective> = phf_map! {
+	"begin_keywords" => BuiltinDirective::BeginKeywords,
+	"celldefine" => BuiltinDirective::CellDefine,
+	"default_decay_time" => BuiltinDirective::DefaultDecayTime,
+	"default_discipline" => BuiltinDirective::DefaultDiscipline,
+	"default_nettype" => BuiltinDirective::DefaultNetType,
+	"default_transition" => BuiltinDirective::DefaultTransition,
+	"default_trireg_strength" => BuiltinDirective::DefaultTriRegStrength,
+	"define" => BuiltinDirective::Define,
+	"delay_mode_distributed" => BuiltinDirective::DelayModeDistributed,
+	"delay_mode_path" => BuiltinDirective::DelayModePath,
+	"delay_mode_unit" => BuiltinDirective::DelayModeUnit,
+	"delay_mode_zero" => BuiltinDirective::DelayModeZero,
+	"else" => BuiltinDirective::Else,
+	"elsif" => BuiltinDirective::ElsIf,
+	"endcelldefine" => BuiltinDirective::EndCellDefine,
+	"endif" => BuiltinDirective::EndIf,
+	"end_keywords" => BuiltinDirective::EndKeywords,
+	"ifdef" => BuiltinDirective::IfDef,
+	"ifndef" => BuiltinDirective::IfNotDef,
+	"include" => BuiltinDirective::Include,
+	"line" => BuiltinDirective::Line,
+	"nounconnected_drive" => BuiltinDirective::NoUnconnectedDrive,
+	"pragma" => BuiltinDirective::Pragma,
+	"resetall" => BuiltinDirective::ResetAll,
+	"timescale" => BuiltinDirective::TimeScale,
+	"unconnected_drive" => BuiltinDirective::UnconnectedDrive,
+	"undef" => BuiltinDirective::Undef,
 };
 
-// NOTE(aki): Identical to `VERILOG_AMS_09_DIRECTIVE_SET`s
-/// Verilog-AMS 2023 Directive set
-pub static VERILOG_AMS_23_DIRECTIVE_SET: phf::Set<&'static str> = phf_set! {
+// NOTE(aki): Identical to `VERILOG_AMS_09_BUILTIN_DIRECTIVE_SET`s
+/// Verilog-AMS 2023 Builtin Directive set
+pub static VERILOG_AMS_23_BUILTIN_DIRECTIVE_SET: phf::Set<&'static str> = phf_set! {
 	"begin_keywords",          "delay_mode_path", "ifndef",
 	"celldefine",              "delay_mode_unit", "include",
 	"default_decay_time",      "delay_mode_zero", "line",
@@ -510,339 +510,345 @@ pub static VERILOG_AMS_23_DIRECTIVE_SET: phf::Set<&'static str> = phf_set! {
 	"delay_mode_distributed",  "ifdef",           "undef",
 };
 
-/// Get the Verilog 1995 directive for the given identifier if it exists
+/// Get the Verilog 1995 builtin directive for the given identifier if it exists
 #[allow(unused)]
 #[inline]
-pub fn get_verilog_95_directive(ident: &str) -> Option<Directive> {
-	VERILOG_95_DIRECTIVE_MAP.get(ident).copied()
+pub fn get_verilog_95_builtin_directive(ident: &str) -> Option<BuiltinDirective> {
+	VERILOG_95_BUILTIN_DIRECTIVE_MAP.get(ident).copied()
 }
 
-/// Check to see if the given identifier is a Verilog 1995 directive
+/// Check to see if the given identifier is a Verilog 1995 builtin directive
 ///
-/// This is used rather than [`get_verilog_95_directive`] to test if the
-/// found identifier for a lower Verilog standard is a directive in this
+/// This is used rather than [`get_verilog_95_builtin_directive`] to test if the
+/// found identifier for a lower Verilog standard is a builtin directive in this
 /// standard.
 ///
-/// It prevents the copy into an [`Option`] if it is a directive.
+/// It prevents the copy into an [`Option`] if it is a builtin directive.
 #[allow(unused)]
 #[inline]
-pub fn is_verilog_95_directive(ident: &str) -> bool {
-	VERILOG_95_DIRECTIVE_SET.contains(ident)
+pub fn is_verilog_95_builtin_directive(ident: &str) -> bool {
+	VERILOG_95_BUILTIN_DIRECTIVE_SET.contains(ident)
 }
 
-/// Get the Verilog 2001 directive for the given identifier if it exists
+/// Get the Verilog 2001 builtin directive for the given identifier if it exists
 #[allow(unused)]
 #[inline]
-pub fn get_verilog_01_directive(ident: &str) -> Option<Directive> {
-	VERILOG_01_DIRECTIVE_MAP.get(ident).copied()
+pub fn get_verilog_01_builtin_directive(ident: &str) -> Option<BuiltinDirective> {
+	VERILOG_01_BUILTIN_DIRECTIVE_MAP.get(ident).copied()
 }
 
-/// Check to see if the given identifier is a Verilog 2001 directive
+/// Check to see if the given identifier is a Verilog 2001 builtin directive
 ///
-/// This is used rather than [`get_verilog_01_directive`] to test if the
-/// found identifier for a lower Verilog standard is a directive in this
+/// This is used rather than [`get_verilog_01_builtin_directive`] to test if the
+/// found identifier for a lower Verilog standard is a builtin directive in this
 /// standard.
 ///
-/// It prevents the copy into an [`Option`] if it is a directive.
+/// It prevents the copy into an [`Option`] if it is a builtin directive.
 #[allow(unused)]
 #[inline]
-pub fn is_verilog_01_directive(ident: &str) -> bool {
-	VERILOG_01_DIRECTIVE_SET.contains(ident)
+pub fn is_verilog_01_builtin_directive(ident: &str) -> bool {
+	VERILOG_01_BUILTIN_DIRECTIVE_SET.contains(ident)
 }
 
-/// Get the Verilog 2005 directive for the given identifier if it exists
+/// Get the Verilog 2005 builtin directive for the given identifier if it exists
 #[allow(unused)]
 #[inline]
-pub fn get_verilog_05_directive(ident: &str) -> Option<Directive> {
-	VERILOG_05_DIRECTIVE_MAP.get(ident).copied()
+pub fn get_verilog_05_builtin_directive(ident: &str) -> Option<BuiltinDirective> {
+	VERILOG_05_BUILTIN_DIRECTIVE_MAP.get(ident).copied()
 }
 
-/// Check to see if the given identifier is a Verilog 2005 directive
+/// Check to see if the given identifier is a Verilog 2005 builtin directive
 ///
-/// This is used rather than [`get_verilog_05_directive`] to test if the
-/// found identifier for a lower Verilog standard is a directive in this
+/// This is used rather than [`get_verilog_05_builtin_directive`] to test if the
+/// found identifier for a lower Verilog standard is a builtin directive in this
 /// standard.
 ///
-/// It prevents the copy into an [`Option`] if it is a directive.
+/// It prevents the copy into an [`Option`] if it is a builtin directive.
 #[allow(unused)]
 #[inline]
-pub fn is_verilog_05_directive(ident: &str) -> bool {
-	VERILOG_05_DIRECTIVE_SET.contains(ident)
+pub fn is_verilog_05_builtin_directive(ident: &str) -> bool {
+	VERILOG_05_BUILTIN_DIRECTIVE_SET.contains(ident)
 }
 
-/// Get the Verilog directive for the given standard if it exists
+/// Get the Verilog builtin directive for the given standard if it exists
 #[allow(unused)]
 #[inline]
-pub fn get_verilog_directive(ident: &str, std: LanguageStd) -> Option<Directive> {
+pub fn get_verilog_builtin_directive(ident: &str, std: LanguageStd) -> Option<BuiltinDirective> {
 	match std {
-		LanguageStd::Vl95 => get_verilog_95_directive(ident),
-		LanguageStd::Vl01 => get_verilog_01_directive(ident),
-		LanguageStd::Vl05 => get_verilog_05_directive(ident),
+		LanguageStd::Vl95 => get_verilog_95_builtin_directive(ident),
+		LanguageStd::Vl01 => get_verilog_01_builtin_directive(ident),
+		LanguageStd::Vl05 => get_verilog_05_builtin_directive(ident),
 		_ => None,
 	}
 }
 
-/// Get the SystemVerilog 2005 directive for the given identifier if it exists
+/// Get the SystemVerilog 2005 builtin directive for the given identifier if it exists
 #[allow(unused)]
 #[inline]
-pub fn get_system_verilog_05_directive(ident: &str) -> Option<Directive> {
-	SYSTEM_VERILOG_05_DIRECTIVE_MAP.get(ident).copied()
+pub fn get_system_verilog_05_builtin_directive(ident: &str) -> Option<BuiltinDirective> {
+	SYSTEM_VERILOG_05_BUILTIN_DIRECTIVE_MAP.get(ident).copied()
 }
 
-/// Check to see if the given identifier is a SystemVerilog 2005 directive
+/// Check to see if the given identifier is a SystemVerilog 2005 builtin directive
 ///
-/// This is used rather than [`get_system_verilog_05_directive`] to test if the
-/// found identifier for a lower SystemVerilog standard is a directive in this
+/// This is used rather than [`get_system_verilog_05_builtin_directive`] to test if the
+/// found identifier for a lower SystemVerilog standard is a builtin directive in this
 /// standard.
 ///
-/// It prevents the copy into an [`Option`] if it is a directive.
+/// It prevents the copy into an [`Option`] if it is a builtin directive.
 #[allow(unused)]
 #[inline]
-pub fn is_system_verilog_05_directive(ident: &str) -> bool {
-	SYSTEM_VERILOG_05_DIRECTIVE_SET.contains(ident)
+pub fn is_system_verilog_05_builtin_directive(ident: &str) -> bool {
+	SYSTEM_VERILOG_05_BUILTIN_DIRECTIVE_SET.contains(ident)
 }
 
-/// Get the SystemVerilog 2009 directive for the given identifier if it exists
+/// Get the SystemVerilog 2009 builtin directive for the given identifier if it exists
 #[allow(unused)]
 #[inline]
-pub fn get_system_verilog_09_directive(ident: &str) -> Option<Directive> {
-	SYSTEM_VERILOG_09_DIRECTIVE_MAP.get(ident).copied()
+pub fn get_system_verilog_09_builtin_directive(ident: &str) -> Option<BuiltinDirective> {
+	SYSTEM_VERILOG_09_BUILTIN_DIRECTIVE_MAP.get(ident).copied()
 }
 
-/// Check to see if the given identifier is a SystemVerilog 2009 directive
+/// Check to see if the given identifier is a SystemVerilog 2009 builtin directive
 ///
-/// This is used rather than [`get_system_verilog_09_directive`] to test if the
-/// found identifier for a lower SystemVerilog standard is a directive in this
+/// This is used rather than [`get_system_verilog_09_builtin_directive`] to test if the
+/// found identifier for a lower SystemVerilog standard is a builtin directive in this
 /// standard.
 ///
-/// It prevents the copy into an [`Option`] if it is a directive.
+/// It prevents the copy into an [`Option`] if it is a builtin directive.
 #[allow(unused)]
 #[inline]
-pub fn is_system_verilog_09_directive(ident: &str) -> bool {
-	SYSTEM_VERILOG_09_DIRECTIVE_SET.contains(ident)
+pub fn is_system_verilog_09_builtin_directive(ident: &str) -> bool {
+	SYSTEM_VERILOG_09_BUILTIN_DIRECTIVE_SET.contains(ident)
 }
 
-/// Get the SystemVerilog 2012 directive for the given identifier if it exists
+/// Get the SystemVerilog 2012 builtin directive for the given identifier if it exists
 #[allow(unused)]
 #[inline]
-pub fn get_system_verilog_12_directive(ident: &str) -> Option<Directive> {
-	SYSTEM_VERILOG_12_DIRECTIVE_MAP.get(ident).copied()
+pub fn get_system_verilog_12_builtin_directive(ident: &str) -> Option<BuiltinDirective> {
+	SYSTEM_VERILOG_12_BUILTIN_DIRECTIVE_MAP.get(ident).copied()
 }
 
-/// Check to see if the given identifier is a SystemVerilog 2012 directive
+/// Check to see if the given identifier is a SystemVerilog 2012 builtin directive
 ///
-/// This is used rather than [`get_system_verilog_12_directive`] to test if the
-/// found identifier for a lower SystemVerilog standard is a directive in this
+/// This is used rather than [`get_system_verilog_12_builtin_directive`] to test if the
+/// found identifier for a lower SystemVerilog standard is a builtin directive in this
 /// standard.
 ///
-/// It prevents the copy into an [`Option`] if it is a directive.
+/// It prevents the copy into an [`Option`] if it is a builtin directive.
 #[allow(unused)]
 #[inline]
-pub fn is_system_verilog_12_directive(ident: &str) -> bool {
-	SYSTEM_VERILOG_12_DIRECTIVE_SET.contains(ident)
+pub fn is_system_verilog_12_builtin_directive(ident: &str) -> bool {
+	SYSTEM_VERILOG_12_BUILTIN_DIRECTIVE_SET.contains(ident)
 }
 
-/// Get the SystemVerilog 2017 directive for the given identifier if it exists
+/// Get the SystemVerilog 2017 builtin directive for the given identifier if it exists
 #[allow(unused)]
 #[inline]
-pub fn get_system_verilog_17_directive(ident: &str) -> Option<Directive> {
-	SYSTEM_VERILOG_17_DIRECTIVE_MAP.get(ident).copied()
+pub fn get_system_verilog_17_builtin_directive(ident: &str) -> Option<BuiltinDirective> {
+	SYSTEM_VERILOG_17_BUILTIN_DIRECTIVE_MAP.get(ident).copied()
 }
 
-/// Check to see if the given identifier is a SystemVerilog 2017 directive
+/// Check to see if the given identifier is a SystemVerilog 2017 builtin directive
 ///
-/// This is used rather than [`get_system_verilog_17_directive`] to test if the
-/// found identifier for a lower SystemVerilog standard is a directive in this
+/// This is used rather than [`get_system_verilog_17_builtin_directive`] to test if the
+/// found identifier for a lower SystemVerilog standard is a builtin directive in this
 /// standard.
 ///
-/// It prevents the copy into an [`Option`] if it is a directive.
+/// It prevents the copy into an [`Option`] if it is a builtin directive.
 #[allow(unused)]
 #[inline]
-pub fn is_system_verilog_17_directive(ident: &str) -> bool {
-	SYSTEM_VERILOG_17_DIRECTIVE_SET.contains(ident)
+pub fn is_system_verilog_17_builtin_directive(ident: &str) -> bool {
+	SYSTEM_VERILOG_17_BUILTIN_DIRECTIVE_SET.contains(ident)
 }
 
-/// Get the SystemVerilog 2023 directive for the given identifier if it exists
+/// Get the SystemVerilog 2023 builtin directive for the given identifier if it exists
 #[allow(unused)]
 #[inline]
-pub fn get_system_verilog_23_directive(ident: &str) -> Option<Directive> {
-	SYSTEM_VERILOG_23_DIRECTIVE_MAP.get(ident).copied()
+pub fn get_system_verilog_23_builtin_directive(ident: &str) -> Option<BuiltinDirective> {
+	SYSTEM_VERILOG_23_BUILTIN_DIRECTIVE_MAP.get(ident).copied()
 }
 
-/// Check to see if the given identifier is a SystemVerilog 2023 directive
+/// Check to see if the given identifier is a SystemVerilog 2023 builtin directive
 ///
-/// This is used rather than [`get_system_verilog_23_directive`] to test if the
-/// found identifier for a lower SystemVerilog standard is a directive in this
+/// This is used rather than [`get_system_verilog_23_builtin_directive`] to test if the
+/// found identifier for a lower SystemVerilog standard is a builtin directive in this
 /// standard.
 ///
-/// It prevents the copy into an [`Option`] if it is a directive.
+/// It prevents the copy into an [`Option`] if it is a builtin directive.
 #[allow(unused)]
 #[inline]
-pub fn is_system_verilog_23_directive(ident: &str) -> bool {
-	SYSTEM_VERILOG_23_DIRECTIVE_SET.contains(ident)
+pub fn is_system_verilog_23_builtin_directive(ident: &str) -> bool {
+	SYSTEM_VERILOG_23_BUILTIN_DIRECTIVE_SET.contains(ident)
 }
 
-/// Get the SystemVerilog directive for the given standard if it exists
+/// Get the SystemVerilog builtin directive for the given standard if it exists
 #[allow(unused)]
 #[inline]
-pub fn get_system_verilog_directive(ident: &str, std: LanguageStd) -> Option<Directive> {
+pub fn get_system_verilog_builtin_directive(
+	ident: &str,
+	std: LanguageStd,
+) -> Option<BuiltinDirective> {
 	match std {
-		LanguageStd::Sv05 => get_system_verilog_05_directive(ident),
-		LanguageStd::Sv09 => get_system_verilog_09_directive(ident),
-		LanguageStd::Sv12 => get_system_verilog_12_directive(ident),
-		LanguageStd::Sv17 => get_system_verilog_17_directive(ident),
-		LanguageStd::Sv23 => get_system_verilog_23_directive(ident),
+		LanguageStd::Sv05 => get_system_verilog_05_builtin_directive(ident),
+		LanguageStd::Sv09 => get_system_verilog_09_builtin_directive(ident),
+		LanguageStd::Sv12 => get_system_verilog_12_builtin_directive(ident),
+		LanguageStd::Sv17 => get_system_verilog_17_builtin_directive(ident),
+		LanguageStd::Sv23 => get_system_verilog_23_builtin_directive(ident),
 		_ => None,
 	}
 }
 
-/// Get the Verilog-AMS 2009 directive for the given identifier if it exists
+/// Get the Verilog-AMS 2009 builtin directive for the given identifier if it exists
 #[allow(unused)]
 #[inline]
-pub fn get_verilog_ams_09_directive(ident: &str) -> Option<Directive> {
-	VERILOG_AMS_09_DIRECTIVE_MAP.get(ident).copied()
+pub fn get_verilog_ams_09_builtin_directive(ident: &str) -> Option<BuiltinDirective> {
+	VERILOG_AMS_09_BUILTIN_DIRECTIVE_MAP.get(ident).copied()
 }
 
-/// Check to see if the given identifier is a Verilog-AMS 2009 directive
+/// Check to see if the given identifier is a Verilog-AMS 2009 builtin directive
 ///
-/// This is used rather than [`get_verilog_ams_09_directive`] to test if the
-/// found identifier for a lower Verilog-AMS standard is a directive in this
+/// This is used rather than [`get_verilog_ams_09_builtin_directive`] to test if the
+/// found identifier for a lower Verilog-AMS standard is a builtin directive in this
 /// standard.
 ///
-/// It prevents the copy into an [`Option`] if it is a directive.
+/// It prevents the copy into an [`Option`] if it is a builtin directive.
 #[allow(unused)]
 #[inline]
-pub fn is_verilog_ams_09_directive(ident: &str) -> bool {
-	VERILOG_AMS_09_DIRECTIVE_SET.contains(ident)
+pub fn is_verilog_ams_09_builtin_directive(ident: &str) -> bool {
+	VERILOG_AMS_09_BUILTIN_DIRECTIVE_SET.contains(ident)
 }
 
-/// Get the Verilog-AMS 2014 directive for the given identifier if it exists
+/// Get the Verilog-AMS 2014 builtin directive for the given identifier if it exists
 #[allow(unused)]
 #[inline]
-pub fn get_verilog_ams_14_directive(ident: &str) -> Option<Directive> {
-	VERILOG_AMS_14_DIRECTIVE_MAP.get(ident).copied()
+pub fn get_verilog_ams_14_builtin_directive(ident: &str) -> Option<BuiltinDirective> {
+	VERILOG_AMS_14_BUILTIN_DIRECTIVE_MAP.get(ident).copied()
 }
 
-/// Check to see if the given identifier is a Verilog-AMS 2014 directive
+/// Check to see if the given identifier is a Verilog-AMS 2014 builtin directive
 ///
-/// This is used rather than [`get_verilog_ams_14_directive`] to test if the
-/// found identifier for a lower Verilog-AMS standard is a directive in this
+/// This is used rather than [`get_verilog_ams_14_builtin_directive`] to test if the
+/// found identifier for a lower Verilog-AMS standard is a builtin directive in this
 /// standard.
 ///
-/// It prevents the copy into an [`Option`] if it is a directive.
+/// It prevents the copy into an [`Option`] if it is a builtin directive.
 #[allow(unused)]
 #[inline]
-pub fn is_verilog_ams_14_directive(ident: &str) -> bool {
-	VERILOG_AMS_14_DIRECTIVE_SET.contains(ident)
+pub fn is_verilog_ams_14_builtin_directive(ident: &str) -> bool {
+	VERILOG_AMS_14_BUILTIN_DIRECTIVE_SET.contains(ident)
 }
 
-/// Get the Verilog-AMS 2023 directive for the given identifier if it exists
+/// Get the Verilog-AMS 2023 builtin directive for the given identifier if it exists
 #[allow(unused)]
 #[inline]
-pub fn get_verilog_ams_23_directive(ident: &str) -> Option<Directive> {
-	VERILOG_AMS_23_DIRECTIVE_MAP.get(ident).copied()
+pub fn get_verilog_ams_23_builtin_directive(ident: &str) -> Option<BuiltinDirective> {
+	VERILOG_AMS_23_BUILTIN_DIRECTIVE_MAP.get(ident).copied()
 }
 
-/// Check to see if the given identifier is a Verilog-AMS 2023 directive
+/// Check to see if the given identifier is a Verilog-AMS 2023 builtin directive
 ///
-/// This is used rather than [`get_verilog_ams_23_directive`] to test if the
-/// found identifier for a lower Verilog-AMS standard is a directive in this
+/// This is used rather than [`get_verilog_ams_23_builtin_directive`] to test if the
+/// found identifier for a lower Verilog-AMS standard is a builtin directive in this
 /// standard.
 ///
-/// It prevents the copy into an [`Option`] if it is a directive.
+/// It prevents the copy into an [`Option`] if it is a builtin directive.
 #[allow(unused)]
 #[inline]
-pub fn is_verilog_ams_23_directive(ident: &str) -> bool {
-	VERILOG_AMS_23_DIRECTIVE_SET.contains(ident)
+pub fn is_verilog_ams_23_builtin_directive(ident: &str) -> bool {
+	VERILOG_AMS_23_BUILTIN_DIRECTIVE_SET.contains(ident)
 }
 
 /// Get the Verilog-AMS directive for the given standard if it exists
 #[allow(unused)]
 #[inline]
-pub fn get_verilog_ams_directive(ident: &str, std: LanguageStd) -> Option<Directive> {
+pub fn get_verilog_ams_builtin_directive(
+	ident: &str,
+	std: LanguageStd,
+) -> Option<BuiltinDirective> {
 	match std {
-		LanguageStd::Vams09 => get_verilog_ams_09_directive(ident),
-		LanguageStd::Vams14 => get_verilog_ams_14_directive(ident),
-		LanguageStd::Vams23 => get_verilog_ams_23_directive(ident),
+		LanguageStd::Vams09 => get_verilog_ams_09_builtin_directive(ident),
+		LanguageStd::Vams14 => get_verilog_ams_14_builtin_directive(ident),
+		LanguageStd::Vams23 => get_verilog_ams_23_builtin_directive(ident),
 		_ => None,
 	}
 }
 
-/// Get the Verilog/Verilog-AMS/SystemVerilog directive for the given standard if it exists
+/// Get the Verilog/Verilog-AMS/SystemVerilog builtin directive for the given standard if it exists
 #[allow(unused)]
 #[inline]
-pub fn get_directive(ident: &str, std: LanguageStd) -> Option<Directive> {
+pub fn get_builtin_directive(ident: &str, std: LanguageStd) -> Option<BuiltinDirective> {
 	match std {
-		LanguageStd::Vl95 => get_verilog_95_directive(ident),
-		LanguageStd::Vl01 => get_verilog_01_directive(ident),
-		LanguageStd::Vl05 => get_verilog_05_directive(ident),
-		LanguageStd::Sv05 => get_system_verilog_05_directive(ident),
-		LanguageStd::Sv09 => get_system_verilog_09_directive(ident),
-		LanguageStd::Sv12 => get_system_verilog_12_directive(ident),
-		LanguageStd::Sv17 => get_system_verilog_17_directive(ident),
-		LanguageStd::Sv23 => get_system_verilog_23_directive(ident),
-		LanguageStd::Vams09 => get_verilog_ams_09_directive(ident),
-		LanguageStd::Vams14 => get_verilog_ams_14_directive(ident),
-		LanguageStd::Vams23 => get_verilog_ams_23_directive(ident),
+		LanguageStd::Vl95 => get_verilog_95_builtin_directive(ident),
+		LanguageStd::Vl01 => get_verilog_01_builtin_directive(ident),
+		LanguageStd::Vl05 => get_verilog_05_builtin_directive(ident),
+		LanguageStd::Sv05 => get_system_verilog_05_builtin_directive(ident),
+		LanguageStd::Sv09 => get_system_verilog_09_builtin_directive(ident),
+		LanguageStd::Sv12 => get_system_verilog_12_builtin_directive(ident),
+		LanguageStd::Sv17 => get_system_verilog_17_builtin_directive(ident),
+		LanguageStd::Sv23 => get_system_verilog_23_builtin_directive(ident),
+		LanguageStd::Vams09 => get_verilog_ams_09_builtin_directive(ident),
+		LanguageStd::Vams14 => get_verilog_ams_14_builtin_directive(ident),
+		LanguageStd::Vams23 => get_verilog_ams_23_builtin_directive(ident),
 		_ => None,
 	}
 }
 
-/// Check to see if the given identifier is a directive in a future Verilog standard, returning
-/// the standard version if so.
+/// Check to see if the given identifier is a builtin directive in a future Verilog standard,
+/// returning the standard version if so.
 #[allow(unused)]
 #[inline]
-pub fn directive_in(ident: &str) -> LanguageStd {
+pub fn is_builtin_directive(ident: &str) -> LanguageStd {
 	let mut supported = LanguageStd::none();
 
-	if is_verilog_95_directive(ident) {
+	if is_verilog_95_builtin_directive(ident) {
 		supported |= LanguageStd::Vl95;
 	}
 
-	if is_verilog_01_directive(ident) {
+	if is_verilog_01_builtin_directive(ident) {
 		supported |= LanguageStd::Vl01;
 	}
 
-	if is_verilog_05_directive(ident) {
+	if is_verilog_05_builtin_directive(ident) {
 		supported |= LanguageStd::Vl05;
 	}
 
-	if is_system_verilog_05_directive(ident) {
+	if is_system_verilog_05_builtin_directive(ident) {
 		supported |= LanguageStd::Sv05;
 	}
 
-	if is_system_verilog_09_directive(ident) {
+	if is_system_verilog_09_builtin_directive(ident) {
 		supported |= LanguageStd::Sv09;
 	}
 
-	if is_system_verilog_12_directive(ident) {
+	if is_system_verilog_12_builtin_directive(ident) {
 		supported |= LanguageStd::Sv12;
 	}
 
-	if is_system_verilog_17_directive(ident) {
+	if is_system_verilog_17_builtin_directive(ident) {
 		supported |= LanguageStd::Sv17;
 	}
 
-	if is_system_verilog_23_directive(ident) {
+	if is_system_verilog_23_builtin_directive(ident) {
 		supported |= LanguageStd::Sv23;
 	}
 
-	if is_verilog_ams_09_directive(ident) {
+	if is_verilog_ams_09_builtin_directive(ident) {
 		supported |= LanguageStd::Vams09;
 	}
 
-	if is_verilog_ams_14_directive(ident) {
+	if is_verilog_ams_14_builtin_directive(ident) {
 		supported |= LanguageStd::Vams14;
 	}
 
-	if is_verilog_ams_23_directive(ident) {
+	if is_verilog_ams_23_builtin_directive(ident) {
 		supported |= LanguageStd::Vams23;
 	}
 
 	supported
 }
 
-impl Display for Directive {
+impl Display for BuiltinDirective {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
 		write!(
 			f,
@@ -888,28 +894,28 @@ mod test {
 	#[test]
 	fn test_directive_verilog_95() {
 		// If it's a normal identifier, then we shouldn't get anything back
-		assert!(!is_verilog_95_directive("nya"));
-		assert_eq!(directive_in("nya"), LanguageStd::none());
+		assert!(!is_verilog_95_builtin_directive("nya"));
+		assert_eq!(is_builtin_directive("nya"), LanguageStd::none());
 
 		// A directive that is at least in the current version
-		assert!(is_verilog_95_directive("endcelldefine"));
-		assert!(directive_in("endcelldefine").contains(LanguageStd::Vl95));
+		assert!(is_verilog_95_builtin_directive("endcelldefine"));
+		assert!(is_builtin_directive("endcelldefine").contains(LanguageStd::Vl95));
 
 		// A directive that is one version up
-		assert!(!is_verilog_95_directive("elsif"));
-		assert!(directive_in("elsif").contains(LanguageStd::Vl01));
+		assert!(!is_verilog_95_builtin_directive("elsif"));
+		assert!(is_builtin_directive("elsif").contains(LanguageStd::Vl01));
 
 		// Two versions up
-		assert!(!is_verilog_95_directive("line"));
-		assert!(directive_in("line").contains(LanguageStd::Vl05));
+		assert!(!is_verilog_95_builtin_directive("line"));
+		assert!(is_builtin_directive("line").contains(LanguageStd::Vl05));
 
 		// Three versions up
-		assert!(!is_verilog_95_directive("pragma"));
-		assert!(directive_in("pragma").contains(LanguageStd::Sv05));
+		assert!(!is_verilog_95_builtin_directive("pragma"));
+		assert!(is_builtin_directive("pragma").contains(LanguageStd::Sv05));
 
 		// Four versions up
-		assert!(!is_verilog_95_directive("undefineall"));
-		assert!(directive_in("undefineall").contains(LanguageStd::Sv09));
+		assert!(!is_verilog_95_builtin_directive("undefineall"));
+		assert!(is_builtin_directive("undefineall").contains(LanguageStd::Sv09));
 
 		// SystemVerilog 2009, 2012, 2017, and 2023 all have the same directives
 	}
@@ -917,24 +923,24 @@ mod test {
 	#[test]
 	fn test_directive_verilog_01() {
 		// If it's a normal identifier, then we shouldn't get anything back
-		assert!(!is_verilog_01_directive("meow"));
-		assert_eq!(directive_in("meow"), LanguageStd::none());
+		assert!(!is_verilog_01_builtin_directive("meow"));
+		assert_eq!(is_builtin_directive("meow"), LanguageStd::none());
 
 		// A directive that is at least in the current version
-		assert!(is_verilog_01_directive("line"));
-		assert!(directive_in("line").contains(LanguageStd::Vl01));
+		assert!(is_verilog_01_builtin_directive("line"));
+		assert!(is_builtin_directive("line").contains(LanguageStd::Vl01));
 
 		// A directive that is one version up
-		assert!(!is_verilog_01_directive("pragma"));
-		assert!(directive_in("pragma").contains(LanguageStd::Vl05));
+		assert!(!is_verilog_01_builtin_directive("pragma"));
+		assert!(is_builtin_directive("pragma").contains(LanguageStd::Vl05));
 
 		// Two versions up
-		assert!(!is_verilog_01_directive("pragma"));
-		assert!(directive_in("pragma").contains(LanguageStd::Sv05));
+		assert!(!is_verilog_01_builtin_directive("pragma"));
+		assert!(is_builtin_directive("pragma").contains(LanguageStd::Sv05));
 
 		// Three versions up
-		assert!(!is_verilog_01_directive("undefineall"));
-		assert!(directive_in("undefineall").contains(LanguageStd::Sv09));
+		assert!(!is_verilog_01_builtin_directive("undefineall"));
+		assert!(is_builtin_directive("undefineall").contains(LanguageStd::Sv09));
 
 		// SystemVerilog 2009, 2012, 2017, and 2023 all have the same directives
 	}
@@ -942,18 +948,18 @@ mod test {
 	#[test]
 	fn test_directive_verilog_05() {
 		// If it's a normal identifier, then we shouldn't get anything back
-		assert!(!is_verilog_05_directive("awoo"));
-		assert_eq!(directive_in("awoo"), LanguageStd::none());
+		assert!(!is_verilog_05_builtin_directive("awoo"));
+		assert_eq!(is_builtin_directive("awoo"), LanguageStd::none());
 
 		// A directive that is at least in the current version
-		assert!(is_verilog_05_directive("end_keywords"));
-		assert!(directive_in("end_keywords").contains(LanguageStd::Vl05));
+		assert!(is_verilog_05_builtin_directive("end_keywords"));
+		assert!(is_builtin_directive("end_keywords").contains(LanguageStd::Vl05));
 
 		// A directive that is one version up
-		assert!(directive_in("pragma").contains(LanguageStd::Sv05));
+		assert!(is_builtin_directive("pragma").contains(LanguageStd::Sv05));
 
 		// Two versions up
-		assert!(directive_in("delay_mode_distributed").contains(LanguageStd::Sv09));
+		assert!(is_builtin_directive("delay_mode_distributed").contains(LanguageStd::Sv09));
 
 		// SystemVerilog 2009, 2012, 2017, and 2023 all have the same directives
 	}
@@ -961,16 +967,16 @@ mod test {
 	#[test]
 	fn test_directive_system_verilog_05() {
 		// If it's a normal identifier, then we shouldn't get anything back
-		assert!(!is_system_verilog_05_directive("kon"));
-		assert_eq!(directive_in("kon"), LanguageStd::none());
+		assert!(!is_system_verilog_05_builtin_directive("kon"));
+		assert_eq!(is_builtin_directive("kon"), LanguageStd::none());
 
 		// A directive that is at least in the current version
-		assert!(is_system_verilog_05_directive("begin_keywords"));
-		assert!(directive_in("begin_keywords").contains(LanguageStd::Sv05));
+		assert!(is_system_verilog_05_builtin_directive("begin_keywords"));
+		assert!(is_builtin_directive("begin_keywords").contains(LanguageStd::Sv05));
 
 		// A directive that is one version up
-		assert!(!is_system_verilog_05_directive("undefineall"));
-		assert!(directive_in("undefineall").contains(LanguageStd::Sv09));
+		assert!(!is_system_verilog_05_builtin_directive("undefineall"));
+		assert!(is_builtin_directive("undefineall").contains(LanguageStd::Sv09));
 
 		// SystemVerilog 2009, 2012, 2017, and 2023 all have the same directives
 	}
@@ -978,12 +984,12 @@ mod test {
 	#[test]
 	fn test_directive_system_verilog_09() {
 		// If it's a normal identifier, then we shouldn't get anything back
-		assert!(!is_system_verilog_09_directive("wah"));
-		assert_eq!(directive_in("wah"), LanguageStd::none());
+		assert!(!is_system_verilog_09_builtin_directive("wah"));
+		assert_eq!(is_builtin_directive("wah"), LanguageStd::none());
 
 		// A directive that is at least in the current version
-		assert!(is_system_verilog_09_directive("undefineall"));
-		assert!(directive_in("undefineall").contains(LanguageStd::Sv09));
+		assert!(is_system_verilog_09_builtin_directive("undefineall"));
+		assert!(is_builtin_directive("undefineall").contains(LanguageStd::Sv09));
 
 		// SystemVerilog 2009, 2012, 2017, and 2023 all have the same directives
 	}
@@ -991,12 +997,14 @@ mod test {
 	#[test]
 	fn test_directive_system_verilog_12() {
 		// If it's a normal identifier, then we shouldn't get anything back
-		assert!(!is_system_verilog_12_directive("meow"));
-		assert_eq!(directive_in("meow"), LanguageStd::none());
+		assert!(!is_system_verilog_12_builtin_directive("meow"));
+		assert_eq!(is_builtin_directive("meow"), LanguageStd::none());
 
 		// A directive that is at least in the current version
-		assert!(is_system_verilog_12_directive("delay_mode_distributed"));
-		assert!(directive_in("delay_mode_distributed").contains(LanguageStd::Sv12));
+		assert!(is_system_verilog_12_builtin_directive(
+			"delay_mode_distributed"
+		));
+		assert!(is_builtin_directive("delay_mode_distributed").contains(LanguageStd::Sv12));
 
 		// SystemVerilog 2009, 2012, 2017, and 2023 all have the same directives
 	}
@@ -1004,12 +1012,12 @@ mod test {
 	#[test]
 	fn test_directive_system_verilog_17() {
 		// If it's a normal identifier, then we shouldn't get anything back
-		assert!(!is_system_verilog_17_directive("nya"));
-		assert_eq!(directive_in("nya"), LanguageStd::none());
+		assert!(!is_system_verilog_17_builtin_directive("nya"));
+		assert_eq!(is_builtin_directive("nya"), LanguageStd::none());
 
 		// A directive that is at least in the current version
-		assert!(is_system_verilog_17_directive("line"));
-		assert!(directive_in("line").contains(LanguageStd::Sv17));
+		assert!(is_system_verilog_17_builtin_directive("line"));
+		assert!(is_builtin_directive("line").contains(LanguageStd::Sv17));
 
 		// SystemVerilog 2009, 2012, 2017, and 2023 all have the same directives
 	}
@@ -1017,12 +1025,12 @@ mod test {
 	#[test]
 	fn test_directive_system_verilog_23() {
 		// If it's a normal identifier, then we shouldn't get anything back
-		assert!(!is_system_verilog_23_directive("kon"));
-		assert_eq!(directive_in("kon"), LanguageStd::none());
+		assert!(!is_system_verilog_23_builtin_directive("kon"));
+		assert_eq!(is_builtin_directive("kon"), LanguageStd::none());
 
 		// A directive that is at least in the current version
-		assert!(is_system_verilog_23_directive("undefineall"));
-		assert!(directive_in("undefineall").contains(LanguageStd::Sv23));
+		assert!(is_system_verilog_23_builtin_directive("undefineall"));
+		assert!(is_builtin_directive("undefineall").contains(LanguageStd::Sv23));
 
 		// SystemVerilog 2009, 2012, 2017, and 2023 all have the same directives
 	}
@@ -1030,12 +1038,12 @@ mod test {
 	#[test]
 	fn test_directive_verilog_ams_09() {
 		// If it's a normal identifier, then we shouldn't get anything back
-		assert!(!is_verilog_ams_09_directive("wah"));
-		assert_eq!(directive_in("wah"), LanguageStd::none());
+		assert!(!is_verilog_ams_09_builtin_directive("wah"));
+		assert_eq!(is_builtin_directive("wah"), LanguageStd::none());
 
 		// A directive that is at least in the current version
-		assert!(is_verilog_ams_09_directive("default_discipline"));
-		assert!(directive_in("default_discipline").contains(LanguageStd::Vams09));
+		assert!(is_verilog_ams_09_builtin_directive("default_discipline"));
+		assert!(is_builtin_directive("default_discipline").contains(LanguageStd::Vams09));
 
 		// Verilog-AMS 2009, 2014, and 2023 all have the same directives
 	}
@@ -1043,12 +1051,12 @@ mod test {
 	#[test]
 	fn test_directive_verilog_ams_14() {
 		// If it's a normal identifier, then we shouldn't get anything back
-		assert!(!is_verilog_ams_14_directive("nya"));
-		assert_eq!(directive_in("nya"), LanguageStd::none());
+		assert!(!is_verilog_ams_14_builtin_directive("nya"));
+		assert_eq!(is_builtin_directive("nya"), LanguageStd::none());
 
 		// A directive that is at least in the current version
-		assert!(is_verilog_ams_14_directive("default_transition"));
-		assert!(directive_in("default_transition").contains(LanguageStd::Vams14));
+		assert!(is_verilog_ams_14_builtin_directive("default_transition"));
+		assert!(is_builtin_directive("default_transition").contains(LanguageStd::Vams14));
 
 		// Verilog-AMS 2009, 2014, and 2023 all have the same directives
 	}
@@ -1056,12 +1064,12 @@ mod test {
 	#[test]
 	fn test_directive_verilog_ams_23() {
 		// If it's a normal identifier, then we shouldn't get anything back
-		assert!(!is_verilog_ams_23_directive("meow"));
-		assert_eq!(directive_in("meow"), LanguageStd::none());
+		assert!(!is_verilog_ams_23_builtin_directive("meow"));
+		assert_eq!(is_builtin_directive("meow"), LanguageStd::none());
 
 		// A directive that is at least in the current version
-		assert!(is_verilog_ams_23_directive("default_discipline"));
-		assert!(directive_in("default_discipline").contains(LanguageStd::Vams23));
+		assert!(is_verilog_ams_23_builtin_directive("default_discipline"));
+		assert!(is_builtin_directive("default_discipline").contains(LanguageStd::Vams23));
 
 		// Verilog-AMS 2009, 2014, and 2023 all have the same directives
 	}

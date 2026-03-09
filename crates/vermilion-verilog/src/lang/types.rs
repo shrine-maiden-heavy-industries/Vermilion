@@ -4,7 +4,7 @@ use std::fmt::Display;
 
 use vermilion_lang::AtomicByteTendril;
 
-use crate::lang::{directives::Directive, sysfuncs::BuiltinSysFunc};
+use crate::lang::{directives::BuiltinDirective, sysfuncs::BuiltinSysFunc};
 
 #[derive(Clone, Copy, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
 pub enum NetType {
@@ -99,7 +99,7 @@ pub enum Comment {
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub enum CompilerDirective {
 	Arg(AtomicByteTendril),
-	Name(Directive),
+	Name(BuiltinDirective),
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
@@ -279,7 +279,7 @@ impl Display for CompilerDirective {
 			Self::Arg(tendril) => write!(f, "CompilerDirectiveArg({})", unsafe {
 				str::from_utf8_unchecked(tendril)
 			}),
-			Self::Name(directive) => write!(f, "CompilerDirective({})", directive),
+			Self::Name(directive) => write!(f, "CompilerDirectiveName({})", directive),
 		}
 	}
 }

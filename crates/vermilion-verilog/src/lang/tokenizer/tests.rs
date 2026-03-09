@@ -4,7 +4,7 @@ use paste::paste;
 use crate::{
 	LanguageStd,
 	lang::{
-		directives::Directive,
+		directives::BuiltinDirective,
 		keywords::Keyword,
 		tokenizer::*,
 		types::{BaseSpecifier, TextMacro},

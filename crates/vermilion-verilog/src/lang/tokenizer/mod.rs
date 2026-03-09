@@ -1092,76 +1092,77 @@ impl VerilogTokenizer {
 		// Just make it a string.
 		let ident = unsafe { str::from_utf8_unchecked(&self.tokenizer[ident_range.clone()]) };
 
-		self.token = if let Some(directive) = directives::get_directive(ident, self.standard) {
-			self.token_stream.push_back(spanned_token!(
-				Token::CompilerDirective(CompilerDirective::Name(directive)),
-				begin..self.tokenizer.offset(),
-				context
-			));
+		self.token =
+			if let Some(directive) = directives::get_builtin_directive(ident, self.standard) {
+				self.token_stream.push_back(spanned_token!(
+					Token::CompilerDirective(CompilerDirective::Name(directive)),
+					begin..self.tokenizer.offset(),
+					context
+				));
 
-			if self.current_is_whitespace() {
-				self.read_whitespace();
-				self.token_stream.push_back(self.token.clone())
-			}
-
-			// Consume arguments up until we get to a newline
-			while !matches!(self.tokenizer.current_byte(), b'\r' | b'\n') &&
-				!self.tokenizer.is_eof()
-			{
-				// Deal with  whitespace
 				if self.current_is_whitespace() {
 					self.read_whitespace();
 					self.token_stream.push_back(self.token.clone())
 				}
 
-				let begin = self.tokenizer.offset();
-				let context = self.tokenizer.position();
+				// Consume arguments up until we get to a newline
+				while !matches!(self.tokenizer.current_byte(), b'\r' | b'\n') &&
+					!self.tokenizer.is_eof()
+				{
+					// Deal with  whitespace
+					if self.current_is_whitespace() {
+						self.read_whitespace();
+						self.token_stream.push_back(self.token.clone())
+					}
 
-				// Consume argument
-				while self.is_ascii_printable() && !self.tokenizer.is_eof() {
-					self.tokenizer.next_char();
+					let begin = self.tokenizer.offset();
+					let context = self.tokenizer.position();
+
+					// Consume argument
+					while self.is_ascii_printable() && !self.tokenizer.is_eof() {
+						self.tokenizer.next_char();
+					}
+
+					let token_range = begin..self.tokenizer.offset();
+					self.token_stream.push_back(spanned_token!(
+						Token::CompilerDirective(CompilerDirective::Arg(
+							self.tokenizer.subtendril(token_range.clone())
+						)),
+						token_range,
+						context
+					));
 				}
 
-				let token_range = begin..self.tokenizer.offset();
-				self.token_stream.push_back(spanned_token!(
-					Token::CompilerDirective(CompilerDirective::Arg(
-						self.tokenizer.subtendril(token_range.clone())
-					)),
-					token_range,
-					context
-				));
-			}
-
-			// Stuff the compiler directive name back front and center
-			// SAFETY:
-			// If we're here, we have to have pushed stuff to the token stream, so this is always
-			// okay.
-			#[allow(clippy::expect_used)]
-			let token = self
-				.token_stream
-				.pop_front()
-				.expect("Unable to pop token from token stream");
-			token
-		} else {
-			spanned_token!(
-				Token::TextMacro(
-					if (crate::LanguageStd::SYSTEM_VERILOG_STDS & !crate::LanguageStd::Sv05 |
-						crate::LanguageStd::Vams23)
-						.contains(self.standard)
-					{
-						match ident {
-							"__FILE__" => TextMacro::DunderFile,
-							"__LINE__" => TextMacro::DunderLine,
-							_ => TextMacro::Other(self.tokenizer.subtendril(ident_range)),
+				// Stuff the compiler directive name back front and center
+				// SAFETY:
+				// If we're here, we have to have pushed stuff to the token stream, so this is
+				// always okay.
+				#[allow(clippy::expect_used)]
+				let token = self
+					.token_stream
+					.pop_front()
+					.expect("Unable to pop token from token stream");
+				token
+			} else {
+				spanned_token!(
+					Token::TextMacro(
+						if (crate::LanguageStd::SYSTEM_VERILOG_STDS & !crate::LanguageStd::Sv05 |
+							crate::LanguageStd::Vams23)
+							.contains(self.standard)
+						{
+							match ident {
+								"__FILE__" => TextMacro::DunderFile,
+								"__LINE__" => TextMacro::DunderLine,
+								_ => TextMacro::Other(self.tokenizer.subtendril(ident_range)),
+							}
+						} else {
+							TextMacro::Other(self.tokenizer.subtendril(ident_range))
 						}
-					} else {
-						TextMacro::Other(self.tokenizer.subtendril(ident_range))
-					}
-				),
-				begin..self.tokenizer.offset(),
-				context
-			)
-		};
+					),
+					begin..self.tokenizer.offset(),
+					context
+				)
+			};
 	}
 
 	// BUG(aki):

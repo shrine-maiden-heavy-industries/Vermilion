@@ -610,7 +610,7 @@ tokenizer_test!(
 	compiler_directive_arg,
 	"`define meow",
 	spanned_token!(
-		Token::CompilerDirective(CompilerDirective::Name(Directive::Define)),
+		Token::CompilerDirective(CompilerDirective::Name(BuiltinDirective::Define)),
 		0..7,
 		Position::new(0, 0)
 	),
@@ -631,7 +631,7 @@ tokenizer_test!(
 	compiler_directive_multi_arg,
 	"`define nya 8",
 	spanned_token!(
-		Token::CompilerDirective(CompilerDirective::Name(Directive::Define)),
+		Token::CompilerDirective(CompilerDirective::Name(BuiltinDirective::Define)),
 		0..7,
 		Position::new(0, 0)
 	),
