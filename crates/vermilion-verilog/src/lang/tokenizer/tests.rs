@@ -3,11 +3,7 @@ use paste::paste;
 
 use crate::{
 	LanguageStd,
-	lang::{
-		directives::Directive,
-		keywords::Keyword,
-		tokenizer::{token::TextMacro, *},
-	},
+	lang::{directives::Directive, keywords::Keyword, tokenizer::*, types::TextMacro},
 };
 
 macro_rules! tokenizer_test {

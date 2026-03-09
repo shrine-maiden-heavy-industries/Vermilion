@@ -8,7 +8,7 @@ use crate::{
 	LanguageStd,
 	lang::{
 		keywords::Keyword,
-		types::{Comment, CompilerDirective, SystemFunc},
+		types::{Comment, CompilerDirective, SystemFunc, TextMacro},
 	},
 };
 
@@ -141,13 +141,6 @@ pub enum Operator {
 	WildcardExport,   // Added: IEEE 1800-2009
 	WildcardNotEqual, // Added: IEEE 1800-2005
 	XorEquals,        // Added: IEEE 1800-2005
-}
-
-#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
-pub enum TextMacro {
-	DunderFile, // Added: Verilog-AMS 2023 & IEEE 1800-2009
-	DunderLine, // Added: Verilog-AMS 2023 & IEEE 1800-2009
-	Other(AtomicByteTendril),
 }
 
 impl Display for Token {
@@ -324,20 +317,6 @@ impl Display for Operator {
 				Self::WildcardExport => "*::*",  // Added: IEEE 1800-2009
 				Self::WildcardNotEqual => "!=?", // Added: IEEE 1800-2005
 				Self::XorEquals => "^=",         // Added: IEEE 1800-2005
-			}
-		)
-	}
-}
-
-impl Display for TextMacro {
-	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-		write!(
-			f,
-			"TextMacro({})",
-			match self {
-				Self::DunderFile => "__FILE__", // Added: Verilog-AMS 2023 & IEEE 1800-2009
-				Self::DunderLine => "__LINE__", // Added: Verilog-AMS 2023 & IEEE 1800-2009
-				Self::Other(tendril) => unsafe { str::from_utf8_unchecked(tendril) },
 			}
 		)
 	}

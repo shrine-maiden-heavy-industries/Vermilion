@@ -93,6 +93,13 @@ pub enum SystemFunc {
 	Other(AtomicByteTendril),
 }
 
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
+pub enum TextMacro {
+	DunderFile, // Added: Verilog-AMS 2023 & IEEE 1800-2009
+	DunderLine, // Added: Verilog-AMS 2023 & IEEE 1800-2009
+	Other(AtomicByteTendril),
+}
+
 impl Display for Comment {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
 		match self {
@@ -128,5 +135,19 @@ impl Display for SystemFunc {
 				str::from_utf8_unchecked(tendril)
 			}),
 		}
+	}
+}
+
+impl Display for TextMacro {
+	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+		write!(
+			f,
+			"TextMacro({})",
+			match self {
+				Self::DunderFile => "__FILE__", // Added: Verilog-AMS 2023 & IEEE 1800-2009
+				Self::DunderLine => "__LINE__", // Added: Verilog-AMS 2023 & IEEE 1800-2009
+				Self::Other(tendril) => unsafe { str::from_utf8_unchecked(tendril) },
+			}
+		)
 	}
 }
