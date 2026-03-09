@@ -75,6 +75,13 @@ pub enum TimeUnit {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
+pub enum Comment {
+	Invalid(AtomicByteTendril),
+	MultiLine(AtomicByteTendril),
+	SingleLine(AtomicByteTendril),
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub enum CompilerDirective {
 	Arg(AtomicByteTendril),
 	Name(Directive),
@@ -84,6 +91,22 @@ pub enum CompilerDirective {
 pub enum SystemFunc {
 	Builtin(BuiltinSysFunc),
 	Other(AtomicByteTendril),
+}
+
+impl Display for Comment {
+	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+		match self {
+			Self::Invalid(tendril) => write!(f, "InvalidComment(\"{}\")", unsafe {
+				str::from_utf8_unchecked(tendril)
+			}),
+			Self::MultiLine(tendril) => write!(f, "MultiLineComment(\"{}\")", unsafe {
+				str::from_utf8_unchecked(tendril)
+			}),
+			Self::SingleLine(tendril) => write!(f, "SingleLineComment(\"// {}\")", unsafe {
+				str::from_utf8_unchecked(tendril)
+			}),
+		}
+	}
 }
 
 impl Display for CompilerDirective {

@@ -8,7 +8,7 @@ use crate::{
 	LanguageStd,
 	lang::{
 		keywords::Keyword,
-		types::{CompilerDirective, SystemFunc},
+		types::{Comment, CompilerDirective, SystemFunc},
 	},
 };
 
@@ -48,13 +48,6 @@ pub enum BaseSpecifier {
 	Decimal,
 	Hexadecimal,
 	Octal,
-}
-
-#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
-pub enum Comment {
-	Invalid(AtomicByteTendril),
-	MultiLine(AtomicByteTendril),
-	SingleLine(AtomicByteTendril),
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
@@ -221,22 +214,6 @@ impl Display for BaseSpecifier {
 				Self::Octal => "'o",
 			}
 		)
-	}
-}
-
-impl Display for Comment {
-	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-		match self {
-			Self::Invalid(tendril) => write!(f, "InvalidComment(\"{}\")", unsafe {
-				str::from_utf8_unchecked(tendril)
-			}),
-			Self::MultiLine(tendril) => write!(f, "MultiLineComment(\"{}\")", unsafe {
-				str::from_utf8_unchecked(tendril)
-			}),
-			Self::SingleLine(tendril) => write!(f, "SingleLineComment(\"// {}\")", unsafe {
-				str::from_utf8_unchecked(tendril)
-			}),
-		}
 	}
 }
 

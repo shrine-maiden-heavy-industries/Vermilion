@@ -4,7 +4,7 @@ use std::collections::HashMap;
 
 use vermilion_lang::{AtomicByteTendril, Position, Span, Spanned};
 
-use crate::lang::{tokenizer::token::Comment, types::CompilerDirective};
+use crate::lang::types::{Comment, CompilerDirective};
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct Diagnostic {
