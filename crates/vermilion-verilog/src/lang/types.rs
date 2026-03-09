@@ -125,6 +125,12 @@ pub enum Control {
 	Semicolon,
 }
 
+#[derive(Debug, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
+pub enum Identifier {
+	Simple(AtomicByteTendril),
+	Escaped(AtomicByteTendril),
+}
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub enum Operator {
 	AbsTolerance, // Added: IEEE 1800-2023
@@ -311,6 +317,19 @@ impl Display for Control {
 				Self::Semicolon => ";",
 			}
 		)
+	}
+}
+
+impl Display for Identifier {
+	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+		match self {
+			Identifier::Simple(tendril) => write!(f, "Identifier({})", unsafe {
+				str::from_utf8_unchecked(tendril)
+			}),
+			Identifier::Escaped(tendril) => write!(f, "Identifier(\\{})", unsafe {
+				str::from_utf8_unchecked(tendril)
+			}),
+		}
 	}
 }
 

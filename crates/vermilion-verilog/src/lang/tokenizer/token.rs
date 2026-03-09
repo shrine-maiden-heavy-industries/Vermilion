@@ -9,7 +9,7 @@ use crate::{
 	lang::{
 		keywords::Keyword,
 		types::{
-			BasedLiteralSpecifier, Comment, CompilerDirective, Control, Operator,
+			BasedLiteralSpecifier, Comment, CompilerDirective, Control, Identifier, Operator,
 			SingleQuotedString, SystemFunc, TextMacro, TripleQuotedString,
 		},
 	},
@@ -23,7 +23,7 @@ pub enum Token {
 	/// Hold the verilog variant for when this token would become valid
 	ContextuallyInvalid(AtomicByteTendril, LanguageStd),
 	Control(Control),
-	Identifier(AtomicByteTendril),
+	Identifier(Identifier),
 	Invalid(Option<AtomicByteTendril>),
 	Keyword(Keyword),
 	Newline(AtomicByteTendril),
@@ -56,9 +56,7 @@ impl Display for Token {
 				)
 			},
 			Self::Control(control) => control.fmt(f),
-			Self::Identifier(tendril) => write!(f, "Identifier({})", unsafe {
-				str::from_utf8_unchecked(tendril)
-			}),
+			Self::Identifier(identifier) => identifier.fmt(f),
 			Self::Invalid(_tendril) => todo!(),
 			Self::Keyword(keyword) => keyword.fmt(f),
 			Self::Newline(tendril) => write!(f, "Newline({})", tendril.len()),

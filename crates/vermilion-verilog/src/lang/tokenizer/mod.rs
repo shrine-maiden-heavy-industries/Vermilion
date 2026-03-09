@@ -14,8 +14,8 @@ use crate::{
 		directives, keywords,
 		tokenizer::token::Token,
 		types::{
-			BaseSpecifier, BasedLiteralSpecifier, Comment, CompilerDirective, Control, Operator,
-			SingleQuotedString, TextMacro, TripleQuotedString,
+			BaseSpecifier, BasedLiteralSpecifier, Comment, CompilerDirective, Control, Identifier,
+			Operator, SingleQuotedString, TextMacro, TripleQuotedString,
 		},
 	},
 };
@@ -129,14 +129,18 @@ impl VerilogTokenizer {
 			let keyword = keywords::get_keyword(ident, self.standard);
 			let token = match keyword {
 				Some(keyword) => Token::Keyword(keyword),
-				None => Token::Identifier(self.tokenizer.subtendril(range.clone())),
+				None => {
+					Token::Identifier(Identifier::Simple(self.tokenizer.subtendril(range.clone())))
+				},
 			};
 			// Turn the result into the final token to return
 			self.token = spanned_token!(token, range, context);
 		} else if self.tokenizer.current_byte() == b'\\' {
 			let range = self.read_escaped_ident();
 			self.token = spanned_token!(
-				Token::Identifier(self.tokenizer.subtendril(range.clone())),
+				Token::Identifier(Identifier::Escaped(
+					self.tokenizer.subtendril(range.clone())
+				)),
 				range,
 				context
 			);

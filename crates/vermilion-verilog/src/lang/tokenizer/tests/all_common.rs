@@ -688,7 +688,7 @@ tokenizer_test!(
 	ident,
 	"meow",
 	spanned_token!(
-		Token::Identifier("meow".as_bytes().into()),
+		Token::Identifier(Identifier::Simple("meow".as_bytes().into())),
 		0..4,
 		Position::new(0, 0)
 	)
@@ -699,7 +699,7 @@ tokenizer_test!(
 	ident_adv,
 	"m3ow_me0w",
 	spanned_token!(
-		Token::Identifier("m3ow_me0w".as_bytes().into()),
+		Token::Identifier(Identifier::Simple("m3ow_me0w".as_bytes().into())),
 		0..9,
 		Position::new(0, 0)
 	)
@@ -1456,7 +1456,7 @@ tokenizer_test!(
 	extended_ident,
 	r"\meow",
 	spanned_token!(
-		Token::Identifier(r"\meow".as_bytes().into()),
+		Token::Identifier(Identifier::Escaped(r"\meow".as_bytes().into())),
 		0..5,
 		Position::new(0, 0)
 	)
@@ -1467,7 +1467,7 @@ tokenizer_test!(
 	extended_ident_adv,
 	r"\nya$owo@uwu",
 	spanned_token!(
-		Token::Identifier(r"\nya$owo@uwu".as_bytes().into()),
+		Token::Identifier(Identifier::Escaped(r"\nya$owo@uwu".as_bytes().into())),
 		0..12,
 		Position::new(0, 0)
 	)
@@ -3453,7 +3453,7 @@ endmodule
 		Position::new(1, 6)
 	),
 	spanned_token!(
-		Token::Identifier("foo".as_bytes().into()),
+		Token::Identifier(Identifier::Simple("foo".as_bytes().into())),
 		8..11,
 		Position::new(1, 7)
 	),
@@ -3489,7 +3489,7 @@ endmodule
 		Position::new(2, 5)
 	),
 	spanned_token!(
-		Token::Identifier("a".as_bytes().into()),
+		Token::Identifier(Identifier::Simple("a".as_bytes().into())),
 		21..22,
 		Position::new(2, 6)
 	),

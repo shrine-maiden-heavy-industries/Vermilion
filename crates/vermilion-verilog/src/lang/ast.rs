@@ -2,9 +2,9 @@
 
 use std::collections::HashMap;
 
-use vermilion_lang::{AtomicByteTendril, Position, Span, Spanned};
+use vermilion_lang::{Position, Span, Spanned};
 
-use crate::lang::types::{Comment, CompilerDirective};
+use crate::lang::types::{Comment, CompilerDirective, Identifier};
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct Diagnostic {
@@ -41,7 +41,7 @@ pub struct AstNode<T> {
 
 #[derive(Debug)]
 struct ModuleInner {
-	name:        AtomicByteTendril,
+	name:        Identifier,
 	diagnostics: Vec<Diagnostic>,
 	ports:       Option<PortList>,
 }
@@ -52,10 +52,7 @@ pub struct Module {
 }
 
 impl Module {
-	pub fn new_valid(
-		source_position: Option<Span<usize, Position>>,
-		name: AtomicByteTendril,
-	) -> Self {
+	pub fn new_valid(source_position: Option<Span<usize, Position>>, name: Identifier) -> Self {
 		Self {
 			inner: AstNode {
 				_source_position: source_position,
@@ -135,7 +132,7 @@ impl PortList {
 
 #[derive(Debug)]
 struct PrimitiveInner {
-	name: AtomicByteTendril,
+	name: Identifier,
 }
 
 #[derive(Debug)]
@@ -145,8 +142,8 @@ pub struct Primitive {
 
 #[derive(Debug, Default)]
 pub struct Ast {
-	modules:     HashMap<AtomicByteTendril, Module>,
-	primitives:  HashMap<AtomicByteTendril, Primitive>,
+	modules:     HashMap<Identifier, Module>,
+	primitives:  HashMap<Identifier, Primitive>,
 	_directives: Vec<Spanned<CompilerDirective, Position>>,
 	comments:    Vec<Spanned<Comment, Position>>,
 	diagnostics: Vec<Diagnostic>,
