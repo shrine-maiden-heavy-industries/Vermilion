@@ -8,17 +8,16 @@ use crate::{
 	LanguageStd,
 	lang::{
 		keywords::Keyword,
-		types::{Comment, CompilerDirective, Control, Operator, SystemFunc, TextMacro},
+		types::{
+			BasedLiteralSpecifier, Comment, CompilerDirective, Control, Operator, SystemFunc,
+			TextMacro,
+		},
 	},
 };
 
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 pub enum Token {
-	BaseSpecifier {
-		specifier: BaseSpecifier,
-		uppercase: bool,
-		signed:    bool,
-	},
+	BasedLiteralSpecifier(BasedLiteralSpecifier),
 	Comment(Comment),
 	CompilerDirective(CompilerDirective),
 	/// Hold the verilog variant for when this token would become valid
@@ -42,24 +41,10 @@ pub enum Token {
 	Whitespace(AtomicByteTendril),
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
-pub enum BaseSpecifier {
-	Binary,
-	Decimal,
-	Hexadecimal,
-	Octal,
-}
-
 impl Display for Token {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
 		match self {
-			Self::BaseSpecifier { specifier, uppercase, signed } => {
-				write!(
-					f,
-					"BaseSpecifier({}, uppercase: {}, signed: {})",
-					specifier, uppercase, signed
-				)
-			},
+			Self::BasedLiteralSpecifier(specifier) => specifier.fmt(f),
 			Self::Comment(comment) => comment.fmt(f),
 			Self::CompilerDirective(compiler_directive) => compiler_directive.fmt(f),
 			Self::ContextuallyInvalid(tendril, std) => {
@@ -99,21 +84,6 @@ impl Display for Token {
 				str::from_utf8_unchecked(tendril)
 			}),
 		}
-	}
-}
-
-impl Display for BaseSpecifier {
-	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-		write!(
-			f,
-			"BaseSpecifier({})",
-			match self {
-				Self::Binary => "'b",
-				Self::Decimal => "'d",
-				Self::Hexadecimal => "'h",
-				Self::Octal => "'o",
-			}
-		)
 	}
 }
 

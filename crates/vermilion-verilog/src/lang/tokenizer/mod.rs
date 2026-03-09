@@ -12,8 +12,11 @@ use crate::{
 	LanguageStd,
 	lang::{
 		directives, keywords,
-		tokenizer::token::{BaseSpecifier, Token},
-		types::{Comment, CompilerDirective, Control, Operator, TextMacro},
+		tokenizer::token::Token,
+		types::{
+			BaseSpecifier, BasedLiteralSpecifier, Comment, CompilerDirective, Control, Operator,
+			TextMacro,
+		},
 	},
 };
 
@@ -1458,7 +1461,7 @@ impl VerilogTokenizer {
 	) {
 		let uppercase = self.tokenizer.next_char().is_ascii_uppercase();
 		self.token_stream.push_back(spanned_token!(
-			Token::BaseSpecifier { specifier, uppercase, signed },
+			Token::BasedLiteralSpecifier(BasedLiteralSpecifier::new(specifier, uppercase, signed)),
 			begin..self.tokenizer.offset(),
 			context
 		));

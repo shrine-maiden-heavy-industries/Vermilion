@@ -74,6 +74,21 @@ pub enum TimeUnit {
 	Femtoseconds,
 }
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
+pub enum BaseSpecifier {
+	Binary,
+	Decimal,
+	Hexadecimal,
+	Octal,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
+pub struct BasedLiteralSpecifier {
+	specifier: BaseSpecifier,
+	uppercase: bool,
+	signed:    bool,
+}
+
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub enum Comment {
 	Invalid(AtomicByteTendril),
@@ -191,6 +206,37 @@ pub enum TextMacro {
 	DunderFile, // Added: Verilog-AMS 2023 & IEEE 1800-2009
 	DunderLine, // Added: Verilog-AMS 2023 & IEEE 1800-2009
 	Other(AtomicByteTendril),
+}
+
+impl BasedLiteralSpecifier {
+	pub fn new(specifier: BaseSpecifier, uppercase: bool, signed: bool) -> Self {
+		Self { specifier, uppercase, signed }
+	}
+}
+
+impl Display for BaseSpecifier {
+	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+		write!(
+			f,
+			"BaseSpecifier({})",
+			match self {
+				Self::Binary => "'b",
+				Self::Decimal => "'d",
+				Self::Hexadecimal => "'h",
+				Self::Octal => "'o",
+			}
+		)
+	}
+}
+
+impl Display for BasedLiteralSpecifier {
+	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+		write!(
+			f,
+			"BasedLiteralSpecifier({}, uppercase: {}, signed: {})",
+			self.specifier, self.uppercase, self.signed
+		)
+	}
 }
 
 impl Display for Comment {
