@@ -6,6 +6,7 @@ pub mod keywords;
 pub mod parser;
 pub mod sysfuncs;
 pub mod tokenizer;
+pub mod types;
 
 #[cfg(test)]
 mod tests {
