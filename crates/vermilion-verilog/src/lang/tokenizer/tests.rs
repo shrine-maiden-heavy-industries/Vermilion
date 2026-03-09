@@ -4,11 +4,9 @@ use paste::paste;
 use crate::{
 	LanguageStd,
 	lang::{
+		directives::Directive,
 		keywords::Keyword,
-		tokenizer::{
-			token::{Directive, TextMacro},
-			*,
-		},
+		tokenizer::{token::TextMacro, *},
 	},
 };
 

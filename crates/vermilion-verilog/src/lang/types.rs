@@ -4,7 +4,7 @@ use std::fmt::Display;
 
 use vermilion_lang::AtomicByteTendril;
 
-use crate::lang::sysfuncs::BuiltinSysFunc;
+use crate::lang::{directives::Directive, sysfuncs::BuiltinSysFunc};
 
 #[derive(Clone, Copy, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
 pub enum NetType {
@@ -75,9 +75,26 @@ pub enum TimeUnit {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
+pub enum CompilerDirective {
+	Arg(AtomicByteTendril),
+	Name(Directive),
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub enum SystemFunc {
 	Builtin(BuiltinSysFunc),
 	Other(AtomicByteTendril),
+}
+
+impl Display for CompilerDirective {
+	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+		match self {
+			Self::Arg(tendril) => write!(f, "CompilerDirectiveArg({})", unsafe {
+				str::from_utf8_unchecked(tendril)
+			}),
+			Self::Name(directive) => write!(f, "CompilerDirective({})", directive),
+		}
+	}
 }
 
 impl Display for SystemFunc {

@@ -12,9 +12,8 @@ use crate::{
 	LanguageStd,
 	lang::{
 		directives, keywords,
-		tokenizer::token::{
-			BaseSpecifier, Comment, CompilerDirective, Control, Operator, TextMacro, Token,
-		},
+		tokenizer::token::{BaseSpecifier, Comment, Control, Operator, TextMacro, Token},
+		types::CompilerDirective,
 	},
 };
 

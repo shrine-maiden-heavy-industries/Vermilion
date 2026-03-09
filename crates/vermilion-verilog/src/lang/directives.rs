@@ -1,8 +1,42 @@
 // SPDX-License-Identifier: BSD-3-Clause
 
+use std::fmt::Display;
+
 use phf::{phf_map, phf_set};
 
-use crate::{LanguageStd, lang::tokenizer::token::Directive};
+use crate::LanguageStd;
+
+#[derive(Debug, Copy, Clone, PartialEq, Eq, PartialOrd, Ord)]
+pub enum Directive {
+	BeginKeywords, // Added: IEEE 1364-2005
+	CellDefine,
+	DefaultDecayTime,
+	DefaultDiscipline, // Added: Verilog-AMS 2009
+	DefaultNetType,
+	DefaultTransition, // Added: Verilog-AMS 2009
+	DefaultTriRegStrength,
+	Define,
+	DelayModeDistributed,
+	DelayModePath,
+	DelayModeUnit,
+	DelayModeZero,
+	Else,
+	ElsIf, // Added: IEEE 1364-2001
+	EndCellDefine,
+	EndIf,
+	EndKeywords, // Added: IEEE 1364-2005
+	IfDef,
+	IfNotDef, // Added: IEEE 1364-2001
+	Include,
+	Line, // Added: IEEE 1364-2001
+	NoUnconnectedDrive,
+	Pragma, // Added: IEEE 1364-2005
+	ResetAll,
+	TimeScale,
+	UnconnectedDrive,
+	Undef,
+	UndefineAll, // Added: IEEE 1800-2009
+}
 
 /// IEEE 1364-1995 (Verilog 1995) Directive to [`Directive`] token map
 pub static VERILOG_95_DIRECTIVE_MAP: phf::Map<&'static str, Directive> = phf_map! {
@@ -806,6 +840,45 @@ pub fn directive_in(ident: &str) -> LanguageStd {
 	}
 
 	supported
+}
+
+impl Display for Directive {
+	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+		write!(
+			f,
+			"Directive({})",
+			match self {
+				Self::BeginKeywords => "begin_keywords", // Added: IEEE 1364-2005
+				Self::CellDefine => "celldefine",
+				Self::DefaultDecayTime => "default_decay_time",
+				Self::DefaultDiscipline => "default_discipline", // Added: Verilog-AMS 2009
+				Self::DefaultNetType => "default_nettype",
+				Self::DefaultTransition => "default_transition", // Added: Verilog-AMS 2009
+				Self::DefaultTriRegStrength => "default_trireg_strength",
+				Self::Define => "define",
+				Self::DelayModeDistributed => "delay_mode_distributed",
+				Self::DelayModePath => "delay_mode_path",
+				Self::DelayModeUnit => "delay_mode_unit",
+				Self::DelayModeZero => "delay_mode_zero",
+				Self::Else => "else",
+				Self::ElsIf => "elsif", // Added: IEEE 1364-2001
+				Self::EndCellDefine => "endcelldefine",
+				Self::EndIf => "endif",
+				Self::EndKeywords => "end_keywords", // Added: IEEE 1364-2005
+				Self::IfDef => "ifdef",
+				Self::IfNotDef => "ifndef", // Added: IEEE 1364-2001
+				Self::Include => "include",
+				Self::Line => "line", // Added: IEEE 1364-2001
+				Self::NoUnconnectedDrive => "nounconnected_drive",
+				Self::Pragma => "pragma", // Added: IEEE 1364-2005
+				Self::ResetAll => "resetall",
+				Self::TimeScale => "timescale",
+				Self::UnconnectedDrive => "unconnected_drive",
+				Self::Undef => "undef",
+				Self::UndefineAll => "undefineall", // Added: IEEE 1800-2009
+			}
+		)
+	}
 }
 
 #[cfg(test)]
