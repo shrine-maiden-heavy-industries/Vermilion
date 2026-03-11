@@ -31,7 +31,7 @@ struct JsonRpcEnvelope<'a> {
 }
 
 impl Message {
-	pub fn deserialize(buffer: &[u8]) -> Result<Message> {
+	pub fn deserialize(buffer: &[u8]) -> Result<Self> {
 		Ok(serde_json::from_slice(buffer)?)
 	}
 
@@ -51,47 +51,47 @@ impl Message {
 
 impl From<i32> for Id {
 	fn from(value: i32) -> Self {
-		Id::Integer(value)
+		Self::Integer(value)
 	}
 }
 
 impl From<String> for Id {
 	fn from(value: String) -> Self {
-		Id::String(value)
+		Self::String(value)
 	}
 }
 
 impl Display for Id {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
 		match self {
-			Id::Integer(id) => Display::fmt(id, f),
-			Id::String(id) => Display::fmt(id, f),
-			Id::Null(_) => write!(f, "null"),
+			Self::Integer(id) => Display::fmt(id, f),
+			Self::String(id) => Display::fmt(id, f),
+			Self::Null(_) => write!(f, "null"),
 		}
 	}
 }
 
 impl From<Notification> for Message {
 	fn from(value: Notification) -> Self {
-		Message::Notification(value)
+		Self::Notification(value)
 	}
 }
 
 impl From<Request> for Message {
 	fn from(value: Request) -> Self {
-		Message::Request(Box::new(value))
+		Self::Request(Box::new(value))
 	}
 }
 
 impl From<Box<Request>> for Message {
 	fn from(value: Box<Request>) -> Self {
-		Message::Request(value)
+		Self::Request(value)
 	}
 }
 
 impl From<Response> for Message {
 	fn from(value: Response) -> Self {
-		Message::Response(value)
+		Self::Response(value)
 	}
 }
 

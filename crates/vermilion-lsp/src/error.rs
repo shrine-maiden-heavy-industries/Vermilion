@@ -113,17 +113,17 @@ impl Display for Code {
 			f,
 			"{}",
 			match self {
-				Code::ParseError => "Parse Error",
-				Code::InvalidRequest => "Invalid Request",
-				Code::MethodNotFound => "Method Not Found",
-				Code::InvalidParams => "Invalid Params",
-				Code::InternalError => "Internal Error",
-				Code::ServerNotInitialized => "Server Not Initialized",
-				Code::UnknownErrorCode => "Unknown",
-				Code::RequestFailed => "Request Failed",
-				Code::SeverCancelled => "Server Cancelled",
-				Code::ContentModified => "Content Modified",
-				Code::RequestCancelled => "Request Cancelled",
+				Self::ParseError => "Parse Error",
+				Self::InvalidRequest => "Invalid Request",
+				Self::MethodNotFound => "Method Not Found",
+				Self::InvalidParams => "Invalid Params",
+				Self::InternalError => "Internal Error",
+				Self::ServerNotInitialized => "Server Not Initialized",
+				Self::UnknownErrorCode => "Unknown",
+				Self::RequestFailed => "Request Failed",
+				Self::SeverCancelled => "Server Cancelled",
+				Self::ContentModified => "Content Modified",
+				Self::RequestCancelled => "Request Cancelled",
 			}
 		)
 	}

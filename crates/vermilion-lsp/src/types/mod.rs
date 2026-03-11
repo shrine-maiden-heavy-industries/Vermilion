@@ -1074,7 +1074,7 @@ pub struct FoldingRange {
 pub struct SelectionRange {
 	pub(crate) range:  Range,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) parent: Option<Box<SelectionRange>>,
+	pub(crate) parent: Option<Box<Self>>,
 }
 
 #[derive(
@@ -1088,13 +1088,13 @@ pub enum ProgressToken {
 
 impl From<i32> for ProgressToken {
 	fn from(value: i32) -> Self {
-		ProgressToken::Integer(value)
+		Self::Integer(value)
 	}
 }
 
 impl From<String> for ProgressToken {
 	fn from(value: String) -> Self {
-		ProgressToken::String(value)
+		Self::String(value)
 	}
 }
 
@@ -1592,7 +1592,7 @@ pub struct DocumentSymbol {
 	pub(crate) range:           Range,
 	pub(crate) selection_range: Range,
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) children:        Option<Vec<DocumentSymbol>>,
+	pub(crate) children:        Option<Vec<Self>>,
 }
 
 /// Represents a reference to a command.
@@ -3166,7 +3166,7 @@ impl SelectionRange {
 		Self { range, parent: None }
 	}
 
-	pub fn with_parent(mut self, parent: Box<SelectionRange>) -> Self {
+	pub fn with_parent(mut self, parent: Box<Self>) -> Self {
 		self.parent = Some(parent);
 		self
 	}
@@ -3179,7 +3179,7 @@ impl SelectionRange {
 	/// The parent selection range containing this range.
 	///
 	/// Therefore `parent.range` must contain `this.range`.
-	pub fn parent(&self) -> Option<&SelectionRange> {
+	pub fn parent(&self) -> Option<&Self> {
 		self.parent.as_ref().map(|f| f.as_ref())
 	}
 }
@@ -4460,7 +4460,7 @@ impl DocumentSymbol {
 		self
 	}
 
-	pub fn with_children(mut self, children: Vec<DocumentSymbol>) -> Self {
+	pub fn with_children(mut self, children: Vec<Self>) -> Self {
 		self.children = Some(children);
 		self
 	}
@@ -4515,7 +4515,7 @@ impl DocumentSymbol {
 	}
 
 	/// Children of this symbol, e.g. properties of a class.
-	pub fn children(&self) -> Option<&Vec<DocumentSymbol>> {
+	pub fn children(&self) -> Option<&Vec<Self>> {
 		self.children.as_ref()
 	}
 }
