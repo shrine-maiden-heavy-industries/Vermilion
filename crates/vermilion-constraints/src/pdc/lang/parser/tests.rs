@@ -15,8 +15,10 @@ macro_rules! parser_test {
 		paste! {
 			#[test]
 			fn [<test_parse_lpf_ $test_name>] () {
-				// SAFETY: We're in a testing context, panicking here is fine
-				#[allow(clippy::unwrap_used)]
+				#[allow(
+					clippy::unwrap_used,
+					reason = "We are within tests, and while this shouldn't explode, if it does here that's fine"
+				)]
 				let parser = PdcParser::new($std, $input.as_bytes().into()).unwrap();
 
 				let parsed = parser.collect::<Vec<_>>();

@@ -50,9 +50,10 @@ impl SdcTokenizer {
 
 	fn read_token(&mut self) {
 		if !self.token_stream.is_empty() {
-			// SAFETY:
-			// This has to work or the stream is empty, thus the if condition fails.
-			#[allow(clippy::expect_used)]
+			#[allow(
+				clippy::expect_used,
+				reason = "VecDeque is guaranteed to have at least one element in it here"
+			)]
 			let token = self
 				.token_stream
 				.pop_front()
