@@ -3,7 +3,8 @@
 use crate::lang::parser::{Diagnostic, Position, Span};
 
 // #[test]
-#[allow(unused)]
+// TODO(aki): Rewrite when parser is reworked
+#[allow(unused, reason = "Currently unused")]
 fn test_truncated_module() {
 	// SAFETY: We're in a testing context, panicking here is fine
 	#[allow(clippy::unwrap_used)]

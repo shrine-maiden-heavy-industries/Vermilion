@@ -3436,6 +3436,7 @@ impl Display for BuiltinSysFunc {
 
 #[cfg(test)]
 mod test {
-	#[allow(unused)]
+	// TODO(aki): Write tests
+	#[allow(unused, reason = "Currently unused")]
 	use super::*;
 }

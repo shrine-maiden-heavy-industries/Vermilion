@@ -1,10 +1,13 @@
 // SPDX-License-Identifier: BSD-3-Clause
-#[allow(unused)]
+
+// TODO(aki): Write tests
+#[allow(unused, reason = "Currently unused")]
 use paste::paste;
 
 use crate::{LanguageStd, lang::parser::VerilogParser};
 
-#[allow(unused)]
+// TODO(aki): Write tests
+#[allow(unused, reason = "Currently unused")]
 macro_rules! parser_test {
 	(verilog95, $test_name:ident, $input:literal, $($tokens:expr),+) => {
 		paste! { parser_test!(
