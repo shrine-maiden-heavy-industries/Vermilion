@@ -2102,8 +2102,8 @@ pub static VHDL_AMS_21_KEYWORD_SET: phf::Set<&'static str> = phf_set! {
 };
 
 /// Get the IEEE 1076-1987 (VHDL 1987) keyword for the given identifier if it exists
-#[allow(unused)]
-#[inline]
+#[allow(unused, reason = "VHDL Tokenizer not implemented yet")]
+#[inline(always)]
 pub fn get_vhdl_87_keyword(ident: &str) -> Option<Keyword> {
 	VHDL_87_KEYWORD_MAP.get(ident).copied()
 }
@@ -2115,15 +2115,15 @@ pub fn get_vhdl_87_keyword(ident: &str) -> Option<Keyword> {
 /// standard.
 ///
 /// It prevents the copy into an [`Option`] if it is a keyword.
-#[allow(unused)]
-#[inline]
+#[allow(unused, reason = "VHDL Tokenizer not implemented yet")]
+#[inline(always)]
 pub fn is_vhdl_87_keyword(ident: &str) -> bool {
 	VHDL_87_KEYWORD_SET.contains(ident)
 }
 
 /// Get the IEEE 1076-1993 (VHDL 1993) keyword for the given identifier if it exists
-#[allow(unused)]
-#[inline]
+#[allow(unused, reason = "VHDL Tokenizer not implemented yet")]
+#[inline(always)]
 pub fn get_vhdl_93_keyword(ident: &str) -> Option<Keyword> {
 	VHDL_93_KEYWORD_MAP.get(ident).copied()
 }
@@ -2135,15 +2135,15 @@ pub fn get_vhdl_93_keyword(ident: &str) -> Option<Keyword> {
 /// standard.
 ///
 /// It prevents the copy into an [`Option`] if it is a keyword.
-#[allow(unused)]
-#[inline]
+#[allow(unused, reason = "VHDL Tokenizer not implemented yet")]
+#[inline(always)]
 pub fn is_vhdl_93_keyword(ident: &str) -> bool {
 	VHDL_93_KEYWORD_SET.contains(ident)
 }
 
 /// Get the IEEE 1076-2000 (VHDL 2000) keyword for the given identifier if it exists
-#[allow(unused)]
-#[inline]
+#[allow(unused, reason = "VHDL Tokenizer not implemented yet")]
+#[inline(always)]
 pub fn get_vhdl_2k_keyword(ident: &str) -> Option<Keyword> {
 	VHDL_2K_KEYWORD_MAP.get(ident).copied()
 }
@@ -2155,15 +2155,15 @@ pub fn get_vhdl_2k_keyword(ident: &str) -> Option<Keyword> {
 /// standard.
 ///
 /// It prevents the copy into an [`Option`] if it is a keyword.
-#[allow(unused)]
-#[inline]
+#[allow(unused, reason = "VHDL Tokenizer not implemented yet")]
+#[inline(always)]
 pub fn is_vhdl_2k_keyword(ident: &str) -> bool {
 	VHDL_2K_KEYWORD_SET.contains(ident)
 }
 
 /// Get the IEEE 1076-2002 (VHDL 2002) keyword for the given identifier if it exists
-#[allow(unused)]
-#[inline]
+#[allow(unused, reason = "VHDL Tokenizer not implemented yet")]
+#[inline(always)]
 pub fn get_vhdl_02_keyword(ident: &str) -> Option<Keyword> {
 	VHDL_02_KEYWORD_MAP.get(ident).copied()
 }
@@ -2175,15 +2175,15 @@ pub fn get_vhdl_02_keyword(ident: &str) -> Option<Keyword> {
 /// standard.
 ///
 /// It prevents the copy into an [`Option`] if it is a keyword.
-#[allow(unused)]
-#[inline]
+#[allow(unused, reason = "VHDL Tokenizer not implemented yet")]
+#[inline(always)]
 pub fn is_vhdl_02_keyword(ident: &str) -> bool {
 	VHDL_02_KEYWORD_SET.contains(ident)
 }
 
 /// Get the IEC 61691-1-1:2004 (VHDL 2004) keyword for the given identifier if it exists
-#[allow(unused)]
-#[inline]
+#[allow(unused, reason = "VHDL Tokenizer not implemented yet")]
+#[inline(always)]
 pub fn get_vhdl_04_keyword(ident: &str) -> Option<Keyword> {
 	VHDL_04_KEYWORD_MAP.get(ident).copied()
 }
@@ -2195,15 +2195,15 @@ pub fn get_vhdl_04_keyword(ident: &str) -> Option<Keyword> {
 /// standard.
 ///
 /// It prevents the copy into an [`Option`] if it is a keyword.
-#[allow(unused)]
-#[inline]
+#[allow(unused, reason = "VHDL Tokenizer not implemented yet")]
+#[inline(always)]
 pub fn is_vhdl_04_keyword(ident: &str) -> bool {
 	VHDL_04_KEYWORD_SET.contains(ident)
 }
 
 /// Get the IEEE 1076-2007 (VHDL 2007) keyword for the given identifier if it exists
-#[allow(unused)]
-#[inline]
+#[allow(unused, reason = "VHDL Tokenizer not implemented yet")]
+#[inline(always)]
 pub fn get_vhdl_07_keyword(ident: &str) -> Option<Keyword> {
 	VHDL_07_KEYWORD_MAP.get(ident).copied()
 }
@@ -2215,15 +2215,15 @@ pub fn get_vhdl_07_keyword(ident: &str) -> Option<Keyword> {
 /// standard.
 ///
 /// It prevents the copy into an [`Option`] if it is a keyword.
-#[allow(unused)]
-#[inline]
+#[allow(unused, reason = "VHDL Tokenizer not implemented yet")]
+#[inline(always)]
 pub fn is_vhdl_07_keyword(ident: &str) -> bool {
 	VHDL_07_KEYWORD_SET.contains(ident)
 }
 
 /// Get the IEEE 1076-2008 (VHDL 2008) keyword for the given identifier if it exists
-#[allow(unused)]
-#[inline]
+#[allow(unused, reason = "VHDL Tokenizer not implemented yet")]
+#[inline(always)]
 pub fn get_vhdl_08_keyword(ident: &str) -> Option<Keyword> {
 	VHDL_08_KEYWORD_MAP.get(ident).copied()
 }
@@ -2235,15 +2235,15 @@ pub fn get_vhdl_08_keyword(ident: &str) -> Option<Keyword> {
 /// standard.
 ///
 /// It prevents the copy into an [`Option`] if it is a keyword.
-#[allow(unused)]
-#[inline]
+#[allow(unused, reason = "VHDL Tokenizer not implemented yet")]
+#[inline(always)]
 pub fn is_vhdl_08_keyword(ident: &str) -> bool {
 	VHDL_08_KEYWORD_SET.contains(ident)
 }
 
 /// Get the IEC 61691-1-1:2011 (VHDL 2011) keyword for the given identifier if it exists
-#[allow(unused)]
-#[inline]
+#[allow(unused, reason = "VHDL Tokenizer not implemented yet")]
+#[inline(always)]
 pub fn get_vhdl_11_keyword(ident: &str) -> Option<Keyword> {
 	VHDL_11_KEYWORD_MAP.get(ident).copied()
 }
@@ -2255,15 +2255,15 @@ pub fn get_vhdl_11_keyword(ident: &str) -> Option<Keyword> {
 /// standard.
 ///
 /// It prevents the copy into an [`Option`] if it is a keyword.
-#[allow(unused)]
-#[inline]
+#[allow(unused, reason = "VHDL Tokenizer not implemented yet")]
+#[inline(always)]
 pub fn is_vhdl_11_keyword(ident: &str) -> bool {
 	VHDL_11_KEYWORD_SET.contains(ident)
 }
 
 /// Get the IEEE 1076-2019 (VHDL 2019) keyword for the given identifier if it exists
-#[allow(unused)]
-#[inline]
+#[allow(unused, reason = "VHDL Tokenizer not implemented yet")]
+#[inline(always)]
 pub fn get_vhdl_19_keyword(ident: &str) -> Option<Keyword> {
 	VHDL_19_KEYWORD_MAP.get(ident).copied()
 }
@@ -2275,15 +2275,15 @@ pub fn get_vhdl_19_keyword(ident: &str) -> Option<Keyword> {
 /// standard.
 ///
 /// It prevents the copy into an [`Option`] if it is a keyword.
-#[allow(unused)]
-#[inline]
+#[allow(unused, reason = "VHDL Tokenizer not implemented yet")]
+#[inline(always)]
 pub fn is_vhdl_19_keyword(ident: &str) -> bool {
 	VHDL_19_KEYWORD_SET.contains(ident)
 }
 
 /// Get the IEC 61691-1-1:2023 (VHDL 2023) keyword for the given identifier if it exists
-#[allow(unused)]
-#[inline]
+#[allow(unused, reason = "VHDL Tokenizer not implemented yet")]
+#[inline(always)]
 pub fn get_vhdl_23_keyword(ident: &str) -> Option<Keyword> {
 	VHDL_23_KEYWORD_MAP.get(ident).copied()
 }
@@ -2295,15 +2295,15 @@ pub fn get_vhdl_23_keyword(ident: &str) -> Option<Keyword> {
 /// standard.
 ///
 /// It prevents the copy into an [`Option`] if it is a keyword.
-#[allow(unused)]
-#[inline]
+#[allow(unused, reason = "VHDL Tokenizer not implemented yet")]
+#[inline(always)]
 pub fn is_vhdl_23_keyword(ident: &str) -> bool {
 	VHDL_23_KEYWORD_SET.contains(ident)
 }
 
 /// Get the VHDL keyword for the given standard if it exists
-#[allow(unused)]
-#[inline]
+#[allow(unused, reason = "VHDL Tokenizer not implemented yet")]
+#[inline(always)]
 pub fn get_vhdl_keyword(ident: &str, std: LanguageStd) -> Option<Keyword> {
 	match std {
 		LanguageStd::Vh87 => get_vhdl_87_keyword(ident),
@@ -2321,8 +2321,8 @@ pub fn get_vhdl_keyword(ident: &str, std: LanguageStd) -> Option<Keyword> {
 }
 
 /// Get the IEEE 1076.1-1999 (VHDL-AMS 1999) keyword for the given identifier if it exists
-#[allow(unused)]
-#[inline]
+#[allow(unused, reason = "VHDL Tokenizer not implemented yet")]
+#[inline(always)]
 pub fn get_vhdl_ams_99_keyword(ident: &str) -> Option<Keyword> {
 	VHDL_AMS_99_KEYWORD_MAP.get(ident).copied()
 }
@@ -2334,15 +2334,15 @@ pub fn get_vhdl_ams_99_keyword(ident: &str) -> Option<Keyword> {
 /// standard.
 ///
 /// It prevents the copy into an [`Option`] if it is a keyword.
-#[allow(unused)]
-#[inline]
+#[allow(unused, reason = "VHDL Tokenizer not implemented yet")]
+#[inline(always)]
 pub fn is_vhdl_ams_99_keyword(ident: &str) -> bool {
 	VHDL_AMS_99_KEYWORD_SET.contains(ident)
 }
 
 /// Get the IEEE 1076.1-2007 (VHDL-AMS 2007) keyword for the given identifier if it exists
-#[allow(unused)]
-#[inline]
+#[allow(unused, reason = "VHDL Tokenizer not implemented yet")]
+#[inline(always)]
 pub fn get_vhdl_ams_07_keyword(ident: &str) -> Option<Keyword> {
 	VHDL_AMS_07_KEYWORD_MAP.get(ident).copied()
 }
@@ -2354,15 +2354,15 @@ pub fn get_vhdl_ams_07_keyword(ident: &str) -> Option<Keyword> {
 /// standard.
 ///
 /// It prevents the copy into an [`Option`] if it is a keyword.
-#[allow(unused)]
-#[inline]
+#[allow(unused, reason = "VHDL Tokenizer not implemented yet")]
+#[inline(always)]
 pub fn is_vhdl_ams_07_keyword(ident: &str) -> bool {
 	VHDL_AMS_07_KEYWORD_SET.contains(ident)
 }
 
 /// Get the IEC 61691-6:2009 (VHDL-AMS 2009) keyword for the given identifier if it exists
-#[allow(unused)]
-#[inline]
+#[allow(unused, reason = "VHDL Tokenizer not implemented yet")]
+#[inline(always)]
 pub fn get_vhdl_ams_09_keyword(ident: &str) -> Option<Keyword> {
 	VHDL_AMS_09_KEYWORD_MAP.get(ident).copied()
 }
@@ -2374,15 +2374,15 @@ pub fn get_vhdl_ams_09_keyword(ident: &str) -> Option<Keyword> {
 /// standard.
 ///
 /// It prevents the copy into an [`Option`] if it is a keyword.
-#[allow(unused)]
-#[inline]
+#[allow(unused, reason = "VHDL Tokenizer not implemented yet")]
+#[inline(always)]
 pub fn is_vhdl_ams_09_keyword(ident: &str) -> bool {
 	VHDL_AMS_09_KEYWORD_SET.contains(ident)
 }
 
 /// Get the IEEE 1076.1-2017 (VHDL-AMS 2017) keyword for the given identifier if it exists
-#[allow(unused)]
-#[inline]
+#[allow(unused, reason = "VHDL Tokenizer not implemented yet")]
+#[inline(always)]
 pub fn get_vhdl_ams_17_keyword(ident: &str) -> Option<Keyword> {
 	VHDL_AMS_17_KEYWORD_MAP.get(ident).copied()
 }
@@ -2394,15 +2394,15 @@ pub fn get_vhdl_ams_17_keyword(ident: &str) -> Option<Keyword> {
 /// standard.
 ///
 /// It prevents the copy into an [`Option`] if it is a keyword.
-#[allow(unused)]
-#[inline]
+#[allow(unused, reason = "VHDL Tokenizer not implemented yet")]
+#[inline(always)]
 pub fn is_vhdl_ams_17_keyword(ident: &str) -> bool {
 	VHDL_AMS_17_KEYWORD_SET.contains(ident)
 }
 
 /// Get the IEC 61691-6:2021 (VHDL-AMS 2021) keyword for the given identifier if it exists
-#[allow(unused)]
-#[inline]
+#[allow(unused, reason = "VHDL Tokenizer not implemented yet")]
+#[inline(always)]
 pub fn get_vhdl_ams_21_keyword(ident: &str) -> Option<Keyword> {
 	VHDL_AMS_21_KEYWORD_MAP.get(ident).copied()
 }
@@ -2414,15 +2414,15 @@ pub fn get_vhdl_ams_21_keyword(ident: &str) -> Option<Keyword> {
 /// standard.
 ///
 /// It prevents the copy into an [`Option`] if it is a keyword.
-#[allow(unused)]
-#[inline]
+#[allow(unused, reason = "VHDL Tokenizer not implemented yet")]
+#[inline(always)]
 pub fn is_vhdl_ams_21_keyword(ident: &str) -> bool {
 	VHDL_AMS_21_KEYWORD_SET.contains(ident)
 }
 
 /// Get the VHDL-AMS keyword for the given standard if it exists
-#[allow(unused)]
-#[inline]
+#[allow(unused, reason = "VHDL Tokenizer not implemented yet")]
+#[inline(always)]
 pub fn get_vhdl_ams_keyword(ident: &str, std: LanguageStd) -> Option<Keyword> {
 	match std {
 		LanguageStd::Vhams99 => get_vhdl_ams_99_keyword(ident),
@@ -2435,8 +2435,8 @@ pub fn get_vhdl_ams_keyword(ident: &str, std: LanguageStd) -> Option<Keyword> {
 }
 
 /// Get the given VHDL/VHDL-AMS keyword for the given standard if it exists
-#[allow(unused)]
-#[inline]
+#[allow(unused, reason = "VHDL Tokenizer not implemented yet")]
+#[inline(always)]
 pub fn get_keyword(ident: &str, std: LanguageStd) -> Option<Keyword> {
 	match std {
 		LanguageStd::Vh87 => get_vhdl_87_keyword(ident),
@@ -2460,8 +2460,8 @@ pub fn get_keyword(ident: &str, std: LanguageStd) -> Option<Keyword> {
 
 /// Check to see if the given identifier is a keyword in a future VHDL standard, returning
 /// the standard version if so.
-#[allow(unused)]
-#[inline]
+#[allow(unused, reason = "VHDL Tokenizer not implemented yet")]
+#[inline(always)]
 pub fn keyword_in(ident: &str) -> LanguageStd {
 	let mut supported = LanguageStd::none();
 

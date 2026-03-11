@@ -7,6 +7,7 @@ pub mod tokenizer;
 
 #[cfg(test)]
 mod tests {
-	#[allow(unused)]
+	// TODO(aki): Write tests
+	#[allow(unused, reason = "Currently unused")]
 	use super::*;
 }
