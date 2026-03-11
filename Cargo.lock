@@ -3439,6 +3439,7 @@ dependencies = [
  "vermilion-fmt",
  "vermilion-lang",
  "vermilion-liberty",
+ "vermilion-loc",
  "vermilion-lsp",
  "vermilion-verilog",
  "vermilion-vhdl",
@@ -3464,6 +3465,7 @@ dependencies = [
  "vermilion-diagnostics",
  "vermilion-fmt",
  "vermilion-lang",
+ "vermilion-loc",
 ]
 
 [[package]]
@@ -3480,6 +3482,7 @@ dependencies = [
  "serde",
  "syntect",
  "test-log",
+ "vermilion-loc",
 ]
 
 [[package]]
@@ -3491,6 +3494,7 @@ dependencies = [
  "schemars",
  "serde",
  "test-log",
+ "vermilion-loc",
 ]
 
 [[package]]
@@ -3505,6 +3509,7 @@ dependencies = [
  "test-log",
  "vermilion-diagnostics",
  "vermilion-fmt",
+ "vermilion-loc",
 ]
 
 [[package]]
@@ -3526,6 +3531,17 @@ dependencies = [
  "vermilion-diagnostics",
  "vermilion-fmt",
  "vermilion-lang",
+ "vermilion-loc",
+]
+
+[[package]]
+name = "vermilion-loc"
+version = "0.0.0"
+dependencies = [
+ "ariadne",
+ "criterion",
+ "proptest",
+ "test-log",
 ]
 
 [[package]]
@@ -3567,6 +3583,7 @@ dependencies = [
  "vermilion-diagnostics",
  "vermilion-fmt",
  "vermilion-lang",
+ "vermilion-loc",
 ]
 
 [[package]]
@@ -3588,6 +3605,7 @@ dependencies = [
  "vermilion-diagnostics",
  "vermilion-fmt",
  "vermilion-lang",
+ "vermilion-loc",
 ]
 
 [[package]]
@@ -3607,6 +3625,7 @@ dependencies = [
  "serde_test",
  "test-log",
  "vermilion-diagnostics",
+ "vermilion-loc",
 ]
 
 [[package]]

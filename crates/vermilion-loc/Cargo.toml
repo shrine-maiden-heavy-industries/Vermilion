@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: BSD-3-Clause
 [package]
-name          = "vermilion-fmt"
-description   = "Common formatting infrastructure for Vermilion supported languages"
+name          = "vermilion-loc"
+description   = "Location/Context types for use in diagnostics and language frontends"
 documentation = { workspace = true }
 edition       = { workspace = true }
 homepage      = { workspace = true }
@@ -12,10 +12,11 @@ rust-version  = { workspace = true }
 version       = { workspace = true }
 
 [dependencies]
-vermilion-loc = { workspace = true }
 
-schemars      = { workspace = true, optional = true }
-serde         = { workspace = true, optional = true }
+# XXX(aki):
+# The functionality of `ariadne` will likely be absorbed into the diagnostics crate,
+# this is here for type conversion for the moment.
+ariadne = { workspace = true }
 
 [dev-dependencies]
 criterion = { workspace = true }
@@ -25,8 +26,7 @@ test-log  = { workspace = true }
 [features]
 default = []
 
-serde  = [ "dep:serde" ]
-schema = [ "serde", "dep:schemars" ]
+graphviz-output = []
 
 [lints]
 workspace = true

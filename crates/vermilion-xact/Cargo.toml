@@ -13,6 +13,7 @@ version       = { workspace = true }
 
 [dependencies]
 vermilion-diagnostics = { workspace = true }
+vermilion-loc         = { workspace = true }
 
 bitmask-enum          = { workspace = true }
 clap                  = { workspace = true, optional = true }

@@ -12,8 +12,9 @@ rust-version  = { workspace = true }
 version       = { workspace = true }
 
 [dependencies]
-ariadne        = { workspace = true }
+vermilion-loc  = { workspace = true }
 
+ariadne        = { workspace = true }
 crossterm      = { workspace = true, optional = true }
 pulldown-cmark = { workspace = true, optional = true }
 ratatui        = { workspace = true, optional = true }

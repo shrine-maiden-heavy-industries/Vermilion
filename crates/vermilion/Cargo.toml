@@ -18,6 +18,7 @@ vermilion-diagnostics = { workspace = true, features = [ "schema", "pretty-diagn
 vermilion-fmt         = { workspace = true, features = [ "schema" ] }
 vermilion-lang        = { workspace = true }
 vermilion-liberty     = { workspace = true, features = [ "schema", "vermilion-cli" ] }
+vermilion-loc         = { workspace = true }
 vermilion-lsp         = { workspace = true, features = [ "transport", "trace", "trace-server" ] }
 vermilion-verilog     = { workspace = true, features = [ "schema", "vermilion-cli" ] }
 vermilion-vhdl        = { workspace = true, features = [ "schema", "vermilion-cli" ] }
