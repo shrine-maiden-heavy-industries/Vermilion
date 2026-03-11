@@ -6,14 +6,21 @@ use crate::lang::parser::{Diagnostic, Position, Span};
 // TODO(aki): Rewrite when parser is reworked
 #[allow(unused, reason = "Currently unused")]
 fn test_truncated_module() {
-	// SAFETY: We're in a testing context, panicking here is fine
-	#[allow(clippy::unwrap_used)]
+	#[allow(
+		clippy::unwrap_used,
+		reason = "We are within tests, and while this shouldn't explode, if it does here that's \
+		          fine"
+	)]
 	let result = VerilogParser::new(LanguageStd::Vl95, "module".as_bytes().into())
 		.unwrap()
 		.parse();
 
 	assert!(result.is_ok());
-	#[allow(clippy::unwrap_used)]
+	#[allow(
+		clippy::unwrap_used,
+		reason = "We are within tests, and while this shouldn't explode, if it does here that's \
+		          fine"
+	)]
 	let ast = result.unwrap();
 
 	assert!(ast.has_diagnostics());
@@ -26,14 +33,21 @@ fn test_truncated_module() {
 		)]
 	);
 
-	// SAFETY: We're in a testing context, panicking here is fine
-	#[allow(clippy::unwrap_used)]
+	#[allow(
+		clippy::unwrap_used,
+		reason = "We are within tests, and while this shouldn't explode, if it does here that's \
+		          fine"
+	)]
 	let result = VerilogParser::new(LanguageStd::Vl95, "module;".as_bytes().into())
 		.unwrap()
 		.parse();
 
 	assert!(result.is_ok());
-	#[allow(clippy::unwrap_used)]
+	#[allow(
+		clippy::unwrap_used,
+		reason = "We are within tests, and while this shouldn't explode, if it does here that's \
+		          fine"
+	)]
 	let ast = result.unwrap();
 
 	assert!(ast.has_diagnostics());
@@ -46,14 +60,21 @@ fn test_truncated_module() {
 		)]
 	);
 
-	// SAFETY: We're in a testing context, panicking here is fine
-	#[allow(clippy::unwrap_used)]
+	#[allow(
+		clippy::unwrap_used,
+		reason = "We are within tests, and while this shouldn't explode, if it does here that's \
+		          fine"
+	)]
 	let result = VerilogParser::new(LanguageStd::Vl95, "module a".as_bytes().into())
 		.unwrap()
 		.parse();
 
 	assert!(result.is_ok());
-	#[allow(clippy::unwrap_used)]
+	#[allow(
+		clippy::unwrap_used,
+		reason = "We are within tests, and while this shouldn't explode, if it does here that's \
+		          fine"
+	)]
 	let ast = result.unwrap();
 	assert!(!ast.has_diagnostics());
 	let modules: Vec<_> = ast.modules().collect();
@@ -62,7 +83,11 @@ fn test_truncated_module() {
 
 	let diagnostics = module.diagnostics();
 	assert!(diagnostics.is_some());
-	#[allow(clippy::unwrap_used)]
+	#[allow(
+		clippy::unwrap_used,
+		reason = "We are within tests, and while this shouldn't explode, if it does here that's \
+		          fine"
+	)]
 	let diagnostics = diagnostics.unwrap();
 
 	assert_eq!(

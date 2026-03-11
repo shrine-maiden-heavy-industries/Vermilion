@@ -66,9 +66,10 @@ impl VerilogTokenizer {
 
 	fn read_token(&mut self) {
 		if !self.token_stream.is_empty() {
-			// SAFETY:
-			// This has to work or the stream is empty, thus the if condition fails.
-			#[allow(clippy::expect_used)]
+			#[allow(
+				clippy::expect_used,
+				reason = "VecDeque is guaranteed to have at least one element in it here"
+			)]
 			let token = self
 				.token_stream
 				.pop_front()
@@ -1160,11 +1161,10 @@ impl VerilogTokenizer {
 					));
 				}
 
-				// Stuff the compiler directive name back front and center
-				// SAFETY:
-				// If we're here, we have to have pushed stuff to the token stream, so this is
-				// always okay.
-				#[allow(clippy::expect_used)]
+				#[allow(
+					clippy::expect_used,
+					reason = "VecDeque is guaranteed to have at least one element in it here"
+				)]
 				let token = self
 					.token_stream
 					.pop_front()
@@ -1315,10 +1315,10 @@ impl VerilogTokenizer {
 		// If we get here and we don't yet have a `'`,  we've consumed a decimal number - we're
 		// done.
 		if self.tokenizer.current_byte() != b'\'' && !from_apostrophe {
-			// SAFETY:
-			// If we're here, we have to have pushed stuff to the token stream, so this is always
-			// okay.
-			#[allow(clippy::expect_used)]
+			#[allow(
+				clippy::expect_used,
+				reason = "VecDeque is guaranteed to have at least one element in it here"
+			)]
 			let token = self
 				.token_stream
 				.pop_front()
@@ -1405,9 +1405,10 @@ impl VerilogTokenizer {
 		};
 		// Having processed all of the number tokens, pop the first as the result token.
 
-		// SAFETY:
-		// The only way we get here is having pushed at least something onto the token stream.
-		#[allow(clippy::expect_used)]
+		#[allow(
+			clippy::expect_used,
+			reason = "VecDeque is guaranteed to have at least one element in it here"
+		)]
 		let token = self
 			.token_stream
 			.pop_front()
