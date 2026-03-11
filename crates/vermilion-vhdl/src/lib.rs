@@ -37,22 +37,22 @@ pub enum LanguageStd {
 
 impl LanguageStd {
 	pub const VHDL_AMS_KNOWN_EXTS: [&'static str; 2] = ["vhd", "vhdl"];
-	pub const VHDL_AMS_STDS: LanguageStd = LanguageStd::Vhams99
-		.or(LanguageStd::Vhams07)
-		.or(LanguageStd::Vhams09)
-		.or(LanguageStd::Vhams17)
-		.or(LanguageStd::Vhams21);
+	pub const VHDL_AMS_STDS: Self = Self::Vhams99
+		.or(Self::Vhams07)
+		.or(Self::Vhams09)
+		.or(Self::Vhams17)
+		.or(Self::Vhams21);
 	pub const VHDL_KNOWN_EXTS: [&'static str; 2] = ["vhd", "vhdl"];
-	pub const VHDL_STDS: LanguageStd = LanguageStd::Vh87
-		.or(LanguageStd::Vh93)
-		.or(LanguageStd::Vh2k)
-		.or(LanguageStd::Vh02)
-		.or(LanguageStd::Vh04)
-		.or(LanguageStd::Vh07)
-		.or(LanguageStd::Vh08)
-		.or(LanguageStd::Vh11)
-		.or(LanguageStd::Vh19)
-		.or(LanguageStd::Vh23);
+	pub const VHDL_STDS: Self = Self::Vh87
+		.or(Self::Vh93)
+		.or(Self::Vh2k)
+		.or(Self::Vh02)
+		.or(Self::Vh04)
+		.or(Self::Vh07)
+		.or(Self::Vh08)
+		.or(Self::Vh11)
+		.or(Self::Vh19)
+		.or(Self::Vh23);
 
 	pub fn has_single_std(&self) -> bool {
 		self.bits.count_ones() == 1
@@ -73,63 +73,63 @@ impl LanguageStd {
 
 impl Display for LanguageStd {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-		if self.contains(LanguageStd::Vh87) {
+		if self.contains(Self::Vh87) {
 			write!(f, "VHDL 1987 (IEEE 1076-1987)")?;
 		}
 
-		if self.contains(LanguageStd::Vh93) {
+		if self.contains(Self::Vh93) {
 			write!(f, "VHDL 1993 (IEEE 1076-1993)")?;
 		}
 
-		if self.contains(LanguageStd::Vh2k) {
+		if self.contains(Self::Vh2k) {
 			write!(f, "VHDL 2000 (IEEE 1076-2000)")?;
 		}
 
-		if self.contains(LanguageStd::Vh02) {
+		if self.contains(Self::Vh02) {
 			write!(f, "VHDL 2002 (IEEE 1076-2002)")?;
 		}
 
-		if self.contains(LanguageStd::Vh04) {
+		if self.contains(Self::Vh04) {
 			write!(f, "VHDL 2004 (IEC 61691-1-1:2004)")?;
 		}
 
-		if self.contains(LanguageStd::Vh07) {
+		if self.contains(Self::Vh07) {
 			write!(f, "VHDL 2007 (IEEE 1076-2007)")?;
 		}
 
-		if self.contains(LanguageStd::Vh08) {
+		if self.contains(Self::Vh08) {
 			write!(f, "VHDL 2008 (IEEE 1076-2008)")?;
 		}
 
-		if self.contains(LanguageStd::Vh11) {
+		if self.contains(Self::Vh11) {
 			write!(f, "VHDL 2011 (IEC 61691-1-1:2011)")?;
 		}
 
-		if self.contains(LanguageStd::Vh19) {
+		if self.contains(Self::Vh19) {
 			write!(f, "VHDL 2019 (IEEE 1076-2019)")?;
 		}
 
-		if self.contains(LanguageStd::Vh23) {
+		if self.contains(Self::Vh23) {
 			write!(f, "VHDL 2023 (IEC 61691-1-1:2023)")?;
 		}
 
-		if self.contains(LanguageStd::Vhams99) {
+		if self.contains(Self::Vhams99) {
 			write!(f, "VHDL-AMS 1999 (IEEE 1076.1-1999)")?;
 		}
 
-		if self.contains(LanguageStd::Vhams07) {
+		if self.contains(Self::Vhams07) {
 			write!(f, "VHDL-AMS 2007 (IEEE 1076.1-2007)")?;
 		}
 
-		if self.contains(LanguageStd::Vhams09) {
+		if self.contains(Self::Vhams09) {
 			write!(f, "VHDL-AMS 2009 (IEC 61691-6:2009)")?;
 		}
 
-		if self.contains(LanguageStd::Vhams17) {
+		if self.contains(Self::Vhams17) {
 			write!(f, "VHDL-AMS 2017 (IEEE 1076.1-2017)")?;
 		}
 
-		if self.contains(LanguageStd::Vhams21) {
+		if self.contains(Self::Vhams21) {
 			write!(f, "VHDL-AMS 2021 (IEC 61691-6:2021)")?;
 		}
 
@@ -194,20 +194,20 @@ impl serde::Serialize for LanguageStd {
 		S: serde::Serializer,
 	{
 		match *self {
-			LanguageStd::Vh87 => serializer.serialize_str("Vh87"),
-			LanguageStd::Vh93 => serializer.serialize_str("Vh93"),
-			LanguageStd::Vh2k => serializer.serialize_str("Vh2k"),
-			LanguageStd::Vh04 => serializer.serialize_str("Vh04"),
-			LanguageStd::Vh07 => serializer.serialize_str("Vh07"),
-			LanguageStd::Vh08 => serializer.serialize_str("Vh08"),
-			LanguageStd::Vh11 => serializer.serialize_str("Vh11"),
-			LanguageStd::Vh19 => serializer.serialize_str("Vh19"),
-			LanguageStd::Vh23 => serializer.serialize_str("Vh23"),
-			LanguageStd::Vhams99 => serializer.serialize_str("Vhams99"),
-			LanguageStd::Vhams07 => serializer.serialize_str("Vhams07"),
-			LanguageStd::Vhams09 => serializer.serialize_str("Vhams09"),
-			LanguageStd::Vhams17 => serializer.serialize_str("Vhams17"),
-			LanguageStd::Vhams21 => serializer.serialize_str("Vhams21"),
+			Self::Vh87 => serializer.serialize_str("Vh87"),
+			Self::Vh93 => serializer.serialize_str("Vh93"),
+			Self::Vh2k => serializer.serialize_str("Vh2k"),
+			Self::Vh04 => serializer.serialize_str("Vh04"),
+			Self::Vh07 => serializer.serialize_str("Vh07"),
+			Self::Vh08 => serializer.serialize_str("Vh08"),
+			Self::Vh11 => serializer.serialize_str("Vh11"),
+			Self::Vh19 => serializer.serialize_str("Vh19"),
+			Self::Vh23 => serializer.serialize_str("Vh23"),
+			Self::Vhams99 => serializer.serialize_str("Vhams99"),
+			Self::Vhams07 => serializer.serialize_str("Vhams07"),
+			Self::Vhams09 => serializer.serialize_str("Vhams09"),
+			Self::Vhams17 => serializer.serialize_str("Vhams17"),
+			Self::Vhams21 => serializer.serialize_str("Vhams21"),
 			_ => Err(serde::ser::Error::custom(
 				"Unable to serialize `LanguageStd` with more than one bit set",
 			)),
