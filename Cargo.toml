@@ -79,6 +79,11 @@ wildcard_dependencies = "warn"
 unwrap_used = "deny"
 expect_used = "deny"
 
+[workspace.lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = [
+  'cfg(fuzzing)',
+] }
+
 [profile.dev.package.backtrace]
 opt-level = 3
 
