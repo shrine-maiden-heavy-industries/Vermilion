@@ -39,39 +39,39 @@ impl LanguageStd {
 
 impl Display for LanguageStd {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-		if self.contains(LanguageStd::Liberty2014_09) {
+		if self.contains(Self::Liberty2014_09) {
 			f.write_str("Synopsys Liberty 2014.09")?;
 		}
 
-		if self.contains(LanguageStd::Liberty2015_12) {
+		if self.contains(Self::Liberty2015_12) {
 			f.write_str("Synopsys Liberty 2015.12")?;
 		}
 
-		if self.contains(LanguageStd::Liberty2016_06) {
+		if self.contains(Self::Liberty2016_06) {
 			f.write_str("Synopsys Liberty 2016.06")?;
 		}
 
-		if self.contains(LanguageStd::Liberty2016_12) {
+		if self.contains(Self::Liberty2016_12) {
 			f.write_str("Synopsys Liberty 2016.12")?;
 		}
 
-		if self.contains(LanguageStd::Liberty2017_06) {
+		if self.contains(Self::Liberty2017_06) {
 			f.write_str("Synopsys Liberty 2017.06")?;
 		}
 
-		if self.contains(LanguageStd::Liberty2018_06) {
+		if self.contains(Self::Liberty2018_06) {
 			f.write_str("Synopsys Liberty 2018.06i")?;
 		}
 
-		if self.contains(LanguageStd::Liberty2019_03) {
+		if self.contains(Self::Liberty2019_03) {
 			f.write_str("Synopsys Liberty 2019.03")?;
 		}
 
-		if self.contains(LanguageStd::Liberty2019_12) {
+		if self.contains(Self::Liberty2019_12) {
 			f.write_str("Synopsys Liberty 2019.12")?;
 		}
 
-		if self.contains(LanguageStd::Liberty2020_09) {
+		if self.contains(Self::Liberty2020_09) {
 			f.write_str("Synopsys Liberty 2020.09")?;
 		}
 
@@ -131,15 +131,15 @@ impl serde::Serialize for LanguageStd {
 		S: serde::Serializer,
 	{
 		match *self {
-			LanguageStd::Liberty2014_09 => serializer.serialize_str("2014.09"),
-			LanguageStd::Liberty2015_12 => serializer.serialize_str("2015.12"),
-			LanguageStd::Liberty2016_06 => serializer.serialize_str("2016.06"),
-			LanguageStd::Liberty2016_12 => serializer.serialize_str("2016.12"),
-			LanguageStd::Liberty2017_06 => serializer.serialize_str("2017.06"),
-			LanguageStd::Liberty2018_06 => serializer.serialize_str("2018.06"),
-			LanguageStd::Liberty2019_03 => serializer.serialize_str("2019.03"),
-			LanguageStd::Liberty2019_12 => serializer.serialize_str("2019.12"),
-			LanguageStd::Liberty2020_09 => serializer.serialize_str("2020.09"),
+			Self::Liberty2014_09 => serializer.serialize_str("2014.09"),
+			Self::Liberty2015_12 => serializer.serialize_str("2015.12"),
+			Self::Liberty2016_06 => serializer.serialize_str("2016.06"),
+			Self::Liberty2016_12 => serializer.serialize_str("2016.12"),
+			Self::Liberty2017_06 => serializer.serialize_str("2017.06"),
+			Self::Liberty2018_06 => serializer.serialize_str("2018.06"),
+			Self::Liberty2019_03 => serializer.serialize_str("2019.03"),
+			Self::Liberty2019_12 => serializer.serialize_str("2019.12"),
+			Self::Liberty2020_09 => serializer.serialize_str("2020.09"),
 			_ => Err(serde::ser::Error::custom(
 				"Unable to serialize `LanguageStd` with more than one bit set",
 			)),
