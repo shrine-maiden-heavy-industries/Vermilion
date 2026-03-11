@@ -180,6 +180,10 @@ macro_rules! tokenizer_test {
 	};
 }
 
+// Fuzz tests
+#[cfg(fuzzing)]
+include!("./tests/fuzzing.rs");
+
 // Common Tokenizer Tests
 include!("./tests/all_common.rs");
 // Verilog Tokenizer Tests
