@@ -7,12 +7,13 @@
 
 pub mod debug;
 pub mod parser;
-pub mod position;
 pub mod tokenizer;
 
-pub use position::Position;
 use tendril::{Atomic, Tendril, fmt};
-pub use vermilion_loc::span::{Span, Spanned};
+pub use vermilion_loc::{
+	position::Position,
+	span::{Span, Spanned},
+};
 
 pub type AtomicByteTendril = Tendril<fmt::Bytes, Atomic>;
 

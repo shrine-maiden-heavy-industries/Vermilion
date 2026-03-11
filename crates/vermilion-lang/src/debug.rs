@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: BSD-3-Clause
 
-use crate::position::Position;
+use vermilion_loc::position::Position;
 
 // TODO(aki):
 // Eventual support for dumping AST nodes to Graphivz, maybe something like:
