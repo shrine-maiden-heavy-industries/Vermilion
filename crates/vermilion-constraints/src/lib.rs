@@ -55,19 +55,19 @@ impl LanguageStd {
 
 impl Display for LanguageStd {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-		if self.contains(LanguageStd::Lpf) {
+		if self.contains(Self::Lpf) {
 			f.write_str("Lattice Diamond Design Constraints")?;
 		}
 
-		if self.contains(LanguageStd::Pdc) {
+		if self.contains(Self::Pdc) {
 			f.write_str("Lattice Radiant Design Constraints")?;
 		}
 
-		if self.contains(LanguageStd::Sdc) {
+		if self.contains(Self::Sdc) {
 			f.write_str("Synopsys Design Constraints")?;
 		}
 
-		if self.contains(LanguageStd::Xdc) {
+		if self.contains(Self::Xdc) {
 			f.write_str("Xilinx Design Constraints")?;
 		}
 
@@ -116,10 +116,10 @@ impl serde::Serialize for LanguageStd {
 		S: serde::Serializer,
 	{
 		match *self {
-			LanguageStd::Lpf => serializer.serialize_str("lpf"),
-			LanguageStd::Pdc => serializer.serialize_str("pdc"),
-			LanguageStd::Sdc => serializer.serialize_str("sdc"),
-			LanguageStd::Xdc => serializer.serialize_str("xdc"),
+			Self::Lpf => serializer.serialize_str("lpf"),
+			Self::Pdc => serializer.serialize_str("pdc"),
+			Self::Sdc => serializer.serialize_str("sdc"),
+			Self::Xdc => serializer.serialize_str("xdc"),
 			_ => Err(serde::ser::Error::custom(
 				"Unable to serialize `LanguageStd` with more than one bit set",
 			)),

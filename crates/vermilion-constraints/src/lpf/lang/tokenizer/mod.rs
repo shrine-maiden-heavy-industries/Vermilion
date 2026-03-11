@@ -17,7 +17,7 @@ pub struct LpfTokenizer {
 }
 
 impl LpfTokenizer {
-	pub fn new(standard: LanguageStd, file: AtomicByteTendril) -> eyre::Result<LpfTokenizer> {
+	pub fn new(standard: LanguageStd, file: AtomicByteTendril) -> eyre::Result<Self> {
 		// Check to see if more than one language standard is set
 		if !standard.has_single_std() {
 			return Err(eyre!("More than one language standard set"));
