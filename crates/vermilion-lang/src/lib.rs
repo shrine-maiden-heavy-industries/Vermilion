@@ -9,10 +9,6 @@ pub mod parser;
 pub mod tokenizer;
 
 use tendril::{Atomic, Tendril, fmt};
-pub use vermilion_loc::{
-	position::Position,
-	span::{Span, Spanned},
-};
 
 pub type AtomicByteTendril = Tendril<fmt::Bytes, Atomic>;
 

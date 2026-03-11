@@ -2,7 +2,9 @@
 
 use std::ops::{Index, Range, RangeFrom, RangeFull, RangeInclusive, RangeTo, RangeToInclusive};
 
-use crate::{AtomicByteTendril, Position};
+use vermilion_loc::Position;
+
+use crate::AtomicByteTendril;
 
 #[macro_export]
 macro_rules! simple_token {
