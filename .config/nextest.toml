@@ -1,2 +1,7 @@
 [profile.default]
 slow-timeout = { period = '120s', on-timeout = 'fail' }
+default-filter = "not test(/fuzz_*/)"
+
+[profile.fuzzing]
+inherits = "default"
+default-filter = "test(/fuzz_*/)"
