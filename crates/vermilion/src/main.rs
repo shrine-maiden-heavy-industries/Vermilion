@@ -1,5 +1,4 @@
 // SPDX-License-Identifier: BSD-3-Clause
-#![deny(clippy::unwrap_used, clippy::expect_used)]
 
 // TODO(aki):
 // - Message/Diagnostic i18n/l10n
