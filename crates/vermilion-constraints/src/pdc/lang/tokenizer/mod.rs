@@ -3,7 +3,8 @@
 use std::collections::VecDeque;
 
 use eyre::eyre;
-use vermilion_lang::{AtomicByteTendril, Position, Spanned, tokenizer::CoreTokenizer};
+use vermilion_lang::{AtomicByteTendril, tokenizer::CoreTokenizer};
+use vermilion_loc::{Position, Spanned};
 
 use crate::{LanguageStd, pdc::lang::tokenizer::token::Token};
 
