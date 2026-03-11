@@ -55,8 +55,10 @@ impl VhdlTokenizer {
 			return;
 		}
 
-		// XXX(aki): Temporary until we start fleshing out the Tokenizer
-		#[allow(clippy::match_single_binding)]
+		#[allow(
+			clippy::match_single_binding,
+			reason = "Temporary until the tokenizer is fleshed out"
+		)]
 		match self.tokenizer.current_byte() {
 			_ => self.read_extended_token(),
 		}
