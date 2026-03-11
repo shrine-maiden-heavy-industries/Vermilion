@@ -25,9 +25,14 @@ use crate::{
 pub struct StdioTransport {}
 
 impl StdioTransport {
-	#[allow(clippy::new_without_default)]
 	pub const fn new() -> Self {
 		Self {}
+	}
+}
+
+impl Default for StdioTransport {
+	fn default() -> Self {
+		Self::new()
 	}
 }
 
