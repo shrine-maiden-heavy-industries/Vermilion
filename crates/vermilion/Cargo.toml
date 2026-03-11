@@ -57,3 +57,6 @@ test-log  = { workspace = true }
 default = []
 
 # async-debug = [ "dep:console-subscriber" ]
+
+[lints]
+workspace = true

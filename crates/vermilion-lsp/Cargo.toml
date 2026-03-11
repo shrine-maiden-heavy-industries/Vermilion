@@ -37,3 +37,6 @@ default = []
 transport = [ "dep:tokio", "dep:tokio-util", "dep:tracing", "dep:windows-sys" ]
 trace = []
 trace-server = [ "trace", "transport" ]
+
+[lints]
+workspace = true

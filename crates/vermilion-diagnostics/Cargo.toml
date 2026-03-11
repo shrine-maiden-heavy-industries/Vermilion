@@ -32,3 +32,6 @@ default = []
 serde  = [ "dep:serde" ]
 schema = [ "serde", "dep:schemars" ]
 pretty-diagnostics = [ "dep:crossterm", "dep:pulldown-cmark", "dep:ratatui", "dep:syntect" ]
+
+[lints]
+workspace = true

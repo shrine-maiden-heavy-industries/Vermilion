@@ -38,3 +38,6 @@ graphviz-output = [ "vermilion-lang/graphviz-output" ]
 schema          = [ "serde", "dep:schemars", "vermilion-fmt/schema", "vermilion-diagnostics/schema" ]
 serde           = [ "dep:serde", "vermilion-fmt/serde", "vermilion-diagnostics/serde" ]
 vermilion-cli   = [ "dep:clap" ]
+
+[lints]
+workspace = true

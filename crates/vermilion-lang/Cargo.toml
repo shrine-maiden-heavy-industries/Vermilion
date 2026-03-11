@@ -29,3 +29,6 @@ test-log  = { workspace = true }
 default = []
 
 graphviz-output = []
+
+[lints]
+workspace = true

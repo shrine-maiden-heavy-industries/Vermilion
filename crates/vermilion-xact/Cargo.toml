@@ -35,3 +35,6 @@ default = []
 schema          = [ "serde", "dep:schemars", "vermilion-diagnostics/schema" ]
 serde           = [ "vermilion-diagnostics/serde" ]
 vermilion-cli   = [ "dep:clap" ]
+
+[lints]
+workspace = true
