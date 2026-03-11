@@ -1115,7 +1115,7 @@ impl VerilogTokenizer {
 			self.tokenizer.next_char();
 		}
 
-		let ident_range = begin + 1..((self.tokenizer.offset() + 1) - (begin + 1));
+		let ident_range = begin + 1..self.tokenizer.offset();
 		// We've already validated via the above read, that the entire token is valid UTF-8.
 		// Just make it a string.
 		let ident = unsafe { str::from_utf8_unchecked(&self.tokenizer[ident_range.clone()]) };
