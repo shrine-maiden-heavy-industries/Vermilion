@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: BSD-3-Clause
 
 use eyre::OptionExt;
-use vermilion_lang::{AtomicByteTendril, Position, Span, Spanned};
+use vermilion_lang::AtomicByteTendril;
+use vermilion_loc::{Position, Span, Spanned};
 
 use crate::{
 	LanguageStd,

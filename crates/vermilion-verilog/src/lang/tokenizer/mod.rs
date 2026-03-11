@@ -4,9 +4,9 @@ use std::{collections::VecDeque, ops::Range};
 
 use eyre::eyre;
 use vermilion_lang::{
-	AtomicByteTendril, Position, Spanned, simple_token, spanned_token, tokenizer::CoreTokenizer,
-	versioned_token,
+	AtomicByteTendril, simple_token, spanned_token, tokenizer::CoreTokenizer, versioned_token,
 };
+use vermilion_loc::{Position, Spanned};
 
 use crate::{
 	LanguageStd,
