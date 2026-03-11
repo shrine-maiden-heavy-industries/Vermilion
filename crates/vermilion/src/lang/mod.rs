@@ -30,7 +30,7 @@ pub(crate) enum Parser {
 }
 
 // TODO(aki): Remove once used
-#[allow(unused)]
+#[allow(unused, reason = "Currently unused")]
 pub(crate) enum Ast {
 	Verilog(VerilogAst),
 	Vhdl(VhdlAst),

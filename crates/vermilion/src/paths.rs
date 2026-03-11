@@ -17,14 +17,16 @@ pub(crate) fn proj_dirs() -> &'static ProjectDirs {
 	DIRS.get_or_init(|| ProjectDirs::from("", "", "Vermilion").expect(""))
 }
 
+// TODO(aki): Remove once used
+#[allow(unused, reason = "Currently unused")]
 /// Get the Vermilion user-specific configuration directory
-#[allow(unused)]
 pub(crate) fn config_dir() -> &'static Path {
 	proj_dirs().config_dir()
 }
 
+// TODO(aki): Remove once used
+#[allow(unused, reason = "Currently unused")]
 /// Get the Vermilion user-specific cache directory
-#[allow(unused)]
 pub(crate) fn cache_dir() -> &'static Path {
 	proj_dirs().cache_dir()
 }
