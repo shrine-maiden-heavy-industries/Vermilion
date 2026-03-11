@@ -1,12 +1,15 @@
 // SPDX-License-Identifier: BSD-3-Clause
 
-#[allow(unused)]
+// TODO(aki): Write tests
+#[allow(unused, reason = "Currently unused")]
 use paste::paste;
 
-#[allow(unused)]
+// TODO(aki): Write tests
+#[allow(unused, reason = "Currently unused")]
 use crate::{LanguageStd, lpf::lang::parser::*};
 
-#[allow(unused)]
+// TODO(aki): Write tests
+#[allow(unused, reason = "Currently unused")]
 macro_rules! parser_test {
 	($test_name:ident, $input:literal, $std:expr, $($tokens:expr),+) => {
 		paste! {
