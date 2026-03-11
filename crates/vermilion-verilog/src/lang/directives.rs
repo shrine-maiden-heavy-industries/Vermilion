@@ -511,8 +511,7 @@ pub static VERILOG_AMS_23_BUILTIN_DIRECTIVE_SET: phf::Set<&'static str> = phf_se
 };
 
 /// Get the Verilog 1995 builtin directive for the given identifier if it exists
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn get_verilog_95_builtin_directive(ident: &str) -> Option<BuiltinDirective> {
 	VERILOG_95_BUILTIN_DIRECTIVE_MAP.get(ident).copied()
 }
@@ -524,15 +523,13 @@ pub fn get_verilog_95_builtin_directive(ident: &str) -> Option<BuiltinDirective>
 /// standard.
 ///
 /// It prevents the copy into an [`Option`] if it is a builtin directive.
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn is_verilog_95_builtin_directive(ident: &str) -> bool {
 	VERILOG_95_BUILTIN_DIRECTIVE_SET.contains(ident)
 }
 
 /// Get the Verilog 2001 builtin directive for the given identifier if it exists
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn get_verilog_01_builtin_directive(ident: &str) -> Option<BuiltinDirective> {
 	VERILOG_01_BUILTIN_DIRECTIVE_MAP.get(ident).copied()
 }
@@ -544,15 +541,13 @@ pub fn get_verilog_01_builtin_directive(ident: &str) -> Option<BuiltinDirective>
 /// standard.
 ///
 /// It prevents the copy into an [`Option`] if it is a builtin directive.
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn is_verilog_01_builtin_directive(ident: &str) -> bool {
 	VERILOG_01_BUILTIN_DIRECTIVE_SET.contains(ident)
 }
 
 /// Get the Verilog 2005 builtin directive for the given identifier if it exists
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn get_verilog_05_builtin_directive(ident: &str) -> Option<BuiltinDirective> {
 	VERILOG_05_BUILTIN_DIRECTIVE_MAP.get(ident).copied()
 }
@@ -564,15 +559,13 @@ pub fn get_verilog_05_builtin_directive(ident: &str) -> Option<BuiltinDirective>
 /// standard.
 ///
 /// It prevents the copy into an [`Option`] if it is a builtin directive.
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn is_verilog_05_builtin_directive(ident: &str) -> bool {
 	VERILOG_05_BUILTIN_DIRECTIVE_SET.contains(ident)
 }
 
 /// Get the Verilog builtin directive for the given standard if it exists
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn get_verilog_builtin_directive(ident: &str, std: LanguageStd) -> Option<BuiltinDirective> {
 	match std {
 		LanguageStd::Vl95 => get_verilog_95_builtin_directive(ident),
@@ -583,8 +576,7 @@ pub fn get_verilog_builtin_directive(ident: &str, std: LanguageStd) -> Option<Bu
 }
 
 /// Get the SystemVerilog 2005 builtin directive for the given identifier if it exists
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn get_system_verilog_05_builtin_directive(ident: &str) -> Option<BuiltinDirective> {
 	SYSTEM_VERILOG_05_BUILTIN_DIRECTIVE_MAP.get(ident).copied()
 }
@@ -596,15 +588,13 @@ pub fn get_system_verilog_05_builtin_directive(ident: &str) -> Option<BuiltinDir
 /// standard.
 ///
 /// It prevents the copy into an [`Option`] if it is a builtin directive.
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn is_system_verilog_05_builtin_directive(ident: &str) -> bool {
 	SYSTEM_VERILOG_05_BUILTIN_DIRECTIVE_SET.contains(ident)
 }
 
 /// Get the SystemVerilog 2009 builtin directive for the given identifier if it exists
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn get_system_verilog_09_builtin_directive(ident: &str) -> Option<BuiltinDirective> {
 	SYSTEM_VERILOG_09_BUILTIN_DIRECTIVE_MAP.get(ident).copied()
 }
@@ -616,15 +606,13 @@ pub fn get_system_verilog_09_builtin_directive(ident: &str) -> Option<BuiltinDir
 /// standard.
 ///
 /// It prevents the copy into an [`Option`] if it is a builtin directive.
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn is_system_verilog_09_builtin_directive(ident: &str) -> bool {
 	SYSTEM_VERILOG_09_BUILTIN_DIRECTIVE_SET.contains(ident)
 }
 
 /// Get the SystemVerilog 2012 builtin directive for the given identifier if it exists
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn get_system_verilog_12_builtin_directive(ident: &str) -> Option<BuiltinDirective> {
 	SYSTEM_VERILOG_12_BUILTIN_DIRECTIVE_MAP.get(ident).copied()
 }
@@ -636,15 +624,13 @@ pub fn get_system_verilog_12_builtin_directive(ident: &str) -> Option<BuiltinDir
 /// standard.
 ///
 /// It prevents the copy into an [`Option`] if it is a builtin directive.
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn is_system_verilog_12_builtin_directive(ident: &str) -> bool {
 	SYSTEM_VERILOG_12_BUILTIN_DIRECTIVE_SET.contains(ident)
 }
 
 /// Get the SystemVerilog 2017 builtin directive for the given identifier if it exists
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn get_system_verilog_17_builtin_directive(ident: &str) -> Option<BuiltinDirective> {
 	SYSTEM_VERILOG_17_BUILTIN_DIRECTIVE_MAP.get(ident).copied()
 }
@@ -656,15 +642,13 @@ pub fn get_system_verilog_17_builtin_directive(ident: &str) -> Option<BuiltinDir
 /// standard.
 ///
 /// It prevents the copy into an [`Option`] if it is a builtin directive.
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn is_system_verilog_17_builtin_directive(ident: &str) -> bool {
 	SYSTEM_VERILOG_17_BUILTIN_DIRECTIVE_SET.contains(ident)
 }
 
 /// Get the SystemVerilog 2023 builtin directive for the given identifier if it exists
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn get_system_verilog_23_builtin_directive(ident: &str) -> Option<BuiltinDirective> {
 	SYSTEM_VERILOG_23_BUILTIN_DIRECTIVE_MAP.get(ident).copied()
 }
@@ -676,15 +660,13 @@ pub fn get_system_verilog_23_builtin_directive(ident: &str) -> Option<BuiltinDir
 /// standard.
 ///
 /// It prevents the copy into an [`Option`] if it is a builtin directive.
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn is_system_verilog_23_builtin_directive(ident: &str) -> bool {
 	SYSTEM_VERILOG_23_BUILTIN_DIRECTIVE_SET.contains(ident)
 }
 
 /// Get the SystemVerilog builtin directive for the given standard if it exists
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn get_system_verilog_builtin_directive(
 	ident: &str,
 	std: LanguageStd,
@@ -700,8 +682,7 @@ pub fn get_system_verilog_builtin_directive(
 }
 
 /// Get the Verilog-AMS 2009 builtin directive for the given identifier if it exists
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn get_verilog_ams_09_builtin_directive(ident: &str) -> Option<BuiltinDirective> {
 	VERILOG_AMS_09_BUILTIN_DIRECTIVE_MAP.get(ident).copied()
 }
@@ -713,15 +694,13 @@ pub fn get_verilog_ams_09_builtin_directive(ident: &str) -> Option<BuiltinDirect
 /// standard.
 ///
 /// It prevents the copy into an [`Option`] if it is a builtin directive.
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn is_verilog_ams_09_builtin_directive(ident: &str) -> bool {
 	VERILOG_AMS_09_BUILTIN_DIRECTIVE_SET.contains(ident)
 }
 
 /// Get the Verilog-AMS 2014 builtin directive for the given identifier if it exists
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn get_verilog_ams_14_builtin_directive(ident: &str) -> Option<BuiltinDirective> {
 	VERILOG_AMS_14_BUILTIN_DIRECTIVE_MAP.get(ident).copied()
 }
@@ -733,15 +712,13 @@ pub fn get_verilog_ams_14_builtin_directive(ident: &str) -> Option<BuiltinDirect
 /// standard.
 ///
 /// It prevents the copy into an [`Option`] if it is a builtin directive.
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn is_verilog_ams_14_builtin_directive(ident: &str) -> bool {
 	VERILOG_AMS_14_BUILTIN_DIRECTIVE_SET.contains(ident)
 }
 
 /// Get the Verilog-AMS 2023 builtin directive for the given identifier if it exists
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn get_verilog_ams_23_builtin_directive(ident: &str) -> Option<BuiltinDirective> {
 	VERILOG_AMS_23_BUILTIN_DIRECTIVE_MAP.get(ident).copied()
 }
@@ -753,15 +730,13 @@ pub fn get_verilog_ams_23_builtin_directive(ident: &str) -> Option<BuiltinDirect
 /// standard.
 ///
 /// It prevents the copy into an [`Option`] if it is a builtin directive.
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn is_verilog_ams_23_builtin_directive(ident: &str) -> bool {
 	VERILOG_AMS_23_BUILTIN_DIRECTIVE_SET.contains(ident)
 }
 
 /// Get the Verilog-AMS directive for the given standard if it exists
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn get_verilog_ams_builtin_directive(
 	ident: &str,
 	std: LanguageStd,
@@ -775,8 +750,7 @@ pub fn get_verilog_ams_builtin_directive(
 }
 
 /// Get the Verilog/Verilog-AMS/SystemVerilog builtin directive for the given standard if it exists
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn get_builtin_directive(ident: &str, std: LanguageStd) -> Option<BuiltinDirective> {
 	match std {
 		LanguageStd::Vl95 => get_verilog_95_builtin_directive(ident),
@@ -796,8 +770,7 @@ pub fn get_builtin_directive(ident: &str, std: LanguageStd) -> Option<BuiltinDir
 
 /// Check to see if the given identifier is a builtin directive in a future Verilog standard,
 /// returning the standard version if so.
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn is_builtin_directive(ident: &str) -> LanguageStd {
 	let mut supported = LanguageStd::none();
 

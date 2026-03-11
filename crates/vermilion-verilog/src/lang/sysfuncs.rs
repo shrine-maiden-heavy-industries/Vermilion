@@ -2812,8 +2812,7 @@ pub static VERILOG_AMS_23_BUILTIN_SYSFUNC_SET: phf::Set<&'static str> = phf_set!
 };
 
 /// Get the Verilog 1995 builtin system function for the given identifier if it exists
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn get_verilog_95_builtin_sysfunc(ident: &str) -> Option<BuiltinSysFunc> {
 	VERILOG_95_BUILTIN_SYSFUNC_MAP.get(ident).copied()
 }
@@ -2825,15 +2824,13 @@ pub fn get_verilog_95_builtin_sysfunc(ident: &str) -> Option<BuiltinSysFunc> {
 /// standard.
 ///
 /// It prevents the copy into an [`Option`] if it is a builtin system function.
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn is_verilog_95_builtin_sysfunc(ident: &str) -> bool {
 	VERILOG_95_BUILTIN_SYSFUNC_SET.contains(ident)
 }
 
 /// Get the Verilog 2001 builtin system function for the given identifier if it exists
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn get_verilog_01_builtin_sysfunc(ident: &str) -> Option<BuiltinSysFunc> {
 	VERILOG_01_BUILTIN_SYSFUNC_MAP.get(ident).copied()
 }
@@ -2845,15 +2842,13 @@ pub fn get_verilog_01_builtin_sysfunc(ident: &str) -> Option<BuiltinSysFunc> {
 /// standard.
 ///
 /// It prevents the copy into an [`Option`] if it is a builtin system function.
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn is_verilog_01_builtin_sysfunc(ident: &str) -> bool {
 	VERILOG_01_BUILTIN_SYSFUNC_SET.contains(ident)
 }
 
 /// Get the Verilog 2005 builtin system function for the given identifier if it exists
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn get_verilog_05_builtin_sysfunc(ident: &str) -> Option<BuiltinSysFunc> {
 	VERILOG_05_BUILTIN_SYSFUNC_MAP.get(ident).copied()
 }
@@ -2865,15 +2860,13 @@ pub fn get_verilog_05_builtin_sysfunc(ident: &str) -> Option<BuiltinSysFunc> {
 /// standard.
 ///
 /// It prevents the copy into an [`Option`] if it is a builtin system function.
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn is_verilog_05_builtin_sysfunc(ident: &str) -> bool {
 	VERILOG_05_BUILTIN_SYSFUNC_SET.contains(ident)
 }
 
 /// Get the Verilog builtin system function for the given standard if it exists
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn get_verilog_builtin_sysfunc(ident: &str, std: LanguageStd) -> Option<BuiltinSysFunc> {
 	match std {
 		LanguageStd::Vl95 => get_verilog_95_builtin_sysfunc(ident),
@@ -2884,8 +2877,7 @@ pub fn get_verilog_builtin_sysfunc(ident: &str, std: LanguageStd) -> Option<Buil
 }
 
 /// Get the SystemVerilog 2005 builtin system function for the given identifier if it exists
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn get_system_verilog_05_builtin_sysfunc(ident: &str) -> Option<BuiltinSysFunc> {
 	SYSTEM_VERILOG_05_BUILTIN_SYSFUNC_MAP.get(ident).copied()
 }
@@ -2897,15 +2889,13 @@ pub fn get_system_verilog_05_builtin_sysfunc(ident: &str) -> Option<BuiltinSysFu
 /// standard.
 ///
 /// It prevents the copy into an [`Option`] if it is a builtin system function.
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn is_system_verilog_05_builtin_sysfunc(ident: &str) -> bool {
 	SYSTEM_VERILOG_05_BUILTIN_SYSFUNC_SET.contains(ident)
 }
 
 /// Get the SystemVerilog 2009 builtin system function for the given identifier if it exists
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn get_system_verilog_09_builtin_sysfunc(ident: &str) -> Option<BuiltinSysFunc> {
 	SYSTEM_VERILOG_09_BUILTIN_SYSFUNC_MAP.get(ident).copied()
 }
@@ -2917,15 +2907,13 @@ pub fn get_system_verilog_09_builtin_sysfunc(ident: &str) -> Option<BuiltinSysFu
 /// standard.
 ///
 /// It prevents the copy into an [`Option`] if it is a builtin system function.
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn is_system_verilog_09_builtin_sysfunc(ident: &str) -> bool {
 	SYSTEM_VERILOG_09_BUILTIN_SYSFUNC_SET.contains(ident)
 }
 
 /// Get the SystemVerilog 2012 builtin system function for the given identifier if it exists
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn get_system_verilog_12_builtin_sysfunc(ident: &str) -> Option<BuiltinSysFunc> {
 	SYSTEM_VERILOG_12_BUILTIN_SYSFUNC_MAP.get(ident).copied()
 }
@@ -2937,15 +2925,13 @@ pub fn get_system_verilog_12_builtin_sysfunc(ident: &str) -> Option<BuiltinSysFu
 /// standard.
 ///
 /// It prevents the copy into an [`Option`] if it is a builtin system function.
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn is_system_verilog_12_builtin_sysfunc(ident: &str) -> bool {
 	SYSTEM_VERILOG_12_BUILTIN_SYSFUNC_SET.contains(ident)
 }
 
 /// Get the SystemVerilog 2017 builtin system function for the given identifier if it exists
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn get_system_verilog_17_builtin_sysfunc(ident: &str) -> Option<BuiltinSysFunc> {
 	SYSTEM_VERILOG_17_BUILTIN_SYSFUNC_MAP.get(ident).copied()
 }
@@ -2957,15 +2943,13 @@ pub fn get_system_verilog_17_builtin_sysfunc(ident: &str) -> Option<BuiltinSysFu
 /// standard.
 ///
 /// It prevents the copy into an [`Option`] if it is a builtin system function.
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn is_system_verilog_17_builtin_sysfunc(ident: &str) -> bool {
 	SYSTEM_VERILOG_17_BUILTIN_SYSFUNC_SET.contains(ident)
 }
 
 /// Get the SystemVerilog 2023 builtin system function for the given identifier if it exists
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn get_system_verilog_23_builtin_sysfunc(ident: &str) -> Option<BuiltinSysFunc> {
 	SYSTEM_VERILOG_23_BUILTIN_SYSFUNC_MAP.get(ident).copied()
 }
@@ -2977,15 +2961,13 @@ pub fn get_system_verilog_23_builtin_sysfunc(ident: &str) -> Option<BuiltinSysFu
 /// standard.
 ///
 /// It prevents the copy into an [`Option`] if it is a builtin system function.
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn is_system_verilog_23_builtin_sysfunc(ident: &str) -> bool {
 	SYSTEM_VERILOG_23_BUILTIN_SYSFUNC_SET.contains(ident)
 }
 
 /// Get the SystemVerilog builtin system function for the given standard if it exists
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn get_system_verilog_builtin_sysfunc(ident: &str, std: LanguageStd) -> Option<BuiltinSysFunc> {
 	match std {
 		LanguageStd::Sv05 => get_system_verilog_05_builtin_sysfunc(ident),
@@ -2998,8 +2980,7 @@ pub fn get_system_verilog_builtin_sysfunc(ident: &str, std: LanguageStd) -> Opti
 }
 
 /// Get the Verilog-AMS 2009 builtin system function for the given identifier if it exists
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn get_verilog_ams_09_builtin_sysfunc(ident: &str) -> Option<BuiltinSysFunc> {
 	VERILOG_AMS_09_BUILTIN_SYSFUNC_MAP.get(ident).copied()
 }
@@ -3011,15 +2992,13 @@ pub fn get_verilog_ams_09_builtin_sysfunc(ident: &str) -> Option<BuiltinSysFunc>
 /// standard.
 ///
 /// It prevents the copy into an [`Option`] if it is a builtin system function.
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn is_verilog_ams_09_builtin_sysfunc(ident: &str) -> bool {
 	VERILOG_AMS_09_BUILTIN_SYSFUNC_SET.contains(ident)
 }
 
 /// Get the Verilog-AMS 2014 builtin system function for the given identifier if it exists
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn get_verilog_ams_14_builtin_sysfunc(ident: &str) -> Option<BuiltinSysFunc> {
 	VERILOG_AMS_14_BUILTIN_SYSFUNC_MAP.get(ident).copied()
 }
@@ -3031,15 +3010,13 @@ pub fn get_verilog_ams_14_builtin_sysfunc(ident: &str) -> Option<BuiltinSysFunc>
 /// standard.
 ///
 /// It prevents the copy into an [`Option`] if it is a builtin system function.
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn is_verilog_ams_14_builtin_sysfunc(ident: &str) -> bool {
 	VERILOG_AMS_14_BUILTIN_SYSFUNC_SET.contains(ident)
 }
 
 /// Get the Verilog-AMS 2023 builtin system function for the given identifier if it exists
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn get_verilog_ams_23_builtin_sysfunc(ident: &str) -> Option<BuiltinSysFunc> {
 	VERILOG_AMS_23_BUILTIN_SYSFUNC_MAP.get(ident).copied()
 }
@@ -3051,15 +3028,13 @@ pub fn get_verilog_ams_23_builtin_sysfunc(ident: &str) -> Option<BuiltinSysFunc>
 /// standard.
 ///
 /// It prevents the copy into an [`Option`] if it is a builtin system function.
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn is_verilog_ams_23_builtin_sysfunc(ident: &str) -> bool {
 	VERILOG_AMS_23_BUILTIN_SYSFUNC_SET.contains(ident)
 }
 
 /// Get the Verilog-AMS builtin system function for the given standard if it exists
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn get_verilog_ams_builtin_sysfunc(ident: &str, std: LanguageStd) -> Option<BuiltinSysFunc> {
 	match std {
 		LanguageStd::Vams09 => get_verilog_ams_09_builtin_sysfunc(ident),
@@ -3075,8 +3050,7 @@ pub fn get_verilog_ams_builtin_sysfunc(ident: &str, std: LanguageStd) -> Option<
 /// If you are only checking if the given system task is present in the langauge
 /// standard then use one of the `is_` methods directly, or [`is_builtin_sysfunc`]
 /// for a faster hit-test.
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn get_builtin_sysfunc(ident: &str, std: LanguageStd) -> Option<BuiltinSysFunc> {
 	match std {
 		LanguageStd::Vl95 => get_verilog_95_builtin_sysfunc(ident),
@@ -3102,8 +3076,7 @@ pub fn get_builtin_sysfunc(ident: &str, std: LanguageStd) -> Option<BuiltinSysFu
 ///
 /// As such, we need to be able to check if it is specifically a timing task, because they're valid
 /// in context where normal system tasks/functions are not.
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn is_timing_task(ident: &str) -> bool {
 	TIMING_TASKS_SET.contains(ident)
 }
@@ -3115,8 +3088,7 @@ pub fn is_timing_task(ident: &str) -> bool {
 ///
 /// This allows us to check to see if the given name is one of those, if so, we can
 /// possibly emit a diagnostic if requested.
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn is_optional_builtin_sysfunc(ident: &str) -> bool {
 	OPTIONAL_BUILTIN_SYSFUNC_SET.contains(ident)
 }
@@ -3127,8 +3099,7 @@ pub fn is_optional_builtin_sysfunc(ident: &str) -> bool {
 /// This can be used to generate appropriate diagnostics and list which
 /// language and which standards of said langauge support the given
 /// system task.
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn is_builtin_sysfunc(ident: &str) -> LanguageStd {
 	let mut supported = LanguageStd::none();
 

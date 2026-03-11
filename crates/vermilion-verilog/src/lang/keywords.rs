@@ -3067,8 +3067,7 @@ pub static VERILOG_AMS_23_KEYWORD_SET: phf::Set<&'static str> = phf_set! {
 };
 
 /// Get the Verilog 1995 keyword for the given identifier if it exists
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn get_verilog_95_keyword(ident: &str) -> Option<Keyword> {
 	VERILOG_95_KEYWORD_MAP.get(ident).copied()
 }
@@ -3080,15 +3079,13 @@ pub fn get_verilog_95_keyword(ident: &str) -> Option<Keyword> {
 /// standard.
 ///
 /// It prevents the copy into an [`Option`] if it is a keyword.
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn is_verilog_95_keyword(ident: &str) -> bool {
 	VERILOG_95_KEYWORD_SET.contains(ident)
 }
 
 /// Get the Verilog 2001 keyword for the given identifier if it exists
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn get_verilog_01_keyword(ident: &str) -> Option<Keyword> {
 	VERILOG_01_KEYWORD_MAP.get(ident).copied()
 }
@@ -3100,15 +3097,13 @@ pub fn get_verilog_01_keyword(ident: &str) -> Option<Keyword> {
 /// standard.
 ///
 /// It prevents the copy into an [`Option`] if it is a keyword.
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn is_verilog_01_keyword(ident: &str) -> bool {
 	VERILOG_01_KEYWORD_SET.contains(ident)
 }
 
 /// Get the Verilog 2005 keyword for the given identifier if it exists
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn get_verilog_05_keyword(ident: &str) -> Option<Keyword> {
 	VERILOG_05_KEYWORD_MAP.get(ident).copied()
 }
@@ -3120,15 +3115,13 @@ pub fn get_verilog_05_keyword(ident: &str) -> Option<Keyword> {
 /// standard.
 ///
 /// It prevents the copy into an [`Option`] if it is a keyword.
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn is_verilog_05_keyword(ident: &str) -> bool {
 	VERILOG_05_KEYWORD_SET.contains(ident)
 }
 
 /// Get the Verilog keyword for the given standard if it exists
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn get_verilog_keyword(ident: &str, std: LanguageStd) -> Option<Keyword> {
 	match std {
 		LanguageStd::Vl95 => get_verilog_95_keyword(ident),
@@ -3139,8 +3132,7 @@ pub fn get_verilog_keyword(ident: &str, std: LanguageStd) -> Option<Keyword> {
 }
 
 /// Get the SystemVerilog 2005 keyword for the given identifier if it exists
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn get_system_verilog_05_keyword(ident: &str) -> Option<Keyword> {
 	SYSTEM_VERILOG_05_KEYWORD_MAP.get(ident).copied()
 }
@@ -3152,15 +3144,13 @@ pub fn get_system_verilog_05_keyword(ident: &str) -> Option<Keyword> {
 /// standard.
 ///
 /// It prevents the copy into an [`Option`] if it is a keyword.
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn is_system_verilog_05_keyword(ident: &str) -> bool {
 	SYSTEM_VERILOG_05_KEYWORD_SET.contains(ident)
 }
 
 /// Get the SystemVerilog 2009 keyword for the given identifier if it exists
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn get_system_verilog_09_keyword(ident: &str) -> Option<Keyword> {
 	SYSTEM_VERILOG_09_KEYWORD_MAP.get(ident).copied()
 }
@@ -3172,15 +3162,13 @@ pub fn get_system_verilog_09_keyword(ident: &str) -> Option<Keyword> {
 /// standard.
 ///
 /// It prevents the copy into an [`Option`] if it is a keyword.
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn is_system_verilog_09_keyword(ident: &str) -> bool {
 	SYSTEM_VERILOG_09_KEYWORD_SET.contains(ident)
 }
 
 /// Get the SystemVerilog 2012 keyword for the given identifier if it exists
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn get_system_verilog_12_keyword(ident: &str) -> Option<Keyword> {
 	SYSTEM_VERILOG_12_KEYWORD_MAP.get(ident).copied()
 }
@@ -3192,15 +3180,13 @@ pub fn get_system_verilog_12_keyword(ident: &str) -> Option<Keyword> {
 /// standard.
 ///
 /// It prevents the copy into an [`Option`] if it is a keyword.
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn is_system_verilog_12_keyword(ident: &str) -> bool {
 	SYSTEM_VERILOG_12_KEYWORD_SET.contains(ident)
 }
 
 /// Get the SystemVerilog 2017 keyword for the given identifier if it exists
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn get_system_verilog_17_keyword(ident: &str) -> Option<Keyword> {
 	SYSTEM_VERILOG_17_KEYWORD_MAP.get(ident).copied()
 }
@@ -3212,15 +3198,13 @@ pub fn get_system_verilog_17_keyword(ident: &str) -> Option<Keyword> {
 /// standard.
 ///
 /// It prevents the copy into an [`Option`] if it is a keyword.
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn is_system_verilog_17_keyword(ident: &str) -> bool {
 	SYSTEM_VERILOG_17_KEYWORD_SET.contains(ident)
 }
 
 /// Get the SystemVerilog 2023 keyword for the given identifier if it exists
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn get_system_verilog_23_keyword(ident: &str) -> Option<Keyword> {
 	SYSTEM_VERILOG_23_KEYWORD_MAP.get(ident).copied()
 }
@@ -3232,15 +3216,13 @@ pub fn get_system_verilog_23_keyword(ident: &str) -> Option<Keyword> {
 /// standard.
 ///
 /// It prevents the copy into an [`Option`] if it is a keyword.
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn is_system_verilog_23_keyword(ident: &str) -> bool {
 	SYSTEM_VERILOG_23_KEYWORD_SET.contains(ident)
 }
 
 /// Get the SystemVerilog keyword for the given standard if it exists
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn get_system_verilog_keyword(ident: &str, std: LanguageStd) -> Option<Keyword> {
 	match std {
 		LanguageStd::Sv05 => get_system_verilog_05_keyword(ident),
@@ -3253,8 +3235,7 @@ pub fn get_system_verilog_keyword(ident: &str, std: LanguageStd) -> Option<Keywo
 }
 
 /// Get the Verilog-AMS 2009 keyword for the given identifier if it exists
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn get_verilog_ams_09_keyword(ident: &str) -> Option<Keyword> {
 	VERILOG_AMS_09_KEYWORD_MAP.get(ident).copied()
 }
@@ -3266,15 +3247,13 @@ pub fn get_verilog_ams_09_keyword(ident: &str) -> Option<Keyword> {
 /// standard.
 ///
 /// It prevents the copy into an [`Option`] if it is a keyword.
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn is_verilog_ams_09_keyword(ident: &str) -> bool {
 	VERILOG_AMS_09_KEYWORD_SET.contains(ident)
 }
 
 /// Get the Verilog-AMS 2014 keyword for the given identifier if it exists
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn get_verilog_ams_14_keyword(ident: &str) -> Option<Keyword> {
 	VERILOG_AMS_14_KEYWORD_MAP.get(ident).copied()
 }
@@ -3286,15 +3265,13 @@ pub fn get_verilog_ams_14_keyword(ident: &str) -> Option<Keyword> {
 /// standard.
 ///
 /// It prevents the copy into an [`Option`] if it is a keyword.
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn is_verilog_ams_14_keyword(ident: &str) -> bool {
 	VERILOG_AMS_14_KEYWORD_SET.contains(ident)
 }
 
 /// Get the Verilog-AMS 2023 keyword for the given identifier if it exists
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn get_verilog_ams_23_keyword(ident: &str) -> Option<Keyword> {
 	VERILOG_AMS_23_KEYWORD_MAP.get(ident).copied()
 }
@@ -3306,15 +3283,13 @@ pub fn get_verilog_ams_23_keyword(ident: &str) -> Option<Keyword> {
 /// standard.
 ///
 /// It prevents the copy into an [`Option`] if it is a keyword.
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn is_verilog_ams_23_keyword(ident: &str) -> bool {
 	VERILOG_AMS_23_KEYWORD_SET.contains(ident)
 }
 
 /// Get the Verilog-AMS keyword for the given standard if it exists
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn get_verilog_ams_keyword(ident: &str, std: LanguageStd) -> Option<Keyword> {
 	match std {
 		LanguageStd::Vams09 => get_verilog_ams_09_keyword(ident),
@@ -3325,8 +3300,7 @@ pub fn get_verilog_ams_keyword(ident: &str, std: LanguageStd) -> Option<Keyword>
 }
 
 /// Get the given Verilog/Verilog-AMS/SystemVerilog keyword for the given standard if it exists
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn get_keyword(ident: &str, std: LanguageStd) -> Option<Keyword> {
 	match std {
 		LanguageStd::Vl95 => get_verilog_95_keyword(ident),
@@ -3346,8 +3320,7 @@ pub fn get_keyword(ident: &str, std: LanguageStd) -> Option<Keyword> {
 
 /// Check to see if the given identifier is a keyword in a future Verilog standard, returning
 /// the standard version if so.
-#[allow(unused)]
-#[inline]
+#[inline(always)]
 pub fn keyword_in(ident: &str) -> LanguageStd {
 	let mut supported = LanguageStd::none();
 
