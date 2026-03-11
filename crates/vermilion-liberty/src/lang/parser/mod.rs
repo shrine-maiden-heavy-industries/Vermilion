@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: BSD-3-Clause
 
-use vermilion_lang::{AtomicByteTendril, Position, Spanned};
+use vermilion_lang::AtomicByteTendril;
+use vermilion_loc::{Position, Spanned};
 
 use crate::{
 	LanguageStd,
