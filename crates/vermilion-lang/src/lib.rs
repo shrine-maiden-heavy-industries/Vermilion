@@ -8,14 +8,23 @@
 pub mod debug;
 pub mod parser;
 pub mod position;
-pub mod span;
 pub mod tokenizer;
 
 pub use position::Position;
-pub use span::{Span, Spanned};
 use tendril::{Atomic, Tendril, fmt};
+pub use vermilion_loc::span::{Span, Spanned};
 
 pub type AtomicByteTendril = Tendril<fmt::Bytes, Atomic>;
+
+#[macro_export]
+macro_rules! spanned_token {
+	($token:expr) => {
+		vermilion_loc::spanned!($token)
+	};
+	($token:expr, $span_range:expr, $context:expr) => {
+		vermilion_loc::spanned!($token, $span_range, $context)
+	};
+}
 
 pub trait LanguageMetadata {
 	fn file_extensions<'a, 'b: 'a>() -> &'a [&'b str];

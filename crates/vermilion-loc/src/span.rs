@@ -6,14 +6,14 @@ use std::{
 };
 
 #[macro_export]
-macro_rules! spanned_token {
+macro_rules! spanned {
 	($token:expr) => {
-		vermilion_lang::span::Spanned::new($token, None)
+		vermilion_loc::span::Spanned::new($token, None)
 	};
 	($token:expr, $span_range:expr, $context:expr) => {
-		vermilion_lang::span::Spanned::new(
+		vermilion_loc::span::Spanned::new(
 			$token,
-			Some(vermilion_lang::span::Span::new($span_range, $context)),
+			Some(vermilion_loc::span::Span::new($span_range, $context)),
 		)
 	};
 }
