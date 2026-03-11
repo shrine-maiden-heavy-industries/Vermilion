@@ -1,12 +1,15 @@
 // SPDX-License-Identifier: BSD-3-Clause
 
-#[allow(unused)]
+// TODO(aki): Write tests
+#[allow(unused, reason = "Currently unused")]
 use paste::paste;
 
-#[allow(unused)]
+// TODO(aki): Write tests
+#[allow(unused, reason = "Currently unused")]
 use crate::{LanguageStd, lang::tokenizer::*};
 
-#[allow(unused)]
+// TODO(aki): Write tests
+#[allow(unused, reason = "Currently unused")]
 macro_rules! tokenizer_test {
 	(liberty2014_09, $test_name:ident, $input:literal, $($tokens:expr),+) => {
 		paste! { tokenizer_test!(
