@@ -3619,3 +3619,189 @@ tokenizer_test!(
 		Position::new(0, 0)
 	)
 );
+
+tokenizer_test!(
+	all,
+	invalid_identifier_unicode,
+	"あたしはねこです！ニャ〜",
+	spanned_token!(
+		Token::Invalid(Some(AtomicByteTendril::from_slice(&[0xE3]))),
+		0..1,
+		Position::new(0, 0)
+	),
+	spanned_token!(
+		Token::Invalid(Some(AtomicByteTendril::from_slice(&[0x81]))),
+		1..2,
+		Position::new(0, 1)
+	),
+	spanned_token!(
+		Token::Invalid(Some(AtomicByteTendril::from_slice(&[0x82]))),
+		2..3,
+		Position::new(0, 2)
+	),
+	spanned_token!(
+		Token::Invalid(Some(AtomicByteTendril::from_slice(&[0xE3]))),
+		3..4,
+		Position::new(0, 3)
+	),
+	spanned_token!(
+		Token::Invalid(Some(AtomicByteTendril::from_slice(&[0x81]))),
+		4..5,
+		Position::new(0, 4)
+	),
+	spanned_token!(
+		Token::Invalid(Some(AtomicByteTendril::from_slice(&[0x9F]))),
+		5..6,
+		Position::new(0, 5)
+	),
+	spanned_token!(
+		Token::Invalid(Some(AtomicByteTendril::from_slice(&[0xE3]))),
+		6..7,
+		Position::new(0, 6)
+	),
+	spanned_token!(
+		Token::Invalid(Some(AtomicByteTendril::from_slice(&[0x81]))),
+		7..8,
+		Position::new(0, 7)
+	),
+	spanned_token!(
+		Token::Invalid(Some(AtomicByteTendril::from_slice(&[0x97]))),
+		8..9,
+		Position::new(0, 8)
+	),
+	spanned_token!(
+		Token::Invalid(Some(AtomicByteTendril::from_slice(&[0xE3]))),
+		9..10,
+		Position::new(0, 9)
+	),
+	spanned_token!(
+		Token::Invalid(Some(AtomicByteTendril::from_slice(&[0x81]))),
+		10..11,
+		Position::new(0, 10)
+	),
+	spanned_token!(
+		Token::Invalid(Some(AtomicByteTendril::from_slice(&[0xAF]))),
+		11..12,
+		Position::new(0, 11)
+	),
+	spanned_token!(
+		Token::Invalid(Some(AtomicByteTendril::from_slice(&[0xE3]))),
+		12..13,
+		Position::new(0, 12)
+	),
+	spanned_token!(
+		Token::Invalid(Some(AtomicByteTendril::from_slice(&[0x81]))),
+		13..14,
+		Position::new(0, 13)
+	),
+	spanned_token!(
+		Token::Invalid(Some(AtomicByteTendril::from_slice(&[0xAD]))),
+		14..15,
+		Position::new(0, 14)
+	),
+	spanned_token!(
+		Token::Invalid(Some(AtomicByteTendril::from_slice(&[0xE3]))),
+		15..16,
+		Position::new(0, 15)
+	),
+	spanned_token!(
+		Token::Invalid(Some(AtomicByteTendril::from_slice(&[0x81]))),
+		16..17,
+		Position::new(0, 16)
+	),
+	spanned_token!(
+		Token::Invalid(Some(AtomicByteTendril::from_slice(&[0x93]))),
+		17..18,
+		Position::new(0, 17)
+	),
+	spanned_token!(
+		Token::Invalid(Some(AtomicByteTendril::from_slice(&[0xE3]))),
+		18..19,
+		Position::new(0, 18)
+	),
+	spanned_token!(
+		Token::Invalid(Some(AtomicByteTendril::from_slice(&[0x81]))),
+		19..20,
+		Position::new(0, 19)
+	),
+	spanned_token!(
+		Token::Invalid(Some(AtomicByteTendril::from_slice(&[0xA7]))),
+		20..21,
+		Position::new(0, 20)
+	),
+	spanned_token!(
+		Token::Invalid(Some(AtomicByteTendril::from_slice(&[0xE3]))),
+		21..22,
+		Position::new(0, 21)
+	),
+	spanned_token!(
+		Token::Invalid(Some(AtomicByteTendril::from_slice(&[0x81]))),
+		22..23,
+		Position::new(0, 22)
+	),
+	spanned_token!(
+		Token::Invalid(Some(AtomicByteTendril::from_slice(&[0x99]))),
+		23..24,
+		Position::new(0, 23)
+	),
+	spanned_token!(
+		Token::Invalid(Some(AtomicByteTendril::from_slice(&[0xEF]))),
+		24..25,
+		Position::new(0, 24)
+	),
+	spanned_token!(
+		Token::Invalid(Some(AtomicByteTendril::from_slice(&[0xBC]))),
+		25..26,
+		Position::new(0, 25)
+	),
+	spanned_token!(
+		Token::Invalid(Some(AtomicByteTendril::from_slice(&[0x81]))),
+		26..27,
+		Position::new(0, 26)
+	),
+	spanned_token!(
+		Token::Invalid(Some(AtomicByteTendril::from_slice(&[0xE3]))),
+		27..28,
+		Position::new(0, 27)
+	),
+	spanned_token!(
+		Token::Invalid(Some(AtomicByteTendril::from_slice(&[0x83]))),
+		28..29,
+		Position::new(0, 28)
+	),
+	spanned_token!(
+		Token::Invalid(Some(AtomicByteTendril::from_slice(&[0x8B]))),
+		29..30,
+		Position::new(0, 29)
+	),
+	spanned_token!(
+		Token::Invalid(Some(AtomicByteTendril::from_slice(&[0xE3]))),
+		30..31,
+		Position::new(0, 30)
+	),
+	spanned_token!(
+		Token::Invalid(Some(AtomicByteTendril::from_slice(&[0x83]))),
+		31..32,
+		Position::new(0, 31)
+	),
+	spanned_token!(
+		Token::Invalid(Some(AtomicByteTendril::from_slice(&[0xA3]))),
+		32..33,
+		Position::new(0, 32)
+	),
+	spanned_token!(
+		Token::Invalid(Some(AtomicByteTendril::from_slice(&[0xE3]))),
+		33..34,
+		Position::new(0, 33)
+	),
+	spanned_token!(
+		Token::Invalid(Some(AtomicByteTendril::from_slice(&[0x80]))),
+		34..35,
+		Position::new(0, 34)
+	),
+	spanned_token!(
+		Token::Invalid(Some(AtomicByteTendril::from_slice(&[0x9C]))),
+		35..36,
+		Position::new(0, 35)
+	)
+);

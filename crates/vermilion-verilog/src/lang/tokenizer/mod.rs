@@ -146,6 +146,29 @@ impl VerilogTokenizer {
 			);
 		} else if self.tokenizer.current_byte().is_ascii_digit() {
 			self.read_number_token(false);
+		} else {
+			// If we hit this then we've encountered some invalid input, likely an invalid
+			// character, so we consume it and emit an invalid token so we can advance the
+			// tokenizer state and not get stuck in a loop forever.
+
+			// TODO(aki):
+			// Rather than the emitting one invalid token per byte, we should keep track of larger
+			// spans of invalid bytes, and then only emit one token per range.
+			//
+			// This would involve having a global tokenizer flag and then logic to construct and
+			// push the invalid token to the token queue as soon as we hit a valid match.
+
+			let begin = self.tokenizer.offset();
+			self.tokenizer.next_char();
+			let range = begin..self.tokenizer.offset();
+
+			self.token = spanned_token!(
+				Token::Invalid(Some(
+					self.tokenizer.subtendril(begin..self.tokenizer.offset()),
+				)),
+				range,
+				context
+			)
 		}
 	}
 
