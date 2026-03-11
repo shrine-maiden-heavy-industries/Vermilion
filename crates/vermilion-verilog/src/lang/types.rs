@@ -323,10 +323,10 @@ impl Display for Control {
 impl Display for Identifier {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
 		match self {
-			Identifier::Simple(tendril) => write!(f, "Identifier({})", unsafe {
+			Self::Simple(tendril) => write!(f, "Identifier({})", unsafe {
 				str::from_utf8_unchecked(tendril)
 			}),
-			Identifier::Escaped(tendril) => write!(f, "Identifier(\\{})", unsafe {
+			Self::Escaped(tendril) => write!(f, "Identifier(\\{})", unsafe {
 				str::from_utf8_unchecked(tendril)
 			}),
 		}
@@ -426,8 +426,8 @@ impl Display for SingleQuotedString {
 impl Display for SystemFunc {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
 		match self {
-			SystemFunc::Builtin(builtin) => write!(f, "SystemFunc({})", builtin),
-			SystemFunc::Other(tendril) => write!(f, "SystemFunc(Other(${}))", unsafe {
+			Self::Builtin(builtin) => write!(f, "SystemFunc({})", builtin),
+			Self::Other(tendril) => write!(f, "SystemFunc(Other(${}))", unsafe {
 				str::from_utf8_unchecked(tendril)
 			}),
 		}

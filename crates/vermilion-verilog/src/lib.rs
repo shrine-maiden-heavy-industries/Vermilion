@@ -33,19 +33,15 @@ pub enum LanguageStd {
 
 impl LanguageStd {
 	pub const SYSTEM_VERILOG_KNOWN_EXTS: [&'static str; 2] = ["sv", "svh"];
-	pub const SYSTEM_VERILOG_STDS: LanguageStd = LanguageStd::Sv05
-		.or(LanguageStd::Sv09)
-		.or(LanguageStd::Sv12)
-		.or(LanguageStd::Sv17)
-		.or(LanguageStd::Sv23);
+	pub const SYSTEM_VERILOG_STDS: Self = Self::Sv05
+		.or(Self::Sv09)
+		.or(Self::Sv12)
+		.or(Self::Sv17)
+		.or(Self::Sv23);
 	pub const VERILOG_AMS_KNOWN_EXTS: [&'static str; 1] = ["vams"];
-	pub const VERILOG_AMS_STDS: LanguageStd = LanguageStd::Vams09
-		.or(LanguageStd::Vams14)
-		.or(LanguageStd::Vams23);
+	pub const VERILOG_AMS_STDS: Self = Self::Vams09.or(Self::Vams14).or(Self::Vams23);
 	pub const VERILOG_KNOWN_EXTS: [&'static str; 4] = ["v", "vh", "vm", "vg"];
-	pub const VERILOG_STDS: LanguageStd = LanguageStd::Vl95
-		.or(LanguageStd::Vl01)
-		.or(LanguageStd::Vl05);
+	pub const VERILOG_STDS: Self = Self::Vl95.or(Self::Vl01).or(Self::Vl05);
 
 	pub fn has_single_std(&self) -> bool {
 		self.bits.count_ones() == 1
@@ -70,37 +66,37 @@ impl LanguageStd {
 
 impl Display for LanguageStd {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-		if self.contains(LanguageStd::Vl95) {
+		if self.contains(Self::Vl95) {
 			f.write_str("Verilog 1995 (IEEE 1364-1995)")?;
 		}
-		if self.contains(LanguageStd::Vl01) {
+		if self.contains(Self::Vl01) {
 			f.write_str("Verilog 2001 (IEEE 1364-2001)")?;
 		}
-		if self.contains(LanguageStd::Vl05) {
+		if self.contains(Self::Vl05) {
 			f.write_str("Verilog 2005 (IEEE 1364-2005)")?;
 		}
-		if self.contains(LanguageStd::Sv05) {
+		if self.contains(Self::Sv05) {
 			f.write_str("System Verilog 2005 (IEEE 1800-2005)")?;
 		}
-		if self.contains(LanguageStd::Sv09) {
+		if self.contains(Self::Sv09) {
 			f.write_str("System Verilog 2009 (IEEE 1800-2009)")?;
 		}
-		if self.contains(LanguageStd::Sv12) {
+		if self.contains(Self::Sv12) {
 			f.write_str("System Verilog 2012 (IEEE 1800-2012)")?;
 		}
-		if self.contains(LanguageStd::Sv17) {
+		if self.contains(Self::Sv17) {
 			f.write_str("System Verilog 2017 (IEEE 1800-2017)")?;
 		}
-		if self.contains(LanguageStd::Sv23) {
+		if self.contains(Self::Sv23) {
 			f.write_str("System Verilog 2023 (IEEE 1800-2023)")?;
 		}
-		if self.contains(LanguageStd::Vams09) {
+		if self.contains(Self::Vams09) {
 			f.write_str("Verilog-AMS 2009 (Accellera Verilog-AMS 2.3.1)")?;
 		}
-		if self.contains(LanguageStd::Vams14) {
+		if self.contains(Self::Vams14) {
 			f.write_str("Verilog-AMS 2014 (Accellera Verilog-AMS 2.4)")?;
 		}
-		if self.contains(LanguageStd::Vams23) {
+		if self.contains(Self::Vams23) {
 			f.write_str("Verilog-AMS 2009 (Accellera Verilog-AMS 2.3.1)")?;
 		}
 		Ok(())
@@ -161,17 +157,17 @@ impl serde::Serialize for LanguageStd {
 		S: serde::Serializer,
 	{
 		match *self {
-			LanguageStd::Vl95 => serializer.serialize_str("Vl95"),
-			LanguageStd::Vl01 => serializer.serialize_str("Vl01"),
-			LanguageStd::Vl05 => serializer.serialize_str("Vl05"),
-			LanguageStd::Sv05 => serializer.serialize_str("Sv05"),
-			LanguageStd::Sv09 => serializer.serialize_str("Sv09"),
-			LanguageStd::Sv12 => serializer.serialize_str("Sv12"),
-			LanguageStd::Sv17 => serializer.serialize_str("Sv17"),
-			LanguageStd::Sv23 => serializer.serialize_str("Sv23"),
-			LanguageStd::Vams09 => serializer.serialize_str("Vams09"),
-			LanguageStd::Vams14 => serializer.serialize_str("Vams14"),
-			LanguageStd::Vams23 => serializer.serialize_str("Vams23"),
+			Self::Vl95 => serializer.serialize_str("Vl95"),
+			Self::Vl01 => serializer.serialize_str("Vl01"),
+			Self::Vl05 => serializer.serialize_str("Vl05"),
+			Self::Sv05 => serializer.serialize_str("Sv05"),
+			Self::Sv09 => serializer.serialize_str("Sv09"),
+			Self::Sv12 => serializer.serialize_str("Sv12"),
+			Self::Sv17 => serializer.serialize_str("Sv17"),
+			Self::Sv23 => serializer.serialize_str("Sv23"),
+			Self::Vams09 => serializer.serialize_str("Vams09"),
+			Self::Vams14 => serializer.serialize_str("Vams14"),
+			Self::Vams23 => serializer.serialize_str("Vams23"),
 			_ => Err(serde::ser::Error::custom(
 				"Unable to serialize `LanguageStd` with more than one bit set",
 			)),
