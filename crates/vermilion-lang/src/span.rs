@@ -61,7 +61,7 @@ impl<T> From<Range<T>> for Span<T> {
 
 impl<T, C> From<Span<T, C>> for Range<T> {
 	fn from(value: Span<T, C>) -> Self {
-		Range { start: value.begin, end: value.end }
+		Self { start: value.begin, end: value.end }
 	}
 }
 
@@ -71,7 +71,7 @@ where
 	C: Display,
 {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-		let Span { begin, end, context } = &self;
+		let Self { begin, end, context } = &self;
 
 		write!(f, "[{begin},{end}) => {context}")
 	}
