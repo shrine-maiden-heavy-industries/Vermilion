@@ -1,13 +1,14 @@
 // SPDX-License-Identifier: BSD-3-Clause
 
 use eyre::OptionExt;
+use vermilion_diagnostics::Diagnostic;
 use vermilion_lang::AtomicByteTendril;
 use vermilion_loc::{Position, Span, Spanned};
 
 use crate::{
 	LanguageStd,
 	lang::{
-		ast::{Ast, Diagnostic, Module, PortList, Primitive},
+		ast::{Ast, Module, PortList, Primitive},
 		keywords::Keyword,
 		tokenizer::{VerilogTokenizer, token::Token},
 		types::Control,
@@ -52,8 +53,8 @@ impl VerilogParser {
 				Token::Control(Control::Dot) => self.parse_port(),
 				_ => {
 					port_list.append_diagnostic(Diagnostic::new(
-						token.span().copied(),
 						format!("Expected port identifier or '.', got {token}"),
+						token.span().copied(),
 					));
 				},
 			}
@@ -65,8 +66,8 @@ impl VerilogParser {
 					Token::Control(Control::Comma) => self.current_token = self.tokenizer.next(),
 					_ => {
 						port_list.append_diagnostic(Diagnostic::new(
-							token.span().copied(),
 							format!("Expected ',' or ')', got {token}"),
+							token.span().copied(),
 						));
 						// If we couldn't match a "," or ")" token, we're done - abort
 						return Ok(port_list);
@@ -75,8 +76,8 @@ impl VerilogParser {
 				None => {
 					// If we hit EOF, we're done - abort
 					port_list.append_diagnostic(Diagnostic::new(
-						Some(Span::new(0..0, Position::eof())),
 						"Unexpected end of file while looking for port list",
+						Some(Span::new(0..0, Position::eof())),
 					));
 					return Ok(port_list);
 				},
@@ -106,8 +107,8 @@ impl VerilogParser {
 					return Ok(Module::new_invalid(
 						location,
 						Diagnostic::new(
-							token.span().copied(),
 							format!("Expected module name, got {token}"),
+							token.span().copied(),
 						),
 					));
 				},
@@ -115,7 +116,7 @@ impl VerilogParser {
 		} else {
 			return Ok(Module::new_invalid(
 				location,
-				Diagnostic::new(location, "Encountered end of file, expected module name"),
+				Diagnostic::new("Encountered end of file, expected module name", location),
 			));
 		};
 		self.current_token = self.tokenizer.next();
@@ -127,8 +128,8 @@ impl VerilogParser {
 				Token::Control(Control::ParenOpen) => module.ports(self.parse_ports()?),
 				Token::Control(Control::Semicolon) => {},
 				_ => module.append_diagnostic(Diagnostic::new(
-					token.span().copied(),
 					format!("Expected ports defintion or ';', got {token}"),
+					token.span().copied(),
 				)),
 			};
 		}
@@ -142,17 +143,17 @@ impl VerilogParser {
 					// If we got something other than the requisite ';' then create a diagnostic and
 					// try and continue, looking for "endmodule"
 					module.append_diagnostic(Diagnostic::new(
-						token.span().copied(),
 						format!("Expected ';', found {}", token.inner()),
+						token.span().copied(),
 					));
 				}
 			},
 			None => {
 				// If we hit EOF already, build a diagnostic and return
 				module.append_diagnostic(Diagnostic::new(
-					Some(Span::new(0..0, Position::eof())),
 					"Unexpected end of file, expected ';' following module identifier and port \
 					 list",
+					Some(Span::new(0..0, Position::eof())),
 				));
 				return Ok(module);
 			},
@@ -180,8 +181,8 @@ impl VerilogParser {
 					ast.append_comment(Spanned::new(comment.clone(), token.span().copied()))
 				},
 				_ => ast.append_diagnostic(Diagnostic::new(
-					token.span().copied(),
 					format!("Unexpected token {} at {:?}", token.inner(), token.span()),
+					token.span().copied(),
 				)),
 			}
 			self.current_token = self.tokenizer.next();

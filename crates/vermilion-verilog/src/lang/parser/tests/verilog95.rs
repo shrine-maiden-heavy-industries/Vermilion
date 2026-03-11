@@ -28,8 +28,8 @@ fn test_truncated_module() {
 	assert_eq!(
 		diagnostics,
 		&vec![Diagnostic::new(
+			"Encountered end of file, expected module name",
 			Some(Span::new(0..0, Position::new(0, 0))),
-			"Encountered end of file, expected module name"
 		)]
 	);
 
@@ -55,8 +55,8 @@ fn test_truncated_module() {
 	assert_eq!(
 		diagnostics,
 		&vec![Diagnostic::new(
+			"Expected module name, got ';' @ [6,7) => line: 0 char: 6",
 			Some(Span::new(6..7, Position::new(0, 6))),
-			"Expected module name, got ';' @ [6,7) => line: 0 char: 6"
 		)]
 	);
 
@@ -93,8 +93,8 @@ fn test_truncated_module() {
 	assert_eq!(
 		diagnostics,
 		&vec![Diagnostic::new(
+			"Unexpected end of file, expected ';' following module identifier and port list",
 			Some(Span::new(0..0, Position::eof())),
-			"Unexpected end of file, expected ';' following module identifier and port list"
 		)]
 	);
 }

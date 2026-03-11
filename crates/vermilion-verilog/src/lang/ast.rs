@@ -2,30 +2,10 @@
 
 use std::collections::HashMap;
 
-use vermilion_lang::{Position, Span, Spanned};
+use vermilion_diagnostics::Diagnostic;
+use vermilion_loc::{Position, Span, Spanned};
 
 use crate::lang::types::{Comment, CompilerDirective, Identifier};
-
-#[derive(Debug, Clone, PartialEq, Eq)]
-pub struct Diagnostic {
-	position: Position,
-	message:  String,
-}
-
-impl Diagnostic {
-	pub fn new<Str>(location: Option<Span<usize, Position>>, message: Str) -> Self
-	where
-		Str: Into<String>,
-	{
-		let position = if let Some(span) = location {
-			*span.context()
-		} else {
-			Position::sof()
-		};
-
-		Self { position, message: message.into() }
-	}
-}
 
 #[derive(Debug)]
 pub enum AstContents<T> {
