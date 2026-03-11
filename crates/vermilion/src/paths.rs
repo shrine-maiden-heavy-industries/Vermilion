@@ -10,11 +10,14 @@ use directories::ProjectDirs;
 static DIRS: OnceLock<ProjectDirs> = OnceLock::new();
 
 pub(crate) fn proj_dirs() -> &'static ProjectDirs {
-	// SAFETY:
-	// At this point exploding here is fine, if we can't get the users home directory
-	// we're out of luck anyway.
-	#[allow(clippy::expect_used)]
-	DIRS.get_or_init(|| ProjectDirs::from("", "", "Vermilion").expect(""))
+	#[allow(
+		clippy::expect_used,
+		reason = "At this point exploding here is fine, if we can't get the users home directory \
+		          we're out of luck anyway."
+	)]
+	DIRS.get_or_init(|| {
+		ProjectDirs::from("", "", "Vermilion").expect("Unable to initialize project directories")
+	})
 }
 
 // TODO(aki): Remove once used

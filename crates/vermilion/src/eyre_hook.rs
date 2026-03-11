@@ -50,12 +50,17 @@ impl VermilionPanicHook {
 
 	pub fn into_panic_hook(self) -> PanicHookFunc {
 		Box::new(move |info| {
-			// SAFETY:
-			// `HOOK_PROLOGUE` and `HOOK_EPILOGUE` *should* always be initialized by the time we get
-			// here and if not, we're boned either way...
-			#[allow(clippy::unwrap_used)]
+			#[allow(
+				clippy::unwrap_used,
+				reason = "This *should* always be initialized by the time we get here and if not \
+				          we're boned either way..."
+			)]
 			let prologue = HOOK_PROLOGUE.get().unwrap();
-			#[allow(clippy::unwrap_used)]
+			#[allow(
+				clippy::unwrap_used,
+				reason = "This *should* always be initialized by the time we get here and if not \
+				          we're boned either way..."
+			)]
 			let epilogue = HOOK_EPILOGUE.get().unwrap();
 
 			eprintln!("{}", prologue);
@@ -79,13 +84,18 @@ impl EyreHandler for VermilionEyreHander {
 		error: &(dyn std::error::Error + 'static),
 		f: &mut core::fmt::Formatter<'_>,
 	) -> core::fmt::Result {
-		// SAFETY:
-		// `HOOK_PROLOGUE` and `HOOK_EPILOGUE` *should* always be initialized by the time we get
-		// here and if not, we're boned either way...
-		#[allow(clippy::unwrap_used)]
+		#[allow(
+			clippy::unwrap_used,
+			reason = "This *should* always be initialized by the time we get here and if not \
+			          we're boned either way..."
+		)]
 		writeln!(f, "{}", HOOK_PROLOGUE.get().unwrap())?;
 		self.inner.debug(error, f)?;
-		#[allow(clippy::unwrap_used)]
+		#[allow(
+			clippy::unwrap_used,
+			reason = "This *should* always be initialized by the time we get here and if not \
+			          we're boned either way..."
+		)]
 		writeln!(f, "\n{}", HOOK_EPILOGUE.get().unwrap())?;
 
 		Ok(())
