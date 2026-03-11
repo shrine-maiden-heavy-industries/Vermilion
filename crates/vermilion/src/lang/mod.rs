@@ -48,32 +48,32 @@ impl Display for Language {
 }
 
 impl Language {
-	pub const STD_VALUES: [Language; 25] = [
-		Language::Verilog(VerilogStd::Vl95),
-		Language::Verilog(VerilogStd::Vl01),
-		Language::Verilog(VerilogStd::Vl05),
-		Language::Verilog(VerilogStd::Sv05),
-		Language::Verilog(VerilogStd::Sv09),
-		Language::Verilog(VerilogStd::Sv12),
-		Language::Verilog(VerilogStd::Sv17),
-		Language::Verilog(VerilogStd::Sv23),
-		Language::Verilog(VerilogStd::Vams09),
-		Language::Verilog(VerilogStd::Vams14),
-		Language::Verilog(VerilogStd::Vams23),
-		Language::Vhdl(VhdlStd::Vh87),
-		Language::Vhdl(VhdlStd::Vh93),
-		Language::Vhdl(VhdlStd::Vh2k),
-		Language::Vhdl(VhdlStd::Vh02),
-		Language::Vhdl(VhdlStd::Vh07),
-		Language::Vhdl(VhdlStd::Vh08),
-		Language::Vhdl(VhdlStd::Vh11),
-		Language::Vhdl(VhdlStd::Vh19),
-		Language::Vhdl(VhdlStd::Vh23),
-		Language::Vhdl(VhdlStd::Vhams99),
-		Language::Vhdl(VhdlStd::Vhams07),
-		Language::Vhdl(VhdlStd::Vhams09),
-		Language::Vhdl(VhdlStd::Vhams17),
-		Language::Vhdl(VhdlStd::Vhams21),
+	pub const STD_VALUES: [Self; 25] = [
+		Self::Verilog(VerilogStd::Vl95),
+		Self::Verilog(VerilogStd::Vl01),
+		Self::Verilog(VerilogStd::Vl05),
+		Self::Verilog(VerilogStd::Sv05),
+		Self::Verilog(VerilogStd::Sv09),
+		Self::Verilog(VerilogStd::Sv12),
+		Self::Verilog(VerilogStd::Sv17),
+		Self::Verilog(VerilogStd::Sv23),
+		Self::Verilog(VerilogStd::Vams09),
+		Self::Verilog(VerilogStd::Vams14),
+		Self::Verilog(VerilogStd::Vams23),
+		Self::Vhdl(VhdlStd::Vh87),
+		Self::Vhdl(VhdlStd::Vh93),
+		Self::Vhdl(VhdlStd::Vh2k),
+		Self::Vhdl(VhdlStd::Vh02),
+		Self::Vhdl(VhdlStd::Vh07),
+		Self::Vhdl(VhdlStd::Vh08),
+		Self::Vhdl(VhdlStd::Vh11),
+		Self::Vhdl(VhdlStd::Vh19),
+		Self::Vhdl(VhdlStd::Vh23),
+		Self::Vhdl(VhdlStd::Vhams99),
+		Self::Vhdl(VhdlStd::Vhams07),
+		Self::Vhdl(VhdlStd::Vhams09),
+		Self::Vhdl(VhdlStd::Vhams17),
+		Self::Vhdl(VhdlStd::Vhams21),
 	];
 
 	pub fn tokenizer(self, content: AtomicByteTendril) -> eyre::Result<Tokenizer> {
@@ -99,12 +99,12 @@ impl Language {
 
 impl ValueEnum for Language {
 	fn value_variants<'a>() -> &'a [Self] {
-		&Language::STD_VALUES
+		&Self::STD_VALUES
 	}
 
 	fn to_possible_value(&self) -> Option<PossibleValue> {
 		match self {
-			Language::Verilog(std) => match *std {
+			Self::Verilog(std) => match *std {
 				VerilogStd::Vl95 => Some(PossibleValue::new("vl95").help(cformat!(
 					"<magenta>Verilog</> 1995 (<blue>IEEE</> 1364-1995)"
 				))),
@@ -140,7 +140,7 @@ impl ValueEnum for Language {
 				))),
 				_ => None,
 			},
-			Language::Vhdl(std) => match *std {
+			Self::Vhdl(std) => match *std {
 				VhdlStd::Vh87 => Some(
 					PossibleValue::new("vhd87")
 						.help(cformat!("<green>VHDL</> 1987 (<blue>IEEE</> 1076-1987)")),
