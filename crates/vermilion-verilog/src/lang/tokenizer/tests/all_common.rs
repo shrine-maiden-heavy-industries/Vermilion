@@ -3787,3 +3787,151 @@ tokenizer_test!(
 		Position::new(0, 35)
 	)
 );
+
+tokenizer_test!(
+	all,
+	text_macro_short_num_prefix,
+	"00`a",
+	spanned_token!(
+		Token::UnsignedNumber("00".as_bytes().into()),
+		0..2,
+		Position::new(0, 0)
+	),
+	spanned_token!(
+		Token::TextMacro(TextMacro::Other("a".as_bytes().into())),
+		2..4,
+		Position::new(0, 2)
+	)
+);
+
+tokenizer_test!(
+	all,
+	text_macro_short_num_prefix_whitespace,
+	"00 `a",
+	spanned_token!(
+		Token::UnsignedNumber("00".as_bytes().into()),
+		0..2,
+		Position::new(0, 0)
+	),
+	spanned_token!(
+		Token::Whitespace(" ".as_bytes().into()),
+		2..3,
+		Position::new(0, 2)
+	),
+	spanned_token!(
+		Token::TextMacro(TextMacro::Other("a".as_bytes().into())),
+		3..5,
+		Position::new(0, 3)
+	)
+);
+
+tokenizer_test!(
+	all,
+	text_macro_short_ident_prefix,
+	"aa`a",
+	spanned_token!(
+		Token::Identifier(Identifier::Simple("aa".as_bytes().into())),
+		0..2,
+		Position::new(0, 0)
+	),
+	spanned_token!(
+		Token::TextMacro(TextMacro::Other("a".as_bytes().into())),
+		2..4,
+		Position::new(0, 2)
+	)
+);
+
+tokenizer_test!(
+	all,
+	text_macro_short_ident_prefix_whitespace,
+	"aa `a",
+	spanned_token!(
+		Token::Identifier(Identifier::Simple("aa".as_bytes().into())),
+		0..2,
+		Position::new(0, 0)
+	),
+	spanned_token!(
+		Token::Whitespace(" ".as_bytes().into()),
+		2..3,
+		Position::new(0, 2)
+	),
+	spanned_token!(
+		Token::TextMacro(TextMacro::Other("a".as_bytes().into())),
+		3..5,
+		Position::new(0, 3)
+	)
+);
+
+tokenizer_test!(
+	all,
+	text_macro_med_num_prefix,
+	"00`meow",
+	spanned_token!(
+		Token::UnsignedNumber("00".as_bytes().into()),
+		0..2,
+		Position::new(0, 0)
+	),
+	spanned_token!(
+		Token::TextMacro(TextMacro::Other("meow".as_bytes().into())),
+		2..7,
+		Position::new(0, 2)
+	)
+);
+
+tokenizer_test!(
+	all,
+	text_macro_med_num_prefix_whitespace,
+	"00 `meow",
+	spanned_token!(
+		Token::UnsignedNumber("00".as_bytes().into()),
+		0..2,
+		Position::new(0, 0)
+	),
+	spanned_token!(
+		Token::Whitespace(" ".as_bytes().into()),
+		2..3,
+		Position::new(0, 2)
+	),
+	spanned_token!(
+		Token::TextMacro(TextMacro::Other("meow".as_bytes().into())),
+		3..8,
+		Position::new(0, 3)
+	)
+);
+
+tokenizer_test!(
+	all,
+	text_macro_med_ident_prefix,
+	"aa`meow",
+	spanned_token!(
+		Token::Identifier(Identifier::Simple("aa".as_bytes().into())),
+		0..2,
+		Position::new(0, 0)
+	),
+	spanned_token!(
+		Token::TextMacro(TextMacro::Other("meow".as_bytes().into())),
+		2..7,
+		Position::new(0, 2)
+	)
+);
+
+tokenizer_test!(
+	all,
+	text_macro_med_ident_prefix_whitespace,
+	"aa `meow",
+	spanned_token!(
+		Token::Identifier(Identifier::Simple("aa".as_bytes().into())),
+		0..2,
+		Position::new(0, 0)
+	),
+	spanned_token!(
+		Token::Whitespace(" ".as_bytes().into()),
+		2..3,
+		Position::new(0, 2)
+	),
+	spanned_token!(
+		Token::TextMacro(TextMacro::Other("meow".as_bytes().into())),
+		3..8,
+		Position::new(0, 3)
+	)
+);
