@@ -3935,3 +3935,24 @@ tokenizer_test!(
 		Position::new(0, 3)
 	)
 );
+
+tokenizer_test!(
+	all,
+	garbage_in_compiler_directive,
+	"`default_nettype\x1Anone",
+	spanned_token!(
+		Token::CompilerDirective(CompilerDirective::Name(BuiltinDirective::DefaultNetType)),
+		0..16,
+		Position::new(0, 0)
+	),
+	spanned_token!(
+		Token::Invalid(Some("\x1A".as_bytes().into())),
+		16..17,
+		Position::new(0, 16)
+	),
+	spanned_token!(
+		Token::CompilerDirective(CompilerDirective::Arg("none".as_bytes().into())),
+		17..21,
+		Position::new(0, 17)
+	)
+);

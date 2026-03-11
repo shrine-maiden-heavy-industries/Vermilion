@@ -189,6 +189,32 @@ impl VerilogTokenizer {
 		)
 	}
 
+	fn read_invalid(&mut self) {
+		if !self.is_ascii_printable() &&
+			!self.current_is_whitespace() &&
+			!self.current_is_newline() &&
+			!self.tokenizer.is_eof()
+		{
+			let context = self.tokenizer.position();
+			let begin = self.tokenizer.offset();
+
+			while !self.is_ascii_printable() &&
+				!self.current_is_whitespace() &&
+				!self.current_is_newline() &&
+				!self.tokenizer.is_eof()
+			{
+				self.tokenizer.next_char();
+			}
+
+			let token_range = begin..self.tokenizer.offset();
+			self.token_stream.push_back(spanned_token!(
+				Token::Invalid(Some(self.tokenizer.subtendril(token_range.clone()))),
+				token_range,
+				context
+			))
+		}
+	}
+
 	fn read_newline(&mut self) {
 		let context = self.tokenizer.position();
 		let begin = self.tokenizer.offset();
@@ -1137,6 +1163,8 @@ impl VerilogTokenizer {
 				while !matches!(self.tokenizer.current_byte(), b'\r' | b'\n') &&
 					!self.tokenizer.is_eof()
 				{
+					self.read_invalid();
+
 					// Deal with  whitespace
 					if self.current_is_whitespace() {
 						self.read_whitespace();
