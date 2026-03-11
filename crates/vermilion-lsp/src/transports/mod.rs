@@ -182,15 +182,21 @@ pub enum TransportType {
 }
 
 pub trait LSPTransport: Sized {
-	#[allow(async_fn_in_trait)]
-	async fn create(
+	// TODO(aki): Pull out future output type into it's own type
+	#[allow(
+		clippy::type_complexity,
+		reason = "Needs thought on how to encapsulate return type"
+	)]
+	fn create(
 		self,
 		cancellation_token: CancellationToken,
 		shutdown_channel: UnboundedSender<()>,
 		#[cfg(feature = "trace-server")] trace_transport: Option<TraceTransport>,
-	) -> Result<(
-		UnboundedReceiver<Message>,
-		UnboundedSender<Message>,
-		JoinSet<Result<()>>,
-	)>;
+	) -> impl Future<
+		Output = Result<(
+			UnboundedReceiver<Message>,
+			UnboundedSender<Message>,
+			JoinSet<Result<()>>,
+		)>,
+	> + Send;
 }
