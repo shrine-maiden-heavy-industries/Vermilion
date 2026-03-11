@@ -1429,8 +1429,7 @@ impl VerilogTokenizer {
 		}
 
 		// If we have an exponent part, consume that
-		let exponent = if matches!(self.tokenizer.current_byte(), b'e' | b'E') {
-			let exp_begin = self.tokenizer.offset();
+		if matches!(self.tokenizer.current_byte(), b'e' | b'E') {
 			self.tokenizer.next_char();
 
 			// Check to make sure we have a valid exponent
@@ -1455,14 +1454,7 @@ impl VerilogTokenizer {
 			{
 				self.tokenizer.next_char();
 			}
-
-			Some(
-				self.tokenizer
-					.subtendril(exp_begin..self.tokenizer.offset()),
-			)
-		} else {
-			None
-		};
+		}
 
 		// SAFETY:
 		// If we got to this point, then we have already ensured the contents are
@@ -1470,10 +1462,18 @@ impl VerilogTokenizer {
 		let value =
 			unsafe { str::from_utf8_unchecked(&self.tokenizer[begin..self.tokenizer.offset()]) };
 
+		// TODO(aki):
+		// We should likely /also/ store the subtendril with the float in it so we can apply
+		// format linting...
+
+		// Now that we have the fractional part as well as possibly an exponent,
+		// we need to process it so we can let Rust's f64 parser take care of the rest.
+		let reformated = value.chars().filter(|c| *c != '_').collect::<String>();
+
 		// If we got a valid f64, then we use that, otherwise emit an invalid token
 		let token_range = begin..self.tokenizer.offset();
-		self.token = if let Ok(value) = value.parse() {
-			spanned_token!(Token::Real { value, exponent }, token_range, context)
+		self.token = if let Ok(value) = reformated.parse() {
+			spanned_token!(Token::Real(value), token_range, context)
 		} else {
 			spanned_token!(
 				Token::Invalid(Some(value.as_bytes().into())),

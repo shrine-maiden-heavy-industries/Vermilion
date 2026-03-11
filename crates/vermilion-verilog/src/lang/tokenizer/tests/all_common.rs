@@ -1488,11 +1488,7 @@ tokenizer_test!(
 	all,
 	real_number_simple,
 	"1.23",
-	spanned_token!(
-		Token::Real { value: 1.23, exponent: None },
-		0..4,
-		Position::new(0, 0)
-	)
+	spanned_token!(Token::Real(1.23), 0..4, Position::new(0, 0))
 );
 
 tokenizer_test!(
@@ -1500,11 +1496,7 @@ tokenizer_test!(
 	real_number_simple_pos,
 	"+1.23",
 	spanned_token!(Token::Operator(Operator::Plus), 0..1, Position::new(0, 0)),
-	spanned_token!(
-		Token::Real { value: 1.23, exponent: None },
-		1..5,
-		Position::new(0, 1)
-	)
+	spanned_token!(Token::Real(1.23), 1..5, Position::new(0, 1))
 );
 
 tokenizer_test!(
@@ -1512,67 +1504,35 @@ tokenizer_test!(
 	real_number_simple_neg,
 	"-1.23",
 	spanned_token!(Token::Operator(Operator::Minus), 0..1, Position::new(0, 0)),
-	spanned_token!(
-		Token::Real { value: 1.23, exponent: None },
-		1..5,
-		Position::new(0, 1)
-	)
+	spanned_token!(Token::Real(1.23), 1..5, Position::new(0, 1))
 );
 
 tokenizer_test!(
 	all,
 	real_number_exponent,
 	"1e7",
-	spanned_token!(
-		Token::Real {
-			value:    1e7,
-			exponent: Some("e7".as_bytes().into()),
-		},
-		0..3,
-		Position::new(0, 0)
-	)
+	spanned_token!(Token::Real(1e7), 0..3, Position::new(0, 0))
 );
 
 tokenizer_test!(
 	all,
 	real_number_dec_exponent,
 	"1.2e6",
-	spanned_token!(
-		Token::Real {
-			value:    1.2e6,
-			exponent: Some("e6".as_bytes().into()),
-		},
-		0..5,
-		Position::new(0, 0)
-	)
+	spanned_token!(Token::Real(1.2e6), 0..5, Position::new(0, 0))
 );
 
 tokenizer_test!(
 	all,
 	real_number_exponent_pos,
 	"1e+6",
-	spanned_token!(
-		Token::Real {
-			value:    1e6,
-			exponent: Some("e+6".as_bytes().into()),
-		},
-		0..4,
-		Position::new(0, 0)
-	)
+	spanned_token!(Token::Real(1e6), 0..4, Position::new(0, 0))
 );
 
 tokenizer_test!(
 	all,
 	real_number_exponent_neg,
 	"1e-6",
-	spanned_token!(
-		Token::Real {
-			value:    1e-6,
-			exponent: Some("e-6".as_bytes().into()),
-		},
-		0..4,
-		Position::new(0, 0)
-	)
+	spanned_token!(Token::Real(1e-6), 0..4, Position::new(0, 0))
 );
 
 tokenizer_test!(

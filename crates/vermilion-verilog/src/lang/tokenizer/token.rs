@@ -29,10 +29,7 @@ pub enum Token {
 	Newline(AtomicByteTendril),
 	Number(AtomicByteTendril),
 	Operator(Operator),
-	Real {
-		value:    f64,
-		exponent: Option<AtomicByteTendril>,
-	},
+	Real(f64),
 	SingleQuotedString(SingleQuotedString),
 	SystemFunc(SystemFunc),
 	TextMacro(TextMacro),
@@ -64,9 +61,7 @@ impl Display for Token {
 				str::from_utf8_unchecked(tendril)
 			}),
 			Self::Operator(operator) => operator.fmt(f),
-			Self::Real { value, exponent } => {
-				write!(f, "RealNumber(value: {}, exp: {:?})", value, exponent)
-			},
+			Self::Real(value) => write!(f, "Real({})", value),
 			Self::SingleQuotedString(string) => string.fmt(f),
 			Self::SystemFunc(sysfunc) => sysfunc.fmt(f),
 			Self::TextMacro(text_macro) => text_macro.fmt(f),
