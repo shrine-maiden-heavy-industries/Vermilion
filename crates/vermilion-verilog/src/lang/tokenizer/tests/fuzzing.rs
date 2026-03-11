@@ -167,4 +167,4 @@ macro_rules! tokenizer_fuzz {
 	};
 }
 
-tokenizer_fuzz!(all, misc, "\\PC*");
+tokenizer_fuzz!(all, misc, r"[\PC\pC]*");
