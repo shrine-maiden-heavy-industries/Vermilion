@@ -131,5 +131,7 @@ impl Display for Code {
 
 #[cfg(test)]
 mod tests {
-	// use super::*;
+	// TODO(aki): Write tests
+	#[allow(unused, reason = "Currently unused")]
+	use super::*;
 }

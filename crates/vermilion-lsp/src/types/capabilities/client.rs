@@ -4421,5 +4421,7 @@ impl SemanticTokensClientCapabilities {
 
 #[cfg(test)]
 mod tests {
-	// use super::*;
+	// TODO(aki): Write tests
+	#[allow(unused, reason = "Currently unused")]
+	use super::*;
 }

@@ -319,3 +319,10 @@ impl SemanticTokensEdit {
 		self.data.as_ref()
 	}
 }
+
+#[cfg(test)]
+mod tests {
+	// TODO(aki): Write tests
+	#[allow(unused, reason = "Currently unused")]
+	use super::*;
+}
