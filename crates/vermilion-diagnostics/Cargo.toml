@@ -16,6 +16,7 @@ vermilion-loc  = { workspace = true }
 
 ariadne        = { workspace = true }
 crossterm      = { workspace = true, optional = true }
+phf            = { workspace = true }
 pulldown-cmark = { workspace = true, optional = true }
 ratatui        = { workspace = true, optional = true }
 schemars       = { workspace = true, optional = true }
