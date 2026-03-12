@@ -15,8 +15,6 @@ use crate::{
 	},
 };
 
-pub mod error;
-
 pub struct VerilogParser {
 	_std:          LanguageStd,
 	tokenizer:     VerilogTokenizer,
