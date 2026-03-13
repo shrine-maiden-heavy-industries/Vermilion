@@ -11,7 +11,7 @@ use vermilion_loc::{Position, Spanned};
 use crate::{
 	LanguageStd,
 	lang::{
-		directives, keywords,
+		directives, keywords, text_macros,
 		tokenizer::token::Token,
 		types::{
 			BaseSpecifier, BasedLiteralSpecifier, Comment, CompilerDirective, Control, Identifier,
@@ -1161,15 +1161,10 @@ impl VerilogTokenizer {
 			} else {
 				spanned_token!(
 					Token::CompilerDirective(CompilerDirective::TextMacro(
-						if (crate::LanguageStd::SYSTEM_VERILOG_STDS & !crate::LanguageStd::Sv05 |
-							crate::LanguageStd::Vams23)
-							.contains(self.standard)
+						if let Some(text_macro) =
+							text_macros::get_builtin_text_macro(ident, self.standard)
 						{
-							match ident {
-								"__FILE__" => TextMacro::DunderFile,
-								"__LINE__" => TextMacro::DunderLine,
-								_ => TextMacro::Other(self.tokenizer.subtendril(ident_range)),
-							}
+							TextMacro::Builtin(text_macro)
 						} else {
 							TextMacro::Other(self.tokenizer.subtendril(ident_range))
 						}

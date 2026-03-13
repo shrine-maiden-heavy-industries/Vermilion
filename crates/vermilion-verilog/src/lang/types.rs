@@ -4,7 +4,9 @@ use std::fmt::Display;
 
 use vermilion_lang::AtomicByteTendril;
 
-use crate::lang::{directives::BuiltinDirective, sysfuncs::BuiltinSysFunc};
+use crate::lang::{
+	directives::BuiltinDirective, sysfuncs::BuiltinSysFunc, text_macros::BuiltinTextMacro,
+};
 
 #[derive(Clone, Copy, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
 pub enum NetType {
@@ -212,8 +214,7 @@ pub enum SystemFunc {
 
 #[derive(Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
 pub enum TextMacro {
-	DunderFile, // Added: Verilog-AMS 2023 & IEEE 1800-2009
-	DunderLine, // Added: Verilog-AMS 2023 & IEEE 1800-2009
+	Builtin(BuiltinTextMacro),
 	Other(AtomicByteTendril),
 }
 
@@ -444,15 +445,12 @@ impl Display for SystemFunc {
 #[cfg_attr(coverage_nightly, coverage(off))]
 impl Display for TextMacro {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-		write!(
-			f,
-			"TextMacro({})",
-			match self {
-				Self::DunderFile => "__FILE__", // Added: Verilog-AMS 2023 & IEEE 1800-2009
-				Self::DunderLine => "__LINE__", // Added: Verilog-AMS 2023 & IEEE 1800-2009
-				Self::Other(tendril) => unsafe { str::from_utf8_unchecked(tendril) },
-			}
-		)
+		match self {
+			Self::Builtin(builtin) => write!(f, "TextMacro({})", builtin),
+			Self::Other(tendril) => write!(f, "TextMacro(Other({}))", unsafe {
+				str::from_utf8_unchecked(tendril)
+			}),
+		}
 	}
 }
 

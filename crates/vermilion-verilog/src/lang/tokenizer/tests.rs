@@ -6,6 +6,7 @@ use crate::{
 	lang::{
 		directives::BuiltinDirective,
 		keywords::Keyword,
+		text_macros::BuiltinTextMacro,
 		tokenizer::*,
 		types::{BaseSpecifier, TextMacro},
 	},

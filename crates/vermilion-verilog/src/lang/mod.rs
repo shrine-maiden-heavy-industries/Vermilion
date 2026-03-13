@@ -5,6 +5,7 @@ pub mod directives;
 pub mod keywords;
 pub mod parser;
 pub mod sysfuncs;
+pub mod text_macros;
 pub mod tokenizer;
 pub mod types;
 

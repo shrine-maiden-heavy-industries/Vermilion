@@ -5,7 +5,9 @@ tokenizer_test!(
 	line_text_macro,
 	"`__LINE__",
 	spanned_token!(
-		Token::CompilerDirective(CompilerDirective::TextMacro(TextMacro::DunderLine)),
+		Token::CompilerDirective(CompilerDirective::TextMacro(TextMacro::Builtin(
+			BuiltinTextMacro::DunderLine
+		))),
 		0..9,
 		Position::new(0, 0)
 	)
@@ -16,7 +18,9 @@ tokenizer_test!(
 	file_text_macro,
 	"`__FILE__",
 	spanned_token!(
-		Token::CompilerDirective(CompilerDirective::TextMacro(TextMacro::DunderFile)),
+		Token::CompilerDirective(CompilerDirective::TextMacro(TextMacro::Builtin(
+			BuiltinTextMacro::DunderLine
+		))),
 		0..9,
 		Position::new(0, 0)
 	)
