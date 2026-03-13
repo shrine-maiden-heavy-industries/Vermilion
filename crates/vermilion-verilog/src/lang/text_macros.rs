@@ -40,24 +40,18 @@ pub static VERILOG_05_BUILTIN_TEXT_MACRO_MAP: phf::Map<&'static str, BuiltinText
 pub static VERILOG_05_BUILTIN_TEXT_MACRO_SET: phf::Set<&'static str> = phf_set! {};
 
 /// IEEE 1800-2005 (SystemVerilog 2005) Builtin Text Macro to [`BuiltinTextMacro`] token map
-pub static SYSTEM_VERILOG_05_BUILTIN_TEXT_MACRO_MAP: phf::Map<&'static str, BuiltinTextMacro> = phf_map! {
-	"__FILE__" => BuiltinTextMacro::DunderFile,
-	"__LINE__" => BuiltinTextMacro::DunderLine,
-};
+pub static SYSTEM_VERILOG_05_BUILTIN_TEXT_MACRO_MAP: phf::Map<&'static str, BuiltinTextMacro> =
+	phf_map! {};
 
 /// IEEE 1800-2005 (SystemVerilog 2005) Builtin text macro set
-pub static SYSTEM_VERILOG_05_BUILTIN_TEXT_MACRO_SET: phf::Set<&'static str> = phf_set! {
-	"__FILE__", "__LINE__"
-};
+pub static SYSTEM_VERILOG_05_BUILTIN_TEXT_MACRO_SET: phf::Set<&'static str> = phf_set! {};
 
-// NOTE(aki): Identical to `SYSTEM_VERILOG_09_BUILTIN_TEXT_MACRO_MAP`
 /// IEEE 1800-2009 (SystemVerilog 2009) Builtin Text Macro to [`BuiltinTextMacro`] token map
 pub static SYSTEM_VERILOG_09_BUILTIN_TEXT_MACRO_MAP: phf::Map<&'static str, BuiltinTextMacro> = phf_map! {
 	"__FILE__" => BuiltinTextMacro::DunderFile,
 	"__LINE__" => BuiltinTextMacro::DunderLine,
 };
 
-// NOTE(aki): Identical to `SYSTEM_VERILOG_05_BUILTIN_TEXT_MACRO_SET`
 /// IEEE 1800-2009 (SystemVerilog 2009) Builtin text macro set
 pub static SYSTEM_VERILOG_09_BUILTIN_TEXT_MACRO_SET: phf::Set<&'static str> = phf_set! {
 	"__FILE__", "__LINE__"
@@ -70,7 +64,7 @@ pub static SYSTEM_VERILOG_12_BUILTIN_TEXT_MACRO_MAP: phf::Map<&'static str, Buil
 	"__LINE__" => BuiltinTextMacro::DunderLine,
 };
 
-// NOTE(aki): Identical to `SYSTEM_VERILOG_05_BUILTIN_TEXT_MACRO_SET`
+// NOTE(aki): Identical to `SYSTEM_VERILOG_09_BUILTIN_TEXT_MACRO_SET`
 /// IEEE 1800-2012 (SystemVerilog 2012) Builtin text macro set
 pub static SYSTEM_VERILOG_12_BUILTIN_TEXT_MACRO_SET: phf::Set<&'static str> = phf_set! {
 	"__FILE__", "__LINE__"
@@ -83,7 +77,7 @@ pub static SYSTEM_VERILOG_17_BUILTIN_TEXT_MACRO_MAP: phf::Map<&'static str, Buil
 	"__LINE__" => BuiltinTextMacro::DunderLine,
 };
 
-// NOTE(aki): Identical to `SYSTEM_VERILOG_05_BUILTIN_TEXT_MACRO_SET`
+// NOTE(aki): Identical to `SYSTEM_VERILOG_09_BUILTIN_TEXT_MACRO_SET`
 /// IEEE 1800-2017 (SystemVerilog 2017) Builtin text macro set
 pub static SYSTEM_VERILOG_17_BUILTIN_TEXT_MACRO_SET: phf::Set<&'static str> = phf_set! {
 	"__FILE__", "__LINE__"
@@ -96,7 +90,7 @@ pub static SYSTEM_VERILOG_23_BUILTIN_TEXT_MACRO_MAP: phf::Map<&'static str, Buil
 	"__LINE__" => BuiltinTextMacro::DunderLine,
 };
 
-// NOTE(aki): Identical to `SYSTEM_VERILOG_05_BUILTIN_TEXT_MACRO_SET`
+// NOTE(aki): Identical to `SYSTEM_VERILOG_09_BUILTIN_TEXT_MACRO_SET`
 /// IEEE 1800-2023 (SystemVerilog 2023) Builtin text macro set
 pub static SYSTEM_VERILOG_23_BUILTIN_TEXT_MACRO_SET: phf::Set<&'static str> = phf_set! {
 	"__FILE__", "__LINE__"
