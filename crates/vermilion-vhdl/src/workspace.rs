@@ -51,6 +51,7 @@ impl Default for VhdlAmsConfig {
 }
 
 #[cfg(feature = "schema")]
+#[cfg_attr(coverage_nightly, coverage(off))]
 impl schemars::JsonSchema for VhdlConfig {
 	fn schema_name() -> std::borrow::Cow<'static, str> {
 		"VhdlConfig".into()
@@ -92,6 +93,7 @@ impl schemars::JsonSchema for VhdlConfig {
 }
 
 #[cfg(feature = "schema")]
+#[cfg_attr(coverage_nightly, coverage(off))]
 impl schemars::JsonSchema for VhdlAmsConfig {
 	fn schema_name() -> std::borrow::Cow<'static, str> {
 		"VhdlAmsConfig".into()
