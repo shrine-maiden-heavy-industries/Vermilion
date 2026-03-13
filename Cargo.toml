@@ -2,7 +2,8 @@
 [workspace]
 resolver = '3'
 members  = [
-	"crates/*"
+	"crates/*",
+  "fuzzing",
 ]
 
 [workspace.package]
@@ -30,6 +31,7 @@ vermilion-vhdl        = { path = "crates/vermilion-vhdl"        }
 vermilion-xact        = { path = "crates/vermilion-xact"        }
 
 # External Deps
+afl                = { version = "0.17" }
 ariadne            = { version = "0.6", features = ["auto-color"] }
 bitmask-enum       = { version = "2.2.5" }
 chrono             = { version = "0.4.42", features = [ "serde" ] }

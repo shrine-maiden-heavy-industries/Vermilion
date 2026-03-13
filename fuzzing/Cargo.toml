@@ -1,0 +1,22 @@
+[package]
+name = "vermilion-fuzz-afl"
+version = "0.0.0"
+publish = false
+edition = "2024"
+
+[dependencies]
+afl                   = { workspace = true }
+
+vermilion-constraints = { workspace = true }
+vermilion-lang        = { workspace = true }
+vermilion-liberty     = { workspace = true }
+vermilion-verilog     = { workspace = true }
+vermilion-vhdl        = { workspace = true }
+vermilion-xact        = { workspace = true }
+
+[[bin]]
+name = "fuzz_verilog_tokenizer"
+path = "targets/verilog_tokenizer.rs"
+test = false
+doc = false
+bench = false
