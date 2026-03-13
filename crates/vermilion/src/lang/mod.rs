@@ -13,7 +13,7 @@ use vermilion_vhdl::{LanguageStd as VhdlStd, lang::parser::VhdlParser};
 pub(crate) mod verilog;
 pub(crate) mod vhdl;
 
-#[derive(Debug, Clone, Copy, PartialEq, PartialOrd, Eq, Ord)]
+#[derive(Clone, Copy, Debug, Eq, Ord, PartialEq, PartialOrd)]
 pub(crate) enum Language {
 	Verilog(VerilogStd),
 	Vhdl(VhdlStd),

@@ -18,14 +18,14 @@ macro_rules! spanned {
 	};
 }
 
-#[derive(Copy, Clone, Default, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[derive(Clone, Copy, Default, Eq, Hash, Ord, PartialEq, PartialOrd)]
 pub struct Span<T = usize, C = ()> {
 	begin:   T,
 	end:     T,
 	context: C,
 }
 
-#[derive(Copy, Clone)]
+#[derive(Clone, Copy)]
 pub struct Spanned<T, C> {
 	inner: T,
 	span:  Option<Span<usize, C>>,

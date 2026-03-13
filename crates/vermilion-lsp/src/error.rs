@@ -15,8 +15,8 @@ use crate::{
 	Ord,
 	PartialEq,
 	PartialOrd,
-	serde_repr::Serialize_repr,
 	serde_repr::Deserialize_repr,
+	serde_repr::Serialize_repr,
 )]
 #[repr(i32)]
 pub enum Code {

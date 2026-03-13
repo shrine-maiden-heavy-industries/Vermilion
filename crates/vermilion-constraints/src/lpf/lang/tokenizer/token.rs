@@ -4,7 +4,7 @@ use std::fmt::Display;
 
 use vermilion_lang::AtomicByteTendril;
 
-#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Clone, Debug, Eq, Ord, PartialEq, PartialOrd)]
 pub enum Token {
 	Invalid(Option<AtomicByteTendril>),
 	Newline(AtomicByteTendril),

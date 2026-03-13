@@ -6,7 +6,7 @@ use phf::{phf_map, phf_set};
 
 use crate::LanguageStd;
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Clone, Copy, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
 pub enum BuiltinSysFunc {
 	Acos,               // Added: IEEE 1364-2005
 	Acosh,              // Added: IEEE 1364-2005

@@ -4,7 +4,7 @@ use std::fmt::{Debug, Display};
 
 /// The creature-readable contextual position
 /// within a document
-#[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[derive(Clone, Copy, Eq, Hash, Ord, PartialEq, PartialOrd)]
 pub struct Position {
 	line:      u64,
 	character: u64,

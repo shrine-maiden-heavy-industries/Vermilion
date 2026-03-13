@@ -15,7 +15,7 @@ use crate::{
 	},
 };
 
-#[derive(Debug, Clone, PartialEq, PartialOrd)]
+#[derive(Clone, Debug, PartialEq, PartialOrd)]
 pub enum Token {
 	BasedLiteralSpecifier(BasedLiteralSpecifier),
 	Comment(Comment),

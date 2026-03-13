@@ -74,7 +74,7 @@ pub enum TimeUnit {
 	Femtoseconds,
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Clone, Copy, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
 pub enum BaseSpecifier {
 	Binary,
 	Decimal,
@@ -82,27 +82,27 @@ pub enum BaseSpecifier {
 	Octal,
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Clone, Copy, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
 pub struct BasedLiteralSpecifier {
 	specifier: BaseSpecifier,
 	uppercase: bool,
 	signed:    bool,
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
 pub enum Comment {
 	Invalid(AtomicByteTendril),
 	MultiLine(AtomicByteTendril),
 	SingleLine(AtomicByteTendril),
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
 pub enum CompilerDirective {
 	Arg(AtomicByteTendril),
 	Name(BuiltinDirective),
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Clone, Copy, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
 pub enum Control {
 	Apostrophe, // Added: IEEE 1800-2005
 	At,
@@ -125,13 +125,13 @@ pub enum Control {
 	Semicolon,
 }
 
-#[derive(Debug, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
 pub enum Identifier {
 	Simple(AtomicByteTendril),
 	Escaped(AtomicByteTendril),
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Clone, Copy, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
 pub enum Operator {
 	AbsTolerance, // Added: IEEE 1800-2023
 	AddEquals,    // Added: IEEE 1800-2005
@@ -201,23 +201,23 @@ pub enum Operator {
 	XorEquals,        // Added: IEEE 1800-2005
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
 pub struct SingleQuotedString(AtomicByteTendril);
 
-#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
 pub enum SystemFunc {
 	Builtin(BuiltinSysFunc),
 	Other(AtomicByteTendril),
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
 pub enum TextMacro {
 	DunderFile, // Added: Verilog-AMS 2023 & IEEE 1800-2009
 	DunderLine, // Added: Verilog-AMS 2023 & IEEE 1800-2009
 	Other(AtomicByteTendril),
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
 pub struct TripleQuotedString(AtomicByteTendril); // Added: IEEE 1800-2023
 
 impl BasedLiteralSpecifier {

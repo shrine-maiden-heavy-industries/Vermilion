@@ -14,7 +14,7 @@ use vermilion_xact::workspace::XactConfig;
 
 use crate::paths;
 
-#[derive(Clone, Debug, Default, Serialize, Deserialize, JsonSchema)]
+#[derive(Clone, Debug, Default, Deserialize, JsonSchema, Serialize)]
 #[serde(deny_unknown_fields)]
 pub struct WorkspaceConfig {
 	verilog:        Option<VerilogConfig>,

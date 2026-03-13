@@ -9,7 +9,7 @@ use vermilion_loc::{position::Position, span::Span};
 
 pub mod workspace;
 
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Clone, Debug, Eq, Ord, PartialEq, PartialOrd)]
 pub struct Diagnostic {
 	span:    Option<Span<usize, Position>>,
 	message: String,

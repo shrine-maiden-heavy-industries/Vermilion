@@ -6,7 +6,7 @@ use phf::{phf_map, phf_set};
 
 use crate::LanguageStd;
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Clone, Copy, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
 pub enum Keyword {
 	Above,      // Added: Verilog-AMS 2009
 	Abs,        // Added: Verilog-AMS 2009

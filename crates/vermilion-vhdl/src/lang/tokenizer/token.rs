@@ -6,7 +6,7 @@ use vermilion_lang::AtomicByteTendril;
 
 use crate::LanguageStd;
 
-#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
 pub enum Token {
 	Comment(Comment),
 	/// Hold the VHDL variant for when this token would become valid
@@ -22,17 +22,17 @@ pub enum Token {
 	Whitespace(AtomicByteTendril),
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
 pub enum Comment {
 	Invalid(AtomicByteTendril),
 	MultiLine(AtomicByteTendril),
 	SingleLine(AtomicByteTendril),
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
 pub enum Control {}
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Clone, Copy, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
 pub enum Keyword {
 	Abs,
 	Access,
@@ -167,7 +167,7 @@ pub enum Keyword {
 	Xor,
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
 pub enum Operator {}
 
 impl Display for Token {

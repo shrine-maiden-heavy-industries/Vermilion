@@ -6,7 +6,7 @@ use vermilion_lang::AtomicByteTendril;
 
 use crate::LanguageStd;
 
-#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Clone, Debug, Eq, Ord, PartialEq, PartialOrd)]
 pub enum Token {
 	/// Hold the SDC/XDC variant for when this token would become valid
 	ContextuallyInvalid(AtomicByteTendril, LanguageStd),
