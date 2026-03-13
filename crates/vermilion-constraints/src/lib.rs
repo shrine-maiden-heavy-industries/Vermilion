@@ -53,6 +53,7 @@ impl LanguageStd {
 	}
 }
 
+#[cfg_attr(coverage_nightly, coverage(off))]
 impl Display for LanguageStd {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
 		if self.contains(Self::Lpf) {
