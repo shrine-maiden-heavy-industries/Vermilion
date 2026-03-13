@@ -109,6 +109,7 @@ impl VerilogTokenizer {
 			b'+' => self.read_plus_token(),
 			b'-' => self.read_minus_token(),
 			b'/' => self.read_solidus_token(),
+			b'\\' => self.read_reverse_solidus_token(),
 			b'`' => self.read_grave_token(),
 			b'"' => self.read_quote_token(),
 			b'\'' => self.read_apostrophe_token(),
@@ -136,15 +137,6 @@ impl VerilogTokenizer {
 			};
 			// Turn the result into the final token to return
 			self.token = spanned_token!(token, range, context);
-		} else if self.tokenizer.current_byte() == b'\\' {
-			let range = self.read_escaped_ident();
-			self.token = spanned_token!(
-				Token::Identifier(Identifier::Escaped(
-					self.tokenizer.subtendril(range.clone())
-				)),
-				range,
-				context
-			);
 		} else if self.tokenizer.current_byte().is_ascii_digit() {
 			self.read_number_token(false);
 		} else {
@@ -1025,6 +1017,39 @@ impl VerilogTokenizer {
 		}
 	}
 
+	fn read_reverse_solidus_token(&mut self) {
+		let context = self.tokenizer.position();
+		let begin = self.tokenizer.offset();
+		self.tokenizer.next_char(); // Consume the `\`
+
+		if self.current_is_newline() {
+			// XXX(aki):
+			// Should this be an `EscapedNewline` token instead? All instances of `\`'s
+			// followed by a newline are considered "escaped newlines", at least in the
+			// context of `define compiler directives
+			self.token = spanned_token!(
+				Token::Control(Control::ReverseSolidus),
+				begin..self.tokenizer.offset(),
+				context
+			);
+		} else {
+			// Scan through till we get something that's not ASCII printable
+			while self.is_ascii_printable() {
+				self.tokenizer.next_char();
+			}
+
+			self.token = spanned_token!(
+				Token::Identifier(Identifier::Escaped(
+					// The leading `\` is not considered part of the identifier
+					self.tokenizer
+						.subtendril((begin + 1)..self.tokenizer.offset())
+				)),
+				begin..self.tokenizer.offset(),
+				context
+			);
+		}
+	}
+
 	fn read_multiline_comment(&mut self, context: Position, begin: usize) {
 		let mut invalid_comment = false;
 
@@ -1584,17 +1609,6 @@ impl VerilogTokenizer {
 			| '_'
 			| '`'
 			| '\\')
-	}
-
-	#[inline(always)]
-	fn read_escaped_ident(&mut self) -> Range<usize> {
-		let begin = self.tokenizer.offset();
-		// Scan through till we get something that's not ASCII printable
-		while self.is_ascii_printable() {
-			self.tokenizer.next_char();
-		}
-		// Return the range consumed
-		begin..self.tokenizer.offset()
 	}
 }
 

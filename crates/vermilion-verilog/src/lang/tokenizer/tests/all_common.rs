@@ -1479,10 +1479,10 @@ tokenizer_test!(
 
 tokenizer_test!(
 	all,
-	extended_ident,
+	escaped_ident,
 	r"\meow",
 	spanned_token!(
-		Token::Identifier(Identifier::Escaped(r"\meow".as_bytes().into())),
+		Token::Identifier(Identifier::Escaped(r"meow".as_bytes().into())),
 		0..5,
 		Position::new(0, 0)
 	)
@@ -1490,10 +1490,10 @@ tokenizer_test!(
 
 tokenizer_test!(
 	all,
-	extended_ident_adv,
+	escaped_ident_adv,
 	r"\nya$owo@uwu",
 	spanned_token!(
-		Token::Identifier(Identifier::Escaped(r"\nya$owo@uwu".as_bytes().into())),
+		Token::Identifier(Identifier::Escaped(r"nya$owo@uwu".as_bytes().into())),
 		0..12,
 		Position::new(0, 0)
 	)
