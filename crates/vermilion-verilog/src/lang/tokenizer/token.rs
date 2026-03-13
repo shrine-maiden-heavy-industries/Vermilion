@@ -10,7 +10,7 @@ use crate::{
 		keywords::Keyword,
 		types::{
 			BasedLiteralSpecifier, Comment, CompilerDirective, Control, Identifier, Operator,
-			SingleQuotedString, SystemFunc, TextMacro, TripleQuotedString,
+			SingleQuotedString, SystemFunc, TripleQuotedString,
 		},
 	},
 };
@@ -32,7 +32,6 @@ pub enum Token {
 	Real(f64),
 	SingleQuotedString(SingleQuotedString),
 	SystemFunc(SystemFunc),
-	TextMacro(TextMacro),
 	TripleQuotedString(TripleQuotedString), // Added: IEEE 1800-2023
 	UnsignedNumber(AtomicByteTendril),
 	Whitespace(AtomicByteTendril),
@@ -65,7 +64,6 @@ impl Display for Token {
 			Self::Real(value) => write!(f, "Real({})", value),
 			Self::SingleQuotedString(string) => string.fmt(f),
 			Self::SystemFunc(sysfunc) => sysfunc.fmt(f),
-			Self::TextMacro(text_macro) => text_macro.fmt(f),
 			Self::TripleQuotedString(string) => string.fmt(f),
 			Self::UnsignedNumber(tendril) => write!(f, "UnsignedNumber({})", unsafe {
 				str::from_utf8_unchecked(tendril)

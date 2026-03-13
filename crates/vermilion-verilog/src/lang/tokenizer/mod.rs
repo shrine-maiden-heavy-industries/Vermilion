@@ -1148,59 +1148,14 @@ impl VerilogTokenizer {
 
 		self.token =
 			if let Some(directive) = directives::get_builtin_directive(ident, self.standard) {
-				self.token_stream.push_back(spanned_token!(
-					Token::CompilerDirective(CompilerDirective::Name(directive)),
+				spanned_token!(
+					Token::CompilerDirective(CompilerDirective::Builtin(directive)),
 					begin..self.tokenizer.offset(),
 					context
-				));
-
-				if self.current_is_whitespace() {
-					self.read_whitespace();
-					self.token_stream.push_back(self.token.clone())
-				}
-
-				// Consume arguments up until we get to a newline
-				while !matches!(self.tokenizer.current_byte(), b'\r' | b'\n') &&
-					!self.tokenizer.is_eof()
-				{
-					self.read_invalid();
-
-					// Deal with  whitespace
-					if self.current_is_whitespace() {
-						self.read_whitespace();
-						self.token_stream.push_back(self.token.clone())
-					}
-
-					let begin = self.tokenizer.offset();
-					let context = self.tokenizer.position();
-
-					// Consume argument
-					while self.is_ascii_printable() && !self.tokenizer.is_eof() {
-						self.tokenizer.next_char();
-					}
-
-					let token_range = begin..self.tokenizer.offset();
-					self.token_stream.push_back(spanned_token!(
-						Token::CompilerDirective(CompilerDirective::Arg(
-							self.tokenizer.subtendril(token_range.clone())
-						)),
-						token_range,
-						context
-					));
-				}
-
-				#[allow(
-					clippy::expect_used,
-					reason = "VecDeque is guaranteed to have at least one element in it here"
-				)]
-				let token = self
-					.token_stream
-					.pop_front()
-					.expect("Unable to pop token from token stream");
-				token
+				)
 			} else {
 				spanned_token!(
-					Token::TextMacro(
+					Token::CompilerDirective(CompilerDirective::TextMacro(
 						if (crate::LanguageStd::SYSTEM_VERILOG_STDS & !crate::LanguageStd::Sv05 |
 							crate::LanguageStd::Vams23)
 							.contains(self.standard)
@@ -1213,7 +1168,7 @@ impl VerilogTokenizer {
 						} else {
 							TextMacro::Other(self.tokenizer.subtendril(ident_range))
 						}
-					),
+					)),
 					begin..self.tokenizer.offset(),
 					context
 				)

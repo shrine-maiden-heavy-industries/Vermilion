@@ -98,8 +98,8 @@ pub enum Comment {
 
 #[derive(Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
 pub enum CompilerDirective {
-	Arg(AtomicByteTendril),
-	Name(BuiltinDirective),
+	Builtin(BuiltinDirective),
+	TextMacro(TextMacro),
 }
 
 #[derive(Clone, Copy, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
@@ -286,10 +286,8 @@ impl Display for Comment {
 impl Display for CompilerDirective {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
 		match self {
-			Self::Arg(tendril) => write!(f, "CompilerDirectiveArg({})", unsafe {
-				str::from_utf8_unchecked(tendril)
-			}),
-			Self::Name(directive) => write!(f, "CompilerDirectiveName({})", directive),
+			Self::TextMacro(text_macro) => write!(f, "CompilerDirective({})", text_macro),
+			Self::Builtin(directive) => write!(f, "CompilerDirective({})", directive),
 		}
 	}
 }
