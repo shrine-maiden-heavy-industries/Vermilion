@@ -22,7 +22,3 @@ macro_rules! spanned_token {
 		vermilion_loc::spanned!($token, $span_range, $context)
 	};
 }
-
-pub trait LanguageMetadata {
-	fn file_extensions<'a, 'b: 'a>() -> &'a [&'b str];
-}
