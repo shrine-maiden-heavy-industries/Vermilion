@@ -238,6 +238,7 @@ impl TripleQuotedString {
 	}
 }
 
+#[cfg_attr(coverage_nightly, coverage(off))]
 impl Display for BaseSpecifier {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
 		write!(
@@ -253,6 +254,7 @@ impl Display for BaseSpecifier {
 	}
 }
 
+#[cfg_attr(coverage_nightly, coverage(off))]
 impl Display for BasedLiteralSpecifier {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
 		write!(
@@ -263,6 +265,7 @@ impl Display for BasedLiteralSpecifier {
 	}
 }
 
+#[cfg_attr(coverage_nightly, coverage(off))]
 impl Display for Comment {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
 		match self {
@@ -279,6 +282,7 @@ impl Display for Comment {
 	}
 }
 
+#[cfg_attr(coverage_nightly, coverage(off))]
 impl Display for CompilerDirective {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
 		match self {
@@ -290,6 +294,7 @@ impl Display for CompilerDirective {
 	}
 }
 
+#[cfg_attr(coverage_nightly, coverage(off))]
 impl Display for Control {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
 		write!(
@@ -320,6 +325,7 @@ impl Display for Control {
 	}
 }
 
+#[cfg_attr(coverage_nightly, coverage(off))]
 impl Display for Identifier {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
 		match self {
@@ -333,6 +339,7 @@ impl Display for Identifier {
 	}
 }
 
+#[cfg_attr(coverage_nightly, coverage(off))]
 impl Display for Operator {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
 		write!(
@@ -415,6 +422,7 @@ impl Display for Operator {
 	}
 }
 
+#[cfg_attr(coverage_nightly, coverage(off))]
 impl Display for SingleQuotedString {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
 		write!(f, "SingleQuotedString(\"{}\")", unsafe {
@@ -423,6 +431,7 @@ impl Display for SingleQuotedString {
 	}
 }
 
+#[cfg_attr(coverage_nightly, coverage(off))]
 impl Display for SystemFunc {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
 		match self {
@@ -434,6 +443,7 @@ impl Display for SystemFunc {
 	}
 }
 
+#[cfg_attr(coverage_nightly, coverage(off))]
 impl Display for TextMacro {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
 		write!(
@@ -448,6 +458,7 @@ impl Display for TextMacro {
 	}
 }
 
+#[cfg_attr(coverage_nightly, coverage(off))]
 impl Display for TripleQuotedString {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
 		write!(f, "TripleQuotedString(\"{}\")", unsafe {
