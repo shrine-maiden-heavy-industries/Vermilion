@@ -148,6 +148,36 @@ impl serde::Serialize for LanguageStd {
 	}
 }
 
+#[cfg(feature = "schema")]
+#[cfg_attr(coverage_nightly, coverage(off))]
+impl schemars::JsonSchema for LanguageStd {
+	fn schema_name() -> std::borrow::Cow<'static, str> {
+		"LibertyStd".into()
+	}
+
+	fn schema_id() -> std::borrow::Cow<'static, str> {
+		concat!(module_path!(), "::LibertyStd").into()
+	}
+
+	fn json_schema(_generator: &mut schemars::SchemaGenerator) -> schemars::Schema {
+		schemars::json_schema!({
+			"description": "Synopsys Liberty Version",
+			"type": "string",
+			"enum": [
+				"2014.09",
+				"2015.12",
+				"2016.06",
+				"2016.12",
+				"2017.06",
+				"2018.06",
+				"2019.03",
+				"2019.12",
+				"2020.09",
+			]
+		})
+	}
+}
+
 #[cfg(test)]
 mod test {
 	#[cfg(feature = "serde")]
