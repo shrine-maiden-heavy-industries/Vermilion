@@ -821,6 +821,7 @@ pub fn is_builtin_directive(ident: &str) -> LanguageStd {
 	supported
 }
 
+#[cfg_attr(coverage_nightly, coverage(off))]
 impl Display for BuiltinDirective {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
 		write!(
