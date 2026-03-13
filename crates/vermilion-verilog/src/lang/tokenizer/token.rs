@@ -68,8 +68,10 @@ impl Display for Token {
 			Self::UnsignedNumber(tendril) => write!(f, "UnsignedNumber({})", unsafe {
 				str::from_utf8_unchecked(tendril)
 			}),
-			Self::Whitespace(tendril) => write!(f, "Whitespace({})", unsafe {
+			Self::Whitespace(tendril) => write!(f, "Whitespace(\"{}\")", unsafe {
 				str::from_utf8_unchecked(tendril)
+					.escape_default()
+					.collect::<String>()
 			}),
 		}
 	}
