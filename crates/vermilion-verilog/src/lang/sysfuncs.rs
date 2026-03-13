@@ -3150,6 +3150,7 @@ pub fn is_builtin_sysfunc(ident: &str) -> LanguageStd {
 	supported
 }
 
+#[cfg_attr(coverage_nightly, coverage(off))]
 impl Display for BuiltinSysFunc {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
 		write!(
