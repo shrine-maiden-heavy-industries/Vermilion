@@ -1607,6 +1607,12 @@ impl VerilogTokenizer {
 	}
 }
 
+impl From<VerilogTokenizer> for Vec<Spanned<Token, Position>> {
+	fn from(value: VerilogTokenizer) -> Self {
+		value.collect::<Self>()
+	}
+}
+
 impl Iterator for VerilogTokenizer {
 	type Item = Spanned<Token, Position>;
 
