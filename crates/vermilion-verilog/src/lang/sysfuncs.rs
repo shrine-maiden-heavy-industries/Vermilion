@@ -3408,7 +3408,214 @@ impl Display for BuiltinSysFunc {
 
 #[cfg(test)]
 mod test {
-	// TODO(aki): Write tests
-	#[allow(unused, reason = "Currently unused")]
 	use super::*;
+
+	#[test]
+	fn test_sysfunc_verilog_95() {
+		// If it's an unknown system func we shouldn't get anything back
+		assert!(!is_verilog_95_builtin_sysfunc("nya"));
+		assert_eq!(is_builtin_sysfunc("nya"), LanguageStd::none());
+
+		// A system function/task that is at least in the current version
+		assert!(is_verilog_95_builtin_sysfunc("async$and$array"));
+		assert!(is_builtin_sysfunc("async$and$array").contains(LanguageStd::Vl95));
+
+		// A system function/task that is at one version up
+		assert!(!is_verilog_95_builtin_sysfunc("dumpports"));
+		assert!(is_builtin_sysfunc("dumpports").contains(LanguageStd::Vl01));
+
+		// Two versions up
+		assert!(!is_verilog_95_builtin_sysfunc("acos"));
+		assert!(is_builtin_sysfunc("acos").contains(LanguageStd::Vl05));
+
+		// Three versions up
+		assert!(!is_verilog_95_builtin_sysfunc("assertkill"));
+		assert!(is_builtin_sysfunc("assertkill").contains(LanguageStd::Sv05));
+
+		// Four versions up
+		assert!(!is_verilog_95_builtin_sysfunc("assertfailoff"));
+		assert!(is_builtin_sysfunc("assertfailoff").contains(LanguageStd::Sv09));
+
+		// Five versions up
+		assert!(!is_verilog_95_builtin_sysfunc("assertcontrol"));
+		assert!(is_builtin_sysfunc("assertcontrol").contains(LanguageStd::Sv12));
+
+		// SystemVerilog 2012, 2017, and 2023 all have the same system functions
+	}
+
+	#[test]
+	fn test_sysfunc_verilog_01() {
+		// If it's an unknown system func we shouldn't get anything back
+		assert!(!is_verilog_01_builtin_sysfunc("meow"));
+		assert_eq!(is_builtin_sysfunc("meow"), LanguageStd::none());
+
+		// A system function/task that is at least in the current version
+		assert!(is_verilog_01_builtin_sysfunc("ferror"));
+		assert!(is_builtin_sysfunc("ferror").contains(LanguageStd::Vl01));
+
+		// A system function/task that is at one version up
+		assert!(!is_verilog_01_builtin_sysfunc("feof"));
+		assert!(is_builtin_sysfunc("feof").contains(LanguageStd::Vl05));
+
+		// Two versions up
+		assert!(!is_verilog_01_builtin_sysfunc("error"));
+		assert!(is_builtin_sysfunc("error").contains(LanguageStd::Sv05));
+
+		// Three versions up
+		assert!(!is_verilog_01_builtin_sysfunc("falling_gclk"));
+		assert!(is_builtin_sysfunc("falling_gclk").contains(LanguageStd::Sv09));
+
+		// Four versions up
+		assert!(!is_verilog_01_builtin_sysfunc("countbits"));
+		assert!(is_builtin_sysfunc("countbits").contains(LanguageStd::Sv12));
+
+		// SystemVerilog 2012, 2017, and 2023 all have the same system functions
+	}
+
+	#[test]
+	fn test_sysfunc_verilog_05() {
+		// If it's an unknown system func we shouldn't get anything back
+		assert!(!is_verilog_05_builtin_sysfunc("awoo"));
+		assert_eq!(is_builtin_sysfunc("awoo"), LanguageStd::none());
+
+		// A system function/task that is at least in the current version
+		assert!(is_verilog_05_builtin_sysfunc("ceil"));
+		assert!(is_builtin_sysfunc("ceil").contains(LanguageStd::Vl05));
+
+		// One version up
+		assert!(!is_verilog_05_builtin_sysfunc("bitstoshortreal"));
+		assert!(is_builtin_sysfunc("bitstoshortreal").contains(LanguageStd::Sv05));
+
+		// Two versions up
+		assert!(!is_verilog_05_builtin_sysfunc("changed"));
+		assert!(is_builtin_sysfunc("changed").contains(LanguageStd::Sv09));
+
+		// Three versions up
+		assert!(!is_verilog_05_builtin_sysfunc("assertcontrol"));
+		assert!(is_builtin_sysfunc("assertcontrol").contains(LanguageStd::Sv12));
+
+		// SystemVerilog 2012, 2017, and 2023 all have the same system functions
+	}
+
+	#[test]
+	fn test_sysfunc_system_verilog_05() {
+		// If it's an unknown system func we shouldn't get anything back
+		assert!(!is_system_verilog_05_builtin_sysfunc("kon"));
+		assert_eq!(is_builtin_sysfunc("kon"), LanguageStd::none());
+
+		// A system function/task that is at least in the current version
+		assert!(is_system_verilog_05_builtin_sysfunc("assertoff"));
+		assert!(is_builtin_sysfunc("assertoff").contains(LanguageStd::Sv05));
+
+		// One up
+		assert!(!is_system_verilog_05_builtin_sysfunc("assertfailon"));
+		assert!(is_builtin_sysfunc("assertfailon").contains(LanguageStd::Sv09));
+
+		// Two versions up
+		assert!(!is_system_verilog_05_builtin_sysfunc("countbits"));
+		assert!(is_builtin_sysfunc("countbits").contains(LanguageStd::Sv12));
+
+		// SystemVerilog 2012, 2017, and 2023 all have the same system functions
+	}
+
+	#[test]
+	fn test_sysfunc_system_verilog_09() {
+		// If it's an unknown system func we shouldn't get anything back
+		assert!(!is_system_verilog_09_builtin_sysfunc("wah"));
+		assert_eq!(is_builtin_sysfunc("wah"), LanguageStd::none());
+
+		// A system function/task that is at least in the current version
+		assert!(is_system_verilog_09_builtin_sysfunc("assertnonvacuouson"));
+		assert!(is_builtin_sysfunc("assertnonvacuouson").contains(LanguageStd::Sv09));
+
+		// One version up
+		assert!(!is_system_verilog_09_builtin_sysfunc("assertcontrol"));
+		assert!(is_builtin_sysfunc("assertcontrol").contains(LanguageStd::Sv12));
+
+		// SystemVerilog 2012, 2017, and 2023 all have the same system functions
+	}
+
+	#[test]
+	fn test_sysfunc_system_verilog_12() {
+		// If it's an unknown system func we shouldn't get anything back
+		assert!(!is_system_verilog_12_builtin_sysfunc("meow"));
+		assert_eq!(is_builtin_sysfunc("meow"), LanguageStd::none());
+
+		// A system function/task that is at least in the current version
+		assert!(is_system_verilog_12_builtin_sysfunc("countbits"));
+		assert!(is_builtin_sysfunc("countbits").contains(LanguageStd::Sv12));
+
+		// SystemVerilog 2012, 2017, and 2023 all have the same system functions
+	}
+
+	#[test]
+	fn test_sysfunc_system_verilog_17() {
+		// If it's an unknown system func we shouldn't get anything back
+		assert!(!is_system_verilog_17_builtin_sysfunc("nya"));
+		assert_eq!(is_builtin_sysfunc("nya"), LanguageStd::none());
+
+		// A system function/task that is at least in the current version
+		assert!(is_system_verilog_17_builtin_sysfunc("assertcontrol"));
+		assert!(is_builtin_sysfunc("assertcontrol").contains(LanguageStd::Sv17));
+
+		// SystemVerilog 2012, 2017, and 2023 all have the same system functions
+	}
+
+	#[test]
+	fn test_sysfunc_system_verilog_23() {
+		// If it's an unknown system func we shouldn't get anything back
+		assert!(!is_system_verilog_23_builtin_sysfunc("kon"));
+		assert_eq!(is_builtin_sysfunc("kon"), LanguageStd::none());
+
+		// A system function/task that is at least in the current version
+		assert!(is_system_verilog_23_builtin_sysfunc("countbits"));
+		assert!(is_builtin_sysfunc("countbits").contains(LanguageStd::Sv23));
+
+		// SystemVerilog 2012, 2017, and 2023 all have the same system functions
+	}
+
+	#[test]
+	fn test_sysfunc_verilog_ams_09() {
+		// If it's an unknown system func we shouldn't get anything back
+		assert!(!is_verilog_ams_09_builtin_sysfunc("awoo"));
+		assert_eq!(is_builtin_sysfunc("awoo"), LanguageStd::none());
+
+		// A system function/task that is at least in the current version
+		assert!(is_verilog_ams_09_builtin_sysfunc("simparam"));
+		assert!(is_builtin_sysfunc("simparam").contains(LanguageStd::Vams09));
+
+		// One version up
+		assert!(!is_verilog_ams_09_builtin_sysfunc("analog_node_alias"));
+		assert!(is_builtin_sysfunc("analog_node_alias").contains(LanguageStd::Vams14));
+
+		// Two versions up
+		assert!(!is_verilog_ams_09_builtin_sysfunc("receiver_count"));
+		assert!(is_builtin_sysfunc("receiver_count").contains(LanguageStd::Vams23));
+	}
+
+	#[test]
+	fn test_sysfunc_verilog_ams_14() {
+		// If it's an unknown system func we shouldn't get anything back
+		assert!(!is_verilog_ams_14_builtin_sysfunc("wah"));
+		assert_eq!(is_builtin_sysfunc("wah"), LanguageStd::none());
+
+		// A system function/task that is at least in the current version
+		assert!(is_verilog_ams_14_builtin_sysfunc("analog_port_alias"));
+		assert!(is_builtin_sysfunc("analog_port_alias").contains(LanguageStd::Vams14));
+
+		// One version up
+		assert!(!is_verilog_ams_14_builtin_sysfunc("receiver_count"));
+		assert!(is_builtin_sysfunc("receiver_count").contains(LanguageStd::Vams23));
+	}
+
+	#[test]
+	fn test_sysfunc_verilog_ams_23() {
+		// If it's an unknown system func we shouldn't get anything back
+		assert!(!is_verilog_ams_23_builtin_sysfunc("meow"));
+		assert_eq!(is_builtin_sysfunc("meow"), LanguageStd::none());
+
+		// A system function/task that is at least in the current version
+		assert!(is_verilog_ams_23_builtin_sysfunc("receiver_count"));
+		assert!(is_builtin_sysfunc("receiver_count").contains(LanguageStd::Vams23));
+	}
 }
