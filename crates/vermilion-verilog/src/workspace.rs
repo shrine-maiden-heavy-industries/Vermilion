@@ -73,6 +73,7 @@ impl Default for VerilogAmsConfig {
 }
 
 #[cfg(feature = "schema")]
+#[cfg_attr(coverage_nightly, coverage(off))]
 impl schemars::JsonSchema for VerilogConfig {
 	fn schema_name() -> std::borrow::Cow<'static, str> {
 		"VerilogConfig".into()
@@ -108,6 +109,7 @@ impl schemars::JsonSchema for VerilogConfig {
 }
 
 #[cfg(feature = "schema")]
+#[cfg_attr(coverage_nightly, coverage(off))]
 impl schemars::JsonSchema for SystemVerilogConfig {
 	fn schema_name() -> std::borrow::Cow<'static, str> {
 		"SystemVerilogConfig".into()
@@ -145,6 +147,7 @@ impl schemars::JsonSchema for SystemVerilogConfig {
 }
 
 #[cfg(feature = "schema")]
+#[cfg_attr(coverage_nightly, coverage(off))]
 impl schemars::JsonSchema for VerilogAmsConfig {
 	fn schema_name() -> std::borrow::Cow<'static, str> {
 		"VerilogAmsConfig".into()
