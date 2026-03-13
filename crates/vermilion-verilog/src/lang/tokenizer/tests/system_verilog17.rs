@@ -19,7 +19,7 @@ tokenizer_test!(
 	"`__FILE__",
 	spanned_token!(
 		Token::CompilerDirective(CompilerDirective::TextMacro(TextMacro::Builtin(
-			BuiltinTextMacro::DunderLine
+			BuiltinTextMacro::DunderFile
 		))),
 		0..9,
 		Position::new(0, 0)
