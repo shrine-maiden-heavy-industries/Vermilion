@@ -112,6 +112,7 @@ impl serde::Serialize for XactVersion {
 }
 
 #[cfg(feature = "schema")]
+#[cfg_attr(coverage_nightly, coverage(off))]
 impl schemars::JsonSchema for XactVersion {
 	fn schema_name() -> std::borrow::Cow<'static, str> {
 		"XactVersion".into()
