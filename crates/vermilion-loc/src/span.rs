@@ -2,7 +2,7 @@
 
 use std::{
 	fmt::{Debug, Display},
-	ops::Range,
+	ops::{Deref, DerefMut, Range},
 };
 
 #[macro_export]
@@ -106,6 +106,20 @@ impl<T, C> Spanned<T, C> {
 
 	pub fn attach_span(&mut self, span: Span<usize, C>) {
 		self.span = Some(span)
+	}
+}
+
+impl<T, C> Deref for Spanned<T, C> {
+	type Target = T;
+
+	fn deref(&self) -> &Self::Target {
+		&self.inner
+	}
+}
+
+impl<T, C> DerefMut for Spanned<T, C> {
+	fn deref_mut(&mut self) -> &mut Self::Target {
+		&mut self.inner
 	}
 }
 
