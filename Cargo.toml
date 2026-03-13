@@ -83,6 +83,7 @@ expect_used = "deny"
 [workspace.lints.rust]
 unexpected_cfgs = { level = "warn", check-cfg = [
   'cfg(fuzzing)',
+  'cfg(coverage,coverage_nightly)',
 ] }
 
 [profile.dev.package.backtrace]
