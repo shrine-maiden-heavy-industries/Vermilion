@@ -4,6 +4,8 @@
 #[allow(unused, reason = "Currently unused")]
 use paste::paste;
 
+// TODO(aki): Write tests
+#[allow(unused, reason = "Currently unused")]
 use crate::{LanguageStd, lang::parser::VerilogParser};
 
 // TODO(aki): Write tests
