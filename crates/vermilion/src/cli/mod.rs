@@ -80,8 +80,14 @@ pub(crate) fn init() -> eyre::Result<Command> {
 		.arg(
 			Arg::new("workspace")
 				.long("workspace")
-				.help("Specify a workspace configuration file")
-				.long_help("")
+				.help("Specify a workspace file")
+				.long_help(cformat!(
+					"Specify a workspace file\n\nExplicitly specify a workspace file rather than \
+					 having Vermilion search for it.\n\nVermilion searches for a file called \
+					 <cyan>vermilion.toml</> starting from the current working\ndirectory, \
+					 searching up the filesystem until it is found or a filesystem boundary\nhas \
+					 been found."
+				))
 				.action(ArgAction::Set)
 				.value_hint(ValueHint::FilePath)
 				.value_name("WORKSPACE_FILE"),
