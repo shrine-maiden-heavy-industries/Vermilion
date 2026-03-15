@@ -57,7 +57,7 @@ impl LanguageStd {
 impl Display for LanguageStd {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
 		if self.contains(Self::Lpf) {
-			f.write_str("Lattice Diamond Design Constraints")?;
+			f.write_str("Lattice Diamond Logical Preference File")?;
 		}
 
 		if self.contains(Self::Pdc) {
