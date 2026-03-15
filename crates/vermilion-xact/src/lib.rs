@@ -7,6 +7,7 @@
 
 use std::fmt::Display;
 
+pub mod config;
 pub mod schemas;
 pub mod workspace;
 

@@ -7,6 +7,7 @@
 
 use vermilion_loc::{position::Position, span::Span};
 
+pub mod config;
 pub mod workspace;
 
 #[derive(Clone, Debug, Eq, Ord, PartialEq, PartialOrd)]

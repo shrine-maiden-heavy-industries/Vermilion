@@ -30,6 +30,7 @@ use tracing_subscriber::{
 use crate::env::VERMILION_LOG_LEVEL;
 
 mod cli;
+mod config;
 mod env;
 mod eyre_hook;
 mod fs;

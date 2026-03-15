@@ -9,6 +9,7 @@ use std::fmt::Display;
 
 use bitmask_enum::bitmask;
 
+pub mod config;
 pub mod error;
 pub mod fmt;
 pub mod lang;
