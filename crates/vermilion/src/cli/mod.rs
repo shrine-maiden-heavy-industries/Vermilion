@@ -86,6 +86,16 @@ pub(crate) fn init() -> eyre::Result<Command> {
 				.value_hint(ValueHint::FilePath)
 				.value_name("WORKSPACE_FILE"),
 		)
+		.arg(
+			Arg::new("config")
+				.long("config")
+				.short('c')
+				.help("Specify a vermilion configuration file")
+				.long_help("")
+				.action(ArgAction::Set)
+				.value_hint(ValueHint::FilePath)
+				.value_name("CONFIG_FILE"),
+		)
 		.subcommands(init_commands()?))
 }
 
