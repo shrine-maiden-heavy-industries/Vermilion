@@ -15,6 +15,10 @@ fn subcommands() -> Vec<Command> {
 		Command::new("default-workspace").about(
 			"Dump the default Vermilion workspace configuration to stdout or the specified file",
 		),
+		Command::new("config-schema")
+			.about("Dump the Vermilion configuration schema to stdout or the specified file"),
+		Command::new("default-config")
+			.about("Dump the default Vermilion configuration to stdout or the specified file"),
 		Command::new("completions")
 			.about(
 				"Dump Vermilion shell completion file for the given shell to stdout or the \
@@ -86,6 +90,41 @@ fn dump_default_workspace(file_path: Option<String>) -> eyre::Result<()> {
 	Ok(())
 }
 
+fn dump_config_schema(file_path: Option<String>) -> eyre::Result<()> {
+	if let Some(file_path) = file_path {
+		let mut file = fs::File::create(file_path)?;
+
+		write!(
+			&mut file,
+			"{}",
+			serde_json::to_string_pretty(&schema_for!(crate::config::Config))?
+		)?;
+	} else {
+		println!(
+			"{}",
+			serde_json::to_string_pretty(&schema_for!(crate::config::Config))?
+		);
+	}
+
+	Ok(())
+}
+
+fn dump_default_config(file_path: Option<String>) -> eyre::Result<()> {
+	if let Some(file_path) = file_path {
+		let mut file = fs::File::create(file_path)?;
+
+		write!(
+			&mut file,
+			"{}",
+			toml::to_string(&crate::config::Config::default())?
+		)?;
+	} else {
+		println!("{}", toml::to_string(&crate::config::Config::default())?);
+	}
+
+	Ok(())
+}
+
 fn dump_completions(
 	cmd: &Command,
 	args: &ArgMatches,
@@ -117,6 +156,8 @@ pub(crate) fn exec(cmd: &mut Command, args: &ArgMatches) -> eyre::Result<()> {
 		Some((sub_cmd, cmd_args)) => match sub_cmd {
 			"workspace-schema" => dump_workspace_schema(file_path),
 			"default-workspace" => dump_default_workspace(file_path),
+			"config-schema" => dump_config_schema(file_path),
+			"default-config" => dump_default_config(file_path),
 			"completions" => dump_completions(cmd, cmd_args, file_path),
 			_ => unreachable!(),
 		},
