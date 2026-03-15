@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: BSD-3-Clause
 
-use vermilion_fmt::workspace::CommonFormat;
+use vermilion_fmt::workspace::CommonFormatWorkspace;
 
 #[derive(Clone, Debug, Default)]
 #[cfg_attr(
@@ -11,7 +11,7 @@ use vermilion_fmt::workspace::CommonFormat;
 #[cfg_attr(feature = "schema", derive(::schemars::JsonSchema))]
 pub struct VerilogFormat {
 	#[cfg_attr(feature = "serde", serde(flatten))]
-	common: CommonFormat,
+	common: CommonFormatWorkspace,
 }
 
 #[derive(Clone, Debug, Default)]
@@ -23,7 +23,7 @@ pub struct VerilogFormat {
 #[cfg_attr(feature = "schema", derive(::schemars::JsonSchema))]
 pub struct SystemVerilogFormat {
 	#[cfg_attr(feature = "serde", serde(flatten))]
-	common: CommonFormat,
+	common: CommonFormatWorkspace,
 }
 
 #[derive(Clone, Debug, Default)]
@@ -35,5 +35,5 @@ pub struct SystemVerilogFormat {
 #[cfg_attr(feature = "schema", derive(::schemars::JsonSchema))]
 pub struct VerilogAmsFormat {
 	#[cfg_attr(feature = "serde", serde(flatten))]
-	common: CommonFormat,
+	common: CommonFormatWorkspace,
 }

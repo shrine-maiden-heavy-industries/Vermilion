@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: BSD-3-Clause
 
-use vermilion_diagnostics::workspace::CommonLint;
+use vermilion_diagnostics::workspace::CommonLintWorkspace;
 
 #[derive(Clone, Debug, Default)]
 #[cfg_attr(
@@ -11,7 +11,7 @@ use vermilion_diagnostics::workspace::CommonLint;
 #[cfg_attr(feature = "schema", derive(::schemars::JsonSchema))]
 pub struct VerilogLint {
 	#[cfg_attr(feature = "serde", serde(flatten))]
-	common: CommonLint,
+	common: CommonLintWorkspace,
 }
 
 #[derive(Clone, Debug, Default)]
@@ -23,7 +23,7 @@ pub struct VerilogLint {
 #[cfg_attr(feature = "schema", derive(::schemars::JsonSchema))]
 pub struct SystemVerilogLint {
 	#[cfg_attr(feature = "serde", serde(flatten))]
-	common: CommonLint,
+	common: CommonLintWorkspace,
 }
 
 #[derive(Clone, Debug, Default)]
@@ -35,5 +35,5 @@ pub struct SystemVerilogLint {
 #[cfg_attr(feature = "schema", derive(::schemars::JsonSchema))]
 pub struct VerilogAmsLint {
 	#[cfg_attr(feature = "serde", serde(flatten))]
-	common: CommonLint,
+	common: CommonLintWorkspace,
 }

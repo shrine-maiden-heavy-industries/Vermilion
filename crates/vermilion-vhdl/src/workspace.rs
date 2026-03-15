@@ -12,7 +12,7 @@ use crate::{
 	derive(::serde::Serialize, ::serde::Deserialize),
 	serde(deny_unknown_fields)
 )]
-pub struct VhdlConfig {
+pub struct VhdlWorkspace {
 	std:  LanguageStd,
 	fmt:  Option<VhdlFormat>,
 	lint: Option<VhdlLint>,
@@ -24,13 +24,13 @@ pub struct VhdlConfig {
 	derive(::serde::Serialize, ::serde::Deserialize),
 	serde(deny_unknown_fields)
 )]
-pub struct VhdlAmsConfig {
+pub struct VhdlAmsWorkspace {
 	std:  LanguageStd,
 	fmt:  Option<VhdlAmsFormat>,
 	lint: Option<VhdlAmsLint>,
 }
 
-impl Default for VhdlConfig {
+impl Default for VhdlWorkspace {
 	fn default() -> Self {
 		Self {
 			std:  LanguageStd::Vh87,
@@ -40,7 +40,7 @@ impl Default for VhdlConfig {
 	}
 }
 
-impl Default for VhdlAmsConfig {
+impl Default for VhdlAmsWorkspace {
 	fn default() -> Self {
 		Self {
 			std:  LanguageStd::Vhams99,
@@ -52,13 +52,13 @@ impl Default for VhdlAmsConfig {
 
 #[cfg(feature = "schema")]
 #[cfg_attr(coverage_nightly, coverage(off))]
-impl schemars::JsonSchema for VhdlConfig {
+impl schemars::JsonSchema for VhdlWorkspace {
 	fn schema_name() -> std::borrow::Cow<'static, str> {
-		"VhdlConfig".into()
+		"VhdlWorkspace".into()
 	}
 
 	fn schema_id() -> std::borrow::Cow<'static, str> {
-		concat!(module_path!(), "::VhdlConfig").into()
+		concat!(module_path!(), "::VhdlWorkspace").into()
 	}
 
 	fn json_schema(generator: &mut schemars::SchemaGenerator) -> schemars::Schema {
@@ -94,13 +94,13 @@ impl schemars::JsonSchema for VhdlConfig {
 
 #[cfg(feature = "schema")]
 #[cfg_attr(coverage_nightly, coverage(off))]
-impl schemars::JsonSchema for VhdlAmsConfig {
+impl schemars::JsonSchema for VhdlAmsWorkspace {
 	fn schema_name() -> std::borrow::Cow<'static, str> {
-		"VhdlAmsConfig".into()
+		"VhdlAmsWorkspace".into()
 	}
 
 	fn schema_id() -> std::borrow::Cow<'static, str> {
-		concat!(module_path!(), "::VhdlAmsConfig").into()
+		concat!(module_path!(), "::VhdlAmsWorkspace").into()
 	}
 
 	fn json_schema(generator: &mut schemars::SchemaGenerator) -> schemars::Schema {

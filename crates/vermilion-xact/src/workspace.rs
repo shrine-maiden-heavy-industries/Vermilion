@@ -7,4 +7,4 @@
 	serde(deny_unknown_fields)
 )]
 #[cfg_attr(feature = "schema", derive(::schemars::JsonSchema))]
-pub struct XactConfig {}
+pub struct XactWorkspace {}

@@ -6,25 +6,25 @@ use clap::ArgMatches;
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 use tracing::debug;
-use vermilion_constraints::workspace::ConstraintConfig;
-use vermilion_liberty::workspace::LibertyConfig;
-use vermilion_verilog::workspace::{SystemVerilogConfig, VerilogAmsConfig, VerilogConfig};
-use vermilion_vhdl::workspace::{VhdlAmsConfig, VhdlConfig};
-use vermilion_xact::workspace::XactConfig;
+use vermilion_constraints::workspace::ConstraintWorkspace;
+use vermilion_liberty::workspace::LibertyWorkspace;
+use vermilion_verilog::workspace::{SystemVerilogWorkspace, VerilogAmsWorkspace, VerilogWorkspace};
+use vermilion_vhdl::workspace::{VhdlAmsWorkspace, VhdlWorkspace};
+use vermilion_xact::workspace::XactWorkspace;
 
 use crate::paths;
 
 #[derive(Clone, Debug, Default, Deserialize, JsonSchema, Serialize)]
 #[serde(deny_unknown_fields)]
 pub struct WorkspaceConfig {
-	verilog:        Option<VerilogConfig>,
-	system_verilog: Option<SystemVerilogConfig>,
-	verilog_ams:    Option<VerilogAmsConfig>,
-	vhdl:           Option<VhdlConfig>,
-	vhdl_ams:       Option<VhdlAmsConfig>,
-	constraints:    Option<ConstraintConfig>,
-	liberty:        Option<LibertyConfig>,
-	xact:           Option<XactConfig>,
+	verilog:        Option<VerilogWorkspace>,
+	system_verilog: Option<SystemVerilogWorkspace>,
+	verilog_ams:    Option<VerilogAmsWorkspace>,
+	vhdl:           Option<VhdlWorkspace>,
+	vhdl_ams:       Option<VhdlAmsWorkspace>,
+	constraints:    Option<ConstraintWorkspace>,
+	liberty:        Option<LibertyWorkspace>,
+	xact:           Option<XactWorkspace>,
 }
 
 /// This method loads the Vermilion workspace configuration file if found.

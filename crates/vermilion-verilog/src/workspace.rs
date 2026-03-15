@@ -12,7 +12,7 @@ use crate::{
 	derive(::serde::Serialize, ::serde::Deserialize),
 	serde(deny_unknown_fields)
 )]
-pub struct VerilogConfig {
+pub struct VerilogWorkspace {
 	std:  LanguageStd,
 	fmt:  Option<VerilogFormat>,
 	lint: Option<VerilogLint>,
@@ -24,7 +24,7 @@ pub struct VerilogConfig {
 	derive(::serde::Serialize, ::serde::Deserialize),
 	serde(deny_unknown_fields)
 )]
-pub struct SystemVerilogConfig {
+pub struct SystemVerilogWorkspace {
 	std:  LanguageStd,
 	fmt:  Option<SystemVerilogFormat>,
 	lint: Option<SystemVerilogLint>,
@@ -36,13 +36,13 @@ pub struct SystemVerilogConfig {
 	derive(::serde::Serialize, ::serde::Deserialize),
 	serde(deny_unknown_fields)
 )]
-pub struct VerilogAmsConfig {
+pub struct VerilogAmsWorkspace {
 	std:  LanguageStd,
 	fmt:  Option<VerilogAmsFormat>,
 	lint: Option<VerilogAmsLint>,
 }
 
-impl Default for VerilogConfig {
+impl Default for VerilogWorkspace {
 	fn default() -> Self {
 		Self {
 			std:  LanguageStd::Vl95,
@@ -52,7 +52,7 @@ impl Default for VerilogConfig {
 	}
 }
 
-impl Default for SystemVerilogConfig {
+impl Default for SystemVerilogWorkspace {
 	fn default() -> Self {
 		Self {
 			std:  LanguageStd::Sv05,
@@ -62,7 +62,7 @@ impl Default for SystemVerilogConfig {
 	}
 }
 
-impl Default for VerilogAmsConfig {
+impl Default for VerilogAmsWorkspace {
 	fn default() -> Self {
 		Self {
 			std:  LanguageStd::Vams09,
@@ -74,13 +74,13 @@ impl Default for VerilogAmsConfig {
 
 #[cfg(feature = "schema")]
 #[cfg_attr(coverage_nightly, coverage(off))]
-impl schemars::JsonSchema for VerilogConfig {
+impl schemars::JsonSchema for VerilogWorkspace {
 	fn schema_name() -> std::borrow::Cow<'static, str> {
-		"VerilogConfig".into()
+		"VerilogWorkspace".into()
 	}
 
 	fn schema_id() -> std::borrow::Cow<'static, str> {
-		concat!(module_path!(), "::VerilogConfig").into()
+		concat!(module_path!(), "::VerilogWorkspace").into()
 	}
 
 	fn json_schema(generator: &mut schemars::SchemaGenerator) -> schemars::Schema {
@@ -110,13 +110,13 @@ impl schemars::JsonSchema for VerilogConfig {
 
 #[cfg(feature = "schema")]
 #[cfg_attr(coverage_nightly, coverage(off))]
-impl schemars::JsonSchema for SystemVerilogConfig {
+impl schemars::JsonSchema for SystemVerilogWorkspace {
 	fn schema_name() -> std::borrow::Cow<'static, str> {
-		"SystemVerilogConfig".into()
+		"SystemVerilogWorkspace".into()
 	}
 
 	fn schema_id() -> std::borrow::Cow<'static, str> {
-		concat!(module_path!(), "::SystemVerilogConfig").into()
+		concat!(module_path!(), "::SystemVerilogWorkspace").into()
 	}
 
 	fn json_schema(generator: &mut schemars::SchemaGenerator) -> schemars::Schema {
@@ -148,13 +148,13 @@ impl schemars::JsonSchema for SystemVerilogConfig {
 
 #[cfg(feature = "schema")]
 #[cfg_attr(coverage_nightly, coverage(off))]
-impl schemars::JsonSchema for VerilogAmsConfig {
+impl schemars::JsonSchema for VerilogAmsWorkspace {
 	fn schema_name() -> std::borrow::Cow<'static, str> {
-		"VerilogAmsConfig".into()
+		"VerilogAmsWorkspace".into()
 	}
 
 	fn schema_id() -> std::borrow::Cow<'static, str> {
-		concat!(module_path!(), "::VerilogAmsConfig").into()
+		concat!(module_path!(), "::VerilogAmsWorkspace").into()
 	}
 
 	fn json_schema(generator: &mut schemars::SchemaGenerator) -> schemars::Schema {
