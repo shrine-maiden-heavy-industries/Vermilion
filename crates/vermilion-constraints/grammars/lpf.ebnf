@@ -1,2 +1,1133 @@
 (* SPDX-License-Identifier: BSD-3-Clause *)
 (* EBNF grammar for Lattice Diamond Logical Preference File *)
+
+binary_digit =
+	"0" | "1"
+	;
+
+decimal_digit =
+	"0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
+	;
+
+hex_digit =
+	"0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" |
+	"A" | "B" | "C" | "D" | "E" | "F" |
+	"a" | "b" | "c" | "d" | "e" | "f"
+	;
+
+binary_string =
+	[ '"' ], binary_digit, { binary_digit }, [ '"' ]
+	;
+
+hex_string =
+	[ '"' ], hex_digit, { hex_digit }, [ '"' ]
+	;
+
+on_or_off =
+	"ON" | "OFF"
+	;
+
+enable_or_disable =
+	"ENABLE" | "DISABLE"
+	;
+
+comment =
+	[ "#" | "//" ], ? Comment_Text ?, "\n"
+	;
+
+time_unit =
+	"FS" | "PS" | "NS" | "US" | "MS"
+	;
+
+frequency_unit =
+	"MHZ" | "KHZ" | "HZ"
+	;
+
+capacitance_unit =
+	"FF" | "PF" | "NF" | "UF" | "MF"
+	;
+
+time_spec =
+	number, time_unit
+	;
+
+frequency_spec =
+	number, frequency_unit
+	;
+
+capacitance_spec =
+	number, capacitance_unit
+	;
+
+key_value_pair =
+	key_identifier, "=", value_identifier
+	;
+
+asic_constraint =
+	"ASIC", '"', instance_identifier, '"', "TYPE", '"', type_identifier, { key_value_pair }, ";"
+	;
+
+bank_constraint =
+	"BANK", number, "VCCIO", voltage, "V", ";"
+	;
+
+block_path_class =
+	"RESETPATHS" |
+	"ASYNCPATHS" |
+	"JTAGPATHS" |
+	"RD_DURING_WR_PATHS" |
+	"INTERCLOCKDOMAIN", "PATHS" |
+	"JITTER"
+	;
+
+block_net_constraint =
+	"NET", [ '"' ], net_identifier, [ '"' ], ";"
+	;
+
+block_bus_constraint =
+	"BUS", [ '"' ], bus_identifier, [ '"' ], ";"
+	;
+
+block_comp_constraint =
+	"COMP", [ '"' ], comp_identifier, [ '"', ], "PIN", [ '"' ], pin_identifier, [ '"' ], ";"
+	;
+
+object_type =
+	"CELL" | "PORT" | "CLKNET" | "ASIC", "PIN" | "GROUP"
+	;
+
+path_spec =
+	[ "FROM", object_type, [ '"' ], object_identifier, [ '"' ] ],
+		[ "TO", object_type, [ '"' ], object_identifier, [ '"' ] ], ";"
+	;
+
+block_path_constraint =
+	"PATH", path_spec, ";"
+	;
+
+block_constraint =
+	"BLOCK", block_net_constraint |
+	"BLOCK", block_bus_constraint |
+	"BLOCK", block_comp_constraint |
+	"BLOCK", block_path_constraint |
+	"BLOCK", block_path_class, ";"
+	;
+
+clkdelay_delay =
+	"DEL0" | "DEL1" | "DEL2" | "DEL3"
+	;
+
+clkdelay_constraint =
+	"CLKDELAY", [ "CELL" | "GROUP" ], [ '"' ], identifier, [ '"' ], clkdelay_delay, ";"
+	;
+
+clkskewdiff_constraint =
+	"CLKSKEWDIFF", "CLKPORT", [ '"' ], identifier, [ '"' ], "CLKPORT", [ '"' ], identifier, [ '"' ],
+		time_spec, [ "MIN", time_spec ], ";"
+	;
+
+clkskewdisable_constraint =
+	"CLKSKEWDISABLE", "CLKNET", [ '"' ], identifier, [ '"' ],
+		[ "CLKNET", [ '"' ], identifier, [ '"' ] ], ";"
+	;
+
+clock_to_out_constraint =
+	"CLKOCK_TO_OUT",
+		(
+			[ "PORT" ], [ '"' ], identifier, [ '"' ] |
+			"GROUP", [ '"' ], identifier, [ '"' ] |
+			"ALLPORTS"
+		),
+		(
+			[ [ "MAX" ], time_spec ] |
+			[ "OUTPUT_DELAY", time_spec ], [ "MIN", time_spec ], ( "CLKNET", [ "=" ], [ '"' ], identifier, [ '"' ] ) |
+			"CLK", "PORT", [ '"' ], identifier, [ '"' ]
+		),
+		[ "FROM", startpoint ],
+		( "CLKPORT", [ "=" ], [ '"' ], identifier, [ '"' ] ) |
+		[ "PLL_PHASE_BACK" ],
+		[ "CLK_OFFSET", number, "X" ],
+		";"
+	;
+
+custom_idcode_constraint =
+	"CUSTOM_IDCODE", "HEX", hex_string, ";" |
+	"CUSTOM_IDCODE", "BIN", binary_string, ";"
+	;
+
+
+define_bus_constraint =
+	"BUS", [ '"' ], identifier, [ '"' ], "NET", [ '"' ], identifier, [ '"' ],
+		{ "NET", [ '"' ], identifier, [ '"' ] }
+	;
+
+asic_group_item =
+	"ASIC", [ '"' ], identifier, [ '"' ], "PORT", [ '"' ], identifier, [ '"' ]
+	;
+
+define_group_item =
+	asic_group_item | [ '"' ], identifier, [ '"' ]
+	;
+
+define_group_constraint =
+	( "CELL" | "PORT" | "ASIC" ), "GROUP",  [ '"' ], identifier, [ '"' ],
+		define_group_item, { define_group_item }
+	;
+
+define_constraint =
+	"DEFINE", ( define_bus_constraint | define_group_constraint ), ";"
+	;
+
+fbextdelay_constraint =
+	"FBEXTDELAY", "PCM", [ '"' ], identifier, [ '"' ],
+		( "FROM", "PORT", [ '"' ], identifier, [ '"' ], "TO", "PORT", [ '"' ], identifier, [ '"' ] ),
+		time_spec,
+		";"
+	;
+
+clock_jitter =
+	"CLOCK_JITTER", time_spec
+	;
+
+hold_margin =
+	"HOLD_MARGIN", time_spec
+	;
+
+par_adj =
+	"PAR_ADJ", float
+	;
+
+port_frequency =
+	"PORT", [ '"' ], identifier, [ '"' ], frequency_spec, [ par_adj ], [ hold_margin ], [ clock_jitter ]
+	;
+
+net_frequency =
+	"NET", [ '"' ], identifier, [ '"' ], frequency_spec, [ par_adj ], [ hold_margin ]
+	;
+
+frequency_constraint =
+	"FREQUENCY", frequency_spec, [ hold_margin ], [ clock_jitter ], ";" |
+	"FREQUENCY", ( port_frequency | net_frequency ), ";"
+	;
+
+gsr_net_constraint =
+	"GSR_NET", "NET", [ '"' ], identifier, [ '"' ], ";"
+	;
+
+hgroup_constraint =
+	"HGROUP", [ '"' ], identifier, [ '"' ], [ "TYPE", [ '"' ], identifier, [ '"' ] ],
+		[ "BBOX", number, number ], ";"
+	;
+
+i2caddress_constraint =
+	"I2CADDRESS", ( "7BIT" | "10BIT" ), binary_string, ";"
+	;
+
+input_setup_type =
+	"PORT", [ '"' ], identifier, [ '"' ] |
+	"GROUP", [ '"' ], identifier, [ '"' ] |
+	"ALLPORTS"
+	;
+
+
+input_setup_constraint =
+	"INPUT_SETUP", input_setup_type, [ "INPUT_DELAY" ], time_spec, [ "HOLD", time_spec ],
+		("CLKPORT" | "CLKNET"), [ "=" ], [ '"' ], identifier, [ '"' ],
+		[ "PLL_PHASE_BACK" ],
+		[ "CLK_OFFSET", number, "X" ],
+		[ "SS" ],
+		";"
+	;
+
+iobuf_bank_attr =
+	"BANK", "VCCIO", "=", float, "V"
+	;
+
+iobuf_clamp_attr =
+	"CLAMP", "=", ( on_or_off | "PCI" )
+	;
+
+differential_current =
+	"NA" | "2" | "3P5" | "4" | "6"
+	;
+
+iobuf_diffcurrent_attr =
+	"DIFFCURRENT", "=", differential_current
+	;
+
+differential_drive =
+	"1.6" | "1.65" | "1.7" | "1.75" | "1.81" | "1.87" | "1.93" | "2.0"
+	;
+
+iobuf_diffdrive_attr =
+	"DIFFDRIVE", "=", '"', differential_drive, "'"
+	;
+
+differential_resistor =
+	"OFF" | "100" | "150" | "200"
+	;
+
+iobuf_diffresistor_attr =
+	"DIFFRESISTOR", "=", differential_resistor
+	;
+
+drive =
+	"NA" | "2" | "4" | "8" | "12" | "16" | "24"
+	;
+
+iobuf_drive_attr =
+	"DRIVE", "=", drive
+	;
+
+iobuf_eq_cal_attr =
+	"EQ_CAL", "=", "0"
+	;
+
+hysteresis =
+	"SMALL" | "LARGE" | "NA"
+	;
+
+iobuf_hysteresis_attr =
+	"HYSTERESIS", "=", hysteresis
+	;
+
+impedance =
+	"OFF" | "25" | "33" | "50" | "100"
+	;
+
+iobuf_impedance_attr =
+	"IMPEDANCE", "=", impedance
+	;
+
+buffer_type =
+	"AGP1X33" | "AGP2X33" | "BLVDS25" | "GTL12" | "GTLPLUS15" | "HSTL15_I" | "HSTL15_II" | "HSTL15_III" |
+	"HSTL15_IV" | "HSTL15D_I" | "HSTL15D_II" | "HSTL18_I" | "HSTL18_II" | "HSTL18_III" | "HSTL18_IV" |
+	"HSTL18D_I" | "HSTL18D_II" | "LVCMOS12" | "LVCMOS12D" | "LVCMOS15" | "LVCMOS15D" | "LVCMOS18" |
+	"LVCMOS18D" | "LVCMOS25" | "LVCMOS25D" | "LVCMOS33" | "LVCMOS33D" | "LVDS" | "LVPECL25" | "LVPECL33" |
+	"LVTTL33" | "LVTTL33D" | "MLVDS25" | "PCI33" | "PCIX15" | "PCIX33" | "RSDS" | "SSTL_II" | "SSTL18_I" |
+	"SSTL18_II" | "SSTL18D_I" | "SSTL18D_II" | "SSTL25_I" | "SSTL25_II" | "SSTL25D_I" | "SSTL25D_II" |
+	"SSTL33_I" | "SSTL33D_I" | "SSTL33D_II"
+	;
+
+iobuf_io_type_attr =
+	"IO_TYPE", "=", buffer_type
+	;
+
+multdrive =
+	"1X" | "2X" | "3X" | "4X"
+	;
+
+iobuf_multdrive_attr =
+	"MULTDRIVE", "=", multdrive
+	;
+
+iobuf_opendrain_attr =
+	"OPENDRAIN", "=", ( on_or_off | "PLUS" )
+	;
+
+iobuf_pciclamp_attr =
+	"PCICLAMP", "=", on_or_off
+	;
+
+pullmode =
+	"UP" | "DOWN" | "NONE" | "KEEPER"
+	;
+
+iobuf_pullmode_attr =
+	"PULLMODE", "=", pullmode
+	;
+
+iobuf_pwrsave_attr =
+	"PWRSAVE", "=", on_or_off
+	;
+
+refcircut =
+	"OFF" | "INTERNAL" | "EXTERNAL"
+	;
+
+iobuf_refcircuit_attr =
+	"REFCIRCUT", "=", refcircut
+	;
+
+slewrate =
+	"SLOW" | "FAST"
+	;
+
+iobuf_slewrate_attr =
+	"SLEWRATE", "=", slewrate
+	;
+
+terminate_pwr =
+	"OFF" | "50" | "100" | "120"
+	;
+
+iobuf_terminategnd_attr =
+	"TERMINATEGND", "=", terminate_pwr
+	;
+
+iobuf_terminatevccio_attr =
+	"TERMINATEVCCIO", "=", terminate_pwr
+	;
+
+terminate_vtt =
+	"OFF" | "60" | "75" | "120" | "150" | "210"
+	;
+
+iobuf_terminatevtt_attr =
+	"TERMINATEVTT", "=", terminate_vtt
+	;
+
+iobuf_termination_attr =
+	"TERMINATION", "=", on_or_off
+	;
+
+vcmt =
+	"OFF" | "VCMT" | "VTT" | "DDR_II"
+	;
+
+iobuf_vcmt_attr =
+	"VCMT", "=", vcmt
+	;
+
+iobuf_vref_attr =
+	"VREF", "=", identifier
+	;
+
+iobuf_attribute =
+	iobuf_bank_attr |
+	iobuf_clamp_attr |
+	iobuf_diffcurrent_attr |
+	iobuf_diffdrive_attr |
+	iobuf_diffresistor_attr |
+	iobuf_drive_attr |
+	iobuf_eq_cal_attr |
+	iobuf_hysteresis_attr |
+	iobuf_impedance_attr |
+	iobuf_io_type_attr |
+	iobuf_multdrive_attr |
+	iobuf_opendrain_attr |
+	iobuf_pciclamp_attr |
+	iobuf_pullmode_attr |
+	iobuf_pwrsave_attr |
+	iobuf_refcircuit_attr |
+	iobuf_slewrate_attr |
+	iobuf_terminategnd_attr |
+	iobuf_terminatevccio_attr |
+	iobuf_terminatevtt_attr |
+	iobuf_termination_attr |
+	iobuf_vcmt_attr |
+	iobuf_vref_attr |
+	;
+
+iobuf_constraint =
+	"IOBUF", [ "ALLPORTS" ], iobuf_attribute, { iobuf_attribute }, ";" |
+	"IOBUF", [ ( "PORT" | "GROUP" ), [ '"' ], identifier, [ '"' ] ], iobuf_attribute, { iobuf_attribute }, ";" |
+	"IOBUF", "GROUP", iobuf_attribute, { iobuf_attribute }, ";"
+	;
+
+comp_site_or_bank =
+	"SITE", [ '"' ], identifier, [ '"' ] |
+	"BANK", number
+	;
+
+comp_site_or_region =
+	"SITE", [ '"' ], identifier, [ '"' ] |
+	"REGION", [ '"' ], identifier, [ '"' ]
+	;
+
+locate_comp =
+	"COMP", [ '"' ], identifier, [ '"' ], [ comp_site_or_bank ]
+
+	;
+
+vref_iotype =
+	"HSTL15_I" | "HSTL18_I" | "HTSL18_II" | "SSTAL25_II" | "SSTL3D_II" | "SSTL18_I" |
+	"SSTL18_II" | "SSTL25_I" | "SSTL33_I"
+	;
+
+locate_vref =
+	"VREF", [ '"' ], identifier, [ '"' ], "SITE", [ '"' ], identifier, [ '"' ], [ "RAIL", number ],
+		"IOTYPE", vref_iotype
+	;
+
+locate_raw =
+	[ "UGROUP", [ '"' ], identifier, [ '"' ] ], [ comp_site_or_region ]
+	;
+
+locate_constraint =
+	"LOCATE", ( locate_comp | locate_vref | locate_raw ), ";"
+	;
+
+maxdelay_target =
+	"NET", [ '"' ], identifier, [ '"' ] |
+	"BUS", [ '"' ], identifier, [ '"' ] |
+	"ALLPATHS" |
+	"ALLNETS"
+	;
+
+maxdelay_constraint =
+	"MAXDELAY", path_spec, time_spec, [ "DATAPATH_ONLY" ], "MIN", time_spec, ";" |
+	"MAXDELAY", [ maxdelay_target ], time_spec, ";"
+	;
+
+maxskew_target =
+	"NET", [ '"' ], identifier, [ '"' ] |
+	"BUS", [ '"' ], identifier, [ '"' ] |
+	"PORT", [ '"' ], identifier, [ '"' ]
+	;
+
+maxskew_constraint =
+	"MAXSKEW", [ maxskew_target ], time_spec, [ "CLOCKLOAD_ONLY" ], ";"
+	;
+
+path_element =
+	object_type, [ '"' ], identifier, [ '"' ] |
+	"ASIC", [ '"' ], identifier, [ '"' ], "PIN", [ '"' ], identifier, [ '"' ]
+	;
+
+path_type =
+	"SAMECLKEN" |
+	"CLKEN_NET", [ '"' ], identifier, [ '"' ], "NET"
+	;
+
+multiplier =
+	float, ( "X" | "X_SOURCE"  | "X_DEST" )
+	;
+
+multicycle_constraint =
+	"MULTICYLCE", [ "FROM", path_element ], [ "CLKNET", [ '"' ], identifier, [ '"' ] ], [ path_type ],
+		[ "TO", path_element ], [ "CLKNET", [ '"' ], identifier, [ '"' ] ], ( multiplier | number, "NS" ), ";"
+	;
+
+output_target =
+	"GROUP", [ '"' ], identifier, [ '"' ] |
+	"PORT", [ '"' ], identifier, [ '"' ] |
+	"ALLPORTS"
+	;
+
+output_constraint =
+	"OUTPUT", output_target, "LOAD", capacitance_spec, ";"
+	;
+
+pulse_polarity =
+	"LOW" | "HIGH"
+	;
+
+pulse =
+	pulse_polarity, time_spec
+	;
+
+pulse_opt =
+	[ pulse_polarity ], time_spec
+	;
+
+period_net =
+	"NET", [ '"' ], identifier, [ '"' ], time_spec, [ pulse_opt, [ pulse ] ], [ par_adj ],
+		[ hold_margin ]
+	;
+
+period_port =
+	"PORT", [ '"' ], identifier, [ '"' ], time_spec, [ pulse, [ pulse ] ], [ par_adj ],
+		[ hold_margin ], [ clock_jitter ]
+	;
+
+period_raw =
+	time_spec, [ pulse_opt, [ pulse ] ], [ par_adj ], [ hold_margin ], [ clock_jitter ]
+	;
+
+period_constraint =
+	"PERIOD", ( period_net | period_port | period_raw ), ";"
+	;
+
+prioritize_constraint =
+	"PRIORITIZE", ( "NET" | "BUS" ),  [ '"' ], identifier, [ '"' ], ? Range_0_to_100 ?, ";"
+	;
+
+prohibit_site =
+	"SITE", [ '"' ], identifier, [ '"' ], ";"
+	;
+
+prohibit_region =
+	"REGION", [ '"' ], identifier, [ '"' ], ";"
+	;
+
+prohibit_edge =
+	"EDGE", "NET", [ '"' ], identifier, [ '"' ], ";"
+	;
+
+prohibit_primary =
+	"PRIMARY", "NET", [ '"' ], identifier, [ '"' ], ";"
+	;
+
+prohibit_secondary =
+	"SECONDARY", "NET", [ '"' ], identifier, [ '"' ], ";"
+	;
+
+prohibit_constraint =
+	"PROHIBIT", prohibit_site |
+	"PROHIBIT", prohibit_region |
+	"PROHIBIT", prohibit_edge |
+	"PROHIBBIT", prohibit_primary |
+	"PROHIBIT", prohibit_secondary
+	;
+
+normal_region =
+	[ '"' ], identifier, [ '"' ], integer, integer, [ "DEVSIZE" | "PFUSIZE" ]
+	;
+
+clock_region =
+	"CLKREG", [ '"' ], identifier, [ '"' ], [ integer, integer ]
+	;
+
+region_constraint =
+	"REGION", [ '"' ], identifier, [ '"' ], ( normal_region | clock_region ), ";"
+	;
+
+rvl_alias_constraint =
+	"RVL_ALIAS", [ '"' ], identifier, [ '"' ], [ '"' ], identifier, [ '"' ], ";"
+	;
+
+sso_target =
+	"PORT", [ '"' ], identifier, [ '"' ] |
+	"GROUP", [ '"' ], identifier, [ '"' ] |
+	"ALLPORTS"
+	;
+
+sso_switching_id_attr =
+	"SwitchingID", "=", number
+	;
+
+sso_noise_attr =
+	"SSO_Noise", "=", number
+	;
+
+sso_noise_drop_attr =
+	"SSO_Noise_Drop", "=", number
+	;
+
+sso_allowance_attr =
+	"SSO_Allowance", "=", number
+	;
+
+sso_attr =
+	sso_switching_id_attr |
+	sso_noise_attr |
+	sso_noise_drop_attr |
+	sso_allowance_attr
+	;
+
+sso_constraint =
+	"SSO", sso_target, sso_attr, { sso_attr }, ";"
+	;
+
+background_reconfig =
+	on_or_off | "SRAON_ONLY" | "SRAM_EBR"
+	;
+
+sysconfig_background_reconfig_attr =
+	"BACKGROUND_RECONFIG", "=", background_reconfig
+	;
+
+sysconfig_background_reconfig_security_attr =
+	"BACKGROUND_RECONFIG_SECURITY", "=", on_or_off
+	;
+
+sysconfig_compress_config_attr =
+	"COMPRESS_CONFIG", "=", on_or_off
+	;
+
+config_iovoltage =
+	"1.2" | "1.5" | "1.8" | "2.5" | "3.3"
+	;
+
+sysconfig_config_iovoltage_attr =
+	"CONFIG_IOVOLTAGE", "=", config_iovoltage
+	;
+
+config_mode =
+	""
+	;
+
+sysconfig_config_mode_attr =
+	"CONFIG_MODE", "=", config_mode
+	;
+
+sysconfig_config_secure_attr =
+	"CONFIG_SECURE", "=", on_or_off
+	;
+
+configuration =
+	"CFG" | "CFG_EBRUFM" | "CFGUFM" | "EXTERNAL"
+	;
+
+sysconfig_configuration_attr =
+	"CONFIGURATION", "=", configuration
+	;
+
+sysconfig_cur_design_boot_location_attr =
+	"CUR_DESIGN_BOOT_LOCATION", "=", "IMAGE_", ( "0" | "1" )
+	;
+
+sysconfig_custom_idcode_attr =
+	"CUSTOM_IDCODE", "=", ( binary_string | hex_string )
+	;
+
+idcode_format =
+	"BINARY" | "HEX"
+	;
+
+sysconfig_custom_idcode_format_attr =
+	"CUSTOM_IDCODE_FORMAT", "=", idcode_format
+	;
+
+sysconfig_done_ex_attr =
+	"DONE_EX", "=", on_or_off
+	;
+
+sysconfig_done_od_attr =
+	"DONE_OD", "=", on_or_off
+	;
+
+sysconfig_done_pull_attr =
+	"DONE_PULL", "=", on_or_off
+	;
+
+dualbootgolden =
+	"INTERNAL" | "EXTERNAL"
+	;
+
+sysconfig_dualbootgolen_attr =
+	"DUALBOOTGOLDEN", "=", dualbootgolden
+	;
+
+sysconfig_enable_ndr_attr =
+	"ENABLE_NDR", "=", on_or_off
+	;
+
+sysconfig_enable_transfer_attr =
+	"ENABLE_TRANSFER", "=", enable_or_disable
+	;
+
+sysconfig_i2c_port_attr =
+	"I2C_PORT", "=", enable_or_disable
+	;
+
+sysconfig_inbuf_attr =
+	"INBUF", "=", on_or_off
+	;
+
+sysconfig_jtag_port_attr =
+	"JTAG_PORT", "=", enable_or_disable
+	;
+
+sysconfig_master_preamble_detection_retry_attr =
+	"MASTER_PREAMBLE_DETECTION_RETRY", "=", ? Range_0_to_3 ?
+	;
+
+sysconfig_master_preamble_detection_timer_attr =
+	"MASTER_PREAMBLE_DETECTION_TIMER", "=", ? Range_0_to_15 ?
+	;
+
+sysconfig_master_spi_port_attr =
+	"MASTER_SPI_PORT", "=", enable_or_disable
+	;
+
+sysconfig_mcclk_freq_attr =
+	"MCCLK_FREQ", "=", number, [ "MHZ" ]
+	;
+
+sysconfig_mux_configuration_ports_attr =
+	"MUX_CONFIGURATION_PORTS", "=", enable_or_disable
+	;
+
+sysconfig_my_assp_attr =
+	"MY_ASSP", "=", on_or_off
+	;
+
+sysconfig_one_time_program_attr =
+	"ONE_TIME_PROGRAM", "=", on_or_off
+	;
+
+persistent =
+	on_or_off | "SLAVE_PARALLEL" | "SSPI"
+	;
+
+sysconfig_persistent_attr =
+	"PERSISTENT", "=", persistent
+	;
+
+primary_boot =
+	"IMAGE_0" | "IMAGE_1" | "EXTERNAL" | "LATEST" | "FORMER"
+	;
+
+sysconfig_primary_boot_attr =
+	"PRIMARY_BOOT", "=", primary_boot
+	;
+
+sysconfig_rollback_control_attr =
+	"ROLLBACK_CONTROL", "=", enable_or_disable
+	;
+
+sdm_port =
+	"DISABLE" | "PROGRAMN" | "PROGRAMN_DONE" | "PROGRAMN_DONE_INITN" | "INITN" | "DONE"
+	;
+
+sysconfig_sdm_port_attr =
+	"SDM_PORT", "=", sdm_port
+	;
+
+secondary_boot =
+	"NONE" | "IMAGE_0" | "IMAGE_1" | "EXTERNAL" | "LATEST" | "FORMER"
+	;
+
+sysconfig_secondary_boot_attr =
+	"SECONDARY_BOOT", "=", secondary_boot
+	;
+
+sfdp_check =
+	"DISABLE" | "ENABLE_SFDP" | "ENABLE_SFDP_PREAMBLE"
+	;
+
+sysconfig_sfdp_check_attr =
+	"SFDP_CHECK", "=", sfdp_check
+	;
+
+sysconfig_sharedebrinit_attr =
+	"SHAREDEBRINIT", "=", enable_or_disable
+	;
+
+sysconfig_slave_idle_timer_attr =
+	"SLAVE_IDLE_TIMER", "=", ? Range_0_to_15 ?
+	;
+
+sysconfig_slave_parallel_port_attr =
+	"SLAVE_PARALLEL_PORT", "=",enable_or_disable
+	;
+
+sysconfig_slave_spi_port_attr =
+	"SLAVE_SPI_PORT", "=", enable_or_disable
+	;
+
+sysconfig_spim_address_32bit_attr =
+	"SPIM_ADDRESS_32BIT", "=", enable_or_disable
+	;
+
+startup =
+	"EXTERNAL" | "TCLK" | "CCLK" | "MCLK"
+	;
+
+sysconfig_strtup_attr =
+	"STRTUP", "=", startup
+	;
+
+sysconfig_transfer_attr =
+	"TRANSFR", "=", on_or_off
+	;
+
+sysconfig_wake_on_lock_attr =
+	"WAKE_ON_LOCK", "=", on_or_off
+	;
+
+wake_up =
+	"21" | "4"
+	;
+
+sysconfig_wake_up_att=
+	"WAKE_UP", "=", wake_up
+	;
+
+sysconfig_attr =
+	sysconfig_background_reconfig_attr |
+	sysconfig_background_reconfig_security_attr |
+	sysconfig_compress_config_attr |
+	sysconfig_config_iovoltage_attr |
+	sysconfig_config_mode_attr |
+	sysconfig_config_secure_attr |
+	sysconfig_configuration_attr |
+	sysconfig_cur_design_boot_location_attr |
+	sysconfig_custom_idcode_attr |
+	sysconfig_custom_idcode_format_attr |
+	sysconfig_done_ex_attr |
+	sysconfig_done_od_attr |
+	sysconfig_done_pull_attr |
+	sysconfig_dualbootgolen_attr |
+	sysconfig_enable_ndr_attr |
+	sysconfig_enable_transfer_attr |
+	sysconfig_i2c_port_attr |
+	sysconfig_inbuf_attr |
+	sysconfig_jtag_port_attr |
+	sysconfig_master_preamble_detection_retry_attr |
+	sysconfig_master_preamble_detection_timer_attr |
+	sysconfig_master_spi_port_attr |
+	sysconfig_mcclk_freq_attr |
+	sysconfig_mux_configuration_ports_attr |
+	sysconfig_my_assp_attr |
+	sysconfig_one_time_program_attr |
+	sysconfig_persistent_attr |
+	sysconfig_primary_boot_attr |
+	sysconfig_rollback_control_attr |
+	sysconfig_sdm_port_attr |
+	sysconfig_secondary_boot_attr |
+	sysconfig_sfdp_check_attr |
+	sysconfig_sharedebrinit_attr |
+	sysconfig_slave_idle_timer_attr |
+	sysconfig_slave_parallel_port_attr |
+	sysconfig_slave_spi_port_attr |
+	sysconfig_spim_address_32bit_attr |
+	sysconfig_strtup_attr |
+	sysconfig_transfer_attr |
+	sysconfig_wake_on_lock_attr |
+	sysconfig_wake_up_attr
+	;
+
+sysconfig_constraint =
+	"SYSCONFIG", sysconfig_attr, { sysconfig_attr }, ";"
+	;
+
+system_jitter_constraint =
+	"SYSTEM_JITTER", time_spec, ";"
+	;
+
+temperature_constraint =
+	"TEMPERATURE", number, ( "C" | "F" | "K" ), ";"
+	;
+
+traceid_constraint =
+	"TRACEID", binary_string, ";"
+	;
+
+twr_report_limit_constriant =
+	"TWR_REPORT_LIMIT", integer, ";"
+	;
+
+ugroup_blkname =
+	"BLKNAME", [ '"' ], identifier, [ '"' ]
+	;
+
+ugroup_constraint =
+	"UGROUP",  [ '"' ], identifier, [ '"' ], [ "BBOX", integer, integer ],
+		ugroup_blkname, { ugroup_blkname }, ";"
+	;
+
+unique_id_constraint =
+	"UNIQUE_ID", hex_string, ";"
+	;
+
+use_din_cell =
+	"DIN", [ "TRUE" | "FALSE" ], "CELL", [ '"' ], identifier, [ '"' ]
+	;
+
+use_dout_cell =
+	"DOUT", [ "TRUE" | "FALSE" ], "CELL", [ '"' ], identifier, [ '"' ]
+	;
+
+use_edge =
+	"EDGE", "NET", [ '"' ], identifier, [ '"' ]
+	;
+
+use_edge2edge =
+	"EDGE2EDGE", "NET", [ '"' ], identifier, [ '"' ]
+	;
+
+quadrant =
+	"QUADRANT_TL" | "QUADRANT_TR" | "QUADRANT_BL" | "QUADRANT_BR"
+	;
+
+use_primary =
+	"PRIMARY", [ "PURE" | "DCS" ], [ "NET", [ '"' ], identifier, [ '"' ], [ quadrant, { quadrant } ] ]
+	;
+
+use_primary2edge =
+	"PRIMARY2EDGE", "NET", [ '"' ], identifier, [ '"' ]
+	;
+
+use_secondary =
+	"SECONDARY", [ "NET", [ '"' ], identifier, [ '"' ], [ quadrant, { quadrant } ] ]
+	;
+
+use_constraint =
+	"USE", use_din_cell, ";" |
+	"USE", use_dout_cell, ";" |
+	"USE", use_edge, ";" |
+	"USE", use_edge2edge, ";" |
+	"USE", use_primary, ";" |
+	"USE", use_primary2edge, ";"  |
+	"USE", use_secondary, ";"
+	;
+
+usercode_spec =
+	"BIN", binary_string |
+	"HEX", hex_string |
+	"ASCII", string |
+	"AUTO", string
+	;
+
+usercode_constraint =
+	"USERCODE", usercode_spec, ";" |
+	"USERCODE", "CHECKSUM", ";" |
+	"USERCODE", "AUTO", ";"
+	;
+
+derate_spec =
+	"NOMINAL" |
+	"PERCENT", ( "+" | "-" ), number
+	;
+
+vcc_derate_constraint =
+	"VCC_DERATE", derate_spec, ";"
+	;
+
+vcc_nominal_constraint =
+	"VCC_NOMINAL", [ "+" ], number, "V", ";"
+	;
+
+vcc1p2_derate_constraint =
+	"VCC1P2_DERATE", derate_spec, ";"
+	;
+
+vcca_dphy0_derate_constraint =
+	"VCCA_DPHY0_DERATE", derate_spec, ";"
+	;
+
+vvca_dphy1_derate_constraint =
+	"VCCA_DPHY1_DERATE", derate_spec, ";"
+	;
+
+vccaux_derate_constraint =
+	"VCCAUX_DERATE", derate_spec, ";"
+	;
+
+vccio_derate_constraint =
+	"VCCIO_DERATE", [ "BANK", integer ], derate_spec, ";"
+	;
+
+voltage_constraint =
+	"VOLTAGE", number, "V", ";"
+	;
+
+constraint =
+	asic_constraint |
+	bank_constraint |
+	block_constraint |
+	clkdelay_constraint |
+	clkskewdiff_constraint |
+	clkskewdisable_constraint |
+	clock_to_out_constraint |
+	custom_idcode_constraint |
+	define_constraint |
+	fbextdelay_constraint |
+	frequency_constraint |
+	gsr_net_constraint |
+	hgroup_constraint |
+	i2caddress_constraint |
+	input_setup_constraint |
+	iobuf_constraint |
+	locate_constraint |
+	maxdelay_constraint |
+	maxskew_constraint |
+	multicycle_constraint |
+	output_constraint |
+	period_constraint |
+	prioritize_constraint |
+	prohibit_constraint |
+	region_constraint |
+	rvl_alias_constraint |
+	sso_constraint |
+	sysconfig_constraint |
+	system_jitter_constraint |
+	temperature_constraint |
+	traceid_constraint |
+	twr_report_limit_constriant |
+	ugroup_constraint |
+	unique_id_constraint |
+	use_constraint |
+	usercode_constraint |
+	vcc_derate_constraint |
+	vcc_nominal_constraint |
+	vcc1p2_derate_constraint |
+	vcca_dphy0_derate_constraint |
+	vvca_dphy1_derate_constraint |
+	vccaux_derate_constraint |
+	vccio_derate_constraint |
+	voltage_constraint
+	;
+
+lpf_entry =
+	comment | constraint
+	;
+
+lpf =
+	{ lpf_entry }
+	;
+
+(*
+	Keywords:
+		@DEFINE                      FREQUENCY                    PROHIBIT
+		@IFDEF                       FROM                         PS
+		@ENDIF                       GROUP                        PURE
+		@IFNDEF                      GSR_NET                      QUADRANT_BL
+		@ELSE                        HALFLINE                     QUADRANT_BR
+		AFTER                        HEX                          QUADRANT_TL
+		ALLNETS                      HGROUP                       QUADRANT_TR
+		ALLPATHS                     HIGH                         RAIL
+		ALLPORTS                     HOLD                         RANGE
+		ASCII                        HOLD_MARGIN                  RD_DURING_WR_PATHS
+		ASIC                         HORIZONTAL                   READPATHS
+		ASYNCPATHS                   INDUSTRIAL                   REG
+		AUTO                         INPUT                        REGION
+		AUTOMOTIVE                   INPUT_DELAY                  RESERVE
+		BANK                         INPUT_SETUP                  RESETPATHS
+		BBOX                         INTERCLOCKDOMAIN             RETIME_EFFORT
+		BEFORE                       IOBUF                        RETIME_ROUTE_DETOUR_SEVERITY
+		BIN                          IOS                          RETIME_STRATEGY
+		BLKNAME                      JITTER                       RIGHT
+		BLOCK                        JTAGPATHS                    RLOC
+		BOTTOM                       K                            ROUTING
+		BUS                          KHZ                          ROW
+		C                            LEFT                         RVL_ALIAS
+		CELL                         LEVELMODE                    SAMECLKEN
+		CHECKSUM                     LOAD                         SCHEMATIC
+		CLK_FACTOR                   LOCATE                       SECONDARY
+		CLK_OFFSET                   LOCK                         SETUP
+		CLKDELAY                     LONGLINE                     SIDE
+		CLKEN_NET                    LOW                          SITE
+		CLKNET                       MACO                         SITEPIN
+		CLKOUT                       MACRO                        SPINE
+		CLKPORT                      MAX                          SS
+		CLKREG                       MAXDELAY                     SSO
+		CLKSKEWDIFF                  MAXSKEW                      START
+		CLKSKEWDISABLE               MF                           STARTPOINT
+		CLOCK_JITTER                 MHZ                          SYNCPATHS
+		CLOCK_TO_OUT                 MIN                          SYSCONFIG
+		CLOCKLOAD_ONLY               MODULE                       SYSTEM_JITTER
+		CLOCKPATHS                   MS                           TEMPERATURE
+		CLOCKWISE                    MULTICYCLE                   THROUGH
+		CLOSED                       NET                          TO
+		COL                          NF                           TOP
+		COMMERCIAL                   NOMINAL                      TRACEID
+		COMP                         NORETIME                     TRUE
+		COUNTERCLOCKWISE             NS                           TWR_REPORT_LIMIT
+		CUSTOM_IDCODE                OPEN                         TYPE
+		DATA_PATH                    ORIENTATION                  UF
+		DATAPATH_ONLY                OUT                          UGROUP
+		DCS                          OUTPUT                       UNIQUE_ID
+		DEFINE                       OUTPUT_DELAY                 US
+		DEL                          OUTPUTPATHS                  USE
+		DELAY                        PAR_ADJ                      USERCODE
+		DEVSIZE                      PATH                         V
+		DIN                          PATHS                        VCC_DERATE
+		DOUT                         PCM                          VCC1P2_DERATE
+		DYNAMIC                      PERCENT                      VCCAUX_DERATE
+		EDGE                         PERIOD                       VCCIO
+		EDGE2EDGE                    PF                           VCCIO_DERATE
+		ENABLE_PATH                  PFUSIZE                      VCC_NOMINAL
+		ENABLEPATHS                  PGROUP                       VERTICAL
+		ENCRYPTION                   PIN                          VOLTAGE
+		END                          PLACEMENT                    VOLTAGEIO
+		ENDPOINT                     PLL_PHASE_BACK               VREF
+		EXCEPT                       PORT                         X
+		F                            PRIMARY                      X_DEST
+		FALSE                        PRIMARY2EDGE                 X_SOURCE
+		FBEXTDELAY                   PRIORITIZE
+		FF                           PROCESS
+*)
