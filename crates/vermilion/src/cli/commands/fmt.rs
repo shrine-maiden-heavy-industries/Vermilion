@@ -12,7 +12,7 @@ pub(crate) fn init() -> eyre::Result<Command> {
 }
 
 pub(crate) fn exec(_: &mut Command, args: &ArgMatches) -> eyre::Result<()> {
-	let _workspace_config = crate::workspace::load_workspace_config(args)?;
+	let _workspace_config = crate::workspace::load_workspace(args)?;
 	let _lang = args
 		.try_get_one::<Language>("lang-std")?
 		.cloned()

@@ -6,7 +6,7 @@ use clap::{Arg, ArgAction, ArgMatches, Command, ValueHint};
 use tracing::error;
 use vermilion_lsp::transports::{self, trace::TraceTransport};
 
-use crate::{lsp, workspace::load_workspace_config};
+use crate::{lsp, workspace::load_workspace};
 
 pub(crate) const COMMAND_NAME: &str = "server";
 
@@ -99,7 +99,7 @@ pub(crate) fn exec(_: &mut Command, args: &ArgMatches) -> eyre::Result<()> {
 		lsp::start(
 			transport,
 			client_pid,
-			load_workspace_config(args)?,
+			load_workspace(args)?,
 			trace_transport,
 		)
 	} else {

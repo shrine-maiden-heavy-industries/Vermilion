@@ -10,9 +10,9 @@ pub(crate) const COMMAND_NAME: &str = "dump";
 
 fn subcommands() -> Vec<Command> {
 	vec![
-		Command::new("schema")
+		Command::new("workspace-schema")
 			.about("Dump the Vermilion workspace schema to stdout or the specified file"),
-		Command::new("config").about(
+		Command::new("default-workspace").about(
 			"Dump the default Vermilion workspace configuration to stdout or the specified file",
 		),
 		Command::new("completions")
@@ -48,38 +48,38 @@ pub(crate) fn init() -> eyre::Result<Command> {
 		))
 }
 
-fn dump_schema(file_path: Option<String>) -> eyre::Result<()> {
+fn dump_workspace_schema(file_path: Option<String>) -> eyre::Result<()> {
 	if let Some(file_path) = file_path {
 		let mut file = fs::File::create(file_path)?;
 
 		write!(
 			&mut file,
 			"{}",
-			serde_json::to_string_pretty(&schema_for!(crate::workspace::WorkspaceConfig))?
+			serde_json::to_string_pretty(&schema_for!(crate::workspace::Workspace))?
 		)?;
 	} else {
 		println!(
 			"{}",
-			serde_json::to_string_pretty(&schema_for!(crate::workspace::WorkspaceConfig))?
+			serde_json::to_string_pretty(&schema_for!(crate::workspace::Workspace))?
 		);
 	}
 
 	Ok(())
 }
 
-fn dump_config(file_path: Option<String>) -> eyre::Result<()> {
+fn dump_default_workspace(file_path: Option<String>) -> eyre::Result<()> {
 	if let Some(file_path) = file_path {
 		let mut file = fs::File::create(file_path)?;
 
 		write!(
 			&mut file,
 			"{}",
-			toml::to_string(&crate::workspace::WorkspaceConfig::default())?
+			toml::to_string(&crate::workspace::Workspace::default())?
 		)?;
 	} else {
 		println!(
 			"{}",
-			toml::to_string(&crate::workspace::WorkspaceConfig::default())?
+			toml::to_string(&crate::workspace::Workspace::default())?
 		);
 	}
 
@@ -115,8 +115,8 @@ pub(crate) fn exec(cmd: &mut Command, args: &ArgMatches) -> eyre::Result<()> {
 
 	match args.subcommand() {
 		Some((sub_cmd, cmd_args)) => match sub_cmd {
-			"schema" => dump_schema(file_path),
-			"config" => dump_config(file_path),
+			"workspace-schema" => dump_workspace_schema(file_path),
+			"default-workspace" => dump_default_workspace(file_path),
 			"completions" => dump_completions(cmd, cmd_args, file_path),
 			_ => unreachable!(),
 		},

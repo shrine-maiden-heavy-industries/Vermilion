@@ -33,7 +33,7 @@ use vermilion_lsp::{
 };
 
 use self::workspace::Workspace;
-use crate::workspace::WorkspaceConfig;
+use crate::workspace::Workspace as WorkspaceConfig;
 
 static LSP_INITIALIZED: AtomicBool = AtomicBool::new(false);
 static SHUTDOWN_SENDER: OnceLock<UnboundedSender<()>> = OnceLock::new();
