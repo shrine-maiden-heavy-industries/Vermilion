@@ -34,18 +34,24 @@ pub(crate) fn cache_dir() -> &'static Path {
 	proj_dirs().cache_dir()
 }
 
-// When doing config lookup, we want to ensure that we stay on the same filesystem
+/// Check if two paths are located on the same filesystem
 #[cfg(not(target_os = "windows"))]
 #[inline(always)]
 pub(crate) fn same_fs(path1: &PathBuf, path2: &PathBuf) -> eyre::Result<bool> {
-	use std::{fs, os::unix::fs::MetadataExt};
+	#[cfg(not(target_os = "windows"))]
+	#[inline(always)]
+	fn is_same(path1: &PathBuf, path2: &PathBuf) -> eyre::Result<bool> {
+		use std::{fs, os::unix::fs::MetadataExt};
 
-	Ok(fs::metadata(path1)?.dev() == fs::metadata(path2)?.dev())
-}
+		Ok(fs::metadata(path1)?.dev() == fs::metadata(path2)?.dev())
+	}
 
-#[cfg(target_os = "windows")]
-#[inline(always)]
-pub(crate) fn same_fs(path1: &PathBuf, path2: &PathBuf) -> eyre::Result<bool> {
-	// TODO(aki): Figure this out, eventually, maybe, who even uses windows anyway?
-	todo!()
+	#[cfg(target_os = "windows")]
+	#[inline(always)]
+	fn is_same(path1: &PathBuf, path2: &PathBuf) -> eyre::Result<bool> {
+		// TODO(aki): Figure this out, eventually, maybe, who even uses windows anyway?
+		todo!()
+	}
+
+	is_same(path1, path2)
 }
