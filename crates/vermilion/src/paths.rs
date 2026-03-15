@@ -23,8 +23,29 @@ pub(crate) fn proj_dirs() -> &'static ProjectDirs {
 // TODO(aki): Remove once used
 #[allow(unused, reason = "Currently unused")]
 /// Get the Vermilion user-specific configuration directory
-pub(crate) fn config_dir() -> &'static Path {
+pub(crate) fn local_config_dir() -> &'static Path {
 	proj_dirs().config_dir()
+}
+
+/// Get the Vermilion system-wide configuration directory
+///
+/// ## NOTE
+/// This is hard-coded to `/etc` on Linux and is equivalent to [`local_config_dir`]
+/// on other platforms
+pub(crate) fn system_config_dir() -> &'static Path {
+	#[cfg(target_os = "linux")]
+	#[inline(always)]
+	fn get_path() -> &'static Path {
+		Path::new("/etc")
+	}
+
+	#[cfg(not(target_os = "linux"))]
+	#[inline(always)]
+	fn get_path() -> &'static Path {
+		proj_dirs().config_dir()
+	}
+
+	get_path()
 }
 
 // TODO(aki): Remove once used
