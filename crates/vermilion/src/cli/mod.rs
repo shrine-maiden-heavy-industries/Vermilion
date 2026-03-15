@@ -5,7 +5,7 @@ use clap::{
 };
 use color_print::cformat;
 
-use crate::{env::VERMILION_LOG_LEVEL, lang::Language};
+use crate::{env::VERMILION_LOG_LEVEL, lang::Language, paths};
 
 mod commands;
 
@@ -96,8 +96,19 @@ pub(crate) fn init() -> eyre::Result<Command> {
 			Arg::new("config")
 				.long("config")
 				.short('c')
-				.help("Specify a vermilion configuration file")
-				.long_help("")
+				.help("Specify a configuration file")
+				.long_help(cformat!(
+					"Specify a configuration file\n\nExplicitly specify a Vermilion configuration \
+					 file rather than having Vermilion search for it.\n\nVermilion searches for \
+					 the configuration file in the following places in order:\n\t * \
+					 <magenta>{}/</><cyan>config.toml</>\n\t * \
+					 <magenta>{}/</><cyan>vermilion.toml</>\n\n<bold>NOTE</>: On non-linux \
+					 systems, the system-wide and user-specific paths are identical, this is due \
+					 to\nsystems such as macOS and Windows not having well-defined system-wide \
+					 configuration file locations.",
+					paths::local_config_dir().display(),
+					paths::system_config_dir().display(),
+				))
 				.action(ArgAction::Set)
 				.value_hint(ValueHint::FilePath)
 				.value_name("CONFIG_FILE"),

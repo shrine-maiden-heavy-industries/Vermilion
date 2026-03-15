@@ -20,8 +20,6 @@ pub(crate) fn proj_dirs() -> &'static ProjectDirs {
 	})
 }
 
-// TODO(aki): Remove once used
-#[allow(unused, reason = "Currently unused")]
 /// Get the Vermilion user-specific configuration directory
 pub(crate) fn local_config_dir() -> &'static Path {
 	proj_dirs().config_dir()
