@@ -5,8 +5,12 @@
 // #![warn(missing_docs)]
 // #![warn(clippy::missing_docs_in_private_items)]
 
+pub mod code;
 pub mod config;
 pub mod diagnostic;
 pub mod workspace;
 
-pub use crate::diagnostic::{Diagnostic, StringDiagnostic};
+pub use crate::{
+	code::Code,
+	diagnostic::{Diagnostic, StringDiagnostic},
+};
