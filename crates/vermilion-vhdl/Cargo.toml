@@ -20,6 +20,7 @@ vermilion-loc         = { workspace = true }
 bitmask-enum          = { workspace = true }
 clap                  = { workspace = true, optional = true }
 eyre                  = { workspace = true }
+paste                 = { workspace = true }
 phf                   = { workspace = true }
 schemars              = { workspace = true, optional = true }
 serde                 = { workspace = true, optional = true }
@@ -27,7 +28,6 @@ tendril               = { workspace = true }
 
 [dev-dependencies]
 criterion  = { workspace = true }
-paste      = { workspace = true }
 proptest   = { workspace = true }
 serde_test = { workspace = true }
 test-log   = { workspace = true }
