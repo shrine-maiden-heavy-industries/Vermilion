@@ -6,6 +6,7 @@
 // #![warn(clippy::missing_docs_in_private_items)]
 
 pub mod code;
+pub mod common;
 pub mod config;
 pub mod diagnostic;
 pub mod macros;
