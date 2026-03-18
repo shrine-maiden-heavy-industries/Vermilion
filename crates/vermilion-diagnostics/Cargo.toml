@@ -33,7 +33,8 @@ default = []
 
 serde  = [ "dep:serde" ]
 schema = [ "serde", "dep:schemars" ]
-pretty-diagnostics = [ "dep:crossterm", "dep:pulldown-cmark", "dep:ratatui", "dep:syntect" ]
+render-diagnostics = [ "dep:pulldown-cmark", ]
+pretty-diagnostics = [ "render-diagnostics", "dep:crossterm", "dep:ratatui", "dep:syntect" ]
 
 [lints]
 workspace = true

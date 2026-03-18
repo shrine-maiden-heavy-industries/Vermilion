@@ -8,6 +8,8 @@
 pub mod code;
 pub mod config;
 pub mod diagnostic;
+#[cfg(feature = "render-diagnostics")]
+pub mod render;
 pub mod workspace;
 
 pub use crate::{
