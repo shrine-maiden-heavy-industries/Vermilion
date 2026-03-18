@@ -12,5 +12,5 @@ pub mod workspace;
 
 pub use crate::{
 	code::Code,
-	diagnostic::{Diagnostic, StringDiagnostic},
+	diagnostic::{Diagnostic, StrDiagnostic, StringDiagnostic},
 };
