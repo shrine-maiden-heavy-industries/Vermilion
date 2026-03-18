@@ -8,6 +8,7 @@
 pub mod code;
 pub mod config;
 pub mod diagnostic;
+pub mod macros;
 #[cfg(feature = "render-diagnostics")]
 pub mod render;
 pub mod workspace;

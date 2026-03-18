@@ -3496,6 +3496,7 @@ dependencies = [
  "ariadne",
  "criterion",
  "crossterm",
+ "paste",
  "phf 0.13.1",
  "proptest",
  "pulldown-cmark",
