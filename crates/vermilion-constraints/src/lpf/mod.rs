@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: BSD-3-Clause
 
+pub mod diagnostics;
 pub mod lang;
 
 #[cfg(test)]
