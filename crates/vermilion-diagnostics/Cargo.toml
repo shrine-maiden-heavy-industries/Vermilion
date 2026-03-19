@@ -33,10 +33,10 @@ test-log  = { workspace = true }
 [features]
 default = []
 
-serde  = [ "dep:serde" ]
+pretty = [ "render", "dep:crossterm", "dep:ratatui", "dep:syntect" ]
+render = [ "dep:pulldown-cmark", ]
 schema = [ "serde", "dep:schemars" ]
-render-diagnostics = [ "dep:pulldown-cmark", ]
-pretty-diagnostics = [ "render-diagnostics", "dep:crossterm", "dep:ratatui", "dep:syntect" ]
+serde  = [ "dep:serde" ]
 
 [lints]
 workspace = true

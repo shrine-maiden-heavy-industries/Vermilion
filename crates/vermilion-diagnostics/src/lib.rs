@@ -10,7 +10,7 @@ pub mod common;
 pub mod config;
 pub mod diagnostic;
 pub mod macros;
-#[cfg(feature = "render-diagnostics")]
+#[cfg(feature = "render")]
 pub mod render;
 pub mod workspace;
 
