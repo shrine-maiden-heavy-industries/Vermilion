@@ -3532,6 +3532,7 @@ dependencies = [
  "vermilion-constraints",
  "vermilion-lang",
  "vermilion-liberty",
+ "vermilion-macros",
  "vermilion-verilog",
  "vermilion-vhdl",
  "vermilion-xact",
