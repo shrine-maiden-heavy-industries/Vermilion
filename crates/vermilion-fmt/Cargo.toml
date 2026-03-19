@@ -26,8 +26,8 @@ test-log  = { workspace = true }
 [features]
 default = []
 
-serde  = [ "dep:serde" ]
 schema = [ "serde", "dep:schemars" ]
+serde  = [ "dep:serde" ]
 
 [lints]
 workspace = true
