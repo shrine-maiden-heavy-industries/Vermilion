@@ -8,6 +8,7 @@
 use std::fmt::Display;
 
 use bitmask_enum::bitmask;
+use vermilion_macros::{cfg_schema, cfg_serde};
 
 pub mod config;
 pub mod diagnostics;
@@ -82,122 +83,123 @@ impl Display for LanguageStd {
 	}
 }
 
-#[cfg(feature = "serde")]
-impl<'de> serde::Deserialize<'de> for LanguageStd {
-	fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-	where
-		D: serde::Deserializer<'de>,
-	{
-		static VALUES: [&str; 9] = [
-			"2020.09", "2019.12", "2019.03", "2018.06", "2017.06", "2016.12", "2016.06", "2015.12",
-			"2014.09",
-		];
+cfg_serde! {
+	impl<'de> serde::Deserialize<'de> for LanguageStd {
+		fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+		where
+			D: serde::Deserializer<'de>,
+		{
+			static VALUES: [&str; 9] = [
+				"2020.09", "2019.12", "2019.03", "2018.06", "2017.06", "2016.12", "2016.06", "2015.12",
+				"2014.09",
+			];
 
-		struct ValueVisitor;
-		impl<'de> serde::de::Visitor<'de> for ValueVisitor {
-			type Value = LanguageStd;
+			struct ValueVisitor;
+			impl<'de> serde::de::Visitor<'de> for ValueVisitor {
+				type Value = LanguageStd;
 
-			fn expecting(&self, formatter: &mut std::fmt::Formatter) -> std::fmt::Result {
-				formatter.write_str(
-					"`2020.09`, `2019.12`, `2019.03`, `2018.06`, `2017.06`, `2016.12`, `2016.06`, \
-					 `2015.12`, or `2014.09`",
-				)
-			}
+				fn expecting(&self, formatter: &mut std::fmt::Formatter) -> std::fmt::Result {
+					formatter.write_str(
+						"`2020.09`, `2019.12`, `2019.03`, `2018.06`, `2017.06`, `2016.12`, `2016.06`, \
+						`2015.12`, or `2014.09`",
+					)
+				}
 
-			fn visit_str<E>(self, value: &str) -> Result<Self::Value, E>
-			where
-				E: serde::de::Error,
-			{
-				match value {
-					"2014.09" => Ok(LanguageStd::Liberty2014_09),
-					"2015.12" => Ok(LanguageStd::Liberty2015_12),
-					"2016.06" => Ok(LanguageStd::Liberty2016_06),
-					"2016.12" => Ok(LanguageStd::Liberty2016_12),
-					"2017.06" => Ok(LanguageStd::Liberty2017_06),
-					"2018.06" => Ok(LanguageStd::Liberty2018_06),
-					"2019.03" => Ok(LanguageStd::Liberty2019_03),
-					"2019.12" => Ok(LanguageStd::Liberty2019_12),
-					"2020.09" => Ok(LanguageStd::Liberty2020_09),
-					_ => Err(serde::de::Error::unknown_variant(value, &VALUES)),
+				fn visit_str<E>(self, value: &str) -> Result<Self::Value, E>
+				where
+					E: serde::de::Error,
+				{
+					match value {
+						"2014.09" => Ok(LanguageStd::Liberty2014_09),
+						"2015.12" => Ok(LanguageStd::Liberty2015_12),
+						"2016.06" => Ok(LanguageStd::Liberty2016_06),
+						"2016.12" => Ok(LanguageStd::Liberty2016_12),
+						"2017.06" => Ok(LanguageStd::Liberty2017_06),
+						"2018.06" => Ok(LanguageStd::Liberty2018_06),
+						"2019.03" => Ok(LanguageStd::Liberty2019_03),
+						"2019.12" => Ok(LanguageStd::Liberty2019_12),
+						"2020.09" => Ok(LanguageStd::Liberty2020_09),
+						_ => Err(serde::de::Error::unknown_variant(value, &VALUES)),
+					}
 				}
 			}
-		}
 
-		deserializer.deserialize_str(ValueVisitor)
+			deserializer.deserialize_str(ValueVisitor)
+		}
+	}
+
+	impl serde::Serialize for LanguageStd {
+		fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+		where
+			S: serde::Serializer,
+		{
+			match *self {
+				Self::Liberty2014_09 => serializer.serialize_str("2014.09"),
+				Self::Liberty2015_12 => serializer.serialize_str("2015.12"),
+				Self::Liberty2016_06 => serializer.serialize_str("2016.06"),
+				Self::Liberty2016_12 => serializer.serialize_str("2016.12"),
+				Self::Liberty2017_06 => serializer.serialize_str("2017.06"),
+				Self::Liberty2018_06 => serializer.serialize_str("2018.06"),
+				Self::Liberty2019_03 => serializer.serialize_str("2019.03"),
+				Self::Liberty2019_12 => serializer.serialize_str("2019.12"),
+				Self::Liberty2020_09 => serializer.serialize_str("2020.09"),
+				_ => Err(serde::ser::Error::custom(
+					"Unable to serialize `LanguageStd` with more than one bit set",
+				)),
+			}
+		}
 	}
 }
 
-#[cfg(feature = "serde")]
-impl serde::Serialize for LanguageStd {
-	fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-	where
-		S: serde::Serializer,
-	{
-		match *self {
-			Self::Liberty2014_09 => serializer.serialize_str("2014.09"),
-			Self::Liberty2015_12 => serializer.serialize_str("2015.12"),
-			Self::Liberty2016_06 => serializer.serialize_str("2016.06"),
-			Self::Liberty2016_12 => serializer.serialize_str("2016.12"),
-			Self::Liberty2017_06 => serializer.serialize_str("2017.06"),
-			Self::Liberty2018_06 => serializer.serialize_str("2018.06"),
-			Self::Liberty2019_03 => serializer.serialize_str("2019.03"),
-			Self::Liberty2019_12 => serializer.serialize_str("2019.12"),
-			Self::Liberty2020_09 => serializer.serialize_str("2020.09"),
-			_ => Err(serde::ser::Error::custom(
-				"Unable to serialize `LanguageStd` with more than one bit set",
-			)),
+cfg_schema! {
+	#[cfg_attr(coverage_nightly, coverage(off))]
+	impl schemars::JsonSchema for LanguageStd {
+		fn schema_name() -> std::borrow::Cow<'static, str> {
+			"LibertyStd".into()
 		}
-	}
-}
 
-#[cfg(feature = "schema")]
-#[cfg_attr(coverage_nightly, coverage(off))]
-impl schemars::JsonSchema for LanguageStd {
-	fn schema_name() -> std::borrow::Cow<'static, str> {
-		"LibertyStd".into()
-	}
+		fn schema_id() -> std::borrow::Cow<'static, str> {
+			concat!(module_path!(), "::LibertyStd").into()
+		}
 
-	fn schema_id() -> std::borrow::Cow<'static, str> {
-		concat!(module_path!(), "::LibertyStd").into()
-	}
-
-	fn json_schema(_generator: &mut schemars::SchemaGenerator) -> schemars::Schema {
-		schemars::json_schema!({
-			"description": "Synopsys Liberty Version",
-			"type": "string",
-			"enum": [
-				"2014.09",
-				"2015.12",
-				"2016.06",
-				"2016.12",
-				"2017.06",
-				"2018.06",
-				"2019.03",
-				"2019.12",
-				"2020.09",
-			]
-		})
+		fn json_schema(_generator: &mut schemars::SchemaGenerator) -> schemars::Schema {
+			schemars::json_schema!({
+				"description": "Synopsys Liberty Version",
+				"type": "string",
+				"enum": [
+					"2014.09",
+					"2015.12",
+					"2016.06",
+					"2016.12",
+					"2017.06",
+					"2018.06",
+					"2019.03",
+					"2019.12",
+					"2020.09",
+				]
+			})
+		}
 	}
 }
 
 #[cfg(test)]
 mod test {
-	#[cfg(feature = "serde")]
-	use serde_test::{Token, assert_tokens};
-
 	use super::*;
 
-	#[test]
-	#[cfg(feature = "serde")]
-	fn test_language_set_serialize() {
-		assert_tokens(&LanguageStd::Liberty2014_09, &[Token::Str("2014.09")]);
-		assert_tokens(&LanguageStd::Liberty2015_12, &[Token::Str("2015.12")]);
-		assert_tokens(&LanguageStd::Liberty2016_06, &[Token::Str("2016.06")]);
-		assert_tokens(&LanguageStd::Liberty2016_12, &[Token::Str("2016.12")]);
-		assert_tokens(&LanguageStd::Liberty2017_06, &[Token::Str("2017.06")]);
-		assert_tokens(&LanguageStd::Liberty2018_06, &[Token::Str("2018.06")]);
-		assert_tokens(&LanguageStd::Liberty2019_03, &[Token::Str("2019.03")]);
-		assert_tokens(&LanguageStd::Liberty2019_12, &[Token::Str("2019.12")]);
-		assert_tokens(&LanguageStd::Liberty2020_09, &[Token::Str("2020.09")]);
+	cfg_serde! {
+		use serde_test::{Token, assert_tokens};
+
+		#[test]
+		fn test_language_set_serialize() {
+			assert_tokens(&LanguageStd::Liberty2014_09, &[Token::Str("2014.09")]);
+			assert_tokens(&LanguageStd::Liberty2015_12, &[Token::Str("2015.12")]);
+			assert_tokens(&LanguageStd::Liberty2016_06, &[Token::Str("2016.06")]);
+			assert_tokens(&LanguageStd::Liberty2016_12, &[Token::Str("2016.12")]);
+			assert_tokens(&LanguageStd::Liberty2017_06, &[Token::Str("2017.06")]);
+			assert_tokens(&LanguageStd::Liberty2018_06, &[Token::Str("2018.06")]);
+			assert_tokens(&LanguageStd::Liberty2019_03, &[Token::Str("2019.03")]);
+			assert_tokens(&LanguageStd::Liberty2019_12, &[Token::Str("2019.12")]);
+			assert_tokens(&LanguageStd::Liberty2020_09, &[Token::Str("2020.09")]);
+		}
 	}
 }
