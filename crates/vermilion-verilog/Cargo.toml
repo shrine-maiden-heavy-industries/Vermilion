@@ -36,10 +36,10 @@ test-log   = { workspace = true }
 [features]
 default = []
 
-graphviz-output = [ "vermilion-lang/graphviz-output" ]
-schema          = [ "serde", "dep:schemars", "vermilion-fmt/schema", "vermilion-diagnostics/schema" ]
-serde           = [ "dep:serde", "vermilion-fmt/serde", "vermilion-diagnostics/serde" ]
-vermilion-cli   = [ "dep:clap" ]
+cli      = [ "dep:clap" ]
+graphviz = [ "vermilion-lang/graphviz" ]
+schema   = [ "serde", "dep:schemars", "vermilion-fmt/schema", "vermilion-diagnostics/schema" ]
+serde    = [ "dep:serde", "vermilion-fmt/serde", "vermilion-diagnostics/serde" ]
 
 [lints]
 workspace = true
