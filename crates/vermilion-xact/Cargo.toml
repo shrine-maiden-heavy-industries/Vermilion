@@ -34,9 +34,9 @@ test-log   = { workspace = true }
 [features]
 default = []
 
-schema          = [ "serde", "dep:schemars", "vermilion-diagnostics/schema" ]
-serde           = [ "vermilion-diagnostics/serde" ]
-vermilion-cli   = [ "dep:clap" ]
+cli    = [ "dep:clap" ]
+schema = [ "serde", "dep:schemars", "vermilion-diagnostics/schema" ]
+serde  = [ "vermilion-diagnostics/serde" ]
 
 [lints]
 workspace = true
