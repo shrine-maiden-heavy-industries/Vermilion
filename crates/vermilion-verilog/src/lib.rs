@@ -8,6 +8,7 @@
 use std::fmt::Display;
 
 use bitmask_enum::bitmask;
+use vermilion_macros::cfg_serde;
 
 pub mod config;
 pub mod diagnostics;
@@ -106,98 +107,98 @@ impl Display for LanguageStd {
 	}
 }
 
-#[cfg(feature = "serde")]
-impl<'de> serde::Deserialize<'de> for LanguageStd {
-	fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-	where
-		D: serde::Deserializer<'de>,
-	{
-		static VALUES: [&str; 11] = [
-			"Vl95", "Vl01", "Vl05", "Sv05", "Sv09", "Sv12", "Sv17", "Sv23", "Vams09", "Vams14",
-			"Vams23",
-		];
+cfg_serde! {
+	impl<'de> serde::Deserialize<'de> for LanguageStd {
+		fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+		where
+			D: serde::Deserializer<'de>,
+		{
+			static VALUES: [&str; 11] = [
+				"Vl95", "Vl01", "Vl05", "Sv05", "Sv09", "Sv12", "Sv17", "Sv23", "Vams09", "Vams14",
+				"Vams23",
+			];
 
-		struct ValueVisitor;
-		impl<'de> serde::de::Visitor<'de> for ValueVisitor {
-			type Value = LanguageStd;
+			struct ValueVisitor;
+			impl<'de> serde::de::Visitor<'de> for ValueVisitor {
+				type Value = LanguageStd;
 
-			fn expecting(&self, formatter: &mut std::fmt::Formatter) -> std::fmt::Result {
-				formatter.write_str(
-					"`Vl95`, `Vl01`, `Vl05`, `Sv05`, `Sv09`, `Sv12`, `Sv17`, `Sv23`, `Vams09`, \
-					 `Vams14`, or `Vams23`",
-				)
-			}
+				fn expecting(&self, formatter: &mut std::fmt::Formatter) -> std::fmt::Result {
+					formatter.write_str(
+						"`Vl95`, `Vl01`, `Vl05`, `Sv05`, `Sv09`, `Sv12`, `Sv17`, `Sv23`, `Vams09`, \
+						`Vams14`, or `Vams23`",
+					)
+				}
 
-			fn visit_str<E>(self, value: &str) -> Result<Self::Value, E>
-			where
-				E: serde::de::Error,
-			{
-				match value {
-					"Vl95" => Ok(LanguageStd::Vl95),
-					"Vl01" => Ok(LanguageStd::Vl01),
-					"Vl05" => Ok(LanguageStd::Vl05),
-					"Sv05" => Ok(LanguageStd::Sv05),
-					"Sv09" => Ok(LanguageStd::Sv09),
-					"Sv12" => Ok(LanguageStd::Sv12),
-					"Sv17" => Ok(LanguageStd::Sv17),
-					"Sv23" => Ok(LanguageStd::Sv23),
-					"Vams09" => Ok(LanguageStd::Vams09),
-					"Vams14" => Ok(LanguageStd::Vams14),
-					"Vams23" => Ok(LanguageStd::Vams23),
-					_ => Err(serde::de::Error::unknown_variant(value, &VALUES)),
+				fn visit_str<E>(self, value: &str) -> Result<Self::Value, E>
+				where
+					E: serde::de::Error,
+				{
+					match value {
+						"Vl95" => Ok(LanguageStd::Vl95),
+						"Vl01" => Ok(LanguageStd::Vl01),
+						"Vl05" => Ok(LanguageStd::Vl05),
+						"Sv05" => Ok(LanguageStd::Sv05),
+						"Sv09" => Ok(LanguageStd::Sv09),
+						"Sv12" => Ok(LanguageStd::Sv12),
+						"Sv17" => Ok(LanguageStd::Sv17),
+						"Sv23" => Ok(LanguageStd::Sv23),
+						"Vams09" => Ok(LanguageStd::Vams09),
+						"Vams14" => Ok(LanguageStd::Vams14),
+						"Vams23" => Ok(LanguageStd::Vams23),
+						_ => Err(serde::de::Error::unknown_variant(value, &VALUES)),
+					}
 				}
 			}
+
+			deserializer.deserialize_str(ValueVisitor)
 		}
-
-		deserializer.deserialize_str(ValueVisitor)
 	}
-}
 
-#[cfg(feature = "serde")]
-impl serde::Serialize for LanguageStd {
-	fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-	where
-		S: serde::Serializer,
-	{
-		match *self {
-			Self::Vl95 => serializer.serialize_str("Vl95"),
-			Self::Vl01 => serializer.serialize_str("Vl01"),
-			Self::Vl05 => serializer.serialize_str("Vl05"),
-			Self::Sv05 => serializer.serialize_str("Sv05"),
-			Self::Sv09 => serializer.serialize_str("Sv09"),
-			Self::Sv12 => serializer.serialize_str("Sv12"),
-			Self::Sv17 => serializer.serialize_str("Sv17"),
-			Self::Sv23 => serializer.serialize_str("Sv23"),
-			Self::Vams09 => serializer.serialize_str("Vams09"),
-			Self::Vams14 => serializer.serialize_str("Vams14"),
-			Self::Vams23 => serializer.serialize_str("Vams23"),
-			_ => Err(serde::ser::Error::custom(
-				"Unable to serialize `LanguageStd` with more than one bit set",
-			)),
+	impl serde::Serialize for LanguageStd {
+		fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+		where
+			S: serde::Serializer,
+		{
+			match *self {
+				Self::Vl95 => serializer.serialize_str("Vl95"),
+				Self::Vl01 => serializer.serialize_str("Vl01"),
+				Self::Vl05 => serializer.serialize_str("Vl05"),
+				Self::Sv05 => serializer.serialize_str("Sv05"),
+				Self::Sv09 => serializer.serialize_str("Sv09"),
+				Self::Sv12 => serializer.serialize_str("Sv12"),
+				Self::Sv17 => serializer.serialize_str("Sv17"),
+				Self::Sv23 => serializer.serialize_str("Sv23"),
+				Self::Vams09 => serializer.serialize_str("Vams09"),
+				Self::Vams14 => serializer.serialize_str("Vams14"),
+				Self::Vams23 => serializer.serialize_str("Vams23"),
+				_ => Err(serde::ser::Error::custom(
+					"Unable to serialize `LanguageStd` with more than one bit set",
+				)),
+			}
 		}
 	}
 }
 
 #[cfg(test)]
 mod test {
-	#[cfg(feature = "serde")]
-	use serde_test::{Token, assert_tokens};
-
 	use super::*;
 
-	#[test]
-	#[cfg(feature = "serde")]
-	fn test_language_set_serialize() {
-		assert_tokens(&LanguageStd::Vl95, &[Token::Str("Vl95")]);
-		assert_tokens(&LanguageStd::Vl01, &[Token::Str("Vl01")]);
-		assert_tokens(&LanguageStd::Vl05, &[Token::Str("Vl05")]);
-		assert_tokens(&LanguageStd::Sv05, &[Token::Str("Sv05")]);
-		assert_tokens(&LanguageStd::Sv09, &[Token::Str("Sv09")]);
-		assert_tokens(&LanguageStd::Sv12, &[Token::Str("Sv12")]);
-		assert_tokens(&LanguageStd::Sv17, &[Token::Str("Sv17")]);
-		assert_tokens(&LanguageStd::Sv23, &[Token::Str("Sv23")]);
-		assert_tokens(&LanguageStd::Vams09, &[Token::Str("Vams09")]);
-		assert_tokens(&LanguageStd::Vams14, &[Token::Str("Vams14")]);
-		assert_tokens(&LanguageStd::Vams23, &[Token::Str("Vams23")]);
+	cfg_serde! {
+		use serde_test::{Token, assert_tokens};
+
+		#[test]
+		fn test_language_set_serialize() {
+			assert_tokens(&LanguageStd::Vl95, &[Token::Str("Vl95")]);
+			assert_tokens(&LanguageStd::Vl01, &[Token::Str("Vl01")]);
+			assert_tokens(&LanguageStd::Vl05, &[Token::Str("Vl05")]);
+			assert_tokens(&LanguageStd::Sv05, &[Token::Str("Sv05")]);
+			assert_tokens(&LanguageStd::Sv09, &[Token::Str("Sv09")]);
+			assert_tokens(&LanguageStd::Sv12, &[Token::Str("Sv12")]);
+			assert_tokens(&LanguageStd::Sv17, &[Token::Str("Sv17")]);
+			assert_tokens(&LanguageStd::Sv23, &[Token::Str("Sv23")]);
+			assert_tokens(&LanguageStd::Vams09, &[Token::Str("Vams09")]);
+			assert_tokens(&LanguageStd::Vams14, &[Token::Str("Vams14")]);
+			assert_tokens(&LanguageStd::Vams23, &[Token::Str("Vams23")]);
+		}
 	}
 }

@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: BSD-3-Clause
 
+use vermilion_macros::cfg_schema;
+
 use crate::{
 	LanguageStd,
 	fmt::workspace::{SystemVerilogFormat, VerilogAmsFormat, VerilogFormat},
@@ -72,112 +74,111 @@ impl Default for VerilogAmsWorkspace {
 	}
 }
 
-#[cfg(feature = "schema")]
-#[cfg_attr(coverage_nightly, coverage(off))]
-impl schemars::JsonSchema for VerilogWorkspace {
-	fn schema_name() -> std::borrow::Cow<'static, str> {
-		"VerilogWorkspace".into()
+cfg_schema! {
+	#[cfg_attr(coverage_nightly, coverage(off))]
+	impl schemars::JsonSchema for VerilogWorkspace {
+		fn schema_name() -> std::borrow::Cow<'static, str> {
+			"VerilogWorkspace".into()
+		}
+
+		fn schema_id() -> std::borrow::Cow<'static, str> {
+			concat!(module_path!(), "::VerilogWorkspace").into()
+		}
+
+		fn json_schema(generator: &mut schemars::SchemaGenerator) -> schemars::Schema {
+			let fmt_schema = generator.subschema_for::<Option<VerilogFormat>>();
+			let lint_schema = generator.subschema_for::<Option<VerilogLint>>();
+			let std_schema = schemars::json_schema!({
+				"description": "Verilog Standard",
+				"type": "string",
+				"enum": [
+					"Vl95",
+					"Vl01",
+					"Vl05"
+				]
+			});
+
+			schemars::json_schema!({
+				"description": "Verilog Workspace Configuration",
+				"type": "object",
+				"properties": {
+					"std": std_schema,
+					"fmt": fmt_schema,
+					"lint": lint_schema,
+				}
+			})
+		}
 	}
 
-	fn schema_id() -> std::borrow::Cow<'static, str> {
-		concat!(module_path!(), "::VerilogWorkspace").into()
+	#[cfg_attr(coverage_nightly, coverage(off))]
+	impl schemars::JsonSchema for SystemVerilogWorkspace {
+		fn schema_name() -> std::borrow::Cow<'static, str> {
+			"SystemVerilogWorkspace".into()
+		}
+
+		fn schema_id() -> std::borrow::Cow<'static, str> {
+			concat!(module_path!(), "::SystemVerilogWorkspace").into()
+		}
+
+		fn json_schema(generator: &mut schemars::SchemaGenerator) -> schemars::Schema {
+			let fmt_schema = generator.subschema_for::<Option<SystemVerilogFormat>>();
+			let lint_schema = generator.subschema_for::<Option<SystemVerilogLint>>();
+			let std_schema = schemars::json_schema!({
+				"description": "SystemVerilog Standard",
+				"type": "string",
+				"enum": [
+					"Sv05",
+					"Sv09",
+					"Sv12",
+					"Sv17",
+					"Sv23"
+				]
+			});
+
+			schemars::json_schema!({
+				"description": "SystemVerilog Workspace Configuration",
+				"type": "object",
+				"properties": {
+					"std": std_schema,
+					"fmt": fmt_schema,
+					"lint": lint_schema,
+				}
+			})
+		}
 	}
 
-	fn json_schema(generator: &mut schemars::SchemaGenerator) -> schemars::Schema {
-		let fmt_schema = generator.subschema_for::<Option<VerilogFormat>>();
-		let lint_schema = generator.subschema_for::<Option<VerilogLint>>();
-		let std_schema = schemars::json_schema!({
-			"description": "Verilog Standard",
-			"type": "string",
-			"enum": [
-				"Vl95",
-				"Vl01",
-				"Vl05"
-			]
-		});
+	#[cfg_attr(coverage_nightly, coverage(off))]
+	impl schemars::JsonSchema for VerilogAmsWorkspace {
+		fn schema_name() -> std::borrow::Cow<'static, str> {
+			"VerilogAmsWorkspace".into()
+		}
 
-		schemars::json_schema!({
-			"description": "Verilog Workspace Configuration",
-			"type": "object",
-			"properties": {
-				"std": std_schema,
-				"fmt": fmt_schema,
-				"lint": lint_schema,
-			}
-		})
-	}
-}
+		fn schema_id() -> std::borrow::Cow<'static, str> {
+			concat!(module_path!(), "::VerilogAmsWorkspace").into()
+		}
 
-#[cfg(feature = "schema")]
-#[cfg_attr(coverage_nightly, coverage(off))]
-impl schemars::JsonSchema for SystemVerilogWorkspace {
-	fn schema_name() -> std::borrow::Cow<'static, str> {
-		"SystemVerilogWorkspace".into()
-	}
+		fn json_schema(generator: &mut schemars::SchemaGenerator) -> schemars::Schema {
+			let fmt_schema = generator.subschema_for::<Option<VerilogAmsFormat>>();
+			let lint_schema = generator.subschema_for::<Option<VerilogAmsLint>>();
+			let std_schema = schemars::json_schema!({
+				"description": "Verilog-AMS Standard",
+				"type": "string",
+				"enum": [
+					"Vams09",
+					"Vams14",
+					"Vams23",
+				]
+			});
 
-	fn schema_id() -> std::borrow::Cow<'static, str> {
-		concat!(module_path!(), "::SystemVerilogWorkspace").into()
-	}
-
-	fn json_schema(generator: &mut schemars::SchemaGenerator) -> schemars::Schema {
-		let fmt_schema = generator.subschema_for::<Option<SystemVerilogFormat>>();
-		let lint_schema = generator.subschema_for::<Option<SystemVerilogLint>>();
-		let std_schema = schemars::json_schema!({
-			"description": "SystemVerilog Standard",
-			"type": "string",
-			"enum": [
-				"Sv05",
-				"Sv09",
-				"Sv12",
-				"Sv17",
-				"Sv23"
-			]
-		});
-
-		schemars::json_schema!({
-			"description": "SystemVerilog Workspace Configuration",
-			"type": "object",
-			"properties": {
-				"std": std_schema,
-				"fmt": fmt_schema,
-				"lint": lint_schema,
-			}
-		})
-	}
-}
-
-#[cfg(feature = "schema")]
-#[cfg_attr(coverage_nightly, coverage(off))]
-impl schemars::JsonSchema for VerilogAmsWorkspace {
-	fn schema_name() -> std::borrow::Cow<'static, str> {
-		"VerilogAmsWorkspace".into()
-	}
-
-	fn schema_id() -> std::borrow::Cow<'static, str> {
-		concat!(module_path!(), "::VerilogAmsWorkspace").into()
-	}
-
-	fn json_schema(generator: &mut schemars::SchemaGenerator) -> schemars::Schema {
-		let fmt_schema = generator.subschema_for::<Option<VerilogAmsFormat>>();
-		let lint_schema = generator.subschema_for::<Option<VerilogAmsLint>>();
-		let std_schema = schemars::json_schema!({
-			"description": "Verilog-AMS Standard",
-			"type": "string",
-			"enum": [
-				"Vams09",
-				"Vams14",
-				"Vams23",
-			]
-		});
-
-		schemars::json_schema!({
-			"description": "Verilog-AMS Workspace Configuration",
-			"type": "object",
-			"properties": {
-				"std": std_schema,
-				"fmt": fmt_schema,
-				"lint": lint_schema,
-			}
-		})
+			schemars::json_schema!({
+				"description": "Verilog-AMS Workspace Configuration",
+				"type": "object",
+				"properties": {
+					"std": std_schema,
+					"fmt": fmt_schema,
+					"lint": lint_schema,
+				}
+			})
+		}
 	}
 }
