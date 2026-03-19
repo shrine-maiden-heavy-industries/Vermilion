@@ -30,7 +30,7 @@ test-log  = { workspace = true }
 [features]
 default = []
 
-graphviz-output = []
+graphviz = []
 
 [lints]
 workspace = true
