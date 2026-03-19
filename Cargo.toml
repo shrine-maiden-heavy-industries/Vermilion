@@ -26,6 +26,7 @@ vermilion-lang        = { path = "crates/vermilion-lang"        }
 vermilion-liberty     = { path = "crates/vermilion-liberty"     }
 vermilion-loc         = { path = "crates/vermilion-loc"         }
 vermilion-lsp         = { path = "crates/vermilion-lsp"         }
+vermilion-macros      = { path = "crates/vermilion-macros"      }
 vermilion-verilog     = { path = "crates/vermilion-verilog"     }
 vermilion-vhdl        = { path = "crates/vermilion-vhdl"        }
 vermilion-xact        = { path = "crates/vermilion-xact"        }

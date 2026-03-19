@@ -3601,6 +3601,10 @@ dependencies = [
 ]
 
 [[package]]
+name = "vermilion-macros"
+version = "0.0.0"
+
+[[package]]
 name = "vermilion-verilog"
 version = "0.0.0"
 dependencies = [

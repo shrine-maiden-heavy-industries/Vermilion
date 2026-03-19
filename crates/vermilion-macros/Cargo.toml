@@ -1,0 +1,18 @@
+# SPDX-License-Identifier: BSD-3-Clause
+[package]
+name          = "vermilion-macros"
+description   = "Generic support macros for Vermilion and related crates"
+documentation = { workspace = true }
+edition       = { workspace = true }
+homepage      = { workspace = true }
+license       = { workspace = true }
+publish       = { workspace = true }
+repository    = { workspace = true }
+rust-version  = { workspace = true }
+version       = { workspace = true }
+
+[lints]
+workspace = true
+
+[features]
+default = []
