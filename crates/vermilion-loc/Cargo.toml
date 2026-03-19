@@ -18,6 +18,7 @@ vermilion-macros = { workspace = true }
 # The functionality of `ariadne` will likely be absorbed into the diagnostics crate,
 # this is here for type conversion for the moment.
 ariadne          = { workspace = true }
+serde            = { workspace = true, optional = true }
 
 [dev-dependencies]
 criterion = { workspace = true }
@@ -28,6 +29,7 @@ test-log  = { workspace = true }
 default = []
 
 graphviz = []
+serde    = [ "dep:serde" ]
 
 [lints]
 workspace = true
