@@ -12,11 +12,12 @@ rust-version  = { workspace = true }
 version       = { workspace = true }
 
 [dependencies]
+vermilion-macros = { workspace = true }
 
 # XXX(aki):
 # The functionality of `ariadne` will likely be absorbed into the diagnostics crate,
 # this is here for type conversion for the moment.
-ariadne = { workspace = true }
+ariadne          = { workspace = true }
 
 [dev-dependencies]
 criterion = { workspace = true }

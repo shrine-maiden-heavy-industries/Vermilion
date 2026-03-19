@@ -12,17 +12,18 @@ rust-version  = { workspace = true }
 version       = { workspace = true }
 
 [dependencies]
-vermilion-loc  = { workspace = true }
+vermilion-loc    = { workspace = true }
+vermilion-macros = { workspace = true }
 
-ariadne        = { workspace = true }
-crossterm      = { workspace = true, optional = true }
-paste          = { workspace = true }
-phf            = { workspace = true }
-pulldown-cmark = { workspace = true, optional = true }
-ratatui        = { workspace = true, optional = true }
-schemars       = { workspace = true, optional = true }
-serde          = { workspace = true, optional = true }
-syntect        = { workspace = true, optional = true }
+ariadne          = { workspace = true }
+crossterm        = { workspace = true, optional = true }
+paste            = { workspace = true }
+phf              = { workspace = true }
+pulldown-cmark   = { workspace = true, optional = true }
+ratatui          = { workspace = true, optional = true }
+schemars         = { workspace = true, optional = true }
+serde            = { workspace = true, optional = true }
+syntect          = { workspace = true, optional = true }
 
 [dev-dependencies]
 criterion = { workspace = true }

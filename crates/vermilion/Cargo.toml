@@ -20,6 +20,7 @@ vermilion-lang        = { workspace = true }
 vermilion-liberty     = { workspace = true, features = [ "schema", "vermilion-cli" ] }
 vermilion-loc         = { workspace = true }
 vermilion-lsp         = { workspace = true, features = [ "transport", "trace", "trace-server" ] }
+vermilion-macros      = { workspace = true }
 vermilion-verilog     = { workspace = true, features = [ "schema", "vermilion-cli" ] }
 vermilion-vhdl        = { workspace = true, features = [ "schema", "vermilion-cli" ] }
 vermilion-xact        = { workspace = true, features = [ "schema", "vermilion-cli" ] }

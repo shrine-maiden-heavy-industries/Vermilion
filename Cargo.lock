@@ -3462,6 +3462,7 @@ dependencies = [
  "vermilion-liberty",
  "vermilion-loc",
  "vermilion-lsp",
+ "vermilion-macros",
  "vermilion-verilog",
  "vermilion-vhdl",
  "vermilion-xact",
@@ -3487,6 +3488,7 @@ dependencies = [
  "vermilion-fmt",
  "vermilion-lang",
  "vermilion-loc",
+ "vermilion-macros",
 ]
 
 [[package]]
@@ -3506,6 +3508,7 @@ dependencies = [
  "syntect",
  "test-log",
  "vermilion-loc",
+ "vermilion-macros",
 ]
 
 [[package]]
@@ -3518,6 +3521,7 @@ dependencies = [
  "serde",
  "test-log",
  "vermilion-loc",
+ "vermilion-macros",
 ]
 
 [[package]]
@@ -3546,6 +3550,7 @@ dependencies = [
  "vermilion-diagnostics",
  "vermilion-fmt",
  "vermilion-loc",
+ "vermilion-macros",
 ]
 
 [[package]]
@@ -3568,6 +3573,7 @@ dependencies = [
  "vermilion-fmt",
  "vermilion-lang",
  "vermilion-loc",
+ "vermilion-macros",
 ]
 
 [[package]]
@@ -3578,6 +3584,7 @@ dependencies = [
  "criterion",
  "proptest",
  "test-log",
+ "vermilion-macros",
 ]
 
 [[package]]
@@ -3597,6 +3604,7 @@ dependencies = [
  "tokio",
  "tokio-util",
  "tracing",
+ "vermilion-macros",
  "windows-sys 0.61.2",
 ]
 
@@ -3624,6 +3632,7 @@ dependencies = [
  "vermilion-fmt",
  "vermilion-lang",
  "vermilion-loc",
+ "vermilion-macros",
 ]
 
 [[package]]
@@ -3646,6 +3655,7 @@ dependencies = [
  "vermilion-fmt",
  "vermilion-lang",
  "vermilion-loc",
+ "vermilion-macros",
 ]
 
 [[package]]
@@ -3666,6 +3676,7 @@ dependencies = [
  "test-log",
  "vermilion-diagnostics",
  "vermilion-loc",
+ "vermilion-macros",
 ]
 
 [[package]]

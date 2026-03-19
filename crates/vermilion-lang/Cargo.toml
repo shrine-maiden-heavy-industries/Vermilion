@@ -15,6 +15,7 @@ version       = { workspace = true }
 vermilion-diagnostics = { workspace = true }
 vermilion-fmt         = { workspace = true }
 vermilion-loc         = { workspace = true }
+vermilion-macros      = { workspace = true }
 
 # XXX(aki): The functionality of `ariadne` will likely be absorbed into the diagnostics crate
 ariadne    = { workspace = true }
