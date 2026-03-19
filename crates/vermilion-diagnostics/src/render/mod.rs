@@ -1,5 +1,8 @@
 // SPDX-License-Identifier: BSD-3-Clause
 
-#[cfg(feature = "pretty")]
-pub mod fancy;
+use vermilion_macros::cfg_diagnostics_pretty;
+
+cfg_diagnostics_pretty! {
+	pub mod fancy;
+}
 pub mod plain;

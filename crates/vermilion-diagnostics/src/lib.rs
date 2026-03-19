@@ -5,13 +5,16 @@
 // #![warn(missing_docs)]
 // #![warn(clippy::missing_docs_in_private_items)]
 
+use vermilion_macros::cfg_diagnostics_render;
+
 pub mod code;
 pub mod common;
 pub mod config;
 pub mod diagnostic;
 pub mod macros;
-#[cfg(feature = "render")]
-pub mod render;
+cfg_diagnostics_render! {
+	pub mod render;
+}
 pub mod workspace;
 
 pub use crate::{
