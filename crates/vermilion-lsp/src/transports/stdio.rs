@@ -9,17 +9,20 @@ use tokio::{
 };
 use tokio_util::sync::CancellationToken;
 use tracing::error;
+use vermilion_macros::cfg_lsp_trace_server;
 
 use super::LSPTransport;
 use crate::{
 	message::Message,
 	transports::{ReadPhase, parse_message},
 };
-#[cfg(feature = "trace-server")]
-use crate::{
-	trace::Trace,
-	transports::trace::{TraceTransport, setup_trace},
-};
+
+cfg_lsp_trace_server! {
+	use crate::{
+		trace::Trace,
+		transports::trace::{TraceTransport, setup_trace},
+	};
+}
 
 #[derive(Debug)]
 pub struct StdioTransport {}
@@ -40,7 +43,9 @@ async fn stdio_reader(
 	sender: UnboundedSender<Message>,
 	cancellation_token: CancellationToken,
 	shutdown_channel: UnboundedSender<()>,
-	#[cfg(feature = "trace-server")] trace_sender: Option<UnboundedSender<Trace>>,
+	#[cfg(feature = "trace-server")]
+	#[cfg_attr(docsrs, doc(cfg(feature = "trace-server")))]
+	trace_sender: Option<UnboundedSender<Trace>>,
 ) -> Result<()> {
 	let mut stdin = io::stdin();
 	let mut buf = vec![0u8; 4096].into_boxed_slice();
@@ -90,7 +95,9 @@ async fn stdio_writer(
 	mut receiver: UnboundedReceiver<Message>,
 	cancellation_token: CancellationToken,
 	_shutdown_channel: UnboundedSender<()>,
-	#[cfg(feature = "trace-server")] trace_sender: Option<UnboundedSender<Trace>>,
+	#[cfg(feature = "trace-server")]
+	#[cfg_attr(docsrs, doc(cfg(feature = "trace-server")))]
+	trace_sender: Option<UnboundedSender<Trace>>,
 ) -> Result<()> {
 	let mut stdout = io::stdout();
 	let mut msg_buffer = Vec::new();
@@ -128,7 +135,9 @@ impl LSPTransport for StdioTransport {
 		self,
 		cancellation_token: CancellationToken,
 		shutdown_channel: UnboundedSender<()>,
-		#[cfg(feature = "trace-server")] trace_transport: Option<TraceTransport>,
+		#[cfg(feature = "trace-server")]
+		#[cfg_attr(docsrs, doc(cfg(feature = "trace-server")))]
+		trace_transport: Option<TraceTransport>,
 	) -> Result<(
 		UnboundedReceiver<Message>,
 		UnboundedSender<Message>,

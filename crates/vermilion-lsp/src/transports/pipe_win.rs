@@ -9,13 +9,15 @@ use tokio::{
 };
 use tokio_util::sync::CancellationToken;
 use vermilion_lsp::message::Message;
+use vermilion_macros::cfg_lsp_trace_server;
 
 use super::LSPTransport;
-#[cfg(feature = "trace-server")]
-use crate::{
-	trace::Trace,
-	transports::trace::{TraceTransport, setup_trace},
-};
+cfg_lsp_trace_server! {
+	use crate::{
+		trace::Trace,
+		transports::trace::{TraceTransport, setup_trace},
+	};
+}
 
 #[derive(Debug)]
 pub struct PipeTransport {}
@@ -25,7 +27,9 @@ impl LSPTransport for PipeTransport {
 		self,
 		cancellation_token: CancellationToken,
 		shutdown_channel: UnboundedSender<()>,
-		#[cfg(feature = "trace-server")] trace_transport: Option<TraceTransport>,
+		#[cfg(feature = "trace-server")]
+		#[cfg_attr(docsrs, doc(cfg(feature = "trace-server")))]
+		trace_transport: Option<TraceTransport>,
 	) -> Result<(
 		UnboundedReceiver<Message>,
 		UnboundedSender<Message>,

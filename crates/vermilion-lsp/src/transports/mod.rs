@@ -9,18 +9,21 @@ use tokio::{
 };
 use tokio_util::sync::CancellationToken;
 use tracing::{error, trace};
+use vermilion_macros::cfg_lsp_trace_server;
 
 use super::message::Message;
-#[cfg(feature = "trace-server")]
-use crate::{trace::Trace, transports::trace::TraceTransport};
+cfg_lsp_trace_server! {
+	use crate::{trace::Trace, transports::trace::TraceTransport};
+}
 
 #[cfg_attr(unix, path = "pipe_unix.rs")]
 #[cfg_attr(windows, path = "pipe_win.rs")]
 pub mod pipe;
 pub mod socket;
 pub mod stdio;
-#[cfg(feature = "trace-server")]
-pub mod trace;
+cfg_lsp_trace_server! {
+	pub mod trace;
+}
 
 #[derive(Clone, Copy)]
 enum ReadPhase {
@@ -57,7 +60,9 @@ fn parse_header(header: &[u8], shutdown_channel: &UnboundedSender<()>) -> Result
 fn deserialise_message(
 	content: &mut Vec<u8>,
 	sender: &UnboundedSender<Message>,
-	#[cfg(feature = "trace-server")] trace_sender: &Option<UnboundedSender<Trace>>,
+	#[cfg(feature = "trace-server")]
+	#[cfg_attr(docsrs, doc(cfg(feature = "trace-server")))]
+	trace_sender: &Option<UnboundedSender<Trace>>,
 ) -> eyre::Result<()> {
 	// Otherwise deserialize message and clear the buffer
 	match Message::deserialize(content) {
@@ -88,7 +93,9 @@ fn parse_chunk(
 	current_phase: ReadPhase,
 	sender: &UnboundedSender<Message>,
 	shutdown_channel: &UnboundedSender<()>,
-	#[cfg(feature = "trace-server")] trace_sender: &Option<UnboundedSender<Trace>>,
+	#[cfg(feature = "trace-server")]
+	#[cfg_attr(docsrs, doc(cfg(feature = "trace-server")))]
+	trace_sender: &Option<UnboundedSender<Trace>>,
 ) -> eyre::Result<(ReadPhase, usize)> {
 	match current_phase {
 		ReadPhase::Header => {
@@ -155,7 +162,9 @@ fn parse_message(
 	phase: &mut ReadPhase,
 	sender: &UnboundedSender<Message>,
 	shutdown_channel: &UnboundedSender<()>,
-	#[cfg(feature = "trace-server")] trace_sender: &Option<UnboundedSender<Trace>>,
+	#[cfg(feature = "trace-server")]
+	#[cfg_attr(docsrs, doc(cfg(feature = "trace-server")))]
+	trace_sender: &Option<UnboundedSender<Trace>>,
 ) -> eyre::Result<()> {
 	let mut offset = 0;
 
@@ -167,6 +176,7 @@ fn parse_message(
 			*phase,
 			sender,
 			shutdown_channel,
+			#[cfg(feature = "trace-server")]
 			trace_sender,
 		)?;
 		*phase = new_phase;
@@ -191,7 +201,9 @@ pub trait LSPTransport: Sized {
 		self,
 		cancellation_token: CancellationToken,
 		shutdown_channel: UnboundedSender<()>,
-		#[cfg(feature = "trace-server")] trace_transport: Option<TraceTransport>,
+		#[cfg(feature = "trace-server")]
+		#[cfg_attr(docsrs, doc(cfg(feature = "trace-server")))]
+		trace_transport: Option<TraceTransport>,
 	) -> impl Future<
 		Output = Result<(
 			UnboundedReceiver<Message>,
