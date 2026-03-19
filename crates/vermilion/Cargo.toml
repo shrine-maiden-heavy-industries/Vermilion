@@ -13,17 +13,17 @@ rust-version  = { workspace = true }
 version       = { workspace = true }
 
 [dependencies]
-vermilion-constraints = { workspace = true, features = [ "schema", "vermilion-cli" ] }
-vermilion-diagnostics = { workspace = true, features = [ "schema", "pretty-diagnostics" ] }
+vermilion-constraints = { workspace = true, features = [ "schema", "cli" ] }
+vermilion-diagnostics = { workspace = true, features = [ "schema", "render", "pretty" ] }
 vermilion-fmt         = { workspace = true, features = [ "schema" ] }
 vermilion-lang        = { workspace = true }
-vermilion-liberty     = { workspace = true, features = [ "schema", "vermilion-cli" ] }
+vermilion-liberty     = { workspace = true, features = [ "schema", "cli" ] }
 vermilion-loc         = { workspace = true }
 vermilion-lsp         = { workspace = true, features = [ "transport", "trace", "trace-server" ] }
 vermilion-macros      = { workspace = true }
-vermilion-verilog     = { workspace = true, features = [ "schema", "vermilion-cli" ] }
-vermilion-vhdl        = { workspace = true, features = [ "schema", "vermilion-cli" ] }
-vermilion-xact        = { workspace = true, features = [ "schema", "vermilion-cli" ] }
+vermilion-verilog     = { workspace = true, features = [ "schema", "cli" ] }
+vermilion-vhdl        = { workspace = true, features = [ "schema", "cli" ] }
+vermilion-xact        = { workspace = true, features = [ "schema", "cli" ] }
 
 clap                  = { workspace = true }
 clap_complete         = { workspace = true }
