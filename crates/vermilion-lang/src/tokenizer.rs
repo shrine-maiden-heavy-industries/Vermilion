@@ -2,7 +2,7 @@
 
 use std::ops::{Index, Range, RangeFrom, RangeFull, RangeInclusive, RangeTo, RangeToInclusive};
 
-use vermilion_loc::Position;
+use vermilion_loc::{Position, Span, span::ThinSpan};
 
 use crate::AtomicByteTendril;
 
@@ -13,7 +13,10 @@ macro_rules! simple_token {
 		let begin = $self.tokenizer.offset();
 		$self.tokenizer.next_char();
 
-		$self.token = spanned_token!($token, begin..$self.tokenizer.offset(), context);
+		$self.token = spanned_token!(
+			$token,
+			vermilion_loc::span::Span::from_position(begin, $self.tokenizer.offset(), context)
+		);
 	}};
 }
 
