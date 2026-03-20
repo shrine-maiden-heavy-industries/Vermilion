@@ -137,8 +137,9 @@ impl CoreTokenizer {
 	///
 	/// Panics on bounds or validity check failure.
 	#[inline(always)]
-	pub fn subtendril(&self, range: Range<u32>) -> AtomicByteTendril {
-		self.text.subtendril(range.start, range.end - range.start)
+	pub fn subtendril(&self, range: ThinSpan) -> AtomicByteTendril {
+		self.text
+			.subtendril(*range.begin(), *range.end() - *range.begin())
 	}
 }
 
