@@ -18,7 +18,17 @@ macro_rules! spanned_token {
 	($token:expr) => {
 		vermilion_loc::spanned!($token)
 	};
-	($token:expr, $span_range:expr, $context:expr) => {
-		vermilion_loc::spanned!($token, $span_range, $context)
+	($token:expr, $span:expr, $position:expr) => {
+		vermilion_loc::spanned!($token, $span, $position)
+	};
+}
+
+#[macro_export]
+macro_rules! thin_spanned_token {
+	($token:expr) => {
+		vermilion_loc::thin_spanned!($token)
+	};
+	($token:expr, $span:expr) => {
+		vermilion_loc::thin_spanned!($token, $span)
 	};
 }
