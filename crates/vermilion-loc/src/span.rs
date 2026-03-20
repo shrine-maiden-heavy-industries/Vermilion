@@ -13,8 +13,14 @@ macro_rules! spanned {
 	($token:expr) => {
 		$crate::Spanned::new($token, None)
 	};
-	($token:expr, $span:expr, $position:expr) => {
-		$crate::Spanned::new($token, Some($crate::Span::from_range($span, $position)))
+	($token:expr, $span:expr) => {
+		$crate::Spanned::new($token, Some($span))
+	};
+	($token:expr, $range:expr, $position:expr) => {
+		$crate::Spanned::new(
+			$token,
+			Some($crate::span::Span::from_range($range, $position)),
+		)
 	};
 }
 
@@ -24,7 +30,7 @@ macro_rules! thin_spanned {
 		$crate::ThinSpanned::new($token, None)
 	};
 	($token:expr, $span:expr) => {
-		$crate::ThinSpanned::new($token, Some($crate::ThinSpan::new($span)))
+		$crate::ThinSpanned::new($token, Some($span))
 	};
 }
 
