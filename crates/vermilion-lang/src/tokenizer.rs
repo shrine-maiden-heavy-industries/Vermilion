@@ -151,6 +151,15 @@ impl Index<usize> for CoreTokenizer {
 	}
 }
 
+impl Index<u32> for CoreTokenizer {
+	type Output = u8;
+
+	#[inline(always)]
+	fn index(&self, index: u32) -> &Self::Output {
+		&self.text[index as usize]
+	}
+}
+
 impl Index<RangeFull> for CoreTokenizer {
 	type Output = [u8];
 
@@ -169,12 +178,30 @@ impl Index<Range<usize>> for CoreTokenizer {
 	}
 }
 
+impl Index<Range<u32>> for CoreTokenizer {
+	type Output = [u8];
+
+	#[inline(always)]
+	fn index(&self, index: Range<u32>) -> &Self::Output {
+		&self.text[(index.start as usize)..(index.end as usize)]
+	}
+}
+
 impl Index<RangeFrom<usize>> for CoreTokenizer {
 	type Output = [u8];
 
 	#[inline(always)]
 	fn index(&self, index: RangeFrom<usize>) -> &Self::Output {
 		&self.text[index]
+	}
+}
+
+impl Index<RangeFrom<u32>> for CoreTokenizer {
+	type Output = [u8];
+
+	#[inline(always)]
+	fn index(&self, index: RangeFrom<u32>) -> &Self::Output {
+		&self.text[(index.start as usize)..]
 	}
 }
 
@@ -187,6 +214,15 @@ impl Index<RangeTo<usize>> for CoreTokenizer {
 	}
 }
 
+impl Index<RangeTo<u32>> for CoreTokenizer {
+	type Output = [u8];
+
+	#[inline(always)]
+	fn index(&self, index: RangeTo<u32>) -> &Self::Output {
+		&self.text[..(index.end as usize)]
+	}
+}
+
 impl Index<RangeInclusive<usize>> for CoreTokenizer {
 	type Output = [u8];
 
@@ -196,11 +232,29 @@ impl Index<RangeInclusive<usize>> for CoreTokenizer {
 	}
 }
 
+impl Index<RangeInclusive<u32>> for CoreTokenizer {
+	type Output = [u8];
+
+	#[inline(always)]
+	fn index(&self, index: RangeInclusive<u32>) -> &Self::Output {
+		&self.text[(*index.start() as usize)..=(*index.end() as usize)]
+	}
+}
+
 impl Index<RangeToInclusive<usize>> for CoreTokenizer {
 	type Output = [u8];
 
 	#[inline(always)]
 	fn index(&self, index: RangeToInclusive<usize>) -> &Self::Output {
 		&self.text[index]
+	}
+}
+
+impl Index<RangeToInclusive<u32>> for CoreTokenizer {
+	type Output = [u8];
+
+	#[inline(always)]
+	fn index(&self, index: RangeToInclusive<u32>) -> &Self::Output {
+		&self.text[..=(index.end as usize)]
 	}
 }
