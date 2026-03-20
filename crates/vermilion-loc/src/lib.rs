@@ -8,5 +8,7 @@
 pub mod position;
 pub mod span;
 
-pub use position::Position;
-pub use span::{Span, Spanned};
+pub use crate::{
+	position::Position,
+	span::{Span, Spanned},
+};
