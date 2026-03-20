@@ -6,22 +6,22 @@ use crate::Code;
 pub trait Diagnostic {
 	fn code(&self) -> Code;
 	fn message(&self) -> &str;
-	fn span(&self) -> Option<&Span<usize, Position>>;
-	fn position(&self) -> Option<&Position>;
+	fn span(&self) -> Option<&Span>;
+	fn position(&self) -> Option<Position>;
 }
 
 #[derive(Clone, Debug, Eq, Ord, PartialEq, PartialOrd)]
 pub struct StrDiagnostic<'a> {
 	code:    Code,
 	message: &'a str,
-	span:    Option<Span<usize, Position>>,
+	span:    Option<Span>,
 }
 
 #[derive(Clone, Debug, Eq, Ord, PartialEq, PartialOrd)]
 pub struct StringDiagnostic {
 	code:    Code,
 	message: String,
-	span:    Option<Span<usize, Position>>,
+	span:    Option<Span>,
 }
 
 impl<'a> StrDiagnostic<'a> {
@@ -29,7 +29,7 @@ impl<'a> StrDiagnostic<'a> {
 		Self { code, message, span: None }
 	}
 
-	pub fn new(&self, location: Option<Span<usize, Position>>) -> Self {
+	pub fn new(&self, location: Option<Span>) -> Self {
 		Self {
 			code:    self.code,
 			message: self.message,
@@ -39,7 +39,7 @@ impl<'a> StrDiagnostic<'a> {
 }
 
 impl StringDiagnostic {
-	pub fn new<Str>(code: Code, message: Str, location: Option<Span<usize, Position>>) -> Self
+	pub fn new<Str>(code: Code, message: Str, location: Option<Span>) -> Self
 	where
 		Str: Into<String>,
 	{
@@ -56,12 +56,12 @@ impl<'a> Diagnostic for StrDiagnostic<'a> {
 		self.message
 	}
 
-	fn span(&self) -> Option<&Span<usize, Position>> {
+	fn span(&self) -> Option<&Span> {
 		self.span.as_ref()
 	}
 
-	fn position(&self) -> Option<&Position> {
-		self.span.as_ref().map(|f| f.context())
+	fn position(&self) -> Option<Position> {
+		self.span.as_ref().map(|f| f.get_position())
 	}
 }
 
@@ -74,11 +74,11 @@ impl Diagnostic for StringDiagnostic {
 		self.message.as_str()
 	}
 
-	fn span(&self) -> Option<&Span<usize, Position>> {
+	fn span(&self) -> Option<&Span> {
 		self.span.as_ref()
 	}
 
-	fn position(&self) -> Option<&Position> {
-		self.span.as_ref().map(|f| f.context())
+	fn position(&self) -> Option<Position> {
+		self.span.as_ref().map(|f| f.get_position())
 	}
 }
