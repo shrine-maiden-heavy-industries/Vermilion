@@ -8,8 +8,7 @@ tokenizer_test!(
 		Token::CompilerDirective(CompilerDirective::TextMacro(TextMacro::Builtin(
 			BuiltinTextMacro::DunderLine
 		))),
-		0u32..9u32,
-		Position::new(0, 0)
+		Span::from_position(0, 9, Position::new(0, 0))
 	)
 );
 
@@ -21,7 +20,6 @@ tokenizer_test!(
 		Token::CompilerDirective(CompilerDirective::TextMacro(TextMacro::Builtin(
 			BuiltinTextMacro::DunderFile
 		))),
-		0u32..9u32,
-		Position::new(0, 0)
+		Span::from_position(0, 9, Position::new(0, 0))
 	)
 );

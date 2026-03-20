@@ -6,8 +6,7 @@ tokenizer_test!(
 	">>>",
 	spanned_token!(
 		Token::Operator(Operator::ArithmeticShr),
-		0u32..3u32,
-		Position::new(0, 0)
+		Span::from_position(0, 3, Position::new(0, 0))
 	)
 );
 
@@ -17,8 +16,7 @@ tokenizer_test!(
 	"<<<",
 	spanned_token!(
 		Token::Operator(Operator::ArithmeticShl),
-		0u32..3u32,
-		Position::new(0, 0)
+		Span::from_position(0, 3, Position::new(0, 0))
 	)
 );
 
@@ -28,8 +26,7 @@ tokenizer_test!(
 	"-:",
 	spanned_token!(
 		Token::Operator(Operator::IndexedPartNeg),
-		0u32..2u32,
-		Position::new(0, 0)
+		Span::from_position(0, 2, Position::new(0, 0))
 	)
 );
 
@@ -39,8 +36,7 @@ tokenizer_test!(
 	"+:",
 	spanned_token!(
 		Token::Operator(Operator::IndexedPartPos),
-		0u32..2u32,
-		Position::new(0, 0)
+		Span::from_position(0, 2, Position::new(0, 0))
 	)
 );
 
@@ -50,8 +46,7 @@ tokenizer_test!(
 	"(*",
 	spanned_token!(
 		Token::Control(Control::AttributeOpen),
-		0u32..2u32,
-		Position::new(0, 0)
+		Span::from_position(0, 2, Position::new(0, 0))
 	)
 );
 
@@ -61,8 +56,7 @@ tokenizer_test!(
 	"*)",
 	spanned_token!(
 		Token::Control(Control::AttributeClose),
-		0u32..2u32,
-		Position::new(0, 0)
+		Span::from_position(0, 2, Position::new(0, 0))
 	)
 );
 
@@ -70,7 +64,10 @@ tokenizer_test!(
 	verilog01+,
 	operator_pow,
 	"**",
-	spanned_token!(Token::Operator(Operator::Pow), 0u32..2u32, Position::new(0, 0))
+	spanned_token!(
+		Token::Operator(Operator::Pow),
+		Span::from_position(0, 2, Position::new(0, 0))
+	)
 );
 
 tokenizer_test!(
@@ -83,13 +80,11 @@ tokenizer_test!(
 			false,
 			true,
 		)),
-		0u32..3u32,
-		Position::new(0, 0)
+		Span::from_position(0, 3, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::Number("1".as_bytes().into()),
-		3u32..4u32,
-		Position::new(0, 3)
+		Span::from_position(3, 4, Position::new(0, 3))
 	)
 );
 
@@ -103,12 +98,10 @@ tokenizer_test!(
 			false,
 			true,
 		)),
-		0u32..3u32,
-		Position::new(0, 0)
+		Span::from_position(0, 3, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::Number("1".as_bytes().into()),
-		3u32..4u32,
-		Position::new(0, 3)
+		Span::from_position(3, 4, Position::new(0, 3))
 	)
 );

@@ -6,8 +6,7 @@ tokenizer_test!(
 	">>>",
 	spanned_token!(
 		Token::Operator(Operator::ArithmeticShr),
-		0u32..3u32,
-		Position::new(0, 0)
+		Span::from_position(0, 3, Position::new(0, 0))
 	)
 );
 
@@ -17,8 +16,7 @@ tokenizer_test!(
 	"<<<",
 	spanned_token!(
 		Token::Operator(Operator::ArithmeticShl),
-		0u32..3u32,
-		Position::new(0, 0)
+		Span::from_position(0, 3, Position::new(0, 0))
 	)
 );
 
@@ -28,8 +26,7 @@ tokenizer_test!(
 	"<+",
 	spanned_token!(
 		Token::Operator(Operator::BranchContribution),
-		0u32..2u32,
-		Position::new(0, 0)
+		Span::from_position(0, 2, Position::new(0, 0))
 	)
 );
 
@@ -39,8 +36,7 @@ tokenizer_test!(
 	r#""""meow meow""""#,
 	spanned_token!(
 		Token::ContextuallyInvalid(r#""""meow meow""""#.as_bytes().into(), LanguageStd::Sv23),
-		0u32..15u32,
-		Position::new(0, 0)
+		Span::from_position(0, 15, Position::new(0, 0))
 	)
 );
 
@@ -50,8 +46,7 @@ tokenizer_test!(
 	"'",
 	spanned_token!(
 		Token::ContextuallyInvalid("'".as_bytes().into(), LanguageStd::SYSTEM_VERILOG_STDS),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	)
 );
 
@@ -61,8 +56,7 @@ tokenizer_test!(
 	"+=",
 	spanned_token!(
 		Token::ContextuallyInvalid("+=".as_bytes().into(), LanguageStd::SYSTEM_VERILOG_STDS),
-		0u32..2u32,
-		Position::new(0, 0)
+		Span::from_position(0, 2, Position::new(0, 0))
 	)
 );
 
@@ -72,8 +66,7 @@ tokenizer_test!(
 	"-=",
 	spanned_token!(
 		Token::ContextuallyInvalid("-=".as_bytes().into(), LanguageStd::SYSTEM_VERILOG_STDS),
-		0u32..2u32,
-		Position::new(0, 0)
+		Span::from_position(0, 2, Position::new(0, 0))
 	)
 );
 
@@ -83,8 +76,7 @@ tokenizer_test!(
 	"&=",
 	spanned_token!(
 		Token::ContextuallyInvalid("&=".as_bytes().into(), LanguageStd::SYSTEM_VERILOG_STDS),
-		0u32..2u32,
-		Position::new(0, 0)
+		Span::from_position(0, 2, Position::new(0, 0))
 	)
 );
 
@@ -94,8 +86,7 @@ tokenizer_test!(
 	">>>=",
 	spanned_token!(
 		Token::ContextuallyInvalid(">>>=".as_bytes().into(), LanguageStd::SYSTEM_VERILOG_STDS),
-		0u32..4u32,
-		Position::new(0, 0)
+		Span::from_position(0, 4, Position::new(0, 0))
 	)
 );
 
@@ -105,8 +96,7 @@ tokenizer_test!(
 	"<<<=",
 	spanned_token!(
 		Token::ContextuallyInvalid("<<<=".as_bytes().into(), LanguageStd::SYSTEM_VERILOG_STDS),
-		0u32..4u32,
-		Position::new(0, 0)
+		Span::from_position(0, 4, Position::new(0, 0))
 	)
 );
 
@@ -116,8 +106,7 @@ tokenizer_test!(
 	"|=",
 	spanned_token!(
 		Token::ContextuallyInvalid("|=".as_bytes().into(), LanguageStd::SYSTEM_VERILOG_STDS),
-		0u32..2u32,
-		Position::new(0, 0)
+		Span::from_position(0, 2, Position::new(0, 0))
 	)
 );
 
@@ -127,8 +116,7 @@ tokenizer_test!(
 	"*=",
 	spanned_token!(
 		Token::ContextuallyInvalid("*=".as_bytes().into(), LanguageStd::SYSTEM_VERILOG_STDS),
-		0u32..2u32,
-		Position::new(0, 0)
+		Span::from_position(0, 2, Position::new(0, 0))
 	)
 );
 
@@ -138,8 +126,7 @@ tokenizer_test!(
 	"%=",
 	spanned_token!(
 		Token::ContextuallyInvalid("%=".as_bytes().into(), LanguageStd::SYSTEM_VERILOG_STDS),
-		0u32..2u32,
-		Position::new(0, 0)
+		Span::from_position(0, 2, Position::new(0, 0))
 	)
 );
 
@@ -149,8 +136,7 @@ tokenizer_test!(
 	"/=",
 	spanned_token!(
 		Token::ContextuallyInvalid("/=".as_bytes().into(), LanguageStd::SYSTEM_VERILOG_STDS),
-		0u32..2u32,
-		Position::new(0, 0)
+		Span::from_position(0, 2, Position::new(0, 0))
 	)
 );
 
@@ -160,8 +146,7 @@ tokenizer_test!(
 	"++",
 	spanned_token!(
 		Token::ContextuallyInvalid("++".as_bytes().into(), LanguageStd::SYSTEM_VERILOG_STDS),
-		0u32..2u32,
-		Position::new(0, 0)
+		Span::from_position(0, 2, Position::new(0, 0))
 	)
 );
 
@@ -171,8 +156,7 @@ tokenizer_test!(
 	"--",
 	spanned_token!(
 		Token::ContextuallyInvalid("--".as_bytes().into(), LanguageStd::SYSTEM_VERILOG_STDS),
-		0u32..2u32,
-		Position::new(0, 0)
+		Span::from_position(0, 2, Position::new(0, 0))
 	)
 );
 
@@ -182,8 +166,7 @@ tokenizer_test!(
 	"<<=",
 	spanned_token!(
 		Token::ContextuallyInvalid("<<=".as_bytes().into(), LanguageStd::SYSTEM_VERILOG_STDS),
-		0u32..3u32,
-		Position::new(0, 0)
+		Span::from_position(0, 3, Position::new(0, 0))
 	)
 );
 
@@ -193,8 +176,7 @@ tokenizer_test!(
 	">>=",
 	spanned_token!(
 		Token::ContextuallyInvalid(">>=".as_bytes().into(), LanguageStd::SYSTEM_VERILOG_STDS),
-		0u32..3u32,
-		Position::new(0, 0)
+		Span::from_position(0, 3, Position::new(0, 0))
 	)
 );
 
@@ -204,8 +186,7 @@ tokenizer_test!(
 	"::",
 	spanned_token!(
 		Token::ContextuallyInvalid("::".as_bytes().into(), LanguageStd::SYSTEM_VERILOG_STDS),
-		0u32..2u32,
-		Position::new(0, 0)
+		Span::from_position(0, 2, Position::new(0, 0))
 	)
 );
 
@@ -215,8 +196,7 @@ tokenizer_test!(
 	":/",
 	spanned_token!(
 		Token::ContextuallyInvalid(":/".as_bytes().into(), LanguageStd::SYSTEM_VERILOG_STDS),
-		0u32..2u32,
-		Position::new(0, 0)
+		Span::from_position(0, 2, Position::new(0, 0))
 	)
 );
 
@@ -226,8 +206,7 @@ tokenizer_test!(
 	":=",
 	spanned_token!(
 		Token::ContextuallyInvalid(":=".as_bytes().into(), LanguageStd::SYSTEM_VERILOG_STDS),
-		0u32..2u32,
-		Position::new(0, 0)
+		Span::from_position(0, 2, Position::new(0, 0))
 	)
 );
 
@@ -237,8 +216,7 @@ tokenizer_test!(
 	"^=",
 	spanned_token!(
 		Token::ContextuallyInvalid("^=".as_bytes().into(), LanguageStd::SYSTEM_VERILOG_STDS),
-		0u32..2u32,
-		Position::new(0, 0)
+		Span::from_position(0, 2, Position::new(0, 0))
 	)
 );
 
@@ -248,8 +226,7 @@ tokenizer_test!(
 	"==?",
 	spanned_token!(
 		Token::ContextuallyInvalid("==?".as_bytes().into(), LanguageStd::SYSTEM_VERILOG_STDS),
-		0u32..3u32,
-		Position::new(0, 0)
+		Span::from_position(0, 3, Position::new(0, 0))
 	)
 );
 
@@ -259,8 +236,7 @@ tokenizer_test!(
 	"!=?",
 	spanned_token!(
 		Token::ContextuallyInvalid("!=?".as_bytes().into(), LanguageStd::SYSTEM_VERILOG_STDS),
-		0u32..3u32,
-		Position::new(0, 0)
+		Span::from_position(0, 3, Position::new(0, 0))
 	)
 );
 
@@ -270,8 +246,7 @@ tokenizer_test!(
 	".*",
 	spanned_token!(
 		Token::ContextuallyInvalid(".*".as_bytes().into(), LanguageStd::SYSTEM_VERILOG_STDS),
-		0u32..2u32,
-		Position::new(0, 0)
+		Span::from_position(0, 2, Position::new(0, 0))
 	)
 );
 
@@ -281,8 +256,7 @@ tokenizer_test!(
 	"##",
 	spanned_token!(
 		Token::ContextuallyInvalid("##".as_bytes().into(), LanguageStd::SYSTEM_VERILOG_STDS),
-		0u32..2u32,
-		Position::new(0, 0)
+		Span::from_position(0, 2, Position::new(0, 0))
 	)
 );
 
@@ -292,8 +266,7 @@ tokenizer_test!(
 	"->>",
 	spanned_token!(
 		Token::ContextuallyInvalid("->>".as_bytes().into(), LanguageStd::SYSTEM_VERILOG_STDS),
-		0u32..3u32,
-		Position::new(0, 0)
+		Span::from_position(0, 3, Position::new(0, 0))
 	)
 );
 
@@ -303,8 +276,7 @@ tokenizer_test!(
 	"|=>",
 	spanned_token!(
 		Token::ContextuallyInvalid("|=>".as_bytes().into(), LanguageStd::SYSTEM_VERILOG_STDS),
-		0u32..3u32,
-		Position::new(0, 0)
+		Span::from_position(0, 3, Position::new(0, 0))
 	)
 );
 
@@ -314,8 +286,7 @@ tokenizer_test!(
 	"|->",
 	spanned_token!(
 		Token::ContextuallyInvalid("|->".as_bytes().into(), LanguageStd::SYSTEM_VERILOG_STDS),
-		0u32..3u32,
-		Position::new(0, 0)
+		Span::from_position(0, 3, Position::new(0, 0))
 	)
 );
 
@@ -328,8 +299,7 @@ tokenizer_test!(
 			"<->".as_bytes().into(),
 			LanguageStd::SYSTEM_VERILOG_STDS & !LanguageStd::Sv05
 		),
-		0u32..3u32,
-		Position::new(0, 0)
+		Span::from_position(0, 3, Position::new(0, 0))
 	)
 );
 
@@ -342,8 +312,7 @@ tokenizer_test!(
 			"#=#".as_bytes().into(),
 			LanguageStd::SYSTEM_VERILOG_STDS & !LanguageStd::Sv05
 		),
-		0u32..3u32,
-		Position::new(0, 0)
+		Span::from_position(0, 3, Position::new(0, 0))
 	)
 );
 
@@ -356,8 +325,7 @@ tokenizer_test!(
 			"#-#".as_bytes().into(),
 			LanguageStd::SYSTEM_VERILOG_STDS & !LanguageStd::Sv05
 		),
-		0u32..3u32,
-		Position::new(0, 0)
+		Span::from_position(0, 3, Position::new(0, 0))
 	)
 );
 
@@ -370,8 +338,7 @@ tokenizer_test!(
 			"*::*".as_bytes().into(),
 			LanguageStd::SYSTEM_VERILOG_STDS & !LanguageStd::Sv05
 		),
-		0u32..4u32,
-		Position::new(0, 0)
+		Span::from_position(0, 4, Position::new(0, 0))
 	)
 );
 
@@ -381,8 +348,7 @@ tokenizer_test!(
 	"+/-",
 	spanned_token!(
 		Token::ContextuallyInvalid("+/-".as_bytes().into(), LanguageStd::Sv23),
-		0u32..3u32,
-		Position::new(0, 0)
+		Span::from_position(0, 3, Position::new(0, 0))
 	)
 );
 
@@ -392,8 +358,7 @@ tokenizer_test!(
 	"+%-",
 	spanned_token!(
 		Token::ContextuallyInvalid("+%-".as_bytes().into(), LanguageStd::Sv23),
-		0u32..3u32,
-		Position::new(0, 0)
+		Span::from_position(0, 3, Position::new(0, 0))
 	)
 );
 
@@ -407,13 +372,11 @@ tokenizer_test!(
 			false,
 			true,
 		)),
-		0u32..3u32,
-		Position::new(0, 0)
+		Span::from_position(0, 3, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::Number("1".as_bytes().into()),
-		3u32..4u32,
-		Position::new(0, 3)
+		Span::from_position(3, 4, Position::new(0, 3))
 	)
 );
 
@@ -427,12 +390,10 @@ tokenizer_test!(
 			false,
 			true,
 		)),
-		0u32..3u32,
-		Position::new(0, 0)
+		Span::from_position(0, 3, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::Number("1".as_bytes().into()),
-		3u32..4u32,
-		Position::new(0, 3)
+		Span::from_position(3, 4, Position::new(0, 3))
 	)
 );

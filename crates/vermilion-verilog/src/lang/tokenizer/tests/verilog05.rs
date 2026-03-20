@@ -10,13 +10,11 @@ tokenizer_test!(
 			false,
 			true,
 		)),
-		0u32..3u32,
-		Position::new(0, 0)
+		Span::from_position(0, 3, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::Number("1".as_bytes().into()),
-		3u32..4u32,
-		Position::new(0, 3)
+		Span::from_position(3, 4, Position::new(0, 3))
 	)
 );
 
@@ -30,12 +28,10 @@ tokenizer_test!(
 			false,
 			true,
 		)),
-		0u32..3u32,
-		Position::new(0, 0)
+		Span::from_position(0, 3, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::Number("1".as_bytes().into()),
-		3u32..4u32,
-		Position::new(0, 3)
+		Span::from_position(3, 4, Position::new(0, 3))
 	)
 );

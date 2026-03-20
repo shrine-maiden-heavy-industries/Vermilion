@@ -6,8 +6,7 @@ tokenizer_test!(
 	" ",
 	spanned_token!(
 		Token::Whitespace(" ".as_bytes().into()),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	)
 );
 
@@ -17,8 +16,7 @@ tokenizer_test!(
 	"\t",
 	spanned_token!(
 		Token::Whitespace("\t".as_bytes().into()),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	)
 );
 
@@ -28,8 +26,7 @@ tokenizer_test!(
 	"\t ",
 	spanned_token!(
 		Token::Whitespace("\t ".as_bytes().into()),
-		0u32..2u32,
-		Position::new(0, 0)
+		Span::from_position(0, 2, Position::new(0, 0))
 	)
 );
 
@@ -39,8 +36,7 @@ tokenizer_test!(
 	"\n",
 	spanned_token!(
 		Token::Newline("\n".as_bytes().into()),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	)
 );
 
@@ -50,8 +46,7 @@ tokenizer_test!(
 	"\r\n",
 	spanned_token!(
 		Token::Newline("\r\n".as_bytes().into()),
-		0u32..2u32,
-		Position::new(0, 0)
+		Span::from_position(0, 2, Position::new(0, 0))
 	)
 );
 
@@ -61,18 +56,15 @@ tokenizer_test!(
 	"\r\n\n\n",
 	spanned_token!(
 		Token::Newline("\r\n".as_bytes().into()),
-		0u32..2u32,
-		Position::new(0, 0)
+		Span::from_position(0, 2, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::Newline("\n".as_bytes().into()),
-		2u32..3u32,
-		Position::new(1, 0)
+		Span::from_position(2, 3, Position::new(1, 0))
 	),
 	spanned_token!(
 		Token::Newline("\n".as_bytes().into()),
-		3u32..4u32,
-		Position::new(2, 0)
+		Span::from_position(3, 4, Position::new(2, 0))
 	)
 );
 
@@ -82,38 +74,31 @@ tokenizer_test!(
 	" \r\n \t\n\t\n\r",
 	spanned_token!(
 		Token::Whitespace(" ".as_bytes().into()),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::Newline("\r\n".as_bytes().into()),
-		1u32..3u32,
-		Position::new(0, 1)
+		Span::from_position(1, 3, Position::new(0, 1))
 	),
 	spanned_token!(
 		Token::Whitespace(" \t".as_bytes().into()),
-		3u32..5u32,
-		Position::new(1, 0)
+		Span::from_position(3, 5, Position::new(1, 0))
 	),
 	spanned_token!(
 		Token::Newline("\n".as_bytes().into()),
-		5u32..6u32,
-		Position::new(1, 2)
+		Span::from_position(5, 6, Position::new(1, 2))
 	),
 	spanned_token!(
 		Token::Whitespace("\t".as_bytes().into()),
-		6u32..7u32,
-		Position::new(2, 0)
+		Span::from_position(6, 7, Position::new(2, 0))
 	),
 	spanned_token!(
 		Token::Newline("\n".as_bytes().into()),
-		7u32..8u32,
-		Position::new(2, 1)
+		Span::from_position(7, 8, Position::new(2, 1))
 	),
 	spanned_token!(
 		Token::Newline("\r".as_bytes().into()),
-		8u32..9u32,
-		Position::new(3, 0)
+		Span::from_position(8, 9, Position::new(3, 0))
 	)
 );
 
@@ -121,7 +106,10 @@ tokenizer_test!(
 	all,
 	control_at,
 	"@",
-	spanned_token!(Token::Control(Control::At), 0u32..1u32, Position::new(0, 0))
+	spanned_token!(
+		Token::Control(Control::At),
+		Span::from_position(0, 1, Position::new(0, 0))
+	)
 );
 
 tokenizer_test!(
@@ -130,8 +118,7 @@ tokenizer_test!(
 	"#",
 	spanned_token!(
 		Token::Control(Control::Octothorp),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	)
 );
 
@@ -141,8 +128,7 @@ tokenizer_test!(
 	"(",
 	spanned_token!(
 		Token::Control(Control::ParenOpen),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	)
 );
 
@@ -152,8 +138,7 @@ tokenizer_test!(
 	")",
 	spanned_token!(
 		Token::Control(Control::ParenClose),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	)
 );
 
@@ -163,8 +148,7 @@ tokenizer_test!(
 	"[",
 	spanned_token!(
 		Token::Control(Control::BracketOpen),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	)
 );
 
@@ -174,8 +158,7 @@ tokenizer_test!(
 	"]",
 	spanned_token!(
 		Token::Control(Control::BracketClose),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	)
 );
 
@@ -185,8 +168,7 @@ tokenizer_test!(
 	"{",
 	spanned_token!(
 		Token::Control(Control::BraceOpen),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	)
 );
 
@@ -196,8 +178,7 @@ tokenizer_test!(
 	"}",
 	spanned_token!(
 		Token::Control(Control::BraceClose),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	)
 );
 
@@ -207,8 +188,7 @@ tokenizer_test!(
 	":",
 	spanned_token!(
 		Token::Control(Control::Colon),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	)
 );
 
@@ -218,8 +198,7 @@ tokenizer_test!(
 	";",
 	spanned_token!(
 		Token::Control(Control::Semicolon),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	)
 );
 
@@ -229,8 +208,7 @@ tokenizer_test!(
 	",",
 	spanned_token!(
 		Token::Control(Control::Comma),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	)
 );
 
@@ -240,8 +218,7 @@ tokenizer_test!(
 	".",
 	spanned_token!(
 		Token::Control(Control::Dot),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	)
 );
 
@@ -251,8 +228,7 @@ tokenizer_test!(
 	"$",
 	spanned_token!(
 		Token::Control(Control::Dollar),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	)
 );
 
@@ -262,8 +238,7 @@ tokenizer_test!(
 	"?",
 	spanned_token!(
 		Token::Control(Control::Question),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	)
 );
 
@@ -273,8 +248,7 @@ tokenizer_test!(
 	"!",
 	spanned_token!(
 		Token::Operator(Operator::Exclamation),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	)
 );
 
@@ -284,8 +258,7 @@ tokenizer_test!(
 	"!=",
 	spanned_token!(
 		Token::Operator(Operator::LogicalInequality),
-		0u32..2u32,
-		Position::new(0, 0)
+		Span::from_position(0, 2, Position::new(0, 0))
 	)
 );
 
@@ -295,8 +268,7 @@ tokenizer_test!(
 	"!==",
 	spanned_token!(
 		Token::Operator(Operator::CaseInequality),
-		0u32..3u32,
-		Position::new(0, 0)
+		Span::from_position(0, 3, Position::new(0, 0))
 	)
 );
 
@@ -306,8 +278,7 @@ tokenizer_test!(
 	"=",
 	spanned_token!(
 		Token::Operator(Operator::Equals),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	)
 );
 
@@ -317,8 +288,7 @@ tokenizer_test!(
 	"==",
 	spanned_token!(
 		Token::Operator(Operator::LogicalEquality),
-		0u32..2u32,
-		Position::new(0, 0)
+		Span::from_position(0, 2, Position::new(0, 0))
 	)
 );
 
@@ -328,8 +298,7 @@ tokenizer_test!(
 	"===",
 	spanned_token!(
 		Token::Operator(Operator::CaseEquality),
-		0u32..3u32,
-		Position::new(0, 0)
+		Span::from_position(0, 3, Position::new(0, 0))
 	)
 );
 
@@ -339,8 +308,7 @@ tokenizer_test!(
 	"&",
 	spanned_token!(
 		Token::Operator(Operator::Ampersand),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	)
 );
 
@@ -350,8 +318,7 @@ tokenizer_test!(
 	"&&",
 	spanned_token!(
 		Token::Operator(Operator::LogicalAnd),
-		0u32..2u32,
-		Position::new(0, 0)
+		Span::from_position(0, 2, Position::new(0, 0))
 	)
 );
 
@@ -361,8 +328,7 @@ tokenizer_test!(
 	"&&&",
 	spanned_token!(
 		Token::Operator(Operator::TripleAnd),
-		0u32..3u32,
-		Position::new(0, 0)
+		Span::from_position(0, 3, Position::new(0, 0))
 	)
 );
 
@@ -372,8 +338,7 @@ tokenizer_test!(
 	"~",
 	spanned_token!(
 		Token::Operator(Operator::Tilde),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	)
 );
 
@@ -383,8 +348,7 @@ tokenizer_test!(
 	"~^",
 	spanned_token!(
 		Token::Operator(Operator::TildeCircumflex(false)),
-		0u32..2u32,
-		Position::new(0, 0)
+		Span::from_position(0, 2, Position::new(0, 0))
 	)
 );
 
@@ -394,8 +358,7 @@ tokenizer_test!(
 	"~&",
 	spanned_token!(
 		Token::Operator(Operator::ReductionNand),
-		0u32..2u32,
-		Position::new(0, 0)
+		Span::from_position(0, 2, Position::new(0, 0))
 	)
 );
 
@@ -405,8 +368,7 @@ tokenizer_test!(
 	"~|",
 	spanned_token!(
 		Token::Operator(Operator::ReductionNor),
-		0u32..2u32,
-		Position::new(0, 0)
+		Span::from_position(0, 2, Position::new(0, 0))
 	)
 );
 
@@ -416,8 +378,7 @@ tokenizer_test!(
 	"^",
 	spanned_token!(
 		Token::Operator(Operator::Circumflex),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	)
 );
 
@@ -427,8 +388,7 @@ tokenizer_test!(
 	"^~",
 	spanned_token!(
 		Token::Operator(Operator::TildeCircumflex(true)),
-		0u32..2u32,
-		Position::new(0, 0)
+		Span::from_position(0, 2, Position::new(0, 0))
 	)
 );
 
@@ -438,8 +398,7 @@ tokenizer_test!(
 	"|",
 	spanned_token!(
 		Token::Operator(Operator::Pipe),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	)
 );
 
@@ -449,8 +408,7 @@ tokenizer_test!(
 	"||",
 	spanned_token!(
 		Token::Operator(Operator::LogicalOr),
-		0u32..2u32,
-		Position::new(0, 0)
+		Span::from_position(0, 2, Position::new(0, 0))
 	)
 );
 
@@ -460,8 +418,7 @@ tokenizer_test!(
 	">",
 	spanned_token!(
 		Token::Operator(Operator::LessThan),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	)
 );
 
@@ -471,8 +428,7 @@ tokenizer_test!(
 	">=",
 	spanned_token!(
 		Token::Operator(Operator::LessThanEqual),
-		0u32..2u32,
-		Position::new(0, 0)
+		Span::from_position(0, 2, Position::new(0, 0))
 	)
 );
 
@@ -482,8 +438,7 @@ tokenizer_test!(
 	">>",
 	spanned_token!(
 		Token::Operator(Operator::ShiftRight),
-		0u32..2u32,
-		Position::new(0, 0)
+		Span::from_position(0, 2, Position::new(0, 0))
 	)
 );
 
@@ -493,8 +448,7 @@ tokenizer_test!(
 	"<",
 	spanned_token!(
 		Token::Operator(Operator::GreaterThan),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	)
 );
 
@@ -504,8 +458,7 @@ tokenizer_test!(
 	"<=",
 	spanned_token!(
 		Token::Operator(Operator::GreaterThanEqual),
-		0u32..2u32,
-		Position::new(0, 0)
+		Span::from_position(0, 2, Position::new(0, 0))
 	)
 );
 
@@ -515,8 +468,7 @@ tokenizer_test!(
 	"<<",
 	spanned_token!(
 		Token::Operator(Operator::ShiftLeft),
-		0u32..2u32,
-		Position::new(0, 0)
+		Span::from_position(0, 2, Position::new(0, 0))
 	)
 );
 
@@ -526,8 +478,7 @@ tokenizer_test!(
 	"%",
 	spanned_token!(
 		Token::Operator(Operator::Percent),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	)
 );
 
@@ -537,8 +488,7 @@ tokenizer_test!(
 	"*",
 	spanned_token!(
 		Token::Operator(Operator::Asterisk),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	)
 );
 
@@ -548,8 +498,7 @@ tokenizer_test!(
 	"+",
 	spanned_token!(
 		Token::Operator(Operator::Plus),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	)
 );
 
@@ -559,8 +508,7 @@ tokenizer_test!(
 	"-",
 	spanned_token!(
 		Token::Operator(Operator::Minus),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	)
 );
 
@@ -570,8 +518,7 @@ tokenizer_test!(
 	"->",
 	spanned_token!(
 		Token::Operator(Operator::EventTrigger),
-		0u32..2u32,
-		Position::new(0, 0)
+		Span::from_position(0, 2, Position::new(0, 0))
 	)
 );
 
@@ -581,8 +528,7 @@ tokenizer_test!(
 	"/",
 	spanned_token!(
 		Token::Operator(Operator::Solidus),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	)
 );
 
@@ -592,8 +538,7 @@ tokenizer_test!(
 	"// This Is A Test",
 	spanned_token!(
 		Token::Comment(Comment::SingleLine(" This Is A Test".as_bytes().into())),
-		0u32..17u32,
-		Position::new(0, 0)
+		Span::from_position(0, 17, Position::new(0, 0))
 	)
 );
 
@@ -605,8 +550,7 @@ tokenizer_test!(
 		Token::Comment(Comment::MultiLine(
 			"/*\nThis Is A\n\tMulti Line Comment\n*/".as_bytes().into()
 		)),
-		0u32..35u32,
-		Position::new(0, 0)
+		Span::from_position(0, 35, Position::new(0, 0))
 	)
 );
 
@@ -618,8 +562,7 @@ tokenizer_test!(
 		Token::Comment(Comment::Invalid(
 			"/*\nThis Is A\n/*Multi Line Comment\n*/".as_bytes().into()
 		)),
-		0u32..36u32,
-		Position::new(0, 0)
+		Span::from_position(0, 36, Position::new(0, 0))
 	)
 );
 
@@ -629,8 +572,7 @@ tokenizer_test!(
 	"/*\nThis Is A\n",
 	spanned_token!(
 		Token::Comment(Comment::Invalid("/*\nThis Is A\n".as_bytes().into())),
-		0u32..13u32,
-		Position::new(0, 0)
+		Span::from_position(0, 13, Position::new(0, 0))
 	)
 );
 
@@ -642,8 +584,7 @@ tokenizer_test!(
 		Token::CompilerDirective(CompilerDirective::TextMacro(TextMacro::Other(
 			"meow".as_bytes().into()
 		))),
-		0u32..5u32,
-		Position::new(0, 0)
+		Span::from_position(0, 5, Position::new(0, 0))
 	)
 );
 
@@ -655,8 +596,7 @@ tokenizer_test!(
 		Token::CompilerDirective(CompilerDirective::TextMacro(TextMacro::Other(
 			"a".as_bytes().into()
 		))),
-		0u32..2u32,
-		Position::new(0, 0)
+		Span::from_position(0, 2, Position::new(0, 0))
 	)
 );
 
@@ -666,8 +606,7 @@ tokenizer_test!(
 	"`isJwsaCVXwblkXJEOzBvanGDVeJlnpptnskLRcwkbjWuGglXVdyeSGTrVNoMluMYXkiPRzdHlMPzsHrAxkVbwCzTlfHYpOkevtwXYkYSiQsEIMiYKqnHBOznTyLafeGtZYYsTqwfcONEwFVIWWNCJzYNlkxWGmFBRbYOfAzQBPkutmVSFYSaXEEdddVEzqwkeDYmOAVsmtnrfKpAoxUVNKMxcZCQkcfzNuMqRAeFeTksVXsLubYqNluFvlqffcYoMeZSgEMSYDLUIWyIfJsJJAIgryfHcBOLxWbEyLMmmitaRbnoDwOsEbqkwMpClKWQcvyQZMUAMjTkNrvhsikdeDXvnVJWNshsSTCLRqtnDKaALjbSvOzoURLGGMhCjNHEkkVDiuSNwKdKPIGrCepATpsIcBswbUmKJSeqKRFlRcUTpuNmyhpaMJekpsBKPXlKNyUHgJSpfFtetkdreIZhHrPcfcajFqpBHmmuEwkzOXaaoCZKSedVAOWzpjrDNRvDrAYjEbLxRSoRJZkwRbqTBCTZUCdxRFeQIhpjNZKTDJyTHxHaKMGlePcerzLxzVngfCdqBmQQyjHpIgMCZbjDkxontYLESdIxSEtwCPlcUXgeFJOhqIwpboCwVKhVtSjVcyFTVRPqmAxGrerYGtMjkMdqFobCTirmRFrshUIYLlDgfOcHTzKFKRjZKFDrRdZaLbUuraWAmJXUzGYupGUYOXtXbCwrrvTeSNgEhZUWIQVWInZKbDqqbnkWcpBvwsROshPQFEqbZkWjGjudykARPvRssqPkrXtdwCcEVSdbGNQVEufqgYSiHiLZcvJlcxTxCFKZqnSyRcopAndoihbnNyzIPMtyjGbHgirhRhsNMHjYUwFBrfPyoddKGmFRZWtwKqWnfUHSIBGhitTymZPwmgFIGSovWoXyvSwHvPyXdGadKkrocdskpIvkOLIoHQNUIUZmPufWtHtnynsDgmdcVWeRpiIqvfYYcdlrYAPmAzPEocqwBCvJQGsFJjOUlVtLVExcoOVygHGpBfqtnpuyDHyGPFrTxXIVOZPfvBcmWDKGrPqHVykpZVXIFDsSOhhsqhvgsqoPGbhENHbNbgvZZatirAmcHsvwliPbxFGOxPMyqogrxqxDfZlfGnxKqEPIQNpKSEBRoHoFmILWnSYlQahXqDIbLwycWwFGfkKRNGiPtuiZwaJbFEKTPOJBqcxonVXRYuFcAeEmRJBabjZPWwCeVrZNmniLUvcMbtDDgmBaDnSkqEYMvVleagMLJudazgVVcejdzGitOnItqCFwAIUcSebefbTugSDhIlNJXHjSDSiQOdfZDCMaPePxKquLtsyFIEueykplgCAFFNehYSCcXfUMeHKlIwVKWweHkLoxKpiXObfzORZhaiOGmwolswbPovcNKxCAThbmulLLNmsXcWYmbVkheRDnXWToGDKGsbtZqKGDnRKgCvFekPWItrQHSkkbwuashiVlgydceRbNBoJDwGFQYFYemFUjIskKyeZVPbtLEtNgZmckjoJAVXvMmHfOroBVjTyjkIMFJXIofvYbWgtNMLkhQQWgDcMkxfWzVRoVkvkxvAgERIekIbadAYDrOKDNFGCBNpBoZNgDXDibAgdJIThshGGWXYRfycakqeJYTZWQgkTPCbGbdCXxPQlDqUJYKdFdofJQbFCNOfqliIdrPAhrGnhRemYUnwMHFGTHlQRJSfFkQJdRuOdSRKCsVtZDrVeXJrwrAhsGIpMlYWHHbLbzYXCdqeqzSnotSlKPcwROcuDhCRpJTykHhNKrRWfKEaclTvFYksrakemNFaenzyMSUYHOvHOoVMzAYAObrHshoFywHdSylgKsWwmpFytzBRKDDJKHGUejkwMwUZMCLZFvwdnldGvLkJMwNoqdVHxtPRQnYHqWOjXSGaTXrZXNBPbtOSwjQtkOynpqWzFkJXhMOiIqoBQKZPbLZbhPidUuAwKGAmWYIBtyzPhfoKoLEMlcxvlgqMFAJrgpJEqRgImLUUiZpbzWzCxjuKfyZeGqlCJwbqhkNnMMqnJqZwaYdSgExJAasFYcgGJzAryWpSjsotmtBQduntzJueJggLcLDHrzATsYGcZLGeDMjWADYaApnyFIuDrpmDxacJZoOAUvXwNxIzEjxmVUIVEzBbPacFIzeuJAarlZMZLBnaoZnxxMYpgETRnALTeqmgWzhRHZfhOGkIcOXXWLZSTruADjrHmldaycIKTWGBVdiFUFWcEGDqRVPnPfPJqsMTsXQLbZVBisaTePXbMxkHmvZzRkNsMZheFdYguMvNsrBdamaayuVYsSVXYNeSLZqOFxayrQEHlHrXKzXGWHMPMCWGJFmjbmqElKJfurhKIdWLeTufTamsPEznCdNgyNqNXswfMhSeJiqYoLXvBMrMwafHBsXTGrvxSixoywzKeRpMvIhMPNXUHedKCBjInNJNtAbDcMycglNNEJwDIQkKehhQcnxEKwHdlidpjpYJvCswhIBiZxMtEgGFUayMwpuGhgGbXMbDpUVZTgcEMPSrsnoVgSRXoEGyAMrOKvenNKuftKZVeLbMmBYFydbUJwJvvSzQMnAOfiGUcoEWjdmCMpbCubmabAyxaMPFMcdAKRaOeLAZmpwuFfjqEVroVPqDBnBicesYJKKPrvEldMsCEFAxJOBEuJSHjOoVvsLwFOEdwtymWhyHWOGtIZxfDuEyGrOxYEuZVdBXZxHypDsQUInUHUbAuJDjvIIfwqSpCKTIfSQFvKPjzuqDIUbzTlxtUcFQjSiQSVZFrwwLVPSsobGUcGNwcyrFwhSigVkhZdYhXkoKuwhZoYdttUQjjENzGXVdTeWDqwkMIWSOgCIfeosFQBOjBovvSxIdtKvelWiMWYvtDXGGkiVWviOTVfKxSpiEkNktgxItQHcjnUHsFgszTQOOYJfGRQeIZSxEYOxFdzeQwYsUgPhUKIRmUeZiagnuAmrLHDksIKeSQeJprsRPaWiDKpXtCkEfITxRlefaRGMpYlWZqPlCBluazZphLGPxwluJkHWAegDutwKIqycGiYhDEKMwPmozcmjltJzaZDPzJJlTxZbITgXPcsLvDJEpDFeCxqSXCmuCiTYflZJOCMzJUjlnbFeJVPaZYcQglsXAdBnXLBswUhssCgHKCGMBqjEfudCCtoBhMKKcOcaOnSqvNHZLhXbCaCJYfifsZCkKkSwjyXBJkUDROmzcFnhVhjggYbWCgeyyVmHoGeIKroYDKIxRWUqtMhzqiFdvJAiTdZhFrcRdwxUtVrgrAHFGVvxkxjEfFXtcTXRjhIhKSkcjetvxPJripsdFPqXeUwglwADxTxMZnXzlOouGqczuYEcWVKVbDvaIBhmQQDBXJnuRqdGvHuHkQJqAjWxlfIohJyQMKrpHxhZztHvJakhlTBGCpvACLqyjSZryIlmaKanjuGIyPbypeUaHFoXjWsoUwSLkpgsKJfKJVhIOueXrMCzqnpaInVVCUgMRjsvASiJMEAIkGsVwxzFnSMZqqFzzmQilwWnUmedeZnZFZpNXFOTmlJgyuyKoGwrciUukrzCEjUueQTAFpmVtZgZOlcqgZtvEEYKihIbZlvFaDdDRyXIHpuJtMcsMrnsqCHDKpwqMtBRtHgaXHrRCrpyWARKtpgwGVgVQqhsmOtjSwVHJlVZDJYLhLHUeqUGHSTgBXnNLpEJsGvAtruGOpEBJNTnQOYSHWfXyAoFvkwtNmdSWjQkuGlODMdXMnPllhrZTApYWLgyYmGDKCyIqMVmhYOjYvtKsoRflkAoHRZPbwQMGuSQUUsdkGpjnBsQwSBBUFVAGORNUBjykhYxeiZtaPvCttyPvqjXDfXXqeucpzEjfqkOfCnGyKKLMxRzxCMtEItqsVguZPyWuVvvbVHvfVuWhbIXnltJeiqKtINFdJxkdXlpTgcIOklxEtEqMNzJYRSlcEsrmzgexaHqtSmqhmUflekSzqqjuXwghPpumZVSVynLTwLtDAehmnZUAKIElZEDxhejuGriibOZStMpoYjypYhVmBrmuUhxmffZiEDcoLkWsgFpLPgzkVmHsquLVdSYgvwSMGKdmzprfXumJBHJSFLadsNpsiKvAjFMHzmlcmJzlQojhWhvapdRPYFUQUbkqZeqifxBdTkjSJvEOEEtukVsDjOJaNpGobtJStYZBPqXIIbalJQfOHozyICiOxkKORbCdoHjizfzMZdJYmFGAWNgrYLPzScdPKuoCcLOoYXYmlaiQJSOaBmgFSgLHsBgydSLlwfdXNufhHgQdTeqpTtAIzJMgnKUkImohtFwbleknaAYDjcYiUaJPLscOcYucjhTeWMdWWRJWNtfsIFWPPHoqvOBXrafakcKcEoJhzndLClOKmvwsxDAOVhDCADmlcLlvSAkFWqcFiOhhUjtBSSxCYVYlddCvgQYhpclpywyEHSESwNbcBcXHOQttgaqgfMVDblBWUKpTOTxABmLpTHFmhEyoOnqRmebTBXEuggqWPghRHRqQlyyxIjpVseiEZpHLZgpIVYujeJJOptVpzICkUfGQzWzLWxdUeoGmhUvvTIWXMQETLKhGdrhzFZzyUHWflCHJagtqwunsWTinUvEzKVCMBUtJSiCKJTNijuUBGuhyhyQSHPDkoDSbNulTimdAXHOSZJqiGukRotktLjnKSBwyYsBEFYIAcoUeKSGhpscKUScHnjykrWJBeSTFsxWuTrCWNHYegrUIXceAeVAlpwRHANRDWqdNVLUvqGpsSabfJCDFiwidgTkIVhtxbQZSiXlDdCmkRzLWzQrTOcNLvxYnxUwKimzsQunmKKAxQVXeoLWLrqHVAHshBAmbCaFzCdcBljedgeVsIxekffMkBQvWeTCVcNHkjPMCmIDtmXlRtNvGTtxxbLViiykokxKLyvmIsHECloUWNafyFDfRMjUZeHMzKGfDKBuacPJHECTJgQWqSLrKlMJIjNIlCHaFwYOHvbnoQhnzZGLdcCjMAISVdusugphxhvQoauWlXpFJGNEBYXTzuwLZLVejgcVUJEZAATtoQHKrrVEDWqyVnMJJcthVBHvlrWJsQqUUIdtiBBWGGSxPGZrsILeRSWpUWGbPPtATABFQftCCJpozMvWKpVmqAaNWBFVaWHrOfgDQUztlpFXBtIgXiOfXBePSCwVDVfPWzoxnVPVYJdNiXkFtICitJnOVnpHOmnJuVGmJjWLcKiZozwpdPDxNspqlgUbZpikTlxNRWLsFpLdJyBelxDdFhxgrBxUcvddAZfYdDhXIzccYtHlJyKPMSotcDlIJdLtzujNmqqtacrrHyqmyBQSuniGKzRTEiIEkjaakSjxEPYkrMOwVBoQosXWNitVJgkYdLlBoxdNpxbpUHWfruOsNVGkExvcqZJzIsZSuSrGJelsOdqcHYiLhhaLhxvMYUBmhpsrUFTrhSiioEXMLIaXcEOhkrWVxIAgIPwtRIXXjhpafGxdxHqwQXCEdjPNmeynszkmIaOePdjchUcVIulQnfwIYkiZryTMFvnNNHHohHwcGykOAZtTrASwqiSRJnqTRxOaSiACnNeLGzoviItbhnUOtFHWkUIUrwfIramOIxZzflIAtcRkaKvodTViHvydQPBZJReOVkypuEKHeEZMmokQeaMtMQvCVxENZyclBtuQNwcFGVYzmuHWIUdBsXUszjLAOCmoQajWSvtRPYFRaqjaAtYETvcInBDmmiuPhqJZppLtzIMJUhLioestsWRJsUfcaFiPUlytCgBJJWUNuoNbMbCGwLlDKxfNrDBfBIgiJiRSFCVUjCnMJZfuvtKAIHFLjgIgTHEyMpzLKHYZoLCeOrVPPekQYbsFuIwwQjwReXSQHKMEmmSvNVZuGtxoIRnSGkYEXUWYFMsFmsHuqHWVtZTBtSLBukGkjCyZLErgJRKLfDHOzcwIzpzSxSIsatWsvItkcYcNMogCLLPcXbCQLJMGngvuxocoFDdefCruJwWxGsYNLtGOuWQPPMNgtIuiRvUsoGCLImBnIlmjqPIoifaaFdvjKUnjyQCvPPvYZcapwOegWCzdJVMShqjNrsmIjAkgABtLPmkvBfciPbMYcimadmggHlaoqUGpDmEAuDBUQvqRvgIgNPLrakFZAilsOxcjjkHxSaLUtSHOISgynoQBdPUbpSVntIiLmwSanegcVPUfzAFAvFPCZNMUJiZqKKLbcopOuJAteNHrJAoSPWaJnIxnUJNWodQVHivFcMoBgnOCeONrHpJIptgmKJYYjRXkMZeRYAnNcmiXSMHyGgtloffJaCRhxNTzJVYMQtuJNWJwfEnnwTWNIdPsLiQpspDgpEYDsNAtkcUfFUCPWbmlfUAaWTWFcvfeATVtqofiXXPLLOwrQUCbuJfLWfgQvCKoRyxczDCYgOfMQtySivbbaWTNAhUcWIAvCExQXWslbWiqEtUlximjpQPlPSYgDcdohGktKCnOTVVJUMnRzJKDDEcMybZdkPaGtUqpnCZCXtskyXNsnpqbDsLFbjdoAifVVxbMGNnsQElypkwSzeQAsUwZIfjWuWbqUDizxrCoJVyTgkKrLdNlttgdejQUzXgyTsepVqMKcaeCZRfLUSeywZayUtEefGVPhlveoEAaRrjxjzhbeLBsibPvhCtHysCbQiPgtzTptXysgCgjiSWTxtcnLYiNqYiQZSKnilxVjEqigOTFSUdIKEIdjfevjRrRIqmRfUsfqyubrvphnOPpIxTvtGtfMpryuqSwvumswmjlbYTyOYuKrxhSIlPvNNjWKKZKEtBTIWAhObVONANYvfroLZatWSCTmUYMBqwPGaKlWitsvNGHBYdwVnVTuCcmZcjPVTVhLNkjtAFFCSUrJyMlqDzPmQiMXlhfaYsJoPViYongwFEorYCljttvUOBruNBGpURQaNAPsYsHmZmwIkuXEkEAOssuZVWqcbBWNuWKfFCfmJnGtFDhofGeGoZyZrqkWdaGISOxqDnwrqlORJcoHMOlOpHwIyxYUPRHogWuhGKNCRoUOtHuxDPUJfFQfwkKCMLCSyjayGxWIPMYaAQeFuesmGBRXrtLJYGSpZklMAfDYlaTuWPURXTrXvwbBPDhjRlNeAwFLKGarvfJVCALtVZmGTFRQuleAxPtIfTSDTzuPkmgLwTgSkyUBxQWuvlhjGdylUOhSmvWVfXDHjRXCWKXNbWxTsGPCswSSwUTkWleuNYtQmiMBWAIytfJLXxYNmDwyEBQnXmnNbzaZreEzkfcwyclOJVlWRcWsXwbBMVdafIxfAKIZhCCpBcUByxLJBIuQOYbVFVUQpCVQskzPbsfkACoHQZADqDwAOoWxzKGOgXZnyqsNxrajzGudUeCpGxKaifmwsVYOPJhBlWyAjSRlumfrQwlKpQDWyBepiytidNSGJksciWMZCJPmekWCvMBwFaasStuYEInxqzdmilzJVFCgqYtRLoPHMFWlrHpYUkMWVfVPiylFYEhgLDpnwWHwRULfXOFMDcuaRfFoRawHXZNPwezvaINnazWXKvnqxPaKiEdUhLOuDrHaXuemdzMfwaZmquXqidEwssOstpCesTMPXQUJxQCrIcmgjcFPUvfldKmzLuiYXTYoqAqarkdwhyMohvqUjQFpevtVgbQwXtpmaJTEkhjLmnfqpmtXrDdKjlBCYiFuldTbrsEXxImYKOzBHVLxSXTogWRxrilAwRUHjsnokzaVNNUTTCuAUgWOTbPimCKWiiKzeqLVrFnbTtlqHbUDfiqpIbxLUgaqCPEXBdLOnBmPaFWBTSmCtNHjJDWxcXCCRWQNSpTAWUYttmTJzCbUxfQuZmQnlSxHVclupWuhwZgCHQWnqitVQthjorthdmPXFYdsltonLryllEhVLWgNjMmKplJnmZnKSYnHFWQHoPbGpsVXNZvBcqSeTvNNqruJoVVvLaLfPvUVivmHDEIWVupIFOYzksrOUADONmvgprEdgNCYSeZPedIjrqpecxpzaTKdKLhtyoeROFgIvTyDoezoZUcMOiBxwtaJWahOhMUJqbbxpnaooQcxkkNzOhMRePBxtTUkzbzrnHkidDFCpPgUvBahNsYhqzHvjsEyugDgSpAltwgkzmCPagLdaiqwXPVXTfbwbLTrEIuMVwiWGTPMVHDBNtVPrcwwTIHYPPoxUKbmsxrrmc",
 	spanned_token!(
 		Token::CompilerDirective(CompilerDirective::TextMacro(TextMacro::Other("isJwsaCVXwblkXJEOzBvanGDVeJlnpptnskLRcwkbjWuGglXVdyeSGTrVNoMluMYXkiPRzdHlMPzsHrAxkVbwCzTlfHYpOkevtwXYkYSiQsEIMiYKqnHBOznTyLafeGtZYYsTqwfcONEwFVIWWNCJzYNlkxWGmFBRbYOfAzQBPkutmVSFYSaXEEdddVEzqwkeDYmOAVsmtnrfKpAoxUVNKMxcZCQkcfzNuMqRAeFeTksVXsLubYqNluFvlqffcYoMeZSgEMSYDLUIWyIfJsJJAIgryfHcBOLxWbEyLMmmitaRbnoDwOsEbqkwMpClKWQcvyQZMUAMjTkNrvhsikdeDXvnVJWNshsSTCLRqtnDKaALjbSvOzoURLGGMhCjNHEkkVDiuSNwKdKPIGrCepATpsIcBswbUmKJSeqKRFlRcUTpuNmyhpaMJekpsBKPXlKNyUHgJSpfFtetkdreIZhHrPcfcajFqpBHmmuEwkzOXaaoCZKSedVAOWzpjrDNRvDrAYjEbLxRSoRJZkwRbqTBCTZUCdxRFeQIhpjNZKTDJyTHxHaKMGlePcerzLxzVngfCdqBmQQyjHpIgMCZbjDkxontYLESdIxSEtwCPlcUXgeFJOhqIwpboCwVKhVtSjVcyFTVRPqmAxGrerYGtMjkMdqFobCTirmRFrshUIYLlDgfOcHTzKFKRjZKFDrRdZaLbUuraWAmJXUzGYupGUYOXtXbCwrrvTeSNgEhZUWIQVWInZKbDqqbnkWcpBvwsROshPQFEqbZkWjGjudykARPvRssqPkrXtdwCcEVSdbGNQVEufqgYSiHiLZcvJlcxTxCFKZqnSyRcopAndoihbnNyzIPMtyjGbHgirhRhsNMHjYUwFBrfPyoddKGmFRZWtwKqWnfUHSIBGhitTymZPwmgFIGSovWoXyvSwHvPyXdGadKkrocdskpIvkOLIoHQNUIUZmPufWtHtnynsDgmdcVWeRpiIqvfYYcdlrYAPmAzPEocqwBCvJQGsFJjOUlVtLVExcoOVygHGpBfqtnpuyDHyGPFrTxXIVOZPfvBcmWDKGrPqHVykpZVXIFDsSOhhsqhvgsqoPGbhENHbNbgvZZatirAmcHsvwliPbxFGOxPMyqogrxqxDfZlfGnxKqEPIQNpKSEBRoHoFmILWnSYlQahXqDIbLwycWwFGfkKRNGiPtuiZwaJbFEKTPOJBqcxonVXRYuFcAeEmRJBabjZPWwCeVrZNmniLUvcMbtDDgmBaDnSkqEYMvVleagMLJudazgVVcejdzGitOnItqCFwAIUcSebefbTugSDhIlNJXHjSDSiQOdfZDCMaPePxKquLtsyFIEueykplgCAFFNehYSCcXfUMeHKlIwVKWweHkLoxKpiXObfzORZhaiOGmwolswbPovcNKxCAThbmulLLNmsXcWYmbVkheRDnXWToGDKGsbtZqKGDnRKgCvFekPWItrQHSkkbwuashiVlgydceRbNBoJDwGFQYFYemFUjIskKyeZVPbtLEtNgZmckjoJAVXvMmHfOroBVjTyjkIMFJXIofvYbWgtNMLkhQQWgDcMkxfWzVRoVkvkxvAgERIekIbadAYDrOKDNFGCBNpBoZNgDXDibAgdJIThshGGWXYRfycakqeJYTZWQgkTPCbGbdCXxPQlDqUJYKdFdofJQbFCNOfqliIdrPAhrGnhRemYUnwMHFGTHlQRJSfFkQJdRuOdSRKCsVtZDrVeXJrwrAhsGIpMlYWHHbLbzYXCdqeqzSnotSlKPcwROcuDhCRpJTykHhNKrRWfKEaclTvFYksrakemNFaenzyMSUYHOvHOoVMzAYAObrHshoFywHdSylgKsWwmpFytzBRKDDJKHGUejkwMwUZMCLZFvwdnldGvLkJMwNoqdVHxtPRQnYHqWOjXSGaTXrZXNBPbtOSwjQtkOynpqWzFkJXhMOiIqoBQKZPbLZbhPidUuAwKGAmWYIBtyzPhfoKoLEMlcxvlgqMFAJrgpJEqRgImLUUiZpbzWzCxjuKfyZeGqlCJwbqhkNnMMqnJqZwaYdSgExJAasFYcgGJzAryWpSjsotmtBQduntzJueJggLcLDHrzATsYGcZLGeDMjWADYaApnyFIuDrpmDxacJZoOAUvXwNxIzEjxmVUIVEzBbPacFIzeuJAarlZMZLBnaoZnxxMYpgETRnALTeqmgWzhRHZfhOGkIcOXXWLZSTruADjrHmldaycIKTWGBVdiFUFWcEGDqRVPnPfPJqsMTsXQLbZVBisaTePXbMxkHmvZzRkNsMZheFdYguMvNsrBdamaayuVYsSVXYNeSLZqOFxayrQEHlHrXKzXGWHMPMCWGJFmjbmqElKJfurhKIdWLeTufTamsPEznCdNgyNqNXswfMhSeJiqYoLXvBMrMwafHBsXTGrvxSixoywzKeRpMvIhMPNXUHedKCBjInNJNtAbDcMycglNNEJwDIQkKehhQcnxEKwHdlidpjpYJvCswhIBiZxMtEgGFUayMwpuGhgGbXMbDpUVZTgcEMPSrsnoVgSRXoEGyAMrOKvenNKuftKZVeLbMmBYFydbUJwJvvSzQMnAOfiGUcoEWjdmCMpbCubmabAyxaMPFMcdAKRaOeLAZmpwuFfjqEVroVPqDBnBicesYJKKPrvEldMsCEFAxJOBEuJSHjOoVvsLwFOEdwtymWhyHWOGtIZxfDuEyGrOxYEuZVdBXZxHypDsQUInUHUbAuJDjvIIfwqSpCKTIfSQFvKPjzuqDIUbzTlxtUcFQjSiQSVZFrwwLVPSsobGUcGNwcyrFwhSigVkhZdYhXkoKuwhZoYdttUQjjENzGXVdTeWDqwkMIWSOgCIfeosFQBOjBovvSxIdtKvelWiMWYvtDXGGkiVWviOTVfKxSpiEkNktgxItQHcjnUHsFgszTQOOYJfGRQeIZSxEYOxFdzeQwYsUgPhUKIRmUeZiagnuAmrLHDksIKeSQeJprsRPaWiDKpXtCkEfITxRlefaRGMpYlWZqPlCBluazZphLGPxwluJkHWAegDutwKIqycGiYhDEKMwPmozcmjltJzaZDPzJJlTxZbITgXPcsLvDJEpDFeCxqSXCmuCiTYflZJOCMzJUjlnbFeJVPaZYcQglsXAdBnXLBswUhssCgHKCGMBqjEfudCCtoBhMKKcOcaOnSqvNHZLhXbCaCJYfifsZCkKkSwjyXBJkUDROmzcFnhVhjggYbWCgeyyVmHoGeIKroYDKIxRWUqtMhzqiFdvJAiTdZhFrcRdwxUtVrgrAHFGVvxkxjEfFXtcTXRjhIhKSkcjetvxPJripsdFPqXeUwglwADxTxMZnXzlOouGqczuYEcWVKVbDvaIBhmQQDBXJnuRqdGvHuHkQJqAjWxlfIohJyQMKrpHxhZztHvJakhlTBGCpvACLqyjSZryIlmaKanjuGIyPbypeUaHFoXjWsoUwSLkpgsKJfKJVhIOueXrMCzqnpaInVVCUgMRjsvASiJMEAIkGsVwxzFnSMZqqFzzmQilwWnUmedeZnZFZpNXFOTmlJgyuyKoGwrciUukrzCEjUueQTAFpmVtZgZOlcqgZtvEEYKihIbZlvFaDdDRyXIHpuJtMcsMrnsqCHDKpwqMtBRtHgaXHrRCrpyWARKtpgwGVgVQqhsmOtjSwVHJlVZDJYLhLHUeqUGHSTgBXnNLpEJsGvAtruGOpEBJNTnQOYSHWfXyAoFvkwtNmdSWjQkuGlODMdXMnPllhrZTApYWLgyYmGDKCyIqMVmhYOjYvtKsoRflkAoHRZPbwQMGuSQUUsdkGpjnBsQwSBBUFVAGORNUBjykhYxeiZtaPvCttyPvqjXDfXXqeucpzEjfqkOfCnGyKKLMxRzxCMtEItqsVguZPyWuVvvbVHvfVuWhbIXnltJeiqKtINFdJxkdXlpTgcIOklxEtEqMNzJYRSlcEsrmzgexaHqtSmqhmUflekSzqqjuXwghPpumZVSVynLTwLtDAehmnZUAKIElZEDxhejuGriibOZStMpoYjypYhVmBrmuUhxmffZiEDcoLkWsgFpLPgzkVmHsquLVdSYgvwSMGKdmzprfXumJBHJSFLadsNpsiKvAjFMHzmlcmJzlQojhWhvapdRPYFUQUbkqZeqifxBdTkjSJvEOEEtukVsDjOJaNpGobtJStYZBPqXIIbalJQfOHozyICiOxkKORbCdoHjizfzMZdJYmFGAWNgrYLPzScdPKuoCcLOoYXYmlaiQJSOaBmgFSgLHsBgydSLlwfdXNufhHgQdTeqpTtAIzJMgnKUkImohtFwbleknaAYDjcYiUaJPLscOcYucjhTeWMdWWRJWNtfsIFWPPHoqvOBXrafakcKcEoJhzndLClOKmvwsxDAOVhDCADmlcLlvSAkFWqcFiOhhUjtBSSxCYVYlddCvgQYhpclpywyEHSESwNbcBcXHOQttgaqgfMVDblBWUKpTOTxABmLpTHFmhEyoOnqRmebTBXEuggqWPghRHRqQlyyxIjpVseiEZpHLZgpIVYujeJJOptVpzICkUfGQzWzLWxdUeoGmhUvvTIWXMQETLKhGdrhzFZzyUHWflCHJagtqwunsWTinUvEzKVCMBUtJSiCKJTNijuUBGuhyhyQSHPDkoDSbNulTimdAXHOSZJqiGukRotktLjnKSBwyYsBEFYIAcoUeKSGhpscKUScHnjykrWJBeSTFsxWuTrCWNHYegrUIXceAeVAlpwRHANRDWqdNVLUvqGpsSabfJCDFiwidgTkIVhtxbQZSiXlDdCmkRzLWzQrTOcNLvxYnxUwKimzsQunmKKAxQVXeoLWLrqHVAHshBAmbCaFzCdcBljedgeVsIxekffMkBQvWeTCVcNHkjPMCmIDtmXlRtNvGTtxxbLViiykokxKLyvmIsHECloUWNafyFDfRMjUZeHMzKGfDKBuacPJHECTJgQWqSLrKlMJIjNIlCHaFwYOHvbnoQhnzZGLdcCjMAISVdusugphxhvQoauWlXpFJGNEBYXTzuwLZLVejgcVUJEZAATtoQHKrrVEDWqyVnMJJcthVBHvlrWJsQqUUIdtiBBWGGSxPGZrsILeRSWpUWGbPPtATABFQftCCJpozMvWKpVmqAaNWBFVaWHrOfgDQUztlpFXBtIgXiOfXBePSCwVDVfPWzoxnVPVYJdNiXkFtICitJnOVnpHOmnJuVGmJjWLcKiZozwpdPDxNspqlgUbZpikTlxNRWLsFpLdJyBelxDdFhxgrBxUcvddAZfYdDhXIzccYtHlJyKPMSotcDlIJdLtzujNmqqtacrrHyqmyBQSuniGKzRTEiIEkjaakSjxEPYkrMOwVBoQosXWNitVJgkYdLlBoxdNpxbpUHWfruOsNVGkExvcqZJzIsZSuSrGJelsOdqcHYiLhhaLhxvMYUBmhpsrUFTrhSiioEXMLIaXcEOhkrWVxIAgIPwtRIXXjhpafGxdxHqwQXCEdjPNmeynszkmIaOePdjchUcVIulQnfwIYkiZryTMFvnNNHHohHwcGykOAZtTrASwqiSRJnqTRxOaSiACnNeLGzoviItbhnUOtFHWkUIUrwfIramOIxZzflIAtcRkaKvodTViHvydQPBZJReOVkypuEKHeEZMmokQeaMtMQvCVxENZyclBtuQNwcFGVYzmuHWIUdBsXUszjLAOCmoQajWSvtRPYFRaqjaAtYETvcInBDmmiuPhqJZppLtzIMJUhLioestsWRJsUfcaFiPUlytCgBJJWUNuoNbMbCGwLlDKxfNrDBfBIgiJiRSFCVUjCnMJZfuvtKAIHFLjgIgTHEyMpzLKHYZoLCeOrVPPekQYbsFuIwwQjwReXSQHKMEmmSvNVZuGtxoIRnSGkYEXUWYFMsFmsHuqHWVtZTBtSLBukGkjCyZLErgJRKLfDHOzcwIzpzSxSIsatWsvItkcYcNMogCLLPcXbCQLJMGngvuxocoFDdefCruJwWxGsYNLtGOuWQPPMNgtIuiRvUsoGCLImBnIlmjqPIoifaaFdvjKUnjyQCvPPvYZcapwOegWCzdJVMShqjNrsmIjAkgABtLPmkvBfciPbMYcimadmggHlaoqUGpDmEAuDBUQvqRvgIgNPLrakFZAilsOxcjjkHxSaLUtSHOISgynoQBdPUbpSVntIiLmwSanegcVPUfzAFAvFPCZNMUJiZqKKLbcopOuJAteNHrJAoSPWaJnIxnUJNWodQVHivFcMoBgnOCeONrHpJIptgmKJYYjRXkMZeRYAnNcmiXSMHyGgtloffJaCRhxNTzJVYMQtuJNWJwfEnnwTWNIdPsLiQpspDgpEYDsNAtkcUfFUCPWbmlfUAaWTWFcvfeATVtqofiXXPLLOwrQUCbuJfLWfgQvCKoRyxczDCYgOfMQtySivbbaWTNAhUcWIAvCExQXWslbWiqEtUlximjpQPlPSYgDcdohGktKCnOTVVJUMnRzJKDDEcMybZdkPaGtUqpnCZCXtskyXNsnpqbDsLFbjdoAifVVxbMGNnsQElypkwSzeQAsUwZIfjWuWbqUDizxrCoJVyTgkKrLdNlttgdejQUzXgyTsepVqMKcaeCZRfLUSeywZayUtEefGVPhlveoEAaRrjxjzhbeLBsibPvhCtHysCbQiPgtzTptXysgCgjiSWTxtcnLYiNqYiQZSKnilxVjEqigOTFSUdIKEIdjfevjRrRIqmRfUsfqyubrvphnOPpIxTvtGtfMpryuqSwvumswmjlbYTyOYuKrxhSIlPvNNjWKKZKEtBTIWAhObVONANYvfroLZatWSCTmUYMBqwPGaKlWitsvNGHBYdwVnVTuCcmZcjPVTVhLNkjtAFFCSUrJyMlqDzPmQiMXlhfaYsJoPViYongwFEorYCljttvUOBruNBGpURQaNAPsYsHmZmwIkuXEkEAOssuZVWqcbBWNuWKfFCfmJnGtFDhofGeGoZyZrqkWdaGISOxqDnwrqlORJcoHMOlOpHwIyxYUPRHogWuhGKNCRoUOtHuxDPUJfFQfwkKCMLCSyjayGxWIPMYaAQeFuesmGBRXrtLJYGSpZklMAfDYlaTuWPURXTrXvwbBPDhjRlNeAwFLKGarvfJVCALtVZmGTFRQuleAxPtIfTSDTzuPkmgLwTgSkyUBxQWuvlhjGdylUOhSmvWVfXDHjRXCWKXNbWxTsGPCswSSwUTkWleuNYtQmiMBWAIytfJLXxYNmDwyEBQnXmnNbzaZreEzkfcwyclOJVlWRcWsXwbBMVdafIxfAKIZhCCpBcUByxLJBIuQOYbVFVUQpCVQskzPbsfkACoHQZADqDwAOoWxzKGOgXZnyqsNxrajzGudUeCpGxKaifmwsVYOPJhBlWyAjSRlumfrQwlKpQDWyBepiytidNSGJksciWMZCJPmekWCvMBwFaasStuYEInxqzdmilzJVFCgqYtRLoPHMFWlrHpYUkMWVfVPiylFYEhgLDpnwWHwRULfXOFMDcuaRfFoRawHXZNPwezvaINnazWXKvnqxPaKiEdUhLOuDrHaXuemdzMfwaZmquXqidEwssOstpCesTMPXQUJxQCrIcmgjcFPUvfldKmzLuiYXTYoqAqarkdwhyMohvqUjQFpevtVgbQwXtpmaJTEkhjLmnfqpmtXrDdKjlBCYiFuldTbrsEXxImYKOzBHVLxSXTogWRxrilAwRUHjsnokzaVNNUTTCuAUgWOTbPimCKWiiKzeqLVrFnbTtlqHbUDfiqpIbxLUgaqCPEXBdLOnBmPaFWBTSmCtNHjJDWxcXCCRWQNSpTAWUYttmTJzCbUxfQuZmQnlSxHVclupWuhwZgCHQWnqitVQthjorthdmPXFYdsltonLryllEhVLWgNjMmKplJnmZnKSYnHFWQHoPbGpsVXNZvBcqSeTvNNqruJoVVvLaLfPvUVivmHDEIWVupIFOYzksrOUADONmvgprEdgNCYSeZPedIjrqpecxpzaTKdKLhtyoeROFgIvTyDoezoZUcMOiBxwtaJWahOhMUJqbbxpnaooQcxkkNzOhMRePBxtTUkzbzrnHkidDFCpPgUvBahNsYhqzHvjsEyugDgSpAltwgkzmCPagLdaiqwXPVXTfbwbLTrEIuMVwiWGTPMVHDBNtVPrcwwTIHYPPoxUKbmsxrrmc".as_bytes().into()))),
-		0u32..8193u32,
-		Position::new(0, 0)
+		Span::from_position(0, 8193, Position::new(0, 0))
 	)
 );
 
@@ -677,18 +616,15 @@ tokenizer_test!(
 	"`define meow",
 	spanned_token!(
 		Token::CompilerDirective(CompilerDirective::Builtin(BuiltinDirective::Define)),
-		0u32..7u32,
-		Position::new(0, 0)
+		Span::from_position(0, 7, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::Whitespace(" ".as_bytes().into()),
-		7u32..8u32,
-		Position::new(0, 7)
+		Span::from_position(7, 8, Position::new(0, 7))
 	),
 	spanned_token!(
 		Token::Identifier(Identifier::Simple("meow".as_bytes().into())),
-		8u32..12u32,
-		Position::new(0, 8)
+		Span::from_position(8, 12, Position::new(0, 8))
 	)
 );
 
@@ -698,28 +634,23 @@ tokenizer_test!(
 	"`define nya 8",
 	spanned_token!(
 		Token::CompilerDirective(CompilerDirective::Builtin(BuiltinDirective::Define)),
-		0u32..7u32,
-		Position::new(0, 0)
+		Span::from_position(0, 7, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::Whitespace(" ".as_bytes().into()),
-		7u32..8u32,
-		Position::new(0, 7)
+		Span::from_position(7, 8, Position::new(0, 7))
 	),
 	spanned_token!(
 		Token::Identifier(Identifier::Simple("nya".as_bytes().into())),
-		8u32..11u32,
-		Position::new(0, 8)
+		Span::from_position(8, 11, Position::new(0, 8))
 	),
 	spanned_token!(
 		Token::Whitespace(" ".as_bytes().into()),
-		11u32..12u32,
-		Position::new(0, 11)
+		Span::from_position(11, 12, Position::new(0, 11))
 	),
 	spanned_token!(
 		Token::UnsignedNumber("8".as_bytes().into()),
-		12u32..13u32,
-		Position::new(0, 12)
+		Span::from_position(12, 13, Position::new(0, 12))
 	)
 );
 
@@ -731,8 +662,7 @@ tokenizer_test!(
 		Token::SingleQuotedString(SingleQuotedString::new(
 			"This Is A Simple String :3".as_bytes().into()
 		)),
-		0u32..28u32,
-		Position::new(0, 0)
+		Span::from_position(0, 28, Position::new(0, 0))
 	)
 );
 
@@ -744,8 +674,7 @@ tokenizer_test!(
 		Token::SingleQuotedString(SingleQuotedString::new(
 			"This Is A Simple String :3".as_bytes().into()
 		)),
-		0u32..27u32,
-		Position::new(0, 0)
+		Span::from_position(0, 27, Position::new(0, 0))
 	)
 );
 
@@ -755,8 +684,7 @@ tokenizer_test!(
 	"meow",
 	spanned_token!(
 		Token::Identifier(Identifier::Simple("meow".as_bytes().into())),
-		0u32..4u32,
-		Position::new(0, 0)
+		Span::from_position(0, 4, Position::new(0, 0))
 	)
 );
 
@@ -766,8 +694,7 @@ tokenizer_test!(
 	"m3ow_me0w",
 	spanned_token!(
 		Token::Identifier(Identifier::Simple("m3ow_me0w".as_bytes().into())),
-		0u32..9u32,
-		Position::new(0, 0)
+		Span::from_position(0, 9, Position::new(0, 0))
 	)
 );
 
@@ -777,8 +704,7 @@ tokenizer_test!(
 	"always",
 	spanned_token!(
 		Token::Keyword(Keyword::Always),
-		0u32..6u32,
-		Position::new(0, 0)
+		Span::from_position(0, 6, Position::new(0, 0))
 	)
 );
 
@@ -788,8 +714,7 @@ tokenizer_test!(
 	"and",
 	spanned_token!(
 		Token::Keyword(Keyword::And),
-		0u32..3u32,
-		Position::new(0, 0)
+		Span::from_position(0, 3, Position::new(0, 0))
 	)
 );
 
@@ -799,8 +724,7 @@ tokenizer_test!(
 	"assign",
 	spanned_token!(
 		Token::Keyword(Keyword::Assign),
-		0u32..6u32,
-		Position::new(0, 0)
+		Span::from_position(0, 6, Position::new(0, 0))
 	)
 );
 
@@ -810,8 +734,7 @@ tokenizer_test!(
 	"begin",
 	spanned_token!(
 		Token::Keyword(Keyword::Begin),
-		0u32..5u32,
-		Position::new(0, 0)
+		Span::from_position(0, 5, Position::new(0, 0))
 	)
 );
 
@@ -821,8 +744,7 @@ tokenizer_test!(
 	"buf",
 	spanned_token!(
 		Token::Keyword(Keyword::Buf),
-		0u32..3u32,
-		Position::new(0, 0)
+		Span::from_position(0, 3, Position::new(0, 0))
 	)
 );
 
@@ -832,8 +754,7 @@ tokenizer_test!(
 	"bufif0",
 	spanned_token!(
 		Token::Keyword(Keyword::BufIf0),
-		0u32..6u32,
-		Position::new(0, 0)
+		Span::from_position(0, 6, Position::new(0, 0))
 	)
 );
 
@@ -843,8 +764,7 @@ tokenizer_test!(
 	"bufif1",
 	spanned_token!(
 		Token::Keyword(Keyword::BufIf1),
-		0u32..6u32,
-		Position::new(0, 0)
+		Span::from_position(0, 6, Position::new(0, 0))
 	)
 );
 
@@ -854,8 +774,7 @@ tokenizer_test!(
 	"case",
 	spanned_token!(
 		Token::Keyword(Keyword::Case),
-		0u32..4u32,
-		Position::new(0, 0)
+		Span::from_position(0, 4, Position::new(0, 0))
 	)
 );
 
@@ -865,8 +784,7 @@ tokenizer_test!(
 	"casex",
 	spanned_token!(
 		Token::Keyword(Keyword::CaseX),
-		0u32..5u32,
-		Position::new(0, 0)
+		Span::from_position(0, 5, Position::new(0, 0))
 	)
 );
 
@@ -876,8 +794,7 @@ tokenizer_test!(
 	"casez",
 	spanned_token!(
 		Token::Keyword(Keyword::CaseZ),
-		0u32..5u32,
-		Position::new(0, 0)
+		Span::from_position(0, 5, Position::new(0, 0))
 	)
 );
 
@@ -887,8 +804,7 @@ tokenizer_test!(
 	"cmos",
 	spanned_token!(
 		Token::Keyword(Keyword::Cmos),
-		0u32..4u32,
-		Position::new(0, 0)
+		Span::from_position(0, 4, Position::new(0, 0))
 	)
 );
 
@@ -898,8 +814,7 @@ tokenizer_test!(
 	"deassign",
 	spanned_token!(
 		Token::Keyword(Keyword::Deassign),
-		0u32..8u32,
-		Position::new(0, 0)
+		Span::from_position(0, 8, Position::new(0, 0))
 	)
 );
 
@@ -909,8 +824,7 @@ tokenizer_test!(
 	"default",
 	spanned_token!(
 		Token::Keyword(Keyword::Default),
-		0u32..7u32,
-		Position::new(0, 0)
+		Span::from_position(0, 7, Position::new(0, 0))
 	)
 );
 
@@ -920,8 +834,7 @@ tokenizer_test!(
 	"defparam",
 	spanned_token!(
 		Token::Keyword(Keyword::DefParam),
-		0u32..8u32,
-		Position::new(0, 0)
+		Span::from_position(0, 8, Position::new(0, 0))
 	)
 );
 
@@ -931,8 +844,7 @@ tokenizer_test!(
 	"disable",
 	spanned_token!(
 		Token::Keyword(Keyword::Disable),
-		0u32..7u32,
-		Position::new(0, 0)
+		Span::from_position(0, 7, Position::new(0, 0))
 	)
 );
 
@@ -942,8 +854,7 @@ tokenizer_test!(
 	"edge",
 	spanned_token!(
 		Token::Keyword(Keyword::Edge),
-		0u32..4u32,
-		Position::new(0, 0)
+		Span::from_position(0, 4, Position::new(0, 0))
 	)
 );
 
@@ -953,8 +864,7 @@ tokenizer_test!(
 	"else",
 	spanned_token!(
 		Token::Keyword(Keyword::Else),
-		0u32..4u32,
-		Position::new(0, 0)
+		Span::from_position(0, 4, Position::new(0, 0))
 	)
 );
 
@@ -964,8 +874,7 @@ tokenizer_test!(
 	"end",
 	spanned_token!(
 		Token::Keyword(Keyword::End),
-		0u32..3u32,
-		Position::new(0, 0)
+		Span::from_position(0, 3, Position::new(0, 0))
 	)
 );
 
@@ -975,8 +884,7 @@ tokenizer_test!(
 	"endcase",
 	spanned_token!(
 		Token::Keyword(Keyword::EndCase),
-		0u32..7u32,
-		Position::new(0, 0)
+		Span::from_position(0, 7, Position::new(0, 0))
 	)
 );
 
@@ -986,8 +894,7 @@ tokenizer_test!(
 	"endfunction",
 	spanned_token!(
 		Token::Keyword(Keyword::EndFunction),
-		0u32..11u32,
-		Position::new(0, 0)
+		Span::from_position(0, 11, Position::new(0, 0))
 	)
 );
 
@@ -997,8 +904,7 @@ tokenizer_test!(
 	"endmodule",
 	spanned_token!(
 		Token::Keyword(Keyword::EndModule),
-		0u32..9u32,
-		Position::new(0, 0)
+		Span::from_position(0, 9, Position::new(0, 0))
 	)
 );
 
@@ -1008,8 +914,7 @@ tokenizer_test!(
 	"endprimitive",
 	spanned_token!(
 		Token::Keyword(Keyword::EndPrimitive),
-		0u32..12u32,
-		Position::new(0, 0)
+		Span::from_position(0, 12, Position::new(0, 0))
 	)
 );
 
@@ -1019,8 +924,7 @@ tokenizer_test!(
 	"endspecify",
 	spanned_token!(
 		Token::Keyword(Keyword::EndSpecify),
-		0u32..10u32,
-		Position::new(0, 0)
+		Span::from_position(0, 10, Position::new(0, 0))
 	)
 );
 
@@ -1030,8 +934,7 @@ tokenizer_test!(
 	"endtable",
 	spanned_token!(
 		Token::Keyword(Keyword::EndTable),
-		0u32..8u32,
-		Position::new(0, 0)
+		Span::from_position(0, 8, Position::new(0, 0))
 	)
 );
 
@@ -1041,8 +944,7 @@ tokenizer_test!(
 	"endtask",
 	spanned_token!(
 		Token::Keyword(Keyword::EndTask),
-		0u32..7u32,
-		Position::new(0, 0)
+		Span::from_position(0, 7, Position::new(0, 0))
 	)
 );
 
@@ -1052,8 +954,7 @@ tokenizer_test!(
 	"event",
 	spanned_token!(
 		Token::Keyword(Keyword::Event),
-		0u32..5u32,
-		Position::new(0, 0)
+		Span::from_position(0, 5, Position::new(0, 0))
 	)
 );
 
@@ -1063,8 +964,7 @@ tokenizer_test!(
 	"for",
 	spanned_token!(
 		Token::Keyword(Keyword::For),
-		0u32..3u32,
-		Position::new(0, 0)
+		Span::from_position(0, 3, Position::new(0, 0))
 	)
 );
 
@@ -1074,8 +974,7 @@ tokenizer_test!(
 	"force",
 	spanned_token!(
 		Token::Keyword(Keyword::Force),
-		0u32..5u32,
-		Position::new(0, 0)
+		Span::from_position(0, 5, Position::new(0, 0))
 	)
 );
 
@@ -1085,8 +984,7 @@ tokenizer_test!(
 	"forever",
 	spanned_token!(
 		Token::Keyword(Keyword::Forever),
-		0u32..7u32,
-		Position::new(0, 0)
+		Span::from_position(0, 7, Position::new(0, 0))
 	)
 );
 
@@ -1096,8 +994,7 @@ tokenizer_test!(
 	"fork",
 	spanned_token!(
 		Token::Keyword(Keyword::Fork),
-		0u32..4u32,
-		Position::new(0, 0)
+		Span::from_position(0, 4, Position::new(0, 0))
 	)
 );
 
@@ -1107,8 +1004,7 @@ tokenizer_test!(
 	"function",
 	spanned_token!(
 		Token::Keyword(Keyword::Function),
-		0u32..8u32,
-		Position::new(0, 0)
+		Span::from_position(0, 8, Position::new(0, 0))
 	)
 );
 
@@ -1118,8 +1014,7 @@ tokenizer_test!(
 	"highz0",
 	spanned_token!(
 		Token::Keyword(Keyword::HighZ0),
-		0u32..6u32,
-		Position::new(0, 0)
+		Span::from_position(0, 6, Position::new(0, 0))
 	)
 );
 
@@ -1129,8 +1024,7 @@ tokenizer_test!(
 	"highz1",
 	spanned_token!(
 		Token::Keyword(Keyword::HighZ1),
-		0u32..6u32,
-		Position::new(0, 0)
+		Span::from_position(0, 6, Position::new(0, 0))
 	)
 );
 
@@ -1138,7 +1032,10 @@ tokenizer_test!(
 	all,
 	keyword_if,
 	"if",
-	spanned_token!(Token::Keyword(Keyword::If), 0u32..2u32, Position::new(0, 0))
+	spanned_token!(
+		Token::Keyword(Keyword::If),
+		Span::from_position(0, 2, Position::new(0, 0))
+	)
 );
 
 tokenizer_test!(
@@ -1147,8 +1044,7 @@ tokenizer_test!(
 	"ifnone",
 	spanned_token!(
 		Token::Keyword(Keyword::IfNone),
-		0u32..6u32,
-		Position::new(0, 0)
+		Span::from_position(0, 6, Position::new(0, 0))
 	)
 );
 
@@ -1158,8 +1054,7 @@ tokenizer_test!(
 	"initial",
 	spanned_token!(
 		Token::Keyword(Keyword::Initial),
-		0u32..7u32,
-		Position::new(0, 0)
+		Span::from_position(0, 7, Position::new(0, 0))
 	)
 );
 
@@ -1169,8 +1064,7 @@ tokenizer_test!(
 	"inout",
 	spanned_token!(
 		Token::Keyword(Keyword::InOut),
-		0u32..5u32,
-		Position::new(0, 0)
+		Span::from_position(0, 5, Position::new(0, 0))
 	)
 );
 
@@ -1180,8 +1074,7 @@ tokenizer_test!(
 	"input",
 	spanned_token!(
 		Token::Keyword(Keyword::Input),
-		0u32..5u32,
-		Position::new(0, 0)
+		Span::from_position(0, 5, Position::new(0, 0))
 	)
 );
 
@@ -1191,8 +1084,7 @@ tokenizer_test!(
 	"integer",
 	spanned_token!(
 		Token::Keyword(Keyword::Integer),
-		0u32..7u32,
-		Position::new(0, 0)
+		Span::from_position(0, 7, Position::new(0, 0))
 	)
 );
 
@@ -1202,8 +1094,7 @@ tokenizer_test!(
 	"join",
 	spanned_token!(
 		Token::Keyword(Keyword::Join),
-		0u32..4u32,
-		Position::new(0, 0)
+		Span::from_position(0, 4, Position::new(0, 0))
 	)
 );
 
@@ -1213,8 +1104,7 @@ tokenizer_test!(
 	"large",
 	spanned_token!(
 		Token::Keyword(Keyword::Large),
-		0u32..5u32,
-		Position::new(0, 0)
+		Span::from_position(0, 5, Position::new(0, 0))
 	)
 );
 
@@ -1224,8 +1114,7 @@ tokenizer_test!(
 	"macromodule",
 	spanned_token!(
 		Token::Keyword(Keyword::MacroModule),
-		0u32..11u32,
-		Position::new(0, 0)
+		Span::from_position(0, 11, Position::new(0, 0))
 	)
 );
 
@@ -1235,8 +1124,7 @@ tokenizer_test!(
 	"medium",
 	spanned_token!(
 		Token::Keyword(Keyword::Medium),
-		0u32..6u32,
-		Position::new(0, 0)
+		Span::from_position(0, 6, Position::new(0, 0))
 	)
 );
 
@@ -1246,8 +1134,7 @@ tokenizer_test!(
 	"module",
 	spanned_token!(
 		Token::Keyword(Keyword::Module),
-		0u32..6u32,
-		Position::new(0, 0)
+		Span::from_position(0, 6, Position::new(0, 0))
 	)
 );
 
@@ -1257,8 +1144,7 @@ tokenizer_test!(
 	"nand",
 	spanned_token!(
 		Token::Keyword(Keyword::Nand),
-		0u32..4u32,
-		Position::new(0, 0)
+		Span::from_position(0, 4, Position::new(0, 0))
 	)
 );
 
@@ -1268,8 +1154,7 @@ tokenizer_test!(
 	"negedge",
 	spanned_token!(
 		Token::Keyword(Keyword::NegEdge),
-		0u32..7u32,
-		Position::new(0, 0)
+		Span::from_position(0, 7, Position::new(0, 0))
 	)
 );
 
@@ -1279,8 +1164,7 @@ tokenizer_test!(
 	"nmos",
 	spanned_token!(
 		Token::Keyword(Keyword::Nmos),
-		0u32..4u32,
-		Position::new(0, 0)
+		Span::from_position(0, 4, Position::new(0, 0))
 	)
 );
 
@@ -1290,8 +1174,7 @@ tokenizer_test!(
 	"nor",
 	spanned_token!(
 		Token::Keyword(Keyword::Nor),
-		0u32..3u32,
-		Position::new(0, 0)
+		Span::from_position(0, 3, Position::new(0, 0))
 	)
 );
 
@@ -1301,8 +1184,7 @@ tokenizer_test!(
 	"not",
 	spanned_token!(
 		Token::Keyword(Keyword::Not),
-		0u32..3u32,
-		Position::new(0, 0)
+		Span::from_position(0, 3, Position::new(0, 0))
 	)
 );
 
@@ -1312,8 +1194,7 @@ tokenizer_test!(
 	"notif0",
 	spanned_token!(
 		Token::Keyword(Keyword::NotIf0),
-		0u32..6u32,
-		Position::new(0, 0)
+		Span::from_position(0, 6, Position::new(0, 0))
 	)
 );
 
@@ -1323,8 +1204,7 @@ tokenizer_test!(
 	"notif1",
 	spanned_token!(
 		Token::Keyword(Keyword::NotIf1),
-		0u32..6u32,
-		Position::new(0, 0)
+		Span::from_position(0, 6, Position::new(0, 0))
 	)
 );
 
@@ -1332,7 +1212,10 @@ tokenizer_test!(
 	all,
 	keyword_or,
 	"or",
-	spanned_token!(Token::Keyword(Keyword::Or), 0u32..2u32, Position::new(0, 0))
+	spanned_token!(
+		Token::Keyword(Keyword::Or),
+		Span::from_position(0, 2, Position::new(0, 0))
+	)
 );
 
 tokenizer_test!(
@@ -1341,8 +1224,7 @@ tokenizer_test!(
 	"output",
 	spanned_token!(
 		Token::Keyword(Keyword::Output),
-		0u32..6u32,
-		Position::new(0, 0)
+		Span::from_position(0, 6, Position::new(0, 0))
 	)
 );
 
@@ -1352,8 +1234,7 @@ tokenizer_test!(
 	"parameter",
 	spanned_token!(
 		Token::Keyword(Keyword::Parameter),
-		0u32..9u32,
-		Position::new(0, 0)
+		Span::from_position(0, 9, Position::new(0, 0))
 	)
 );
 
@@ -1363,8 +1244,7 @@ tokenizer_test!(
 	"pmos",
 	spanned_token!(
 		Token::Keyword(Keyword::Pmos),
-		0u32..4u32,
-		Position::new(0, 0)
+		Span::from_position(0, 4, Position::new(0, 0))
 	)
 );
 
@@ -1374,8 +1254,7 @@ tokenizer_test!(
 	"posedge",
 	spanned_token!(
 		Token::Keyword(Keyword::PosEdge),
-		0u32..7u32,
-		Position::new(0, 0)
+		Span::from_position(0, 7, Position::new(0, 0))
 	)
 );
 
@@ -1385,8 +1264,7 @@ tokenizer_test!(
 	"primitive",
 	spanned_token!(
 		Token::Keyword(Keyword::Primitive),
-		0u32..9u32,
-		Position::new(0, 0)
+		Span::from_position(0, 9, Position::new(0, 0))
 	)
 );
 
@@ -1396,8 +1274,7 @@ tokenizer_test!(
 	"pull0",
 	spanned_token!(
 		Token::Keyword(Keyword::Pull0),
-		0u32..5u32,
-		Position::new(0, 0)
+		Span::from_position(0, 5, Position::new(0, 0))
 	)
 );
 
@@ -1407,8 +1284,7 @@ tokenizer_test!(
 	"pull1",
 	spanned_token!(
 		Token::Keyword(Keyword::Pull1),
-		0u32..5u32,
-		Position::new(0, 0)
+		Span::from_position(0, 5, Position::new(0, 0))
 	)
 );
 
@@ -1418,8 +1294,7 @@ tokenizer_test!(
 	"pulldown",
 	spanned_token!(
 		Token::Keyword(Keyword::Pulldown),
-		0u32..8u32,
-		Position::new(0, 0)
+		Span::from_position(0, 8, Position::new(0, 0))
 	)
 );
 
@@ -1429,8 +1304,7 @@ tokenizer_test!(
 	"pullup",
 	spanned_token!(
 		Token::Keyword(Keyword::Pullup),
-		0u32..6u32,
-		Position::new(0, 0)
+		Span::from_position(0, 6, Position::new(0, 0))
 	)
 );
 
@@ -1440,8 +1314,7 @@ tokenizer_test!(
 	"rcmos",
 	spanned_token!(
 		Token::Keyword(Keyword::Rcmos),
-		0u32..5u32,
-		Position::new(0, 0)
+		Span::from_position(0, 5, Position::new(0, 0))
 	)
 );
 
@@ -1451,8 +1324,7 @@ tokenizer_test!(
 	"real",
 	spanned_token!(
 		Token::Keyword(Keyword::Real),
-		0u32..4u32,
-		Position::new(0, 0)
+		Span::from_position(0, 4, Position::new(0, 0))
 	)
 );
 
@@ -1462,8 +1334,7 @@ tokenizer_test!(
 	"realtime",
 	spanned_token!(
 		Token::Keyword(Keyword::Realtime),
-		0u32..8u32,
-		Position::new(0, 0)
+		Span::from_position(0, 8, Position::new(0, 0))
 	)
 );
 
@@ -1473,8 +1344,7 @@ tokenizer_test!(
 	"reg",
 	spanned_token!(
 		Token::Keyword(Keyword::Reg),
-		0u32..3u32,
-		Position::new(0, 0)
+		Span::from_position(0, 3, Position::new(0, 0))
 	)
 );
 
@@ -1484,8 +1354,7 @@ tokenizer_test!(
 	"release",
 	spanned_token!(
 		Token::Keyword(Keyword::Release),
-		0u32..7u32,
-		Position::new(0, 0)
+		Span::from_position(0, 7, Position::new(0, 0))
 	)
 );
 
@@ -1495,8 +1364,7 @@ tokenizer_test!(
 	"repeat",
 	spanned_token!(
 		Token::Keyword(Keyword::Repeat),
-		0u32..6u32,
-		Position::new(0, 0)
+		Span::from_position(0, 6, Position::new(0, 0))
 	)
 );
 
@@ -1506,8 +1374,7 @@ tokenizer_test!(
 	"rnmos",
 	spanned_token!(
 		Token::Keyword(Keyword::Rnmos),
-		0u32..5u32,
-		Position::new(0, 0)
+		Span::from_position(0, 5, Position::new(0, 0))
 	)
 );
 
@@ -1517,8 +1384,7 @@ tokenizer_test!(
 	"rpmos",
 	spanned_token!(
 		Token::Keyword(Keyword::Rpmos),
-		0u32..5u32,
-		Position::new(0, 0)
+		Span::from_position(0, 5, Position::new(0, 0))
 	)
 );
 
@@ -1528,8 +1394,7 @@ tokenizer_test!(
 	"rtran",
 	spanned_token!(
 		Token::Keyword(Keyword::Rtran),
-		0u32..5u32,
-		Position::new(0, 0)
+		Span::from_position(0, 5, Position::new(0, 0))
 	)
 );
 
@@ -1539,8 +1404,7 @@ tokenizer_test!(
 	"rtranif0",
 	spanned_token!(
 		Token::Keyword(Keyword::RtranIf0),
-		0u32..8u32,
-		Position::new(0, 0)
+		Span::from_position(0, 8, Position::new(0, 0))
 	)
 );
 
@@ -1550,8 +1414,7 @@ tokenizer_test!(
 	"rtranif1",
 	spanned_token!(
 		Token::Keyword(Keyword::RtranIf1),
-		0u32..8u32,
-		Position::new(0, 0)
+		Span::from_position(0, 8, Position::new(0, 0))
 	)
 );
 
@@ -1561,8 +1424,7 @@ tokenizer_test!(
 	"scalared",
 	spanned_token!(
 		Token::Keyword(Keyword::Scalared),
-		0u32..8u32,
-		Position::new(0, 0)
+		Span::from_position(0, 8, Position::new(0, 0))
 	)
 );
 
@@ -1572,8 +1434,7 @@ tokenizer_test!(
 	"small",
 	spanned_token!(
 		Token::Keyword(Keyword::Small),
-		0u32..5u32,
-		Position::new(0, 0)
+		Span::from_position(0, 5, Position::new(0, 0))
 	)
 );
 
@@ -1583,8 +1444,7 @@ tokenizer_test!(
 	"specify",
 	spanned_token!(
 		Token::Keyword(Keyword::Specify),
-		0u32..7u32,
-		Position::new(0, 0)
+		Span::from_position(0, 7, Position::new(0, 0))
 	)
 );
 
@@ -1594,8 +1454,7 @@ tokenizer_test!(
 	"specparam",
 	spanned_token!(
 		Token::Keyword(Keyword::SpecParam),
-		0u32..9u32,
-		Position::new(0, 0)
+		Span::from_position(0, 9, Position::new(0, 0))
 	)
 );
 
@@ -1605,8 +1464,7 @@ tokenizer_test!(
 	"strong0",
 	spanned_token!(
 		Token::Keyword(Keyword::Strong0),
-		0u32..7u32,
-		Position::new(0, 0)
+		Span::from_position(0, 7, Position::new(0, 0))
 	)
 );
 
@@ -1616,8 +1474,7 @@ tokenizer_test!(
 	"strong1",
 	spanned_token!(
 		Token::Keyword(Keyword::Strong1),
-		0u32..7u32,
-		Position::new(0, 0)
+		Span::from_position(0, 7, Position::new(0, 0))
 	)
 );
 
@@ -1627,8 +1484,7 @@ tokenizer_test!(
 	"supply0",
 	spanned_token!(
 		Token::Keyword(Keyword::Supply0),
-		0u32..7u32,
-		Position::new(0, 0)
+		Span::from_position(0, 7, Position::new(0, 0))
 	)
 );
 
@@ -1638,8 +1494,7 @@ tokenizer_test!(
 	"supply1",
 	spanned_token!(
 		Token::Keyword(Keyword::Supply1),
-		0u32..7u32,
-		Position::new(0, 0)
+		Span::from_position(0, 7, Position::new(0, 0))
 	)
 );
 
@@ -1649,8 +1504,7 @@ tokenizer_test!(
 	"table",
 	spanned_token!(
 		Token::Keyword(Keyword::Table),
-		0u32..5u32,
-		Position::new(0, 0)
+		Span::from_position(0, 5, Position::new(0, 0))
 	)
 );
 
@@ -1660,8 +1514,7 @@ tokenizer_test!(
 	"task",
 	spanned_token!(
 		Token::Keyword(Keyword::Task),
-		0u32..4u32,
-		Position::new(0, 0)
+		Span::from_position(0, 4, Position::new(0, 0))
 	)
 );
 
@@ -1671,8 +1524,7 @@ tokenizer_test!(
 	"time",
 	spanned_token!(
 		Token::Keyword(Keyword::Time),
-		0u32..4u32,
-		Position::new(0, 0)
+		Span::from_position(0, 4, Position::new(0, 0))
 	)
 );
 
@@ -1682,8 +1534,7 @@ tokenizer_test!(
 	"tran",
 	spanned_token!(
 		Token::Keyword(Keyword::Tran),
-		0u32..4u32,
-		Position::new(0, 0)
+		Span::from_position(0, 4, Position::new(0, 0))
 	)
 );
 
@@ -1693,8 +1544,7 @@ tokenizer_test!(
 	"tranif0",
 	spanned_token!(
 		Token::Keyword(Keyword::TranIf0),
-		0u32..7u32,
-		Position::new(0, 0)
+		Span::from_position(0, 7, Position::new(0, 0))
 	)
 );
 
@@ -1704,8 +1554,7 @@ tokenizer_test!(
 	"tranif1",
 	spanned_token!(
 		Token::Keyword(Keyword::TranIf1),
-		0u32..7u32,
-		Position::new(0, 0)
+		Span::from_position(0, 7, Position::new(0, 0))
 	)
 );
 
@@ -1715,8 +1564,7 @@ tokenizer_test!(
 	"tri",
 	spanned_token!(
 		Token::Keyword(Keyword::Tri),
-		0u32..3u32,
-		Position::new(0, 0)
+		Span::from_position(0, 3, Position::new(0, 0))
 	)
 );
 
@@ -1726,8 +1574,7 @@ tokenizer_test!(
 	"tri0",
 	spanned_token!(
 		Token::Keyword(Keyword::Tri0),
-		0u32..4u32,
-		Position::new(0, 0)
+		Span::from_position(0, 4, Position::new(0, 0))
 	)
 );
 
@@ -1737,8 +1584,7 @@ tokenizer_test!(
 	"tri1",
 	spanned_token!(
 		Token::Keyword(Keyword::Tri1),
-		0u32..4u32,
-		Position::new(0, 0)
+		Span::from_position(0, 4, Position::new(0, 0))
 	)
 );
 
@@ -1748,8 +1594,7 @@ tokenizer_test!(
 	"triand",
 	spanned_token!(
 		Token::Keyword(Keyword::Triand),
-		0u32..6u32,
-		Position::new(0, 0)
+		Span::from_position(0, 6, Position::new(0, 0))
 	)
 );
 
@@ -1759,8 +1604,7 @@ tokenizer_test!(
 	"trior",
 	spanned_token!(
 		Token::Keyword(Keyword::Trior),
-		0u32..5u32,
-		Position::new(0, 0)
+		Span::from_position(0, 5, Position::new(0, 0))
 	)
 );
 
@@ -1770,8 +1614,7 @@ tokenizer_test!(
 	"trireg",
 	spanned_token!(
 		Token::Keyword(Keyword::Trireg),
-		0u32..6u32,
-		Position::new(0, 0)
+		Span::from_position(0, 6, Position::new(0, 0))
 	)
 );
 
@@ -1781,8 +1624,7 @@ tokenizer_test!(
 	"vectored",
 	spanned_token!(
 		Token::Keyword(Keyword::Vectored),
-		0u32..8u32,
-		Position::new(0, 0)
+		Span::from_position(0, 8, Position::new(0, 0))
 	)
 );
 
@@ -1792,8 +1634,7 @@ tokenizer_test!(
 	"wait",
 	spanned_token!(
 		Token::Keyword(Keyword::Wait),
-		0u32..4u32,
-		Position::new(0, 0)
+		Span::from_position(0, 4, Position::new(0, 0))
 	)
 );
 
@@ -1803,8 +1644,7 @@ tokenizer_test!(
 	"wand",
 	spanned_token!(
 		Token::Keyword(Keyword::Wand),
-		0u32..4u32,
-		Position::new(0, 0)
+		Span::from_position(0, 4, Position::new(0, 0))
 	)
 );
 
@@ -1814,8 +1654,7 @@ tokenizer_test!(
 	"weak0",
 	spanned_token!(
 		Token::Keyword(Keyword::Weak0),
-		0u32..5u32,
-		Position::new(0, 0)
+		Span::from_position(0, 5, Position::new(0, 0))
 	)
 );
 
@@ -1825,8 +1664,7 @@ tokenizer_test!(
 	"weak1",
 	spanned_token!(
 		Token::Keyword(Keyword::Weak1),
-		0u32..5u32,
-		Position::new(0, 0)
+		Span::from_position(0, 5, Position::new(0, 0))
 	)
 );
 
@@ -1836,8 +1674,7 @@ tokenizer_test!(
 	"while",
 	spanned_token!(
 		Token::Keyword(Keyword::While),
-		0u32..5u32,
-		Position::new(0, 0)
+		Span::from_position(0, 5, Position::new(0, 0))
 	)
 );
 
@@ -1847,8 +1684,7 @@ tokenizer_test!(
 	"wire",
 	spanned_token!(
 		Token::Keyword(Keyword::Wire),
-		0u32..4u32,
-		Position::new(0, 0)
+		Span::from_position(0, 4, Position::new(0, 0))
 	)
 );
 
@@ -1858,8 +1694,7 @@ tokenizer_test!(
 	"wor",
 	spanned_token!(
 		Token::Keyword(Keyword::Wor),
-		0u32..3u32,
-		Position::new(0, 0)
+		Span::from_position(0, 3, Position::new(0, 0))
 	)
 );
 
@@ -1869,8 +1704,7 @@ tokenizer_test!(
 	"xnor",
 	spanned_token!(
 		Token::Keyword(Keyword::Xnor),
-		0u32..4u32,
-		Position::new(0, 0)
+		Span::from_position(0, 4, Position::new(0, 0))
 	)
 );
 
@@ -1880,8 +1714,7 @@ tokenizer_test!(
 	"xor",
 	spanned_token!(
 		Token::Keyword(Keyword::Xor),
-		0u32..3u32,
-		Position::new(0, 0)
+		Span::from_position(0, 3, Position::new(0, 0))
 	)
 );
 
@@ -1891,8 +1724,7 @@ tokenizer_test!(
 	r"\meow",
 	spanned_token!(
 		Token::Identifier(Identifier::Escaped(r"meow".as_bytes().into())),
-		0u32..5u32,
-		Position::new(0, 0)
+		Span::from_position(0, 5, Position::new(0, 0))
 	)
 );
 
@@ -1902,8 +1734,7 @@ tokenizer_test!(
 	r"\nya$owo@uwu",
 	spanned_token!(
 		Token::Identifier(Identifier::Escaped(r"nya$owo@uwu".as_bytes().into())),
-		0u32..12u32,
-		Position::new(0, 0)
+		Span::from_position(0, 12, Position::new(0, 0))
 	)
 );
 
@@ -1913,8 +1744,7 @@ tokenizer_test!(
 	"1234",
 	spanned_token!(
 		Token::UnsignedNumber("1234".as_bytes().into()),
-		0u32..4u32,
-		Position::new(0, 0)
+		Span::from_position(0, 4, Position::new(0, 0))
 	)
 );
 
@@ -1922,7 +1752,10 @@ tokenizer_test!(
 	all,
 	real_number_simple,
 	"1.23",
-	spanned_token!(Token::Real(1.23), 0u32..4u32, Position::new(0, 0))
+	spanned_token!(
+		Token::Real(1.23),
+		Span::from_position(0, 4, Position::new(0, 0))
+	)
 );
 
 tokenizer_test!(
@@ -1931,10 +1764,12 @@ tokenizer_test!(
 	"+1.23",
 	spanned_token!(
 		Token::Operator(Operator::Plus),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	),
-	spanned_token!(Token::Real(1.23), 1u32..5u32, Position::new(0, 1))
+	spanned_token!(
+		Token::Real(1.23),
+		Span::from_position(1, 5, Position::new(0, 1))
+	)
 );
 
 tokenizer_test!(
@@ -1943,38 +1778,52 @@ tokenizer_test!(
 	"-1.23",
 	spanned_token!(
 		Token::Operator(Operator::Minus),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	),
-	spanned_token!(Token::Real(1.23), 1u32..5u32, Position::new(0, 1))
+	spanned_token!(
+		Token::Real(1.23),
+		Span::from_position(1, 5, Position::new(0, 1))
+	)
 );
 
 tokenizer_test!(
 	all,
 	real_number_exponent,
 	"1e7",
-	spanned_token!(Token::Real(1e7), 0u32..3u32, Position::new(0, 0))
+	spanned_token!(
+		Token::Real(1e7),
+		Span::from_position(0, 3, Position::new(0, 0))
+	)
 );
 
 tokenizer_test!(
 	all,
 	real_number_dec_exponent,
 	"1.2e6",
-	spanned_token!(Token::Real(1.2e6), 0u32..5u32, Position::new(0, 0))
+	spanned_token!(
+		Token::Real(1.2e6),
+		Span::from_position(0, 5, Position::new(0, 0))
+	)
 );
 
 tokenizer_test!(
 	all,
 	real_number_exponent_pos,
 	"1e+6",
-	spanned_token!(Token::Real(1e6), 0u32..4u32, Position::new(0, 0))
+	spanned_token!(
+		Token::Real(1e6),
+		Span::from_position(0, 4, Position::new(0, 0))
+	)
 );
 
 tokenizer_test!(
 	all,
 	real_number_exponent_neg,
 	"1e-6",
-	spanned_token!(Token::Real(1e-6), 0u32..4u32, Position::new(0, 0))
+	spanned_token!(
+		Token::Real(1e-6),
+		Span::from_position(0, 4, Position::new(0, 0))
+	)
 );
 
 tokenizer_test!(
@@ -1983,8 +1832,7 @@ tokenizer_test!(
 	"4'b1001",
 	spanned_token!(
 		Token::UnsignedNumber("4".as_bytes().into()),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::BasedLiteralSpecifier(BasedLiteralSpecifier::new(
@@ -1992,13 +1840,11 @@ tokenizer_test!(
 			false,
 			false,
 		)),
-		1u32..3u32,
-		Position::new(0, 1)
+		Span::from_position(1, 3, Position::new(0, 1))
 	),
 	spanned_token!(
 		Token::Number("1001".as_bytes().into()),
-		3u32..7u32,
-		Position::new(0, 3)
+		Span::from_position(3, 7, Position::new(0, 3))
 	)
 );
 
@@ -2008,8 +1854,7 @@ tokenizer_test!(
 	"4'bxx1x",
 	spanned_token!(
 		Token::UnsignedNumber("4".as_bytes().into()),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::BasedLiteralSpecifier(BasedLiteralSpecifier::new(
@@ -2017,13 +1862,11 @@ tokenizer_test!(
 			false,
 			false,
 		)),
-		1u32..3u32,
-		Position::new(0, 1)
+		Span::from_position(1, 3, Position::new(0, 1))
 	),
 	spanned_token!(
 		Token::Number("xx1x".as_bytes().into()),
-		3u32..7u32,
-		Position::new(0, 3)
+		Span::from_position(3, 7, Position::new(0, 3))
 	)
 );
 tokenizer_test!(
@@ -2032,8 +1875,7 @@ tokenizer_test!(
 	"1'bx",
 	spanned_token!(
 		Token::UnsignedNumber("1".as_bytes().into()),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::BasedLiteralSpecifier(BasedLiteralSpecifier::new(
@@ -2041,13 +1883,11 @@ tokenizer_test!(
 			false,
 			false,
 		)),
-		1u32..3u32,
-		Position::new(0, 1)
+		Span::from_position(1, 3, Position::new(0, 1))
 	),
 	spanned_token!(
 		Token::Number("x".as_bytes().into()),
-		3u32..4u32,
-		Position::new(0, 3)
+		Span::from_position(3, 4, Position::new(0, 3))
 	)
 );
 
@@ -2057,8 +1897,7 @@ tokenizer_test!(
 	"4'bzz11",
 	spanned_token!(
 		Token::UnsignedNumber("4".as_bytes().into()),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::BasedLiteralSpecifier(BasedLiteralSpecifier::new(
@@ -2066,13 +1905,11 @@ tokenizer_test!(
 			false,
 			false,
 		)),
-		1u32..3u32,
-		Position::new(0, 1)
+		Span::from_position(1, 3, Position::new(0, 1))
 	),
 	spanned_token!(
 		Token::Number("zz11".as_bytes().into()),
-		3u32..7u32,
-		Position::new(0, 3)
+		Span::from_position(3, 7, Position::new(0, 3))
 	)
 );
 
@@ -2082,8 +1919,7 @@ tokenizer_test!(
 	"1'bz",
 	spanned_token!(
 		Token::UnsignedNumber("1".as_bytes().into()),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::BasedLiteralSpecifier(BasedLiteralSpecifier::new(
@@ -2091,13 +1927,11 @@ tokenizer_test!(
 			false,
 			false,
 		)),
-		1u32..3u32,
-		Position::new(0, 1)
+		Span::from_position(1, 3, Position::new(0, 1))
 	),
 	spanned_token!(
 		Token::Number("z".as_bytes().into()),
-		3u32..4u32,
-		Position::new(0, 3)
+		Span::from_position(3, 4, Position::new(0, 3))
 	)
 );
 
@@ -2107,13 +1941,11 @@ tokenizer_test!(
 	"4 'b1001",
 	spanned_token!(
 		Token::UnsignedNumber("4".as_bytes().into()),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::Whitespace(" ".as_bytes().into()),
-		1u32..2u32,
-		Position::new(0, 1)
+		Span::from_position(1, 2, Position::new(0, 1))
 	),
 	spanned_token!(
 		Token::BasedLiteralSpecifier(BasedLiteralSpecifier::new(
@@ -2121,13 +1953,11 @@ tokenizer_test!(
 			false,
 			false,
 		)),
-		2u32..4u32,
-		Position::new(0, 2)
+		Span::from_position(2, 4, Position::new(0, 2))
 	),
 	spanned_token!(
 		Token::Number("1001".as_bytes().into()),
-		4u32..8u32,
-		Position::new(0, 4)
+		Span::from_position(4, 8, Position::new(0, 4))
 	)
 );
 
@@ -2137,13 +1967,11 @@ tokenizer_test!(
 	"4 'bxx1x",
 	spanned_token!(
 		Token::UnsignedNumber("4".as_bytes().into()),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::Whitespace(" ".as_bytes().into()),
-		1u32..2u32,
-		Position::new(0, 1)
+		Span::from_position(1, 2, Position::new(0, 1))
 	),
 	spanned_token!(
 		Token::BasedLiteralSpecifier(BasedLiteralSpecifier::new(
@@ -2151,13 +1979,11 @@ tokenizer_test!(
 			false,
 			false,
 		)),
-		2u32..4u32,
-		Position::new(0, 2)
+		Span::from_position(2, 4, Position::new(0, 2))
 	),
 	spanned_token!(
 		Token::Number("xx1x".as_bytes().into()),
-		4u32..8u32,
-		Position::new(0, 4)
+		Span::from_position(4, 8, Position::new(0, 4))
 	)
 );
 tokenizer_test!(
@@ -2166,13 +1992,11 @@ tokenizer_test!(
 	"1 'bx",
 	spanned_token!(
 		Token::UnsignedNumber("1".as_bytes().into()),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::Whitespace(" ".as_bytes().into()),
-		1u32..2u32,
-		Position::new(0, 1)
+		Span::from_position(1, 2, Position::new(0, 1))
 	),
 	spanned_token!(
 		Token::BasedLiteralSpecifier(BasedLiteralSpecifier::new(
@@ -2180,13 +2004,11 @@ tokenizer_test!(
 			false,
 			false,
 		)),
-		2u32..4u32,
-		Position::new(0, 2)
+		Span::from_position(2, 4, Position::new(0, 2))
 	),
 	spanned_token!(
 		Token::Number("x".as_bytes().into()),
-		4u32..5u32,
-		Position::new(0, 4)
+		Span::from_position(4, 5, Position::new(0, 4))
 	)
 );
 
@@ -2196,13 +2018,11 @@ tokenizer_test!(
 	"4 'bzz11",
 	spanned_token!(
 		Token::UnsignedNumber("4".as_bytes().into()),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::Whitespace(" ".as_bytes().into()),
-		1u32..2u32,
-		Position::new(0, 1)
+		Span::from_position(1, 2, Position::new(0, 1))
 	),
 	spanned_token!(
 		Token::BasedLiteralSpecifier(BasedLiteralSpecifier::new(
@@ -2210,13 +2030,11 @@ tokenizer_test!(
 			false,
 			false,
 		)),
-		2u32..4u32,
-		Position::new(0, 2)
+		Span::from_position(2, 4, Position::new(0, 2))
 	),
 	spanned_token!(
 		Token::Number("zz11".as_bytes().into()),
-		4u32..8u32,
-		Position::new(0, 4)
+		Span::from_position(4, 8, Position::new(0, 4))
 	)
 );
 
@@ -2226,13 +2044,11 @@ tokenizer_test!(
 	"1 'bz",
 	spanned_token!(
 		Token::UnsignedNumber("1".as_bytes().into()),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::Whitespace(" ".as_bytes().into()),
-		1u32..2u32,
-		Position::new(0, 1)
+		Span::from_position(1, 2, Position::new(0, 1))
 	),
 	spanned_token!(
 		Token::BasedLiteralSpecifier(BasedLiteralSpecifier::new(
@@ -2240,13 +2056,11 @@ tokenizer_test!(
 			false,
 			false,
 		)),
-		2u32..4u32,
-		Position::new(0, 2)
+		Span::from_position(2, 4, Position::new(0, 2))
 	),
 	spanned_token!(
 		Token::Number("z".as_bytes().into()),
-		4u32..5u32,
-		Position::new(0, 4)
+		Span::from_position(4, 5, Position::new(0, 4))
 	)
 );
 
@@ -2260,13 +2074,11 @@ tokenizer_test!(
 			false,
 			false,
 		)),
-		0u32..2u32,
-		Position::new(0, 0)
+		Span::from_position(0, 2, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::Number("10".as_bytes().into()),
-		2u32..4u32,
-		Position::new(0, 2)
+		Span::from_position(2, 4, Position::new(0, 2))
 	)
 );
 
@@ -2280,13 +2092,11 @@ tokenizer_test!(
 			false,
 			false,
 		)),
-		0u32..2u32,
-		Position::new(0, 0)
+		Span::from_position(0, 2, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::Number("xx1x".as_bytes().into()),
-		2u32..6u32,
-		Position::new(0, 2)
+		Span::from_position(2, 6, Position::new(0, 2))
 	)
 );
 
@@ -2300,13 +2110,11 @@ tokenizer_test!(
 			false,
 			false,
 		)),
-		0u32..2u32,
-		Position::new(0, 0)
+		Span::from_position(0, 2, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::Number("x".as_bytes().into()),
-		2u32..3u32,
-		Position::new(0, 2)
+		Span::from_position(2, 3, Position::new(0, 2))
 	)
 );
 
@@ -2320,13 +2128,11 @@ tokenizer_test!(
 			false,
 			false,
 		)),
-		0u32..2u32,
-		Position::new(0, 0)
+		Span::from_position(0, 2, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::Number("zz11".as_bytes().into()),
-		2u32..6u32,
-		Position::new(0, 2)
+		Span::from_position(2, 6, Position::new(0, 2))
 	)
 );
 
@@ -2340,13 +2146,11 @@ tokenizer_test!(
 			false,
 			false,
 		)),
-		0u32..2u32,
-		Position::new(0, 0)
+		Span::from_position(0, 2, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::Number("z".as_bytes().into()),
-		2u32..3u32,
-		Position::new(0, 2)
+		Span::from_position(2, 3, Position::new(0, 2))
 	)
 );
 
@@ -2358,13 +2162,11 @@ tokenizer_test!(
 	"4 'b01zx\n+1'B ?\n2'bZX\n",
 	spanned_token!(
 		Token::UnsignedNumber("4".as_bytes().into()),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::Whitespace(" ".as_bytes().into()),
-		1u32..2u32,
-		Position::new(0, 1)
+		Span::from_position(1, 2, Position::new(0, 1))
 	),
 	spanned_token!(
 		Token::BasedLiteralSpecifier(BasedLiteralSpecifier::new(
@@ -2372,28 +2174,23 @@ tokenizer_test!(
 			false,
 			false,
 		)),
-		2u32..4u32,
-		Position::new(0, 2)
+		Span::from_position(2, 4, Position::new(0, 2))
 	),
 	spanned_token!(
 		Token::Number("01zx".as_bytes().into()),
-		4u32..8u32,
-		Position::new(0, 4)
+		Span::from_position(4, 8, Position::new(0, 4))
 	),
 	spanned_token!(
 		Token::Newline("\n".as_bytes().into()),
-		8u32..9u32,
-		Position::new(0, 8)
+		Span::from_position(8, 9, Position::new(0, 8))
 	),
 	spanned_token!(
 		Token::Operator(Operator::Plus),
-		9u32..10u32,
-		Position::new(1, 0)
+		Span::from_position(9, 10, Position::new(1, 0))
 	),
 	spanned_token!(
 		Token::UnsignedNumber("1".as_bytes().into()),
-		10u32..11u32,
-		Position::new(1, 1)
+		Span::from_position(10, 11, Position::new(1, 1))
 	),
 	spanned_token!(
 		Token::BasedLiteralSpecifier(BasedLiteralSpecifier::new(
@@ -2401,28 +2198,23 @@ tokenizer_test!(
 			true,
 			false,
 		)),
-		11u32..13u32,
-		Position::new(1, 2)
+		Span::from_position(11, 13, Position::new(1, 2))
 	),
 	spanned_token!(
 		Token::Whitespace(" ".as_bytes().into()),
-		13u32..14u32,
-		Position::new(1, 4)
+		Span::from_position(13, 14, Position::new(1, 4))
 	),
 	spanned_token!(
 		Token::Number("?".as_bytes().into()),
-		14u32..15u32,
-		Position::new(1, 5)
+		Span::from_position(14, 15, Position::new(1, 5))
 	),
 	spanned_token!(
 		Token::Newline("\n".as_bytes().into()),
-		15u32..16u32,
-		Position::new(1, 6)
+		Span::from_position(15, 16, Position::new(1, 6))
 	),
 	spanned_token!(
 		Token::UnsignedNumber("2".as_bytes().into()),
-		16u32..17u32,
-		Position::new(2, 0)
+		Span::from_position(16, 17, Position::new(2, 0))
 	),
 	spanned_token!(
 		Token::BasedLiteralSpecifier(BasedLiteralSpecifier::new(
@@ -2430,18 +2222,15 @@ tokenizer_test!(
 			false,
 			false,
 		)),
-		17u32..19u32,
-		Position::new(2, 1)
+		Span::from_position(17, 19, Position::new(2, 1))
 	),
 	spanned_token!(
 		Token::Number("ZX".as_bytes().into()),
-		19u32..21u32,
-		Position::new(2, 3)
+		Span::from_position(19, 21, Position::new(2, 3))
 	),
 	spanned_token!(
 		Token::Newline("\n".as_bytes().into()),
-		21u32..22u32,
-		Position::new(2, 5)
+		Span::from_position(21, 22, Position::new(2, 5))
 	)
 );
 
@@ -2451,8 +2240,7 @@ tokenizer_test!(
 	"3'o666",
 	spanned_token!(
 		Token::UnsignedNumber("3".as_bytes().into()),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::BasedLiteralSpecifier(BasedLiteralSpecifier::new(
@@ -2460,13 +2248,11 @@ tokenizer_test!(
 			false,
 			false,
 		)),
-		1u32..3u32,
-		Position::new(0, 1)
+		Span::from_position(1, 3, Position::new(0, 1))
 	),
 	spanned_token!(
 		Token::Number("666".as_bytes().into()),
-		3u32..6u32,
-		Position::new(0, 3)
+		Span::from_position(3, 6, Position::new(0, 3))
 	)
 );
 
@@ -2476,8 +2262,7 @@ tokenizer_test!(
 	"3'ox3x",
 	spanned_token!(
 		Token::UnsignedNumber("3".as_bytes().into()),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::BasedLiteralSpecifier(BasedLiteralSpecifier::new(
@@ -2485,13 +2270,11 @@ tokenizer_test!(
 			false,
 			false,
 		)),
-		1u32..3u32,
-		Position::new(0, 1)
+		Span::from_position(1, 3, Position::new(0, 1))
 	),
 	spanned_token!(
 		Token::Number("x3x".as_bytes().into()),
-		3u32..6u32,
-		Position::new(0, 3)
+		Span::from_position(3, 6, Position::new(0, 3))
 	)
 );
 tokenizer_test!(
@@ -2500,8 +2283,7 @@ tokenizer_test!(
 	"1'ox",
 	spanned_token!(
 		Token::UnsignedNumber("1".as_bytes().into()),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::BasedLiteralSpecifier(BasedLiteralSpecifier::new(
@@ -2509,13 +2291,11 @@ tokenizer_test!(
 			false,
 			false,
 		)),
-		1u32..3u32,
-		Position::new(0, 1)
+		Span::from_position(1, 3, Position::new(0, 1))
 	),
 	spanned_token!(
 		Token::Number("x".as_bytes().into()),
-		3u32..4u32,
-		Position::new(0, 3)
+		Span::from_position(3, 4, Position::new(0, 3))
 	)
 );
 
@@ -2525,8 +2305,7 @@ tokenizer_test!(
 	"3'ozz4",
 	spanned_token!(
 		Token::UnsignedNumber("3".as_bytes().into()),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::BasedLiteralSpecifier(BasedLiteralSpecifier::new(
@@ -2534,13 +2313,11 @@ tokenizer_test!(
 			false,
 			false,
 		)),
-		1u32..3u32,
-		Position::new(0, 1)
+		Span::from_position(1, 3, Position::new(0, 1))
 	),
 	spanned_token!(
 		Token::Number("zz4".as_bytes().into()),
-		3u32..6u32,
-		Position::new(0, 3)
+		Span::from_position(3, 6, Position::new(0, 3))
 	)
 );
 
@@ -2550,8 +2327,7 @@ tokenizer_test!(
 	"1'oz",
 	spanned_token!(
 		Token::UnsignedNumber("1".as_bytes().into()),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::BasedLiteralSpecifier(BasedLiteralSpecifier::new(
@@ -2559,13 +2335,11 @@ tokenizer_test!(
 			false,
 			false,
 		)),
-		1u32..3u32,
-		Position::new(0, 1)
+		Span::from_position(1, 3, Position::new(0, 1))
 	),
 	spanned_token!(
 		Token::Number("z".as_bytes().into()),
-		3u32..4u32,
-		Position::new(0, 3)
+		Span::from_position(3, 4, Position::new(0, 3))
 	)
 );
 
@@ -2575,13 +2349,11 @@ tokenizer_test!(
 	"3 'o464",
 	spanned_token!(
 		Token::UnsignedNumber("3".as_bytes().into()),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::Whitespace(" ".as_bytes().into()),
-		1u32..2u32,
-		Position::new(0, 1)
+		Span::from_position(1, 2, Position::new(0, 1))
 	),
 	spanned_token!(
 		Token::BasedLiteralSpecifier(BasedLiteralSpecifier::new(
@@ -2589,13 +2361,11 @@ tokenizer_test!(
 			false,
 			false,
 		)),
-		2u32..4u32,
-		Position::new(0, 2)
+		Span::from_position(2, 4, Position::new(0, 2))
 	),
 	spanned_token!(
 		Token::Number("464".as_bytes().into()),
-		4u32..7u32,
-		Position::new(0, 4)
+		Span::from_position(4, 7, Position::new(0, 4))
 	)
 );
 
@@ -2605,13 +2375,11 @@ tokenizer_test!(
 	"3 'ox2x",
 	spanned_token!(
 		Token::UnsignedNumber("3".as_bytes().into()),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::Whitespace(" ".as_bytes().into()),
-		1u32..2u32,
-		Position::new(0, 1)
+		Span::from_position(1, 2, Position::new(0, 1))
 	),
 	spanned_token!(
 		Token::BasedLiteralSpecifier(BasedLiteralSpecifier::new(
@@ -2619,13 +2387,11 @@ tokenizer_test!(
 			false,
 			false,
 		)),
-		2u32..4u32,
-		Position::new(0, 2)
+		Span::from_position(2, 4, Position::new(0, 2))
 	),
 	spanned_token!(
 		Token::Number("x2x".as_bytes().into()),
-		4u32..7u32,
-		Position::new(0, 4)
+		Span::from_position(4, 7, Position::new(0, 4))
 	)
 );
 tokenizer_test!(
@@ -2634,13 +2400,11 @@ tokenizer_test!(
 	"1 'ox",
 	spanned_token!(
 		Token::UnsignedNumber("1".as_bytes().into()),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::Whitespace(" ".as_bytes().into()),
-		1u32..2u32,
-		Position::new(0, 1)
+		Span::from_position(1, 2, Position::new(0, 1))
 	),
 	spanned_token!(
 		Token::BasedLiteralSpecifier(BasedLiteralSpecifier::new(
@@ -2648,13 +2412,11 @@ tokenizer_test!(
 			false,
 			false,
 		)),
-		2u32..4u32,
-		Position::new(0, 2)
+		Span::from_position(2, 4, Position::new(0, 2))
 	),
 	spanned_token!(
 		Token::Number("x".as_bytes().into()),
-		4u32..5u32,
-		Position::new(0, 4)
+		Span::from_position(4, 5, Position::new(0, 4))
 	)
 );
 
@@ -2664,13 +2426,11 @@ tokenizer_test!(
 	"3 'ozz1",
 	spanned_token!(
 		Token::UnsignedNumber("3".as_bytes().into()),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::Whitespace(" ".as_bytes().into()),
-		1u32..2u32,
-		Position::new(0, 1)
+		Span::from_position(1, 2, Position::new(0, 1))
 	),
 	spanned_token!(
 		Token::BasedLiteralSpecifier(BasedLiteralSpecifier::new(
@@ -2678,13 +2438,11 @@ tokenizer_test!(
 			false,
 			false,
 		)),
-		2u32..4u32,
-		Position::new(0, 2)
+		Span::from_position(2, 4, Position::new(0, 2))
 	),
 	spanned_token!(
 		Token::Number("zz1".as_bytes().into()),
-		4u32..7u32,
-		Position::new(0, 4)
+		Span::from_position(4, 7, Position::new(0, 4))
 	)
 );
 
@@ -2694,13 +2452,11 @@ tokenizer_test!(
 	"1 'oz",
 	spanned_token!(
 		Token::UnsignedNumber("1".as_bytes().into()),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::Whitespace(" ".as_bytes().into()),
-		1u32..2u32,
-		Position::new(0, 1)
+		Span::from_position(1, 2, Position::new(0, 1))
 	),
 	spanned_token!(
 		Token::BasedLiteralSpecifier(BasedLiteralSpecifier::new(
@@ -2708,13 +2464,11 @@ tokenizer_test!(
 			false,
 			false,
 		)),
-		2u32..4u32,
-		Position::new(0, 2)
+		Span::from_position(2, 4, Position::new(0, 2))
 	),
 	spanned_token!(
 		Token::Number("z".as_bytes().into()),
-		4u32..5u32,
-		Position::new(0, 4)
+		Span::from_position(4, 5, Position::new(0, 4))
 	)
 );
 
@@ -2728,13 +2482,11 @@ tokenizer_test!(
 			false,
 			false,
 		)),
-		0u32..2u32,
-		Position::new(0, 0)
+		Span::from_position(0, 2, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::Number("66".as_bytes().into()),
-		2u32..4u32,
-		Position::new(0, 2)
+		Span::from_position(2, 4, Position::new(0, 2))
 	)
 );
 
@@ -2748,13 +2500,11 @@ tokenizer_test!(
 			false,
 			false,
 		)),
-		0u32..2u32,
-		Position::new(0, 0)
+		Span::from_position(0, 2, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::Number("x3x".as_bytes().into()),
-		2u32..5u32,
-		Position::new(0, 2)
+		Span::from_position(2, 5, Position::new(0, 2))
 	)
 );
 
@@ -2768,13 +2518,11 @@ tokenizer_test!(
 			false,
 			false,
 		)),
-		0u32..2u32,
-		Position::new(0, 0)
+		Span::from_position(0, 2, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::Number("x".as_bytes().into()),
-		2u32..3u32,
-		Position::new(0, 2)
+		Span::from_position(2, 3, Position::new(0, 2))
 	)
 );
 
@@ -2788,13 +2536,11 @@ tokenizer_test!(
 			false,
 			false,
 		)),
-		0u32..2u32,
-		Position::new(0, 0)
+		Span::from_position(0, 2, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::Number("zz7".as_bytes().into()),
-		2u32..5u32,
-		Position::new(0, 2)
+		Span::from_position(2, 5, Position::new(0, 2))
 	)
 );
 
@@ -2808,13 +2554,11 @@ tokenizer_test!(
 			false,
 			false,
 		)),
-		0u32..2u32,
-		Position::new(0, 0)
+		Span::from_position(0, 2, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::Number("z".as_bytes().into()),
-		2u32..3u32,
-		Position::new(0, 2)
+		Span::from_position(2, 3, Position::new(0, 2))
 	)
 );
 
@@ -2826,13 +2570,11 @@ tokenizer_test!(
 	"4 'o06zx\n+1'O ?\n2'oZX\n",
 	spanned_token!(
 		Token::UnsignedNumber("4".as_bytes().into()),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::Whitespace(" ".as_bytes().into()),
-		1u32..2u32,
-		Position::new(0, 1)
+		Span::from_position(1, 2, Position::new(0, 1))
 	),
 	spanned_token!(
 		Token::BasedLiteralSpecifier(BasedLiteralSpecifier::new(
@@ -2840,28 +2582,23 @@ tokenizer_test!(
 			false,
 			false,
 		)),
-		2u32..4u32,
-		Position::new(0, 2)
+		Span::from_position(2, 4, Position::new(0, 2))
 	),
 	spanned_token!(
 		Token::Number("06zx".as_bytes().into()),
-		4u32..8u32,
-		Position::new(0, 4)
+		Span::from_position(4, 8, Position::new(0, 4))
 	),
 	spanned_token!(
 		Token::Newline("\n".as_bytes().into()),
-		8u32..9u32,
-		Position::new(0, 8)
+		Span::from_position(8, 9, Position::new(0, 8))
 	),
 	spanned_token!(
 		Token::Operator(Operator::Plus),
-		9u32..10u32,
-		Position::new(1, 0)
+		Span::from_position(9, 10, Position::new(1, 0))
 	),
 	spanned_token!(
 		Token::UnsignedNumber("1".as_bytes().into()),
-		10u32..11u32,
-		Position::new(1, 1)
+		Span::from_position(10, 11, Position::new(1, 1))
 	),
 	spanned_token!(
 		Token::BasedLiteralSpecifier(BasedLiteralSpecifier::new(
@@ -2869,28 +2606,23 @@ tokenizer_test!(
 			true,
 			false,
 		)),
-		11u32..13u32,
-		Position::new(1, 2)
+		Span::from_position(11, 13, Position::new(1, 2))
 	),
 	spanned_token!(
 		Token::Whitespace(" ".as_bytes().into()),
-		13u32..14u32,
-		Position::new(1, 4)
+		Span::from_position(13, 14, Position::new(1, 4))
 	),
 	spanned_token!(
 		Token::Number("?".as_bytes().into()),
-		14u32..15u32,
-		Position::new(1, 5)
+		Span::from_position(14, 15, Position::new(1, 5))
 	),
 	spanned_token!(
 		Token::Newline("\n".as_bytes().into()),
-		15u32..16u32,
-		Position::new(1, 6)
+		Span::from_position(15, 16, Position::new(1, 6))
 	),
 	spanned_token!(
 		Token::UnsignedNumber("2".as_bytes().into()),
-		16u32..17u32,
-		Position::new(2, 0)
+		Span::from_position(16, 17, Position::new(2, 0))
 	),
 	spanned_token!(
 		Token::BasedLiteralSpecifier(BasedLiteralSpecifier::new(
@@ -2898,18 +2630,15 @@ tokenizer_test!(
 			false,
 			false,
 		)),
-		17u32..19u32,
-		Position::new(2, 1)
+		Span::from_position(17, 19, Position::new(2, 1))
 	),
 	spanned_token!(
 		Token::Number("ZX".as_bytes().into()),
-		19u32..21u32,
-		Position::new(2, 3)
+		Span::from_position(19, 21, Position::new(2, 3))
 	),
 	spanned_token!(
 		Token::Newline("\n".as_bytes().into()),
-		21u32..22u32,
-		Position::new(2, 5)
+		Span::from_position(21, 22, Position::new(2, 5))
 	)
 );
 
@@ -2919,8 +2648,7 @@ tokenizer_test!(
 	"2'd69",
 	spanned_token!(
 		Token::UnsignedNumber("2".as_bytes().into()),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::BasedLiteralSpecifier(BasedLiteralSpecifier::new(
@@ -2928,13 +2656,11 @@ tokenizer_test!(
 			false,
 			false,
 		)),
-		1u32..3u32,
-		Position::new(0, 1)
+		Span::from_position(1, 3, Position::new(0, 1))
 	),
 	spanned_token!(
 		Token::Number("69".as_bytes().into()),
-		3u32..5u32,
-		Position::new(0, 3)
+		Span::from_position(3, 5, Position::new(0, 3))
 	)
 );
 
@@ -2944,8 +2670,7 @@ tokenizer_test!(
 	"3'dx3x",
 	spanned_token!(
 		Token::UnsignedNumber("3".as_bytes().into()),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::BasedLiteralSpecifier(BasedLiteralSpecifier::new(
@@ -2953,13 +2678,11 @@ tokenizer_test!(
 			false,
 			false,
 		)),
-		1u32..3u32,
-		Position::new(0, 1)
+		Span::from_position(1, 3, Position::new(0, 1))
 	),
 	spanned_token!(
 		Token::Invalid(Some("x3x".as_bytes().into())),
-		3u32..6u32,
-		Position::new(0, 3)
+		Span::from_position(3, 6, Position::new(0, 3))
 	)
 );
 
@@ -2969,8 +2692,7 @@ tokenizer_test!(
 	"1'dx",
 	spanned_token!(
 		Token::UnsignedNumber("1".as_bytes().into()),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::BasedLiteralSpecifier(BasedLiteralSpecifier::new(
@@ -2978,13 +2700,11 @@ tokenizer_test!(
 			false,
 			false,
 		)),
-		1u32..3u32,
-		Position::new(0, 1)
+		Span::from_position(1, 3, Position::new(0, 1))
 	),
 	spanned_token!(
 		Token::Invalid(Some("x".as_bytes().into())),
-		3u32..4u32,
-		Position::new(0, 3)
+		Span::from_position(3, 4, Position::new(0, 3))
 	)
 );
 
@@ -2994,8 +2714,7 @@ tokenizer_test!(
 	"3'dzz4",
 	spanned_token!(
 		Token::UnsignedNumber("3".as_bytes().into()),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::BasedLiteralSpecifier(BasedLiteralSpecifier::new(
@@ -3003,13 +2722,11 @@ tokenizer_test!(
 			false,
 			false,
 		)),
-		1u32..3u32,
-		Position::new(0, 1)
+		Span::from_position(1, 3, Position::new(0, 1))
 	),
 	spanned_token!(
 		Token::Invalid(Some("zz4".as_bytes().into())),
-		3u32..6u32,
-		Position::new(0, 3)
+		Span::from_position(3, 6, Position::new(0, 3))
 	)
 );
 
@@ -3019,8 +2736,7 @@ tokenizer_test!(
 	"1'dz",
 	spanned_token!(
 		Token::UnsignedNumber("1".as_bytes().into()),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::BasedLiteralSpecifier(BasedLiteralSpecifier::new(
@@ -3028,13 +2744,11 @@ tokenizer_test!(
 			false,
 			false,
 		)),
-		1u32..3u32,
-		Position::new(0, 1)
+		Span::from_position(1, 3, Position::new(0, 1))
 	),
 	spanned_token!(
 		Token::Invalid(Some("z".as_bytes().into())),
-		3u32..4u32,
-		Position::new(0, 3)
+		Span::from_position(3, 4, Position::new(0, 3))
 	)
 );
 
@@ -3044,13 +2758,11 @@ tokenizer_test!(
 	"2 'd99",
 	spanned_token!(
 		Token::UnsignedNumber("2".as_bytes().into()),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::Whitespace(" ".as_bytes().into()),
-		1u32..2u32,
-		Position::new(0, 1)
+		Span::from_position(1, 2, Position::new(0, 1))
 	),
 	spanned_token!(
 		Token::BasedLiteralSpecifier(BasedLiteralSpecifier::new(
@@ -3058,13 +2770,11 @@ tokenizer_test!(
 			false,
 			false,
 		)),
-		2u32..4u32,
-		Position::new(0, 2)
+		Span::from_position(2, 4, Position::new(0, 2))
 	),
 	spanned_token!(
 		Token::Number("99".as_bytes().into()),
-		4u32..6u32,
-		Position::new(0, 4)
+		Span::from_position(4, 6, Position::new(0, 4))
 	)
 );
 
@@ -3074,13 +2784,11 @@ tokenizer_test!(
 	"3 'dx9x",
 	spanned_token!(
 		Token::UnsignedNumber("3".as_bytes().into()),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::Whitespace(" ".as_bytes().into()),
-		1u32..2u32,
-		Position::new(0, 1)
+		Span::from_position(1, 2, Position::new(0, 1))
 	),
 	spanned_token!(
 		Token::BasedLiteralSpecifier(BasedLiteralSpecifier::new(
@@ -3088,13 +2796,11 @@ tokenizer_test!(
 			false,
 			false,
 		)),
-		2u32..4u32,
-		Position::new(0, 2)
+		Span::from_position(2, 4, Position::new(0, 2))
 	),
 	spanned_token!(
 		Token::Invalid(Some("x9x".as_bytes().into())),
-		4u32..7u32,
-		Position::new(0, 4)
+		Span::from_position(4, 7, Position::new(0, 4))
 	)
 );
 
@@ -3104,13 +2810,11 @@ tokenizer_test!(
 	"1 'dx",
 	spanned_token!(
 		Token::UnsignedNumber("1".as_bytes().into()),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::Whitespace(" ".as_bytes().into()),
-		1u32..2u32,
-		Position::new(0, 1)
+		Span::from_position(1, 2, Position::new(0, 1))
 	),
 	spanned_token!(
 		Token::BasedLiteralSpecifier(BasedLiteralSpecifier::new(
@@ -3118,13 +2822,11 @@ tokenizer_test!(
 			false,
 			false,
 		)),
-		2u32..4u32,
-		Position::new(0, 2)
+		Span::from_position(2, 4, Position::new(0, 2))
 	),
 	spanned_token!(
 		Token::Invalid(Some("x".as_bytes().into())),
-		4u32..5u32,
-		Position::new(0, 4)
+		Span::from_position(4, 5, Position::new(0, 4))
 	)
 );
 
@@ -3134,13 +2836,11 @@ tokenizer_test!(
 	"3 'dzz7",
 	spanned_token!(
 		Token::UnsignedNumber("3".as_bytes().into()),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::Whitespace(" ".as_bytes().into()),
-		1u32..2u32,
-		Position::new(0, 1)
+		Span::from_position(1, 2, Position::new(0, 1))
 	),
 	spanned_token!(
 		Token::BasedLiteralSpecifier(BasedLiteralSpecifier::new(
@@ -3148,13 +2848,11 @@ tokenizer_test!(
 			false,
 			false,
 		)),
-		2u32..4u32,
-		Position::new(0, 2)
+		Span::from_position(2, 4, Position::new(0, 2))
 	),
 	spanned_token!(
 		Token::Invalid(Some("zz7".as_bytes().into())),
-		4u32..7u32,
-		Position::new(0, 4)
+		Span::from_position(4, 7, Position::new(0, 4))
 	)
 );
 
@@ -3164,13 +2862,11 @@ tokenizer_test!(
 	"1 'dz",
 	spanned_token!(
 		Token::UnsignedNumber("1".as_bytes().into()),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::Whitespace(" ".as_bytes().into()),
-		1u32..2u32,
-		Position::new(0, 1)
+		Span::from_position(1, 2, Position::new(0, 1))
 	),
 	spanned_token!(
 		Token::BasedLiteralSpecifier(BasedLiteralSpecifier::new(
@@ -3178,13 +2874,11 @@ tokenizer_test!(
 			false,
 			false,
 		)),
-		2u32..4u32,
-		Position::new(0, 2)
+		Span::from_position(2, 4, Position::new(0, 2))
 	),
 	spanned_token!(
 		Token::Invalid(Some("z".as_bytes().into())),
-		4u32..5u32,
-		Position::new(0, 4)
+		Span::from_position(4, 5, Position::new(0, 4))
 	)
 );
 
@@ -3198,13 +2892,11 @@ tokenizer_test!(
 			false,
 			false,
 		)),
-		0u32..2u32,
-		Position::new(0, 0)
+		Span::from_position(0, 2, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::Number("90".as_bytes().into()),
-		2u32..4u32,
-		Position::new(0, 2)
+		Span::from_position(2, 4, Position::new(0, 2))
 	)
 );
 
@@ -3218,13 +2910,11 @@ tokenizer_test!(
 			false,
 			false,
 		)),
-		0u32..2u32,
-		Position::new(0, 0)
+		Span::from_position(0, 2, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::Invalid(Some("x9x".as_bytes().into())),
-		2u32..5u32,
-		Position::new(0, 2)
+		Span::from_position(2, 5, Position::new(0, 2))
 	)
 );
 
@@ -3238,13 +2928,11 @@ tokenizer_test!(
 			false,
 			false,
 		)),
-		0u32..2u32,
-		Position::new(0, 0)
+		Span::from_position(0, 2, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::Invalid(Some("x".as_bytes().into())),
-		2u32..3u32,
-		Position::new(0, 2)
+		Span::from_position(2, 3, Position::new(0, 2))
 	)
 );
 
@@ -3258,13 +2946,11 @@ tokenizer_test!(
 			false,
 			false,
 		)),
-		0u32..2u32,
-		Position::new(0, 0)
+		Span::from_position(0, 2, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::Invalid(Some("zz9".as_bytes().into())),
-		2u32..5u32,
-		Position::new(0, 2)
+		Span::from_position(2, 5, Position::new(0, 2))
 	)
 );
 
@@ -3278,13 +2964,11 @@ tokenizer_test!(
 			false,
 			false,
 		)),
-		0u32..2u32,
-		Position::new(0, 0)
+		Span::from_position(0, 2, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::Invalid(Some("z".as_bytes().into())),
-		2u32..3u32,
-		Position::new(0, 2)
+		Span::from_position(2, 3, Position::new(0, 2))
 	)
 );
 
@@ -3296,13 +2980,11 @@ tokenizer_test!(
 	"4 'd06zx\n+1'D ?\n2'dZX\n",
 	spanned_token!(
 		Token::UnsignedNumber("4".as_bytes().into()),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::Whitespace(" ".as_bytes().into()),
-		1u32..2u32,
-		Position::new(0, 1)
+		Span::from_position(1, 2, Position::new(0, 1))
 	),
 	spanned_token!(
 		Token::BasedLiteralSpecifier(BasedLiteralSpecifier::new(
@@ -3310,28 +2992,23 @@ tokenizer_test!(
 			false,
 			false,
 		)),
-		2u32..4u32,
-		Position::new(0, 2)
+		Span::from_position(2, 4, Position::new(0, 2))
 	),
 	spanned_token!(
 		Token::Invalid(Some("06zx".as_bytes().into())),
-		4u32..8u32,
-		Position::new(0, 4)
+		Span::from_position(4, 8, Position::new(0, 4))
 	),
 	spanned_token!(
 		Token::Newline("\n".as_bytes().into()),
-		8u32..9u32,
-		Position::new(0, 8)
+		Span::from_position(8, 9, Position::new(0, 8))
 	),
 	spanned_token!(
 		Token::Operator(Operator::Plus),
-		9u32..10u32,
-		Position::new(1, 0)
+		Span::from_position(9, 10, Position::new(1, 0))
 	),
 	spanned_token!(
 		Token::UnsignedNumber("1".as_bytes().into()),
-		10u32..11u32,
-		Position::new(1, 1)
+		Span::from_position(10, 11, Position::new(1, 1))
 	),
 	spanned_token!(
 		Token::BasedLiteralSpecifier(BasedLiteralSpecifier::new(
@@ -3339,28 +3016,23 @@ tokenizer_test!(
 			true,
 			false,
 		)),
-		11u32..13u32,
-		Position::new(1, 2)
+		Span::from_position(11, 13, Position::new(1, 2))
 	),
 	spanned_token!(
 		Token::Whitespace(" ".as_bytes().into()),
-		13u32..14u32,
-		Position::new(1, 4)
+		Span::from_position(13, 14, Position::new(1, 4))
 	),
 	spanned_token!(
 		Token::Invalid(Some("?".as_bytes().into())),
-		14u32..15u32,
-		Position::new(1, 5)
+		Span::from_position(14, 15, Position::new(1, 5))
 	),
 	spanned_token!(
 		Token::Newline("\n".as_bytes().into()),
-		15u32..16u32,
-		Position::new(1, 6)
+		Span::from_position(15, 16, Position::new(1, 6))
 	),
 	spanned_token!(
 		Token::UnsignedNumber("2".as_bytes().into()),
-		16u32..17u32,
-		Position::new(2, 0)
+		Span::from_position(16, 17, Position::new(2, 0))
 	),
 	spanned_token!(
 		Token::BasedLiteralSpecifier(BasedLiteralSpecifier::new(
@@ -3368,18 +3040,15 @@ tokenizer_test!(
 			false,
 			false,
 		)),
-		17u32..19u32,
-		Position::new(2, 1)
+		Span::from_position(17, 19, Position::new(2, 1))
 	),
 	spanned_token!(
 		Token::Invalid(Some("ZX".as_bytes().into())),
-		19u32..21u32,
-		Position::new(2, 3)
+		Span::from_position(19, 21, Position::new(2, 3))
 	),
 	spanned_token!(
 		Token::Newline("\n".as_bytes().into()),
-		21u32..22u32,
-		Position::new(2, 5)
+		Span::from_position(21, 22, Position::new(2, 5))
 	)
 );
 
@@ -3389,8 +3058,7 @@ tokenizer_test!(
 	"4'h1a4F",
 	spanned_token!(
 		Token::UnsignedNumber("4".as_bytes().into()),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::BasedLiteralSpecifier(BasedLiteralSpecifier::new(
@@ -3398,13 +3066,11 @@ tokenizer_test!(
 			false,
 			false,
 		)),
-		1u32..3u32,
-		Position::new(0, 1)
+		Span::from_position(1, 3, Position::new(0, 1))
 	),
 	spanned_token!(
 		Token::Number("1a4F".as_bytes().into()),
-		3u32..7u32,
-		Position::new(0, 3)
+		Span::from_position(3, 7, Position::new(0, 3))
 	)
 );
 
@@ -3414,8 +3080,7 @@ tokenizer_test!(
 	"3'hxDx",
 	spanned_token!(
 		Token::UnsignedNumber("3".as_bytes().into()),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::BasedLiteralSpecifier(BasedLiteralSpecifier::new(
@@ -3423,13 +3088,11 @@ tokenizer_test!(
 			false,
 			false,
 		)),
-		1u32..3u32,
-		Position::new(0, 1)
+		Span::from_position(1, 3, Position::new(0, 1))
 	),
 	spanned_token!(
 		Token::Number("xDx".as_bytes().into()),
-		3u32..6u32,
-		Position::new(0, 3)
+		Span::from_position(3, 6, Position::new(0, 3))
 	)
 );
 tokenizer_test!(
@@ -3438,8 +3101,7 @@ tokenizer_test!(
 	"1'hx",
 	spanned_token!(
 		Token::UnsignedNumber("1".as_bytes().into()),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::BasedLiteralSpecifier(BasedLiteralSpecifier::new(
@@ -3447,13 +3109,11 @@ tokenizer_test!(
 			false,
 			false,
 		)),
-		1u32..3u32,
-		Position::new(0, 1)
+		Span::from_position(1, 3, Position::new(0, 1))
 	),
 	spanned_token!(
 		Token::Number("x".as_bytes().into()),
-		3u32..4u32,
-		Position::new(0, 3)
+		Span::from_position(3, 4, Position::new(0, 3))
 	)
 );
 
@@ -3463,8 +3123,7 @@ tokenizer_test!(
 	"3'hzzF",
 	spanned_token!(
 		Token::UnsignedNumber("3".as_bytes().into()),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::BasedLiteralSpecifier(BasedLiteralSpecifier::new(
@@ -3472,13 +3131,11 @@ tokenizer_test!(
 			false,
 			false,
 		)),
-		1u32..3u32,
-		Position::new(0, 1)
+		Span::from_position(1, 3, Position::new(0, 1))
 	),
 	spanned_token!(
 		Token::Number("zzF".as_bytes().into()),
-		3u32..6u32,
-		Position::new(0, 3)
+		Span::from_position(3, 6, Position::new(0, 3))
 	)
 );
 
@@ -3488,8 +3145,7 @@ tokenizer_test!(
 	"1'hz",
 	spanned_token!(
 		Token::UnsignedNumber("1".as_bytes().into()),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::BasedLiteralSpecifier(BasedLiteralSpecifier::new(
@@ -3497,13 +3153,11 @@ tokenizer_test!(
 			false,
 			false,
 		)),
-		1u32..3u32,
-		Position::new(0, 1)
+		Span::from_position(1, 3, Position::new(0, 1))
 	),
 	spanned_token!(
 		Token::Number("z".as_bytes().into()),
-		3u32..4u32,
-		Position::new(0, 3)
+		Span::from_position(3, 4, Position::new(0, 3))
 	)
 );
 
@@ -3513,13 +3167,11 @@ tokenizer_test!(
 	"3 'ha7d",
 	spanned_token!(
 		Token::UnsignedNumber("3".as_bytes().into()),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::Whitespace(" ".as_bytes().into()),
-		1u32..2u32,
-		Position::new(0, 1)
+		Span::from_position(1, 2, Position::new(0, 1))
 	),
 	spanned_token!(
 		Token::BasedLiteralSpecifier(BasedLiteralSpecifier::new(
@@ -3527,13 +3179,11 @@ tokenizer_test!(
 			false,
 			false,
 		)),
-		2u32..4u32,
-		Position::new(0, 2)
+		Span::from_position(2, 4, Position::new(0, 2))
 	),
 	spanned_token!(
 		Token::Number("a7d".as_bytes().into()),
-		4u32..7u32,
-		Position::new(0, 4)
+		Span::from_position(4, 7, Position::new(0, 4))
 	)
 );
 
@@ -3543,13 +3193,11 @@ tokenizer_test!(
 	"3 'hxEx",
 	spanned_token!(
 		Token::UnsignedNumber("3".as_bytes().into()),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::Whitespace(" ".as_bytes().into()),
-		1u32..2u32,
-		Position::new(0, 1)
+		Span::from_position(1, 2, Position::new(0, 1))
 	),
 	spanned_token!(
 		Token::BasedLiteralSpecifier(BasedLiteralSpecifier::new(
@@ -3557,13 +3205,11 @@ tokenizer_test!(
 			false,
 			false,
 		)),
-		2u32..4u32,
-		Position::new(0, 2)
+		Span::from_position(2, 4, Position::new(0, 2))
 	),
 	spanned_token!(
 		Token::Number("xEx".as_bytes().into()),
-		4u32..7u32,
-		Position::new(0, 4)
+		Span::from_position(4, 7, Position::new(0, 4))
 	)
 );
 tokenizer_test!(
@@ -3572,13 +3218,11 @@ tokenizer_test!(
 	"1 'hx",
 	spanned_token!(
 		Token::UnsignedNumber("1".as_bytes().into()),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::Whitespace(" ".as_bytes().into()),
-		1u32..2u32,
-		Position::new(0, 1)
+		Span::from_position(1, 2, Position::new(0, 1))
 	),
 	spanned_token!(
 		Token::BasedLiteralSpecifier(BasedLiteralSpecifier::new(
@@ -3586,13 +3230,11 @@ tokenizer_test!(
 			false,
 			false,
 		)),
-		2u32..4u32,
-		Position::new(0, 2)
+		Span::from_position(2, 4, Position::new(0, 2))
 	),
 	spanned_token!(
 		Token::Number("x".as_bytes().into()),
-		4u32..5u32,
-		Position::new(0, 4)
+		Span::from_position(4, 5, Position::new(0, 4))
 	)
 );
 
@@ -3602,13 +3244,11 @@ tokenizer_test!(
 	"3 'hzzA",
 	spanned_token!(
 		Token::UnsignedNumber("3".as_bytes().into()),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::Whitespace(" ".as_bytes().into()),
-		1u32..2u32,
-		Position::new(0, 1)
+		Span::from_position(1, 2, Position::new(0, 1))
 	),
 	spanned_token!(
 		Token::BasedLiteralSpecifier(BasedLiteralSpecifier::new(
@@ -3616,13 +3256,11 @@ tokenizer_test!(
 			false,
 			false,
 		)),
-		2u32..4u32,
-		Position::new(0, 2)
+		Span::from_position(2, 4, Position::new(0, 2))
 	),
 	spanned_token!(
 		Token::Number("zzA".as_bytes().into()),
-		4u32..7u32,
-		Position::new(0, 4)
+		Span::from_position(4, 7, Position::new(0, 4))
 	)
 );
 
@@ -3632,13 +3270,11 @@ tokenizer_test!(
 	"1 'hz",
 	spanned_token!(
 		Token::UnsignedNumber("1".as_bytes().into()),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::Whitespace(" ".as_bytes().into()),
-		1u32..2u32,
-		Position::new(0, 1)
+		Span::from_position(1, 2, Position::new(0, 1))
 	),
 	spanned_token!(
 		Token::BasedLiteralSpecifier(BasedLiteralSpecifier::new(
@@ -3646,13 +3282,11 @@ tokenizer_test!(
 			false,
 			false,
 		)),
-		2u32..4u32,
-		Position::new(0, 2)
+		Span::from_position(2, 4, Position::new(0, 2))
 	),
 	spanned_token!(
 		Token::Number("z".as_bytes().into()),
-		4u32..5u32,
-		Position::new(0, 4)
+		Span::from_position(4, 5, Position::new(0, 4))
 	)
 );
 
@@ -3666,13 +3300,11 @@ tokenizer_test!(
 			false,
 			false,
 		)),
-		0u32..2u32,
-		Position::new(0, 0)
+		Span::from_position(0, 2, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::Number("7F".as_bytes().into()),
-		2u32..4u32,
-		Position::new(0, 2)
+		Span::from_position(2, 4, Position::new(0, 2))
 	)
 );
 
@@ -3686,13 +3318,11 @@ tokenizer_test!(
 			false,
 			false,
 		)),
-		0u32..2u32,
-		Position::new(0, 0)
+		Span::from_position(0, 2, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::Number("xAx".as_bytes().into()),
-		2u32..5u32,
-		Position::new(0, 2)
+		Span::from_position(2, 5, Position::new(0, 2))
 	)
 );
 
@@ -3706,13 +3336,11 @@ tokenizer_test!(
 			false,
 			false,
 		)),
-		0u32..2u32,
-		Position::new(0, 0)
+		Span::from_position(0, 2, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::Number("x".as_bytes().into()),
-		2u32..3u32,
-		Position::new(0, 2)
+		Span::from_position(2, 3, Position::new(0, 2))
 	)
 );
 
@@ -3726,13 +3354,11 @@ tokenizer_test!(
 			false,
 			false,
 		)),
-		0u32..2u32,
-		Position::new(0, 0)
+		Span::from_position(0, 2, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::Number("zz7".as_bytes().into()),
-		2u32..5u32,
-		Position::new(0, 2)
+		Span::from_position(2, 5, Position::new(0, 2))
 	)
 );
 
@@ -3746,13 +3372,11 @@ tokenizer_test!(
 			false,
 			false,
 		)),
-		0u32..2u32,
-		Position::new(0, 0)
+		Span::from_position(0, 2, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::Number("z".as_bytes().into()),
-		2u32..3u32,
-		Position::new(0, 2)
+		Span::from_position(2, 3, Position::new(0, 2))
 	)
 );
 
@@ -3764,13 +3388,11 @@ tokenizer_test!(
 	"4 'h7Fzx\n+1'H ?\n2'hZX\n",
 	spanned_token!(
 		Token::UnsignedNumber("4".as_bytes().into()),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::Whitespace(" ".as_bytes().into()),
-		1u32..2u32,
-		Position::new(0, 1)
+		Span::from_position(1, 2, Position::new(0, 1))
 	),
 	spanned_token!(
 		Token::BasedLiteralSpecifier(BasedLiteralSpecifier::new(
@@ -3778,28 +3400,23 @@ tokenizer_test!(
 			false,
 			false,
 		)),
-		2u32..4u32,
-		Position::new(0, 2)
+		Span::from_position(2, 4, Position::new(0, 2))
 	),
 	spanned_token!(
 		Token::Number("7Fzx".as_bytes().into()),
-		4u32..8u32,
-		Position::new(0, 4)
+		Span::from_position(4, 8, Position::new(0, 4))
 	),
 	spanned_token!(
 		Token::Newline("\n".as_bytes().into()),
-		8u32..9u32,
-		Position::new(0, 8)
+		Span::from_position(8, 9, Position::new(0, 8))
 	),
 	spanned_token!(
 		Token::Operator(Operator::Plus),
-		9u32..10u32,
-		Position::new(1, 0)
+		Span::from_position(9, 10, Position::new(1, 0))
 	),
 	spanned_token!(
 		Token::UnsignedNumber("1".as_bytes().into()),
-		10u32..11u32,
-		Position::new(1, 1)
+		Span::from_position(10, 11, Position::new(1, 1))
 	),
 	spanned_token!(
 		Token::BasedLiteralSpecifier(BasedLiteralSpecifier::new(
@@ -3807,28 +3424,23 @@ tokenizer_test!(
 			true,
 			false,
 		)),
-		11u32..13u32,
-		Position::new(1, 2)
+		Span::from_position(11, 13, Position::new(1, 2))
 	),
 	spanned_token!(
 		Token::Whitespace(" ".as_bytes().into()),
-		13u32..14u32,
-		Position::new(1, 4)
+		Span::from_position(13, 14, Position::new(1, 4))
 	),
 	spanned_token!(
 		Token::Number("?".as_bytes().into()),
-		14u32..15u32,
-		Position::new(1, 5)
+		Span::from_position(14, 15, Position::new(1, 5))
 	),
 	spanned_token!(
 		Token::Newline("\n".as_bytes().into()),
-		15u32..16u32,
-		Position::new(1, 6)
+		Span::from_position(15, 16, Position::new(1, 6))
 	),
 	spanned_token!(
 		Token::UnsignedNumber("2".as_bytes().into()),
-		16u32..17u32,
-		Position::new(2, 0)
+		Span::from_position(16, 17, Position::new(2, 0))
 	),
 	spanned_token!(
 		Token::BasedLiteralSpecifier(BasedLiteralSpecifier::new(
@@ -3836,18 +3448,15 @@ tokenizer_test!(
 			false,
 			false,
 		)),
-		17u32..19u32,
-		Position::new(2, 1)
+		Span::from_position(17, 19, Position::new(2, 1))
 	),
 	spanned_token!(
 		Token::Number("ZX".as_bytes().into()),
-		19u32..21u32,
-		Position::new(2, 3)
+		Span::from_position(19, 21, Position::new(2, 3))
 	),
 	spanned_token!(
 		Token::Newline("\n".as_bytes().into()),
-		21u32..22u32,
-		Position::new(2, 5)
+		Span::from_position(21, 22, Position::new(2, 5))
 	)
 );
 
@@ -3861,83 +3470,67 @@ endmodule
 	"#,
 	spanned_token!(
 		Token::Newline("\n".as_bytes().into()),
-		0u32..1u32,
-		Position::new(0, 0)
+		Span::from_position(0, 1, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::Keyword(Keyword::Module),
-		1u32..7u32,
-		Position::new(1, 0)
+		Span::from_position(1, 7, Position::new(1, 0))
 	),
 	spanned_token!(
 		Token::Whitespace(" ".as_bytes().into()),
-		7u32..8u32,
-		Position::new(1, 6)
+		Span::from_position(7, 8, Position::new(1, 6))
 	),
 	spanned_token!(
 		Token::Identifier(Identifier::Simple("foo".as_bytes().into())),
-		8u32..11u32,
-		Position::new(1, 7)
+		Span::from_position(8, 11, Position::new(1, 7))
 	),
 	spanned_token!(
 		Token::Control(Control::ParenOpen),
-		11u32..12u32,
-		Position::new(1, 10)
+		Span::from_position(11, 12, Position::new(1, 10))
 	),
 	spanned_token!(
 		Token::Control(Control::ParenClose),
-		12u32..13u32,
-		Position::new(1, 11)
+		Span::from_position(12, 13, Position::new(1, 11))
 	),
 	spanned_token!(
 		Token::Control(Control::Semicolon),
-		13u32..14u32,
-		Position::new(1, 12)
+		Span::from_position(13, 14, Position::new(1, 12))
 	),
 	spanned_token!(
 		Token::Newline("\n".as_bytes().into()),
-		14u32..15u32,
-		Position::new(1, 13)
+		Span::from_position(14, 15, Position::new(1, 13))
 	),
 	spanned_token!(
 		Token::Whitespace("\t".as_bytes().into()),
-		15u32..16u32,
-		Position::new(2, 0)
+		Span::from_position(15, 16, Position::new(2, 0))
 	),
 	spanned_token!(
 		Token::Keyword(Keyword::Wire),
-		16u32..20u32,
-		Position::new(2, 1)
+		Span::from_position(16, 20, Position::new(2, 1))
 	),
 	spanned_token!(
 		Token::Whitespace(" ".as_bytes().into()),
-		20u32..21u32,
-		Position::new(2, 5)
+		Span::from_position(20, 21, Position::new(2, 5))
 	),
 	spanned_token!(
 		Token::Identifier(Identifier::Simple("a".as_bytes().into())),
-		21u32..22u32,
-		Position::new(2, 6)
+		Span::from_position(21, 22, Position::new(2, 6))
 	),
 	spanned_token!(
 		Token::Whitespace(" ".as_bytes().into()),
-		22u32..23u32,
-		Position::new(2, 7)
+		Span::from_position(22, 23, Position::new(2, 7))
 	),
 	spanned_token!(
 		Token::Operator(Operator::Equals),
-		23u32..24u32,
-		Position::new(2, 8)
+		Span::from_position(23, 24, Position::new(2, 8))
 	),
 	spanned_token!(
 		Token::Whitespace(" ".as_bytes().into()),
-		24u32..25u32,
-		Position::new(2, 9)
+		Span::from_position(24, 25, Position::new(2, 9))
 	),
 	spanned_token!(
 		Token::UnsignedNumber("7".as_bytes().into()),
-		25u32..26u32,
-		Position::new(2, 10)
+		Span::from_position(25, 26, Position::new(2, 10))
 	),
 	spanned_token!(
 		Token::BasedLiteralSpecifier(BasedLiteralSpecifier::new(
@@ -3945,38 +3538,31 @@ endmodule
 			false,
 			false,
 		)),
-		26u32..28u32,
-		Position::new(2, 11)
+		Span::from_position(26, 28, Position::new(2, 11))
 	),
 	spanned_token!(
 		Token::Number("1010x01".as_bytes().into()),
-		28u32..35u32,
-		Position::new(2, 13)
+		Span::from_position(28, 35, Position::new(2, 13))
 	),
 	spanned_token!(
 		Token::Control(Control::Semicolon),
-		35u32..36u32,
-		Position::new(2, 20)
+		Span::from_position(35, 36, Position::new(2, 20))
 	),
 	spanned_token!(
 		Token::Newline("\n".as_bytes().into()),
-		36u32..37u32,
-		Position::new(2, 21)
+		Span::from_position(36, 37, Position::new(2, 21))
 	),
 	spanned_token!(
 		Token::Keyword(Keyword::EndModule),
-		37u32..46u32,
-		Position::new(3, 0)
+		Span::from_position(37, 46, Position::new(3, 0))
 	),
 	spanned_token!(
 		Token::Newline("\n".as_bytes().into()),
-		46u32..47u32,
-		Position::new(3, 9)
+		Span::from_position(46, 47, Position::new(3, 9))
 	),
 	spanned_token!(
 		Token::Whitespace("\t".as_bytes().into()),
-		47u32..48u32,
-		Position::new(4, 0)
+		Span::from_position(47, 48, Position::new(4, 0))
 	)
 );
 
@@ -3986,8 +3572,7 @@ tokenizer_test!(
 	"*>",
 	spanned_token!(
 		Token::Operator(Operator::FullConnection),
-		0u32..2u32,
-		Position::new(0, 0)
+		Span::from_position(0, 2, Position::new(0, 0))
 	)
 );
 
@@ -3997,8 +3582,7 @@ tokenizer_test!(
 	"=>",
 	spanned_token!(
 		Token::Operator(Operator::ParallelConnection),
-		0u32..2u32,
-		Position::new(0, 0)
+		Span::from_position(0, 2, Position::new(0, 0))
 	)
 );
 
@@ -4008,8 +3592,7 @@ tokenizer_test!(
 	"*:",
 	spanned_token!(
 		Token::Invalid(Some("*:".as_bytes().into())),
-		0u32..2u32,
-		Position::new(0, 0)
+		Span::from_position(0, 2, Position::new(0, 0))
 	)
 );
 
@@ -4019,8 +3602,7 @@ tokenizer_test!(
 	"*::",
 	spanned_token!(
 		Token::Invalid(Some("*::".as_bytes().into())),
-		0u32..3u32,
-		Position::new(0, 0)
+		Span::from_position(0, 3, Position::new(0, 0))
 	)
 );
 
@@ -4030,8 +3612,7 @@ tokenizer_test!(
 	"+/",
 	spanned_token!(
 		Token::Invalid(Some("+/".as_bytes().into())),
-		0u32..2u32,
-		Position::new(0, 0)
+		Span::from_position(0, 2, Position::new(0, 0))
 	)
 );
 
@@ -4041,8 +3622,7 @@ tokenizer_test!(
 	"+%",
 	spanned_token!(
 		Token::Invalid(Some("+%".as_bytes().into())),
-		0u32..2u32,
-		Position::new(0, 0)
+		Span::from_position(0, 2, Position::new(0, 0))
 	)
 );
 
@@ -4052,8 +3632,7 @@ tokenizer_test!(
 	"あたしはねこです！ニャ〜",
 	spanned_token!(
 		Token::Invalid(Some("あたしはねこです！ニャ〜".as_bytes().into())),
-		0u32..36u32,
-		Position::new(0, 0)
+		Span::from_position(0, 36, Position::new(0, 0))
 	)
 );
 
@@ -4063,15 +3642,13 @@ tokenizer_test!(
 	"00`a",
 	spanned_token!(
 		Token::UnsignedNumber("00".as_bytes().into()),
-		0u32..2u32,
-		Position::new(0, 0)
+		Span::from_position(0, 2, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::CompilerDirective(CompilerDirective::TextMacro(TextMacro::Other(
 			"a".as_bytes().into()
 		))),
-		2u32..4u32,
-		Position::new(0, 2)
+		Span::from_position(2, 4, Position::new(0, 2))
 	)
 );
 
@@ -4081,20 +3658,17 @@ tokenizer_test!(
 	"00 `a",
 	spanned_token!(
 		Token::UnsignedNumber("00".as_bytes().into()),
-		0u32..2u32,
-		Position::new(0, 0)
+		Span::from_position(0, 2, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::Whitespace(" ".as_bytes().into()),
-		2u32..3u32,
-		Position::new(0, 2)
+		Span::from_position(2, 3, Position::new(0, 2))
 	),
 	spanned_token!(
 		Token::CompilerDirective(CompilerDirective::TextMacro(TextMacro::Other(
 			"a".as_bytes().into()
 		))),
-		3u32..5u32,
-		Position::new(0, 3)
+		Span::from_position(3, 5, Position::new(0, 3))
 	)
 );
 
@@ -4104,15 +3678,13 @@ tokenizer_test!(
 	"aa`a",
 	spanned_token!(
 		Token::Identifier(Identifier::Simple("aa".as_bytes().into())),
-		0u32..2u32,
-		Position::new(0, 0)
+		Span::from_position(0, 2, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::CompilerDirective(CompilerDirective::TextMacro(TextMacro::Other(
 			"a".as_bytes().into()
 		))),
-		2u32..4u32,
-		Position::new(0, 2)
+		Span::from_position(2, 4, Position::new(0, 2))
 	)
 );
 
@@ -4122,20 +3694,17 @@ tokenizer_test!(
 	"aa `a",
 	spanned_token!(
 		Token::Identifier(Identifier::Simple("aa".as_bytes().into())),
-		0u32..2u32,
-		Position::new(0, 0)
+		Span::from_position(0, 2, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::Whitespace(" ".as_bytes().into()),
-		2u32..3u32,
-		Position::new(0, 2)
+		Span::from_position(2, 3, Position::new(0, 2))
 	),
 	spanned_token!(
 		Token::CompilerDirective(CompilerDirective::TextMacro(TextMacro::Other(
 			"a".as_bytes().into()
 		))),
-		3u32..5u32,
-		Position::new(0, 3)
+		Span::from_position(3, 5, Position::new(0, 3))
 	)
 );
 
@@ -4145,15 +3714,13 @@ tokenizer_test!(
 	"00`meow",
 	spanned_token!(
 		Token::UnsignedNumber("00".as_bytes().into()),
-		0u32..2u32,
-		Position::new(0, 0)
+		Span::from_position(0, 2, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::CompilerDirective(CompilerDirective::TextMacro(TextMacro::Other(
 			"meow".as_bytes().into()
 		))),
-		2u32..7u32,
-		Position::new(0, 2)
+		Span::from_position(2, 7, Position::new(0, 2))
 	)
 );
 
@@ -4163,20 +3730,17 @@ tokenizer_test!(
 	"00 `meow",
 	spanned_token!(
 		Token::UnsignedNumber("00".as_bytes().into()),
-		0u32..2u32,
-		Position::new(0, 0)
+		Span::from_position(0, 2, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::Whitespace(" ".as_bytes().into()),
-		2u32..3u32,
-		Position::new(0, 2)
+		Span::from_position(2, 3, Position::new(0, 2))
 	),
 	spanned_token!(
 		Token::CompilerDirective(CompilerDirective::TextMacro(TextMacro::Other(
 			"meow".as_bytes().into()
 		))),
-		3u32..8u32,
-		Position::new(0, 3)
+		Span::from_position(3, 8, Position::new(0, 3))
 	)
 );
 
@@ -4186,15 +3750,13 @@ tokenizer_test!(
 	"aa`meow",
 	spanned_token!(
 		Token::Identifier(Identifier::Simple("aa".as_bytes().into())),
-		0u32..2u32,
-		Position::new(0, 0)
+		Span::from_position(0, 2, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::CompilerDirective(CompilerDirective::TextMacro(TextMacro::Other(
 			"meow".as_bytes().into()
 		))),
-		2u32..7u32,
-		Position::new(0, 2)
+		Span::from_position(2, 7, Position::new(0, 2))
 	)
 );
 
@@ -4204,20 +3766,17 @@ tokenizer_test!(
 	"aa `meow",
 	spanned_token!(
 		Token::Identifier(Identifier::Simple("aa".as_bytes().into())),
-		0u32..2u32,
-		Position::new(0, 0)
+		Span::from_position(0, 2, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::Whitespace(" ".as_bytes().into()),
-		2u32..3u32,
-		Position::new(0, 2)
+		Span::from_position(2, 3, Position::new(0, 2))
 	),
 	spanned_token!(
 		Token::CompilerDirective(CompilerDirective::TextMacro(TextMacro::Other(
 			"meow".as_bytes().into()
 		))),
-		3u32..8u32,
-		Position::new(0, 3)
+		Span::from_position(3, 8, Position::new(0, 3))
 	)
 );
 
@@ -4227,17 +3786,14 @@ tokenizer_test!(
 	"`default_nettype\x1Anone",
 	spanned_token!(
 		Token::CompilerDirective(CompilerDirective::Builtin(BuiltinDirective::DefaultNetType)),
-		0u32..16u32,
-		Position::new(0, 0)
+		Span::from_position(0, 16, Position::new(0, 0))
 	),
 	spanned_token!(
 		Token::Invalid(Some("\x1A".as_bytes().into())),
-		16u32..17u32,
-		Position::new(0, 16)
+		Span::from_position(16, 17, Position::new(0, 16))
 	),
 	spanned_token!(
 		Token::Identifier(Identifier::Simple("none".as_bytes().into())),
-		17u32..21u32,
-		Position::new(0, 17)
+		Span::from_position(17, 21, Position::new(0, 17))
 	)
 );

@@ -8,8 +8,7 @@ tokenizer_test!(
 		Token::CompilerDirective(CompilerDirective::TextMacro(TextMacro::Builtin(
 			BuiltinTextMacro::DunderLine
 		))),
-		0u32..9u32,
-		Position::new(0, 0)
+		Span::from_position(0, 9, Position::new(0, 0))
 	)
 );
 
@@ -21,8 +20,7 @@ tokenizer_test!(
 		Token::CompilerDirective(CompilerDirective::TextMacro(TextMacro::Builtin(
 			BuiltinTextMacro::DunderFile
 		))),
-		0u32..9u32,
-		Position::new(0, 0)
+		Span::from_position(0, 9, Position::new(0, 0))
 	)
 );
 
@@ -32,8 +30,7 @@ tokenizer_test!(
 	r#""""meow meow""""#,
 	spanned_token!(
 		Token::TripleQuotedString(TripleQuotedString::new("meow meow".as_bytes().into())),
-		0u32..15u32,
-		Position::new(0, 0)
+		Span::from_position(0, 15, Position::new(0, 0))
 	)
 );
 
@@ -43,8 +40,7 @@ tokenizer_test!(
 	"+/-",
 	spanned_token!(
 		Token::Operator(Operator::AbsTolerance),
-		0u32..3u32,
-		Position::new(0, 0)
+		Span::from_position(0, 3, Position::new(0, 0))
 	)
 );
 
@@ -54,7 +50,6 @@ tokenizer_test!(
 	"+%-",
 	spanned_token!(
 		Token::Operator(Operator::RelTolerance),
-		0u32..3u32,
-		Position::new(0, 0)
+		Span::from_position(0, 3, Position::new(0, 0))
 	)
 );
