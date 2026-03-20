@@ -25,8 +25,8 @@ pub mod token;
 pub struct VerilogTokenizer {
 	standard:     LanguageStd,
 	tokenizer:    CoreTokenizer,
-	token:        Spanned<Token, Position>,
-	token_stream: VecDeque<Spanned<Token, Position>>,
+	token:        Spanned<Token>,
+	token_stream: VecDeque<Spanned<Token>>,
 }
 
 impl VerilogTokenizer {
@@ -1050,7 +1050,7 @@ impl VerilogTokenizer {
 		}
 	}
 
-	fn read_multiline_comment(&mut self, context: Position, begin: usize) {
+	fn read_multiline_comment(&mut self, context: Position, begin: u32) {
 		let mut invalid_comment = false;
 
 		// Consume the multiline comment
@@ -1103,7 +1103,7 @@ impl VerilogTokenizer {
 		}
 	}
 
-	fn read_singleline_comment(&mut self, context: Position, begin: usize) {
+	fn read_singleline_comment(&mut self, context: Position, begin: u32) {
 		while !matches!(self.tokenizer.current_byte(), b'\r' | b'\n') && !self.tokenizer.is_eof() {
 			self.tokenizer.next_char();
 		}
@@ -1400,7 +1400,7 @@ impl VerilogTokenizer {
 		self.token = token;
 	}
 
-	fn read_real_number_token(&mut self, context: Position, begin: usize) {
+	fn read_real_number_token(&mut self, context: Position, begin: u32) {
 		// If it's a decimal point, consume the next set of digits
 		if self.tokenizer.current_byte() == b'.' {
 			self.tokenizer.next_char();
@@ -1470,7 +1470,7 @@ impl VerilogTokenizer {
 	fn read_based_token(
 		&mut self,
 		context: Position,
-		begin: usize,
+		begin: u32,
 		specifier: BaseSpecifier,
 		digit_filter: fn(u8) -> bool,
 		signed: bool,
@@ -1564,7 +1564,7 @@ impl VerilogTokenizer {
 	}
 
 	#[inline(always)]
-	fn read_normal_ident(&mut self) -> Range<usize> {
+	fn read_normal_ident(&mut self) -> Range<u32> {
 		let begin = self.tokenizer.offset();
 		// Scan through till we get something that's not a-zA-Z0-9_$
 		while self.tokenizer.current_byte().is_ascii_alphanumeric() ||
@@ -1607,14 +1607,14 @@ impl VerilogTokenizer {
 	}
 }
 
-impl From<VerilogTokenizer> for Vec<Spanned<Token, Position>> {
+impl From<VerilogTokenizer> for Vec<Spanned<Token>> {
 	fn from(value: VerilogTokenizer) -> Self {
 		value.collect::<Self>()
 	}
 }
 
 impl Iterator for VerilogTokenizer {
-	type Item = Spanned<Token, Position>;
+	type Item = Spanned<Token>;
 
 	fn next(&mut self) -> Option<Self::Item> {
 		// If we hit the end of the file, we've nothing more to give
