@@ -8,7 +8,7 @@ tokenizer_test!(
 		Token::CompilerDirective(CompilerDirective::TextMacro(TextMacro::Other(
 			"__LINE__".as_bytes().into()
 		))),
-		0..9,
+		0u32..9u32,
 		Position::new(0, 0)
 	)
 );
@@ -21,7 +21,7 @@ tokenizer_test!(
 		Token::CompilerDirective(CompilerDirective::TextMacro(TextMacro::Other(
 			"__FILE__".as_bytes().into()
 		))),
-		0..9,
+		0u32..9u32,
 		Position::new(0, 0)
 	)
 );

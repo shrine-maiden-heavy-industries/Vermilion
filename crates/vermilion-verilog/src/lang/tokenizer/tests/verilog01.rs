@@ -6,7 +6,7 @@ tokenizer_test!(
 	">>>",
 	spanned_token!(
 		Token::Operator(Operator::ArithmeticShr),
-		0..3,
+		0u32..3u32,
 		Position::new(0, 0)
 	)
 );
@@ -17,7 +17,7 @@ tokenizer_test!(
 	"<<<",
 	spanned_token!(
 		Token::Operator(Operator::ArithmeticShl),
-		0..3,
+		0u32..3u32,
 		Position::new(0, 0)
 	)
 );
@@ -28,7 +28,7 @@ tokenizer_test!(
 	"-:",
 	spanned_token!(
 		Token::Operator(Operator::IndexedPartNeg),
-		0..2,
+		0u32..2u32,
 		Position::new(0, 0)
 	)
 );
@@ -39,7 +39,7 @@ tokenizer_test!(
 	"+:",
 	spanned_token!(
 		Token::Operator(Operator::IndexedPartPos),
-		0..2,
+		0u32..2u32,
 		Position::new(0, 0)
 	)
 );
@@ -50,7 +50,7 @@ tokenizer_test!(
 	"(*",
 	spanned_token!(
 		Token::Control(Control::AttributeOpen),
-		0..2,
+		0u32..2u32,
 		Position::new(0, 0)
 	)
 );
@@ -61,7 +61,7 @@ tokenizer_test!(
 	"*)",
 	spanned_token!(
 		Token::Control(Control::AttributeClose),
-		0..2,
+		0u32..2u32,
 		Position::new(0, 0)
 	)
 );
@@ -70,7 +70,7 @@ tokenizer_test!(
 	verilog01+,
 	operator_pow,
 	"**",
-	spanned_token!(Token::Operator(Operator::Pow), 0..2, Position::new(0, 0))
+	spanned_token!(Token::Operator(Operator::Pow), 0u32..2u32, Position::new(0, 0))
 );
 
 tokenizer_test!(
@@ -83,12 +83,12 @@ tokenizer_test!(
 			false,
 			true,
 		)),
-		0..3,
+		0u32..3u32,
 		Position::new(0, 0)
 	),
 	spanned_token!(
 		Token::Number("1".as_bytes().into()),
-		3..4,
+		3u32..4u32,
 		Position::new(0, 3)
 	)
 );
@@ -103,12 +103,12 @@ tokenizer_test!(
 			false,
 			true,
 		)),
-		0..3,
+		0u32..3u32,
 		Position::new(0, 0)
 	),
 	spanned_token!(
 		Token::Number("1".as_bytes().into()),
-		3..4,
+		3u32..4u32,
 		Position::new(0, 3)
 	)
 );

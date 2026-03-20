@@ -9,7 +9,7 @@ tokenizer_test!(
 			">>>".as_bytes().into(),
 			LanguageStd::all_flags() & !LanguageStd::Vl95
 		),
-		0..3,
+		0u32..3u32,
 		Position::new(0, 0)
 	)
 );
@@ -23,7 +23,7 @@ tokenizer_test!(
 			"<<<".as_bytes().into(),
 			LanguageStd::all_flags() & !LanguageStd::Vl95
 		),
-		0..3,
+		0u32..3u32,
 		Position::new(0, 0)
 	)
 );
@@ -37,7 +37,7 @@ tokenizer_test!(
 			"-:".as_bytes().into(),
 			LanguageStd::all_flags() & !LanguageStd::Vl95
 		),
-		0..2,
+		0u32..2u32,
 		Position::new(0, 0)
 	)
 );
@@ -51,7 +51,7 @@ tokenizer_test!(
 			"+:".as_bytes().into(),
 			LanguageStd::all_flags() & !LanguageStd::Vl95
 		),
-		0..2,
+		0u32..2u32,
 		Position::new(0, 0)
 	)
 );
@@ -65,7 +65,7 @@ tokenizer_test!(
 			"(*".as_bytes().into(),
 			LanguageStd::all_flags() & !LanguageStd::Vl95
 		),
-		0..2,
+		0u32..2u32,
 		Position::new(0, 0)
 	)
 );
@@ -79,7 +79,7 @@ tokenizer_test!(
 			"*)".as_bytes().into(),
 			LanguageStd::all_flags() & !LanguageStd::Vl95
 		),
-		0..2,
+		0u32..2u32,
 		Position::new(0, 0)
 	)
 );
@@ -93,7 +93,7 @@ tokenizer_test!(
 			"**".as_bytes().into(),
 			LanguageStd::all_flags() & !LanguageStd::Vl95
 		),
-		0..2,
+		0u32..2u32,
 		Position::new(0, 0)
 	)
 );
@@ -107,7 +107,7 @@ tokenizer_test!(
 			"s".as_bytes().into(),
 			LanguageStd::all_flags() & !LanguageStd::Vl95
 		),
-		1..2,
+		1u32..2u32,
 		Position::new(0, 0)
 	),
 	spanned_token!(
@@ -116,12 +116,12 @@ tokenizer_test!(
 			false,
 			false,
 		)),
-		0..3,
+		0u32..3u32,
 		Position::new(0, 0)
 	),
 	spanned_token!(
 		Token::Number("1".as_bytes().into()),
-		3..4,
+		3u32..4u32,
 		Position::new(0, 3)
 	)
 );
@@ -135,7 +135,7 @@ tokenizer_test!(
 			"S".as_bytes().into(),
 			LanguageStd::all_flags() & !LanguageStd::Vl95
 		),
-		1..2,
+		1u32..2u32,
 		Position::new(0, 0)
 	),
 	spanned_token!(
@@ -144,12 +144,12 @@ tokenizer_test!(
 			false,
 			false,
 		)),
-		0..3,
+		0u32..3u32,
 		Position::new(0, 0)
 	),
 	spanned_token!(
 		Token::Number("1".as_bytes().into()),
-		3..4,
+		3u32..4u32,
 		Position::new(0, 3)
 	)
 );

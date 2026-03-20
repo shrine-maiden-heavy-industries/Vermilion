@@ -8,7 +8,7 @@ tokenizer_test!(
 		Token::CompilerDirective(CompilerDirective::TextMacro(TextMacro::Other(
 			"__LINE__".as_bytes().into()
 		))),
-		0..9,
+		0u32..9u32,
 		Position::new(0, 0)
 	)
 );
@@ -21,7 +21,7 @@ tokenizer_test!(
 		Token::CompilerDirective(CompilerDirective::TextMacro(TextMacro::Other(
 			"__FILE__".as_bytes().into()
 		))),
-		0..9,
+		0u32..9u32,
 		Position::new(0, 0)
 	)
 );
@@ -32,7 +32,7 @@ tokenizer_test!(
 	r#""""meow meow""""#,
 	spanned_token!(
 		Token::ContextuallyInvalid(r#""""meow meow""""#.as_bytes().into(), LanguageStd::Sv23),
-		0..15,
+		0u32..15u32,
 		Position::new(0, 0)
 	)
 );
@@ -46,7 +46,7 @@ tokenizer_test!(
 			"<->".as_bytes().into(),
 			LanguageStd::SYSTEM_VERILOG_STDS & !LanguageStd::Sv05
 		),
-		0..3,
+		0u32..3u32,
 		Position::new(0, 0)
 	)
 );
@@ -60,7 +60,7 @@ tokenizer_test!(
 			"#=#".as_bytes().into(),
 			LanguageStd::SYSTEM_VERILOG_STDS & !LanguageStd::Sv05
 		),
-		0..3,
+		0u32..3u32,
 		Position::new(0, 0)
 	)
 );
@@ -74,7 +74,7 @@ tokenizer_test!(
 			"#-#".as_bytes().into(),
 			LanguageStd::SYSTEM_VERILOG_STDS & !LanguageStd::Sv05
 		),
-		0..3,
+		0u32..3u32,
 		Position::new(0, 0)
 	)
 );
@@ -88,7 +88,7 @@ tokenizer_test!(
 			"*::*".as_bytes().into(),
 			LanguageStd::SYSTEM_VERILOG_STDS & !LanguageStd::Sv05
 		),
-		0..4,
+		0u32..4u32,
 		Position::new(0, 0)
 	)
 );
@@ -99,7 +99,7 @@ tokenizer_test!(
 	"+/-",
 	spanned_token!(
 		Token::ContextuallyInvalid("+/-".as_bytes().into(), LanguageStd::Sv23),
-		0..3,
+		0u32..3u32,
 		Position::new(0, 0)
 	)
 );
@@ -110,7 +110,7 @@ tokenizer_test!(
 	"+%-",
 	spanned_token!(
 		Token::ContextuallyInvalid("+%-".as_bytes().into(), LanguageStd::Sv23),
-		0..3,
+		0u32..3u32,
 		Position::new(0, 0)
 	)
 );

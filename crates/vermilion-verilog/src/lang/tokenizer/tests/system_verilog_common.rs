@@ -6,7 +6,7 @@ tokenizer_test!(
 	"<+",
 	spanned_token!(
 		Token::ContextuallyInvalid("<+".as_bytes().into(), LanguageStd::VERILOG_AMS_STDS),
-		0..2,
+		0u32..2u32,
 		Position::new(0, 0)
 	)
 );
@@ -17,7 +17,7 @@ tokenizer_test!(
 	"'",
 	spanned_token!(
 		Token::Control(Control::Apostrophe),
-		0..1,
+		0u32..1u32,
 		Position::new(0, 0)
 	)
 );
@@ -28,7 +28,7 @@ tokenizer_test!(
 	"+=",
 	spanned_token!(
 		Token::Operator(Operator::AddEquals),
-		0..2,
+		0u32..2u32,
 		Position::new(0, 0)
 	)
 );
@@ -39,7 +39,7 @@ tokenizer_test!(
 	"-=",
 	spanned_token!(
 		Token::Operator(Operator::SubEquals),
-		0..2,
+		0u32..2u32,
 		Position::new(0, 0)
 	)
 );
@@ -50,7 +50,7 @@ tokenizer_test!(
 	"&=",
 	spanned_token!(
 		Token::Operator(Operator::AndEquals),
-		0..2,
+		0u32..2u32,
 		Position::new(0, 0)
 	)
 );
@@ -61,7 +61,7 @@ tokenizer_test!(
 	">>>=",
 	spanned_token!(
 		Token::Operator(Operator::ArithmeticShrEquals),
-		0..4,
+		0u32..4u32,
 		Position::new(0, 0)
 	)
 );
@@ -72,7 +72,7 @@ tokenizer_test!(
 	"<<<=",
 	spanned_token!(
 		Token::Operator(Operator::ArithmeticShlEquals),
-		0..4,
+		0u32..4u32,
 		Position::new(0, 0)
 	)
 );
@@ -83,7 +83,7 @@ tokenizer_test!(
 	"|=",
 	spanned_token!(
 		Token::Operator(Operator::OrEquals),
-		0..2,
+		0u32..2u32,
 		Position::new(0, 0)
 	)
 );
@@ -94,7 +94,7 @@ tokenizer_test!(
 	"*=",
 	spanned_token!(
 		Token::Operator(Operator::MulEquals),
-		0..2,
+		0u32..2u32,
 		Position::new(0, 0)
 	)
 );
@@ -105,7 +105,7 @@ tokenizer_test!(
 	"%=",
 	spanned_token!(
 		Token::Operator(Operator::RemEquals),
-		0..2,
+		0u32..2u32,
 		Position::new(0, 0)
 	)
 );
@@ -116,7 +116,7 @@ tokenizer_test!(
 	"/=",
 	spanned_token!(
 		Token::Operator(Operator::DivEquals),
-		0..2,
+		0u32..2u32,
 		Position::new(0, 0)
 	)
 );
@@ -127,7 +127,7 @@ tokenizer_test!(
 	"++",
 	spanned_token!(
 		Token::Operator(Operator::Increment),
-		0..2,
+		0u32..2u32,
 		Position::new(0, 0)
 	)
 );
@@ -138,7 +138,7 @@ tokenizer_test!(
 	"--",
 	spanned_token!(
 		Token::Operator(Operator::Decrement),
-		0..2,
+		0u32..2u32,
 		Position::new(0, 0)
 	)
 );
@@ -149,7 +149,7 @@ tokenizer_test!(
 	"<<=",
 	spanned_token!(
 		Token::Operator(Operator::ShiftLeftEquals),
-		0..3,
+		0u32..3u32,
 		Position::new(0, 0)
 	)
 );
@@ -160,7 +160,7 @@ tokenizer_test!(
 	">>=",
 	spanned_token!(
 		Token::Operator(Operator::ShiftRightEquals),
-		0..3,
+		0u32..3u32,
 		Position::new(0, 0)
 	)
 );
@@ -171,7 +171,7 @@ tokenizer_test!(
 	"::",
 	spanned_token!(
 		Token::Operator(Operator::ClassScopeResolution),
-		0..2,
+		0u32..2u32,
 		Position::new(0, 0)
 	)
 );
@@ -182,7 +182,7 @@ tokenizer_test!(
 	":/",
 	spanned_token!(
 		Token::Operator(Operator::WeightAssignDist),
-		0..2,
+		0u32..2u32,
 		Position::new(0, 0)
 	)
 );
@@ -193,7 +193,7 @@ tokenizer_test!(
 	":=",
 	spanned_token!(
 		Token::Operator(Operator::WeightAssignUnit),
-		0..2,
+		0u32..2u32,
 		Position::new(0, 0)
 	)
 );
@@ -204,7 +204,7 @@ tokenizer_test!(
 	"^=",
 	spanned_token!(
 		Token::Operator(Operator::XorEquals),
-		0..2,
+		0u32..2u32,
 		Position::new(0, 0)
 	)
 );
@@ -215,7 +215,7 @@ tokenizer_test!(
 	"==?",
 	spanned_token!(
 		Token::Operator(Operator::WildcardEqual),
-		0..3,
+		0u32..3u32,
 		Position::new(0, 0)
 	)
 );
@@ -226,7 +226,7 @@ tokenizer_test!(
 	"!=?",
 	spanned_token!(
 		Token::Operator(Operator::WildcardNotEqual),
-		0..3,
+		0u32..3u32,
 		Position::new(0, 0)
 	)
 );
@@ -237,7 +237,7 @@ tokenizer_test!(
 	".*",
 	spanned_token!(
 		Token::Operator(Operator::Wildcard),
-		0..2,
+		0u32..2u32,
 		Position::new(0, 0)
 	)
 );
@@ -248,7 +248,7 @@ tokenizer_test!(
 	"##",
 	spanned_token!(
 		Token::Operator(Operator::CycleDelay),
-		0..2,
+		0u32..2u32,
 		Position::new(0, 0)
 	)
 );
@@ -259,7 +259,7 @@ tokenizer_test!(
 	"->>",
 	spanned_token!(
 		Token::Operator(Operator::EventTriggerNb),
-		0..3,
+		0u32..3u32,
 		Position::new(0, 0)
 	)
 );
@@ -270,7 +270,7 @@ tokenizer_test!(
 	"|=>",
 	spanned_token!(
 		Token::Operator(Operator::PropImplNonOverlap),
-		0..3,
+		0u32..3u32,
 		Position::new(0, 0)
 	)
 );
@@ -281,7 +281,7 @@ tokenizer_test!(
 	"|->",
 	spanned_token!(
 		Token::Operator(Operator::PropImplOverlap),
-		0..3,
+		0u32..3u32,
 		Position::new(0, 0)
 	)
 );
@@ -296,12 +296,12 @@ tokenizer_test!(
 			false,
 			true,
 		)),
-		0..3,
+		0u32..3u32,
 		Position::new(0, 0)
 	),
 	spanned_token!(
 		Token::Number("1".as_bytes().into()),
-		3..4,
+		3u32..4u32,
 		Position::new(0, 3)
 	)
 );
@@ -316,12 +316,12 @@ tokenizer_test!(
 			false,
 			true,
 		)),
-		0..3,
+		0u32..3u32,
 		Position::new(0, 0)
 	),
 	spanned_token!(
 		Token::Number("1".as_bytes().into()),
-		3..4,
+		3u32..4u32,
 		Position::new(0, 3)
 	)
 );

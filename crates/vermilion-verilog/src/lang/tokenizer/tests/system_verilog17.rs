@@ -8,7 +8,7 @@ tokenizer_test!(
 		Token::CompilerDirective(CompilerDirective::TextMacro(TextMacro::Builtin(
 			BuiltinTextMacro::DunderLine
 		))),
-		0..9,
+		0u32..9u32,
 		Position::new(0, 0)
 	)
 );
@@ -21,7 +21,7 @@ tokenizer_test!(
 		Token::CompilerDirective(CompilerDirective::TextMacro(TextMacro::Builtin(
 			BuiltinTextMacro::DunderFile
 		))),
-		0..9,
+		0u32..9u32,
 		Position::new(0, 0)
 	)
 );
@@ -32,7 +32,7 @@ tokenizer_test!(
 	r#""""meow meow""""#,
 	spanned_token!(
 		Token::ContextuallyInvalid(r#""""meow meow""""#.as_bytes().into(), LanguageStd::Sv23),
-		0..15,
+		0u32..15u32,
 		Position::new(0, 0)
 	)
 );
@@ -43,7 +43,7 @@ tokenizer_test!(
 	"+/-",
 	spanned_token!(
 		Token::ContextuallyInvalid("+/-".as_bytes().into(), LanguageStd::Sv23),
-		0..3,
+		0u32..3u32,
 		Position::new(0, 0)
 	)
 );
@@ -54,7 +54,7 @@ tokenizer_test!(
 	"+%-",
 	spanned_token!(
 		Token::ContextuallyInvalid("+%-".as_bytes().into(), LanguageStd::Sv23),
-		0..3,
+		0u32..3u32,
 		Position::new(0, 0)
 	)
 );
