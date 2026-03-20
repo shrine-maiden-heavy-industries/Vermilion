@@ -169,6 +169,24 @@ impl Index<RangeFull> for CoreTokenizer {
 	}
 }
 
+impl Index<ThinSpan> for CoreTokenizer {
+	type Output = [u8];
+
+	#[inline(always)]
+	fn index(&self, index: ThinSpan) -> &Self::Output {
+		&self.text[(*index.begin() as usize)..(*index.end() as usize)]
+	}
+}
+
+impl Index<Span> for CoreTokenizer {
+	type Output = [u8];
+
+	#[inline(always)]
+	fn index(&self, index: Span) -> &Self::Output {
+		&self.text[(*index.begin() as usize)..(*index.end() as usize)]
+	}
+}
+
 impl Index<Range<usize>> for CoreTokenizer {
 	type Output = [u8];
 
