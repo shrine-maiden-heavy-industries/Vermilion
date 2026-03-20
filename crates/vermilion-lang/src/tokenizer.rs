@@ -31,7 +31,7 @@ macro_rules! versioned_token {
 /// The underlying tokenization machinery for all other Vermilion tokenizers
 pub struct CoreTokenizer {
 	text:     AtomicByteTendril,
-	offset:   usize,
+	offset:   u32,
 	eof:      bool,
 	current:  u8,
 	position: Position,
@@ -54,7 +54,7 @@ impl CoreTokenizer {
 		if tokenizer.text.is_empty() {
 			tokenizer.eof = true;
 		} else {
-			tokenizer.current = tokenizer.text[tokenizer.offset]
+			tokenizer.current = tokenizer.text[tokenizer.offset as usize]
 		}
 
 		tokenizer
@@ -70,8 +70,8 @@ impl CoreTokenizer {
 		let prev = self.current;
 
 		// Check to see if advancing will run off the end of the input
-		if self.offset + 1 >= self.text.len() {
-			self.offset = self.text.len();
+		if self.offset + 1 >= self.text.len32() {
+			self.offset = self.text.len32();
 			self.eof = true;
 			self.current = 0;
 			return prev;
@@ -80,7 +80,7 @@ impl CoreTokenizer {
 		// Increment the position and set the current character
 		self.offset += 1;
 		self.position.next_char();
-		self.current = self.text[self.offset];
+		self.current = self.text[self.offset as usize];
 
 		prev
 	}
@@ -93,7 +93,7 @@ impl CoreTokenizer {
 
 	/// Returns the current byte offset into the input the tokenizer currently is
 	#[inline(always)]
-	pub fn offset(&self) -> usize {
+	pub fn offset(&self) -> u32 {
 		self.offset
 	}
 
@@ -137,9 +137,8 @@ impl CoreTokenizer {
 	///
 	/// Panics on bounds or validity check failure.
 	#[inline(always)]
-	pub fn subtendril(&self, range: Range<usize>) -> AtomicByteTendril {
-		self.text
-			.subtendril(range.start as u32, (range.end - range.start) as u32)
+	pub fn subtendril(&self, range: Range<u32>) -> AtomicByteTendril {
+		self.text.subtendril(range.start, range.end - range.start)
 	}
 }
 
