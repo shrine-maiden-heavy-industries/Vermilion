@@ -18,8 +18,11 @@ macro_rules! spanned_token {
 	($token:expr) => {
 		vermilion_loc::spanned!($token)
 	};
-	($token:expr, $span:expr, $position:expr) => {
-		vermilion_loc::spanned!($token, $span, $position)
+	($token:expr, $span:expr) => {
+		vermilion_loc::spanned!($token, $span)
+	};
+	($token:expr, $range:expr, $position:expr) => {
+		vermilion_loc::spanned!($token, $range, $position)
 	};
 }
 
