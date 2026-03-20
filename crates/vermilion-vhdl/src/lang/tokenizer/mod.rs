@@ -3,7 +3,7 @@ use std::collections::VecDeque;
 
 use eyre::eyre;
 use vermilion_lang::{AtomicByteTendril, tokenizer::CoreTokenizer};
-use vermilion_loc::{Position, Spanned};
+use vermilion_loc::Spanned;
 
 use crate::{LanguageStd, lang::tokenizer::token::Token};
 
@@ -12,8 +12,8 @@ pub mod token;
 pub struct VhdlTokenizer {
 	_standard:    LanguageStd,
 	tokenizer:    CoreTokenizer,
-	token:        Spanned<Token, Position>,
-	token_stream: VecDeque<Spanned<Token, Position>>,
+	token:        Spanned<Token>,
+	token_stream: VecDeque<Spanned<Token>>,
 }
 
 impl VhdlTokenizer {
@@ -71,7 +71,7 @@ impl VhdlTokenizer {
 }
 
 impl Iterator for VhdlTokenizer {
-	type Item = Spanned<Token, Position>;
+	type Item = Spanned<Token>;
 
 	fn next(&mut self) -> Option<Self::Item> {
 		// If we hit the end of the file, we've nothing more to give

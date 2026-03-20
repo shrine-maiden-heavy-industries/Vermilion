@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: BSD-3-Clause
 
 use vermilion_lang::AtomicByteTendril;
-use vermilion_loc::{Position, Spanned};
+use vermilion_loc::Spanned;
 
 use crate::{
 	LanguageStd,
@@ -13,7 +13,7 @@ pub mod error;
 pub struct VhdlParser {
 	_std:           LanguageStd,
 	_tokenizer:     VhdlTokenizer,
-	_current_token: Option<Spanned<Token, Position>>,
+	_current_token: Option<Spanned<Token>>,
 }
 
 impl VhdlParser {
