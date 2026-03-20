@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: BSD-3-Clause
 
-use std::{collections::VecDeque, ops::Range};
+use std::collections::VecDeque;
 
 use eyre::eyre;
 use vermilion_lang::{
 	AtomicByteTendril, simple_token, spanned_token, tokenizer::CoreTokenizer, versioned_token,
 };
-use vermilion_loc::{Position, Spanned};
+use vermilion_loc::{Position, Span, Spanned, span::ThinSpan};
 
 use crate::{
 	LanguageStd,
@@ -122,21 +122,19 @@ impl VerilogTokenizer {
 		if self.tokenizer.current_byte().is_ascii_alphabetic() ||
 			self.tokenizer.current_byte() == b'_'
 		{
-			let range = self.read_normal_ident();
+			let span = self.read_normal_ident();
 			// We've already validated via the above read, that the entire token is valid UTF-8.
 			// Just make it a string.
-			let ident = unsafe { str::from_utf8_unchecked(&self.tokenizer[range.clone()]) };
+			let ident = unsafe { str::from_utf8_unchecked(&self.tokenizer[span]) };
 
 			// Check to see if the given identifier is a keyword or not
 			let keyword = keywords::get_keyword(ident, self.standard);
 			let token = match keyword {
 				Some(keyword) => Token::Keyword(keyword),
-				None => {
-					Token::Identifier(Identifier::Simple(self.tokenizer.subtendril(range.clone())))
-				},
+				None => Token::Identifier(Identifier::Simple(self.tokenizer.subtendril(span))),
 			};
 			// Turn the result into the final token to return
-			self.token = spanned_token!(token, range, context);
+			self.token = spanned_token!(token, span.as_span(Some(context)));
 		} else if self.tokenizer.current_byte().is_ascii_digit() {
 			self.read_number_token(false);
 		} else {
@@ -156,11 +154,10 @@ impl VerilogTokenizer {
 			self.tokenizer.next_char();
 		}
 
-		let token_range = begin..self.tokenizer.offset();
+		let token_span = ThinSpan::new(begin, self.tokenizer.offset());
 		self.token = spanned_token!(
-			Token::Whitespace(self.tokenizer.subtendril(token_range.clone())),
-			token_range,
-			context
+			Token::Whitespace(self.tokenizer.subtendril(token_span)),
+			token_span.as_span(Some(context))
 		)
 	}
 
@@ -178,11 +175,10 @@ impl VerilogTokenizer {
 				self.tokenizer.next_char();
 			}
 
-			let token_range = begin..self.tokenizer.offset();
+			let token_span = ThinSpan::new(begin, self.tokenizer.offset());
 			self.token = spanned_token!(
-				Token::Invalid(Some(self.tokenizer.subtendril(token_range.clone()))),
-				token_range,
-				context
+				Token::Invalid(Some(self.tokenizer.subtendril(token_span))),
+				token_span.as_span(Some(context))
 			)
 		}
 	}
@@ -198,11 +194,10 @@ impl VerilogTokenizer {
 
 		// Newlines reset the position context for the next token
 		self.tokenizer.advance_line();
-		let token_range = begin..self.tokenizer.offset();
+		let token_span = ThinSpan::new(begin, self.tokenizer.offset());
 		self.token = spanned_token!(
-			Token::Newline(self.tokenizer.subtendril(token_range.clone())),
-			token_range,
-			context
+			Token::Newline(self.tokenizer.subtendril(token_span)),
+			token_span.as_span(Some(context))
 		)
 	}
 
@@ -217,7 +212,7 @@ impl VerilogTokenizer {
 					self.tokenizer.next_char();
 					versioned_token!(
 						self,
-						begin..self.tokenizer.offset(),
+						ThinSpan::new(begin, self.tokenizer.offset()),
 						Token::Operator(Operator::CycleDelay),
 						LanguageStd::SYSTEM_VERILOG_STDS
 					)
@@ -230,7 +225,7 @@ impl VerilogTokenizer {
 
 						versioned_token!(
 							self,
-							begin..self.tokenizer.offset(),
+							ThinSpan::new(begin, self.tokenizer.offset()),
 							Token::Operator(Operator::FollowedByNonOverlapped),
 							LanguageStd::Sv09,
 							LanguageStd::Sv12,
@@ -249,7 +244,7 @@ impl VerilogTokenizer {
 
 						versioned_token!(
 							self,
-							begin..self.tokenizer.offset(),
+							ThinSpan::new(begin, self.tokenizer.offset()),
 							Token::Operator(Operator::FollowedByOverlapped),
 							LanguageStd::Sv09,
 							LanguageStd::Sv12,
@@ -262,8 +257,7 @@ impl VerilogTokenizer {
 				},
 				_ => Token::Control(Control::Octothorp),
 			},
-			begin..self.tokenizer.offset(),
-			context
+			Span::from_position(begin, self.tokenizer.offset(), context)
 		);
 	}
 
@@ -279,7 +273,7 @@ impl VerilogTokenizer {
 
 					versioned_token!(
 						self,
-						begin..self.tokenizer.offset(),
+						ThinSpan::new(begin, self.tokenizer.offset()),
 						Token::Control(Control::AttributeOpen),
 						LanguageStd::Vl01,
 						LanguageStd::Vl05,
@@ -289,8 +283,7 @@ impl VerilogTokenizer {
 				},
 				_ => Token::Control(Control::ParenOpen),
 			},
-			begin..self.tokenizer.offset(),
-			context
+			Span::from_position(begin, self.tokenizer.offset(), context)
 		);
 	}
 
@@ -305,7 +298,7 @@ impl VerilogTokenizer {
 					self.tokenizer.next_char();
 					versioned_token!(
 						self,
-						begin..self.tokenizer.offset(),
+						ThinSpan::new(begin, self.tokenizer.offset()),
 						Token::Operator(Operator::ClassScopeResolution),
 						LanguageStd::SYSTEM_VERILOG_STDS
 					)
@@ -314,7 +307,7 @@ impl VerilogTokenizer {
 					self.tokenizer.next_char();
 					versioned_token!(
 						self,
-						begin..self.tokenizer.offset(),
+						ThinSpan::new(begin, self.tokenizer.offset()),
 						Token::Operator(Operator::WeightAssignDist),
 						LanguageStd::SYSTEM_VERILOG_STDS
 					)
@@ -323,15 +316,14 @@ impl VerilogTokenizer {
 					self.tokenizer.next_char();
 					versioned_token!(
 						self,
-						begin..self.tokenizer.offset(),
+						ThinSpan::new(begin, self.tokenizer.offset()),
 						Token::Operator(Operator::WeightAssignUnit),
 						LanguageStd::SYSTEM_VERILOG_STDS
 					)
 				},
 				_ => Token::Control(Control::Colon),
 			},
-			begin..self.tokenizer.offset(),
-			context
+			Span::from_position(begin, self.tokenizer.offset(), context)
 		);
 	}
 
@@ -346,15 +338,14 @@ impl VerilogTokenizer {
 					self.tokenizer.next_char();
 					versioned_token!(
 						self,
-						begin..self.tokenizer.offset(),
+						ThinSpan::new(begin, self.tokenizer.offset()),
 						Token::Operator(Operator::Wildcard),
 						LanguageStd::SYSTEM_VERILOG_STDS
 					)
 				},
 				_ => Token::Control(Control::Dot),
 			},
-			begin..self.tokenizer.offset(),
-			context
+			Span::from_position(begin, self.tokenizer.offset(), context)
 		);
 	}
 
@@ -377,7 +368,7 @@ impl VerilogTokenizer {
 							self.tokenizer.next_char();
 							versioned_token!(
 								self,
-								begin..self.tokenizer.offset(),
+								ThinSpan::new(begin, self.tokenizer.offset()),
 								Token::Operator(Operator::WildcardNotEqual),
 								LanguageStd::SYSTEM_VERILOG_STDS
 							)
@@ -387,8 +378,7 @@ impl VerilogTokenizer {
 				},
 				_ => Token::Operator(Operator::Exclamation),
 			},
-			begin..self.tokenizer.offset(),
-			context
+			Span::from_position(begin, self.tokenizer.offset(), context)
 		);
 	}
 
@@ -413,7 +403,7 @@ impl VerilogTokenizer {
 
 							versioned_token!(
 								self,
-								begin..self.tokenizer.offset(),
+								ThinSpan::new(begin, self.tokenizer.offset()),
 								Token::Operator(Operator::WildcardEqual),
 								LanguageStd::SYSTEM_VERILOG_STDS
 							)
@@ -428,8 +418,7 @@ impl VerilogTokenizer {
 				},
 				_ => Token::Operator(Operator::Equals),
 			},
-			begin..self.tokenizer.offset(),
-			context
+			Span::from_position(begin, self.tokenizer.offset(), context)
 		);
 	}
 
@@ -456,15 +445,14 @@ impl VerilogTokenizer {
 
 					versioned_token!(
 						self,
-						begin..self.tokenizer.offset(),
+						ThinSpan::new(begin, self.tokenizer.offset()),
 						Token::Operator(Operator::AndEquals),
 						LanguageStd::SYSTEM_VERILOG_STDS
 					)
 				},
 				_ => Token::Operator(Operator::Ampersand),
 			},
-			begin..self.tokenizer.offset(),
-			context
+			Span::from_position(begin, self.tokenizer.offset(), context)
 		);
 	}
 
@@ -492,8 +480,7 @@ impl VerilogTokenizer {
 				},
 				_ => Token::Operator(Operator::Tilde),
 			},
-			begin..self.tokenizer.offset(),
-			context
+			Span::from_position(begin, self.tokenizer.offset(), context)
 		);
 	}
 
@@ -513,15 +500,14 @@ impl VerilogTokenizer {
 
 					versioned_token!(
 						self,
-						begin..self.tokenizer.offset(),
+						ThinSpan::new(begin, self.tokenizer.offset()),
 						Token::Operator(Operator::XorEquals),
 						LanguageStd::SYSTEM_VERILOG_STDS
 					)
 				},
 				_ => Token::Operator(Operator::Circumflex),
 			},
-			begin..self.tokenizer.offset(),
-			context
+			Span::from_position(begin, self.tokenizer.offset(), context)
 		);
 	}
 
@@ -543,14 +529,14 @@ impl VerilogTokenizer {
 						self.tokenizer.next_char();
 						versioned_token!(
 							self,
-							begin..self.tokenizer.offset(),
+							ThinSpan::new(begin, self.tokenizer.offset()),
 							Token::Operator(Operator::PropImplNonOverlap),
 							LanguageStd::SYSTEM_VERILOG_STDS
 						)
 					} else {
 						versioned_token!(
 							self,
-							begin..self.tokenizer.offset(),
+							ThinSpan::new(begin, self.tokenizer.offset()),
 							Token::Operator(Operator::OrEquals),
 							LanguageStd::SYSTEM_VERILOG_STDS
 						)
@@ -564,7 +550,7 @@ impl VerilogTokenizer {
 
 						versioned_token!(
 							self,
-							begin..self.tokenizer.offset(),
+							ThinSpan::new(begin, self.tokenizer.offset()),
 							Token::Operator(Operator::PropImplOverlap),
 							LanguageStd::SYSTEM_VERILOG_STDS
 						)
@@ -575,8 +561,7 @@ impl VerilogTokenizer {
 				},
 				_ => Token::Operator(Operator::Pipe),
 			},
-			begin..self.tokenizer.offset(),
-			context
+			Span::from_position(begin, self.tokenizer.offset(), context)
 		);
 	}
 
@@ -603,14 +588,14 @@ impl VerilogTokenizer {
 
 								versioned_token!(
 									self,
-									begin..self.tokenizer.offset(),
+									ThinSpan::new(begin, self.tokenizer.offset()),
 									Token::Operator(Operator::ArithmeticShrEquals),
 									LanguageStd::SYSTEM_VERILOG_STDS
 								)
 							} else {
 								versioned_token!(
 									self,
-									begin..self.tokenizer.offset(),
+									ThinSpan::new(begin, self.tokenizer.offset()),
 									Token::Operator(Operator::ArithmeticShr),
 									LanguageStd::Vl01,
 									LanguageStd::Vl05,
@@ -624,7 +609,7 @@ impl VerilogTokenizer {
 
 							versioned_token!(
 								self,
-								begin..self.tokenizer.offset(),
+								ThinSpan::new(begin, self.tokenizer.offset()),
 								Token::Operator(Operator::ShiftRightEquals),
 								LanguageStd::SYSTEM_VERILOG_STDS
 							)
@@ -634,8 +619,7 @@ impl VerilogTokenizer {
 				},
 				_ => Token::Operator(Operator::LessThan),
 			},
-			begin..self.tokenizer.offset(),
-			context
+			Span::from_position(begin, self.tokenizer.offset(), context)
 		);
 	}
 
@@ -662,14 +646,14 @@ impl VerilogTokenizer {
 
 								versioned_token!(
 									self,
-									begin..self.tokenizer.offset(),
+									ThinSpan::new(begin, self.tokenizer.offset()),
 									Token::Operator(Operator::ArithmeticShlEquals),
 									LanguageStd::SYSTEM_VERILOG_STDS
 								)
 							} else {
 								versioned_token!(
 									self,
-									begin..self.tokenizer.offset(),
+									ThinSpan::new(begin, self.tokenizer.offset()),
 									Token::Operator(Operator::ArithmeticShl),
 									LanguageStd::Vl01,
 									LanguageStd::Vl05,
@@ -683,7 +667,7 @@ impl VerilogTokenizer {
 
 							versioned_token!(
 								self,
-								begin..self.tokenizer.offset(),
+								ThinSpan::new(begin, self.tokenizer.offset()),
 								Token::Operator(Operator::ShiftLeftEquals),
 								LanguageStd::SYSTEM_VERILOG_STDS
 							)
@@ -696,7 +680,7 @@ impl VerilogTokenizer {
 
 					versioned_token!(
 						self,
-						begin..self.tokenizer.offset(),
+						ThinSpan::new(begin, self.tokenizer.offset()),
 						Token::Operator(Operator::BranchContribution),
 						LanguageStd::VERILOG_AMS_STDS
 					)
@@ -709,7 +693,7 @@ impl VerilogTokenizer {
 
 						versioned_token!(
 							self,
-							begin..self.tokenizer.offset(),
+							ThinSpan::new(begin, self.tokenizer.offset()),
 							Token::Operator(Operator::Equivalence),
 							LanguageStd::Sv09,
 							LanguageStd::Sv12,
@@ -722,8 +706,7 @@ impl VerilogTokenizer {
 				},
 				_ => Token::Operator(Operator::GreaterThan),
 			},
-			begin..self.tokenizer.offset(),
-			context
+			Span::from_position(begin, self.tokenizer.offset(), context)
 		)
 	}
 
@@ -739,15 +722,14 @@ impl VerilogTokenizer {
 
 					versioned_token!(
 						self,
-						begin..self.tokenizer.offset(),
+						ThinSpan::new(begin, self.tokenizer.offset()),
 						Token::Operator(Operator::RemEquals),
 						LanguageStd::SYSTEM_VERILOG_STDS
 					)
 				},
 				_ => Token::Operator(Operator::Percent),
 			},
-			begin..self.tokenizer.offset(),
-			context
+			Span::from_position(begin, self.tokenizer.offset(), context)
 		);
 	}
 
@@ -763,7 +745,7 @@ impl VerilogTokenizer {
 
 					versioned_token!(
 						self,
-						begin..self.tokenizer.offset(),
+						ThinSpan::new(begin, self.tokenizer.offset()),
 						Token::Control(Control::AttributeClose),
 						LanguageStd::Vl01,
 						LanguageStd::Vl05,
@@ -776,7 +758,7 @@ impl VerilogTokenizer {
 
 					versioned_token!(
 						self,
-						begin..self.tokenizer.offset(),
+						ThinSpan::new(begin, self.tokenizer.offset()),
 						Token::Operator(Operator::Pow),
 						LanguageStd::Vl01,
 						LanguageStd::Vl05,
@@ -789,7 +771,7 @@ impl VerilogTokenizer {
 
 					versioned_token!(
 						self,
-						begin..self.tokenizer.offset(),
+						ThinSpan::new(begin, self.tokenizer.offset()),
 						Token::Operator(Operator::MulEquals),
 						LanguageStd::SYSTEM_VERILOG_STDS
 					)
@@ -810,7 +792,7 @@ impl VerilogTokenizer {
 
 							versioned_token!(
 								self,
-								begin..self.tokenizer.offset(),
+								ThinSpan::new(begin, self.tokenizer.offset()),
 								Token::Operator(Operator::WildcardExport),
 								LanguageStd::Sv09,
 								LanguageStd::Sv12,
@@ -820,20 +802,21 @@ impl VerilogTokenizer {
 						} else {
 							// There should be no cases in which `*::` is valid
 							Token::Invalid(Some(
-								self.tokenizer.subtendril(begin..self.tokenizer.offset()),
+								self.tokenizer
+									.subtendril(ThinSpan::new(begin, self.tokenizer.offset())),
 							))
 						}
 					} else {
 						// There should be no cases in which `*:` is valid
 						Token::Invalid(Some(
-							self.tokenizer.subtendril(begin..self.tokenizer.offset()),
+							self.tokenizer
+								.subtendril(ThinSpan::new(begin, self.tokenizer.offset())),
 						))
 					}
 				},
 				_ => Token::Operator(Operator::Asterisk),
 			},
-			begin..self.tokenizer.offset(),
-			context
+			Span::from_position(begin, self.tokenizer.offset(), context)
 		)
 	}
 
@@ -849,7 +832,7 @@ impl VerilogTokenizer {
 
 					versioned_token!(
 						self,
-						begin..self.tokenizer.offset(),
+						ThinSpan::new(begin, self.tokenizer.offset()),
 						Token::Operator(Operator::IndexedPartPos),
 						LanguageStd::Vl01,
 						LanguageStd::Vl05,
@@ -862,7 +845,7 @@ impl VerilogTokenizer {
 
 					versioned_token!(
 						self,
-						begin..self.tokenizer.offset(),
+						ThinSpan::new(begin, self.tokenizer.offset()),
 						Token::Operator(Operator::AddEquals),
 						LanguageStd::SYSTEM_VERILOG_STDS
 					)
@@ -872,7 +855,7 @@ impl VerilogTokenizer {
 
 					versioned_token!(
 						self,
-						begin..self.tokenizer.offset(),
+						ThinSpan::new(begin, self.tokenizer.offset()),
 						Token::Operator(Operator::Increment),
 						LanguageStd::SYSTEM_VERILOG_STDS
 					)
@@ -885,13 +868,14 @@ impl VerilogTokenizer {
 
 						versioned_token!(
 							self,
-							begin..self.tokenizer.offset(),
+							ThinSpan::new(begin, self.tokenizer.offset()),
 							Token::Operator(Operator::AbsTolerance),
 							LanguageStd::Sv23
 						)
 					} else {
 						Token::Invalid(Some(
-							self.tokenizer.subtendril(begin..self.tokenizer.offset()),
+							self.tokenizer
+								.subtendril(ThinSpan::new(begin, self.tokenizer.offset())),
 						))
 					}
 				},
@@ -903,20 +887,20 @@ impl VerilogTokenizer {
 
 						versioned_token!(
 							self,
-							begin..self.tokenizer.offset(),
+							ThinSpan::new(begin, self.tokenizer.offset()),
 							Token::Operator(Operator::RelTolerance),
 							LanguageStd::Sv23
 						)
 					} else {
 						Token::Invalid(Some(
-							self.tokenizer.subtendril(begin..self.tokenizer.offset()),
+							self.tokenizer
+								.subtendril(ThinSpan::new(begin, self.tokenizer.offset())),
 						))
 					}
 				},
 				_ => Token::Operator(Operator::Plus),
 			},
-			begin..self.tokenizer.offset(),
-			context
+			Span::from_position(begin, self.tokenizer.offset(), context)
 		)
 	}
 
@@ -935,7 +919,7 @@ impl VerilogTokenizer {
 
 						versioned_token!(
 							self,
-							begin..self.tokenizer.offset(),
+							ThinSpan::new(begin, self.tokenizer.offset()),
 							Token::Operator(Operator::EventTriggerNb),
 							LanguageStd::SYSTEM_VERILOG_STDS
 						)
@@ -948,7 +932,7 @@ impl VerilogTokenizer {
 
 					versioned_token!(
 						self,
-						begin..self.tokenizer.offset(),
+						ThinSpan::new(begin, self.tokenizer.offset()),
 						Token::Operator(Operator::IndexedPartNeg),
 						LanguageStd::Vl01,
 						LanguageStd::Vl05,
@@ -961,7 +945,7 @@ impl VerilogTokenizer {
 
 					versioned_token!(
 						self,
-						begin..self.tokenizer.offset(),
+						ThinSpan::new(begin, self.tokenizer.offset()),
 						Token::Operator(Operator::SubEquals),
 						LanguageStd::SYSTEM_VERILOG_STDS
 					)
@@ -971,15 +955,14 @@ impl VerilogTokenizer {
 
 					versioned_token!(
 						self,
-						begin..self.tokenizer.offset(),
+						ThinSpan::new(begin, self.tokenizer.offset()),
 						Token::Operator(Operator::Decrement),
 						LanguageStd::SYSTEM_VERILOG_STDS
 					)
 				},
 				_ => Token::Operator(Operator::Minus),
 			},
-			begin..self.tokenizer.offset(),
-			context
+			Span::from_position(begin, self.tokenizer.offset(), context)
 		)
 	}
 
@@ -997,22 +980,20 @@ impl VerilogTokenizer {
 		} else if self.tokenizer.current_byte() == b'=' {
 			self.tokenizer.next_char();
 
-			let token_range = begin..self.tokenizer.offset();
+			let token_span = ThinSpan::new(begin, self.tokenizer.offset());
 			self.token = spanned_token!(
 				versioned_token!(
 					self,
-					token_range.clone(),
+					token_span,
 					Token::Operator(Operator::DivEquals),
 					LanguageStd::SYSTEM_VERILOG_STDS
 				),
-				token_range,
-				context
+				token_span.as_span(Some(context))
 			);
 		} else {
 			self.token = spanned_token!(
 				Token::Operator(Operator::Solidus),
-				begin..self.tokenizer.offset(),
-				context
+				Span::from_position(begin, self.tokenizer.offset(), context)
 			);
 		}
 	}
@@ -1029,8 +1010,7 @@ impl VerilogTokenizer {
 			// context of `define compiler directives
 			self.token = spanned_token!(
 				Token::Control(Control::ReverseSolidus),
-				begin..self.tokenizer.offset(),
-				context
+				Span::from_position(begin, self.tokenizer.offset(), context)
 			);
 		} else {
 			// Scan through till we get something that's not ASCII printable
@@ -1042,7 +1022,7 @@ impl VerilogTokenizer {
 				Token::Identifier(Identifier::Escaped(
 					// The leading `\` is not considered part of the identifier
 					self.tokenizer
-						.subtendril((begin + 1)..self.tokenizer.offset())
+						.subtendril(ThinSpan::new(begin + 1, self.tokenizer.offset()))
 				)),
 				begin..self.tokenizer.offset(),
 				context
@@ -1083,22 +1063,16 @@ impl VerilogTokenizer {
 			}
 		}
 
-		let token_range = begin..self.tokenizer.offset();
+		let token_span = ThinSpan::new(begin, self.tokenizer.offset());
 		if invalid_comment {
 			self.token = spanned_token!(
-				Token::Comment(Comment::Invalid(
-					self.tokenizer.subtendril(token_range.clone())
-				)),
-				token_range,
-				context
+				Token::Comment(Comment::Invalid(self.tokenizer.subtendril(token_span))),
+				token_span.as_span(Some(context))
 			);
 		} else {
 			self.token = spanned_token!(
-				Token::Comment(Comment::MultiLine(
-					self.tokenizer.subtendril(token_range.clone())
-				)),
-				token_range,
-				context
+				Token::Comment(Comment::MultiLine(self.tokenizer.subtendril(token_span))),
+				token_span.as_span(Some(context))
 			);
 		}
 	}
@@ -1112,10 +1086,9 @@ impl VerilogTokenizer {
 		self.token = spanned_token!(
 			Token::Comment(Comment::SingleLine(
 				self.tokenizer
-					.subtendril((begin + 2)..self.tokenizer.offset()),
+					.subtendril(ThinSpan::new(begin + 2, self.tokenizer.offset())),
 			)),
-			begin..self.tokenizer.offset(),
-			context
+			Span::from_position(begin, self.tokenizer.offset(), context)
 		);
 	}
 
@@ -1126,11 +1099,10 @@ impl VerilogTokenizer {
 
 		// Check to make sure the character right after the ` is valid
 		if !matches!(self.tokenizer.current_byte(), b'a'..=b'z' | b'A'..=b'Z' | b'_') {
-			let token_range = begin..self.tokenizer.offset();
+			let token_span = ThinSpan::new(begin, self.tokenizer.offset());
 			self.token = spanned_token!(
-				Token::Invalid(Some(self.tokenizer.subtendril(token_range.clone()))),
-				token_range,
-				context
+				Token::Invalid(Some(self.tokenizer.subtendril(token_span))),
+				token_span.as_span(Some(context))
 			);
 
 			return;
@@ -1146,17 +1118,16 @@ impl VerilogTokenizer {
 			self.tokenizer.next_char();
 		}
 
-		let ident_range = begin + 1..self.tokenizer.offset();
+		let ident_span = ThinSpan::new(begin + 1, self.tokenizer.offset());
 		// We've already validated via the above read, that the entire token is valid UTF-8.
 		// Just make it a string.
-		let ident = unsafe { str::from_utf8_unchecked(&self.tokenizer[ident_range.clone()]) };
+		let ident = unsafe { str::from_utf8_unchecked(&self.tokenizer[ident_span]) };
 
 		self.token =
 			if let Some(directive) = directives::get_builtin_directive(ident, self.standard) {
 				spanned_token!(
 					Token::CompilerDirective(CompilerDirective::Builtin(directive)),
-					begin..self.tokenizer.offset(),
-					context
+					Span::from_position(begin, self.tokenizer.offset(), context)
 				)
 			} else {
 				spanned_token!(
@@ -1166,11 +1137,10 @@ impl VerilogTokenizer {
 						{
 							TextMacro::Builtin(text_macro)
 						} else {
-							TextMacro::Other(self.tokenizer.subtendril(ident_range))
+							TextMacro::Other(self.tokenizer.subtendril(ident_span))
 						}
 					)),
-					begin..self.tokenizer.offset(),
-					context
+					Span::from_position(begin, self.tokenizer.offset(), context)
 				)
 			};
 	}
@@ -1211,27 +1181,26 @@ impl VerilogTokenizer {
 		}
 		let quote_end = self.tokenizer.offset();
 
-		let quote_range = quote_begin..quote_end;
-		let str_range = str_begin..str_end;
+		let quote_span = ThinSpan::new(quote_begin, quote_end);
+		let str_span = ThinSpan::new(str_begin, str_end);
 		self.token = spanned_token!(
 			if triple_quote {
 				if LanguageStd::Sv23.contains(self.standard) {
 					Token::TripleQuotedString(TripleQuotedString::new(
-						self.tokenizer.subtendril(str_range),
+						self.tokenizer.subtendril(str_span),
 					))
 				} else {
 					Token::ContextuallyInvalid(
-						self.tokenizer.subtendril(quote_range.clone()),
+						self.tokenizer.subtendril(quote_span),
 						LanguageStd::Sv23,
 					)
 				}
 			} else {
 				Token::SingleQuotedString(SingleQuotedString::new(
-					self.tokenizer.subtendril(str_range),
+					self.tokenizer.subtendril(str_span),
 				))
 			},
-			quote_range,
-			context
+			quote_span.as_span(Some(context))
 		)
 	}
 
@@ -1247,16 +1216,15 @@ impl VerilogTokenizer {
 		) {
 			self.read_number_token(true);
 		} else {
-			let token_range = begin..self.tokenizer.offset();
+			let token_span = ThinSpan::new(begin, self.tokenizer.offset());
 			self.token = spanned_token!(
 				versioned_token!(
 					self,
-					token_range.clone(),
+					token_span,
 					Token::Control(Control::Apostrophe),
 					LanguageStd::SYSTEM_VERILOG_STDS
 				),
-				token_range,
-				context
+				token_span.as_span(Some(context))
 			);
 		}
 	}
@@ -1281,11 +1249,10 @@ impl VerilogTokenizer {
 			}
 
 			// Stuff the unsigned number token onto the token stack
-			let token_range = begin..self.tokenizer.offset();
+			let token_span = ThinSpan::new(begin, self.tokenizer.offset());
 			self.token_stream.push_back(spanned_token!(
-				Token::UnsignedNumber(self.tokenizer.subtendril(token_range.clone())),
-				token_range,
-				context
+				Token::UnsignedNumber(self.tokenizer.subtendril(token_span)),
+				token_span.as_span(Some(context))
 			));
 		}
 
@@ -1329,14 +1296,13 @@ impl VerilogTokenizer {
 
 			// If we are in Verilog 95, we don't have support for signed base specifiers
 			if self.standard == LanguageStd::Vl95 {
-				let token_range = (begin + 1)..self.tokenizer.offset();
+				let token_span = ThinSpan::new(begin + 1, self.tokenizer.offset());
 				self.token_stream.push_back(spanned_token!(
 					Token::ContextuallyInvalid(
-						self.tokenizer.subtendril(token_range.clone()),
+						self.tokenizer.subtendril(token_span),
 						LanguageStd::all_flags() & !LanguageStd::Vl95
 					),
-					token_range,
-					context
+					token_span.as_span(Some(context))
 				));
 				false
 			} else {
@@ -1378,11 +1344,10 @@ impl VerilogTokenizer {
 				signed,
 			),
 			_ => {
-				let token_range = begin..self.tokenizer.offset();
+				let token_span = ThinSpan::new(begin, self.tokenizer.offset());
 				self.token_stream.push_back(spanned_token!(
-					Token::Invalid(Some(self.tokenizer.subtendril(token_range.clone()))),
-					token_range,
-					context
+					Token::Invalid(Some(self.tokenizer.subtendril(token_span))),
+					token_span.as_span(Some(context))
 				));
 			},
 		};
@@ -1420,11 +1385,10 @@ impl VerilogTokenizer {
 			if !self.tokenizer.current_byte().is_ascii_digit() &&
 				!matches!(self.tokenizer.current_byte(), b'+' | b'-')
 			{
-				let token_range = begin..self.tokenizer.offset();
+				let token_span = ThinSpan::new(begin, self.tokenizer.offset());
 				self.token = spanned_token!(
-					Token::Invalid(Some(self.tokenizer.subtendril(token_range.clone()))),
-					token_range,
-					context
+					Token::Invalid(Some(self.tokenizer.subtendril(token_span))),
+					token_span.as_span(Some(context))
 				);
 
 				return;
@@ -1443,8 +1407,9 @@ impl VerilogTokenizer {
 		// SAFETY:
 		// If we got to this point, then we have already ensured the contents are
 		// ASCII, which is a valid UTF-8 subset
-		let value =
-			unsafe { str::from_utf8_unchecked(&self.tokenizer[begin..self.tokenizer.offset()]) };
+		let value = unsafe {
+			str::from_utf8_unchecked(&self.tokenizer[ThinSpan::new(begin, self.tokenizer.offset())])
+		};
 
 		// TODO(aki):
 		// We should likely /also/ store the subtendril with the float in it so we can apply
@@ -1455,14 +1420,13 @@ impl VerilogTokenizer {
 		let reformated = value.chars().filter(|c| *c != '_').collect::<String>();
 
 		// If we got a valid f64, then we use that, otherwise emit an invalid token
-		let token_range = begin..self.tokenizer.offset();
+		let token_span = ThinSpan::new(begin, self.tokenizer.offset());
 		self.token = if let Ok(value) = reformated.parse() {
-			spanned_token!(Token::Real(value), token_range, context)
+			spanned_token!(Token::Real(value), token_span.as_span(Some(context)))
 		} else {
 			spanned_token!(
 				Token::Invalid(Some(value.as_bytes().into())),
-				token_range,
-				context
+				token_span.as_span(Some(context))
 			)
 		}
 	}
@@ -1478,8 +1442,7 @@ impl VerilogTokenizer {
 		let uppercase = self.tokenizer.next_char().is_ascii_uppercase();
 		self.token_stream.push_back(spanned_token!(
 			Token::BasedLiteralSpecifier(BasedLiteralSpecifier::new(specifier, uppercase, signed)),
-			begin..self.tokenizer.offset(),
-			context
+			Span::from_position(begin, self.tokenizer.offset(), context)
 		));
 		// Deal with any whitespace that comes after the base specifier
 		if self.current_is_whitespace() {
@@ -1510,11 +1473,10 @@ impl VerilogTokenizer {
 			// have [xz?] as the first digit, followed by `_` exclusively if it's not
 			// a base-10 digit, so this should be turned into a Token::ContextuallyInvalid
 			// in the case we hit one of those and are in Verilog 95.
-			let token_range = begin..self.tokenizer.offset();
+			let token_span = ThinSpan::new(begin, self.tokenizer.offset());
 			self.token_stream.push_back(spanned_token!(
-				Token::Invalid(Some(self.tokenizer.subtendril(token_range.clone()))),
-				token_range,
-				context
+				Token::Invalid(Some(self.tokenizer.subtendril(token_span))),
+				token_span.as_span(Some(context))
 			));
 		} else {
 			// Run the filter to the end consuming all the digits we can
@@ -1545,26 +1507,24 @@ impl VerilogTokenizer {
 					}
 				}
 
-				let token_range = begin..self.tokenizer.offset();
+				let token_span = ThinSpan::new(begin, self.tokenizer.offset());
 				self.token_stream.push_back(spanned_token!(
-					Token::Invalid(Some(self.tokenizer.subtendril(token_range.clone()))),
-					token_range,
-					context
+					Token::Invalid(Some(self.tokenizer.subtendril(token_span))),
+					token_span.as_span(Some(context))
 				));
 			} else {
 				// Turn the consumed number into a Number token
-				let token_range = begin..self.tokenizer.offset();
+				let token_span = ThinSpan::new(begin, self.tokenizer.offset());
 				self.token_stream.push_back(spanned_token!(
-					Token::Number(self.tokenizer.subtendril(token_range.clone())),
-					token_range,
-					context
+					Token::Number(self.tokenizer.subtendril(token_span)),
+					token_span.as_span(Some(context))
 				));
 			}
 		}
 	}
 
 	#[inline(always)]
-	fn read_normal_ident(&mut self) -> Range<u32> {
+	fn read_normal_ident(&mut self) -> ThinSpan {
 		let begin = self.tokenizer.offset();
 		// Scan through till we get something that's not a-zA-Z0-9_$
 		while self.tokenizer.current_byte().is_ascii_alphanumeric() ||
@@ -1574,7 +1534,7 @@ impl VerilogTokenizer {
 			self.tokenizer.next_char();
 		}
 		// Return the range consumed
-		begin..self.tokenizer.offset()
+		ThinSpan::new(begin, self.tokenizer.offset())
 	}
 
 	#[inline(always)]
