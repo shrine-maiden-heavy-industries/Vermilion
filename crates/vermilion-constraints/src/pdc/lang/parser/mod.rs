@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: BSD-3-Clause
 
 use vermilion_lang::AtomicByteTendril;
-use vermilion_loc::{Position, Spanned};
+use vermilion_loc::Spanned;
 
 use crate::{
 	LanguageStd,
@@ -11,7 +11,7 @@ use crate::{
 pub struct PdcParser {
 	_std:           LanguageStd,
 	_tokenizer:     PdcTokenizer,
-	_current_token: Option<Spanned<Token, Position>>,
+	_current_token: Option<Spanned<Token>>,
 }
 
 impl PdcParser {
