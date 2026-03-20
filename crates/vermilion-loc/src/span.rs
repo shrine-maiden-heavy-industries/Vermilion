@@ -509,8 +509,16 @@ impl Add for ThinSpan {
 	#[inline(always)]
 	fn add(self, rhs: Self) -> Self::Output {
 		Self {
-			begin: self.begin + rhs.begin,
-			end:   self.end + rhs.end,
+			begin: if self.begin < rhs.begin {
+				self.begin
+			} else {
+				rhs.begin
+			},
+			end:   if self.end > rhs.end {
+				self.end
+			} else {
+				rhs.end
+			},
 		}
 	}
 }
@@ -533,8 +541,13 @@ where
 impl AddAssign for ThinSpan {
 	#[inline(always)]
 	fn add_assign(&mut self, rhs: Self) {
-		self.begin += rhs.begin;
-		self.end += rhs.end;
+		if self.begin > rhs.begin {
+			self.begin = rhs.begin;
+		}
+
+		if self.end < rhs.end {
+			self.end = rhs.end;
+		}
 	}
 }
 
@@ -554,8 +567,16 @@ impl Sub for ThinSpan {
 	#[inline(always)]
 	fn sub(self, rhs: Self) -> Self::Output {
 		Self {
-			begin: self.begin - rhs.begin,
-			end:   self.end - rhs.end,
+			begin: if rhs.begin < self.end {
+				rhs.begin
+			} else {
+				0
+			},
+			end:   if self.end < rhs.end {
+				self.end
+			} else {
+				0
+			},
 		}
 	}
 }
@@ -569,8 +590,8 @@ where
 	#[inline(always)]
 	fn sub(self, rhs: T) -> Self::Output {
 		Self {
-			begin: self.begin,
-			end:   self.end - <T as std::convert::Into<u32>>::into(rhs),
+			begin: self.begin - <T as std::convert::Into<u32>>::into(rhs),
+			end:   self.end,
 		}
 	}
 }
@@ -578,8 +599,17 @@ where
 impl SubAssign for ThinSpan {
 	#[inline(always)]
 	fn sub_assign(&mut self, rhs: Self) {
-		self.begin -= rhs.begin;
-		self.end -= rhs.end;
+		self.begin = if rhs.begin < self.end {
+			rhs.begin
+		} else {
+			0
+		};
+
+		self.end = if self.end < rhs.end {
+			self.end
+		} else {
+			0
+		};
 	}
 }
 
@@ -589,7 +619,7 @@ where
 {
 	#[inline(always)]
 	fn sub_assign(&mut self, rhs: T) {
-		self.end -= <T as std::convert::Into<u32>>::into(rhs);
+		self.begin -= <T as std::convert::Into<u32>>::into(rhs);
 	}
 }
 
@@ -1261,10 +1291,26 @@ impl Add for Span {
 	#[inline(always)]
 	fn add(self, rhs: Self) -> Self::Output {
 		Self {
-			begin:     self.begin + rhs.begin,
-			end:       self.end + rhs.end,
-			line:      self.line + rhs.line,
-			character: self.character + rhs.character,
+			begin:     if self.begin < rhs.begin {
+				self.begin
+			} else {
+				rhs.begin
+			},
+			end:       if self.end > rhs.end {
+				self.end
+			} else {
+				rhs.end
+			},
+			line:      if self.line < rhs.line {
+				self.line
+			} else {
+				rhs.line
+			},
+			character: if self.character > rhs.character {
+				self.character
+			} else {
+				rhs.character
+			},
 		}
 	}
 }
@@ -1289,10 +1335,21 @@ where
 impl AddAssign for Span {
 	#[inline(always)]
 	fn add_assign(&mut self, rhs: Self) {
-		self.begin += rhs.begin;
-		self.end += rhs.end;
-		self.line += rhs.line;
-		self.character += rhs.character;
+		if self.begin > rhs.begin {
+			self.begin = rhs.begin;
+		}
+
+		if self.end < rhs.end {
+			self.end = rhs.end;
+		}
+
+		if self.line > rhs.line {
+			self.line = rhs.line;
+		}
+
+		if self.character < rhs.character {
+			self.character = rhs.character;
+		}
 	}
 }
 
@@ -1312,10 +1369,27 @@ impl Sub for Span {
 	#[inline(always)]
 	fn sub(self, rhs: Self) -> Self::Output {
 		Self {
-			begin:     self.begin - rhs.begin,
-			end:       self.end - rhs.end,
-			line:      self.line - rhs.line,
-			character: self.character - rhs.character,
+			begin: if rhs.begin < self.end {
+				rhs.begin
+			} else {
+				0
+			},
+			end:   if self.end < rhs.end {
+				self.end
+			} else {
+				0
+			},
+
+			line:      if rhs.begin < self.end {
+				rhs.line
+			} else {
+				0
+			},
+			character: if self.end < rhs.end {
+				self.character
+			} else {
+				0
+			},
 		}
 	}
 }
@@ -1329,8 +1403,8 @@ where
 	#[inline(always)]
 	fn sub(self, rhs: T) -> Self::Output {
 		Self {
-			begin:     self.begin,
-			end:       self.end - <T as std::convert::Into<u32>>::into(rhs),
+			begin:     self.begin - <T as std::convert::Into<u32>>::into(rhs),
+			end:       self.end,
 			line:      self.line,
 			character: self.character,
 		}
@@ -1340,10 +1414,20 @@ where
 impl SubAssign for Span {
 	#[inline(always)]
 	fn sub_assign(&mut self, rhs: Self) {
-		self.begin -= rhs.begin;
-		self.end -= rhs.end;
-		self.line -= rhs.line;
-		self.character -= rhs.character;
+		if rhs.begin < self.end {
+			self.begin = rhs.begin;
+			self.line = rhs.line;
+		} else {
+			self.begin = 0;
+			self.line = 0;
+		}
+
+		if self.end < rhs.end {
+			self.character = 0
+		} else {
+			self.end = 0;
+			self.character = rhs.character;
+		}
 	}
 }
 
@@ -1353,7 +1437,7 @@ where
 {
 	#[inline(always)]
 	fn sub_assign(&mut self, rhs: T) {
-		self.end -= <T as std::convert::Into<u32>>::into(rhs);
+		self.begin -= <T as std::convert::Into<u32>>::into(rhs);
 	}
 }
 
