@@ -4,7 +4,7 @@ use std::collections::VecDeque;
 
 use eyre::eyre;
 use vermilion_lang::{AtomicByteTendril, tokenizer::CoreTokenizer};
-use vermilion_loc::{Position, Spanned};
+use vermilion_loc::Spanned;
 
 use crate::{LanguageStd, sdc::lang::tokenizer::token::Token};
 
@@ -13,8 +13,8 @@ pub mod token;
 pub struct SdcTokenizer {
 	_standard:    LanguageStd,
 	tokenizer:    CoreTokenizer,
-	token:        Spanned<Token, Position>,
-	token_stream: VecDeque<Spanned<Token, Position>>,
+	token:        Spanned<Token>,
+	token_stream: VecDeque<Spanned<Token>>,
 }
 
 impl SdcTokenizer {
@@ -79,7 +79,7 @@ impl SdcTokenizer {
 }
 
 impl Iterator for SdcTokenizer {
-	type Item = Spanned<Token, Position>;
+	type Item = Spanned<Token>;
 
 	fn next(&mut self) -> Option<Self::Item> {
 		// If we hit the end of the file, we've nothing more to give
