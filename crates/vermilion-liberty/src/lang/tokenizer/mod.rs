@@ -3,7 +3,7 @@
 use std::collections::VecDeque;
 
 use eyre::eyre;
-use vermilion_lang::{AtomicByteTendril, tokenizer::CoreTokenizer};
+use vermilion_lang::{AtomicByteTendril, spanned_token, tokenizer::CoreTokenizer};
 use vermilion_loc::Spanned;
 
 use crate::{LanguageStd, lang::tokenizer::token::Token};
@@ -27,7 +27,7 @@ impl LibertyTokenizer {
 		Ok(Self {
 			_standard:    standard,
 			tokenizer:    CoreTokenizer::new(file),
-			token:        Spanned::new(Token::default(), None),
+			token:        spanned_token!(Token::default()),
 			token_stream: VecDeque::new(),
 		})
 	}
