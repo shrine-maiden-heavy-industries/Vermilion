@@ -1612,6 +1612,12 @@ impl<T> ThinSpanned<T> {
 	}
 }
 
+// SAFETY:
+// As `ThinSpan` is `Sync + Send`, so as long as `T` is /also/
+// `Sync`/`Send` then `ThinSpanned<T>` should also be safe to be so.
+unsafe impl<T> Sync for ThinSpanned<T> where T: Sync {}
+unsafe impl<T> Send for ThinSpanned<T> where T: Send {}
+
 impl<T> Clone for ThinSpanned<T>
 where
 	T: Clone,
@@ -1767,6 +1773,12 @@ impl<T> Spanned<T> {
 		ThinSpanned::new(self.inner, self.span.as_thin())
 	}
 }
+
+// SAFETY:
+// As `Span` is `Sync + Send`, so as long as `T` is /also/
+// `Sync`/`Send` then `Spanned<T>` should also be safe to be so.
+unsafe impl<T> Sync for Spanned<T> where T: Sync {}
+unsafe impl<T> Send for Spanned<T> where T: Send {}
 
 impl<T> Clone for Spanned<T>
 where
