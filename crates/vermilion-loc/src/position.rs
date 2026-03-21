@@ -70,6 +70,12 @@ impl Position {
 	}
 }
 
+// SAFETY:
+// Due to `Position` being composed of primitives we /should/ automatically get
+// `Sync` and `Send`, but just in case be explicit about it.
+unsafe impl Sync for Position {}
+unsafe impl Send for Position {}
+
 impl<T, U> From<(T, U)> for Position
 where
 	T: Into<u32>,
