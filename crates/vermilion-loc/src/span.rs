@@ -442,6 +442,12 @@ impl ThinSpan {
 	}
 }
 
+// SAFETY:
+// Due to `ThinSpan` being composed of primitives we /should/ automatically get
+// `Sync` and `Send`, but just in case be explicit about it.
+unsafe impl Sync for ThinSpan {}
+unsafe impl Send for ThinSpan {}
+
 impl<T, U> From<(T, U)> for ThinSpan
 where
 	T: Into<u32> + Copy,
@@ -1161,6 +1167,12 @@ impl Span {
 		Spanned::new(inner, *self)
 	}
 }
+
+// SAFETY:
+// Due to `Span` being composed of primitives we /should/ automatically get
+// `Sync` and `Send`, but just in case be explicit about it.
+unsafe impl Sync for Span {}
+unsafe impl Send for Span {}
 
 impl<T, U> From<(T, U)> for Span
 where
