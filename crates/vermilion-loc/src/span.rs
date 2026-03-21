@@ -67,22 +67,14 @@ pub struct Span {
 
 /// Wraps the given type `T`, attaching an optional [`ThinSpan`] to it for
 /// keeping track of location information
-#[derive(Clone)]
-pub struct ThinSpanned<T>
-where
-	T: Clone,
-{
+pub struct ThinSpanned<T> {
 	inner: T,
 	span:  ThinSpan,
 }
 
 /// Wraps the given type `T`, attaching an optional [`Span`] to it for
 /// keeping track of location information
-#[derive(Clone)]
-pub struct Spanned<T>
-where
-	T: Clone,
-{
+pub struct Spanned<T> {
 	inner: T,
 	span:  Span,
 }
@@ -418,10 +410,7 @@ impl ThinSpan {
 	/// Convert this [`ThinSpan`] into a [`ThinSpanned<T>`] using the given
 	/// other T, attaching this span to it.
 	#[inline(always)]
-	pub const fn as_thin_spanned<T>(self, inner: T) -> ThinSpanned<T>
-	where
-		T: Clone,
-	{
+	pub const fn as_thin_spanned<T>(self, inner: T) -> ThinSpanned<T> {
 		ThinSpanned::new(inner, self)
 	}
 
@@ -430,10 +419,7 @@ impl ThinSpan {
 	///
 	/// Unlike [`ThinSpan::as_thin_spanned`], this does not consume the [`ThinSpan`]
 	#[inline(always)]
-	pub const fn get_thin_spanned<T>(&self, inner: T) -> ThinSpanned<T>
-	where
-		T: Clone,
-	{
+	pub const fn get_thin_spanned<T>(&self, inner: T) -> ThinSpanned<T> {
 		ThinSpanned::new(inner, *self)
 	}
 
@@ -441,10 +427,7 @@ impl ThinSpan {
 	/// other T, first converting this [`ThinSpan`] into a [`Span`] with
 	/// [`ThinSpan::as_span`] then attaching to it.
 	#[inline(always)]
-	pub const fn as_spanned<T>(self, inner: T) -> Spanned<T>
-	where
-		T: Clone,
-	{
+	pub const fn as_spanned<T>(self, inner: T) -> Spanned<T> {
 		Spanned::new(inner, self.as_span(None))
 	}
 
@@ -454,10 +437,7 @@ impl ThinSpan {
 	///
 	/// Unlike [`ThinSpan::as_spanned`], this does not consume the [`ThinSpan`]
 	#[inline(always)]
-	pub const fn get_spanned<T>(&self, inner: T) -> Spanned<T>
-	where
-		T: Clone,
-	{
+	pub const fn get_spanned<T>(&self, inner: T) -> Spanned<T> {
 		Spanned::new(inner, self.get_span(None))
 	}
 }
@@ -1151,10 +1131,7 @@ impl Span {
 	/// other T, by first converting this [`Span`] to a [`ThinSpanned`] with
 	/// [`Span::as_thin`] then attaching to it.
 	#[inline(always)]
-	pub const fn as_thin_spanned<T>(self, inner: T) -> ThinSpanned<T>
-	where
-		T: Clone,
-	{
+	pub const fn as_thin_spanned<T>(self, inner: T) -> ThinSpanned<T> {
 		ThinSpanned::new(inner, self.as_thin())
 	}
 
@@ -1164,20 +1141,14 @@ impl Span {
 	///
 	/// Unlike [`Span::as_thin_spanned`] this does not consume the [`Span`]
 	#[inline(always)]
-	pub const fn get_thin_spanned<T>(&self, inner: T) -> ThinSpanned<T>
-	where
-		T: Clone,
-	{
+	pub const fn get_thin_spanned<T>(&self, inner: T) -> ThinSpanned<T> {
 		ThinSpanned::new(inner, self.get_thin())
 	}
 
 	/// Convert this [`Span`] into a [`Spanned<T>`] using the given
 	/// other T.
 	#[inline(always)]
-	pub const fn as_spanned<T>(self, inner: T) -> Spanned<T>
-	where
-		T: Clone,
-	{
+	pub const fn as_spanned<T>(self, inner: T) -> Spanned<T> {
 		Spanned::new(inner, self)
 	}
 
@@ -1186,10 +1157,7 @@ impl Span {
 	///
 	/// Unlike [`Span::as_spanned`] this does not consume the [`Span`]
 	#[inline(always)]
-	pub const fn get_spanned<T>(&self, inner: T) -> Spanned<T>
-	where
-		T: Clone,
-	{
+	pub const fn get_spanned<T>(&self, inner: T) -> Spanned<T> {
 		Spanned::new(inner, *self)
 	}
 }
@@ -1585,10 +1553,7 @@ impl Hash for Span {
 	}
 }
 
-impl<T> ThinSpanned<T>
-where
-	T: Clone,
-{
+impl<T> ThinSpanned<T> {
 	#[inline(always)]
 	pub const fn new(inner: T, span: ThinSpan) -> Self {
 		Self { inner, span }
@@ -1635,20 +1600,25 @@ where
 	}
 }
 
-impl<T> From<(T, ThinSpan)> for ThinSpanned<T>
+impl<T> Clone for ThinSpanned<T>
 where
 	T: Clone,
 {
+	fn clone(&self) -> Self {
+		Self { inner: self.inner.clone(), span: self.span }
+	}
+}
+
+impl<T> Copy for ThinSpanned<T> where T: Copy {}
+
+impl<T> From<(T, ThinSpan)> for ThinSpanned<T> {
 	#[inline(always)]
 	fn from(value: (T, ThinSpan)) -> Self {
 		Self::new(value.0, value.1)
 	}
 }
 
-impl<T> Deref for ThinSpanned<T>
-where
-	T: Clone,
-{
+impl<T> Deref for ThinSpanned<T> {
 	type Target = T;
 
 	#[inline(always)]
@@ -1657,10 +1627,7 @@ where
 	}
 }
 
-impl<T> DerefMut for ThinSpanned<T>
-where
-	T: Clone,
-{
+impl<T> DerefMut for ThinSpanned<T> {
 	#[inline(always)]
 	fn deref_mut(&mut self) -> &mut Self::Target {
 		&mut self.inner
@@ -1669,7 +1636,7 @@ where
 
 impl<T> PartialEq for ThinSpanned<T>
 where
-	T: Clone + PartialEq,
+	T: PartialEq,
 {
 	#[inline(always)]
 	fn eq(&self, other: &Self) -> bool {
@@ -1677,11 +1644,11 @@ where
 	}
 }
 
-impl<T> Eq for ThinSpanned<T> where T: Clone + Eq {}
+impl<T> Eq for ThinSpanned<T> where T: Eq {}
 
 impl<T> PartialOrd for ThinSpanned<T>
 where
-	T: Clone + PartialOrd,
+	T: PartialOrd,
 {
 	#[inline(always)]
 	fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
@@ -1691,7 +1658,7 @@ where
 
 impl<T> Ord for ThinSpanned<T>
 where
-	T: Clone + Ord,
+	T: Ord,
 {
 	#[inline(always)]
 	fn cmp(&self, other: &Self) -> std::cmp::Ordering {
@@ -1701,7 +1668,7 @@ where
 
 impl<T> Hash for ThinSpanned<T>
 where
-	T: Clone + Hash,
+	T: Hash,
 {
 	fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
 		self.inner.hash(state);
@@ -1711,17 +1678,14 @@ where
 
 impl<T> Display for ThinSpanned<T>
 where
-	T: Clone + Display,
+	T: Display,
 {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
 		write!(f, "{} @ {}", self.inner, self.span)
 	}
 }
 
-impl<T> RangeBounds<u32> for ThinSpanned<T>
-where
-	T: Clone,
-{
+impl<T> RangeBounds<u32> for ThinSpanned<T> {
 	#[inline(always)]
 	fn start_bound(&self) -> std::ops::Bound<&u32> {
 		self.span.start_bound()
@@ -1735,7 +1699,7 @@ where
 
 impl<T> Debug for ThinSpanned<T>
 where
-	T: Clone + Debug,
+	T: Debug,
 {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
 		f.debug_struct("ThinSpanned")
@@ -1745,10 +1709,7 @@ where
 	}
 }
 
-impl<T> Spanned<T>
-where
-	T: Clone,
-{
+impl<T> Spanned<T> {
 	#[inline(always)]
 	pub const fn new(inner: T, span: Span) -> Self {
 		Self { inner, span }
@@ -1795,20 +1756,25 @@ where
 	}
 }
 
-impl<T> From<(T, Span)> for Spanned<T>
+impl<T> Clone for Spanned<T>
 where
 	T: Clone,
 {
+	fn clone(&self) -> Self {
+		Self { inner: self.inner.clone(), span: self.span }
+	}
+}
+
+impl<T> Copy for Spanned<T> where T: Copy {}
+
+impl<T> From<(T, Span)> for Spanned<T> {
 	#[inline(always)]
 	fn from(value: (T, Span)) -> Self {
 		Self::new(value.0, value.1)
 	}
 }
 
-impl<T> Deref for Spanned<T>
-where
-	T: Clone,
-{
+impl<T> Deref for Spanned<T> {
 	type Target = T;
 
 	#[inline(always)]
@@ -1817,10 +1783,7 @@ where
 	}
 }
 
-impl<T> DerefMut for Spanned<T>
-where
-	T: Clone,
-{
+impl<T> DerefMut for Spanned<T> {
 	#[inline(always)]
 	fn deref_mut(&mut self) -> &mut Self::Target {
 		&mut self.inner
@@ -1829,7 +1792,7 @@ where
 
 impl<T> PartialEq for Spanned<T>
 where
-	T: Clone + PartialEq,
+	T: PartialEq,
 {
 	#[inline(always)]
 	fn eq(&self, other: &Self) -> bool {
@@ -1837,11 +1800,11 @@ where
 	}
 }
 
-impl<T> Eq for Spanned<T> where T: Clone + Eq {}
+impl<T> Eq for Spanned<T> where T: Eq {}
 
 impl<T> PartialOrd for Spanned<T>
 where
-	T: Clone + PartialOrd,
+	T: PartialOrd,
 {
 	#[inline(always)]
 	fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
@@ -1851,7 +1814,7 @@ where
 
 impl<T> Ord for Spanned<T>
 where
-	T: Clone + Ord,
+	T: Ord,
 {
 	#[inline(always)]
 	fn cmp(&self, other: &Self) -> std::cmp::Ordering {
@@ -1861,7 +1824,7 @@ where
 
 impl<T> Display for Spanned<T>
 where
-	T: Clone + Display,
+	T: Display,
 {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
 		write!(f, "{} @ {}", self.inner, self.span)
@@ -1870,7 +1833,7 @@ where
 
 impl<T> Hash for Spanned<T>
 where
-	T: Clone + Hash,
+	T: Hash,
 {
 	fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
 		self.inner.hash(state);
@@ -1878,10 +1841,7 @@ where
 	}
 }
 
-impl<T> RangeBounds<u32> for Spanned<T>
-where
-	T: Clone,
-{
+impl<T> RangeBounds<u32> for Spanned<T> {
 	#[inline(always)]
 	fn start_bound(&self) -> std::ops::Bound<&u32> {
 		self.span.start_bound()
@@ -1895,7 +1855,7 @@ where
 
 impl<T> Debug for Spanned<T>
 where
-	T: Clone + Debug,
+	T: Debug,
 {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
 		f.debug_struct("Spanned")
