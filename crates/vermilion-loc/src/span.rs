@@ -11,26 +11,23 @@ use crate::Position;
 #[macro_export]
 macro_rules! spanned {
 	($token:expr) => {
-		$crate::Spanned::new($token, None)
+		$crate::Spanned::new($token, $crate::span::Span::empty())
 	};
 	($token:expr, $span:expr) => {
-		$crate::Spanned::new($token, Some($span))
+		$crate::Spanned::new($token, $span)
 	};
 	($token:expr, $range:expr, $position:expr) => {
-		$crate::Spanned::new(
-			$token,
-			Some($crate::span::Span::from_range($range, $position)),
-		)
+		$crate::Spanned::new($token, $crate::span::Span::from_range($range, $position))
 	};
 }
 
 #[macro_export]
 macro_rules! thin_spanned {
 	($token:expr) => {
-		$crate::ThinSpanned::new($token, None)
+		$crate::ThinSpanned::new($token, $crate::span::ThinSpan::new())
 	};
 	($token:expr, $span:expr) => {
-		$crate::ThinSpanned::new($token, Some($span))
+		$crate::ThinSpanned::new($token, $span)
 	};
 }
 
@@ -76,7 +73,7 @@ where
 	T: Clone,
 {
 	inner: T,
-	span:  Option<ThinSpan>,
+	span:  ThinSpan,
 }
 
 /// Wraps the given type `T`, attaching an optional [`Span`] to it for
@@ -87,7 +84,7 @@ where
 	T: Clone,
 {
 	inner: T,
-	span:  Option<Span>,
+	span:  Span,
 }
 
 impl ThinSpan {
@@ -425,7 +422,7 @@ impl ThinSpan {
 	where
 		T: Clone,
 	{
-		ThinSpanned::new(inner, Some(self))
+		ThinSpanned::new(inner, self)
 	}
 
 	/// Convert this [`ThinSpan`] into a [`ThinSpanned<T>`] using the given
@@ -437,7 +434,7 @@ impl ThinSpan {
 	where
 		T: Clone,
 	{
-		ThinSpanned::new(inner, Some(*self))
+		ThinSpanned::new(inner, *self)
 	}
 
 	/// Convert this [`ThinSpan`] into a [`Spanned<T>`] using the given
@@ -448,7 +445,7 @@ impl ThinSpan {
 	where
 		T: Clone,
 	{
-		Spanned::new(inner, Some(self.as_span(None)))
+		Spanned::new(inner, self.as_span(None))
 	}
 
 	/// Convert this [`ThinSpan`] into a [`Spanned<T>`] using the given
@@ -461,7 +458,7 @@ impl ThinSpan {
 	where
 		T: Clone,
 	{
-		Spanned::new(inner, Some(self.get_span(None)))
+		Spanned::new(inner, self.get_span(None))
 	}
 }
 
@@ -1158,7 +1155,7 @@ impl Span {
 	where
 		T: Clone,
 	{
-		ThinSpanned::new(inner, Some(self.as_thin()))
+		ThinSpanned::new(inner, self.as_thin())
 	}
 
 	/// Convert this [`Span`] into a [`ThinSpanned<T>`] using the given
@@ -1171,7 +1168,7 @@ impl Span {
 	where
 		T: Clone,
 	{
-		ThinSpanned::new(inner, Some(self.get_thin()))
+		ThinSpanned::new(inner, self.get_thin())
 	}
 
 	/// Convert this [`Span`] into a [`Spanned<T>`] using the given
@@ -1181,7 +1178,7 @@ impl Span {
 	where
 		T: Clone,
 	{
-		Spanned::new(inner, Some(self))
+		Spanned::new(inner, self)
 	}
 
 	/// Convert this [`Span`] into a [`Spanned<T>`] using the given
@@ -1193,7 +1190,7 @@ impl Span {
 	where
 		T: Clone,
 	{
-		Spanned::new(inner, Some(*self))
+		Spanned::new(inner, *self)
 	}
 }
 
@@ -1593,7 +1590,7 @@ where
 	T: Clone,
 {
 	#[inline(always)]
-	pub const fn new(inner: T, span: Option<ThinSpan>) -> Self {
+	pub const fn new(inner: T, span: ThinSpan) -> Self {
 		Self { inner, span }
 	}
 
@@ -1613,33 +1610,28 @@ where
 	}
 
 	#[inline(always)]
-	pub const fn span(&self) -> Option<&ThinSpan> {
-		self.span.as_ref()
+	pub const fn span(&self) -> &ThinSpan {
+		&self.span
 	}
 
 	#[inline(always)]
-	pub const fn span_mut(&mut self) -> Option<&mut ThinSpan> {
-		self.span.as_mut()
+	pub const fn span_mut(&mut self) -> &mut ThinSpan {
+		&mut self.span
 	}
 
 	#[inline(always)]
-	pub fn as_span(self) -> Option<ThinSpan> {
+	pub fn as_span(self) -> ThinSpan {
 		self.span
 	}
 
 	#[inline(always)]
-	pub const fn has_span(&self) -> bool {
-		self.span.is_some()
-	}
-
-	#[inline(always)]
-	pub const fn attach_span(&mut self, span: ThinSpan) {
-		self.span = Some(span)
-	}
-
-	#[inline(always)]
-	pub fn split(self) -> (T, Option<ThinSpan>) {
+	pub fn split(self) -> (T, ThinSpan) {
 		(self.inner, self.span)
+	}
+
+	#[inline(always)]
+	pub fn into_spanned(self, position: Option<Position>) -> Spanned<T> {
+		Spanned::new(self.inner, self.span.as_span(position))
 	}
 }
 
@@ -1647,16 +1639,8 @@ impl<T> From<(T, ThinSpan)> for ThinSpanned<T>
 where
 	T: Clone,
 {
+	#[inline(always)]
 	fn from(value: (T, ThinSpan)) -> Self {
-		Self::new(value.0, Some(value.1))
-	}
-}
-
-impl<T> From<(T, Option<ThinSpan>)> for ThinSpanned<T>
-where
-	T: Clone,
-{
-	fn from(value: (T, Option<ThinSpan>)) -> Self {
 		Self::new(value.0, value.1)
 	}
 }
@@ -1699,14 +1683,9 @@ impl<T> PartialOrd for ThinSpanned<T>
 where
 	T: Clone + PartialOrd,
 {
+	#[inline(always)]
 	fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
-		if let Some(span) = &self.span &&
-			let Some(other_span) = &other.span
-		{
-			span.partial_cmp(other_span)
-		} else {
-			self.inner.partial_cmp(&other.inner)
-		}
+		self.span.partial_cmp(&other.span)
 	}
 }
 
@@ -1714,14 +1693,9 @@ impl<T> Ord for ThinSpanned<T>
 where
 	T: Clone + Ord,
 {
+	#[inline(always)]
 	fn cmp(&self, other: &Self) -> std::cmp::Ordering {
-		if let Some(span) = &self.span &&
-			let Some(other_span) = &other.span
-		{
-			span.cmp(other_span)
-		} else {
-			self.inner.cmp(&other.inner)
-		}
+		self.span.cmp(&other.span)
 	}
 }
 
@@ -1740,10 +1714,7 @@ where
 	T: Clone + Display,
 {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-		match self.span {
-			Some(span) => write!(f, "{} @ {}", self.inner, span),
-			None => self.inner.fmt(f),
-		}
+		write!(f, "{} @ {}", self.inner, self.span)
 	}
 }
 
@@ -1751,20 +1722,14 @@ impl<T> RangeBounds<u32> for ThinSpanned<T>
 where
 	T: Clone,
 {
+	#[inline(always)]
 	fn start_bound(&self) -> std::ops::Bound<&u32> {
-		if let Some(span) = &self.span {
-			span.start_bound()
-		} else {
-			std::ops::Bound::Unbounded
-		}
+		self.span.start_bound()
 	}
 
+	#[inline(always)]
 	fn end_bound(&self) -> std::ops::Bound<&u32> {
-		if let Some(span) = &self.span {
-			span.end_bound()
-		} else {
-			std::ops::Bound::Unbounded
-		}
+		self.span.end_bound()
 	}
 }
 
@@ -1785,7 +1750,7 @@ where
 	T: Clone,
 {
 	#[inline(always)]
-	pub const fn new(inner: T, span: Option<Span>) -> Self {
+	pub const fn new(inner: T, span: Span) -> Self {
 		Self { inner, span }
 	}
 
@@ -1805,33 +1770,28 @@ where
 	}
 
 	#[inline(always)]
-	pub const fn span(&self) -> Option<&Span> {
-		self.span.as_ref()
+	pub const fn span(&self) -> &Span {
+		&self.span
 	}
 
 	#[inline(always)]
-	pub const fn span_mut(&mut self) -> Option<&mut Span> {
-		self.span.as_mut()
+	pub const fn span_mut(&mut self) -> &mut Span {
+		&mut self.span
 	}
 
 	#[inline(always)]
-	pub fn as_span(self) -> Option<Span> {
+	pub fn as_span(self) -> Span {
 		self.span
 	}
 
 	#[inline(always)]
-	pub const fn has_span(&self) -> bool {
-		self.span.is_some()
-	}
-
-	#[inline(always)]
-	pub const fn attach_span(&mut self, span: Span) {
-		self.span = Some(span)
-	}
-
-	#[inline(always)]
-	pub fn split(self) -> (T, Option<Span>) {
+	pub fn split(self) -> (T, Span) {
 		(self.inner, self.span)
+	}
+
+	#[inline(always)]
+	pub fn into_thin_spanned(self) -> ThinSpanned<T> {
+		ThinSpanned::new(self.inner, self.span.as_thin())
 	}
 }
 
@@ -1839,16 +1799,8 @@ impl<T> From<(T, Span)> for Spanned<T>
 where
 	T: Clone,
 {
+	#[inline(always)]
 	fn from(value: (T, Span)) -> Self {
-		Self::new(value.0, Some(value.1))
-	}
-}
-
-impl<T> From<(T, Option<Span>)> for Spanned<T>
-where
-	T: Clone,
-{
-	fn from(value: (T, Option<Span>)) -> Self {
 		Self::new(value.0, value.1)
 	}
 }
@@ -1891,14 +1843,9 @@ impl<T> PartialOrd for Spanned<T>
 where
 	T: Clone + PartialOrd,
 {
+	#[inline(always)]
 	fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
-		if let Some(span) = &self.span &&
-			let Some(other_span) = &other.span
-		{
-			span.partial_cmp(other_span)
-		} else {
-			self.inner.partial_cmp(&other.inner)
-		}
+		self.span.partial_cmp(&other.span)
 	}
 }
 
@@ -1906,14 +1853,9 @@ impl<T> Ord for Spanned<T>
 where
 	T: Clone + Ord,
 {
+	#[inline(always)]
 	fn cmp(&self, other: &Self) -> std::cmp::Ordering {
-		if let Some(span) = &self.span &&
-			let Some(other_span) = &other.span
-		{
-			span.cmp(other_span)
-		} else {
-			self.inner.cmp(&other.inner)
-		}
+		self.span.cmp(&other.span)
 	}
 }
 
@@ -1922,10 +1864,7 @@ where
 	T: Clone + Display,
 {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-		match &self.span {
-			Some(span) => write!(f, "{} @ {}", self.inner, span),
-			None => self.inner.fmt(f),
-		}
+		write!(f, "{} @ {}", self.inner, self.span)
 	}
 }
 
@@ -1943,20 +1882,14 @@ impl<T> RangeBounds<u32> for Spanned<T>
 where
 	T: Clone,
 {
+	#[inline(always)]
 	fn start_bound(&self) -> std::ops::Bound<&u32> {
-		if let Some(span) = &self.span {
-			span.start_bound()
-		} else {
-			std::ops::Bound::Unbounded
-		}
+		self.span.start_bound()
 	}
 
+	#[inline(always)]
 	fn end_bound(&self) -> std::ops::Bound<&u32> {
-		if let Some(span) = &self.span {
-			span.end_bound()
-		} else {
-			std::ops::Bound::Unbounded
-		}
+		self.span.end_bound()
 	}
 }
 
