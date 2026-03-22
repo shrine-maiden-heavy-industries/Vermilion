@@ -1,6 +1,6 @@
 # Vermilion
 
-This extension provides [Verilog], [Verilog-AMS], [SystemVerilog], and [VHDL] support to VSCode via the [Vermilion] language server, linter, and code formatter.
+This extension provides [Verilog], [Verilog-AMS], [SystemVerilog], [VHDL], and [VHDL-AMS] support to [VSCode] and [VSCodium] using the [Vermilion] language server, linter, and code formatter.
 
 ## License
 
@@ -12,6 +12,9 @@ The Vermilion documentation is licensed under the [CC-BY-SA 4.0], the full text 
 [Verilog-AMS]: https://www.accellera.org/downloads/standards/v-ams
 [SystemVerilog]: https://standards.ieee.org/ieee/1800/7743/
 [VHDL]: https://standards.ieee.org/ieee/1076/5179/
+[VHDL-AMS]: https://standards.ieee.org/ieee/1076.1/5180/
+[VSCode]: https://code.visualstudio.com/
+[VSCodium]: https://vscodium.com/
 [Vermilion]: https://github.com/shrine-maiden-heavy-industries/vermilion
 [BSD-3-Clause]: https://spdx.org/licenses/BSD-3-Clause.html
 [`LICENSE`]: https://github.com/shrine-maiden-heavy-industries/vermilion/blob/main/LICENSE
