@@ -43,40 +43,75 @@ impl LanguageStd {
 #[cfg_attr(coverage_nightly, coverage(off))]
 impl Display for LanguageStd {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+		let mut first_liberty: bool = true;
+
+		f.write_str("Synopsys Liberty ")?;
 		if self.contains(Self::Liberty2014_09) {
-			f.write_str("Synopsys Liberty 2014.09")?;
+			f.write_str("2014.09")?;
+			first_liberty = false;
 		}
 
 		if self.contains(Self::Liberty2015_12) {
-			f.write_str("Synopsys Liberty 2015.12")?;
+			if !first_liberty {
+				f.write_str(", ")?;
+			}
+			f.write_str("2015.12")?;
+			first_liberty = false;
 		}
 
 		if self.contains(Self::Liberty2016_06) {
-			f.write_str("Synopsys Liberty 2016.06")?;
+			if !first_liberty {
+				f.write_str(", ")?;
+			}
+			f.write_str("2016.06")?;
+			first_liberty = false;
 		}
 
 		if self.contains(Self::Liberty2016_12) {
-			f.write_str("Synopsys Liberty 2016.12")?;
+			if !first_liberty {
+				f.write_str(", ")?;
+			}
+			f.write_str("2016.12")?;
+			first_liberty = false;
 		}
 
 		if self.contains(Self::Liberty2017_06) {
-			f.write_str("Synopsys Liberty 2017.06")?;
+			if !first_liberty {
+				f.write_str(", ")?;
+			}
+			f.write_str("2017.06")?;
+			first_liberty = false;
 		}
 
 		if self.contains(Self::Liberty2018_06) {
-			f.write_str("Synopsys Liberty 2018.06i")?;
+			if !first_liberty {
+				f.write_str(", ")?;
+			}
+			f.write_str("2018.06")?;
+			first_liberty = false;
 		}
 
 		if self.contains(Self::Liberty2019_03) {
-			f.write_str("Synopsys Liberty 2019.03")?;
+			if !first_liberty {
+				f.write_str(", ")?;
+			}
+			f.write_str("2019.03")?;
+			first_liberty = false;
 		}
 
 		if self.contains(Self::Liberty2019_12) {
-			f.write_str("Synopsys Liberty 2019.12")?;
+			if !first_liberty {
+				f.write_str(", ")?;
+			}
+			f.write_str("2019.12")?;
+			first_liberty = false;
 		}
 
 		if self.contains(Self::Liberty2020_09) {
-			f.write_str("Synopsys Liberty 2020.09")?;
+			if !first_liberty {
+				f.write_str(", ")?;
+			}
+			f.write_str("2020.09")?;
 		}
 
 		Ok(())
@@ -201,5 +236,31 @@ mod test {
 			assert_tokens(&LanguageStd::Liberty2019_12, &[Token::Str("2019.12")]);
 			assert_tokens(&LanguageStd::Liberty2020_09, &[Token::Str("2020.09")]);
 		}
+	}
+
+	#[test]
+	fn test_language_std_display() {
+		assert_eq!(
+			format!("{}", LanguageStd::Liberty2014_09),
+			"Synopsys Liberty 2014.09"
+		);
+
+		assert_eq!(
+			format!(
+				"{}",
+				LanguageStd::Liberty2014_09 | LanguageStd::Liberty2015_12
+			),
+			"Synopsys Liberty 2014.09, 2015.12"
+		);
+
+		assert_eq!(
+			format!(
+				"{}",
+				LanguageStd::Liberty2014_09 |
+					LanguageStd::Liberty2016_12 |
+					LanguageStd::Liberty2019_03
+			),
+			"Synopsys Liberty 2014.09, 2016.12, 2019.03"
+		);
 	}
 }
