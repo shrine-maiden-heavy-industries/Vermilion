@@ -27,10 +27,19 @@ macro_rules! tokenizer_test {
 			$($tokens),+
 		); }
 	};
+	(pdc, $test_name:ident, $input:literal, $($tokens:expr),+) => {
+		paste! { tokenizer_test!(
+			[<xdc_ $test_name>],
+			$input,
+			LanguageStd::Pdc,
+			$($tokens),+
+		); }
+	};
 	(all, $test_name:ident, $input:literal, $($tokens:expr),+) => {
 		paste! {
 			tokenizer_test!(sdc, [<$test_name _all>], $input, $($tokens),+);
 			tokenizer_test!(xdc, [<$test_name _all>], $input, $($tokens),+);
+			tokenizer_test!(pdc, [<$test_name _all>], $input, $($tokens),+);
 		}
 	};
 	($test_name:ident, $input:literal, $std:expr, $($tokens:expr),+) => {

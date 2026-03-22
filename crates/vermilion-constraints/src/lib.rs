@@ -13,7 +13,6 @@ use vermilion_macros::cfg_serde;
 pub mod config;
 pub mod diagnostics;
 pub mod lpf;
-pub mod pdc;
 pub mod sdc;
 pub mod workspace;
 

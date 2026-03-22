@@ -25,9 +25,9 @@ impl SdcTokenizer {
 		}
 
 		// Then check to see if it's either SDC or XDC
-		if !(LanguageStd::Sdc | LanguageStd::Xdc).contains(standard) {
+		if !(LanguageStd::Sdc | LanguageStd::Xdc | LanguageStd::Pdc).contains(standard) {
 			return Err(eyre!(
-				"This tokenizer is only supports SDC or XDC constraint files"
+				"This tokenizer is only supports SDC, XDC, or PDC constraint files"
 			));
 		}
 
