@@ -85,6 +85,11 @@
 				"path": "./lang/liberty/base.tmLanguage.json"
 			},
 			{
+				"language": "lpf",
+				"scopeName": "source.lpf",
+				"path": "./lang/lpf/base.tmLanguage.json"
+			},
+			{
 				"language": "pdc",
 				"scopeName": "source.pdc",
 				"path": "./lang/pdc/base.tmLanguage.json"
@@ -135,6 +140,17 @@
 				"icon": {
 					"dark": "./lang/liberty/icon_dark.svg",
 					"light": "./lang/liberty/icon_light.svg"
+				}
+			},
+			{
+				"id": "lpf",
+				"extensions": [
+					".lpf"
+				],
+				"configuration": "./lang/lpf/configuration.json",
+				"icon": {
+					"dark": "./lang/lpf/icon_dark.svg",
+					"light": "./lang/lpf/icon_light.svg"
 				}
 			},
 			{
