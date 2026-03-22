@@ -80,31 +80,6 @@
 		],
 		"grammars": [
 			{
-				"language": "verilog",
-				"scopeName": "source.verilog",
-				"path": "./lang/verilog/base.tmLanguage.json"
-			},
-			{
-				"language": "verilog-ams",
-				"scopeName": "source.verilog_ams",
-				"path": "./lang/verilog_ams/base.tmLanguage.json"
-			},
-			{
-				"language": "system-verilog",
-				"scopeName": "source.system_verilog",
-				"path": "./lang/system_verilog/base.tmLanguage.json"
-			},
-			{
-				"language": "vhdl",
-				"scopeName": "source.vhdl",
-				"path": "./lang/vhdl/base.tmLanguage.json"
-			},
-			{
-				"language": "vhdl-ams",
-				"scopeName": "source.vhdl_ams",
-				"path": "./lang/vhdl_ams/base.tmLanguage.json"
-			},
-			{
 				"language": "liberty",
 				"scopeName": "source.liberty",
 				"path": "./lang/liberty/base.tmLanguage.json"
@@ -120,72 +95,37 @@
 				"path": "./lang/sdc/base.tmLanguage.json"
 			},
 			{
+				"language": "system-verilog",
+				"scopeName": "source.system_verilog",
+				"path": "./lang/system_verilog/base.tmLanguage.json"
+			},
+			{
+				"language": "verilog",
+				"scopeName": "source.verilog",
+				"path": "./lang/verilog/base.tmLanguage.json"
+			},
+			{
+				"language": "verilog-ams",
+				"scopeName": "source.verilog_ams",
+				"path": "./lang/verilog_ams/base.tmLanguage.json"
+			},
+			{
+				"language": "vhdl",
+				"scopeName": "source.vhdl",
+				"path": "./lang/vhdl/base.tmLanguage.json"
+			},
+			{
+				"language": "vhdl-ams",
+				"scopeName": "source.vhdl_ams",
+				"path": "./lang/vhdl_ams/base.tmLanguage.json"
+			},
+			{
 				"language": "xdc",
 				"scopeName": "source.xdc",
 				"path": "./lang/xdc/base.tmLanguage.json"
 			}
 		],
 		"languages": [
-			{
-				"id": "verilog",
-				"extensions": [
-					".v",
-					".vh",
-					".vm"
-				],
-				"configuration": "./lang/verilog/configuration.json",
-				"icon": {
-					"dark": "./lang/verilog/icon_dark.svg",
-					"light": "./lang/verilog/icon_light.svg"
-				}
-			},
-			{
-				"id": "verilog-ams",
-				"extensions": [
-					".vams"
-				],
-				"configuration": "./lang/verilog_ams/configuration.json",
-				"icon": {
-					"dark": "./lang/verilog_ams/icon_dark.svg",
-					"light": "./lang/verilog_ams/icon_light.svg"
-				}
-			},
-			{
-				"id": "system-verilog",
-				"extensions": [
-					".sv",
-					".svh"
-				],
-				"configuration": "./lang/system_verilog/configuration.json",
-				"icon": {
-					"dark": "./lang/system_verilog/icon_dark.svg",
-					"light": "./lang/system_verilog/icon_light.svg"
-				}
-			},
-			{
-				"id": "vhdl",
-				"extensions": [
-					".vhdl",
-					".vhd"
-				],
-				"configuration": "./lang/vhdl/configuration.json",
-				"icon": {
-					"dark": "./lang/vhdl/icon_dark.svg",
-					"light": "./lang/vhdl/icon_light.svg"
-				}
-			},
-			{
-				"id": "vhdl-ams",
-				"extensions": [
-					".vhdl",
-					".vhd"
-				],
-				"configuration": "./lang/vhdl_ams/configuration.json",
-				"icon": {
-					"dark": "./lang/vhdl_ams/icon_dark.svg",
-					"light": "./lang/vhdl_ams/icon_light.svg"
-				}
-			},
 			{
 				"id": "liberty",
 				"extensions": [
@@ -217,6 +157,66 @@
 				"icon": {
 					"dark": "./lang/sdc/icon_dark.svg",
 					"light": "./lang/sdc/icon_light.svg"
+				}
+			},
+			{
+				"id": "system-verilog",
+				"extensions": [
+					".sv",
+					".svh"
+				],
+				"configuration": "./lang/system_verilog/configuration.json",
+				"icon": {
+					"dark": "./lang/system_verilog/icon_dark.svg",
+					"light": "./lang/system_verilog/icon_light.svg"
+				}
+			},
+			{
+				"id": "verilog",
+				"extensions": [
+					".v",
+					".vh",
+					".vm"
+				],
+				"configuration": "./lang/verilog/configuration.json",
+				"icon": {
+					"dark": "./lang/verilog/icon_dark.svg",
+					"light": "./lang/verilog/icon_light.svg"
+				}
+			},
+			{
+				"id": "verilog-ams",
+				"extensions": [
+					".vams"
+				],
+				"configuration": "./lang/verilog_ams/configuration.json",
+				"icon": {
+					"dark": "./lang/verilog_ams/icon_dark.svg",
+					"light": "./lang/verilog_ams/icon_light.svg"
+				}
+			},
+			{
+				"id": "vhdl",
+				"extensions": [
+					".vhdl",
+					".vhd"
+				],
+				"configuration": "./lang/vhdl/configuration.json",
+				"icon": {
+					"dark": "./lang/vhdl/icon_dark.svg",
+					"light": "./lang/vhdl/icon_light.svg"
+				}
+			},
+			{
+				"id": "vhdl-ams",
+				"extensions": [
+					".vhdl",
+					".vhd"
+				],
+				"configuration": "./lang/vhdl_ams/configuration.json",
+				"icon": {
+					"dark": "./lang/vhdl_ams/icon_dark.svg",
+					"light": "./lang/vhdl_ams/icon_light.svg"
 				}
 			},
 			{
