@@ -1,0 +1,14 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "Lattice Radiant Physical Constraints",
+	"scopeName": "source.pdc",
+	"fileTypes": [
+		"pdc"
+	],
+	"patterns": [
+
+	],
+	"repository": {
+
+	}
+}

@@ -110,6 +110,11 @@
 				"path": "./lang/liberty/base.tmLanguage.json"
 			},
 			{
+				"language": "pdc",
+				"scopeName": "source.pdc",
+				"path": "./lang/pdc/base.tmLanguage.json"
+			},
+			{
 				"language": "sdc",
 				"scopeName": "source.sdc",
 				"path": "./lang/sdc/base.tmLanguage.json"
@@ -190,6 +195,17 @@
 				"icon": {
 					"dark": "./lang/liberty/icon_dark.svg",
 					"light": "./lang/liberty/icon_light.svg"
+				}
+			},
+			{
+				"id": "pdc",
+				"extensions": [
+					".pdc"
+				],
+				"configuration": "./lang/pdc/configuration.json",
+				"icon": {
+					"dark": "./lang/pdc/icon_dark.svg",
+					"light": "./lang/pdc/icon_light.svg"
 				}
 			},
 			{
