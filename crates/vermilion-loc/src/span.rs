@@ -11,7 +11,7 @@ use crate::Position;
 #[macro_export]
 macro_rules! spanned {
 	($token:expr) => {
-		$crate::Spanned::new($token, $crate::span::Span::empty())
+		$crate::Spanned::empty($token)
 	};
 	($token:expr, $span:expr) => {
 		$crate::Spanned::new($token, $span)
@@ -24,7 +24,7 @@ macro_rules! spanned {
 #[macro_export]
 macro_rules! thin_spanned {
 	($token:expr) => {
-		$crate::ThinSpanned::new($token, $crate::span::ThinSpan::new())
+		$crate::ThinSpanned::empty($token)
 	};
 	($token:expr, $span:expr) => {
 		$crate::ThinSpanned::new($token, $span)
@@ -1566,46 +1566,78 @@ impl Hash for Span {
 }
 
 impl<T> ThinSpanned<T> {
+	/// Create a new [`ThinSpanned`] wrapping the given `T` with an empty
+	/// [`ThinSpan`]
+	#[inline(always)]
+	pub const fn empty(inner: T) -> Self {
+		Self { inner, span: ThinSpan::empty() }
+	}
+
+	/// Wrap the given `T`, attaching the given [`ThinSpan`] to it.
+	///
+	/// ## Note
+	///
+	/// If there is no [`ThinSpan`] yet, then you can use [`ThinSpanned::empty`]
+	/// to create an empty [`ThinSpanned`].
 	#[inline(always)]
 	pub const fn new(inner: T, span: ThinSpan) -> Self {
 		Self { inner, span }
 	}
 
+	/// Access the type this [`ThinSpanned<T>`] is wrapping
 	#[inline(always)]
 	pub const fn inner(&self) -> &T {
 		&self.inner
 	}
 
+	/// Mutably access the type this [`ThinSpanned<T>`] is wrapping
 	#[inline(always)]
 	pub const fn inner_mut(&mut self) -> &mut T {
 		&mut self.inner
 	}
 
+	/// Unwrap the inner type, throwing away the attached [`ThinSpan`]
+	///
+	/// ## Note
+	///
+	/// If you wish to get both the inner type and keep the [`ThinSpan`]
+	/// then use the [`ThinSpanned::split`] method.
 	#[inline(always)]
 	pub fn as_inner(self) -> T {
 		self.inner
 	}
 
+	/// Get the [`ThinSpan`]
 	#[inline(always)]
 	pub const fn span(&self) -> &ThinSpan {
 		&self.span
 	}
 
+	/// Mutably get the [`ThinSpan`]
 	#[inline(always)]
 	pub const fn span_mut(&mut self) -> &mut ThinSpan {
 		&mut self.span
 	}
 
+	/// Unwrap the attached [`ThinSpan`] throwing away the inner type
+	///
+	/// ## Note
+	///
+	/// If you wish to get both the inner type and keep the Inner type
+	/// then use the [`ThinSpanned::split`] method.
 	#[inline(always)]
 	pub fn as_span(self) -> ThinSpan {
 		self.span
 	}
 
+	/// Decompose into a tuple containing the inner type and the attached [`ThinSpan`]
 	#[inline(always)]
 	pub fn split(self) -> (T, ThinSpan) {
 		(self.inner, self.span)
 	}
 
+	/// Convert this [`ThinSpanned<T>`] into a full-fat [`Spanned<T>`] attaching
+	/// the given [`Position`] if provided
 	#[inline(always)]
 	pub fn into_spanned(self, position: Option<Position>) -> Spanned<T> {
 		Spanned::new(self.inner, self.span.as_span(position))
@@ -1617,6 +1649,19 @@ impl<T> ThinSpanned<T> {
 // `Sync`/`Send` then `ThinSpanned<T>` should also be safe to be so.
 unsafe impl<T> Sync for ThinSpanned<T> where T: Sync {}
 unsafe impl<T> Send for ThinSpanned<T> where T: Send {}
+
+impl<T> Default for ThinSpanned<T>
+where
+	T: Default,
+{
+	#[inline(always)]
+	fn default() -> Self {
+		Self {
+			inner: Default::default(),
+			span:  Default::default(),
+		}
+	}
+}
 
 impl<T> Clone for ThinSpanned<T>
 where
@@ -1728,46 +1773,77 @@ where
 }
 
 impl<T> Spanned<T> {
+	/// Create a new [`Spanned`] wrapping the given `T` with an empty
+	/// [`Span`]
+	#[inline(always)]
+	pub const fn empty(inner: T) -> Self {
+		Self { inner, span: Span::empty() }
+	}
+
+	/// Wrap the given `T`, attaching the given [`Span`] to it.
+	///
+	/// ## Note
+	///
+	/// If there is no [`Span`] yet, then you can use [`Spanned::empty`]
+	/// to create an empty [`Spanned`].
 	#[inline(always)]
 	pub const fn new(inner: T, span: Span) -> Self {
 		Self { inner, span }
 	}
 
+	/// Access the type this [`Spanned<T>`] is wrapping
 	#[inline(always)]
 	pub const fn inner(&self) -> &T {
 		&self.inner
 	}
 
+	/// Mutably access the type this [`Spanned<T>`] is wrapping
 	#[inline(always)]
 	pub const fn inner_mut(&mut self) -> &mut T {
 		&mut self.inner
 	}
 
+	/// Unwrap the inner type, throwing away the attached [`Span`]
+	///
+	/// ## Note
+	///
+	/// If you wish to get both the inner type and keep the [`Span`]
+	/// then use the [`Spanned::split`] method.
 	#[inline(always)]
 	pub fn as_inner(self) -> T {
 		self.inner
 	}
 
+	/// Get the [`Span`]
 	#[inline(always)]
 	pub const fn span(&self) -> &Span {
 		&self.span
 	}
 
+	/// Mutably get the [`Span`]
 	#[inline(always)]
 	pub const fn span_mut(&mut self) -> &mut Span {
 		&mut self.span
 	}
 
+	/// Unwrap the attached [`Span`] throwing away the inner type
+	///
+	/// ## Note
+	///
+	/// If you wish to get both the inner type and keep the Inner type
+	/// then use the [`Spanned::split`] method.
 	#[inline(always)]
 	pub fn as_span(self) -> Span {
 		self.span
 	}
 
+	/// Decompose into a tuple containing the inner type and the attached [`Span`]
 	#[inline(always)]
 	pub fn split(self) -> (T, Span) {
 		(self.inner, self.span)
 	}
 
+	/// Convert this [`Spanned<T>`] into a [`ThinSpanned<T>`]
 	#[inline(always)]
 	pub fn into_thin_spanned(self) -> ThinSpanned<T> {
 		ThinSpanned::new(self.inner, self.span.as_thin())
@@ -1779,6 +1855,19 @@ impl<T> Spanned<T> {
 // `Sync`/`Send` then `Spanned<T>` should also be safe to be so.
 unsafe impl<T> Sync for Spanned<T> where T: Sync {}
 unsafe impl<T> Send for Spanned<T> where T: Send {}
+
+impl<T> Default for Spanned<T>
+where
+	T: Default,
+{
+	#[inline(always)]
+	fn default() -> Self {
+		Self {
+			inner: Default::default(),
+			span:  Default::default(),
+		}
+	}
+}
 
 impl<T> Clone for Spanned<T>
 where
