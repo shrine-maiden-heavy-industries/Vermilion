@@ -6,7 +6,7 @@ use std::{
 	ops::{Add, AddAssign, Deref, DerefMut, Range, RangeBounds, RangeInclusive, Sub, SubAssign},
 };
 
-use crate::Position;
+use crate::{FileId, Location, Position};
 
 #[macro_export]
 macro_rules! spanned {
@@ -1642,6 +1642,13 @@ impl<T> ThinSpanned<T> {
 	pub fn into_spanned(self, position: Option<Position>) -> Spanned<T> {
 		Spanned::new(self.inner, self.span.as_span(position))
 	}
+
+	/// Convert this [`ThinSpanned<T>`] into a [`Location<T>`] with the given [`FileId`]
+	/// attaching the given [`Position`] if provided
+	#[inline(always)]
+	pub fn into_location(self, id: FileId, position: Option<Position>) -> Location<T> {
+		Location::new(id, self.inner, self.span.as_span(position))
+	}
 }
 
 // SAFETY:
@@ -1847,6 +1854,12 @@ impl<T> Spanned<T> {
 	#[inline(always)]
 	pub fn into_thin_spanned(self) -> ThinSpanned<T> {
 		ThinSpanned::new(self.inner, self.span.as_thin())
+	}
+
+	/// Convert this [`Spanned<T>`] into a [`Location<T>`] with the given [`FileId`]
+	#[inline(always)]
+	pub fn into_location(self, id: FileId) -> Location<T> {
+		Location::new(id, self.inner, self.span)
 	}
 }
 

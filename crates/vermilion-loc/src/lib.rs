@@ -5,10 +5,12 @@
 // #![warn(missing_docs)]
 // #![warn(clippy::missing_docs_in_private_items)]
 
+pub mod loc;
 pub mod position;
 pub mod span;
 
 pub use crate::{
+	loc::{FileId, Location},
 	position::Position,
 	span::{Span, Spanned},
 };
