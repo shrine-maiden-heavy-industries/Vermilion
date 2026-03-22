@@ -80,55 +80,205 @@ impl LanguageStd {
 #[cfg_attr(coverage_nightly, coverage(off))]
 impl Display for LanguageStd {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+		// If we have more than one bit set, we need to know if we need to write commas between the
+		// values
+		let mut need_comma: bool = false;
+		// If we have multiple SDC versions set then we need to know so we can truncate
+		let mut sdc_family: bool = false;
+		let mut first_sdc: bool = true;
+
 		if self.contains(Self::Lpf) {
 			f.write_str("Lattice Diamond Logical Preference File")?;
+			need_comma = true;
 		}
 
 		if self.contains(Self::Pdc) {
+			if need_comma {
+				f.write_str(", ")?;
+			}
 			f.write_str("Lattice Radiant Design Constraints")?;
+			need_comma = true;
 		}
 
 		if self.contains(Self::Sdc) {
+			if need_comma {
+				f.write_str(", ")?;
+			}
+
 			f.write_str("Synopsys Design Constraints")?;
+			need_comma = true;
+			sdc_family = true;
 		}
 
 		if self.contains(Self::Sdc_1_3) {
-			f.write_str("Synopsys Design Constraints 1.3")?;
+			if !sdc_family {
+				if need_comma {
+					f.write_str(", ")?;
+				}
+				f.write_str("Synopsys Design Constraints ")?;
+			} else {
+				f.write_str(" ")?;
+				first_sdc = false;
+			}
+			f.write_str("1.3")?;
+			need_comma = true;
+			sdc_family = true;
 		}
 
 		if self.contains(Self::Sdc_1_4) {
-			f.write_str("Synopsys Design Constraints 1.4")?;
+			if !sdc_family {
+				if need_comma {
+					f.write_str(", ")?;
+				}
+				f.write_str("Synopsys Design Constraints ")?;
+			} else {
+				if first_sdc {
+					f.write_str(" ")?;
+					first_sdc = false;
+				} else {
+					f.write_str(", ")?;
+				}
+			}
+			f.write_str("1.4")?;
+			need_comma = true;
+			sdc_family = true;
 		}
 
 		if self.contains(Self::Sdc_1_5) {
-			f.write_str("Synopsys Design Constraints 1.5")?;
+			if !sdc_family {
+				if need_comma {
+					f.write_str(", ")?;
+				}
+				f.write_str("Synopsys Design Constraints ")?;
+			} else {
+				if first_sdc {
+					f.write_str(" ")?;
+					first_sdc = false;
+				} else {
+					f.write_str(", ")?;
+				}
+			}
+			f.write_str("1.5")?;
+			need_comma = true;
+			sdc_family = true;
 		}
 
 		if self.contains(Self::Sdc_1_6) {
-			f.write_str("Synopsys Design Constraints 1.6")?;
+			if !sdc_family {
+				if need_comma {
+					f.write_str(", ")?;
+				}
+				f.write_str("Synopsys Design Constraints ")?;
+			} else {
+				if first_sdc {
+					f.write_str(" ")?;
+					first_sdc = false;
+				} else {
+					f.write_str(", ")?;
+				}
+			}
+			f.write_str("1.6")?;
+			need_comma = true;
+			sdc_family = true;
 		}
 
 		if self.contains(Self::Sdc_1_7) {
-			f.write_str("Synopsys Design Constraints 1.7")?;
+			if !sdc_family {
+				if need_comma {
+					f.write_str(", ")?;
+				}
+				f.write_str("Synopsys Design Constraints ")?;
+			} else {
+				if first_sdc {
+					f.write_str(" ")?;
+					first_sdc = false;
+				} else {
+					f.write_str(", ")?;
+				}
+			}
+			f.write_str("1.7")?;
+			need_comma = true;
+			sdc_family = true;
 		}
 
 		if self.contains(Self::Sdc_1_9) {
-			f.write_str("Synopsys Design Constraints 1.9")?;
+			if !sdc_family {
+				if need_comma {
+					f.write_str(", ")?;
+				}
+				f.write_str("Synopsys Design Constraints ")?;
+			} else {
+				if first_sdc {
+					f.write_str(" ")?;
+					first_sdc = false;
+				} else {
+					f.write_str(", ")?;
+				}
+			}
+			f.write_str("1.9")?;
+			need_comma = true;
+			sdc_family = true;
 		}
 
 		if self.contains(Self::Sdc_2_0) {
-			f.write_str("Synopsys Design Constraints 2.0")?;
+			if !sdc_family {
+				if need_comma {
+					f.write_str(", ")?;
+				}
+				f.write_str("Synopsys Design Constraints ")?;
+			} else {
+				if first_sdc {
+					f.write_str(" ")?;
+					first_sdc = false;
+				} else {
+					f.write_str(", ")?;
+				}
+			}
+			f.write_str("2.0")?;
+			need_comma = true;
+			sdc_family = true;
 		}
 
 		if self.contains(Self::Sdc_2_1) {
-			f.write_str("Synopsys Design Constraints 2.1")?;
+			if !sdc_family {
+				if need_comma {
+					f.write_str(", ")?;
+				}
+				f.write_str("Synopsys Design Constraints ")?;
+			} else {
+				if first_sdc {
+					f.write_str(" ")?;
+					first_sdc = false;
+				} else {
+					f.write_str(", ")?;
+				}
+			}
+			f.write_str("2.1")?;
+			need_comma = true;
+			sdc_family = true;
 		}
 
 		if self.contains(Self::Sdc_2_2) {
-			f.write_str("Synopsys Design Constraints 2.2")?;
+			if !sdc_family {
+				if need_comma {
+					f.write_str(", ")?;
+				}
+				f.write_str("Synopsys Design Constraints ")?;
+			} else {
+				if first_sdc {
+					f.write_str(" ")?;
+				} else {
+					f.write_str(", ")?;
+				}
+			}
+			f.write_str("2.2")?;
+			need_comma = true;
 		}
 
 		if self.contains(Self::Xdc) {
+			if need_comma {
+				f.write_str(", ")?;
+			}
 			f.write_str("Xilinx Design Constraints")?;
 		}
 
@@ -235,5 +385,94 @@ mod test {
 			assert_tokens(&LanguageStd::Sdc_2_2, &[Token::Str("sdc2.2")]);
 			assert_tokens(&LanguageStd::Xdc, &[Token::Str("xdc")]);
 		}
+	}
+
+	#[test]
+	fn test_language_std_display() {
+		assert_eq!(
+			format!("{}", LanguageStd::Lpf),
+			"Lattice Diamond Logical Preference File"
+		);
+
+		assert_eq!(
+			format!("{}", LanguageStd::Pdc),
+			"Lattice Radiant Design Constraints"
+		);
+
+		assert_eq!(
+			format!("{}", LanguageStd::Sdc),
+			"Synopsys Design Constraints"
+		);
+
+		assert_eq!(
+			format!("{}", LanguageStd::Sdc_1_3),
+			"Synopsys Design Constraints 1.3"
+		);
+
+		assert_eq!(
+			format!("{}", LanguageStd::Sdc_1_4),
+			"Synopsys Design Constraints 1.4"
+		);
+
+		assert_eq!(
+			format!("{}", LanguageStd::Sdc_1_5),
+			"Synopsys Design Constraints 1.5"
+		);
+
+		assert_eq!(
+			format!("{}", LanguageStd::Sdc_1_6),
+			"Synopsys Design Constraints 1.6"
+		);
+
+		assert_eq!(
+			format!("{}", LanguageStd::Sdc_1_7),
+			"Synopsys Design Constraints 1.7"
+		);
+
+		assert_eq!(
+			format!("{}", LanguageStd::Sdc_1_9),
+			"Synopsys Design Constraints 1.9"
+		);
+
+		assert_eq!(
+			format!("{}", LanguageStd::Sdc_2_0),
+			"Synopsys Design Constraints 2.0"
+		);
+
+		assert_eq!(
+			format!("{}", LanguageStd::Sdc_2_1),
+			"Synopsys Design Constraints 2.1"
+		);
+
+		assert_eq!(
+			format!("{}", LanguageStd::Sdc_2_2),
+			"Synopsys Design Constraints 2.2"
+		);
+
+		assert_eq!(format!("{}", LanguageStd::Xdc), "Xilinx Design Constraints");
+
+		assert_eq!(
+			format!("{}", LanguageStd::Pdc | LanguageStd::Sdc),
+			"Lattice Radiant Design Constraints, Synopsys Design Constraints"
+		);
+
+		assert_eq!(
+			format!("{}", LanguageStd::Sdc | LanguageStd::Xdc),
+			"Synopsys Design Constraints, Xilinx Design Constraints"
+		);
+
+		assert_eq!(
+			format!("{}", LanguageStd::Pdc | LanguageStd::Sdc | LanguageStd::Xdc),
+			"Lattice Radiant Design Constraints, Synopsys Design Constraints, Xilinx Design \
+			 Constraints"
+		);
+
+		assert_eq!(
+			format!(
+				"{}",
+				LanguageStd::Sdc | LanguageStd::Sdc_1_5 | LanguageStd::Sdc_1_7
+			),
+			"Synopsys Design Constraints 1.5, 1.7"
+		);
 	}
 }
