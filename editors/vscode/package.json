@@ -82,42 +82,42 @@
 			{
 				"language": "verilog",
 				"scopeName": "source.verilog",
-				"path": "./languages/verilog/base.tmLanguage.json"
+				"path": "./lang/verilog/base.tmLanguage.json"
 			},
 			{
 				"language": "verilog-ams",
 				"scopeName": "source.verilog_ams",
-				"path": "./languages/verilog_ams/base.tmLanguage.json"
+				"path": "./lang/verilog_ams/base.tmLanguage.json"
 			},
 			{
 				"language": "system-verilog",
 				"scopeName": "source.system_verilog",
-				"path": "./languages/system_verilog/base.tmLanguage.json"
+				"path": "./lang/system_verilog/base.tmLanguage.json"
 			},
 			{
 				"language": "vhdl",
 				"scopeName": "source.vhdl",
-				"path": "./languages/vhdl/base.tmLanguage.json"
+				"path": "./lang/vhdl/base.tmLanguage.json"
 			},
 			{
 				"language": "vhdl-ams",
 				"scopeName": "source.vhdl_ams",
-				"path": "./languages/vhdl_ams/base.tmLanguage.json"
+				"path": "./lang/vhdl_ams/base.tmLanguage.json"
 			},
 			{
 				"language": "liberty",
 				"scopeName": "source.liberty",
-				"path": "./languages/liberty/base.tmLanguage.json"
+				"path": "./lang/liberty/base.tmLanguage.json"
 			},
 			{
 				"language": "sdc",
 				"scopeName": "source.sdc",
-				"path": "./languages/sdc/base.tmLanguage.json"
+				"path": "./lang/sdc/base.tmLanguage.json"
 			},
 			{
 				"language": "xdc",
 				"scopeName": "source.xdc",
-				"path": "./languages/xdc/base.tmLanguage.json"
+				"path": "./lang/xdc/base.tmLanguage.json"
 			}
 		],
 		"languages": [
@@ -128,10 +128,10 @@
 					".vh",
 					".vm"
 				],
-				"configuration": "./languages/verilog/configuration.json",
+				"configuration": "./lang/verilog/configuration.json",
 				"icon": {
-					"dark": "./languages/verilog/icon_dark.svg",
-					"light": "./languages/verilog/icon_light.svg"
+					"dark": "./lang/verilog/icon_dark.svg",
+					"light": "./lang/verilog/icon_light.svg"
 				}
 			},
 			{
@@ -139,10 +139,10 @@
 				"extensions": [
 					".vams"
 				],
-				"configuration": "./languages/verilog_ams/configuration.json",
+				"configuration": "./lang/verilog_ams/configuration.json",
 				"icon": {
-					"dark": "./languages/verilog_ams/icon_dark.svg",
-					"light": "./languages/verilog_ams/icon_light.svg"
+					"dark": "./lang/verilog_ams/icon_dark.svg",
+					"light": "./lang/verilog_ams/icon_light.svg"
 				}
 			},
 			{
@@ -151,10 +151,10 @@
 					".sv",
 					".svh"
 				],
-				"configuration": "./languages/system_verilog/configuration.json",
+				"configuration": "./lang/system_verilog/configuration.json",
 				"icon": {
-					"dark": "./languages/system_verilog/icon_dark.svg",
-					"light": "./languages/system_verilog/icon_light.svg"
+					"dark": "./lang/system_verilog/icon_dark.svg",
+					"light": "./lang/system_verilog/icon_light.svg"
 				}
 			},
 			{
@@ -163,10 +163,10 @@
 					".vhdl",
 					".vhd"
 				],
-				"configuration": "./languages/vhdl/configuration.json",
+				"configuration": "./lang/vhdl/configuration.json",
 				"icon": {
-					"dark": "./languages/vhdl/icon_dark.svg",
-					"light": "./languages/vhdl/icon_light.svg"
+					"dark": "./lang/vhdl/icon_dark.svg",
+					"light": "./lang/vhdl/icon_light.svg"
 				}
 			},
 			{
@@ -175,10 +175,10 @@
 					".vhdl",
 					".vhd"
 				],
-				"configuration": "./languages/vhdl_ams/configuration.json",
+				"configuration": "./lang/vhdl_ams/configuration.json",
 				"icon": {
-					"dark": "./languages/vhdl_ams/icon_dark.svg",
-					"light": "./languages/vhdl_ams/icon_light.svg"
+					"dark": "./lang/vhdl_ams/icon_dark.svg",
+					"light": "./lang/vhdl_ams/icon_light.svg"
 				}
 			},
 			{
@@ -186,10 +186,10 @@
 				"extensions": [
 					".lib"
 				],
-				"configuration": "./languages/liberty/configuration.json",
+				"configuration": "./lang/liberty/configuration.json",
 				"icon": {
-					"dark": "./languages/liberty/icon_dark.svg",
-					"light": "./languages/liberty/icon_light.svg"
+					"dark": "./lang/liberty/icon_dark.svg",
+					"light": "./lang/liberty/icon_light.svg"
 				}
 			},
 			{
@@ -197,10 +197,10 @@
 				"extensions": [
 					".sdc"
 				],
-				"configuration": "./languages/sdc/configuration.json",
+				"configuration": "./lang/sdc/configuration.json",
 				"icon": {
-					"dark": "./languages/sdc/icon_dark.svg",
-					"light": "./languages/sdc/icon_light.svg"
+					"dark": "./lang/sdc/icon_dark.svg",
+					"light": "./lang/sdc/icon_light.svg"
 				}
 			},
 			{
@@ -208,10 +208,10 @@
 				"extensions": [
 					".xdc"
 				],
-				"configuration": "./languages/xdc/configuration.json",
+				"configuration": "./lang/xdc/configuration.json",
 				"icon": {
-					"dark": "./languages/xdc/icon_dark.svg",
-					"light": "./languages/xdc/icon_light.svg"
+					"dark": "./lang/xdc/icon_dark.svg",
+					"light": "./lang/xdc/icon_light.svg"
 				}
 			}
 		]
