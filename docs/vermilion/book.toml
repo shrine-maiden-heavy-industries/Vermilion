@@ -1,6 +1,6 @@
 [book]
 title       = "Vermilion"
-description = "Vermilion Verilog, SystemVerilog, and VHDL Language Server, Linter, and Formatter"
+description = "The Vermilion Verilog, Verilog-AMS, SystemVerilog, VHDL, and VHDL-AMS Language Server, Linter, and Formatter"
 authors     = [
 	"Aki Van Ness"
 ]
