@@ -3,45 +3,40 @@
 	"displayName": "Vermilion",
 	"description": "Vermilion is a Verilog, Verilog-AMS, SystemVerilog, VHDL, and VHDL-AMS linter and formatter, and language server.",
 	"version": "0.0.1",
+	"preview": true,
 	"publisher": "shrine-maiden-heavy-industries",
-	"engines":
-	{
-		"vscode": "^1.93.0"
-	},
-	"license": "(BSD-3-Clause)",
-	"repository":
-	{
+	"private": true,
+	"license": "BSD-3-Clause",
+	"icon": "icon.png",
+	"repository": {
 		"type": "git",
-		"url": "https://github.com/shrine-maiden-heavy-industries/Vermilion"
+		"url": "https://github.com/shrine-maiden-heavy-industries/Vermilion.git"
 	},
-	"bugs":
-	{
+	"bugs": {
 		"url": "https://github.com/shrine-maiden-heavy-industries/Vermilion/issues"
 	},
-	"categories":
-	[
+	"categories": [
 		"Programming Languages",
 		"Linters",
 		"Snippets",
 		"Formatters",
 		"Other"
 	],
-	"keywords":
-	[
-		"verilog",
-		"verilog-ams",
-		"system-verilog",
-		"vhdl"
+	"keywords": [
+		"Verilog",
+		"Verilog-AMS",
+		"SystemVerilog",
+		"VHDL",
+		"VHDL-AMS",
+		"HDL",
+		"ASIC",
+		"FPGA"
 	],
-	"preview": true,
-	"activationEvents":
-	[
-		"workspaceContains:vermilion.toml",
-		"workspaceContains:*/vermilion.toml"
-	],
+	"engines": {
+		"vscode": "^1.93.0"
+	},
 	"main": "./build/extension.js",
-	"scripts":
-	{
+	"scripts": {
 		"vscode:prepublish": "npm run lint && npm run compile",
 		"compile": "tsc -b",
 		"watch": "tsc -b -w",
@@ -49,14 +44,12 @@
 		"lint": "eslint --ext ts src",
 		"installDevExtension": "npm install && ./node_modules/.bin/vsce package -o ./build/vermilion-dev.vsix && code --install-extension ./build/vermilion-dev.vsix"
 	},
-	"dependencies":
-	{
+	"dependencies": {
 		"ts-results": "^3.3.0",
 		"tslib":"^2.8.1",
 		"vscode-languageclient": "^9.0.1"
 	},
-	"devDependencies":
-	{
+	"devDependencies": {
 		"@types/node": "^25.0.3",
 		"@types/vscode": "^1.93.0",
 		"@typescript-eslint/eslint-plugin": "^8.50.0",
@@ -68,117 +61,20 @@
 		"typescript": "~5.5.4",
 		"@vscode/vsce": "^3.7.1"
 	},
-	"contributes":
-	{
-		"languages":
-		[
+	"activationEvents": [
+		"workspaceContains:vermilion.toml",
+		"workspaceContains:*/vermilion.toml"
+	],
+	"contributes": {
+		"configuration": [
 			{
-				"id": "verilog",
-				"extensions":
-				[
-					".v",
-					".vh",
-					".vm"
-				],
-				"configuration": "./languages/verilog/configuration.json",
-				"icon":
-				{
-					"dark": "./languages/verilog/icon_dark.svg",
-					"light": "./languages/verilog/icon_light.svg"
-				}
-			},
-			{
-				"id": "verilog-ams",
-				"extensions":
-				[
-					".vams"
-				],
-				"configuration": "./languages/verilog_ams/configuration.json",
-				"icon":
-				{
-					"dark": "./languages/verilog_ams/icon_dark.svg",
-					"light": "./languages/verilog_ams/icon_light.svg"
-				}
-			},
-			{
-				"id": "system-verilog",
-				"extensions":
-				[
-					".sv",
-					".svh"
-				],
-				"configuration": "./languages/system_verilog/configuration.json",
-				"icon":
-				{
-					"dark": "./languages/system_verilog/icon_dark.svg",
-					"light": "./languages/system_verilog/icon_light.svg"
-				}
-			},
-			{
-				"id": "vhdl",
-				"extensions":
-				[
-					".vhdl",
-					".vhd"
-				],
-				"configuration": "./languages/vhdl/configuration.json",
-				"icon":
-				{
-					"dark": "./languages/vhdl/icon_dark.svg",
-					"light": "./languages/vhdl/icon_light.svg"
-				}
-			},
-			{
-				"id": "vhdl-ams",
-				"extensions":
-				[
-					".vhdl",
-					".vhd"
-				],
-				"configuration": "./languages/vhdl_ams/configuration.json",
-				"icon":
-				{
-					"dark": "./languages/vhdl_ams/icon_dark.svg",
-					"light": "./languages/vhdl_ams/icon_light.svg"
-				}
-			},
-			{
-				"id": "liberty",
-				"extensions":
-				[
-					".lib"
-				],
-				"configuration": "./languages/liberty/configuration.json",
-				"icon":
-				{
-					"dark": "./languages/liberty/icon_dark.svg",
-					"light": "./languages/liberty/icon_light.svg"
-				}
-			},
-			{
-				"id": "sdc",
-				"extensions":
-				[
-					".sdc"
-				],
-				"configuration": "./languages/sdc/configuration.json",
-				"icon":
-				{
-					"dark": "./languages/sdc/icon_dark.svg",
-					"light": "./languages/sdc/icon_light.svg"
-				}
-			},
-			{
-				"id": "xdc",
-				"extensions":
-				[
-					".xdc"
-				],
-				"configuration": "./languages/xdc/configuration.json",
-				"icon":
-				{
-					"dark": "./languages/xdc/icon_dark.svg",
-					"light": "./languages/xdc/icon_light.svg"
+				"title": "Vermilion",
+				"properties": {
+					"vermilion.binaryPath": {
+						"markdownDescription": "Path to the `vermilion` executable.",
+						"default": null,
+						"type":"string"
+					}
 				}
 			}
 		],
@@ -224,18 +120,98 @@
 				"path": "./languages/xdc/base.tmLanguage.json"
 			}
 		],
-		"configuration":
-		[
+		"languages": [
 			{
-				"title": "Vermilion",
-				"properties":
-				{
-					"vermilion.binaryPath":
-					{
-						"markdownDescription": "Path to the `vermilion` executable.",
-						"default": null,
-						"type":"string"
-					}
+				"id": "verilog",
+				"extensions": [
+					".v",
+					".vh",
+					".vm"
+				],
+				"configuration": "./languages/verilog/configuration.json",
+				"icon": {
+					"dark": "./languages/verilog/icon_dark.svg",
+					"light": "./languages/verilog/icon_light.svg"
+				}
+			},
+			{
+				"id": "verilog-ams",
+				"extensions": [
+					".vams"
+				],
+				"configuration": "./languages/verilog_ams/configuration.json",
+				"icon": {
+					"dark": "./languages/verilog_ams/icon_dark.svg",
+					"light": "./languages/verilog_ams/icon_light.svg"
+				}
+			},
+			{
+				"id": "system-verilog",
+				"extensions": [
+					".sv",
+					".svh"
+				],
+				"configuration": "./languages/system_verilog/configuration.json",
+				"icon": {
+					"dark": "./languages/system_verilog/icon_dark.svg",
+					"light": "./languages/system_verilog/icon_light.svg"
+				}
+			},
+			{
+				"id": "vhdl",
+				"extensions": [
+					".vhdl",
+					".vhd"
+				],
+				"configuration": "./languages/vhdl/configuration.json",
+				"icon": {
+					"dark": "./languages/vhdl/icon_dark.svg",
+					"light": "./languages/vhdl/icon_light.svg"
+				}
+			},
+			{
+				"id": "vhdl-ams",
+				"extensions": [
+					".vhdl",
+					".vhd"
+				],
+				"configuration": "./languages/vhdl_ams/configuration.json",
+				"icon": {
+					"dark": "./languages/vhdl_ams/icon_dark.svg",
+					"light": "./languages/vhdl_ams/icon_light.svg"
+				}
+			},
+			{
+				"id": "liberty",
+				"extensions": [
+					".lib"
+				],
+				"configuration": "./languages/liberty/configuration.json",
+				"icon": {
+					"dark": "./languages/liberty/icon_dark.svg",
+					"light": "./languages/liberty/icon_light.svg"
+				}
+			},
+			{
+				"id": "sdc",
+				"extensions": [
+					".sdc"
+				],
+				"configuration": "./languages/sdc/configuration.json",
+				"icon": {
+					"dark": "./languages/sdc/icon_dark.svg",
+					"light": "./languages/sdc/icon_light.svg"
+				}
+			},
+			{
+				"id": "xdc",
+				"extensions": [
+					".xdc"
+				],
+				"configuration": "./languages/xdc/configuration.json",
+				"icon": {
+					"dark": "./languages/xdc/icon_dark.svg",
+					"light": "./languages/xdc/icon_light.svg"
 				}
 			}
 		]
