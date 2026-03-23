@@ -25,6 +25,7 @@ vermilion-verilog     = { workspace = true, features = [ "schema", "cli" ] }
 vermilion-vhdl        = { workspace = true, features = [ "schema", "cli" ] }
 vermilion-xact        = { workspace = true, features = [ "schema", "cli" ] }
 
+bumpalo               = { workspace = true }
 clap                  = { workspace = true }
 clap_complete         = { workspace = true }
 color-eyre            = { workspace = true }

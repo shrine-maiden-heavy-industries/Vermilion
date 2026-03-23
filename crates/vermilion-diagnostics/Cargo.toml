@@ -16,6 +16,7 @@ vermilion-loc    = { workspace = true }
 vermilion-macros = { workspace = true }
 
 ariadne          = { workspace = true }
+bumpalo          = { workspace = true }
 crossterm        = { workspace = true, optional = true }
 paste            = { workspace = true }
 phf              = { workspace = true }

@@ -3372,6 +3372,7 @@ checksum = "ba73ea9cf16a25df0c8caa16c51acb937d5712a8429db78a3ee29d5dcacd3a65"
 name = "vermilion"
 version = "0.0.0"
 dependencies = [
+ "bumpalo",
  "clap",
  "clap_complete",
  "color-eyre",
@@ -3417,6 +3418,7 @@ name = "vermilion-constraints"
 version = "0.0.0"
 dependencies = [
  "bitmask-enum",
+ "bumpalo",
  "clap",
  "criterion",
  "eyre",
@@ -3440,6 +3442,7 @@ name = "vermilion-diagnostics"
 version = "0.0.0"
 dependencies = [
  "ariadne",
+ "bumpalo",
  "criterion",
  "crossterm",
  "paste",
@@ -3459,6 +3462,7 @@ dependencies = [
 name = "vermilion-fmt"
 version = "0.0.0"
 dependencies = [
+ "bumpalo",
  "criterion",
  "proptest",
  "schemars",
@@ -3487,6 +3491,7 @@ name = "vermilion-lang"
 version = "0.0.0"
 dependencies = [
  "ariadne",
+ "bumpalo",
  "criterion",
  "num-traits",
  "proptest",
@@ -3503,6 +3508,7 @@ name = "vermilion-liberty"
 version = "0.0.0"
 dependencies = [
  "bitmask-enum",
+ "bumpalo",
  "clap",
  "criterion",
  "eyre",
@@ -3563,6 +3569,7 @@ name = "vermilion-verilog"
 version = "0.0.0"
 dependencies = [
  "bitmask-enum",
+ "bumpalo",
  "clap",
  "criterion",
  "eyre",
@@ -3586,6 +3593,7 @@ name = "vermilion-vhdl"
 version = "0.0.0"
 dependencies = [
  "bitmask-enum",
+ "bumpalo",
  "clap",
  "criterion",
  "eyre",

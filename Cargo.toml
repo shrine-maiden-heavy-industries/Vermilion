@@ -35,6 +35,7 @@ vermilion-xact        = { path = "crates/vermilion-xact"        }
 afl                = { version = "0.17" }
 ariadne            = { version = "0.6", features = ["auto-color"] }
 bitmask-enum       = { version = "2.2.5" }
+bumpalo            = { version = "3.20", features = [ "boxed", "collections", "std" ] }
 chrono             = { version = "0.4.42", features = [ "serde" ] }
 clap               = { version = "4.5" }
 clap_complete      = { version = "4.5" }
