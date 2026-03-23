@@ -3425,6 +3425,7 @@ dependencies = [
  "tracing",
  "tracing-subscriber",
  "vermilion-constraints",
+ "vermilion-dap",
  "vermilion-diagnostics",
  "vermilion-fmt",
  "vermilion-lang",
@@ -3458,6 +3459,25 @@ dependencies = [
  "vermilion-fmt",
  "vermilion-lang",
  "vermilion-loc",
+ "vermilion-macros",
+]
+
+[[package]]
+name = "vermilion-dap"
+version = "0.0.0"
+dependencies = [
+ "bitmask-enum",
+ "chrono",
+ "criterion",
+ "eyre",
+ "proptest",
+ "serde",
+ "serde_json",
+ "serde_repr",
+ "test-log",
+ "tokio",
+ "tokio-util",
+ "tracing",
  "vermilion-macros",
 ]
 
