@@ -449,6 +449,45 @@ dependencies = [
 ]
 
 [[package]]
+name = "cinnabar"
+version = "0.0.0"
+dependencies = [
+ "clap",
+ "clap_complete",
+ "color-eyre",
+ "color-print",
+ "colorchoice",
+ "console-subscriber",
+ "criterion",
+ "crossterm",
+ "directories",
+ "eyre",
+ "mercurous",
+ "notify",
+ "proptest",
+ "pulldown-cmark",
+ "ratatui",
+ "schemars",
+ "serde",
+ "serde_json",
+ "syntect",
+ "test-log",
+ "tokio",
+ "toml",
+ "tracing",
+ "tracing-subscriber",
+ "vermilion-constraints",
+ "vermilion-dap",
+ "vermilion-diagnostics",
+ "vermilion-lang",
+ "vermilion-liberty",
+ "vermilion-loc",
+ "vermilion-macros",
+ "vermilion-verilog",
+ "vermilion-vhdl",
+]
+
+[[package]]
 name = "clap"
 version = "4.6.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"

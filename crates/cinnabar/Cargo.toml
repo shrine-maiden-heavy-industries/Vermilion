@@ -1,0 +1,56 @@
+# SPDX-License-Identifier: BSD-3-Clause
+[package]
+name          = "cinnabar"
+description   = "Verilog/SystemVerilog/VHDL Simulator using the Vermilion frontend"
+documentation = { workspace = true }
+edition       = { workspace = true }
+homepage      = { workspace = true }
+license       = { workspace = true }
+publish       = { workspace = true }
+repository    = { workspace = true }
+rust-version  = { workspace = true }
+version       = { workspace = true }
+
+[dependencies]
+mercurous             = { workspace = true, features = [ "transport", "trace", "trace-server" ] }
+vermilion-constraints = { workspace = true, features = [ "schema", "cli" ] }
+vermilion-dap         = { workspace = true, features = [ "transport", "trace", "trace-server" ]  }
+vermilion-diagnostics = { workspace = true, features = [ "schema", "render", "pretty" ] }
+vermilion-lang        = { workspace = true }
+vermilion-liberty     = { workspace = true, features = [ "schema", "cli" ] }
+vermilion-loc         = { workspace = true }
+vermilion-macros      = { workspace = true }
+vermilion-verilog     = { workspace = true, features = [ "schema", "cli" ] }
+vermilion-vhdl        = { workspace = true, features = [ "schema", "cli" ] }
+
+clap                  = { workspace = true }
+clap_complete         = { workspace = true }
+color-eyre            = { workspace = true }
+color-print           = { workspace = true }
+colorchoice           = { workspace = true }
+console-subscriber    = { workspace = true }
+crossterm             = { workspace = true }
+directories           = { workspace = true }
+eyre                  = { workspace = true }
+notify                = { workspace = true }
+pulldown-cmark        = { workspace = true }
+ratatui               = { workspace = true }
+schemars              = { workspace = true }
+serde                 = { workspace = true }
+serde_json            = { workspace = true }
+syntect               = { workspace = true }
+tokio                 = { workspace = true }
+toml                  = { workspace = true }
+tracing               = { workspace = true }
+tracing-subscriber    = { workspace = true }
+
+[dev-dependencies]
+criterion = { workspace = true }
+proptest  = { workspace = true }
+test-log  = { workspace = true }
+
+[features]
+default = []
+
+[lints]
+workspace = true
