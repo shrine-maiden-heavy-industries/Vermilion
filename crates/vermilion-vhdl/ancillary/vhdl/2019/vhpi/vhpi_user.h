@@ -3,7 +3,7 @@
 	This file is part of the IEEE 1076-2019 VHDL Procedural Interface (VHPI) provided
 	by [Vermilion] as a supplementary file for VHDL support.
 
-	NOTE: This file is API compatable with, but not a direct verbatim copy of the definition
+	NOTE: This file is API compatible with, but not a direct verbatim copy of the definition
 	of the `vhpi_user.h` file as defined in IEEE 1076-2019.
 
 	[Vermilion]: https://github.com/shrine-maiden-heavy-industries/Vermilion
