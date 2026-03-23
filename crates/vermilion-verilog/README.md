@@ -1,6 +1,6 @@
 # `vermilion-verilog`
 
-[Verilog]/[SystemVerilog] Language support for for [Vermilion]
+[Verilog], [Verilog-AMS], and [SystemVerilog] Language support for for [Vermilion]
 
 ## License
 
@@ -10,6 +10,7 @@ The Vermilion documentation is licensed under the [CC-BY-SA 4.0], the full text 
 
 [Vermilion]: https://github.com/shrine-maiden-heavy-industries/vermilion
 [Verilog]: https://standards.ieee.org/ieee/1364/3641/
+[Verilog-AMS]: https://www.accellera.org/downloads/standards/v-ams
 [SystemVerilog]: https://standards.ieee.org/ieee/1800/7743/
 [BSD-3-Clause]: https://spdx.org/licenses/BSD-3-Clause.html
 [`LICENSE`]: https://github.com/shrine-maiden-heavy-industries/vermilion/blob/main/LICENSE
