@@ -4,3 +4,17 @@
 #![doc = include_str!("../README.md")]
 // #![warn(missing_docs)]
 // #![warn(clippy::missing_docs_in_private_items)]
+
+use vermilion_macros::{cfg_trace, cfg_transport};
+
+pub mod event;
+pub mod message;
+pub mod request;
+pub mod response;
+cfg_trace! {
+	pub mod trace;
+}
+cfg_transport! {
+	pub mod transport;
+}
+pub mod types;
