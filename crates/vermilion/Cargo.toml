@@ -13,6 +13,7 @@ rust-version  = { workspace = true }
 version       = { workspace = true }
 
 [dependencies]
+mercurous             = { workspace = true, features = [ "transport", "trace", "trace-server" ] }
 vermilion-constraints = { workspace = true, features = [ "schema", "cli" ] }
 vermilion-dap         = { workspace = true, features = [ "transport", "trace", "trace-server" ] }
 vermilion-diagnostics = { workspace = true, features = [ "schema", "render", "pretty" ] }

@@ -18,6 +18,7 @@ documentation = "https://github.com/shrine-maiden-heavy-industries/vermilion"
 
 [workspace.dependencies]
 # Core Vermilion Crates
+mercurous             = { path = "crates/mercurous"             }
 vermilion             = { path = "crates/vermilion"             }
 vermilion-constraints = { path = "crates/vermilion-constraints" }
 vermilion-dap         = { path = "crates/vermilion-dap"         }
@@ -53,6 +54,7 @@ notify             = { version = "8.2" }
 num-traits         = { version = "0.2" }
 paste              = { version = "1.0" }
 phf                = { version = "0.13", features = [ "macros" ] }
+postcard           = { version = "1.1" }
 proptest           = { version = "1.10" }
 pulldown-cmark     = { version = "0.13", default-features = false }
 quick-xml          = { version = "0.39", features = [ "serialize" ] }
