@@ -3,7 +3,7 @@
 use clap::{
 	Arg, ArgAction, ArgMatches, ColorChoice, Command, ValueHint, builder::styling, value_parser,
 };
-use color_print::cformat;
+use color_print::{cformat, cstr};
 
 use crate::{env::VERMILION_LOG_LEVEL, lang::Language, paths};
 
@@ -81,7 +81,7 @@ pub(crate) fn init() -> eyre::Result<Command> {
 			Arg::new("workspace")
 				.long("workspace")
 				.help("Specify a workspace file")
-				.long_help(cformat!(
+				.long_help(cstr!(
 					"Specify a workspace file\n\nExplicitly specify a workspace file rather than \
 					 having Vermilion search for it.\n\nVermilion searches for a file called \
 					 <cyan>vermilion.toml</> starting from the current working\ndirectory, \
