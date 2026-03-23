@@ -74,7 +74,7 @@ macro_rules! cfg_graphviz {
 ///
 /// Use this rather than `#[cfg(feature = "trace")]` to ensure docs are properly generated.
 #[macro_export]
-macro_rules! cfg_lsp_trace {
+macro_rules! cfg_trace {
     ($($item:item)*) => {
         $(
             #[cfg(feature = "trace")]
@@ -88,7 +88,7 @@ macro_rules! cfg_lsp_trace {
 ///
 /// Use this rather than `#[cfg(feature = "trace-server")]` to ensure docs are properly generated.
 #[macro_export]
-macro_rules! cfg_lsp_trace_server {
+macro_rules! cfg_trace_server {
     ($($item:item)*) => {
         $(
             #[cfg(feature = "trace-server")]
@@ -102,7 +102,7 @@ macro_rules! cfg_lsp_trace_server {
 ///
 /// Use this rather than `#[cfg(feature = "transport")]` to ensure docs are properly generated.
 #[macro_export]
-macro_rules! cfg_lsp_transport {
+macro_rules! cfg_transport {
     ($($item:item)*) => {
         $(
             #[cfg(feature = "transport")]

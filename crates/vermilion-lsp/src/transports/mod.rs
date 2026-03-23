@@ -9,10 +9,10 @@ use tokio::{
 };
 use tokio_util::sync::CancellationToken;
 use tracing::{error, trace};
-use vermilion_macros::cfg_lsp_trace_server;
+use vermilion_macros::cfg_trace_server;
 
 use super::message::Message;
-cfg_lsp_trace_server! {
+cfg_trace_server! {
 	use crate::{trace::Trace, transports::trace::TraceTransport};
 }
 
@@ -21,7 +21,7 @@ cfg_lsp_trace_server! {
 pub mod pipe;
 pub mod socket;
 pub mod stdio;
-cfg_lsp_trace_server! {
+cfg_trace_server! {
 	pub mod trace;
 }
 

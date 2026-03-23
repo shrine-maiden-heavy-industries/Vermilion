@@ -5,17 +5,17 @@
 // #![warn(missing_docs)]
 // #![warn(clippy::missing_docs_in_private_items)]
 
-use vermilion_macros::{cfg_lsp_trace, cfg_lsp_transport};
+use vermilion_macros::{cfg_trace, cfg_transport};
 
 pub mod error;
 pub mod message;
 pub mod notification;
 pub mod request;
 pub mod response;
-cfg_lsp_trace! {
+cfg_trace! {
 	pub mod trace;
 }
-cfg_lsp_transport! {
+cfg_transport! {
 	pub mod transports;
 }
 pub mod types;
