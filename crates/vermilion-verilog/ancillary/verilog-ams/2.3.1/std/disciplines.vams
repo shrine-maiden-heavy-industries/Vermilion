@@ -8,3 +8,252 @@
 
 	[Vermilion]: https://github.com/shrine-maiden-heavy-industries/Vermilion
 */
+
+`ifdef __VAMS_ENABLE__
+	`ifndef DISCIPLINES_VAMS
+		`define DISCIPLINES_VAMS 1
+
+		`ifndef CURRENT_ABSTOL
+			`define CURRENT_ABSTOL 1e-12
+		`endif
+
+		`ifndef CHARGE_ABSTOL
+			`define CHARGE_ABSTOL 1e-14
+		`endif
+
+		`ifndef VOLTAGE_ABSTOL
+			`define VOLTAGE_ABSTOL 1e-6
+		`endif
+
+		`ifndef FLUX_ABSTOL
+			`define FLUX_ABSTOL 1e-9
+		`endif
+
+		`ifndef MAGNETO_MOTIVE_FORCE_ABSTOL
+			`define MAGNETO_MOTIVE_FORCE_ABSTOL 1e-12
+		`endif
+
+		`ifndef TEMPERATURE_ABSTOL
+			`define TEMPERATURE_ABSTOL 1e-4
+		`endif
+
+		`ifndef POWER_ABSTOL
+			`define POWER_ABSTOL 1e-9
+		`endif
+
+		`ifndef POSITION_ABSTOL
+			`define POSITION_ABSTOL 1e-6
+		`endif
+
+		`ifndef VELOCITY_ABSTOL
+			`define VELOCITY_ABSTOL 1e-6
+		`endif
+
+		`ifndef ACCELERATION_ABSTOL
+			`define ACCELERATION_ABSTOL 1e-6
+		`endif
+
+		`ifndef IMPULSE_ABSTOL
+			`define IMPULSE_ABSTOL 1e-6
+		`endif
+
+		`ifndef FORCE_ABSTOL
+			`define FORCE_ABSTOL 1e-6
+		`endif
+
+		`ifndef ANGLE_ABSTOL
+			`define ANGLE_ABSTOL 1e-6
+		`endif
+
+		`ifndef ANGULAR_VELOCITY_ABSTOL
+			`define ANGULAR_VELOCITY_ABSTOL 1e-6
+		`endif
+
+		`ifndef ANGULAR_ACCELERATION_ABSTOL
+			`define ANGULAR_ACCELERATION_ABSTOL 1e-6
+		`endif
+
+		`ifndef ANGULAR_FORCE_ABSTOL
+			`define ANGULAR_FORCE_ABSTOL 1e-6
+		`endif
+
+		nature Current;
+			units      = "A";
+			access     = I;
+			idt_nature = Charge;
+			abstol     = `CURRENT_ABSTOL;
+		endnature
+
+		nature Charge;
+			units      = "coul";
+			access     = Q;
+			ddt_nature = Current;
+			abstol     = `CHARGE_ABSTOL;
+		endnature
+
+		nature Voltage;
+			units      = "V";
+			access     = V;
+			idt_nature = Flux;
+			abstol     = `VOLTAGE_ABSTOL;
+		endnature
+
+		nature Flux;
+			units      = "Wb";
+			access     = Phi;
+			ddt_nature = Voltage;
+			abstol     = `FLUX_ABSTOL;
+		endnature
+
+		nature Magneto_Motive_Force
+			units  = "A*turns";
+			access = MMF;
+			abstol = `MAGNETO_MOTIVE_FORCE_ABSTOL
+		endnature
+
+		nature Temperature;
+			units  = "K";
+			access = Temp;
+			abstol = `TEMPERATURE_ABSTOL;
+		endnature
+
+		nature Power;
+			units  = "W";
+			access = Pwr;
+			abstol = `POWER_ABSTOL;
+		endnature
+
+		nature Position;
+			units      = "m";
+			access     = Pos;
+			ddt_nature = Velocity;
+			abstol     = `POSITION_ABSTOL;
+		endnature
+
+		nature Velocity;
+			units      = "m/s";
+			access     = Vel;
+			ddt_nature = Acceleration;
+			idt_nature = Position;
+			abstol     = `VELOCITY_ABSTOL;
+		endnature
+
+		nature Acceleration;
+			units      = "m/s^2";
+			access     = Acc;
+			ddt_nature = Impulse;
+			idt_nature = Velocity;
+			abstol     = `ACCELERATION_ABSTOL;
+		endnature
+
+		nature Impulse;
+			units      = "m/s^3";
+			access     = Imp;
+			idt_nature = Acceleration;
+			abstol     = `IMPULSE_ABSTOL;
+		endnature
+
+		nature Force;
+			units  = "N";
+			access = F;
+			abstol = `FORCE_ABSTOL;
+		endnature
+
+		nature Angle;
+			units      = "rads";
+			access     = Theta;
+			ddt_nature = Angular_Velocity;
+			abstol     = `ANGLE_ABSTOL;
+		endnature
+
+		nature Angular_Velocity;
+			units      = "rads/s";
+			access     = Omega;
+			ddt_nature = Angular_Acceleration;
+			idt_nature = Angle;
+			abstol     = `ANGULAR_VELOCITY_ABSTOL;
+		endnature
+
+		nature Angular_Acceleration;
+			units      = "rads/s^2";
+			access     = Alpha;
+			idt_nature = Angular_Velocity;
+			abstol     = `ANGULAR_ACCELERATION_ABSTOL;
+		endnature
+
+		nature Angular_Force;
+			units  = "N*m";
+			access = Tau;
+			abstol = `ANGULAR_FORCE_ABSTOL;
+		endnature
+
+		`undef CURRENT_ABSTOL
+		`undef CHARGE_ABSTOL
+		`undef VOLTAGE_ABSTOL
+		`undef FLUX_ABSTOL
+		`undef MAGNETO_MOTIVE_FORCE_ABSTOL
+		`undef TEMPERATURE_ABSTOL
+		`undef POWER_ABSTOL
+		`undef POSITION_ABSTOL
+		`undef VELOCITY_ABSTOL
+		`undef ACCELERATION_ABSTOL
+		`undef IMPULSE_ABSTOL
+		`undef FORCE_ABSTOL
+		`undef ANGLE_ABSTOL
+		`undef ANGULAR_VELOCITY_ABSTOL
+		`undef ANGULAR_ACCELERATION_ABSTOL
+		`undef ANGULAR_FORCE_ABSTOL
+
+		discipline \logic;
+			domain discrete;
+		enddiscipline
+
+		discipline ddiscrete;
+			domain discrete;
+		enddiscipline
+
+		discipline electrical;
+			potential Voltage;
+			flow      Current;
+		enddiscipline
+
+		discipline voltage;
+			potential Voltage;
+		enddiscipline
+
+		discipline current;
+			flow Current;
+		enddiscipline
+
+		discipline magnetic;
+			potential Magneto_Motive_Force;
+			flow      Flux;
+		enddiscipline
+
+		discipline thermal;
+			potential Temperature;
+			flow      Power;
+		enddiscipline
+
+		discipline kinematic;
+			potential Position;
+			flow      Force;
+		enddiscipline
+
+		discipline kinematic_v;
+			potential Velocity;
+			flow      Force;
+		enddiscipline
+
+		discipline rotational;
+			potential Angle;
+			flow      Angular_Force;
+		enddiscipline
+
+		discipline rotational_omega;
+			potential Angular_Velocity;
+			flow      Angular_Force;
+		enddiscipline
+
+	`endif
+`endif

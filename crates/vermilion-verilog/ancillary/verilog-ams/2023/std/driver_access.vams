@@ -8,3 +8,22 @@
 
 	[Vermilion]: https://github.com/shrine-maiden-heavy-industries/Vermilion
 */
+
+`ifdef __VAMS_ENABLE__
+	`ifndef DRIVER_ACCESS_VAMS
+		`define DRIVER_ACCESS_VAMS 1
+
+		`define DRIVER_UNKNOWN    32'b0000_0000_0000_0000 /* No information               */
+		`define DRIVER_DELAYED    32'b0000_0000_0000_0001 /* Fixed delay                  */
+		`define DRIVER_GATE       32'b0000_0000_0000_0010 /* Primitive gate driver        */
+		`define DRIVER_UDP        32'b0000_0000_0000_0100 /* User Defined Primitive drive */
+		`define DRIVER_ASSIGN     32'b0000_0000_0000_1000 /* Continuous assignment driver */
+		`define DRIVER_BEHAVIORAL 32'b0000_0000_0001_0000 /* Register driver              */
+		`define DRIVER_SDF        32'b0000_0000_0010_0000 /* Back-annotated driver        */
+		`define DRIVER_NODELETE   32'b0000_0000_0100_0000 /* Events are not deleted       */
+		`define DRIVER_NOPREEMT   32'b0000_0000_1000_0000 /* Events are not preempted     */
+		`define DRIVER_KERNEL     32'b0000_0001_0000_0000 /* Added by a kernel            */
+		`define DRIVER_WOR        32'b0000_0010_0000_0000 /* On Wired-OR net              */
+		`define DRIVER_WAND       32'b0000_0100_0000_0000 /* On Wired-AND net             */
+	`endif
+`endif

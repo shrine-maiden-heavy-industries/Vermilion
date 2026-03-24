@@ -8,3 +8,75 @@
 
 	[Vermilion]: https://github.com/shrine-maiden-heavy-industries/Vermilion
 */
+
+`ifdef __VAMS_ENABLE__
+	`ifndef CONSTANTS_VAMS
+		`define CONSTANTS_VAMS 1
+
+		// Mathematical Constants
+		`define M_E        2.7182818284590452353602874713526624978 /* Euler's number (ℯ) */
+		`define M_LOG2E    1.4426950408889634073599246810018921374 /* log₂(ℯ),  1/ln(2)  */
+		`define M_LOG10E   0.4342944819032518276511289189166050823 /* log₁₀(ℯ), 1/ln(10) */
+		`define M_LN2      0.6931471805599453094172321214581765681 /* ln(2)              */
+		`define M_LN10     2.3025850929940456840179914546843642076 /* ln(10)             */
+		`define M_PI       3.1415926535897932384626433832795028842 /* Pi (π)             */
+		`define M_TWO_PI   6.2831853071795864769252867665590057684 /* 2π, τ              */
+		`define	M_PI_2     1.5707963267948966192313216916397514421 /* π/2                */
+		`define M_PI_4     0.7853981633974483096156608458198757210 /* π/4                */
+		`define M_1_PI     0.3183098861837906715377675267450287241 /* 1/π                */
+		`define M_2_PI     0.6366197723675813430755350534900574481 /* 2/π                */
+		`define M_2_SQRTPI 1.1283791670955125738961589031215451717 /* 2/√π               */
+		`define M_SQRT2	   1.4142135623730950488016887242096980786 /* √2                 */
+		`define M_SQRT1_2  0.7071067811865475244008443621048490393 /* 1/√2               */
+
+		// Physical Constants
+		/* Elementary electron charge    C    */
+		`define P_Q_SPICE    1.602190000e-19
+		`define P_Q_OLD      1.602191800e-19
+		`define P_Q_NIST1998 1.602176462e-19
+		`define P_Q_NIST2010 1.602176565e-19
+		/* Speed of light in a vacuum    ms⁻¹ */
+		`define P_C           2.99792485e8
+		/* Boltzmann Constant            JK⁻¹ */
+		`define P_K_SPICE     1.3806200e-23
+		`define P_K_OLD       1.3806226e-23
+		`define P_K_NIST1998  1.3806503e-23
+		`define P_K_NIST2010  1.3806488e-23
+		/* Plank Constant                Js   */
+		`define P_H_SPICE    6.62620000e-34
+		`define P_H_OLD      6.62607550e-34
+		`define P_H_NIST1998 6.62606876e-34
+		`define P_H_NIST2010 6.62606957e-34
+		/* Vacuum Electric Permittivity  Fm⁻¹ */
+		`define P_EPS0_SPICE    8.854214871e-12
+		`define P_EPS0_OLD      8.85418792394420013968e-12
+		`define P_EPS0_NIST1998 8.854187817e-12
+		`define P_EPS0_NIST2010 8.854187817e-12
+		/* Vacuum Magnetic Permeability  NA⁻² */
+		`define P_U0 (4.0e-7 * `M_PI)
+		/* 0℃                           K    */
+		`define P_CELSIUS0      273.15
+
+		`ifdef PHYSICAL_CONSTANTS_SPICE
+			`define P_Q    `P_Q_SPICE
+			`define P_K    `P_K_SPICE
+			`define P_H    `P_H_SPICE
+			`define P_EPS0 `P_EPS0_SPICE
+		`elsif PHYSICAL_CONSTANTS_OLD
+			`define P_Q    `P_Q_OLD
+			`define P_K    `P_K_OLD
+			`define P_H    `P_H_OLD
+			`define P_EPS0 `P_EPS0_OLD
+		`elsif PHYSICAL_CONSTANTS_NIST2010
+			`define P_Q    `P_Q_NIST2010
+			`define P_K    `P_K_NIST2010
+			`define P_H    `P_H_NIST2010
+			`define P_EPS0 `P_EPS0_NIST2010
+		`else
+			`define P_Q    `P_Q_NIST1998
+			`define P_K    `P_K_NIST1998
+			`define P_H    `P_H_NIST1998
+			`define P_EPS0 `P_EPS0_NIST1998
+		`endif
+	`endif
+`endif
