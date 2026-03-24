@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: BSD-3-Clause
 /*
-	This file is part of the IEC 61691-6 VHDL Procedural Interface (VHPI) provided
+	This file is part of the IEC 61691-6:2021 VHDL Procedural Interface (VHPI) provided
 	by [Vermilion] as a supplementary file for VHDL-AMS support.
 
 	NOTE: This file is API compatible with, but not a direct verbatim copy of the definition
-	of the `vhpi_user.h` file as defined in IEC 61691-6.
+	of the `vhpi_user.h` file as defined in IEC 61691-6:2021.
 
 	[Vermilion]: https://github.com/shrine-maiden-heavy-industries/Vermilion
 */
