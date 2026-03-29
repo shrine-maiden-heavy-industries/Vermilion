@@ -15,7 +15,7 @@ default-theme        = "dark"
 preferred-dark-theme = "coal"
 git-repository-url   = "https://codeberg.org/shrine-maiden-heavy-industries/Vermilion"
 git-repository-icon  = "fa-github"
-edit-url-template    = "https://codeberg.org/shrine-maiden-heavy-industries/Vermilion/_edit/main/docs/{path}"
+edit-url-template    = "https://codeberg.org/shrine-maiden-heavy-industries/Vermilion/_edit/main/docs/vermilion/{path}"
 additional-css       = [
 	"./assets/css/mdbook-admonish.css"
 ]
