@@ -6,7 +6,7 @@
 	NOTE: This file is API compatible with, but not a direct verbatim copy of the definition
 	of the `vpi_compatibility.h` file as defined in IEEE 1800-2012.
 
-	[Vermilion]: https://github.com/shrine-maiden-heavy-industries/Vermilion
+	[Vermilion]: https://codeberg.org/shrine-maiden-heavy-industries/Vermilion
 */
 #pragma once
 #if !defined(VPI_COMPATIBILITY_H)

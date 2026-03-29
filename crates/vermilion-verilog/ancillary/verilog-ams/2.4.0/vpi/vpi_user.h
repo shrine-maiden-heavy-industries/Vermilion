@@ -6,7 +6,7 @@
 	NOTE: This file is API compatible with, but not a direct verbatim copy of the definition
 	of the `vpi_user.h` file as defined in Accellera Verilog-AMS 2.4.0.
 
-	[Vermilion]: https://github.com/shrine-maiden-heavy-industries/Vermilion
+	[Vermilion]: https://codeberg.org/shrine-maiden-heavy-industries/Vermilion
 */
 #pragma once
 #if !defined(VPI_USER_H)
