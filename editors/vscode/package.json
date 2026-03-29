@@ -10,10 +10,10 @@
 	"icon": "icon.png",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/shrine-maiden-heavy-industries/Vermilion.git"
+		"url": "https://codeberg.org/shrine-maiden-heavy-industries/Vermilion.git"
 	},
 	"bugs": {
-		"url": "https://github.com/shrine-maiden-heavy-industries/Vermilion/issues"
+		"url": "https://codeberg.org/shrine-maiden-heavy-industries/Vermilion/issues"
 	},
 	"categories": [
 		"Programming Languages",

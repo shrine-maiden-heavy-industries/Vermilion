@@ -17,7 +17,7 @@ The Vermilion documentation is licensed under the [CC-BY-SA 4.0], the full text 
 [VHDL]: https://standards.ieee.org/ieee/1076/5179/
 [VHDL-AMS]: https://standards.ieee.org/ieee/1076.1/5180/
 [BSD-3-Clause]: https://spdx.org/licenses/BSD-3-Clause.html
-[`LICENSE`]: https://github.com/shrine-maiden-heavy-industries/vermilion/blob/main/LICENSE
+[`LICENSE`]: https://codeberg.org/shrine-maiden-heavy-industries/Vermilionon/src/branch/main/LICENSE
 [CC-BY-SA 4.0]: https://creativecommons.org/licenses/by-sa/4.0/
-[`LICENSE.docs`]: https://github.com/shrine-maiden-heavy-industries/vermilion/blob/main/LICENSE.docs
-[git repository]: https://github.com/shrine-maiden-heavy-industries/vermilion
+[`LICENSE.docs`]: https://codeberg.org/shrine-maiden-heavy-industries/Vermilionon/src/branch/main/LICENSE.docs
+[git repository]: https://codeberg.org/shrine-maiden-heavy-industries/Vermilionon

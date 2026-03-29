@@ -32,4 +32,4 @@ Unreleased template stuff
 
 ### Security
 
-[unreleased]: https://github.com/shrine-maiden-heavy-industries/vermilion/main...main
+[unreleased]: https://codeberg.org/shrine-maiden-heavy-industries/Vermilion/compare/main...main

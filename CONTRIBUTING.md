@@ -76,7 +76,7 @@ Vermilion is written in Rust, so you'll need a reasonably modern rust toolchain 
 With all of that sorted, you're now ready to get started getting the code:
 
 1. [Fork] the repository to your GitHub account and clone it locally if you've not done so already previously.
-1. Within the local repository, add this repo as a remote: `git remote add upstream https://github.com/shrine-maiden-heavy-industries/Vermilion`
+1. Within the local repository, add this repo as a remote: `git remote add upstream https://codeberg.org/shrine-maiden-heavy-industries/Vermilion`
 1. If you already have an existing clone, make sure it's up to date:
    1. Fetch all pending changes: `git fetch --all --prune`
    1. Switch back to the `main` branch: `git switch main`
@@ -219,11 +219,11 @@ No exceptions to this policy will be made.
 The use of Generative AI when contributing or interacting with this project is ***EXPLICITLY FORBIDDEN*** with ***NO EXCEPTIONS*** and if you are found to be using it, you will be banned from the project and your contributions removed.
 
 [BSD-3-Clause]: https://spdx.org/licenses/BSD-3-Clause.html
-[`LICENSE`]: https://github.com/shrine-maiden-heavy-industries/Vermilion/blob/main/LICENSE
+[`LICENSE`]: https://codeberg.org/shrine-maiden-heavy-industries/Vermilion/src/branch/main/LICENSE
 [CC-BY-SA 4.0]: https://creativecommons.org/licenses/by-sa/4.0/
-[`LICENSE.docs`]: https://github.com/shrine-maiden-heavy-industries/Vermilion/blob/main/LICENSE.docs
-[git repository]: https://github.com/shrine-maiden-heavy-industries/Vermilion
-[Code Of Conduct]: https://github.com/shrine-maiden-heavy-industries/Vermilion/blob/main/CODE_OF_CONDUCT.md
+[`LICENSE.docs`]: https://codeberg.org/shrine-maiden-heavy-industries/Vermilion/src/branch/main/LICENSE.docs
+[git repository]: https://codeberg.org/shrine-maiden-heavy-industries/Vermilion
+[Code Of Conduct]: https://codeberg.org/shrine-maiden-heavy-industries/Vermilion/src/branch/main/CODE_OF_CONDUCT.md
 [Reporting Issues]: #reporting-issues
 [Suggesting Features]: #suggesting-features
 [Development And Testing]: #development-and-testing
@@ -238,17 +238,17 @@ The use of Generative AI when contributing or interacting with this project is *
 [Crate API Documentation]: #crate-api-documentation
 [AI Usage Policy]: #ai-usage-policy
 [TL;DR]: #tldr
-[issue tracker]: https://github.com/shrine-maiden-heavy-industries/Vermilion/issues
-[report an issue]: https://github.com/shrine-maiden-heavy-industries/Vermilion/issues
-[discussion forum]: https://github.com/shrine-maiden-heavy-industries/Vermilion/discussions
+[issue tracker]: https://codeberg.org/shrine-maiden-heavy-industries/Vermilion/issues
+[report an issue]: https://codeberg.org/shrine-maiden-heavy-industries/Vermilion/issues
+[discussion forum]: https://codeberg.org/shrine-maiden-heavy-industries/Vermilion/discussions
 [IRC channel]: https://web.libera.chat/#torii
 [rust-analyzer]: https://rust-analyzer.github.io/
 [`rustfmt`]: https://github.com/rust-lang/rustfmt
 [`cargo-nextest`]: https://nexte.st/
-[fork]: https://github.com/shrine-maiden-heavy-industries/Vermilion/fork
+[fork]: https://codeberg.org/shrine-maiden-heavy-industries/Vermilion/fork
 [signing commits]: https://docs.github.com/en/authentication/managing-commit-signature-verification/signing-commits
 [setting up your signing key]: https://docs.github.com/en/authentication/managing-commit-signature-verification/telling-git-about-your-signing-key
 [git rebase]: https://git-scm.com/book/en/v2/Git-Branching-Rebasing
-[new pull request]: https://github.com/shrine-maiden-heavy-industries/Vermilion/compare
+[new pull request]: https://codeberg.org/shrine-maiden-heavy-industries/Vermilion/compare
 [mdBook]: https://rust-lang.github.io/mdBook/
 [rustdoc book]: https://doc.rust-lang.org/rustdoc/how-to-write-documentation.html

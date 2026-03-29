@@ -1,7 +1,7 @@
 -- SPDX-License-Identifier: BSD-3-Clause
 ---@brief
 ---
---- https://github.com/shrine-maiden-heavy-industries/Vermilion
+--- https://codeberg.org/shrine-maiden-heavy-industries/Vermilion
 ---
 --- Verilog/Verilog-AMS/SystemVerilog/VHDL Language Server, Linter, and Formatter
 ---

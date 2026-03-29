@@ -12,9 +12,9 @@ publish       = false
 edition       = "2024"
 license       = "BSD-3-Clause"
 rust-version  = "1.92"
-repository    = "https://github.com/shrine-maiden-heavy-industries/vermilion"
-homepage      = "https://github.com/shrine-maiden-heavy-industries/vermilion"
-documentation = "https://github.com/shrine-maiden-heavy-industries/vermilion"
+repository    = "https://codeberg.org/shrine-maiden-heavy-industries/Vermilion"
+homepage      = "https://codeberg.org/shrine-maiden-heavy-industries/Vermilion"
+documentation = "https://codeberg.org/shrine-maiden-heavy-industries/Vermilion"
 
 [workspace.dependencies]
 # Core Vermilion Crates
