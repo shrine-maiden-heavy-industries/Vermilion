@@ -4,9 +4,7 @@ use std::path::PathBuf;
 
 use rayon::iter::{ParallelBridge, ParallelIterator, walk_tree};
 
-// TODO(aki): Remove once used
-#[allow(unused, reason = "Currently unused")]
-pub trait ParallelWalk {
+pub trait ParallelWalk: _impl::Sealed {
 	fn par_walk(&self) -> impl ParallelIterator<Item = Self>;
 }
 
@@ -24,4 +22,12 @@ impl ParallelWalk for PathBuf {
 			}
 		})
 	}
+}
+
+mod _impl {
+	use super::PathBuf;
+
+	pub trait Sealed {}
+
+	impl Sealed for PathBuf {}
 }

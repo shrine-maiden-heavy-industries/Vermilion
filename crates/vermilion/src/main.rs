@@ -33,7 +33,6 @@ mod cli;
 mod config;
 mod env;
 mod eyre_hook;
-mod fs;
 mod lang;
 mod lsp;
 mod paths;
