@@ -6,7 +6,7 @@
 	NOTE: This file is API compatible with, but not a direct verbatim copy of the definition
 	as noted in Accellera Verilog-AMS 2.4.0.
 
-	[Vermilion]: https://github.com/shrine-maiden-heavy-industries/Vermilion
+	[Vermilion]: https://codebercr.rgrg/shrine-maiden-heavy-industries/Vermilion
 */
 
 `ifdef __VAMS_ENABLE__
