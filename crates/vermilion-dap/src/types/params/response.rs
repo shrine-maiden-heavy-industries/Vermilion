@@ -514,9 +514,21 @@ impl CompletionsParams {
 	}
 }
 
+impl Default for ContinueParams {
+	fn default() -> Self {
+		Self::new()
+	}
+}
+
 impl ContinueParams {
-	pub fn new(all_threads_continued: Option<bool>) -> Self {
-		Self { all_threads_continued }
+	pub fn new() -> Self {
+		Self { all_threads_continued: None }
+	}
+
+	pub fn with_all_threads_continued(self, all_threads_continued: bool) -> Self {
+		let mut this = self;
+		this.all_threads_continued = Some(all_threads_continued);
+		this
 	}
 
 	/// If omitted or set to `true`, this response signals to the client that all threads have been
@@ -529,13 +541,37 @@ impl ContinueParams {
 }
 
 impl DataBreakpointInfoParams {
-	pub fn new(
-		data_id: Option<String>,
-		description: String,
-		access_types: Option<Vec<DataBreakpointAccessType>>,
-		can_persist: Option<bool>,
-	) -> Self {
-		Self { data_id, description, access_types, can_persist }
+	pub fn new<T>(description: T) -> Self
+	where
+		T: ToString,
+	{
+		Self {
+			data_id:      None,
+			description:  description.to_string(),
+			access_types: None,
+			can_persist:  None,
+		}
+	}
+
+	pub fn with_data_id<T>(self, data_id: T) -> Self
+	where
+		T: ToString,
+	{
+		let mut this = self;
+		this.data_id = Some(data_id.to_string());
+		this
+	}
+
+	pub fn with_access_types(self, access_types: Vec<DataBreakpointAccessType>) -> Self {
+		let mut this = self;
+		this.access_types = Some(access_types);
+		this
+	}
+
+	pub fn with_can_persist(self, can_persist: bool) -> Self {
+		let mut this = self;
+		this.can_persist = Some(can_persist);
+		this
 	}
 
 	/// An identifier for the data on which a data breakpoint can be registered with the
@@ -580,27 +616,62 @@ impl DisassembleParams {
 }
 
 impl EvaluateParams {
-	#[allow(clippy::too_many_arguments, reason = "Big structure, can't do much about it")]
-	pub fn new(
-		result: String,
-		typ: Option<String>,
-		presentation_hint: Option<VariablePresentationHint>,
-		variables_reference: u32,
-		named_variables: Option<u32>,
-		indexed_variables: Option<u32>,
-		memory_reference: Option<String>,
-		value_location_reference: Option<i32>,
-	) -> Self {
+	pub fn new<T>(result: T, variables_reference: u32) -> Self
+	where
+		T: ToString,
+	{
 		Self {
-			result,
-			typ,
-			presentation_hint,
+			result: result.to_string(),
+			typ: None,
+			presentation_hint: None,
 			variables_reference,
-			named_variables,
-			indexed_variables,
-			memory_reference,
-			value_location_reference,
+			named_variables: None,
+			indexed_variables: None,
+			memory_reference: None,
+			value_location_reference: None,
 		}
+	}
+
+	pub fn with_type<T>(self, typ: T) -> Self
+	where
+		T: ToString,
+	{
+		let mut this = self;
+		this.typ = Some(typ.to_string());
+		this
+	}
+
+	pub fn with_presentation_hint(self, presentation_hint: VariablePresentationHint) -> Self {
+		let mut this = self;
+		this.presentation_hint = Some(presentation_hint);
+		this
+	}
+
+	pub fn with_named_variables(self, named_variables: u32) -> Self {
+		let mut this = self;
+		this.named_variables = Some(named_variables);
+		this
+	}
+
+	pub fn with_indexed_variables(self, indexed_variables: u32) -> Self {
+		let mut this = self;
+		this.indexed_variables = Some(indexed_variables);
+		this
+	}
+
+	pub fn with_memory_reference<T>(self, memory_reference: T) -> Self
+	where
+		T: ToString,
+	{
+		let mut this = self;
+		this.memory_reference = Some(memory_reference.to_string());
+		this
+	}
+
+	pub fn with_value_location_reference(self, value_location_reference: i32) -> Self {
+		let mut this = self;
+		this.value_location_reference = Some(value_location_reference);
+		this
 	}
 
 	/// The result of the evaluate request.
@@ -672,13 +743,31 @@ impl EvaluateParams {
 }
 
 impl ExceptionInfoParams {
-	pub fn new(
-		exception_id: String,
-		description: Option<String>,
-		break_mode: ExceptionBreakMode,
-		details: Option<ExceptionDetails>,
-	) -> Self {
-		Self { exception_id, description, break_mode, details }
+	pub fn new<T>(exception_id: T, break_mode: ExceptionBreakMode) -> Self
+	where
+		T: ToString,
+	{
+		Self {
+			exception_id: exception_id.to_string(),
+			description: None,
+			break_mode,
+			details: None,
+		}
+	}
+
+	pub fn with_description<T>(self, description: T) -> Self
+	where
+		T: ToString,
+	{
+		let mut this = self;
+		this.description = Some(description.to_string());
+		this
+	}
+
+	pub fn with_details(self, details: ExceptionDetails) -> Self {
+		let mut this = self;
+		this.details = Some(details);
+		this
 	}
 
 	/// ID of the exception that was thrown.
@@ -736,14 +825,32 @@ impl LoadedSourcesParams {
 }
 
 impl LocationsParams {
-	pub fn new(
-		source: Source,
-		line: u64,
-		column: Option<u64>,
-		end_line: Option<u64>,
-		end_column: Option<u64>,
-	) -> Self {
-		Self { source, line, column, end_line, end_column }
+	pub fn new(source: Source, line: u64) -> Self {
+		Self {
+			source,
+			line,
+			column: None,
+			end_line: None,
+			end_column: None,
+		}
+	}
+
+	pub fn with_column(self, column: u64) -> Self {
+		let mut this = self;
+		this.column = Some(column);
+		this
+	}
+
+	pub fn with_end_line(self, end_line: u64) -> Self {
+		let mut this = self;
+		this.end_line = Some(end_line);
+		this
+	}
+
+	pub fn with_end_column(self, end_column: u64) -> Self {
+		let mut this = self;
+		this.end_column = Some(end_column);
+		this
 	}
 
 	/// The source containing the location; either `source.path` or `source.sourceReference` must
@@ -785,8 +892,14 @@ impl LocationsParams {
 }
 
 impl ModuleParams {
-	pub fn new(modules: Vec<Module>, total_modules: Option<u64>) -> Self {
-		Self { modules, total_modules }
+	pub fn new(modules: Vec<Module>) -> Self {
+		Self { modules, total_modules: None }
+	}
+
+	pub fn with_total_modules(self, total_modules: u64) -> Self {
+		let mut this = self;
+		this.total_modules = Some(total_modules);
+		this
 	}
 
 	/// All modules or range of modules.
@@ -801,8 +914,30 @@ impl ModuleParams {
 }
 
 impl ReadMemoryParams {
-	pub fn new(address: String, unreadable_bytes: Option<u64>, data: Option<String>) -> Self {
-		Self { address, unreadable_bytes, data }
+	pub fn new<T>(address: T) -> Self
+	where
+		T: ToString,
+	{
+		Self {
+			address:          address.to_string(),
+			unreadable_bytes: None,
+			data:             None,
+		}
+	}
+
+	pub fn with_unreadable_bytes(self, unreadable_bytes: u64) -> Self {
+		let mut this = self;
+		this.unreadable_bytes = Some(unreadable_bytes);
+		this
+	}
+
+	pub fn with_data<T>(self, data: T) -> Self
+	where
+		T: ToString,
+	{
+		let mut this = self;
+		this.data = Some(data.to_string());
+		this
 	}
 
 	/// The address of the first byte of data returned.
@@ -868,9 +1003,21 @@ impl SetDataBreakpointsParams {
 	}
 }
 
+impl Default for SetExceptionBreakpointsParams {
+	fn default() -> Self {
+		Self::new()
+	}
+}
+
 impl SetExceptionBreakpointsParams {
-	pub fn new(breakpoints: Option<Vec<Breakpoint>>) -> Self {
-		Self { breakpoints }
+	pub fn new() -> Self {
+		Self { breakpoints: None }
+	}
+
+	pub fn with_breakpoints(self, breakpoints: Vec<Breakpoint>) -> Self {
+		let mut this = self;
+		this.breakpoints = Some(breakpoints);
+		this
 	}
 
 	/// Information about the exception breakpoints or filters.
@@ -886,27 +1033,68 @@ impl SetExceptionBreakpointsParams {
 }
 
 impl SetExpressionParams {
-	#[allow(clippy::too_many_arguments, reason = "Big structure, can't do much about it")]
-	pub fn new(
-		value: String,
-		typ: Option<String>,
-		presentation_hint: Option<VariablePresentationHint>,
-		variables_reference: Option<u32>,
-		named_variables: Option<u32>,
-		indexed_variables: Option<u32>,
-		memory_reference: Option<String>,
-		value_location_reference: Option<u32>,
-	) -> Self {
+	pub fn new<T>(value: T) -> Self
+	where
+		T: ToString,
+	{
 		Self {
-			value,
-			typ,
-			presentation_hint,
-			variables_reference,
-			named_variables,
-			indexed_variables,
-			memory_reference,
-			value_location_reference,
+			value:                    value.to_string(),
+			typ:                      None,
+			presentation_hint:        None,
+			variables_reference:      None,
+			named_variables:          None,
+			indexed_variables:        None,
+			memory_reference:         None,
+			value_location_reference: None,
 		}
+	}
+
+	pub fn with_type<T>(self, typ: T) -> Self
+	where
+		T: ToString,
+	{
+		let mut this = self;
+		this.typ = Some(typ.to_string());
+		this
+	}
+
+	pub fn with_presentation_hint(self, presentation_hint: VariablePresentationHint) -> Self {
+		let mut this = self;
+		this.presentation_hint = Some(presentation_hint);
+		this
+	}
+
+	pub fn with_variables_reference(self, variables_reference: u32) -> Self {
+		let mut this = self;
+		this.variables_reference = Some(variables_reference);
+		this
+	}
+
+	pub fn with_named_variables(self, named_variables: u32) -> Self {
+		let mut this = self;
+		this.named_variables = Some(named_variables);
+		this
+	}
+
+	pub fn with_indexed_variables(self, indexed_variables: u32) -> Self {
+		let mut this = self;
+		this.indexed_variables = Some(indexed_variables);
+		this
+	}
+
+	pub fn with_memory_reference<T>(self, memory_reference: T) -> Self
+	where
+		T: ToString,
+	{
+		let mut this = self;
+		this.memory_reference = Some(memory_reference.to_string());
+		this
+	}
+
+	pub fn with_value_location_reference(self, value_location_reference: u32) -> Self {
+		let mut this = self;
+		this.value_location_reference = Some(value_location_reference);
+		this
 	}
 
 	/// The new value of the expression.
@@ -1003,24 +1191,61 @@ impl SetInstructionBreakpointsParams {
 }
 
 impl SetVariableParams {
-	pub fn new(
-		value: String,
-		typ: Option<String>,
-		variables_reference: Option<u32>,
-		named_variables: Option<u32>,
-		indexed_variables: Option<u32>,
-		memory_reference: Option<String>,
-		value_location_reference: Option<i32>,
-	) -> Self {
+	pub fn new<T>(value: T) -> Self
+	where
+		T: ToString,
+	{
 		Self {
-			value,
-			typ,
-			variables_reference,
-			named_variables,
-			indexed_variables,
-			memory_reference,
-			value_location_reference,
+			value:                    value.to_string(),
+			typ:                      None,
+			variables_reference:      None,
+			named_variables:          None,
+			indexed_variables:        None,
+			memory_reference:         None,
+			value_location_reference: None,
 		}
+	}
+
+	pub fn with_type<T>(self, typ: T) -> Self
+	where
+		T: ToString,
+	{
+		let mut this = self;
+		this.typ = Some(typ.to_string());
+		this
+	}
+
+	pub fn with_variables_reference(self, variables_reference: u32) -> Self {
+		let mut this = self;
+		this.variables_reference = Some(variables_reference);
+		this
+	}
+
+	pub fn with_named_variables(self, named_variables: u32) -> Self {
+		let mut this = self;
+		this.named_variables = Some(named_variables);
+		this
+	}
+
+	pub fn with_indexed_variables(self, indexed_variables: u32) -> Self {
+		let mut this = self;
+		this.indexed_variables = Some(indexed_variables);
+		this
+	}
+
+	pub fn with_memory_reference<T>(self, memory_reference: String) -> Self
+	where
+		T: ToString,
+	{
+		let mut this = self;
+		this.memory_reference = Some(memory_reference.to_string());
+		this
+	}
+
+	pub fn with_value_location_reference(self, value_location_reference: i32) -> Self {
+		let mut this = self;
+		this.value_location_reference = Some(value_location_reference);
+		this
 	}
 
 	/// The new value of the variable.
@@ -1088,8 +1313,20 @@ impl SetVariableParams {
 }
 
 impl SourceParams {
-	pub fn new(content: String, mime_type: Option<String>) -> Self {
-		Self { content, mime_type }
+	pub fn new<T>(content: T) -> Self
+	where
+		T: ToString,
+	{
+		Self { content: content.to_string(), mime_type: None }
+	}
+
+	pub fn with_mime_type<T>(self, mime_type: T) -> Self
+	where
+		T: ToString,
+	{
+		let mut this = self;
+		this.mime_type = Some(mime_type.to_string());
+		this
 	}
 
 	/// Content of the source reference.
@@ -1104,8 +1341,14 @@ impl SourceParams {
 }
 
 impl StackTraceParams {
-	pub fn new(stack_frames: Vec<StackFrame>, total_frames: Option<u32>) -> Self {
-		Self { stack_frames, total_frames }
+	pub fn new(stack_frames: Vec<StackFrame>) -> Self {
+		Self { stack_frames, total_frames: None }
+	}
+
+	pub fn with_total_frames(self, total_frames: u32) -> Self {
+		let mut this = self;
+		this.total_frames = Some(total_frames);
+		this
 	}
 
 	/// The frames of the stack frame. If the array has length zero, there are no stack frames
@@ -1160,9 +1403,27 @@ impl VariablesParams {
 	}
 }
 
+impl Default for WriteMemoryParams {
+	fn default() -> Self {
+		Self::new()
+	}
+}
+
 impl WriteMemoryParams {
-	pub fn new(offset: Option<i64>, bytes_written: Option<u32>) -> Self {
-		Self { offset, bytes_written }
+	pub fn new() -> Self {
+		Self { offset: None, bytes_written: None }
+	}
+
+	pub fn with_offset(self, offset: i64) -> Self {
+		let mut this = self;
+		this.offset = Some(offset);
+		this
+	}
+
+	pub fn with_bytes_written(self, bytes_written: u32) -> Self {
+		let mut this = self;
+		this.bytes_written = Some(bytes_written);
+		this
 	}
 
 	/// Property that should be returned when `allowPartial` is true to indicate the offset of the
@@ -1179,8 +1440,14 @@ impl WriteMemoryParams {
 }
 
 impl RunInTerminalParams {
-	pub fn new(process_id: i32, shell_process_id: Option<i32>) -> Self {
-		Self { process_id, shell_process_id }
+	pub fn new(process_id: i32) -> Self {
+		Self { process_id, shell_process_id: None }
+	}
+
+	pub fn with_shell_process_id(self, shell_process_id: i32) -> Self {
+		let mut this = self;
+		this.shell_process_id = Some(shell_process_id);
+		this
 	}
 
 	/// The process ID.

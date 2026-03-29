@@ -323,8 +323,14 @@ impl BreakpointParams {
 }
 
 impl ContinuedParams {
-	pub fn new(thread_id: u32, all_threads_continued: Option<bool>) -> Self {
-		Self { thread_id, all_threads_continued }
+	pub fn new(thread_id: u32) -> Self {
+		Self { thread_id, all_threads_continued: None }
+	}
+
+	pub fn with_all_threads_continued(self, all_threads_continued: bool) -> Self {
+		let mut this = self;
+		this.all_threads_continued = Some(all_threads_continued);
+		this
 	}
 
 	/// The thread which was continued
@@ -352,13 +358,37 @@ impl ExitedParams {
 	}
 }
 
+impl Default for InvalidatedParams {
+	fn default() -> Self {
+		Self::new()
+	}
+}
+
 impl InvalidatedParams {
-	pub fn new(
-		areas: Option<Vec<InvalidatedAreas>>,
-		thread_id: Option<i32>,
-		stack_frame_id: Option<i32>,
-	) -> Self {
-		Self { areas, thread_id, stack_frame_id }
+	pub fn new() -> Self {
+		Self {
+			areas:          None,
+			thread_id:      None,
+			stack_frame_id: None,
+		}
+	}
+
+	pub fn with_areas(self, areas: Vec<InvalidatedAreas>) -> Self {
+		let mut this = self;
+		this.areas = Some(areas);
+		this
+	}
+
+	pub fn with_thread_id(self, thread_id: i32) -> Self {
+		let mut this = self;
+		this.thread_id = Some(thread_id);
+		this
+	}
+
+	pub fn with_stack_frame_id(self, stack_frame_id: i32) -> Self {
+		let mut this = self;
+		this.stack_frame_id = Some(stack_frame_id);
+		this
 	}
 
 	/// Set of logical areas that got invalidated.
@@ -399,8 +429,15 @@ impl LoadedSourceParams {
 }
 
 impl MemoryParams {
-	pub fn new(memory_reference: String, offset: i64, count: u64) -> Self {
-		Self { memory_reference, offset, count }
+	pub fn new<T>(memory_reference: T, offset: i64, count: u64) -> Self
+	where
+		T: ToString,
+	{
+		Self {
+			memory_reference: memory_reference.to_string(),
+			offset,
+			count,
+		}
 	}
 
 	/// Memory reference of a memory range that has been updated.
@@ -436,29 +473,72 @@ impl ModuleParams {
 }
 
 impl OutputParams {
-	#[allow(clippy::too_many_arguments, reason = "Big structure, can't do much about it")]
-	pub fn new(
-		category: Option<OutputCategory>,
-		output: String,
-		group: Option<OutputGroup>,
-		variables_reference: Option<u32>,
-		source: Option<Box<Source>>,
-		line: Option<u64>,
-		column: Option<u64>,
-		data: Option<serde_json::Value>,
-		location_reference: Option<u32>,
-	) -> Self {
+	pub fn new<T>(output: T) -> Self
+	where
+		T: ToString,
+	{
 		Self {
-			category,
-			output,
-			group,
-			variables_reference,
-			source,
-			line,
-			column,
-			data,
-			location_reference,
+			category:            None,
+			output:              output.to_string(),
+			group:               None,
+			variables_reference: None,
+			source:              None,
+			line:                None,
+			column:              None,
+			data:                None,
+			location_reference:  None,
 		}
+	}
+
+	pub fn with_category(self, category: OutputCategory) -> Self {
+		let mut this = self;
+		this.category = Some(category);
+		this
+	}
+
+	pub fn with_group(self, group: OutputGroup) -> Self {
+		let mut this = self;
+		this.group = Some(group);
+		this
+	}
+
+	pub fn with_variables_reference(self, variables_reference: u32) -> Self {
+		let mut this = self;
+		this.variables_reference = Some(variables_reference);
+		this
+	}
+
+	pub fn with_source(self, source: Box<Source>) -> Self {
+		let mut this = self;
+		this.source = Some(source);
+		this
+	}
+
+	pub fn with_line(self, line: u64) -> Self {
+		let mut this = self;
+		this.line = Some(line);
+		this
+	}
+
+	pub fn with_column(self, column: u64) -> Self {
+		let mut this = self;
+		this.column = Some(column);
+		this
+	}
+
+	pub fn with_data<T>(self, data: T) -> eyre::Result<Self>
+	where
+		T: serde::Serialize,
+	{
+		let mut this = self;
+		this.data = Some(serde_json::to_value(data)?);
+		Ok(this)
+	}
+
+	pub fn with_location_reference(self, location_reference: u32) -> Self {
+		let mut this = self;
+		this.location_reference = Some(location_reference);
+		this
 	}
 
 	/// The output category.
@@ -529,20 +609,41 @@ impl OutputParams {
 }
 
 impl ProcessParams {
-	pub fn new(
-		name: String,
-		system_process_id: Option<i32>,
-		is_local_process: Option<bool>,
-		start_method: Option<ProcessStartMethod>,
-		pointer_size: Option<u32>,
-	) -> Self {
+	pub fn new<T>(name: T) -> Self
+	where
+		T: ToString,
+	{
 		Self {
-			name,
-			system_process_id,
-			is_local_process,
-			start_method,
-			pointer_size,
+			name:              name.to_string(),
+			system_process_id: None,
+			is_local_process:  None,
+			start_method:      None,
+			pointer_size:      None,
 		}
+	}
+
+	pub fn with_system_process_id(self, system_process_id: i32) -> Self {
+		let mut this = self;
+		this.system_process_id = Some(system_process_id);
+		this
+	}
+
+	pub fn with_is_local_process(self, is_local_process: bool) -> Self {
+		let mut this = self;
+		this.is_local_process = Some(is_local_process);
+		this
+	}
+
+	pub fn with_start_method(self, start_method: ProcessStartMethod) -> Self {
+		let mut this = self;
+		this.start_method = Some(start_method);
+		this
+	}
+
+	pub fn with_pointer_size(self, pointer_size: u32) -> Self {
+		let mut this = self;
+		this.pointer_size = Some(pointer_size);
+		this
 	}
 
 	/// The logical name of the process. This is usually the full path to process's executable
@@ -577,8 +678,23 @@ impl ProcessParams {
 }
 
 impl ProgressEndParams {
-	pub fn new(progress_id: String, message: Option<String>) -> Self {
-		Self { progress_id, message }
+	pub fn new<T>(progress_id: T) -> Self
+	where
+		T: ToString,
+	{
+		Self {
+			progress_id: progress_id.to_string(),
+			message:     None,
+		}
+	}
+
+	pub fn with_message<T>(self, message: T) -> Self
+	where
+		T: ToString,
+	{
+		let mut this = self;
+		this.message = Some(message.to_string());
+		this
 	}
 
 	/// The ID that was introduced in the initial `ProgressStartEvent`.
@@ -593,22 +709,46 @@ impl ProgressEndParams {
 }
 
 impl ProgressStartParams {
-	pub fn new(
-		progress_id: String,
-		title: String,
-		request_id: Option<u32>,
-		cancellable: Option<bool>,
-		message: Option<String>,
-		percentage: Option<u32>,
-	) -> Self {
+	pub fn new<T, U>(progress_id: T, title: U) -> Self
+	where
+		T: ToString,
+		U: ToString,
+	{
 		Self {
-			progress_id,
-			title,
-			request_id,
-			cancellable,
-			message,
-			percentage,
+			progress_id: progress_id.to_string(),
+			title:       title.to_string(),
+			request_id:  None,
+			cancellable: None,
+			message:     None,
+			percentage:  None,
 		}
+	}
+
+	pub fn with_request_id(self, request_id: u32) -> Self {
+		let mut this = self;
+		this.request_id = Some(request_id);
+		this
+	}
+
+	pub fn with_cancellable(self, cancellable: bool) -> Self {
+		let mut this = self;
+		this.cancellable = Some(cancellable);
+		this
+	}
+
+	pub fn with_message<T>(self, message: T) -> Self
+	where
+		T: ToString,
+	{
+		let mut this = self;
+		this.message = Some(message.to_string());
+		this
+	}
+
+	pub fn with_percentage(self, percentage: u32) -> Self {
+		let mut this = self;
+		this.percentage = Some(percentage);
+		this
 	}
 
 	/// An ID that can be used in subsequent `progressUpdate` and `progressEnd` events to make them
@@ -659,8 +799,30 @@ impl ProgressStartParams {
 }
 
 impl ProgressUpdateParams {
-	pub fn new(progress_id: String, message: Option<String>, percentage: Option<u32>) -> Self {
-		Self { progress_id, message, percentage }
+	pub fn new<T>(progress_id: T) -> Self
+	where
+		T: ToString,
+	{
+		Self {
+			progress_id: progress_id.to_string(),
+			message:     None,
+			percentage:  None,
+		}
+	}
+
+	pub fn with_message<T>(self, message: T) -> Self
+	where
+		T: ToString,
+	{
+		let mut this = self;
+		this.message = Some(message.to_string());
+		this
+	}
+
+	pub fn with_percentage(self, percentage: u32) -> Self {
+		let mut this = self;
+		this.percentage = Some(percentage);
+		this
 	}
 
 	/// The ID that was introduced in the initial `ProgressStartEvent`.
@@ -680,24 +842,58 @@ impl ProgressUpdateParams {
 }
 
 impl StoppedParams {
-	pub fn new(
-		reason: StoppedReason,
-		description: Option<String>,
-		thread_id: Option<u32>,
-		preserve_focus_hint: Option<bool>,
-		text: Option<String>,
-		all_threads_stopped: Option<bool>,
-		hit_breakpoint_ids: Option<Vec<u32>>,
-	) -> Self {
+	pub fn new(reason: StoppedReason) -> Self {
 		Self {
 			reason,
-			description,
-			thread_id,
-			preserve_focus_hint,
-			text,
-			all_threads_stopped,
-			hit_breakpoint_ids,
+			description: None,
+			thread_id: None,
+			preserve_focus_hint: None,
+			text: None,
+			all_threads_stopped: None,
+			hit_breakpoint_ids: None,
 		}
+	}
+
+	pub fn with_description<T>(self, description: T) -> Self
+	where
+		T: ToString,
+	{
+		let mut this = self;
+		this.description = Some(description.to_string());
+		this
+	}
+
+	pub fn with_thread_id(self, thread_id: u32) -> Self {
+		let mut this = self;
+		this.thread_id = Some(thread_id);
+		this
+	}
+
+	pub fn with_preserve_focus_hint(self, preserve_focus_hint: bool) -> Self {
+		let mut this = self;
+		this.preserve_focus_hint = Some(preserve_focus_hint);
+		this
+	}
+
+	pub fn with_text<T>(self, text: T) -> Self
+	where
+		T: ToString,
+	{
+		let mut this = self;
+		this.text = Some(text.to_string());
+		this
+	}
+
+	pub fn with_all_threads_stopped(self, all_threads_stopped: bool) -> Self {
+		let mut this = self;
+		this.all_threads_stopped = Some(all_threads_stopped);
+		this
+	}
+
+	pub fn with_hit_breakpoint_ids(self, hit_breakpoint_ids: Vec<u32>) -> Self {
+		let mut this = self;
+		this.hit_breakpoint_ids = Some(hit_breakpoint_ids);
+		this
 	}
 
 	/// The reason for the event.
@@ -753,9 +949,24 @@ impl StoppedParams {
 	}
 }
 
+impl Default for TerminatedParams {
+	fn default() -> Self {
+		Self::new()
+	}
+}
+
 impl TerminatedParams {
-	pub fn new(restart: Option<serde_json::Value>) -> Self {
-		Self { restart }
+	pub fn new() -> Self {
+		Self { restart: None }
+	}
+
+	pub fn with_restart<T>(self, restart: T) -> eyre::Result<Self>
+	where
+		T: serde::Serialize,
+	{
+		let mut this = self;
+		this.restart = Some(serde_json::to_value(restart)?);
+		Ok(this)
 	}
 
 	/// A debug adapter may set `restart` to true (or to an arbitrary object) to request that the

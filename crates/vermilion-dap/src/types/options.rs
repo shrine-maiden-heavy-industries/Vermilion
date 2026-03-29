@@ -43,8 +43,33 @@ pub struct ExceptionOptions {
 }
 
 impl ExceptionFilterOptions {
-	pub fn new(filter_id: String, condition: Option<String>, mode: Option<String>) -> Self {
-		Self { filter_id, condition, mode }
+	pub fn new<T>(filter_id: T) -> Self
+	where
+		T: ToString,
+	{
+		Self {
+			filter_id: filter_id.to_string(),
+			condition: None,
+			mode:      None,
+		}
+	}
+
+	pub fn with_condition<T>(self, condition: T) -> Self
+	where
+		T: ToString,
+	{
+		let mut this = self;
+		this.condition = Some(condition.to_string());
+		this
+	}
+
+	pub fn with_mode<T>(self, mode: T) -> Self
+	where
+		T: ToString,
+	{
+		let mut this = self;
+		this.mode = Some(mode.to_string());
+		this
 	}
 
 	/// ID of an exception filter returned by the `exceptionBreakpointFilters` capability.
@@ -69,8 +94,14 @@ impl ExceptionFilterOptions {
 }
 
 impl ExceptionOptions {
-	pub fn new(path: Option<Vec<ExceptionPathSegment>>, break_mode: ExceptionBreakMode) -> Self {
-		Self { path, break_mode }
+	pub fn new(break_mode: ExceptionBreakMode) -> Self {
+		Self { path: None, break_mode }
+	}
+
+	pub fn with_path(self, path: Vec<ExceptionPathSegment>) -> Self {
+		let mut this = self;
+		this.path = Some(path);
+		this
 	}
 
 	/// A path that selects a single or multiple exceptions in a tree.

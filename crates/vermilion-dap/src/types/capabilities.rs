@@ -163,96 +163,362 @@ pub struct Capabilities {
 	pub(crate) supports_ansi_styling:                     Option<bool>,
 }
 
+impl Default for Capabilities {
+	fn default() -> Self {
+		Self::new()
+	}
+}
+
 impl Capabilities {
-	#[allow(clippy::too_many_arguments, reason = "Big structure, can't do much about it")]
-	pub fn new(
-		supports_configuration_done_request: Option<bool>,
-		supports_function_breakpoints: Option<bool>,
-		supports_conditional_breakpoints: Option<bool>,
-		supports_hit_conditional_breakpoints: Option<bool>,
-		supports_evaluate_for_hovers: Option<bool>,
-		exception_breakpoint_filters: Option<Vec<ExceptionBreakpointsFilter>>,
-		supports_step_back: Option<bool>,
-		supports_set_variable: Option<bool>,
-		supports_restart_frame: Option<bool>,
-		supports_goto_targets_request: Option<bool>,
-		supports_step_in_targets_request: Option<bool>,
-		supports_completions_request: Option<bool>,
-		completion_trigger_characters: Option<Vec<String>>,
-		supports_modules_request: Option<bool>,
-		additional_module_columns: Option<Vec<ColumnDescriptor>>,
-		supported_checksum_algorithms: Option<Vec<ChecksumAlgorithm>>,
-		supports_restart_request: Option<bool>,
-		supports_exception_options: Option<bool>,
-		supports_value_formatting_options: Option<bool>,
-		supports_exception_info_request: Option<bool>,
-		support_terminate_debuggee: Option<bool>,
-		support_suspend_debugee: Option<bool>,
-		supports_delayed_stack_trace_loading: Option<bool>,
-		supports_loaded_sources_request: Option<bool>,
-		supports_log_points: Option<bool>,
-		supports_terminate_threads_request: Option<bool>,
-		supports_set_expression: Option<bool>,
-		supports_terminate_request: Option<bool>,
-		supports_data_breakpoints: Option<bool>,
-		supports_read_memory_request: Option<bool>,
-		supports_write_memory_request: Option<bool>,
-		supports_disassemble_request: Option<bool>,
-		supports_cancel_request: Option<bool>,
-		supports_breakpoint_locations_request: Option<bool>,
-		supports_clipboard_context: Option<bool>,
-		supports_stepping_granularity: Option<bool>,
-		supports_instruction_breakpoints: Option<bool>,
-		supports_exception_filter_options: Option<bool>,
-		supports_single_thread_execution_requests: Option<bool>,
-		supports_data_breakpoint_bytes: Option<bool>,
-		breakpoint_modes: Option<Vec<BreakpointMode>>,
-		supports_ansi_styling: Option<bool>,
-	) -> Self {
+	pub fn new() -> Self {
 		Self {
-			supports_configuration_done_request,
-			supports_function_breakpoints,
-			supports_conditional_breakpoints,
-			supports_hit_conditional_breakpoints,
-			supports_evaluate_for_hovers,
-			exception_breakpoint_filters,
-			supports_step_back,
-			supports_set_variable,
-			supports_restart_frame,
-			supports_goto_targets_request,
-			supports_step_in_targets_request,
-			supports_completions_request,
-			completion_trigger_characters,
-			supports_modules_request,
-			additional_module_columns,
-			supported_checksum_algorithms,
-			supports_restart_request,
-			supports_exception_options,
-			supports_value_formatting_options,
-			supports_exception_info_request,
-			support_terminate_debuggee,
-			support_suspend_debugee,
-			supports_delayed_stack_trace_loading,
-			supports_loaded_sources_request,
-			supports_log_points,
-			supports_terminate_threads_request,
-			supports_set_expression,
-			supports_terminate_request,
-			supports_data_breakpoints,
-			supports_read_memory_request,
-			supports_write_memory_request,
-			supports_disassemble_request,
-			supports_cancel_request,
-			supports_breakpoint_locations_request,
-			supports_clipboard_context,
-			supports_stepping_granularity,
-			supports_instruction_breakpoints,
-			supports_exception_filter_options,
-			supports_single_thread_execution_requests,
-			supports_data_breakpoint_bytes,
-			breakpoint_modes,
-			supports_ansi_styling,
+			supports_configuration_done_request:       None,
+			supports_function_breakpoints:             None,
+			supports_conditional_breakpoints:          None,
+			supports_hit_conditional_breakpoints:      None,
+			supports_evaluate_for_hovers:              None,
+			exception_breakpoint_filters:              None,
+			supports_step_back:                        None,
+			supports_set_variable:                     None,
+			supports_restart_frame:                    None,
+			supports_goto_targets_request:             None,
+			supports_step_in_targets_request:          None,
+			supports_completions_request:              None,
+			completion_trigger_characters:             None,
+			supports_modules_request:                  None,
+			additional_module_columns:                 None,
+			supported_checksum_algorithms:             None,
+			supports_restart_request:                  None,
+			supports_exception_options:                None,
+			supports_value_formatting_options:         None,
+			supports_exception_info_request:           None,
+			support_terminate_debuggee:                None,
+			support_suspend_debugee:                   None,
+			supports_delayed_stack_trace_loading:      None,
+			supports_loaded_sources_request:           None,
+			supports_log_points:                       None,
+			supports_terminate_threads_request:        None,
+			supports_set_expression:                   None,
+			supports_terminate_request:                None,
+			supports_data_breakpoints:                 None,
+			supports_read_memory_request:              None,
+			supports_write_memory_request:             None,
+			supports_disassemble_request:              None,
+			supports_cancel_request:                   None,
+			supports_breakpoint_locations_request:     None,
+			supports_clipboard_context:                None,
+			supports_stepping_granularity:             None,
+			supports_instruction_breakpoints:          None,
+			supports_exception_filter_options:         None,
+			supports_single_thread_execution_requests: None,
+			supports_data_breakpoint_bytes:            None,
+			breakpoint_modes:                          None,
+			supports_ansi_styling:                     None,
 		}
+	}
+
+	pub fn with_supports_configuration_done_request(
+		self,
+		supports_configuration_done_request: bool,
+	) -> Self {
+		let mut this = self;
+		this.supports_configuration_done_request = Some(supports_configuration_done_request);
+		this
+	}
+
+	pub fn with_supports_function_breakpoints(self, supports_function_breakpoints: bool) -> Self {
+		let mut this = self;
+		this.supports_function_breakpoints = Some(supports_function_breakpoints);
+		this
+	}
+
+	pub fn with_supports_conditional_breakpoints(
+		self,
+		supports_conditional_breakpoints: bool,
+	) -> Self {
+		let mut this = self;
+		this.supports_conditional_breakpoints = Some(supports_conditional_breakpoints);
+		this
+	}
+
+	pub fn with_supports_hit_conditional_breakpoints(
+		self,
+		supports_hit_conditional_breakpoints: bool,
+	) -> Self {
+		let mut this = self;
+		this.supports_hit_conditional_breakpoints = Some(supports_hit_conditional_breakpoints);
+		this
+	}
+
+	pub fn with_supports_evaluate_for_hovers(self, supports_evaluate_for_hovers: bool) -> Self {
+		let mut this = self;
+		this.supports_evaluate_for_hovers = Some(supports_evaluate_for_hovers);
+		this
+	}
+
+	pub fn with_exception_breakpoint_filters(
+		self,
+		exception_breakpoint_filters: Vec<ExceptionBreakpointsFilter>,
+	) -> Self {
+		let mut this = self;
+		this.exception_breakpoint_filters = Some(exception_breakpoint_filters);
+		this
+	}
+
+	pub fn with_supports_step_back(self, supports_step_back: bool) -> Self {
+		let mut this = self;
+		this.supports_step_back = Some(supports_step_back);
+		this
+	}
+
+	pub fn with_supports_set_variable(self, supports_set_variable: bool) -> Self {
+		let mut this = self;
+		this.supports_set_variable = Some(supports_set_variable);
+		this
+	}
+
+	pub fn with_supports_restart_frame(self, supports_restart_frame: bool) -> Self {
+		let mut this = self;
+		this.supports_restart_frame = Some(supports_restart_frame);
+		this
+	}
+
+	pub fn with_supports_goto_targets_request(self, supports_goto_targets_request: bool) -> Self {
+		let mut this = self;
+		this.supports_goto_targets_request = Some(supports_goto_targets_request);
+		this
+	}
+
+	pub fn with_supports_step_in_targets_request(
+		self,
+		supports_step_in_targets_request: bool,
+	) -> Self {
+		let mut this = self;
+		this.supports_step_in_targets_request = Some(supports_step_in_targets_request);
+		this
+	}
+
+	pub fn with_supports_completions_request(self, supports_completions_request: bool) -> Self {
+		let mut this = self;
+		this.supports_completions_request = Some(supports_completions_request);
+		this
+	}
+
+	pub fn with_completion_trigger_characters(
+		self,
+		completion_trigger_characters: Vec<String>,
+	) -> Self {
+		let mut this = self;
+		this.completion_trigger_characters = Some(completion_trigger_characters);
+		this
+	}
+
+	pub fn with_supports_modules_request(self, supports_modules_request: bool) -> Self {
+		let mut this = self;
+		this.supports_modules_request = Some(supports_modules_request);
+		this
+	}
+
+	pub fn with_additional_module_columns(
+		self,
+		additional_module_columns: Vec<ColumnDescriptor>,
+	) -> Self {
+		let mut this = self;
+		this.additional_module_columns = Some(additional_module_columns);
+		this
+	}
+
+	pub fn with_supported_checksum_algorithms(
+		self,
+		supported_checksum_algorithms: Vec<ChecksumAlgorithm>,
+	) -> Self {
+		let mut this = self;
+		this.supported_checksum_algorithms = Some(supported_checksum_algorithms);
+		this
+	}
+
+	pub fn with_supports_restart_request(self, supports_restart_request: bool) -> Self {
+		let mut this = self;
+		this.supports_restart_request = Some(supports_restart_request);
+		this
+	}
+
+	pub fn with_supports_exception_options(self, supports_exception_options: bool) -> Self {
+		let mut this = self;
+		this.supports_exception_options = Some(supports_exception_options);
+		this
+	}
+
+	pub fn with_supports_value_formatting_options(
+		self,
+		supports_value_formatting_options: bool,
+	) -> Self {
+		let mut this = self;
+		this.supports_value_formatting_options = Some(supports_value_formatting_options);
+		this
+	}
+
+	pub fn with_supports_exception_info_request(
+		self,
+		supports_exception_info_request: bool,
+	) -> Self {
+		let mut this = self;
+		this.supports_exception_info_request = Some(supports_exception_info_request);
+		this
+	}
+
+	pub fn with_support_terminate_debuggee(self, support_terminate_debuggee: bool) -> Self {
+		let mut this = self;
+		this.support_terminate_debuggee = Some(support_terminate_debuggee);
+		this
+	}
+
+	pub fn with_support_suspend_debugee(self, support_suspend_debugee: bool) -> Self {
+		let mut this = self;
+		this.support_suspend_debugee = Some(support_suspend_debugee);
+		this
+	}
+
+	pub fn with_supports_delayed_stack_trace_loading(
+		self,
+		supports_delayed_stack_trace_loading: bool,
+	) -> Self {
+		let mut this = self;
+		this.supports_delayed_stack_trace_loading = Some(supports_delayed_stack_trace_loading);
+		this
+	}
+
+	pub fn with_supports_loaded_sources_request(
+		self,
+		supports_loaded_sources_request: bool,
+	) -> Self {
+		let mut this = self;
+		this.supports_loaded_sources_request = Some(supports_loaded_sources_request);
+		this
+	}
+
+	pub fn with_supports_log_points(self, supports_log_points: bool) -> Self {
+		let mut this = self;
+		this.supports_log_points = Some(supports_log_points);
+		this
+	}
+
+	pub fn with_supports_terminate_threads_request(
+		self,
+		supports_terminate_threads_request: bool,
+	) -> Self {
+		let mut this = self;
+		this.supports_terminate_threads_request = Some(supports_terminate_threads_request);
+		this
+	}
+
+	pub fn with_supports_set_expression(self, supports_set_expression: bool) -> Self {
+		let mut this = self;
+		this.supports_set_expression = Some(supports_set_expression);
+		this
+	}
+
+	pub fn with_supports_terminate_request(self, supports_terminate_request: bool) -> Self {
+		let mut this = self;
+		this.supports_terminate_request = Some(supports_terminate_request);
+		this
+	}
+
+	pub fn with_supports_data_breakpoints(self, supports_data_breakpoints: bool) -> Self {
+		let mut this = self;
+		this.supports_data_breakpoints = Some(supports_data_breakpoints);
+		this
+	}
+
+	pub fn with_supports_read_memory_request(self, supports_read_memory_request: bool) -> Self {
+		let mut this = self;
+		this.supports_read_memory_request = Some(supports_read_memory_request);
+		this
+	}
+
+	pub fn with_supports_write_memory_request(self, supports_write_memory_request: bool) -> Self {
+		let mut this = self;
+		this.supports_write_memory_request = Some(supports_write_memory_request);
+		this
+	}
+
+	pub fn with_supports_disassemble_request(self, supports_disassemble_request: bool) -> Self {
+		let mut this = self;
+		this.supports_disassemble_request = Some(supports_disassemble_request);
+		this
+	}
+
+	pub fn with_supports_cancel_request(self, supports_cancel_request: bool) -> Self {
+		let mut this = self;
+		this.supports_cancel_request = Some(supports_cancel_request);
+		this
+	}
+
+	pub fn with_supports_breakpoint_locations_request(
+		self,
+		supports_breakpoint_locations_request: bool,
+	) -> Self {
+		let mut this = self;
+		this.supports_breakpoint_locations_request = Some(supports_breakpoint_locations_request);
+		this
+	}
+
+	pub fn with_supports_clipboard_context(self, supports_clipboard_context: bool) -> Self {
+		let mut this = self;
+		this.supports_clipboard_context = Some(supports_clipboard_context);
+		this
+	}
+
+	pub fn with_supports_stepping_granularity(self, supports_stepping_granularity: bool) -> Self {
+		let mut this = self;
+		this.supports_stepping_granularity = Some(supports_stepping_granularity);
+		this
+	}
+
+	pub fn with_supports_instruction_breakpoints(
+		self,
+		supports_instruction_breakpoints: bool,
+	) -> Self {
+		let mut this = self;
+		this.supports_instruction_breakpoints = Some(supports_instruction_breakpoints);
+		this
+	}
+
+	pub fn with_supports_exception_filter_options(
+		self,
+		supports_exception_filter_options: bool,
+	) -> Self {
+		let mut this = self;
+		this.supports_exception_filter_options = Some(supports_exception_filter_options);
+		this
+	}
+
+	pub fn with_supports_single_thread_execution_requests(
+		self,
+		supports_single_thread_execution_requests: bool,
+	) -> Self {
+		let mut this = self;
+		this.supports_single_thread_execution_requests =
+			Some(supports_single_thread_execution_requests);
+		this
+	}
+
+	pub fn with_supports_data_breakpoint_bytes(self, supports_data_breakpoint_bytes: bool) -> Self {
+		let mut this = self;
+		this.supports_data_breakpoint_bytes = Some(supports_data_breakpoint_bytes);
+		this
+	}
+
+	pub fn with_breakpoint_modes(self, breakpoint_modes: Vec<BreakpointMode>) -> Self {
+		let mut this = self;
+		this.breakpoint_modes = Some(breakpoint_modes);
+		this
+	}
+
+	pub fn with_supports_ansi_styling(self, supports_ansi_styling: bool) -> Self {
+		let mut this = self;
+		this.supports_ansi_styling = Some(supports_ansi_styling);
+		this
 	}
 
 	/// The debug adapter supports the `configurationDone` request.

@@ -284,33 +284,86 @@ pub struct SourceBreakpoint {
 }
 
 impl Breakpoint {
-	#[allow(clippy::too_many_arguments, reason = "Big structure, can't do much about it")]
-	pub fn new(
-		id: Option<i32>,
-		verified: bool,
-		message: Option<String>,
-		source: Option<Box<Source>>,
-		line: Option<u64>,
-		column: Option<u64>,
-		end_line: Option<u64>,
-		end_column: Option<u64>,
-		instruction_reference: Option<String>,
-		offset: Option<i64>,
-		reason: Option<BreakpointReason>,
-	) -> Self {
+	pub fn new(verified: bool) -> Self {
 		Self {
-			id,
+			id: None,
 			verified,
-			message,
-			source,
-			line,
-			column,
-			end_line,
-			end_column,
-			instruction_reference,
-			offset,
-			reason,
+			message: None,
+			source: None,
+			line: None,
+			column: None,
+			end_line: None,
+			end_column: None,
+			instruction_reference: None,
+			offset: None,
+			reason: None,
 		}
+	}
+
+	pub fn with_id(self, id: i32) -> Self {
+		let mut this = self;
+		this.id = Some(id);
+		this
+	}
+
+	pub fn with_message<T>(self, message: T) -> Self
+	where
+		T: ToString,
+	{
+		let mut this = self;
+		this.message = Some(message.to_string());
+		this
+	}
+
+	pub fn with_source(self, source: Box<Source>) -> Self {
+		let mut this = self;
+		this.source = Some(source);
+		this
+	}
+
+	pub fn with_line(self, line: u64) -> Self {
+		let mut this = self;
+		this.line = Some(line);
+		this
+	}
+
+	pub fn with_column(self, column: u64) -> Self {
+		let mut this = self;
+		this.column = Some(column);
+		this
+	}
+
+	pub fn with_end_line(self, end_line: u64) -> Self {
+		let mut this = self;
+		this.end_line = Some(end_line);
+		this
+	}
+
+	pub fn with_end_column(self, end_column: u64) -> Self {
+		let mut this = self;
+		this.end_column = Some(end_column);
+		this
+	}
+
+	pub fn with_instruction_reference<T>(self, instruction_reference: T) -> Self
+	where
+		T: ToString,
+	{
+		let mut this = self;
+		this.instruction_reference = Some(instruction_reference.to_string());
+		this
+	}
+
+	pub fn with_offset(self, offset: i64) -> Self {
+		let mut this = self;
+		this.offset = Some(offset);
+		this
+	}
+
+	pub fn with_reason(self, reason: BreakpointReason) -> Self {
+		let mut this = self;
+		this.reason = Some(reason);
+		this
 	}
 
 	/// The identifier for the breakpoint.
@@ -388,13 +441,31 @@ impl Breakpoint {
 }
 
 impl BreakpointLocation {
-	pub fn new(
-		line: u64,
-		column: Option<u64>,
-		end_line: Option<u64>,
-		end_column: Option<u64>,
-	) -> Self {
-		Self { line, column, end_line, end_column }
+	pub fn new(line: u64) -> Self {
+		Self {
+			line,
+			column: None,
+			end_line: None,
+			end_column: None,
+		}
+	}
+
+	pub fn with_column(self, column: u64) -> Self {
+		let mut this = self;
+		this.column = Some(column);
+		this
+	}
+
+	pub fn with_end_line(self, end_line: u64) -> Self {
+		let mut this = self;
+		this.end_line = Some(end_line);
+		this
+	}
+
+	pub fn with_end_column(self, end_column: u64) -> Self {
+		let mut this = self;
+		this.end_column = Some(end_column);
+		this
 	}
 
 	/// Start line of breakpoint location.
@@ -425,13 +496,26 @@ impl BreakpointLocation {
 }
 
 impl BreakpointMode {
-	pub fn new(
-		mode: String,
-		label: String,
-		description: Option<String>,
-		applies_to: Vec<BreakpointModeApplicability>,
-	) -> Self {
-		Self { mode, label, description, applies_to }
+	pub fn new<T, U>(mode: T, label: U, applies_to: Vec<BreakpointModeApplicability>) -> Self
+	where
+		T: ToString,
+		U: ToString,
+	{
+		Self {
+			mode: mode.to_string(),
+			label: label.to_string(),
+			description: None,
+			applies_to,
+		}
+	}
+
+	pub fn with_description<T>(self, description: T) -> Self
+	where
+		T: ToString,
+	{
+		let mut this = self;
+		this.description = Some(description.to_string());
+		this
 	}
 
 	/// The internal ID of the mode. This value is passed to the `setBreakpoints` request.
@@ -458,13 +542,40 @@ impl BreakpointMode {
 }
 
 impl DataBreakpoint {
-	pub fn new(
-		data_id: String,
-		access_type: Option<DataBreakpointAccessType>,
-		condition: Option<String>,
-		hit_condition: Option<String>,
-	) -> Self {
-		Self { data_id, access_type, condition, hit_condition }
+	pub fn new<T>(data_id: T) -> Self
+	where
+		T: ToString,
+	{
+		Self {
+			data_id:       data_id.to_string(),
+			access_type:   None,
+			condition:     None,
+			hit_condition: None,
+		}
+	}
+
+	pub fn with_access_type(self, access_type: DataBreakpointAccessType) -> Self {
+		let mut this = self;
+		this.access_type = Some(access_type);
+		this
+	}
+
+	pub fn with_condition<T>(self, condition: T) -> Self
+	where
+		T: ToString,
+	{
+		let mut this = self;
+		this.condition = Some(condition.to_string());
+		this
+	}
+
+	pub fn with_hit_condition<T>(self, hit_condition: T) -> Self
+	where
+		T: ToString,
+	{
+		let mut this = self;
+		this.hit_condition = Some(hit_condition.to_string());
+		this
 	}
 
 	/// An id representing the data. This id is returned from the `dataBreakpointInfo` request.
@@ -491,8 +602,33 @@ impl DataBreakpoint {
 }
 
 impl FunctionBreakpoint {
-	pub fn new(name: String, condition: Option<String>, hit_condition: Option<String>) -> Self {
-		Self { name, condition, hit_condition }
+	pub fn new<T>(name: T) -> Self
+	where
+		T: ToString,
+	{
+		Self {
+			name:          name.to_string(),
+			condition:     None,
+			hit_condition: None,
+		}
+	}
+
+	pub fn with_condition<T>(self, condition: T) -> Self
+	where
+		T: ToString,
+	{
+		let mut this = self;
+		this.condition = Some(condition.to_string());
+		this
+	}
+
+	pub fn with_hit_condition<T>(self, hit_condition: T) -> Self
+	where
+		T: ToString,
+	{
+		let mut this = self;
+		this.hit_condition = Some(hit_condition.to_string());
+		this
 	}
 
 	/// The name of the function.
@@ -520,20 +656,50 @@ impl FunctionBreakpoint {
 }
 
 impl InstructionBreakpoint {
-	pub fn new(
-		instruction_reference: String,
-		offset: Option<i64>,
-		condition: Option<String>,
-		hit_condition: Option<String>,
-		mode: Option<String>,
-	) -> Self {
+	pub fn new<T>(instruction_reference: T) -> Self
+	where
+		T: ToString,
+	{
 		Self {
-			instruction_reference,
-			offset,
-			condition,
-			hit_condition,
-			mode,
+			instruction_reference: instruction_reference.to_string(),
+			offset:                None,
+			condition:             None,
+			hit_condition:         None,
+			mode:                  None,
 		}
+	}
+
+	pub fn with_offset(self, offset: i64) -> Self {
+		let mut this = self;
+		this.offset = Some(offset);
+		this
+	}
+
+	pub fn with_condition<T>(self, condition: T) -> Self
+	where
+		T: ToString,
+	{
+		let mut this = self;
+		this.condition = Some(condition.to_string());
+		this
+	}
+
+	pub fn with_hit_condition<T>(self, hit_condition: T) -> Self
+	where
+		T: ToString,
+	{
+		let mut this = self;
+		this.hit_condition = Some(hit_condition.to_string());
+		this
+	}
+
+	pub fn with_mode<T>(self, mode: T) -> Self
+	where
+		T: ToString,
+	{
+		let mut this = self;
+		this.mode = Some(mode.to_string());
+		this
 	}
 
 	/// The instruction reference of the breakpoint.
@@ -579,22 +745,57 @@ impl InstructionBreakpoint {
 }
 
 impl SourceBreakpoint {
-	pub fn new(
-		line: u64,
-		column: Option<u64>,
-		condition: Option<String>,
-		hit_condition: Option<String>,
-		log_message: Option<String>,
-		mode: Option<String>,
-	) -> Self {
+	pub fn new(line: u64) -> Self {
 		Self {
 			line,
-			column,
-			condition,
-			hit_condition,
-			log_message,
-			mode,
+			column: None,
+			condition: None,
+			hit_condition: None,
+			log_message: None,
+			mode: None,
 		}
+	}
+
+	pub fn with_column(self, column: u64) -> Self {
+		let mut this = self;
+		this.column = Some(column);
+		this
+	}
+
+	pub fn with_condition<T>(self, condition: T) -> Self
+	where
+		T: ToString,
+	{
+		let mut this = self;
+		this.condition = Some(condition.to_string());
+		this
+	}
+
+	pub fn with_hit_condition<T>(self, hit_condition: T) -> Self
+	where
+		T: ToString,
+	{
+		let mut this = self;
+		this.hit_condition = Some(hit_condition.to_string());
+		this
+	}
+
+	pub fn with_log_message<T>(self, log_message: T) -> Self
+	where
+		T: ToString,
+	{
+		let mut this = self;
+		this.log_message = Some(log_message.to_string());
+		this
+	}
+
+	pub fn with_mode<T>(self, mode: T) -> Self
+	where
+		T: ToString,
+	{
+		let mut this = self;
+		this.mode = Some(mode.to_string());
+		this
 	}
 
 	/// The source line of the breakpoint or logpoint.

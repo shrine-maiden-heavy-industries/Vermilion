@@ -97,22 +97,49 @@ pub struct ExceptionPathSegment {
 }
 
 impl ExceptionBreakpointsFilter {
-	pub fn new(
-		filter: String,
-		label: String,
-		description: Option<String>,
-		default: Option<bool>,
-		supports_condition: Option<bool>,
-		condition_description: Option<String>,
-	) -> Self {
+	pub fn new<T, U>(filter: T, label: U) -> Self
+	where
+		T: ToString,
+		U: ToString,
+	{
 		Self {
-			filter,
-			label,
-			description,
-			default,
-			supports_condition,
-			condition_description,
+			filter:                filter.to_string(),
+			label:                 label.to_string(),
+			description:           None,
+			default:               None,
+			supports_condition:    None,
+			condition_description: None,
 		}
+	}
+
+	pub fn with_description<T>(self, description: T) -> Self
+	where
+		T: ToString,
+	{
+		let mut this = self;
+		this.description = Some(description.to_string());
+		this
+	}
+
+	pub fn with_default(self, default: bool) -> Self {
+		let mut this = self;
+		this.default = Some(default);
+		this
+	}
+
+	pub fn with_supports_condition(self, supports_condition: bool) -> Self {
+		let mut this = self;
+		this.supports_condition = Some(supports_condition);
+		this
+	}
+
+	pub fn with_condition_description<T>(self, condition_description: T) -> Self
+	where
+		T: ToString,
+	{
+		let mut this = self;
+		this.condition_description = Some(condition_description.to_string());
+		this
 	}
 
 	/// The internal ID of the filter option.
@@ -156,23 +183,73 @@ impl ExceptionBreakpointsFilter {
 	}
 }
 
+impl Default for ExceptionDetails {
+	fn default() -> Self {
+		Self::new()
+	}
+}
+
 impl ExceptionDetails {
-	pub fn new(
-		message: Option<String>,
-		type_name: Option<String>,
-		full_type_name: Option<String>,
-		evaluate_name: Option<String>,
-		stack_trace: Option<String>,
-		inner_exception: Option<Vec<Self>>,
-	) -> Self {
+	pub fn new() -> Self {
 		Self {
-			message,
-			type_name,
-			full_type_name,
-			evaluate_name,
-			stack_trace,
-			inner_exception,
+			message:         None,
+			type_name:       None,
+			full_type_name:  None,
+			evaluate_name:   None,
+			stack_trace:     None,
+			inner_exception: None,
 		}
+	}
+
+	pub fn with_message<T>(self, message: T) -> Self
+	where
+		T: ToString,
+	{
+		let mut this = self;
+		this.message = Some(message.to_string());
+		this
+	}
+
+	pub fn with_type_name<T>(self, type_name: T) -> Self
+	where
+		T: ToString,
+	{
+		let mut this = self;
+		this.type_name = Some(type_name.to_string());
+		this
+	}
+
+	pub fn with_full_type_name<T>(self, full_type_name: T) -> Self
+	where
+		T: ToString,
+	{
+		let mut this = self;
+		this.full_type_name = Some(full_type_name.to_string());
+		this
+	}
+
+	pub fn with_evaluate_name<T>(self, evaluate_name: T) -> Self
+	where
+		T: ToString,
+	{
+		let mut this = self;
+		this.evaluate_name = Some(evaluate_name.to_string());
+		this
+	}
+
+	pub fn with_stack_trace<T>(self, stack_trace: T) -> Self
+	where
+		T: ToString,
+	{
+		let mut this = self;
+		this.stack_trace = Some(stack_trace.to_string());
+		this
+	}
+
+	pub fn with_inner_exception(self, inner_exception: Vec<Self>) -> Self {
+		let mut this = self;
+		this.inner_exception = Some(inner_exception);
+		this
 	}
 
 	/// Message contained in the exception
@@ -207,8 +284,14 @@ impl ExceptionDetails {
 }
 
 impl ExceptionPathSegment {
-	pub fn new(negate: Option<bool>, names: Vec<String>) -> Self {
-		Self { negate, names }
+	pub fn new(names: Vec<String>) -> Self {
+		Self { negate: None, names }
+	}
+
+	pub fn with_negate(self, negate: bool) -> Self {
+		let mut this = self;
+		this.negate = Some(negate);
+		this
 	}
 
 	/// If false this segment matches the names provided, otherwise it matches anything

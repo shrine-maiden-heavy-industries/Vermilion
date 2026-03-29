@@ -203,33 +203,81 @@ pub enum VariablePresentationHintVisibility {
 }
 
 impl Variable {
-	#[allow(clippy::too_many_arguments, reason = "Big structure, can't do much about it")]
-	pub fn new(
-		name: String,
-		value: String,
-		variable_type: Option<String>,
-		presentation_hint: Option<VariablePresentationHint>,
-		evaluate_name: Option<String>,
-		variables_reference: u32,
-		named_variables: Option<i32>,
-		indexed_variables: Option<i32>,
-		memory_reference: Option<String>,
-		declaration_location_reference: Option<i32>,
-		value_location_reference: Option<i32>,
-	) -> Self {
+	pub fn new<T, U>(name: T, value: U, variables_reference: u32) -> Self
+	where
+		T: ToString,
+		U: ToString,
+	{
 		Self {
-			name,
-			value,
-			variable_type,
-			presentation_hint,
-			evaluate_name,
+			name: name.to_string(),
+			value: value.to_string(),
+			variable_type: None,
+			presentation_hint: None,
+			evaluate_name: None,
 			variables_reference,
-			named_variables,
-			indexed_variables,
-			memory_reference,
-			declaration_location_reference,
-			value_location_reference,
+			named_variables: None,
+			indexed_variables: None,
+			memory_reference: None,
+			declaration_location_reference: None,
+			value_location_reference: None,
 		}
+	}
+
+	pub fn with_variable_type<T>(self, variable_type: T) -> Self
+	where
+		T: ToString,
+	{
+		let mut this = self;
+		this.variable_type = Some(variable_type.to_string());
+		this
+	}
+
+	pub fn with_presentation_hint(self, presentation_hint: VariablePresentationHint) -> Self {
+		let mut this = self;
+		this.presentation_hint = Some(presentation_hint);
+		this
+	}
+
+	pub fn with_evaluate_name<T>(self, evaluate_name: T) -> Self
+	where
+		T: ToString,
+	{
+		let mut this = self;
+		this.evaluate_name = Some(evaluate_name.to_string());
+		this
+	}
+
+	pub fn with_named_variables(self, named_variables: i32) -> Self {
+		let mut this = self;
+		this.named_variables = Some(named_variables);
+		this
+	}
+
+	pub fn with_indexed_variables(self, indexed_variables: i32) -> Self {
+		let mut this = self;
+		this.indexed_variables = Some(indexed_variables);
+		this
+	}
+
+	pub fn with_memory_reference<T>(self, memory_reference: T) -> Self
+	where
+		T: ToString,
+	{
+		let mut this = self;
+		this.memory_reference = Some(memory_reference.to_string());
+		this
+	}
+
+	pub fn with_declaration_location_reference(self, declaration_location_reference: i32) -> Self {
+		let mut this = self;
+		this.declaration_location_reference = Some(declaration_location_reference);
+		this
+	}
+
+	pub fn with_value_location_reference(self, value_location_reference: i32) -> Self {
+		let mut this = self;
+		this.value_location_reference = Some(value_location_reference);
+		this
 	}
 
 	/// The variable's name.
@@ -327,14 +375,44 @@ impl Variable {
 	}
 }
 
+impl Default for VariablePresentationHint {
+	fn default() -> Self {
+		Self::new()
+	}
+}
+
 impl VariablePresentationHint {
-	pub fn new(
-		kind: Option<VariablePresentationHintKind>,
-		attributes: Option<Vec<VariablePresentationHintAttribute>>,
-		visibility: Option<VariablePresentationHintVisibility>,
-		lazy: Option<bool>,
-	) -> Self {
-		Self { kind, attributes, visibility, lazy }
+	pub fn new() -> Self {
+		Self {
+			kind:       None,
+			attributes: None,
+			visibility: None,
+			lazy:       None,
+		}
+	}
+
+	pub fn with_kind(self, kind: VariablePresentationHintKind) -> Self {
+		let mut this = self;
+		this.kind = Some(kind);
+		this
+	}
+
+	pub fn with_attributes(self, attributes: Vec<VariablePresentationHintAttribute>) -> Self {
+		let mut this = self;
+		this.attributes = Some(attributes);
+		this
+	}
+
+	pub fn with_visibility(self, visibility: VariablePresentationHintVisibility) -> Self {
+		let mut this = self;
+		this.visibility = Some(visibility);
+		this
+	}
+
+	pub fn with_lazy(self, lazy: bool) -> Self {
+		let mut this = self;
+		this.lazy = Some(lazy);
+		this
 	}
 
 	/// The kind of variable.

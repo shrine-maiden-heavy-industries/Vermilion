@@ -9,6 +9,8 @@ pub mod options;
 pub mod params;
 pub mod variable;
 
+pub type Uri = fluent_uri::Uri<String>;
+
 #[derive(
 	Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize,
 )]
@@ -410,7 +412,7 @@ pub struct Message {
 	pub(crate) show_user:      Option<bool>,
 	/// A url where additional information about this message can be found.
 	#[serde(skip_serializing_if = "Option::is_none", default)]
-	pub(crate) url:            Option<String>,
+	pub(crate) url:            Option<Uri>,
 	/// A label that is presented to the user as the UI for opening the url.
 	#[serde(skip_serializing_if = "Option::is_none", default)]
 	pub(crate) url_label:      Option<String>,
@@ -847,8 +849,11 @@ pub enum OutputPresentation {
 }
 
 impl Checksum {
-	pub fn new(algorithm: ChecksumAlgorithm, checksum: String) -> Self {
-		Self { algorithm, checksum }
+	pub fn new<T>(algorithm: ChecksumAlgorithm, checksum: T) -> Self
+	where
+		T: ToString,
+	{
+		Self { algorithm, checksum: checksum.to_string() }
 	}
 
 	/// The algorithm used to calculate this checksum.
@@ -863,14 +868,39 @@ impl Checksum {
 }
 
 impl ColumnDescriptor {
-	pub fn new(
-		attribute_name: String,
-		label: String,
-		format: Option<String>,
-		column_type: Option<ColumnType>,
-		width: Option<u32>,
-	) -> Self {
-		Self { attribute_name, label, format, column_type, width }
+	pub fn new<T, U>(attribute_name: T, label: U) -> Self
+	where
+		T: ToString,
+		U: ToString,
+	{
+		Self {
+			attribute_name: attribute_name.to_string(),
+			label:          label.to_string(),
+			format:         None,
+			column_type:    None,
+			width:          None,
+		}
+	}
+
+	pub fn with_format<T>(self, format: T) -> Self
+	where
+		T: ToString,
+	{
+		let mut this = self;
+		this.format = Some(format.to_string());
+		this
+	}
+
+	pub fn with_column_type(self, column_type: ColumnType) -> Self {
+		let mut this = self;
+		this.column_type = Some(column_type);
+		this
+	}
+
+	pub fn with_width(self, width: u32) -> Self {
+		let mut this = self;
+		this.width = Some(width);
+		this
 	}
 
 	/// Name of the attribute rendered in this column.
@@ -902,29 +932,78 @@ impl ColumnDescriptor {
 }
 
 impl CompletionItem {
-	#[allow(clippy::too_many_arguments, reason = "Big structure, can't do much about it")]
-	pub fn new(
-		label: String,
-		text: Option<String>,
-		sort_text: Option<String>,
-		detail: Option<String>,
-		completion_type: Option<CompletionItemType>,
-		start: Option<u32>,
-		length: Option<u32>,
-		selection_start: Option<u32>,
-		selection_length: Option<u32>,
-	) -> Self {
+	pub fn new<T>(label: T) -> Self
+	where
+		T: ToString,
+	{
 		Self {
-			label,
-			text,
-			sort_text,
-			detail,
-			completion_type,
-			start,
-			length,
-			selection_start,
-			selection_length,
+			label:            label.to_string(),
+			text:             None,
+			sort_text:        None,
+			detail:           None,
+			completion_type:  None,
+			start:            None,
+			length:           None,
+			selection_start:  None,
+			selection_length: None,
 		}
+	}
+
+	pub fn with_text<T>(self, text: T) -> Self
+	where
+		T: ToString,
+	{
+		let mut this = self;
+		this.text = Some(text.to_string());
+		this
+	}
+
+	pub fn with_sort_text<T>(self, sort_text: T) -> Self
+	where
+		T: ToString,
+	{
+		let mut this = self;
+		this.sort_text = Some(sort_text.to_string());
+		this
+	}
+
+	pub fn with_detail<T>(self, detail: T) -> Self
+	where
+		T: ToString,
+	{
+		let mut this = self;
+		this.detail = Some(detail.to_string());
+		this
+	}
+
+	pub fn with_completion_type(self, completion_type: CompletionItemType) -> Self {
+		let mut this = self;
+		this.completion_type = Some(completion_type);
+		this
+	}
+
+	pub fn with_start(self, start: u32) -> Self {
+		let mut this = self;
+		this.start = Some(start);
+		this
+	}
+
+	pub fn with_length(self, length: u32) -> Self {
+		let mut this = self;
+		this.length = Some(length);
+		this
+	}
+
+	pub fn with_selection_start(self, selection_start: u32) -> Self {
+		let mut this = self;
+		this.selection_start = Some(selection_start);
+		this
+	}
+
+	pub fn with_selection_length(self, selection_length: u32) -> Self {
+		let mut this = self;
+		this.selection_length = Some(selection_length);
+		this
 	}
 
 	/// The label of this completion item.
@@ -1001,31 +1080,77 @@ impl CompletionItem {
 }
 
 impl DisassembledInstruction {
-	#[allow(clippy::too_many_arguments, reason = "Big structure, can't do much about it")]
-	pub fn new(
-		address: String,
-		instruction_bytes: Option<String>,
-		instruction: String,
-		symbol: Option<String>,
-		location: Option<Box<Source>>,
-		line: Option<u64>,
-		column: Option<u64>,
-		end_line: Option<u64>,
-		end_column: Option<u64>,
-		presentation_hint: Option<InstructionPresentationHint>,
-	) -> Self {
+	pub fn new<T, U>(address: T, instruction: U) -> Self
+	where
+		T: ToString,
+		U: ToString,
+	{
 		Self {
-			address,
-			instruction_bytes,
-			instruction,
-			symbol,
-			location,
-			line,
-			column,
-			end_line,
-			end_column,
-			presentation_hint,
+			address:           address.to_string(),
+			instruction_bytes: None,
+			instruction:       instruction.to_string(),
+			symbol:            None,
+			location:          None,
+			line:              None,
+			column:            None,
+			end_line:          None,
+			end_column:        None,
+			presentation_hint: None,
 		}
+	}
+
+	pub fn with_instruction_bytes<T>(self, instruction_bytes: T) -> Self
+	where
+		T: ToString,
+	{
+		let mut this = self;
+		this.instruction_bytes = Some(instruction_bytes.to_string());
+		this
+	}
+
+	pub fn with_symbol<T>(self, symbol: T) -> Self
+	where
+		T: ToString,
+	{
+		let mut this = self;
+		this.symbol = Some(symbol.to_string());
+		this
+	}
+
+	pub fn with_location(self, location: Box<Source>) -> Self {
+		let mut this = self;
+		this.location = Some(location);
+		this
+	}
+
+	pub fn with_line(self, line: u64) -> Self {
+		let mut this = self;
+		this.line = Some(line);
+		this
+	}
+
+	pub fn with_column(self, column: u64) -> Self {
+		let mut this = self;
+		this.column = Some(column);
+		this
+	}
+
+	pub fn with_end_line(self, end_line: u64) -> Self {
+		let mut this = self;
+		this.end_line = Some(end_line);
+		this
+	}
+
+	pub fn with_end_column(self, end_column: u64) -> Self {
+		let mut this = self;
+		this.end_column = Some(end_column);
+		this
+	}
+
+	pub fn with_presentation_hint(self, presentation_hint: InstructionPresentationHint) -> Self {
+		let mut this = self;
+		this.presentation_hint = Some(presentation_hint);
+		this
 	}
 
 	/// The address of the instruction. Treated as a hex value if prefixed with `0x`, or as a
@@ -1089,24 +1214,46 @@ impl DisassembledInstruction {
 }
 
 impl GotoTarget {
-	pub fn new(
-		id: i32,
-		label: String,
-		line: u64,
-		column: Option<u64>,
-		end_line: Option<u64>,
-		end_column: Option<u64>,
-		instruction_pointer_reference: Option<String>,
-	) -> Self {
+	pub fn new<T>(id: i32, label: T, line: u64) -> Self
+	where
+		T: ToString,
+	{
 		Self {
 			id,
-			label,
+			label: label.to_string(),
 			line,
-			column,
-			end_line,
-			end_column,
-			instruction_pointer_reference,
+			column: None,
+			end_line: None,
+			end_column: None,
+			instruction_pointer_reference: None,
 		}
+	}
+
+	pub fn with_column(self, column: u64) -> Self {
+		let mut this = self;
+		this.column = Some(column);
+		this
+	}
+
+	pub fn with_end_line(self, end_line: u64) -> Self {
+		let mut this = self;
+		this.end_line = Some(end_line);
+		this
+	}
+
+	pub fn with_end_column(self, end_column: u64) -> Self {
+		let mut this = self;
+		this.end_column = Some(end_column);
+		this
+	}
+
+	pub fn with_instruction_pointer_reference<T>(self, instruction_pointer_reference: T) -> Self
+	where
+		T: ToString,
+	{
+		let mut this = self;
+		this.instruction_pointer_reference = Some(instruction_pointer_reference.to_string());
+		this
 	}
 
 	/// Unique identifier for a goto target. This is used in the `goto` request.
@@ -1146,24 +1293,52 @@ impl GotoTarget {
 }
 
 impl Message {
-	pub fn new(
-		id: i32,
-		format: String,
-		variables: Option<HashMap<String, String>>,
-		send_telemetry: Option<bool>,
-		show_user: Option<bool>,
-		url: Option<String>,
-		url_label: Option<String>,
-	) -> Self {
+	pub fn new<T>(id: i32, format: T) -> Self
+	where
+		T: ToString,
+	{
 		Self {
 			id,
-			format,
-			variables,
-			send_telemetry,
-			show_user,
-			url,
-			url_label,
+			format: format.to_string(),
+			variables: None,
+			send_telemetry: None,
+			show_user: None,
+			url: None,
+			url_label: None,
 		}
+	}
+
+	pub fn with_variables(self, variables: Option<HashMap<String, String>>) -> Self {
+		let mut this = self;
+		this.variables = Some(variables.unwrap_or_default());
+		this
+	}
+
+	pub fn with_send_telemetry(self, send_telemetry: bool) -> Self {
+		let mut this = self;
+		this.send_telemetry = Some(send_telemetry);
+		this
+	}
+
+	pub fn with_show_user(self, show_user: bool) -> Self {
+		let mut this = self;
+		this.show_user = Some(show_user);
+		this
+	}
+
+	pub fn with_url(self, url: Uri) -> Self {
+		let mut this = self;
+		this.url = Some(url);
+		this
+	}
+
+	pub fn with_url_label<T>(self, url_label: T) -> Self
+	where
+		T: ToString,
+	{
+		let mut this = self;
+		this.url_label = Some(url_label.to_string());
+		this
 	}
 
 	/// Unique (within a debug adapter implementation) identifier for the message.
@@ -1184,8 +1359,8 @@ impl Message {
 	}
 
 	/// An object used as a dictionary for looking up the variables in the format string.
-	pub fn variables(&self) -> Option<&HashMap<String, String>> {
-		self.variables.as_ref()
+	pub fn variables(&mut self) -> Option<&mut HashMap<String, String>> {
+		self.variables.as_mut()
 	}
 
 	/// If true send to telemetry.
@@ -1199,7 +1374,7 @@ impl Message {
 	}
 
 	/// A url where additional information about this message can be found.
-	pub fn url(&self) -> Option<&String> {
+	pub fn url(&self) -> Option<&Uri> {
 		self.url.as_ref()
 	}
 
@@ -1210,31 +1385,88 @@ impl Message {
 }
 
 impl Module {
-	#[allow(clippy::too_many_arguments, reason = "Big structure, can't do much about it")]
-	pub fn new(
-		id: IntegerOrString,
-		name: String,
-		path: Option<String>,
-		is_optimized: Option<bool>,
-		is_user_code: Option<bool>,
-		version: Option<String>,
-		symbol_status: Option<String>,
-		symbol_file_path: Option<String>,
-		date_time_stamp: Option<String>,
-		address_range: Option<String>,
-	) -> Self {
+	pub fn new<T>(id: IntegerOrString, name: T) -> Self
+	where
+		T: ToString,
+	{
 		Self {
 			id,
-			name,
-			path,
-			is_optimized,
-			is_user_code,
-			version,
-			symbol_status,
-			symbol_file_path,
-			date_time_stamp,
-			address_range,
+			name: name.to_string(),
+			path: None,
+			is_optimized: None,
+			is_user_code: None,
+			version: None,
+			symbol_status: None,
+			symbol_file_path: None,
+			date_time_stamp: None,
+			address_range: None,
 		}
+	}
+
+	pub fn with_path<T>(self, path: T) -> Self
+	where
+		T: ToString,
+	{
+		let mut this = self;
+		this.path = Some(path.to_string());
+		this
+	}
+
+	pub fn with_is_optimized(self, is_optimized: bool) -> Self {
+		let mut this = self;
+		this.is_optimized = Some(is_optimized);
+		this
+	}
+
+	pub fn with_is_user_code(self, is_user_code: bool) -> Self {
+		let mut this = self;
+		this.is_user_code = Some(is_user_code);
+		this
+	}
+
+	pub fn with_version<T>(self, version: T) -> Self
+	where
+		T: ToString,
+	{
+		let mut this = self;
+		this.version = Some(version.to_string());
+		this
+	}
+
+	pub fn with_symbol_status<T>(self, symbol_status: T) -> Self
+	where
+		T: ToString,
+	{
+		let mut this = self;
+		this.symbol_status = Some(symbol_status.to_string());
+		this
+	}
+
+	pub fn with_symbol_file_path<T>(self, symbol_file_path: T) -> Self
+	where
+		T: ToString,
+	{
+		let mut this = self;
+		this.symbol_file_path = Some(symbol_file_path.to_string());
+		this
+	}
+
+	pub fn with_date_time_stamp<Tz>(self, date_time_stamp: chrono::DateTime<Tz>) -> Self
+	where
+		Tz: chrono::TimeZone,
+	{
+		let mut this = self;
+		this.date_time_stamp = Some(date_time_stamp.to_rfc3339());
+		this
+	}
+
+	pub fn with_address_range<T>(self, address_range: T) -> Self
+	where
+		T: ToString,
+	{
+		let mut this = self;
+		this.address_range = Some(address_range.to_string());
+		this
 	}
 
 	/// Unique identifier for the module.
@@ -1291,33 +1523,71 @@ impl Module {
 }
 
 impl Scope {
-	#[allow(clippy::too_many_arguments, reason = "Big structure, can't do much about it")]
-	pub fn new(
-		name: String,
-		presentation_hint: Option<ScopePresentationHint>,
-		variables_reference: u32,
-		named_variables: Option<u64>,
-		indexed_variables: Option<u64>,
-		expensive: bool,
-		source: Option<Box<Source>>,
-		line: Option<u64>,
-		column: Option<u64>,
-		end_line: Option<u64>,
-		end_column: Option<u64>,
-	) -> Self {
+	pub fn new<T>(name: T, variables_reference: u32, expensive: bool) -> Self
+	where
+		T: ToString,
+	{
 		Self {
-			name,
-			presentation_hint,
+			name: name.to_string(),
+			presentation_hint: None,
 			variables_reference,
-			named_variables,
-			indexed_variables,
+			named_variables: None,
+			indexed_variables: None,
 			expensive,
-			source,
-			line,
-			column,
-			end_line,
-			end_column,
+			source: None,
+			line: None,
+			column: None,
+			end_line: None,
+			end_column: None,
 		}
+	}
+
+	pub fn with_presentation_hint(self, presentation_hint: ScopePresentationHint) -> Self {
+		let mut this = self;
+		this.presentation_hint = Some(presentation_hint);
+		this
+	}
+
+	pub fn with_named_variables(self, named_variables: u64) -> Self {
+		let mut this = self;
+		this.named_variables = Some(named_variables);
+		this
+	}
+
+	pub fn with_indexed_variables(self, indexed_variables: u64) -> Self {
+		let mut this = self;
+		this.indexed_variables = Some(indexed_variables);
+		this
+	}
+
+	pub fn with_source(self, source: Box<Source>) -> Self {
+		let mut this = self;
+		this.source = Some(source);
+		this
+	}
+
+	pub fn with_line(self, line: u64) -> Self {
+		let mut this = self;
+		this.line = Some(line);
+		this
+	}
+
+	pub fn with_column(self, column: u64) -> Self {
+		let mut this = self;
+		this.column = Some(column);
+		this
+	}
+
+	pub fn with_end_line(self, end_line: u64) -> Self {
+		let mut this = self;
+		this.end_line = Some(end_line);
+		this
+	}
+
+	pub fn with_end_column(self, end_column: u64) -> Self {
+		let mut this = self;
+		this.end_column = Some(end_column);
+		this
 	}
 
 	/// Name of the scope such as 'Arguments', 'Locals', or 'Registers'. This string is shown in
@@ -1391,28 +1661,81 @@ impl Scope {
 	}
 }
 
+impl Default for Source {
+	fn default() -> Self {
+		Self::new()
+	}
+}
+
 impl Source {
-	#[allow(clippy::too_many_arguments, reason = "Big structure, can't do much about it")]
-	pub fn new(
-		name: Option<String>,
-		path: Option<String>,
-		source_reference: Option<i32>,
-		presentation_hint: Option<SourcePresentationHint>,
-		origin: Option<String>,
-		sources: Option<Vec<Self>>,
-		adapter_data: Option<serde_json::Value>,
-		checksums: Option<Vec<Checksum>>,
-	) -> Self {
+	pub fn new() -> Self {
 		Self {
-			name,
-			path,
-			source_reference,
-			presentation_hint,
-			origin,
-			sources,
-			adapter_data,
-			checksums,
+			name:              None,
+			path:              None,
+			source_reference:  None,
+			presentation_hint: None,
+			origin:            None,
+			sources:           None,
+			adapter_data:      None,
+			checksums:         None,
 		}
+	}
+
+	pub fn with_name<T>(self, name: T) -> Self
+	where
+		T: ToString,
+	{
+		let mut this = self;
+		this.name = Some(name.to_string());
+		this
+	}
+
+	pub fn with_path<T>(self, path: T) -> Self
+	where
+		T: ToString,
+	{
+		let mut this = self;
+		this.path = Some(path.to_string());
+		this
+	}
+
+	pub fn with_source_reference(self, source_reference: i32) -> Self {
+		let mut this = self;
+		this.source_reference = Some(source_reference);
+		this
+	}
+
+	pub fn with_presentation_hint(self, presentation_hint: SourcePresentationHint) -> Self {
+		let mut this = self;
+		this.presentation_hint = Some(presentation_hint);
+		this
+	}
+
+	pub fn with_origin<T>(self, origin: T) -> Self
+	where
+		T: ToString,
+	{
+		let mut this = self;
+		this.origin = Some(origin.to_string());
+		this
+	}
+
+	pub fn with_sources(self, sources: Vec<Self>) -> Self {
+		let mut this = self;
+		this.sources = Some(sources);
+		this
+	}
+
+	pub fn with_adapter_data(self, adapter_data: serde_json::Value) -> Self {
+		let mut this = self;
+		this.adapter_data = Some(adapter_data);
+		this
+	}
+
+	pub fn with_checksums(self, checksums: Vec<Checksum>) -> Self {
+		let mut this = self;
+		this.checksums = Some(checksums);
+		this
 	}
 
 	/// The short name of the source. Every source returned from the debug adapter has a
@@ -1478,33 +1801,68 @@ impl Source {
 }
 
 impl StackFrame {
-	#[allow(clippy::too_many_arguments, reason = "Big structure, can't do much about it")]
-	pub fn new(
-		id: i32,
-		name: String,
-		source: Option<Box<Source>>,
-		line: u64,
-		column: u64,
-		end_line: Option<u64>,
-		end_column: Option<u64>,
-		can_restart: Option<bool>,
-		instruction_pointer_reference: Option<String>,
-		module_id: Option<IntegerOrString>,
-		presentation_hint: Option<StackFramePresentationHint>,
-	) -> Self {
+	pub fn new<T>(id: i32, name: T, line: u64, column: u64) -> Self
+	where
+		T: ToString,
+	{
 		Self {
 			id,
-			name,
-			source,
+			name: name.to_string(),
+			source: None,
 			line,
 			column,
-			end_line,
-			end_column,
-			can_restart,
-			instruction_pointer_reference,
-			module_id,
-			presentation_hint,
+			end_line: None,
+			end_column: None,
+			can_restart: None,
+			instruction_pointer_reference: None,
+			module_id: None,
+			presentation_hint: None,
 		}
+	}
+
+	pub fn with_source(self, source: Box<Source>) -> Self {
+		let mut this = self;
+		this.source = Some(source);
+		this
+	}
+
+	pub fn with_end_line(self, end_line: u64) -> Self {
+		let mut this = self;
+		this.end_line = Some(end_line);
+		this
+	}
+
+	pub fn with_end_column(self, end_column: u64) -> Self {
+		let mut this = self;
+		this.end_column = Some(end_column);
+		this
+	}
+
+	pub fn with_can_restart(self, can_restart: bool) -> Self {
+		let mut this = self;
+		this.can_restart = Some(can_restart);
+		this
+	}
+
+	pub fn with_instruction_pointer_reference<T>(self, instruction_pointer_reference: T) -> Self
+	where
+		T: ToString,
+	{
+		let mut this = self;
+		this.instruction_pointer_reference = Some(instruction_pointer_reference.to_string());
+		this
+	}
+
+	pub fn with_module_id(self, module_id: IntegerOrString) -> Self {
+		let mut this = self;
+		this.module_id = Some(module_id);
+		this
+	}
+
+	pub fn with_presentation_hint(self, presentation_hint: StackFramePresentationHint) -> Self {
+		let mut this = self;
+		this.presentation_hint = Some(presentation_hint);
+		this
 	}
 
 	/// An identifier for the stack frame. It must be unique across all threads.
@@ -1583,27 +1941,59 @@ impl StackFrame {
 }
 
 impl StackFrameFormat {
-	#[allow(clippy::too_many_arguments, reason = "Big structure, can't do much about it")]
-	pub fn new(
-		variable_format: ValueFormat,
-		parameters: Option<bool>,
-		parameter_types: Option<bool>,
-		parameter_names: Option<bool>,
-		parameter_values: Option<bool>,
-		line: Option<bool>,
-		module: Option<bool>,
-		include_all: Option<bool>,
-	) -> Self {
+	pub fn new(variable_format: ValueFormat) -> Self {
 		Self {
 			variable_format,
-			parameters,
-			parameter_types,
-			parameter_names,
-			parameter_values,
-			line,
-			module,
-			include_all,
+			parameters: None,
+			parameter_types: None,
+			parameter_names: None,
+			parameter_values: None,
+			line: None,
+			module: None,
+			include_all: None,
 		}
+	}
+
+	pub fn with_parameters(self, parameters: bool) -> Self {
+		let mut this = self;
+		this.parameters = Some(parameters);
+		this
+	}
+
+	pub fn with_parameter_types(self, parameter_types: bool) -> Self {
+		let mut this = self;
+		this.parameter_types = Some(parameter_types);
+		this
+	}
+
+	pub fn with_parameter_names(self, parameter_names: bool) -> Self {
+		let mut this = self;
+		this.parameter_names = Some(parameter_names);
+		this
+	}
+
+	pub fn with_parameter_values(self, parameter_values: bool) -> Self {
+		let mut this = self;
+		this.parameter_values = Some(parameter_values);
+		this
+	}
+
+	pub fn with_line(self, line: bool) -> Self {
+		let mut this = self;
+		this.line = Some(line);
+		this
+	}
+
+	pub fn with_module(self, module: bool) -> Self {
+		let mut this = self;
+		this.module = Some(module);
+		this
+	}
+
+	pub fn with_include_all(self, include_all: bool) -> Self {
+		let mut this = self;
+		this.include_all = Some(include_all);
+		this
 	}
 
 	pub fn variable_format(&self) -> &ValueFormat {
@@ -1647,15 +2037,42 @@ impl StackFrameFormat {
 }
 
 impl StepInTarget {
-	pub fn new(
-		id: i32,
-		label: String,
-		line: Option<u64>,
-		column: Option<u64>,
-		end_line: Option<u64>,
-		end_column: Option<u64>,
-	) -> Self {
-		Self { id, label, line, column, end_line, end_column }
+	pub fn new<T>(id: i32, label: T) -> Self
+	where
+		T: ToString,
+	{
+		Self {
+			id,
+			label: label.to_string(),
+			line: None,
+			column: None,
+			end_line: None,
+			end_column: None,
+		}
+	}
+
+	pub fn with_line(self, line: u64) -> Self {
+		let mut this = self;
+		this.line = Some(line);
+		this
+	}
+
+	pub fn with_column(self, column: u64) -> Self {
+		let mut this = self;
+		this.column = Some(column);
+		this
+	}
+
+	pub fn with_end_line(self, end_line: u64) -> Self {
+		let mut this = self;
+		this.end_line = Some(end_line);
+		this
+	}
+
+	pub fn with_end_column(self, end_column: u64) -> Self {
+		let mut this = self;
+		this.end_column = Some(end_column);
+		this
 	}
 
 	/// Unique identifier for a step-in target.
@@ -1696,8 +2113,11 @@ impl StepInTarget {
 }
 
 impl Thread {
-	pub fn new(id: i32, name: String) -> Self {
-		Self { id, name }
+	pub fn new<T>(id: i32, name: T) -> Self
+	where
+		T: ToString,
+	{
+		Self { id, name: name.to_string() }
 	}
 
 	/// Unique identifier for the thread.
@@ -1711,9 +2131,21 @@ impl Thread {
 	}
 }
 
+impl Default for ValueFormat {
+	fn default() -> Self {
+		Self::new()
+	}
+}
+
 impl ValueFormat {
-	pub fn new(hex: Option<bool>) -> Self {
-		Self { hex }
+	pub fn new() -> Self {
+		Self { hex: None }
+	}
+
+	pub fn with_hex(self, hex: bool) -> Self {
+		let mut this = self;
+		this.hex = Some(hex);
+		this
 	}
 
 	/// Display the value in hex.

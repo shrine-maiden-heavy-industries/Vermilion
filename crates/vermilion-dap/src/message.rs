@@ -30,6 +30,15 @@ impl Message {
 			Self::Unknown(unknown) => unknown.id,
 		}
 	}
+
+	pub fn deserialize(buffer: &[u8]) -> eyre::Result<Self> {
+		Ok(serde_json::from_slice(buffer)?)
+	}
+
+	pub fn serialize(self, buffer: &mut Vec<u8>) -> eyre::Result<()> {
+		serde_json::to_writer(buffer, &self)?;
+		Ok(())
+	}
 }
 
 impl From<Request> for Message {

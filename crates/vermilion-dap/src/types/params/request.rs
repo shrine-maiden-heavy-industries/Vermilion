@@ -813,9 +813,30 @@ pub struct StartDebuggingParams {
 	pub(crate) output_presentation: Option<OutputPresentation>,
 }
 
+impl Default for CancelParams {
+	fn default() -> Self {
+		Self::new()
+	}
+}
+
 impl CancelParams {
-	pub fn new(request_id: Option<u32>, progress_id: Option<String>) -> Self {
-		Self { request_id, progress_id }
+	pub fn new() -> Self {
+		Self { request_id: None, progress_id: None }
+	}
+
+	pub fn with_request_id(self, request_id: u32) -> Self {
+		let mut this = self;
+		this.request_id = Some(request_id);
+		this
+	}
+
+	pub fn with_progress_id<T>(self, progress_id: T) -> Self
+	where
+		T: ToString,
+	{
+		let mut this = self;
+		this.progress_id = Some(progress_id.to_string());
+		this
 	}
 
 	/// The ID (attribute `seq`) of the request to cancel. If missing no request is
@@ -833,9 +854,24 @@ impl CancelParams {
 	}
 }
 
+impl Default for AttachParams {
+	fn default() -> Self {
+		Self::new()
+	}
+}
+
 impl AttachParams {
-	pub fn new(restart: Option<serde_json::Value>) -> Self {
-		Self { restart }
+	pub fn new() -> Self {
+		Self { restart: None }
+	}
+
+	pub fn with_restart<T>(self, restart: T) -> eyre::Result<Self>
+	where
+		T: serde::Serialize,
+	{
+		let mut this = self;
+		this.restart = Some(serde_json::to_value(restart)?);
+		Ok(this)
 	}
 
 	/// Arbitrary data from the previous, restarted session.
@@ -849,14 +885,32 @@ impl AttachParams {
 }
 
 impl BreakpointLocationsParams {
-	pub fn new(
-		source: Source,
-		line: u64,
-		column: Option<u64>,
-		end_line: Option<u64>,
-		end_column: Option<u64>,
-	) -> Self {
-		Self { source, line, column, end_line, end_column }
+	pub fn new(source: Source, line: u64) -> Self {
+		Self {
+			source,
+			line,
+			column: None,
+			end_line: None,
+			end_column: None,
+		}
+	}
+
+	pub fn with_column(self, column: u64) -> Self {
+		let mut this = self;
+		this.column = Some(column);
+		this
+	}
+
+	pub fn with_end_line(self, end_line: u64) -> Self {
+		let mut this = self;
+		this.end_line = Some(end_line);
+		this
+	}
+
+	pub fn with_end_column(self, end_column: u64) -> Self {
+		let mut this = self;
+		this.end_column = Some(end_column);
+		this
 	}
 
 	/// The source location of the breakpoints; either `source.path` or `source.sourceReference`
@@ -899,8 +953,28 @@ impl BreakpointLocationsParams {
 }
 
 impl CompletionsParams {
-	pub fn new(frame_id: Option<i32>, text: String, column: u64, line: Option<u64>) -> Self {
-		Self { frame_id, text, column, line }
+	pub fn new<T>(text: T, column: u64) -> Self
+	where
+		T: ToString,
+	{
+		Self {
+			frame_id: None,
+			text: text.to_string(),
+			column,
+			line: None,
+		}
+	}
+
+	pub fn with_frame_id(self, frame_id: i32) -> Self {
+		let mut this = self;
+		this.frame_id = Some(frame_id);
+		this
+	}
+
+	pub fn with_line(self, line: u64) -> Self {
+		let mut this = self;
+		this.line = Some(line);
+		this
 	}
 
 	/// Returns completions in the scope of this stack frame.
@@ -935,8 +1009,14 @@ impl CompletionsParams {
 }
 
 impl ContinueParams {
-	pub fn new(thread_id: i32, single_thread: Option<bool>) -> Self {
-		Self { thread_id, single_thread }
+	pub fn new(thread_id: i32) -> Self {
+		Self { thread_id, single_thread: None }
+	}
+
+	pub fn with_single_thread(self, single_thread: bool) -> Self {
+		let mut this = self;
+		this.single_thread = Some(single_thread);
+		this
 	}
 
 	/// Specifies the active thread.
@@ -955,22 +1035,51 @@ impl ContinueParams {
 }
 
 impl DataBreakpointInfoParams {
-	pub fn new(
-		variables_reference: Option<u32>,
-		name: String,
-		frame_id: Option<i32>,
-		bytes: Option<u32>,
-		as_address: Option<bool>,
-		mode: Option<String>,
-	) -> Self {
+	pub fn new<T>(name: T) -> Self
+	where
+		T: ToString,
+	{
 		Self {
-			variables_reference,
-			name,
-			frame_id,
-			bytes,
-			as_address,
-			mode,
+			variables_reference: None,
+			name:                name.to_string(),
+			frame_id:            None,
+			bytes:               None,
+			as_address:          None,
+			mode:                None,
 		}
+	}
+
+	pub fn with_variables_reference(self, variables_reference: u32) -> Self {
+		let mut this = self;
+		this.variables_reference = Some(variables_reference);
+		this
+	}
+
+	pub fn with_frame_id(self, frame_id: i32) -> Self {
+		let mut this = self;
+		this.frame_id = Some(frame_id);
+		this
+	}
+
+	pub fn with_bytes(self, bytes: u32) -> Self {
+		let mut this = self;
+		this.bytes = Some(bytes);
+		this
+	}
+
+	pub fn with_as_address(self, as_address: bool) -> Self {
+		let mut this = self;
+		this.as_address = Some(as_address);
+		this
+	}
+
+	pub fn with_mode<T>(self, mode: T) -> Self
+	where
+		T: ToString,
+	{
+		let mut this = self;
+		this.mode = Some(mode.to_string());
+		this
 	}
 
 	/// Reference to the variable container if the data breakpoint is requested for a child of the
@@ -1022,20 +1131,35 @@ impl DataBreakpointInfoParams {
 }
 
 impl DisassembleParams {
-	pub fn new(
-		memory_reference: String,
-		offset: Option<i64>,
-		instruction_offset: Option<i64>,
-		instruction_count: u32,
-		resolve_symbols: Option<bool>,
-	) -> Self {
+	pub fn new<T>(memory_reference: T, instruction_count: u32) -> Self
+	where
+		T: ToString,
+	{
 		Self {
-			memory_reference,
-			offset,
-			instruction_offset,
+			memory_reference: memory_reference.to_string(),
+			offset: None,
+			instruction_offset: None,
 			instruction_count,
-			resolve_symbols,
+			resolve_symbols: None,
 		}
+	}
+
+	pub fn with_offset(self, offset: i64) -> Self {
+		let mut this = self;
+		this.offset = Some(offset);
+		this
+	}
+
+	pub fn with_instruction_offset(self, instruction_offset: i64) -> Self {
+		let mut this = self;
+		this.instruction_offset = Some(instruction_offset);
+		this
+	}
+
+	pub fn with_resolve_symbols(self, resolve_symbols: bool) -> Self {
+		let mut this = self;
+		this.resolve_symbols = Some(resolve_symbols);
+		this
 	}
 
 	/// Memory reference to the base location containing the instructions to disassemble.
@@ -1070,13 +1194,37 @@ impl DisassembleParams {
 	}
 }
 
+impl Default for DisconnectParams {
+	fn default() -> Self {
+		Self::new()
+	}
+}
+
 impl DisconnectParams {
-	pub fn new(
-		restart: Option<bool>,
-		terminate_debuggee: Option<bool>,
-		suspend_debuggee: Option<bool>,
-	) -> Self {
-		Self { restart, terminate_debuggee, suspend_debuggee }
+	pub fn new() -> Self {
+		Self {
+			restart:            None,
+			terminate_debuggee: None,
+			suspend_debuggee:   None,
+		}
+	}
+
+	pub fn with_restart(self, restart: bool) -> Self {
+		let mut this = self;
+		this.restart = Some(restart);
+		this
+	}
+
+	pub fn with_terminate_debuggee(self, terminate_debuggee: bool) -> Self {
+		let mut this = self;
+		this.terminate_debuggee = Some(terminate_debuggee);
+		this
+	}
+
+	pub fn with_suspend_debuggee(self, suspend_debuggee: bool) -> Self {
+		let mut this = self;
+		this.suspend_debuggee = Some(suspend_debuggee);
+		this
 	}
 
 	/// A value of true indicates that this `disconnect` request is part of a restart sequence.
@@ -1106,24 +1254,55 @@ impl DisconnectParams {
 }
 
 impl EvaluateParams {
-	pub fn new(
-		expression: String,
-		frame_id: Option<i32>,
-		line: Option<u64>,
-		column: Option<u64>,
-		source: Option<Box<Source>>,
-		context: Option<EvalContext>,
-		format: Option<ValueFormat>,
-	) -> Self {
+	pub fn new<T>(expression: T) -> Self
+	where
+		T: ToString,
+	{
 		Self {
-			expression,
-			frame_id,
-			line,
-			column,
-			source,
-			context,
-			format,
+			expression: expression.to_string(),
+			frame_id:   None,
+			line:       None,
+			column:     None,
+			source:     None,
+			context:    None,
+			format:     None,
 		}
+	}
+
+	pub fn with_frame_id(self, frame_id: i32) -> Self {
+		let mut this = self;
+		this.frame_id = Some(frame_id);
+		this
+	}
+
+	pub fn with_line(self, line: u64) -> Self {
+		let mut this = self;
+		this.line = Some(line);
+		this
+	}
+
+	pub fn with_column(self, column: u64) -> Self {
+		let mut this = self;
+		this.column = Some(column);
+		this
+	}
+
+	pub fn with_source(self, source: Box<Source>) -> Self {
+		let mut this = self;
+		this.source = Some(source);
+		this
+	}
+
+	pub fn with_context(self, context: EvalContext) -> Self {
+		let mut this = self;
+		this.context = Some(context);
+		this
+	}
+
+	pub fn with_format(self, format: ValueFormat) -> Self {
+		let mut this = self;
+		this.format = Some(format);
+		this
 	}
 
 	/// The expression to evaluate.
@@ -1200,8 +1379,14 @@ impl GotoParams {
 }
 
 impl GotoTargetsParams {
-	pub fn new(source: Source, line: u64, column: Option<u64>) -> Self {
-		Self { source, line, column }
+	pub fn new(source: Source, line: u64) -> Self {
+		Self { source, line, column: None }
+	}
+
+	pub fn with_column(self, column: u64) -> Self {
+		let mut this = self;
+		this.column = Some(column);
+		this
 	}
 
 	/// The source location for which the goto targets are determined.
@@ -1224,45 +1409,144 @@ impl GotoTargetsParams {
 }
 
 impl InitializeParams {
-	#[allow(clippy::too_many_arguments, reason = "Big structure, can't do much about it")]
-	pub fn new(
-		client_id: Option<String>,
-		client_name: Option<String>,
-		adapter_id: String,
-		locale: Option<String>,
-		lines_start_at_1: Option<bool>,
-		columns_start_at_1: Option<bool>,
-		path_format: Option<PathFormat>,
-		supports_variable_type: Option<bool>,
-		supports_variable_paging: Option<bool>,
-		supports_run_in_terminal_request: Option<bool>,
-		supports_memory_references: Option<bool>,
-		supports_progress_reporting: Option<bool>,
-		supports_invalidated_event: Option<bool>,
-		supports_memory_event: Option<bool>,
-		supports_args_can_be_interpreted_by_shell: Option<bool>,
-		supports_start_debugging_request: Option<bool>,
-		supports_ansi_styling: Option<bool>,
-	) -> Self {
+	pub fn new<T>(adapter_id: T) -> Self
+	where
+		T: ToString,
+	{
 		Self {
-			client_id,
-			client_name,
-			adapter_id,
-			locale,
-			lines_start_at_1,
-			columns_start_at_1,
-			path_format,
-			supports_variable_type,
-			supports_variable_paging,
-			supports_run_in_terminal_request,
-			supports_memory_references,
-			supports_progress_reporting,
-			supports_invalidated_event,
-			supports_memory_event,
-			supports_args_can_be_interpreted_by_shell,
-			supports_start_debugging_request,
-			supports_ansi_styling,
+			client_id: None,
+			client_name: None,
+			adapter_id: adapter_id.to_string(),
+			locale: None,
+			lines_start_at_1: None,
+			columns_start_at_1: None,
+			path_format: None,
+			supports_variable_type: None,
+			supports_variable_paging: None,
+			supports_run_in_terminal_request: None,
+			supports_memory_references: None,
+			supports_progress_reporting: None,
+			supports_invalidated_event: None,
+			supports_memory_event: None,
+			supports_args_can_be_interpreted_by_shell: None,
+			supports_start_debugging_request: None,
+			supports_ansi_styling: None,
 		}
+	}
+
+	pub fn with_client_id<T>(self, client_id: T) -> Self
+	where
+		T: ToString,
+	{
+		let mut this = self;
+		this.client_id = Some(client_id.to_string());
+		this
+	}
+
+	pub fn with_client_name<T>(self, client_name: T) -> Self
+	where
+		T: ToString,
+	{
+		let mut this = self;
+		this.client_name = Some(client_name.to_string());
+		this
+	}
+
+	pub fn with_locale<T>(self, locale: T) -> Self
+	where
+		T: ToString,
+	{
+		let mut this = self;
+		this.locale = Some(locale.to_string());
+		this
+	}
+
+	pub fn with_lines_start_at_1(self, lines_start_at_1: bool) -> Self {
+		let mut this = self;
+		this.lines_start_at_1 = Some(lines_start_at_1);
+		this
+	}
+
+	pub fn with_columns_start_at_1(self, columns_start_at_1: bool) -> Self {
+		let mut this = self;
+		this.columns_start_at_1 = Some(columns_start_at_1);
+		this
+	}
+
+	pub fn with_path_format(self, path_format: PathFormat) -> Self {
+		let mut this = self;
+		this.path_format = Some(path_format);
+		this
+	}
+
+	pub fn with_supports_variable_type(self, supports_variable_type: bool) -> Self {
+		let mut this = self;
+		this.supports_variable_type = Some(supports_variable_type);
+		this
+	}
+
+	pub fn with_supports_variable_paging(self, supports_variable_paging: bool) -> Self {
+		let mut this = self;
+		this.supports_variable_paging = Some(supports_variable_paging);
+		this
+	}
+
+	pub fn with_supports_run_in_terminal_request(
+		self,
+		supports_run_in_terminal_request: bool,
+	) -> Self {
+		let mut this = self;
+		this.supports_run_in_terminal_request = Some(supports_run_in_terminal_request);
+		this
+	}
+
+	pub fn with_supports_memory_references(self, supports_memory_references: bool) -> Self {
+		let mut this = self;
+		this.supports_memory_references = Some(supports_memory_references);
+		this
+	}
+
+	pub fn with_supports_progress_reporting(self, supports_progress_reporting: bool) -> Self {
+		let mut this = self;
+		this.supports_progress_reporting = Some(supports_progress_reporting);
+		this
+	}
+
+	pub fn with_supports_invalidated_event(self, supports_invalidated_event: bool) -> Self {
+		let mut this = self;
+		this.supports_invalidated_event = Some(supports_invalidated_event);
+		this
+	}
+
+	pub fn with_supports_memory_event(self, supports_memory_event: bool) -> Self {
+		let mut this = self;
+		this.supports_memory_event = Some(supports_memory_event);
+		this
+	}
+
+	pub fn with_supports_args_can_be_interpreted_by_shell(
+		self,
+		supports_args_can_be_interpreted_by_shell: bool,
+	) -> Self {
+		let mut this = self;
+		this.supports_args_can_be_interpreted_by_shell =
+			Some(supports_args_can_be_interpreted_by_shell);
+		this
+	}
+
+	pub fn with_supports_start_debugging_request(
+		self,
+		supports_start_debugging_request: bool,
+	) -> Self {
+		let mut this = self;
+		this.supports_start_debugging_request = Some(supports_start_debugging_request);
+		this
+	}
+
+	pub fn with_supports_ansi_styling(self, supports_ansi_styling: bool) -> Self {
+		let mut this = self;
+		this.supports_ansi_styling = Some(supports_ansi_styling);
+		this
 	}
 
 	/// The ID of the client using this adapter.
@@ -1353,9 +1637,30 @@ impl InitializeParams {
 	}
 }
 
+impl Default for LaunchParams {
+	fn default() -> Self {
+		Self::new()
+	}
+}
+
 impl LaunchParams {
-	pub fn new(no_debug: Option<bool>, restart: Option<serde_json::Value>) -> Self {
-		Self { no_debug, restart }
+	pub fn new() -> Self {
+		Self { no_debug: None, restart: None }
+	}
+
+	pub fn with_no_debug(self, no_debug: bool) -> Self {
+		let mut this = self;
+		this.no_debug = Some(no_debug);
+		this
+	}
+
+	pub fn with_restart<T>(self, restart: T) -> eyre::Result<Self>
+	where
+		T: serde::Serialize,
+	{
+		let mut this = self;
+		this.restart = Some(serde_json::to_value(restart)?);
+		Ok(this)
 	}
 
 	/// If true, the launch request should launch the program without enabling debugging.
@@ -1384,9 +1689,27 @@ impl LocationsParams {
 	}
 }
 
+impl Default for ModuleParams {
+	fn default() -> Self {
+		Self::new()
+	}
+}
+
 impl ModuleParams {
-	pub fn new(start_module: Option<i32>, module_count: Option<u32>) -> Self {
-		Self { start_module, module_count }
+	pub fn new() -> Self {
+		Self { start_module: None, module_count: None }
+	}
+
+	pub fn with_start_module(self, start_module: i32) -> Self {
+		let mut this = self;
+		this.start_module = Some(start_module);
+		this
+	}
+
+	pub fn with_module_count(self, module_count: u32) -> Self {
+		let mut this = self;
+		this.module_count = Some(module_count);
+		this
 	}
 
 	/// The index of the first module to return; if omitted modules start at 0.
@@ -1402,12 +1725,20 @@ impl ModuleParams {
 }
 
 impl NextParams {
-	pub fn new(
-		thread_id: i32,
-		single_thread: Option<bool>,
-		granularity: Option<SteppingGranularity>,
-	) -> Self {
-		Self { thread_id, single_thread, granularity }
+	pub fn new(thread_id: i32) -> Self {
+		Self { thread_id, single_thread: None, granularity: None }
+	}
+
+	pub fn with_single_thread(self, single_thread: bool) -> Self {
+		let mut this = self;
+		this.single_thread = Some(single_thread);
+		this
+	}
+
+	pub fn with_granularity(self, granularity: SteppingGranularity) -> Self {
+		let mut this = self;
+		this.granularity = Some(granularity);
+		this
 	}
 
 	/// Specifies the thread for which to resume execution for one step (of the given granularity).
@@ -1439,8 +1770,21 @@ impl PauseParams {
 }
 
 impl ReadMemoryParams {
-	pub fn new(memory_reference: String, offset: Option<i64>, count: u64) -> Self {
-		Self { memory_reference, offset, count }
+	pub fn new<T>(memory_reference: T, count: u64) -> Self
+	where
+		T: ToString,
+	{
+		Self {
+			memory_reference: memory_reference.to_string(),
+			offset: None,
+			count,
+		}
+	}
+
+	pub fn with_offset(self, offset: i64) -> Self {
+		let mut this = self;
+		this.offset = Some(offset);
+		this
 	}
 
 	/// Memory reference to the base location from which data should be read.
@@ -1474,8 +1818,14 @@ impl RestartFrameParams {
 }
 
 impl ReverseContinueParams {
-	pub fn new(thread_id: i32, single_thread: Option<bool>) -> Self {
-		Self { thread_id, single_thread }
+	pub fn new(thread_id: i32) -> Self {
+		Self { thread_id, single_thread: None }
+	}
+
+	pub fn with_single_thread(self, single_thread: bool) -> Self {
+		let mut this = self;
+		this.single_thread = Some(single_thread);
+		this
 	}
 
 	/// Specifies the active thread. If the debug adapter supports single thread execution (see
@@ -1506,12 +1856,25 @@ impl ScopesParams {
 }
 
 impl SetBreakpointsParams {
-	pub fn new(
-		source: Source,
-		breakpoints: Option<Vec<SourceBreakpoint>>,
-		source_modified: Option<bool>,
-	) -> Self {
-		Self { source, breakpoints, lines: None, source_modified }
+	pub fn new(source: Source) -> Self {
+		Self {
+			source,
+			breakpoints: None,
+			lines: None,
+			source_modified: None,
+		}
+	}
+
+	pub fn with_breakpoints(self, breakpoints: Vec<SourceBreakpoint>) -> Self {
+		let mut this = self;
+		this.breakpoints = Some(breakpoints);
+		this
+	}
+
+	pub fn with_source_modified(self, source_modified: bool) -> Self {
+		let mut this = self;
+		this.source_modified = Some(source_modified);
+		this
 	}
 
 	/// The source location of the breakpoints; either `source.path` or `source.sourceReference`
@@ -1551,12 +1914,24 @@ impl SetDataBreakpointsParams {
 }
 
 impl SetExceptionBreakpointsParams {
-	pub fn new(
-		filters: Vec<String>,
-		filter_options: Option<Vec<ExceptionFilterOptions>>,
-		exception_options: Option<Vec<ExceptionOptions>>,
-	) -> Self {
-		Self { filters, filter_options, exception_options }
+	pub fn new(filters: Vec<String>) -> Self {
+		Self {
+			filters,
+			filter_options: None,
+			exception_options: None,
+		}
+	}
+
+	pub fn with_filter_options(self, filter_options: Vec<ExceptionFilterOptions>) -> Self {
+		let mut this = self;
+		this.filter_options = Some(filter_options);
+		this
+	}
+
+	pub fn with_exception_options(self, exception_options: Vec<ExceptionOptions>) -> Self {
+		let mut this = self;
+		this.exception_options = Some(exception_options);
+		this
 	}
 
 	/// Set of exception filters specified by their ID.
@@ -1589,13 +1964,29 @@ impl SetExceptionBreakpointsParams {
 }
 
 impl SetExpressionParams {
-	pub fn new(
-		expression: String,
-		value: String,
-		frame_id: Option<i32>,
-		format: Option<ValueFormat>,
-	) -> Self {
-		Self { expression, value, frame_id, format }
+	pub fn new<T, U>(expression: T, value: U) -> Self
+	where
+		T: ToString,
+		U: ToString,
+	{
+		Self {
+			expression: expression.to_string(),
+			value:      value.to_string(),
+			frame_id:   None,
+			format:     None,
+		}
+	}
+
+	pub fn with_frame_id(self, frame_id: i32) -> Self {
+		let mut this = self;
+		this.frame_id = Some(frame_id);
+		this
+	}
+
+	pub fn with_format(self, format: ValueFormat) -> Self {
+		let mut this = self;
+		this.format = Some(format);
+		this
 	}
 
 	/// The l-value expression to assign to.
@@ -1644,13 +2035,23 @@ impl SetInstructionBreakpointsParams {
 }
 
 impl SetVariableParams {
-	pub fn new(
-		variables_reference: i32,
-		name: String,
-		value: String,
-		format: Option<ValueFormat>,
-	) -> Self {
-		Self { variables_reference, name, value, format }
+	pub fn new<T, U>(variables_reference: i32, name: T, value: U) -> Self
+	where
+		T: ToString,
+		U: ToString,
+	{
+		Self {
+			variables_reference,
+			name: name.to_string(),
+			value: value.to_string(),
+			format: None,
+		}
+	}
+
+	pub fn with_format(self, format: ValueFormat) -> Self {
+		let mut this = self;
+		this.format = Some(format);
+		this
 	}
 
 	/// The reference of the variable container.
@@ -1677,8 +2078,14 @@ impl SetVariableParams {
 }
 
 impl SourceParams {
-	pub fn new(source: Option<Source>, source_reference: u32) -> Self {
-		Self { source, source_reference }
+	pub fn new(source_reference: u32) -> Self {
+		Self { source: None, source_reference }
+	}
+
+	pub fn with_source(self, source: Source) -> Self {
+		let mut this = self;
+		this.source = Some(source);
+		this
 	}
 
 	/// Specifies the source content to load. Either `source.path` or `source.sourceReference` must
@@ -1697,13 +2104,31 @@ impl SourceParams {
 }
 
 impl StackTraceParams {
-	pub fn new(
-		thread_id: i32,
-		start_frame: Option<u32>,
-		levels: Option<u32>,
-		format: Option<StackFrameFormat>,
-	) -> Self {
-		Self { thread_id, start_frame, levels, format }
+	pub fn new(thread_id: i32) -> Self {
+		Self {
+			thread_id,
+			start_frame: None,
+			levels: None,
+			format: None,
+		}
+	}
+
+	pub fn with_start_frame(self, start_frame: u32) -> Self {
+		let mut this = self;
+		this.start_frame = Some(start_frame);
+		this
+	}
+
+	pub fn with_levels(self, levels: u32) -> Self {
+		let mut this = self;
+		this.levels = Some(levels);
+		this
+	}
+
+	pub fn with_format(self, format: StackFrameFormat) -> Self {
+		let mut this = self;
+		this.format = Some(format);
+		this
 	}
 
 	/// Retrieve the stacktrace for this thread.
@@ -1735,12 +2160,20 @@ impl StackTraceParams {
 }
 
 impl StepBackParams {
-	pub fn new(
-		thread_id: i32,
-		single_thread: Option<bool>,
-		granularity: Option<SteppingGranularity>,
-	) -> Self {
-		Self { thread_id, single_thread, granularity }
+	pub fn new(thread_id: i32) -> Self {
+		Self { thread_id, single_thread: None, granularity: None }
+	}
+
+	pub fn with_single_thread(self, single_thread: bool) -> Self {
+		let mut this = self;
+		this.single_thread = Some(single_thread);
+		this
+	}
+
+	pub fn with_granularity(self, granularity: SteppingGranularity) -> Self {
+		let mut this = self;
+		this.granularity = Some(granularity);
+		this
 	}
 
 	/// Specifies the thread for which to resume execution for one step backwards (of the given
@@ -1762,13 +2195,31 @@ impl StepBackParams {
 }
 
 impl StepInParams {
-	pub fn new(
-		thread_id: i32,
-		single_thread: Option<bool>,
-		target_id: Option<i32>,
-		granularity: Option<SteppingGranularity>,
-	) -> Self {
-		Self { thread_id, single_thread, target_id, granularity }
+	pub fn new(thread_id: i32) -> Self {
+		Self {
+			thread_id,
+			single_thread: None,
+			target_id: None,
+			granularity: None,
+		}
+	}
+
+	pub fn with_single_thread(self, single_thread: bool) -> Self {
+		let mut this = self;
+		this.single_thread = Some(single_thread);
+		this
+	}
+
+	pub fn with_target_id(self, target_id: i32) -> Self {
+		let mut this = self;
+		this.target_id = Some(target_id);
+		this
+	}
+
+	pub fn with_granularity(self, granularity: SteppingGranularity) -> Self {
+		let mut this = self;
+		this.granularity = Some(granularity);
+		this
 	}
 
 	/// Specifies the thread for which to resume execution for one step-into (of the given
@@ -1806,12 +2257,20 @@ impl StepInTargetsParams {
 }
 
 impl StepOutParams {
-	pub fn new(
-		thread_id: i32,
-		single_thread: Option<bool>,
-		granularity: Option<SteppingGranularity>,
-	) -> Self {
-		Self { thread_id, single_thread, granularity }
+	pub fn new(thread_id: i32) -> Self {
+		Self { thread_id, single_thread: None, granularity: None }
+	}
+
+	pub fn with_single_thread(self, single_thread: bool) -> Self {
+		let mut this = self;
+		this.single_thread = Some(single_thread);
+		this
+	}
+
+	pub fn with_granularity(self, granularity: SteppingGranularity) -> Self {
+		let mut this = self;
+		this.granularity = Some(granularity);
+		this
 	}
 
 	/// Specifies the thread for which to resume execution for one step-out (of the given
@@ -1832,9 +2291,21 @@ impl StepOutParams {
 	}
 }
 
+impl Default for TerminateParams {
+	fn default() -> Self {
+		Self::new()
+	}
+}
+
 impl TerminateParams {
-	pub fn new(restart: Option<bool>) -> Self {
-		Self { restart }
+	pub fn new() -> Self {
+		Self { restart: None }
+	}
+
+	pub fn with_restart(self, restart: bool) -> Self {
+		let mut this = self;
+		this.restart = Some(restart);
+		this
 	}
 
 	/// A value of true indicates that this `terminate` request is part of a restart sequence.
@@ -1843,9 +2314,21 @@ impl TerminateParams {
 	}
 }
 
+impl Default for TerminateThreadsParams {
+	fn default() -> Self {
+		Self::new()
+	}
+}
+
 impl TerminateThreadsParams {
-	pub fn new(thread_ids: Option<Vec<i32>>) -> Self {
-		Self { thread_ids }
+	pub fn new() -> Self {
+		Self { thread_ids: None }
+	}
+
+	pub fn wiht_thread_ids(self, thread_ids: Vec<i32>) -> Self {
+		let mut this = self;
+		this.thread_ids = Some(thread_ids);
+		this
 	}
 
 	/// Ids of threads to be terminated.
@@ -1855,14 +2338,38 @@ impl TerminateThreadsParams {
 }
 
 impl VariablesParams {
-	pub fn new(
-		variables_reference: u32,
-		filter: Option<VariablesFilter>,
-		start: Option<u32>,
-		count: Option<u32>,
-		format: Option<ValueFormat>,
-	) -> Self {
-		Self { variables_reference, filter, start, count, format }
+	pub fn new(variables_reference: u32) -> Self {
+		Self {
+			variables_reference,
+			filter: None,
+			start: None,
+			count: None,
+			format: None,
+		}
+	}
+
+	pub fn with_filter(self, filter: VariablesFilter) -> Self {
+		let mut this = self;
+		this.filter = Some(filter);
+		this
+	}
+
+	pub fn with_start(self, start: u32) -> Self {
+		let mut this = self;
+		this.start = Some(start);
+		this
+	}
+
+	pub fn with_count(self, count: u32) -> Self {
+		let mut this = self;
+		this.count = Some(count);
+		this
+	}
+
+	pub fn with_format(self, format: ValueFormat) -> Self {
+		let mut this = self;
+		this.format = Some(format);
+		this
 	}
 
 	/// The variable for which to retrieve its children. The `variablesReference` must have been
@@ -1909,13 +2416,29 @@ impl VariablesParams {
 }
 
 impl WriteMemoryParams {
-	pub fn new(
-		memory_reference: String,
-		offset: Option<i64>,
-		allow_partial: Option<bool>,
-		data: String,
-	) -> Self {
-		Self { memory_reference, offset, allow_partial, data }
+	pub fn new<T, U>(memory_reference: T, data: U) -> Self
+	where
+		T: ToString,
+		U: ToString,
+	{
+		Self {
+			memory_reference: memory_reference.to_string(),
+			offset:           None,
+			allow_partial:    None,
+			data:             data.to_string(),
+		}
+	}
+
+	pub fn with_offset(self, offset: i64) -> Self {
+		let mut this = self;
+		this.offset = Some(offset);
+		this
+	}
+
+	pub fn with_allow_partial(self, allow_partial: bool) -> Self {
+		let mut this = self;
+		this.allow_partial = Some(allow_partial);
+		this
 	}
 
 	/// Memory reference to the base location to which data should be written.
@@ -1951,22 +2474,45 @@ impl WriteMemoryParams {
 }
 
 impl RunInTerminalParams {
-	pub fn new(
-		kind: Option<TerminalKind>,
-		title: Option<String>,
-		cwd: String,
-		args: Vec<String>,
-		env: Option<HashMap<String, Option<String>>>,
-		args_can_be_interpreted_by_shell: Option<bool>,
-	) -> Self {
+	pub fn new<T>(cwd: T, args: Vec<String>) -> Self
+	where
+		T: ToString,
+	{
 		Self {
-			kind,
-			title,
-			cwd,
+			kind: None,
+			title: None,
+			cwd: cwd.to_string(),
 			args,
-			env,
-			args_can_be_interpreted_by_shell,
+			env: None,
+			args_can_be_interpreted_by_shell: None,
 		}
+	}
+
+	pub fn with_kind(self, kind: TerminalKind) -> Self {
+		let mut this = self;
+		this.kind = Some(kind);
+		this
+	}
+
+	pub fn with_title(self, title: String) -> Self {
+		let mut this = self;
+		this.title = Some(title);
+		this
+	}
+
+	pub fn with_env(self, env: HashMap<String, Option<String>>) -> Self {
+		let mut this = self;
+		this.env = Some(env);
+		this
+	}
+
+	pub fn with_args_can_be_interpreted_by_shell(
+		self,
+		args_can_be_interpreted_by_shell: bool,
+	) -> Self {
+		let mut this = self;
+		this.args_can_be_interpreted_by_shell = Some(args_can_be_interpreted_by_shell);
+		this
 	}
 
 	/// What kind of terminal to launch. Defaults to `integrated` if not specified.
@@ -2017,9 +2563,14 @@ impl StartDebuggingParams {
 	pub fn new(
 		configuration: HashMap<String, serde_json::Value>,
 		request: StartDebuggingRequest,
-		output_presentation: Option<OutputPresentation>,
 	) -> Self {
-		Self { configuration, request, output_presentation }
+		Self { configuration, request, output_presentation: None }
+	}
+
+	pub fn with_output_presentation(self, output_presentation: OutputPresentation) -> Self {
+		let mut this = self;
+		this.output_presentation = Some(output_presentation);
+		this
 	}
 
 	/// Arguments passed to the new debug session.

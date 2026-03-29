@@ -14,12 +14,11 @@ version       = { workspace = true }
 [dependencies]
 vermilion-macros = { workspace = true }
 
-bitmask-enum     = { workspace = true }
 chrono           = { workspace = true }
 eyre             = { workspace = true }
+fluent-uri       = { workspace = true }
 serde            = { workspace = true }
 serde_json       = { workspace = true }
-serde_repr       = { workspace = true }
 tokio            = { workspace = true, optional = true }
 tokio-util       = { workspace = true, optional = true }
 tracing          = { workspace = true, optional = true }

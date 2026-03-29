@@ -3597,14 +3597,13 @@ dependencies = [
 name = "vermilion-dap"
 version = "0.0.0"
 dependencies = [
- "bitmask-enum",
  "chrono",
  "criterion",
  "eyre",
+ "fluent-uri",
  "proptest",
  "serde",
  "serde_json",
- "serde_repr",
  "test-log",
  "tokio",
  "tokio-util",
