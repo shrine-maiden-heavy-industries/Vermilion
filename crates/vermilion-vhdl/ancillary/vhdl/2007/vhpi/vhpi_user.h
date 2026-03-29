@@ -6,7 +6,7 @@
 	NOTE: This file is API compatible with, but not a direct verbatim copy of the definition
 	of the `vhpi_user.h` file as defined in IEEE 1076-2007.
 
-	[Vermilion]: https://github.com/shrine-maiden-heavy-industries/Vermilion
+	[Vermilion]: https://codeberg.org/shrine-maiden-heavy-industries/Vermilion
 */
 #pragma once
 #if !defined(VHPI_USER_H)
