@@ -16,6 +16,7 @@ mercurous             = { workspace = true, features = [ "transport", "trace", "
 vermilion-constraints = { workspace = true, features = [ "schema", "cli" ] }
 vermilion-dap         = { workspace = true, features = [ "transport", "trace", "trace-server" ]  }
 vermilion-diagnostics = { workspace = true, features = [ "schema", "render", "pretty" ] }
+vermilion-io          = { workspace = true }
 vermilion-lang        = { workspace = true }
 vermilion-liberty     = { workspace = true, features = [ "schema", "cli" ] }
 vermilion-loc         = { workspace = true }

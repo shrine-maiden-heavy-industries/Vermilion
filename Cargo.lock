@@ -479,6 +479,7 @@ dependencies = [
  "vermilion-constraints",
  "vermilion-dap",
  "vermilion-diagnostics",
+ "vermilion-io",
  "vermilion-lang",
  "vermilion-liberty",
  "vermilion-loc",
@@ -1664,6 +1665,15 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a1dc47f592c06f33f8e3aea9591776ec7c9f9e4124778ff8a3c3b87159f7e593"
 dependencies = [
  "hashbrown 0.16.1",
+]
+
+[[package]]
+name = "lz4_flex"
+version = "0.13.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "db9a0d582c2874f68138a16ce1867e0ffde6c0bb0a0df85e1f36d04146db488a"
+dependencies = [
+ "twox-hash",
 ]
 
 [[package]]
@@ -3433,6 +3443,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e421abadd41a4225275504ea4d6566923418b7f05506fbc9c0fe86ba7396114b"
 
 [[package]]
+name = "twox-hash"
+version = "2.1.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "9ea3136b675547379c4bd395ca6b938e5ad3c3d20fad76e7fe85f9e0d011419c"
+
+[[package]]
 name = "typenum"
 version = "1.19.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3559,6 +3575,7 @@ dependencies = [
  "vermilion-dap",
  "vermilion-diagnostics",
  "vermilion-fmt",
+ "vermilion-io",
  "vermilion-lang",
  "vermilion-liberty",
  "vermilion-loc",
@@ -3658,6 +3675,19 @@ dependencies = [
  "vermilion-verilog",
  "vermilion-vhdl",
  "vermilion-xact",
+]
+
+[[package]]
+name = "vermilion-io"
+version = "0.0.0"
+dependencies = [
+ "criterion",
+ "flate2",
+ "lz4_flex",
+ "proptest",
+ "rayon",
+ "test-log",
+ "tracing",
 ]
 
 [[package]]
