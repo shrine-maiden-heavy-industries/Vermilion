@@ -6,5 +6,5 @@
 -- NOTE: This file is API compatible with, but not a direct verbatim copy of the definition
 -- as noted in IEC 61691-1-1:2004.
 --
--- [Vermilion]: https://github.com/shrine-maiden-heavy-industries/Vermilion
+-- [Vermilion]: https://codeberg.org/shrine-maiden-heavy-industries/Vermilion
 --

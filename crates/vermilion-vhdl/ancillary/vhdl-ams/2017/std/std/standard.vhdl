@@ -6,5 +6,5 @@
 -- NOTE: This file is API compatible with, but not a direct verbatim copy of the definition
 -- as noted in IEEE 1076.1-2017.
 --
--- [Vermilion]: https://github.com/shrine-maiden-heavy-industries/Vermilion
+-- [Vermilion]: https://codeberg.org/shrine-maiden-heavy-industries/Vermilion
 --
