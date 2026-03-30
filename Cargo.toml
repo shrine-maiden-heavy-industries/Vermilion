@@ -54,6 +54,7 @@ eyre               = { version = "0.6", default-features = false }
 flate2             = { version = "1.0" }
 fluent-uri         = { version = "0.4", features = [ "serde" ] }
 lz4_flex           = { version = "0.13" }
+memmap2            = { version = "0.9" }
 notify             = { version = "8.2" }
 num-traits         = { version = "0.2" }
 paste              = { version = "1.0" }
