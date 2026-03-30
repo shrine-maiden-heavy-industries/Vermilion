@@ -16,6 +16,7 @@ flate2   = { workspace = true }
 lz4_flex = { workspace = true }
 memmap2  = { workspace = true }
 rayon    = { workspace = true }
+tendril  = { workspace = true }
 tracing  = { workspace = true }
 
 [dev-dependencies]

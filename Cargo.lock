@@ -3673,6 +3673,7 @@ dependencies = [
  "memmap2",
  "proptest",
  "rayon",
+ "tendril",
  "test-log",
  "tracing",
 ]
@@ -3690,6 +3691,7 @@ dependencies = [
  "test-log",
  "vermilion-diagnostics",
  "vermilion-fmt",
+ "vermilion-io",
  "vermilion-loc",
  "vermilion-macros",
 ]

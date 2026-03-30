@@ -14,6 +14,7 @@ version       = { workspace = true }
 [dependencies]
 vermilion-diagnostics = { workspace = true }
 vermilion-fmt         = { workspace = true }
+vermilion-io          = { workspace = true }
 vermilion-loc         = { workspace = true }
 vermilion-macros      = { workspace = true }
 

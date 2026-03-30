@@ -9,9 +9,7 @@ pub mod debug;
 pub mod parser;
 pub mod tokenizer;
 
-use tendril::{Atomic, Tendril, fmt};
-
-pub type AtomicByteTendril = Tendril<fmt::Bytes, Atomic>;
+pub use vermilion_io::AtomicByteTendril;
 
 #[macro_export]
 macro_rules! spanned_token {

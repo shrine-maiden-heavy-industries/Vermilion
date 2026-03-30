@@ -5,4 +5,8 @@
 // #![warn(missing_docs)]
 // #![warn(clippy::missing_docs_in_private_items)]
 
+use tendril::{Atomic, Tendril, fmt};
+
+pub type AtomicByteTendril = Tendril<fmt::Bytes, Atomic>;
+
 pub mod path;
