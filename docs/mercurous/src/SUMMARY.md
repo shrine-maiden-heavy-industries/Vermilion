@@ -21,5 +21,5 @@
 ---
 
 [F.A.Q](./faq.md)
-[References](./references.md)
+[Normative References](./references.md)
 [Changelog](./CHANGELOG.md)

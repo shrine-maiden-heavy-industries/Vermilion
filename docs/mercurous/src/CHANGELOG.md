@@ -1,5 +1,4 @@
 # Changelog
 
-```admonish todo
-TODO
-```
+> [!NOTE]
+> TODO
