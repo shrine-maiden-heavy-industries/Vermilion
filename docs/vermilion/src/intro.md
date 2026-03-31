@@ -1,5 +1,4 @@
 # Introduction
 
-```admonish todo
-TODO
-```
+> [!NOTE]
+> TODO
