@@ -8,20 +8,14 @@ language    = "en"
 src         = "src"
 
 [build]
-build-dir = "../target/book"
+build-dir = "../../target/book/cinnabar"
 
 [output.html]
 default-theme        = "dark"
 preferred-dark-theme = "coal"
+smart-punctuation    = false
 git-repository-url   = "https://codeberg.org/shrine-maiden-heavy-industries/Vermilion"
-git-repository-icon  = "fa-github"
+git-repository-icon  = "fab-git-alt"
 edit-url-template    = "https://codeberg.org/shrine-maiden-heavy-industries/Vermilion/_edit/main/docs/cinnabar/{path}"
-additional-css       = [
-	"./assets/css/mdbook-admonish.css"
-]
 
 [preprocessor]
-
-[preprocessor.admonish]
-command = "mdbook-admonish"
-assets_version = "3.0.3" # do not edit: managed by `mdbook-admonish install`

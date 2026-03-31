@@ -1,5 +1,4 @@
 # F.A.Q
 
-```admonish todo
-TODO
-```
+> [!NOTE]
+> TODO
