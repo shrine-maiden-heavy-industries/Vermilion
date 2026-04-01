@@ -14,6 +14,11 @@ use vermilion_xact::workspace::XactWorkspace;
 
 use crate::paths;
 
+/// General workspace settings
+#[derive(Clone, Debug, Default, Deserialize, JsonSchema, Serialize)]
+#[serde(deny_unknown_fields)]
+pub struct WorkspaceGeneral {}
+
 /// Vermilion workspace configuration
 ///
 /// These settings store the project specific configuration settings for Vermilion, much like how
@@ -30,6 +35,8 @@ use crate::paths;
 #[derive(Clone, Debug, Default, Deserialize, JsonSchema, Serialize)]
 #[serde(deny_unknown_fields)]
 pub struct Workspace {
+	/// General workspace settings
+	pub vermilion:      Option<WorkspaceGeneral>,
 	/// Verilog specific workspace settings
 	pub verilog:        Option<VerilogWorkspace>,
 	/// SystemVerilog specific workspace settings
