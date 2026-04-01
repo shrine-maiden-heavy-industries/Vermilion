@@ -15,9 +15,9 @@ use vermilion_xact::config::XactConfig;
 
 use crate::paths;
 
-/// Core global Vermilion configuration settings
+/// General global Vermilion configuration settings
 #[derive(Clone, Debug, Default, Deserialize, JsonSchema, Serialize)]
-pub struct CoreConfig {}
+pub struct ConfigGeneral {}
 
 /// Global Vermilion configuration
 ///
@@ -32,10 +32,10 @@ pub struct CoreConfig {}
 #[derive(Clone, Debug, Default, Deserialize, JsonSchema, Serialize)]
 #[serde(deny_unknown_fields)]
 pub struct Config {
+	/// General configuration options
+	pub vermilion:      Option<ConfigGeneral>,
 	/// Design constraints configuration options
 	pub constraints:    Option<ConstraintConfig>,
-	/// Core configuration options
-	pub core:           Option<CoreConfig>,
 	/// General diagnostics configuration options
 	pub diagnostics:    Option<DiagnosticsConfig>,
 	/// General formatting configuration options
