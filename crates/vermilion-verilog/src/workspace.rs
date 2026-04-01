@@ -8,6 +8,7 @@ use crate::{
 	lint::workspace::{SystemVerilogLint, VerilogAmsLint, VerilogLint},
 };
 
+/// Workspace specific Verilog options
 #[derive(Clone, Debug)]
 #[cfg_attr(
 	feature = "serde",
@@ -15,11 +16,15 @@ use crate::{
 	serde(deny_unknown_fields)
 )]
 pub struct VerilogWorkspace {
-	std:  LanguageStd,
-	fmt:  Option<VerilogFormat>,
-	lint: Option<VerilogLint>,
+	/// Specific Verilog standard to use
+	pub std:  LanguageStd,
+	/// Verilog formatting options
+	pub fmt:  Option<VerilogFormat>,
+	/// Verilog lint options
+	pub lint: Option<VerilogLint>,
 }
 
+/// Workspace specific SystemVerilog options
 #[derive(Clone, Debug)]
 #[cfg_attr(
 	feature = "serde",
@@ -27,11 +32,15 @@ pub struct VerilogWorkspace {
 	serde(deny_unknown_fields)
 )]
 pub struct SystemVerilogWorkspace {
-	std:  LanguageStd,
-	fmt:  Option<SystemVerilogFormat>,
-	lint: Option<SystemVerilogLint>,
+	/// Specific SystemVerilog standard to use
+	pub std:  LanguageStd,
+	/// SystemVerilog formatting options
+	pub fmt:  Option<SystemVerilogFormat>,
+	/// SystemVerilog lint options
+	pub lint: Option<SystemVerilogLint>,
 }
 
+/// Workspace specific Verilog-AMS options
 #[derive(Clone, Debug)]
 #[cfg_attr(
 	feature = "serde",
@@ -39,9 +48,12 @@ pub struct SystemVerilogWorkspace {
 	serde(deny_unknown_fields)
 )]
 pub struct VerilogAmsWorkspace {
-	std:  LanguageStd,
-	fmt:  Option<VerilogAmsFormat>,
-	lint: Option<VerilogAmsLint>,
+	/// Specific Verilog-AMS standard to use
+	pub std:  LanguageStd,
+	/// Verilog-AMS formatting options
+	pub fmt:  Option<VerilogAmsFormat>,
+	/// Verilog-AMS lint options
+	pub lint: Option<VerilogAmsLint>,
 }
 
 impl Default for VerilogWorkspace {
