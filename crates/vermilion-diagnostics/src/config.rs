@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: BSD-3-Clause
 
+/// User specific diagnostics settings
 #[derive(Clone, Debug)]
 #[cfg_attr(
 	feature = "serde",

@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: BSD-3-Clause
 
+/// Workspace specific common lint settings
 #[derive(Clone, Debug, Default)]
 #[cfg_attr(
 	feature = "serde",
