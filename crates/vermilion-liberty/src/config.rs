@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: BSD-3-Clause
 
+/// User specific Liberty options
 #[derive(Clone, Debug)]
 #[cfg_attr(
 	feature = "serde",
