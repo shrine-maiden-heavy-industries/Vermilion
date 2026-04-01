@@ -8,6 +8,7 @@ use crate::{
 	lint::workspace::{VhdlAmsLint, VhdlLint},
 };
 
+/// Workspace specific VHDL options
 #[derive(Clone, Debug)]
 #[cfg_attr(
 	feature = "serde",
@@ -15,11 +16,15 @@ use crate::{
 	serde(deny_unknown_fields)
 )]
 pub struct VhdlWorkspace {
-	std:  LanguageStd,
-	fmt:  Option<VhdlFormat>,
-	lint: Option<VhdlLint>,
+	/// Specific VHDL standard to use
+	pub std:  LanguageStd,
+	/// VHDL formatting options
+	pub fmt:  Option<VhdlFormat>,
+	/// VHDL lint options
+	pub lint: Option<VhdlLint>,
 }
 
+/// Workspace specific VHDL-AMS options
 #[derive(Clone, Debug)]
 #[cfg_attr(
 	feature = "serde",
@@ -27,9 +32,12 @@ pub struct VhdlWorkspace {
 	serde(deny_unknown_fields)
 )]
 pub struct VhdlAmsWorkspace {
-	std:  LanguageStd,
-	fmt:  Option<VhdlAmsFormat>,
-	lint: Option<VhdlAmsLint>,
+	/// Specific VHDL-AMS standard to use
+	pub std:  LanguageStd,
+	/// VHDL-AMS formatting options
+	pub fmt:  Option<VhdlAmsFormat>,
+	/// VHDL-AMS lint options
+	pub lint: Option<VhdlAmsLint>,
 }
 
 impl Default for VhdlWorkspace {

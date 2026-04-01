@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: BSD-3-Clause
 
+/// VHDL specific user configuration options
 #[derive(Clone, Debug)]
 #[cfg_attr(
 	feature = "serde",
@@ -9,6 +10,7 @@
 #[cfg_attr(feature = "schema", derive(::schemars::JsonSchema))]
 pub struct VhdlConfig {}
 
+/// VHDL-AMS specific user configuration options
 #[derive(Clone, Debug)]
 #[cfg_attr(
 	feature = "serde",
