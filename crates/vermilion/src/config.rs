@@ -15,23 +15,45 @@ use vermilion_xact::config::XactConfig;
 
 use crate::paths;
 
+/// Core global Vermilion configuration settings
 #[derive(Clone, Debug, Default, Deserialize, JsonSchema, Serialize)]
 pub struct CoreConfig {}
 
+/// Global Vermilion configuration
+///
+/// Unlike the Vermilion [`Workspace`], which is used to identify and configure
+/// projects that wish to use Vermilion. The global configuration is used to specify user-specific
+/// options that are not project specific and are inappropriate to include in the workspace.
+///
+/// One example would be with the [`XactConfig`], where you specify an IP-XACT repository that is
+/// system or organization specific, as not to accidentally commit and publish internal paths.
+///
+/// [`Workspace`]: crate::workspace::Workspace
 #[derive(Clone, Debug, Default, Deserialize, JsonSchema, Serialize)]
 #[serde(deny_unknown_fields)]
 pub struct Config {
-	constraints:    Option<ConstraintConfig>,
-	core:           Option<CoreConfig>,
-	diagnostics:    Option<DiagnosticsConfig>,
-	formatting:     Option<FormattingConfig>,
-	liberty:        Option<LibertyConfig>,
-	system_verilog: Option<SystemVerilogConfig>,
-	verilog_ams:    Option<VerilogAmsConfig>,
-	verilog:        Option<VerilogConfig>,
-	vhdl_ams:       Option<VhdlAmsConfig>,
-	vhdl:           Option<VhdlConfig>,
-	xact:           Option<XactConfig>,
+	/// Design constraints configuration options
+	pub constraints:    Option<ConstraintConfig>,
+	/// Core configuration options
+	pub core:           Option<CoreConfig>,
+	/// General diagnostics configuration options
+	pub diagnostics:    Option<DiagnosticsConfig>,
+	/// General formatting configuration options
+	pub formatting:     Option<FormattingConfig>,
+	/// Liberty specific configuration options
+	pub liberty:        Option<LibertyConfig>,
+	/// SystemVerilog specific configuration options
+	pub system_verilog: Option<SystemVerilogConfig>,
+	/// Verilog-AMS specific configuration options
+	pub verilog_ams:    Option<VerilogAmsConfig>,
+	/// Verilog specific configuration options
+	pub verilog:        Option<VerilogConfig>,
+	/// VHDL-AMS specific configuration options
+	pub vhdl_ams:       Option<VhdlAmsConfig>,
+	/// VHDL specific configuration options
+	pub vhdl:           Option<VhdlConfig>,
+	/// IP-XACT specific configuration options
+	pub xact:           Option<XactConfig>,
 }
 
 // TODO(aki): Remove once used

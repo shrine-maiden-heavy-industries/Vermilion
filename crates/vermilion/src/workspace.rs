@@ -14,17 +14,38 @@ use vermilion_xact::workspace::XactWorkspace;
 
 use crate::paths;
 
+/// Vermilion workspace configuration
+///
+/// These settings store the project specific configuration settings for Vermilion, much like how
+/// `Cargo.toml` or `pyproject.toml` exist for Rust or Python projects.
+///
+/// Unlike the other two, however, Vermilion doesn't do dependency management/resolution or anything
+/// to do with HDL packages (yet), these settings are purely for setting up linter and formatting
+/// settings, and other minor project specific settings for the LSP component.
+///
+/// Any user/team specific settings are stored in the Vermilion [`Config`] file, which lives on your
+/// system outside of all your projects.
+///
+/// [`Config`]: crate::config::Config
 #[derive(Clone, Debug, Default, Deserialize, JsonSchema, Serialize)]
 #[serde(deny_unknown_fields)]
 pub struct Workspace {
-	verilog:        Option<VerilogWorkspace>,
-	system_verilog: Option<SystemVerilogWorkspace>,
-	verilog_ams:    Option<VerilogAmsWorkspace>,
-	vhdl:           Option<VhdlWorkspace>,
-	vhdl_ams:       Option<VhdlAmsWorkspace>,
-	constraints:    Option<ConstraintWorkspace>,
-	liberty:        Option<LibertyWorkspace>,
-	xact:           Option<XactWorkspace>,
+	/// Verilog specific workspace settings
+	pub verilog:        Option<VerilogWorkspace>,
+	/// SystemVerilog specific workspace settings
+	pub system_verilog: Option<SystemVerilogWorkspace>,
+	/// Verilog-AMS specific workspace settings
+	pub verilog_ams:    Option<VerilogAmsWorkspace>,
+	/// VHDL specific workspace settings
+	pub vhdl:           Option<VhdlWorkspace>,
+	/// VHDL-AMS specific workspace settings
+	pub vhdl_ams:       Option<VhdlAmsWorkspace>,
+	/// Design constraint specific workspace settings
+	pub constraints:    Option<ConstraintWorkspace>,
+	/// Liberty specific workspace settings
+	pub liberty:        Option<LibertyWorkspace>,
+	/// IP-XACT specific workspace settings
+	pub xact:           Option<XactWorkspace>,
 }
 
 /// This method loads the Vermilion workspace configuration file if found.
