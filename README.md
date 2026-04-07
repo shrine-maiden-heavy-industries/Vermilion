@@ -1,5 +1,10 @@
 # Vermilion
 
+> [!IMPORTANT]
+> Hey GitHub users! The development for Vermilion is primarily going on over at [Codeberg],
+> any contributions or issues should be made on the [git repository] over there!
+
+
 > [!WARNING]
 > Vermilion is very much ***in development*** and may not function as expected, or at all.
 
@@ -11,6 +16,7 @@ Vermilion is licensed under the [BSD-3-Clause], the full text of which can be fo
 
 The Vermilion documentation is licensed under the [CC-BY-SA 4.0], the full text of which can be found in the [`LICENSE.docs`] file in the root of the [git repository].
 
+[Codeberg]: https://codeberg.org/
 [Verilog]: https://standards.ieee.org/ieee/1364/3641/
 [Verilog-AMS]: https://www.accellera.org/downloads/standards/v-ams
 [SystemVerilog]: https://standards.ieee.org/ieee/1800/7743/

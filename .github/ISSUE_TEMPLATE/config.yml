@@ -1,5 +1,5 @@
 
 contact_links:
-  - name: Discussion
-    url: https://github.com/shrine-maiden-heavy-industries/vermilion/discussions
-    about: Have a question? Ask in our discussion forum
+  - name: 'Chat with Us'
+    url: 'https://web.libera.chat/#vermilion'
+    about: 'Join us on IRC for development discussion or just to hang out and ask questions'
