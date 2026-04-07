@@ -4,7 +4,9 @@ use std::collections::VecDeque;
 
 use eyre::eyre;
 use vermilion_lang::{
-	AtomicByteTendril, simple_token, spanned_token, tokenizer::CoreTokenizer, versioned_token,
+	AtomicByteTendril, simple_token, spanned_token,
+	tokenizer::{CoreTokenizer, Tokenizer},
+	versioned_token,
 };
 use vermilion_loc::{Position, Span, Spanned, span::ThinSpan};
 
@@ -1585,6 +1587,8 @@ impl Iterator for VerilogTokenizer {
 		Some(self.token.clone())
 	}
 }
+
+impl Tokenizer for VerilogTokenizer {}
 
 #[cfg(test)]
 #[path = "tests.rs"]
