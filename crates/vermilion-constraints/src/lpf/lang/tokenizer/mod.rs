@@ -3,7 +3,10 @@
 use std::collections::VecDeque;
 
 use eyre::eyre;
-use vermilion_lang::{AtomicByteTendril, spanned_token, tokenizer::CoreTokenizer};
+use vermilion_lang::{
+	AtomicByteTendril, spanned_token,
+	tokenizer::{CoreTokenizer, Tokenizer},
+};
 use vermilion_loc::Spanned;
 
 use crate::{LanguageStd, lpf::lang::tokenizer::token::Token};
@@ -77,6 +80,8 @@ impl LpfTokenizer {
 		let _context = self.tokenizer.position();
 	}
 }
+
+impl Tokenizer for LpfTokenizer {}
 
 impl Iterator for LpfTokenizer {
 	type Item = Spanned<Token>;
