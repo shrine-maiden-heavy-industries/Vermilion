@@ -2,7 +2,10 @@
 use std::collections::VecDeque;
 
 use eyre::eyre;
-use vermilion_lang::{AtomicByteTendril, spanned_token, tokenizer::CoreTokenizer};
+use vermilion_lang::{
+	AtomicByteTendril, spanned_token,
+	tokenizer::{CoreTokenizer, Tokenizer},
+};
 use vermilion_loc::Spanned;
 
 use crate::{LanguageStd, lang::tokenizer::token::Token};
@@ -69,6 +72,8 @@ impl VhdlTokenizer {
 		let _context = self.tokenizer.position();
 	}
 }
+
+impl Tokenizer for VhdlTokenizer {}
 
 impl Iterator for VhdlTokenizer {
 	type Item = Spanned<Token>;
