@@ -31,6 +31,19 @@ macro_rules! versioned_token {
 	};
 }
 
+pub trait Tokenizer {}
+
+/// An iterator wrapper around a [`Tokenizer`] for use in
+/// iterator operations such as [`filter`].
+///
+/// [`filter`]: std::iter::Iterator::filter
+pub struct TokenizerIter<'a, T>
+where
+	T: Tokenizer + Iterator,
+{
+	tokenizer: &'a mut T,
+}
+
 /// The underlying tokenization machinery for all other Vermilion tokenizers
 pub struct CoreTokenizer {
 	text:     AtomicByteTendril,
@@ -278,5 +291,25 @@ impl Index<RangeToInclusive<u32>> for CoreTokenizer {
 	#[inline(always)]
 	fn index(&self, index: RangeToInclusive<u32>) -> &Self::Output {
 		&self.text[..=(index.end as usize)]
+	}
+}
+
+impl<'a, T> TokenizerIter<'a, T>
+where
+	T: Tokenizer + Iterator,
+{
+	pub fn new(tokenizer: &'a mut T) -> Self {
+		Self { tokenizer }
+	}
+}
+
+impl<'a, T> Iterator for TokenizerIter<'a, T>
+where
+	T: Tokenizer + Iterator,
+{
+	type Item = <T as Iterator>::Item;
+
+	fn next(&mut self) -> Option<Self::Item> {
+		self.tokenizer.next()
 	}
 }
