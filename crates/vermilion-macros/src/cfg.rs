@@ -139,3 +139,17 @@ macro_rules! cfg_diagnostics_pretty {
         )*
     }
 }
+
+/// Enables ANSI color output from implemented [`Debug`] traits
+///
+/// Use this rather than `#[cfg(feature = "color-dbg")]` to ensure docs are properly generated.
+#[macro_export]
+macro_rules! cfg_color_dbg {
+    ($($item:item)*) => {
+        $(
+            #[cfg(feature = "color-dbg")]
+			#[cfg_attr(docsrs, doc(cfg(feature = "color-dbg")))]
+            $item
+        )*
+    }
+}
