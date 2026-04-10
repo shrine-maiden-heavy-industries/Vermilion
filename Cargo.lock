@@ -3667,6 +3667,7 @@ dependencies = [
 name = "vermilion-io"
 version = "0.0.0"
 dependencies = [
+ "color-print",
  "criterion",
  "flate2",
  "lz4_flex",
@@ -3676,6 +3677,7 @@ dependencies = [
  "tendril",
  "test-log",
  "tracing",
+ "vermilion-macros",
 ]
 
 [[package]]

@@ -12,12 +12,15 @@ rust-version  = { workspace = true }
 version       = { workspace = true }
 
 [dependencies]
-flate2   = { workspace = true }
-lz4_flex = { workspace = true }
-memmap2  = { workspace = true }
-rayon    = { workspace = true }
-tendril  = { workspace = true }
-tracing  = { workspace = true }
+vermilion-macros = { workspace = true }
+
+color-print      = { workspace = true, optional = true }
+flate2           = { workspace = true }
+lz4_flex         = { workspace = true }
+memmap2          = { workspace = true }
+rayon            = { workspace = true }
+tendril          = { workspace = true }
+tracing          = { workspace = true }
 
 [dev-dependencies]
 criterion = { workspace = true }
@@ -25,7 +28,9 @@ proptest  = { workspace = true }
 test-log  = { workspace = true }
 
 [features]
-default = []
+default   = []
+
+color-dbg = [ "dep:color-print" ]
 
 [lints]
 workspace = true
