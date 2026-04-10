@@ -3601,6 +3601,7 @@ name = "vermilion-dap"
 version = "0.0.0"
 dependencies = [
  "chrono",
+ "color-print",
  "criterion",
  "eyre",
  "fluent-uri",
