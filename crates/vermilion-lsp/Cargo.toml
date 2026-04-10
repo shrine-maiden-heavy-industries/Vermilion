@@ -16,6 +16,7 @@ vermilion-macros = { workspace = true }
 
 bitmask-enum     = { workspace = true }
 chrono           = { workspace = true }
+color-print      = { workspace = true, optional = true }
 eyre             = { workspace = true }
 fluent-uri       = { workspace = true }
 serde            = { workspace = true }
@@ -34,11 +35,12 @@ proptest  = { workspace = true }
 test-log  = { workspace = true }
 
 [features]
-default = []
+default      = []
 
-trace = []
+color-dbg    = [ "dep:color-print" ]
+trace        = []
 trace-server = [ "trace", "transport" ]
-transport = [ "dep:tokio", "dep:tokio-util", "dep:tracing", "dep:windows-sys" ]
+transport    = [ "dep:tokio", "dep:tokio-util", "dep:tracing", "dep:windows-sys" ]
 
 [lints]
 workspace = true
