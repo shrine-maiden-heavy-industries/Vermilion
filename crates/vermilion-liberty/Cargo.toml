@@ -21,6 +21,7 @@ vermilion-macros      = { workspace = true }
 bitmask-enum          = { workspace = true }
 bumpalo               = { workspace = true }
 clap                  = { workspace = true, optional = true }
+color-print           = { workspace = true, optional = true }
 paste                 = { workspace = true }
 eyre                  = { workspace = true }
 phf                   = { workspace = true }
@@ -35,12 +36,16 @@ serde_test = { workspace = true }
 test-log   = { workspace = true }
 
 [features]
-default = []
+default   = []
 
-cli      = [ "dep:clap" ]
-graphviz = [ "vermilion-lang/graphviz" ]
-schema   = [ "serde", "dep:schemars", "vermilion-fmt/schema", "vermilion-diagnostics/schema" ]
-serde    = [ "dep:serde", "vermilion-fmt/serde", "vermilion-diagnostics/serde" ]
+cli       = [ "dep:clap" ]
+color-dbg = [
+	"dep:color-print", "vermilion-diagnostics/color-dbg", "vermilion-fmt/color-dbg", "vermilion-lang/color-dbg",
+	"vermilion-loc/color-dbg"
+]
+graphviz  = [ "vermilion-lang/graphviz" ]
+schema    = [ "dep:schemars", "serde", "vermilion-diagnostics/schema", "vermilion-fmt/schema" ]
+serde     = [ "dep:serde", "vermilion-diagnostics/serde", "vermilion-fmt/serde" ]
 
 [lints]
 workspace = true
