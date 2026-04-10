@@ -3640,6 +3640,7 @@ name = "vermilion-fmt"
 version = "0.0.0"
 dependencies = [
  "bumpalo",
+ "color-print",
  "criterion",
  "proptest",
  "schemars",
