@@ -37,7 +37,7 @@ vermilion-xact        = { path = "crates/vermilion-xact"        }
 
 # External Deps
 afl                = { version = "0.17" }
-ariadne            = { version = "0.6", features = ["auto-color"] }
+ariadne            = { version = "0.6", features = [ "auto-color" ] }
 bitmask-enum       = { version = "2.2" }
 bumpalo            = { version = "3.20", features = [ "boxed", "collections", "std" ] }
 chrono             = { version = "0.4", features = [ "serde" ] }
@@ -73,13 +73,13 @@ serde_test         = { version = "1.0" }
 syntect            = { version = "5.3" }
 sysinfo            = { version = "0.38" }
 tendril            = { version = "0.5" }
-test-log           = { version = "0.2", features = ["trace", "color"] }
-tokio              = { version = "1.50", features = [ "rt", "rt-multi-thread", "net", "time", "macros", "sync", "signal", "tracing", "fs", "io-std" ] }
+test-log           = { version = "0.2", features = [ "trace", "color" ] }
+tokio              = { version = "1.50", features = [ "fs", "io-std", "macros", "net", "rt-multi-thread", "rt", "signal", "sync", "time", "tracing" ] }
 tokio-stream       = { version = "0.1", features = [ "full" ] }
 tokio-util         = { version = "0.7", features = [ "tracing" ] }
 toml               = { version = "1.1" }
 tracing            = { version = "0.1", features = [ "async-await" ] }
-tracing-subscriber = { version = "0.3", features = [ "env-filter", "fmt", "ansi", "registry" ] }
+tracing-subscriber = { version = "0.3", features = [ "ansi", "env-filter", "fmt", "registry" ] }
 
 # Windows Only deps
 windows-sys = { version = "0.61" }
