@@ -3811,6 +3811,7 @@ version = "0.0.0"
 dependencies = [
  "bitmask-enum",
  "clap",
+ "color-print",
  "criterion",
  "eyre",
  "paste",
