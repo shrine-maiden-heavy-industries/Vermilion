@@ -24,7 +24,12 @@ pub(crate) fn init() -> eyre::Result<Command> {
 			"\
 			<blue,bold>{0}</> is licensed under the <cyan,bold>{2}</> and is part of the \
 			 <magenta>Vermilion</> project,\nwhich can be found at {1}\n\n<red,bold>For bug \
-			 reporting instructions, please see</>: {1}/issues\n
+			 reporting instructions, please see</>: {1}/issues\n\n \
+			 <bg:#D52D00>                </>  <bg:#5BCEFA>                </>\n \
+			 <bg:#FF9A56>                </>  <bg:#FEA9B8>                </>\n \
+			 <bg:#FFFFFF>                </>  <bg:#FFFFFF>                </>\n \
+			 <bg:#D362A4>                </>  <bg:#FEA9B8>                </>\n \
+			 <bg:#A30262>                </>  <bg:#5BCEFA>                </>\n\n
 			",
 			env!("CARGO_PKG_NAME"),
 			env!("CARGO_PKG_REPOSITORY"),
