@@ -17,6 +17,7 @@ vermilion-macros = { workspace = true }
 
 ariadne          = { workspace = true }
 bumpalo          = { workspace = true }
+color-print      = { workspace = true, optional = true }
 crossterm        = { workspace = true, optional = true }
 paste            = { workspace = true }
 phf              = { workspace = true }
@@ -32,12 +33,13 @@ proptest  = { workspace = true }
 test-log  = { workspace = true }
 
 [features]
-default = []
+default   = []
 
-pretty = [ "render", "dep:crossterm", "dep:ratatui", "dep:syntect" ]
-render = [ "dep:pulldown-cmark", ]
-schema = [ "serde", "dep:schemars" ]
-serde  = [ "dep:serde" ]
+color-dbg = [ "dep:color-print", "vermilion-loc/color-dbg" ]
+pretty    = [ "dep:crossterm", "dep:ratatui", "dep:syntect", "render" ]
+render    = [ "dep:pulldown-cmark", ]
+schema    = [ "dep:schemars", "serde" ]
+serde     = [ "dep:serde" ]
 
 [lints]
 workspace = true

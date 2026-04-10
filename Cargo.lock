@@ -3620,6 +3620,7 @@ version = "0.0.0"
 dependencies = [
  "ariadne",
  "bumpalo",
+ "color-print",
  "criterion",
  "crossterm",
  "paste",
