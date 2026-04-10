@@ -3788,6 +3788,7 @@ dependencies = [
  "bitmask-enum",
  "bumpalo",
  "clap",
+ "color-print",
  "criterion",
  "eyre",
  "paste",

@@ -25,7 +25,7 @@ vermilion-loc         = { workspace = true }
 vermilion-lsp         = { workspace = true, features = [ "transport", "trace", "trace-server" ] }
 vermilion-macros      = { workspace = true }
 vermilion-verilog     = { workspace = true, features = [ "schema", "cli" ] }
-vermilion-vhdl        = { workspace = true, features = [ "schema", "cli" ] }
+vermilion-vhdl        = { workspace = true, features = [ "cli", "color-dbg", "schema" ] }
 vermilion-xact        = { workspace = true, features = [ "cli", "color-dbg", "schema" ] }
 
 bumpalo               = { workspace = true }
