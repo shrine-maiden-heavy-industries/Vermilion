@@ -19,10 +19,11 @@ vermilion-loc         = { workspace = true }
 vermilion-macros      = { workspace = true }
 
 # XXX(aki): The functionality of `ariadne` will likely be absorbed into the diagnostics crate
-ariadne    = { workspace = true }
-bumpalo    = { workspace = true }
-num-traits = { workspace = true }
-tendril    = { workspace = true }
+ariadne     = { workspace = true }
+bumpalo     = { workspace = true }
+color-print = { workspace = true, optional = true }
+num-traits  = { workspace = true }
+tendril     = { workspace = true }
 
 [dev-dependencies]
 criterion = { workspace = true }
@@ -30,9 +31,13 @@ proptest  = { workspace = true }
 test-log  = { workspace = true }
 
 [features]
-default = []
+default   = []
 
-graphviz = []
+graphviz  = []
+color-dbg = [
+	"dep:color-print", "vermilion-diagnostics/color-dbg", "vermilion-fmt/color-dbg", "vermilion-io/color-dbg",
+	"vermilion-loc/color-dbg"
+]
 
 [lints]
 workspace = true
