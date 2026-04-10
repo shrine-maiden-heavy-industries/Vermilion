@@ -18,6 +18,7 @@ vermilion-macros = { workspace = true }
 # The functionality of `ariadne` will likely be absorbed into the diagnostics crate,
 # this is here for type conversion for the moment.
 ariadne          = { workspace = true }
+color-print      = { workspace = true, optional = true }
 serde            = { workspace = true, optional = true }
 
 [dev-dependencies]
@@ -26,10 +27,11 @@ proptest  = { workspace = true }
 test-log  = { workspace = true }
 
 [features]
-default = []
+default   = []
 
-graphviz = []
-serde    = [ "dep:serde" ]
+graphviz  = []
+serde     = [ "dep:serde" ]
+color-dbg = [ "dep:color-print" ]
 
 [lints]
 workspace = true

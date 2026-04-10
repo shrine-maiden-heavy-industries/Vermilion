@@ -3725,6 +3725,7 @@ name = "vermilion-loc"
 version = "0.0.0"
 dependencies = [
  "ariadne",
+ "color-print",
  "criterion",
  "proptest",
  "serde",

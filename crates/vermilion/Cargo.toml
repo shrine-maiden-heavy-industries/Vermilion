@@ -21,7 +21,7 @@ vermilion-fmt         = { workspace = true, features = [ "schema" ] }
 vermilion-io          = { workspace = true }
 vermilion-lang        = { workspace = true }
 vermilion-liberty     = { workspace = true, features = [ "schema", "cli" ] }
-vermilion-loc         = { workspace = true }
+vermilion-loc         = { workspace = true, features = [ "color-dbg" ] }
 vermilion-lsp         = { workspace = true, features = [ "color-dbg", "transport", "trace", "trace-server" ] }
 vermilion-macros      = { workspace = true }
 vermilion-verilog     = { workspace = true, features = [ "cli", "color-dbg", "schema" ] }
