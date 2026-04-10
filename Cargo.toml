@@ -62,7 +62,7 @@ phf                = { version = "0.13", features = [ "macros" ] }
 postcard           = { version = "1.1" }
 proptest           = { version = "1.11" }
 pulldown-cmark     = { version = "0.13", default-features = false }
-quick-xml          = { version = "0.39", features = [ "serialize" ] }
+quick-xml          = { version = "0.39", features = [ "serde-types", "serialize" ] }
 ratatui            = { version = "0.30" }
 rayon              = { version = "1.11" }
 schemars           = { version = "1.2", features = [ "derive" ] }
