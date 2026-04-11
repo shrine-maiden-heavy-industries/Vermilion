@@ -5,8 +5,7 @@
 		"rustfmt",
 		"+nightly",
 	],
-	"[rust]":
-	{
+	"[rust]": {
 		"editor.formatOnSave": true,
 	},
 }
