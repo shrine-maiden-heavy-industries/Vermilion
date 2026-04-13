@@ -1,10 +1,10 @@
-# `vermilion-calomel`
+# Vermilion - Calomel
 
 > [!WARNING]
 > This is currently a stub crate, it is not the focus until the main HDL language support is
 > implemented and working well enough to add ancillary support for constraints and UPF
 
-Calomel is a very minimal embedded TCL parser and interpreter, it is used to supplement the Vermilion [Constraint] support with SDC/XDC support, and also for [IEEE 1801] (UPF) support.
+Calomel is a very minimal embedded TCL parser and interpreter, it is used to supplement the [Vermilion] [Constraint] support with SDC/XDC support, and also for [IEEE 1801] (UPF) support.
 
 ## License
 
@@ -12,6 +12,7 @@ Vermilion is licensed under the [BSD-3-Clause], the full text of which can be fo
 
 The Vermilion documentation is licensed under the [CC-BY-SA 4.0], the full text of which can be found in the [`LICENSE.docs`] file in the root of the [git repository].
 
+[Vermilion]: https://codeberg.org/shrine-maiden-heavy-industries/Vermilion/src/branch/main/crates/vermilion
 [Constraint]: https://codeberg.org/shrine-maiden-heavy-industries/Vermilion/src/branch/main/crates/vermilion-constraints
 [IEEE 1801]: https://standards.ieee.org/ieee/1801/7466/
 [BSD-3-Clause]: https://spdx.org/licenses/BSD-3-Clause.html
