@@ -3794,6 +3794,31 @@ name = "vermilion-macros"
 version = "0.0.0"
 
 [[package]]
+name = "vermilion-sdf"
+version = "0.0.0"
+dependencies = [
+ "bitmask-enum",
+ "bumpalo",
+ "clap",
+ "color-print",
+ "criterion",
+ "eyre",
+ "paste",
+ "phf 0.13.1",
+ "proptest",
+ "schemars",
+ "serde",
+ "serde_test",
+ "tendril",
+ "test-log",
+ "vermilion-diagnostics",
+ "vermilion-fmt",
+ "vermilion-lang",
+ "vermilion-loc",
+ "vermilion-macros",
+]
+
+[[package]]
 name = "vermilion-verilog"
 version = "0.0.0"
 dependencies = [
