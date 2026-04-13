@@ -1,6 +1,6 @@
-# `vermilion-io`
+# Vermilion - IO
 
-I/O abstractions for [Vermilion] and [Cinnabar], allowing for things such as transparent compressed file access and automatic memory-mapping of large files.
+This crate provides I/O abstractions for [Vermilion] and [Cinnabar], allowing for things such as transparent compressed file access and automatic memory-mapping of large files.
 
 ## License
 
@@ -8,8 +8,8 @@ Vermilion is licensed under the [BSD-3-Clause], the full text of which can be fo
 
 The Vermilion documentation is licensed under the [CC-BY-SA 4.0], the full text of which can be found in the [`LICENSE.docs`] file in the root of the [git repository].
 
-[Vermilion]: https://codeberg.org/shrine-maiden-heavy-industries/Vermilion
-[Cinnabar]: ../cinnabar/
+[Vermilion]: https://codeberg.org/shrine-maiden-heavy-industries/Vermilion/src/branch/main/crates/vermilion
+[Cinnabar]: https://codeberg.org/shrine-maiden-heavy-industries/Vermilion/src/branch/main/crates/cinnabar
 [BSD-3-Clause]: https://spdx.org/licenses/BSD-3-Clause.html
 [`LICENSE`]: https://codeberg.org/shrine-maiden-heavy-industries/Vermilion/src/branch/main/LICENSE
 [CC-BY-SA 4.0]: https://creativecommons.org/licenses/by-sa/4.0/
