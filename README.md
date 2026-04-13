@@ -8,7 +8,9 @@
 > [!WARNING]
 > Vermilion is very much ***in development*** and may not function as expected, or at all.
 
-Vermilion is a [Verilog], [Verilog-AMS], [SystemVerilog], [VHDL], and [VHDL-AMS] linter and formatter, and language server.
+Vermilion is a code linter, formatter, and language server designed to support [Verilog], [Verilog-AMS], [SystemVerilog], [VHDL], and [VHDL-AMS].
+
+The goal is to provide high-quality "industrial strength" language support with rich and powerful editor integration.
 
 ## License
 
