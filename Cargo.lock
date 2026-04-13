@@ -3615,6 +3615,7 @@ dependencies = [
  "serde_test",
  "tendril",
  "test-log",
+ "vermilion-calomel",
  "vermilion-diagnostics",
  "vermilion-fmt",
  "vermilion-lang",

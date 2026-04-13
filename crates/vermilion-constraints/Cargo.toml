@@ -12,6 +12,7 @@ rust-version  = { workspace = true }
 version       = { workspace = true }
 
 [dependencies]
+vermilion-calomel     = { workspace = true }
 vermilion-diagnostics = { workspace = true }
 vermilion-fmt         = { workspace = true }
 vermilion-lang        = { workspace = true }
@@ -40,12 +41,14 @@ default   = []
 
 cli       = [ "dep:clap" ]
 color-dbg = [
-	"dep:color-print", "vermilion-diagnostics/color-dbg", "vermilion-fmt/color-dbg", "vermilion-lang/color-dbg",
-	"vermilion-loc/color-dbg"
+	"dep:color-print", "vermilion-calomel/color-dbg", "vermilion-diagnostics/color-dbg", "vermilion-fmt/color-dbg",
+	"vermilion-lang/color-dbg", "vermilion-loc/color-dbg"
 ]
-graphviz  = [ "vermilion-lang/graphviz" ]
-schema    = [ "dep:schemars", "serde", "vermilion-diagnostics/schema", "vermilion-fmt/schema" ]
-serde     = [ "dep:serde", "vermilion-diagnostics/serde", "vermilion-fmt/serde" ]
+graphviz  = [ "vermilion-calomel/graphviz", "vermilion-lang/graphviz" ]
+schema    = [
+	"dep:schemars", "serde", "vermilion-calomel/schema", "vermilion-diagnostics/schema", "vermilion-fmt/schema"
+]
+serde     = [ "dep:serde", "vermilion-calomel/serde", "vermilion-diagnostics/serde", "vermilion-fmt/serde" ]
 
 [lints]
 workspace = true
