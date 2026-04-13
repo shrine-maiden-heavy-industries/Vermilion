@@ -3568,6 +3568,7 @@ dependencies = [
  "vermilion-loc",
  "vermilion-lsp",
  "vermilion-macros",
+ "vermilion-sdf",
  "vermilion-verilog",
  "vermilion-vhdl",
  "vermilion-xact",

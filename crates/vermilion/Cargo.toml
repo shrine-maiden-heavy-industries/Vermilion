@@ -24,6 +24,7 @@ vermilion-liberty     = { workspace = true, features = [ "cli", "color-dbg", "sc
 vermilion-loc         = { workspace = true, features = [ "color-dbg" ] }
 vermilion-lsp         = { workspace = true, features = [ "color-dbg", "transport", "trace", "trace-server" ] }
 vermilion-macros      = { workspace = true }
+vermilion-sdf         = { workspace = true, features = [ "cli", "color-dbg", "schema" ] }
 vermilion-verilog     = { workspace = true, features = [ "cli", "color-dbg", "schema" ] }
 vermilion-vhdl        = { workspace = true, features = [ "cli", "color-dbg", "schema" ] }
 vermilion-xact        = { workspace = true, features = [ "cli", "color-dbg", "schema" ] }
