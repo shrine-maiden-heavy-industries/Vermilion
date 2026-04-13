@@ -101,7 +101,7 @@ impl Display for LanguageStd {
 			f.write_str("Verilog-AMS 2014 (Accellera Verilog-AMS 2.4)")?;
 		}
 		if self.contains(Self::Vams23) {
-			f.write_str("Verilog-AMS 2009 (Accellera Verilog-AMS 2.3.1)")?;
+			f.write_str("Verilog-AMS 2023 (Accellera Verilog-AMS 2023)")?;
 		}
 		Ok(())
 	}
