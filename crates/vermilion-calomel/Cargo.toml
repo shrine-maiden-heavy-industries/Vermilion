@@ -1,0 +1,46 @@
+# SPDX-License-Identifier: BSD-3-Clause
+[package]
+name          = "vermilion-calomel"
+description   = "A very minimal embedded TCL parser/interpreter for Vermilion"
+documentation = { workspace = true }
+edition       = { workspace = true }
+homepage      = { workspace = true }
+license       = { workspace = true }
+publish       = { workspace = true }
+repository    = { workspace = true }
+rust-version  = { workspace = true }
+version       = { workspace = true }
+
+[dependencies]
+vermilion-diagnostics = { workspace = true }
+vermilion-fmt         = { workspace = true }
+vermilion-lang        = { workspace = true }
+vermilion-loc         = { workspace = true }
+vermilion-macros      = { workspace = true }
+
+bitmask-enum          = { workspace = true }
+bumpalo               = { workspace = true }
+color-print           = { workspace = true, optional = true }
+eyre                  = { workspace = true }
+paste                 = { workspace = true }
+phf                   = { workspace = true }
+schemars              = { workspace = true, optional = true }
+serde                 = { workspace = true, optional = true }
+tendril               = { workspace = true }
+
+[dev-dependencies]
+criterion  = { workspace = true }
+proptest   = { workspace = true }
+serde_test = { workspace = true }
+test-log   = { workspace = true }
+
+[features]
+default   = []
+
+color-dbg = [ "dep:color-print", "vermilion-diagnostics/color-dbg", "vermilion-lang/color-dbg", "vermilion-loc/color-dbg" ]
+graphviz  = [ "vermilion-lang/graphviz" ]
+schema    = [ "dep:schemars", "serde", "vermilion-diagnostics/schema" ]
+serde     = [ "dep:serde", "vermilion-diagnostics/serde" ]
+
+[lints]
+workspace = true

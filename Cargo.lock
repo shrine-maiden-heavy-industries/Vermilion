@@ -3574,6 +3574,30 @@ dependencies = [
 ]
 
 [[package]]
+name = "vermilion-calomel"
+version = "0.0.0"
+dependencies = [
+ "bitmask-enum",
+ "bumpalo",
+ "color-print",
+ "criterion",
+ "eyre",
+ "paste",
+ "phf 0.13.1",
+ "proptest",
+ "schemars",
+ "serde",
+ "serde_test",
+ "tendril",
+ "test-log",
+ "vermilion-diagnostics",
+ "vermilion-fmt",
+ "vermilion-lang",
+ "vermilion-loc",
+ "vermilion-macros",
+]
+
+[[package]]
 name = "vermilion-constraints"
 version = "0.0.0"
 dependencies = [
