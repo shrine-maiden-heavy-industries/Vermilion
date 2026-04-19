@@ -36,9 +36,11 @@ pub enum LanguageStd {
 	Vhams09,
 	Vhams17,
 	Vhams21,
+	Bsdl,
 }
 
 impl LanguageStd {
+	pub const BSDL_KNOWN_EXTS: [&'static str; 2] = ["bsd", "bsdl"];
 	pub const VHDL_AMS_KNOWN_EXTS: [&'static str; 2] = ["vhd", "vhdl"];
 	pub const VHDL_AMS_STDS: Self = Self::Vhams99
 		.or(Self::Vhams07)
@@ -71,6 +73,10 @@ impl LanguageStd {
 
 	pub fn is_vhdl_ams(&self) -> bool {
 		self.contains(Self::VHDL_AMS_STDS)
+	}
+
+	pub fn is_bsdl(&self) -> bool {
+		self.contains(Self::Bsdl)
 	}
 }
 
@@ -137,6 +143,10 @@ impl Display for LanguageStd {
 			write!(f, "VHDL-AMS 2021 (IEC 61691-6:2021)")?;
 		}
 
+		if self.contains(Self::Bsdl) {
+			write!(f, "IEEE 1149.1 BSDL")?;
+		}
+
 		Ok(())
 	}
 }
@@ -147,9 +157,9 @@ cfg_serde! {
 		where
 			D: serde::Deserializer<'de>,
 		{
-			static VALUES: [&str; 14] = [
-				"Vh87", "Vh93", "Vh2k", "Vh04", "Vh07", "Vh08", "Vh11", "Vh19", "Vh23", "Vhams99",
-				"Vhams07", "Vhams09", "Vhams17", "Vhams21",
+			static VALUES: [&str; 15] = [
+				"Bsdl", "Vh87", "Vh93", "Vh2k", "Vh04", "Vh07", "Vh08", "Vh11", "Vh19", "Vh23",
+				"Vhams99", "Vhams07", "Vhams09", "Vhams17", "Vhams21",
 			];
 
 			struct ValueVisitor;
@@ -158,8 +168,8 @@ cfg_serde! {
 
 				fn expecting(&self, formatter: &mut std::fmt::Formatter) -> std::fmt::Result {
 					formatter.write_str(
-						"`Vh87`, `Vh93`, `Vh2k`, `Vh04`, `Vh07`, `Vh08`, `Vh11`, `Vh19`, `Vh23`, \
-						`Vhams99`, `Vhams07`, `Vhams09`, `Vhams17`, or `Vhams21`",
+						"`Bsdl`, `Vh87`, `Vh93`, `Vh2k`, `Vh04`, `Vh07`, `Vh08`, `Vh11`, `Vh19`, \
+						`Vh23`, `Vhams99`, `Vhams07`, `Vhams09`, `Vhams17`, or `Vhams21`",
 					)
 				}
 
@@ -168,6 +178,7 @@ cfg_serde! {
 					E: serde::de::Error,
 				{
 					match value {
+						"Bsdl" => Ok(LanguageStd::Bsdl),
 						"Vh87" => Ok(LanguageStd::Vh87),
 						"Vh93" => Ok(LanguageStd::Vh93),
 						"Vh2k" => Ok(LanguageStd::Vh2k),
@@ -191,13 +202,13 @@ cfg_serde! {
 		}
 	}
 
-
 	impl serde::Serialize for LanguageStd {
 		fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
 		where
 			S: serde::Serializer,
 		{
 			match *self {
+				Self::Bsdl => serializer.serialize_str("Bsdl"),
 				Self::Vh87 => serializer.serialize_str("Vh87"),
 				Self::Vh93 => serializer.serialize_str("Vh93"),
 				Self::Vh2k => serializer.serialize_str("Vh2k"),
@@ -229,6 +240,7 @@ mod test {
 
 		#[test]
 		fn test_language_set_serialize() {
+			assert_tokens(&LanguageStd::Bsdl, &[Token::Str("Bsdl")]);
 			assert_tokens(&LanguageStd::Vh87, &[Token::Str("Vh87")]);
 			assert_tokens(&LanguageStd::Vh93, &[Token::Str("Vh93")]);
 			assert_tokens(&LanguageStd::Vh2k, &[Token::Str("Vh2k")]);
