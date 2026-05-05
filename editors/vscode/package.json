@@ -133,6 +133,11 @@
 				"language": "xdc",
 				"scopeName": "source.xdc",
 				"path": "./lang/xdc/base.tmLanguage.json"
+			},
+			{
+				"language": "yosys-script",
+				"scopeName": "source.ys",
+				"path": "./lang/ys/base.tmLanguage.json"
 			}
 		],
 		"languages": [
@@ -260,6 +265,17 @@
 				"icon": {
 					"dark": "./lang/xdc/icon_dark.svg",
 					"light": "./lang/xdc/icon_light.svg"
+				}
+			},
+			{
+				"id": "yosys-script",
+				"extensions": [
+					".ys"
+				],
+				"configuration": "./lang/ys/configuration.json",
+				"icon": {
+					"dark": "./lang/ys/icon_dark.svg",
+					"light": "./lang/ys/icon_light.svg"
 				}
 			}
 		]
