@@ -1,0 +1,29 @@
+{
+    "comments": {
+        "lineComment": "#"
+    },
+    "brackets": [
+        ["{", "}"],
+        ["[", "]"],
+        ["(", ")"]
+    ],
+    "colorizedBracketPairs": [
+        ["{", "}"],
+        ["[", "]"],
+        ["(", ")"]
+    ],
+    "autoClosingPairs": [
+        { "open": "{", "close": "}", "notIn": ["string"] },
+        { "open": "[", "close": "]", "notIn": ["string"] },
+        { "open": "(", "close": ")", "notIn": ["string"] },
+        { "open": "\"", "close": "\"", "notIn": ["string"] },
+        { "open": "'", "close": "'", "notIn": ["string"] }
+    ],
+    "surroundingPairs": [
+        ["{", "}"],
+        ["[", "]"],
+        ["(", ")"],
+        ["\"", "\""],
+        ["'", "'"]
+    ]
+}

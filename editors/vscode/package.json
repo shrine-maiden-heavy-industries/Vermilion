@@ -95,6 +95,11 @@
 				"path": "./lang/pdc/base.tmLanguage.json"
 			},
 			{
+				"language": "rtlil",
+				"scopeName": "source.rtlil",
+				"path": "./lang/rtlil/base.tmLanguage.json"
+			},
+			{
 				"language": "sdc",
 				"scopeName": "source.sdc",
 				"path": "./lang/sdc/base.tmLanguage.json"
@@ -151,6 +156,17 @@
 				"icon": {
 					"dark": "./lang/lpf/icon_dark.svg",
 					"light": "./lang/lpf/icon_light.svg"
+				}
+			},
+			{
+				"id": "rtlil",
+				"extensions": [
+					".il"
+				],
+				"configuration": "./lang/rtlil/configuration.json",
+				"icon": {
+					"dark": "./lang/rtlil/icon_dark.svg",
+					"light": "./lang/rtlil/icon_light.svg"
 				}
 			},
 			{
