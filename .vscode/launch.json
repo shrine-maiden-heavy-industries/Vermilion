@@ -7,16 +7,16 @@
 			"name": "Launch VSCode extension",
 			"runtimeExecutable": "${execPath}",
 			"args": [
-				"--extensionDevelopmentPath=${workspaceFolder}/editors/vscode"
+				"--extensionDevelopmentPath=${workspaceFolder}/editors/code"
 			],
 			"outFiles": [
-				"${workspaceFolder}/editors/vscode/build/**/*.js",
+				"${workspaceFolder}/editors/code/build/**/*.js",
 				"!**/node_modules/**"
 			],
 			"preLaunchTask": {
 				"type": "npm",
 				"script": "watch",
-				"path": "editors/vscode"
+				"path": "editors/code"
 			}
 		},
 		{
@@ -26,7 +26,7 @@
 			"port": 6009,
 			"restart": true,
 			"outFiles": [
-				"${workspaceFolder}/editors/vscode/build/**/*.js",
+				"${workspaceFolder}/editors/code/build/**/*.js",
 				"!**/node_modules/**"
 			]
 		}

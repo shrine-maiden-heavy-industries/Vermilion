@@ -5,7 +5,7 @@
 			"type": "npm",
 			"script": "compile",
 			"group": "build",
-			"path": "editors/vscode",
+			"path": "editors/code",
 			"presentation": {
 				"panel": "dedicated",
 				"reveal": "never"
@@ -17,7 +17,7 @@
 		{
 			"type": "npm",
 			"script": "watch",
-			"path": "editors/vscode",
+			"path": "editors/code",
 			"isBackground": true,
 			"group": {
 				"kind": "build",
