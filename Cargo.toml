@@ -11,7 +11,7 @@ version       = "0.0.0"
 publish       = false
 edition       = "2024"
 license       = "BSD-3-Clause"
-rust-version  = "1.92"
+rust-version  = "1.95"
 repository    = "https://codeberg.org/shrine-maiden-heavy-industries/Vermilion"
 homepage      = "https://codeberg.org/shrine-maiden-heavy-industries/Vermilion"
 documentation = "https://codeberg.org/shrine-maiden-heavy-industries/Vermilion"
@@ -73,7 +73,7 @@ serde_json         = { version = "1.0" }
 serde_repr         = { version = "0.1" }
 serde_test         = { version = "1.0" }
 syntect            = { version = "5.3" }
-sysinfo            = { version = "0.38" }
+sysinfo            = { version = "0.39" }
 tendril            = { version = "0.5" }
 test-log           = { version = "0.2", features = [ "trace", "color" ] }
 tokio              = { version = "1.52", features = [ "fs", "io-std", "macros", "net", "rt-multi-thread", "rt", "signal", "sync", "time", "tracing" ] }
