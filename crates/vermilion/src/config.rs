@@ -56,6 +56,18 @@ pub struct Config {
 	pub xact:           Option<XactConfig>,
 }
 
+impl Config {
+	/// Dump the Vermilion [`Config`] schema to a [`String`]
+	pub fn dump_schema() -> eyre::Result<String> {
+		Ok(serde_json::to_string_pretty(&schemars::schema_for!(Self))?)
+	}
+
+	/// Dump the default settings of the Vermilion [`Config`] to a [`String`]
+	pub fn dump_default() -> eyre::Result<String> {
+		Ok(toml::to_string(&Self::default())?)
+	}
+}
+
 // TODO(aki): Remove once used
 #[allow(unused, reason = "Currently unused")]
 /// This method loads the Vermilion configuration file if found.
