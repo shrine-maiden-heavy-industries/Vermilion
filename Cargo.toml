@@ -38,50 +38,51 @@ vermilion-vhdl        = { path = "crates/vermilion-vhdl"        }
 vermilion-xact        = { path = "crates/vermilion-xact"        }
 
 # External Deps
-afl                = { version = "0.18" }
-ariadne            = { version = "0.6", features = [ "auto-color" ] }
-bitmask-enum       = { version = "2.2" }
-bumpalo            = { version = "3.20", features = [ "boxed", "collections", "std" ] }
-chrono             = { version = "0.4", features = [ "serde" ] }
-clap               = { version = "4.6" }
-clap_complete      = { version = "4.6" }
-color-eyre         = { version = "0.6" }
-color-print        = { version = "0.3" }
-colorchoice        = { version = "1.0" }
-console-subscriber = { version = "0.5" }
-criterion          = { version = "0.8" }
-crossterm          = { version = "0.29" }
-directories        = { version = "6.0" }
-eyre               = { version = "0.6", default-features = false }
-flate2             = { version = "1.1" }
-fluent-uri         = { version = "0.4", features = [ "serde" ] }
-lz4_flex           = { version = "0.13" }
-memmap2            = { version = "0.9" }
-notify             = { version = "8.2" }
-num-traits         = { version = "0.2" }
-paste              = { version = "1.0" }
-phf                = { version = "0.13", features = [ "macros" ] }
-postcard           = { version = "1.1" }
-proptest           = { version = "1.11" }
-pulldown-cmark     = { version = "0.13", default-features = false }
-quick-xml          = { version = "0.40", features = [ "serde-types", "serialize" ] }
-ratatui            = { version = "0.30" }
-rayon              = { version = "1.12" }
-schemars           = { version = "1.2", features = [ "derive" ] }
-serde              = { version = "1.0", features = [ "derive" ] }
-serde_json         = { version = "1.0" }
-serde_repr         = { version = "0.1" }
-serde_test         = { version = "1.0" }
-syntect            = { version = "5.3" }
-sysinfo            = { version = "0.39" }
-tendril            = { version = "0.5" }
-test-log           = { version = "0.2", features = [ "trace", "color" ] }
-tokio              = { version = "1.52", features = [ "fs", "io-std", "macros", "net", "rt-multi-thread", "rt", "signal", "sync", "time", "tracing" ] }
-tokio-stream       = { version = "0.1", features = [ "full" ] }
-tokio-util         = { version = "0.7", features = [ "tracing" ] }
-toml               = { version = "1.1" }
-tracing            = { version = "0.1", features = [ "async-await" ] }
-tracing-subscriber = { version = "0.3", features = [ "ansi", "env-filter", "fmt", "registry" ] }
+afl                 = { version = "0.18" }
+ariadne             = { version = "0.6", features = [ "auto-color" ] }
+bitmask-enum        = { version = "2.2" }
+bumpalo             = { version = "3.20", features = [ "boxed", "collections", "std" ] }
+chrono              = { version = "0.4", features = [ "serde" ] }
+clap                = { version = "4.6" }
+clap_complete       = { version = "4.6" }
+color-eyre          = { version = "0.6" }
+color-print         = { version = "0.3" }
+colorchoice         = { version = "1.0" }
+console-subscriber  = { version = "0.5" }
+criterion           = { version = "0.8" }
+crossterm           = { version = "0.29" }
+directories         = { version = "6.0" }
+eyre                = { version = "0.6", default-features = false }
+flate2              = { version = "1.1" }
+fluent-uri          = { version = "0.4", features = [ "serde" ] }
+lz4_flex            = { version = "0.13" }
+mdbook-preprocessor = { version = "0.5.3" }
+memmap2             = { version = "0.9" }
+notify              = { version = "8.2" }
+num-traits          = { version = "0.2" }
+paste               = { version = "1.0" }
+phf                 = { version = "0.13", features = [ "macros" ] }
+postcard            = { version = "1.1" }
+proptest            = { version = "1.11" }
+pulldown-cmark      = { version = "0.13", default-features = false }
+quick-xml           = { version = "0.40", features = [ "serde-types", "serialize" ] }
+ratatui             = { version = "0.30" }
+rayon               = { version = "1.12" }
+schemars            = { version = "1.2", features = [ "derive" ] }
+serde               = { version = "1.0", features = [ "derive" ] }
+serde_json          = { version = "1.0" }
+serde_repr          = { version = "0.1" }
+serde_test          = { version = "1.0" }
+syntect             = { version = "5.3" }
+sysinfo             = { version = "0.39" }
+tendril             = { version = "0.5" }
+test-log            = { version = "0.2", features = [ "trace", "color" ] }
+tokio               = { version = "1.52", features = [ "fs", "io-std", "macros", "net", "rt-multi-thread", "rt", "signal", "sync", "time", "tracing" ] }
+tokio-stream        = { version = "0.1", features = [ "full" ] }
+tokio-util          = { version = "0.7", features = [ "tracing" ] }
+toml                = { version = "1.1" }
+tracing             = { version = "0.1", features = [ "async-await" ] }
+tracing-subscriber  = { version = "0.3", features = [ "ansi", "env-filter", "fmt", "registry" ] }
 
 # Windows Only deps
 windows-sys = { version = "0.61" }

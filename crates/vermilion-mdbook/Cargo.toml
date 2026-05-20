@@ -1,0 +1,24 @@
+# SPDX-License-Identifier: BSD-3-Clause
+[package]
+name          = "vermilion-mdbook"
+description   = "mdBook preprocessor for Vermilion documentation"
+documentation = { workspace = true }
+edition       = { workspace = true }
+homepage      = { workspace = true }
+license       = { workspace = true }
+publish       = { workspace = true }
+repository    = { workspace = true }
+rust-version  = { workspace = true }
+version       = { workspace = true }
+
+[dependencies]
+vermilion           = { workspace = true, features = [ "_build_tooling" ] }
+
+clap                = { workspace = true }
+color-eyre          = { workspace = true }
+eyre                = { workspace = true }
+mdbook-preprocessor = { workspace = true }
+pulldown-cmark      = { workspace = true }
+
+[lints]
+workspace = true
