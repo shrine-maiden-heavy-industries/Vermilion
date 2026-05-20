@@ -35,6 +35,7 @@ use tracing_subscriber::{
 	layer::SubscriberExt,
 	util::SubscriberInitExt,
 };
+use vermilion_macros::cfg_build_tooling;
 
 use crate::env::VERMILION_LOG_LEVEL;
 
@@ -132,5 +133,43 @@ pub fn vermilion_main() -> eyre::Result<()> {
 			sub_cmd
 		))?(&mut cli, args),
 		_ => cli.print_help().wrap_err("Unable to write CLI help?"),
+	}
+}
+
+// XXX(aki): The methods here are only used with other Vermilion internal build tooling
+cfg_build_tooling! {
+	/// Dump Vermilion CLI completions for the given [`clap_complete::Shell`] to a [`String`]
+	pub fn dump_completions(shell: clap_complete::Shell) -> eyre::Result<String> {
+		let cli = cli::init()?;
+		cli::dump_completions(&cli, shell)
+	}
+
+	/// Dump Vermilion configuration schema to a [`String`]
+	pub fn dump_config_schema() -> eyre::Result<String> {
+		crate::config::Config::dump_schema()
+	}
+
+	/// Dump default Vermilion configuration to a [`String`]
+	pub fn dump_default_config() -> eyre::Result<String> {
+		crate::config::Config::dump_default()
+	}
+
+	/// Dump Vermilion workspace schema to a [`String`]
+	pub fn dump_workspace_schema() -> eyre::Result<String> {
+		crate::workspace::Workspace::dump_schema()
+	}
+
+	/// Dump default Vermilion workspace to a [`String`]
+	pub fn dump_default_workspace() -> eyre::Result<String> {
+		crate::workspace::Workspace::dump_default()
+	}
+
+	/// Get a constructed copy of the Vermilion CLI
+	///
+	/// ## NOTE
+	///
+	/// This should only be used to generate help pages and other metadata.
+	pub fn get_cli() -> eyre::Result<clap::Command> {
+		crate::cli::init()
 	}
 }
