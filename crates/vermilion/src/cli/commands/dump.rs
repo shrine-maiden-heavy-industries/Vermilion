@@ -4,7 +4,6 @@ use std::{fs, io::Write};
 
 use clap::{Arg, ArgAction, ArgMatches, Command, ValueHint, value_parser};
 use eyre::eyre;
-use schemars::schema_for;
 
 pub(crate) const COMMAND_NAME: &str = "dump";
 
