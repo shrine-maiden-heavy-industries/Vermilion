@@ -110,18 +110,13 @@ fn dump_completions(
 ) -> eyre::Result<()> {
 	// If the user wants us to print completions, then do so
 	if let Some(shell) = args.get_one::<clap_complete::Shell>("shell").copied() {
-		let mut cmd = cmd.clone();
+		let completions = crate::cli::dump_completions(cmd, shell)?;
+
 		if let Some(file_path) = file_path {
 			let mut file = fs::File::create(file_path)?;
-
-			clap_complete::generate(shell, &mut cmd, env!("CARGO_PKG_NAME"), &mut file);
+			file.write_all(completions.as_bytes())?;
 		} else {
-			clap_complete::generate(
-				shell,
-				&mut cmd,
-				env!("CARGO_PKG_NAME"),
-				&mut std::io::stdout(),
-			);
+			println!("{completions}");
 		}
 	}
 	Ok(())
