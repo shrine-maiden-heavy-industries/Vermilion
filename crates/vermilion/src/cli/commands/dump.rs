@@ -53,38 +53,26 @@ pub(crate) fn init() -> eyre::Result<Command> {
 }
 
 fn dump_workspace_schema(file_path: Option<String>) -> eyre::Result<()> {
+	let workspace_schema = crate::workspace::Workspace::dump_schema()?;
+
 	if let Some(file_path) = file_path {
 		let mut file = fs::File::create(file_path)?;
-
-		write!(
-			&mut file,
-			"{}",
-			serde_json::to_string_pretty(&schema_for!(crate::workspace::Workspace))?
-		)?;
+		file.write_all(workspace_schema.as_bytes())?;
 	} else {
-		println!(
-			"{}",
-			serde_json::to_string_pretty(&schema_for!(crate::workspace::Workspace))?
-		);
+		println!("{workspace_schema}");
 	}
 
 	Ok(())
 }
 
 fn dump_default_workspace(file_path: Option<String>) -> eyre::Result<()> {
+	let workspace_default = crate::workspace::Workspace::dump_default()?;
+
 	if let Some(file_path) = file_path {
 		let mut file = fs::File::create(file_path)?;
-
-		write!(
-			&mut file,
-			"{}",
-			toml::to_string(&crate::workspace::Workspace::default())?
-		)?;
+		file.write_all(workspace_default.as_bytes())?;
 	} else {
-		println!(
-			"{}",
-			toml::to_string(&crate::workspace::Workspace::default())?
-		);
+		println!("{workspace_default}");
 	}
 
 	Ok(())
