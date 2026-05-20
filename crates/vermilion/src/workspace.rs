@@ -55,6 +55,18 @@ pub struct Workspace {
 	pub xact:           Option<XactWorkspace>,
 }
 
+impl Workspace {
+	/// Dump the Vermilion [`Workspace`] schema to a [`String`]
+	pub fn dump_schema() -> eyre::Result<String> {
+		Ok(serde_json::to_string_pretty(&schemars::schema_for!(Self))?)
+	}
+
+	/// Dump the default settings of the Vermilion [`Workspace`] to a [`String`]
+	pub fn dump_default() -> eyre::Result<String> {
+		Ok(toml::to_string(&Self::default())?)
+	}
+}
+
 /// This method loads the Vermilion workspace configuration file if found.
 ///
 /// The Vermilion workspace configuration file is called `vermilion.toml` and ideally
