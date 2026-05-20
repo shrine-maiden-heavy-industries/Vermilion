@@ -66,40 +66,40 @@ impl Config {
 	pub fn dump_default() -> eyre::Result<String> {
 		Ok(toml::to_string(&Self::default())?)
 	}
-}
 
-// TODO(aki): Remove once used
-#[allow(unused, reason = "Currently unused")]
-/// This method loads the Vermilion configuration file if found.
-///
-/// The Vermilion configuration file is is located in the user-specific
-/// configuration file directory, and/or the system-wide configuration file
-/// directory if the system supports it.
-///
-/// We first check the user-specific path and then only if that's not found do
-/// we check the system-wide path.
-///
-/// Due to how the [`paths::system_config_dir`] call is implemented, that being on
-/// systems that don't support system-wide configuration files in a known location.
-/// This search results in us looking for both `config.toml` *and* `vermilion.toml`
-/// in the user-specific configuration path.
-pub fn load_config(args: &ArgMatches) -> eyre::Result<Option<Config>> {
-	// If we were passed a workspace file on the command line, try that
-	if let Ok(Some(config_file)) = args.try_get_one::<String>("config") {
-		return Ok(toml::from_slice(&fs::read(config_file)?)?);
-	}
+	// TODO(aki): Remove once used
+	#[allow(unused, reason = "Currently unused")]
+	/// This method loads the Vermilion configuration file if found.
+	///
+	/// The Vermilion configuration file is is located in the user-specific
+	/// configuration file directory, and/or the system-wide configuration file
+	/// directory if the system supports it.
+	///
+	/// We first check the user-specific path and then only if that's not found do
+	/// we check the system-wide path.
+	///
+	/// Due to how the [`paths::system_config_dir`] call is implemented, that being on
+	/// systems that don't support system-wide configuration files in a known location.
+	/// This search results in us looking for both `config.toml` *and* `vermilion.toml`
+	/// in the user-specific configuration path.
+	pub fn load(args: &ArgMatches) -> eyre::Result<Option<Self>> {
+		// If we were passed a workspace file on the command line, try that
+		if let Ok(Some(config_file)) = args.try_get_one::<String>("config") {
+			return Ok(toml::from_slice(&fs::read(config_file)?)?);
+		}
 
-	let mut cfg_file = paths::local_config_dir().join("config.toml");
-	let mut configuration = None;
+		let mut cfg_file = paths::local_config_dir().join("config.toml");
+		let mut configuration = None;
 
-	if cfg_file.exists() {
-		configuration = Some(toml::from_slice(&fs::read(cfg_file)?)?);
-	} else {
-		cfg_file = paths::system_config_dir().join("vermilion.toml");
 		if cfg_file.exists() {
 			configuration = Some(toml::from_slice(&fs::read(cfg_file)?)?);
+		} else {
+			cfg_file = paths::system_config_dir().join("vermilion.toml");
+			if cfg_file.exists() {
+				configuration = Some(toml::from_slice(&fs::read(cfg_file)?)?);
+			}
 		}
-	}
 
-	Ok(configuration)
+		Ok(configuration)
+	}
 }
