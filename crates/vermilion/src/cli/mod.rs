@@ -188,3 +188,19 @@ fn lang_common(command: Command, with_files: bool) -> Command {
 		cmd
 	}
 }
+
+/// Generate a shell completions file for the given shell
+pub(crate) fn dump_completions(cmd: &Command, shell: clap_complete::Shell) -> eyre::Result<String> {
+	let mut cli = cmd.clone();
+
+	let mut completion_buffer = Vec::new();
+
+	clap_complete::generate(
+		shell,
+		&mut cli,
+		env!("CARGO_PKG_NAME"),
+		&mut completion_buffer,
+	);
+
+	Ok(String::from_utf8(completion_buffer)?)
+}
