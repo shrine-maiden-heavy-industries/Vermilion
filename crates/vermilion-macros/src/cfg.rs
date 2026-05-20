@@ -153,3 +153,16 @@ macro_rules! cfg_color_dbg {
         )*
     }
 }
+
+/// Enables vermilion build tooling specific code.
+///
+/// Use this rather than `#[cfg(feature = "_build_tooling")]` to ensure docs are properly generated.
+#[macro_export]
+macro_rules! cfg_build_tooling {
+    ($($item:item)*) => {
+        $(
+            #[cfg(feature = "_build_tooling")]
+            $item
+        )*
+    }
+}
