@@ -79,35 +79,26 @@ fn dump_default_workspace(file_path: Option<String>) -> eyre::Result<()> {
 }
 
 fn dump_config_schema(file_path: Option<String>) -> eyre::Result<()> {
+	let config_schema = crate::config::Config::dump_schema()?;
+
 	if let Some(file_path) = file_path {
 		let mut file = fs::File::create(file_path)?;
-
-		write!(
-			&mut file,
-			"{}",
-			serde_json::to_string_pretty(&schema_for!(crate::config::Config))?
-		)?;
+		file.write_all(config_schema.as_bytes())?;
 	} else {
-		println!(
-			"{}",
-			serde_json::to_string_pretty(&schema_for!(crate::config::Config))?
-		);
+		println!("{config_schema}");
 	}
 
 	Ok(())
 }
 
 fn dump_default_config(file_path: Option<String>) -> eyre::Result<()> {
+	let config_default = crate::config::Config::dump_default()?;
+
 	if let Some(file_path) = file_path {
 		let mut file = fs::File::create(file_path)?;
-
-		write!(
-			&mut file,
-			"{}",
-			toml::to_string(&crate::config::Config::default())?
-		)?;
+		file.write_all(config_default.as_bytes())?;
 	} else {
-		println!("{}", toml::to_string(&crate::config::Config::default())?);
+		println!("{config_default}");
 	}
 
 	Ok(())
