@@ -52,6 +52,7 @@ pub(crate) fn init() -> eyre::Result<Command> {
 				.long("trace-file")
 				.help("Enable LSP server tracing to specified file")
 				.action(ArgAction::Set)
+				.value_name("FILE")
 				.value_hint(ValueHint::FilePath)
 				.value_parser(clap::value_parser!(PathBuf))
 				.conflicts_with("trace-socket"),
@@ -61,6 +62,7 @@ pub(crate) fn init() -> eyre::Result<Command> {
 				.long("trace-socket")
 				.help("Enable LSP server tracing to specified socket")
 				.action(ArgAction::Set)
+				.value_name("SOCKET")
 				.value_parser(clap::value_parser!(SocketAddr))
 				.conflicts_with("trace-file"),
 		))
