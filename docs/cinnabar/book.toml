@@ -19,3 +19,6 @@ git-repository-icon  = "fab-git-alt"
 edit-url-template    = "https://codeberg.org/shrine-maiden-heavy-industries/Vermilion/_edit/main/docs/cinnabar/{path}"
 
 [preprocessor]
+
+[preprocessor.vermilion]
+command = "cargo r --bin vermilion-mdbook"
