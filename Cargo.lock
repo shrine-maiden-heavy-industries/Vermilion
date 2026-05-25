@@ -3898,6 +3898,9 @@ dependencies = [
  "eyre",
  "mdbook-preprocessor",
  "pulldown-cmark",
+ "pulldown-cmark-to-cmark",
+ "schemars",
+ "serde_json",
  "vermilion",
 ]
 
