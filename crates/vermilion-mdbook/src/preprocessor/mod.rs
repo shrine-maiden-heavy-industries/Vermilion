@@ -6,9 +6,11 @@ use mdbook_preprocessor::{
 	Preprocessor, PreprocessorContext,
 	book::{Book, Chapter},
 };
-use pulldown_cmark::{CodeBlockKind, Event, Parser, Tag, TagEnd};
+use pulldown_cmark::{CodeBlockKind, Event, HeadingLevel, Parser, Tag, TagEnd};
 
 use crate::render::RenderPulldown;
+
+mod cli;
 
 pub(crate) struct VermilionPreprocessor;
 
@@ -108,7 +110,7 @@ impl VermilionPreprocessor {
 	fn generate_cli_details(&self, events: &mut Vec<Event>) -> eyre::Result<()> {
 		let cli = vermilion::get_cli()?;
 
-		// TODO(aki): Actually render this out
+		cli.render(HeadingLevel::H1, events);
 
 		Ok(())
 	}
