@@ -71,27 +71,16 @@ impl VermilionPreprocessor {
 	}
 
 	fn generate_schema(&self, obj: &str, events: &mut Vec<Event>) -> eyre::Result<()> {
+		let mut schema_events = Vec::new();
 		match obj {
 			"configuration" => {
-				events.push(Event::Start(Tag::CodeBlock(CodeBlockKind::Fenced(
-					"json".into(),
-				))));
-
-				events.push(Event::Text(vermilion::dump_config_schema()?.into()));
-
-				events.push(Event::End(TagEnd::CodeBlock));
-
+				vermilion::get_config_schema().render(HeadingLevel::H1, &mut schema_events)?;
+				events.extend(schema_events);
 				Ok(())
 			},
 			"workspace" => {
-				events.push(Event::Start(Tag::CodeBlock(CodeBlockKind::Fenced(
-					"json".into(),
-				))));
-
-				events.push(Event::Text(vermilion::dump_workspace_schema()?.into()));
-
-				events.push(Event::End(TagEnd::CodeBlock));
-
+				vermilion::get_workspace_schema().render(HeadingLevel::H1, &mut schema_events)?;
+				events.extend(schema_events);
 				Ok(())
 			},
 			obj => Err(eyre!("Unknown object type {}", obj)),
