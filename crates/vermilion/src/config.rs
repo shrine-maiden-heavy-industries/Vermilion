@@ -57,6 +57,11 @@ pub struct Config {
 }
 
 impl Config {
+	/// Get the [`schemars::Schema`] object for the Vermilion [`Config`] structure
+	pub fn get_schema() -> schemars::Schema {
+		schemars::schema_for!(Self)
+	}
+
 	/// Dump the Vermilion [`Config`] schema to a [`String`]
 	pub fn dump_schema() -> eyre::Result<String> {
 		Ok(serde_json::to_string_pretty(&schemars::schema_for!(Self))?)

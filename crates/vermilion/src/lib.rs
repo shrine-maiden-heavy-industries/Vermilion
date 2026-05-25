@@ -144,6 +144,11 @@ cfg_build_tooling! {
 		cli::dump_completions(&cli, shell)
 	}
 
+	/// Get the Vermilion configuration schema
+	pub fn get_config_schema() -> schemars::Schema {
+		crate::config::Config::get_schema()
+	}
+
 	/// Dump Vermilion configuration schema to a [`String`]
 	pub fn dump_config_schema() -> eyre::Result<String> {
 		crate::config::Config::dump_schema()
