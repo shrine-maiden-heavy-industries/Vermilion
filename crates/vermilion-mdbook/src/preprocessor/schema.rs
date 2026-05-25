@@ -116,7 +116,7 @@ impl RenderPulldown for SchemaTomlizer {
 		let schema_defs = schema_obj.get("$defs").and_then(|v| v.as_object());
 
 		let schema_title = schema_obj
-			.get("description")
+			.get("title")
 			.and_then(|v| v.as_str())
 			.unwrap_or("<UNNAMED>");
 
