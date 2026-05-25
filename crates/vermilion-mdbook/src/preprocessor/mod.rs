@@ -74,12 +74,14 @@ impl VermilionPreprocessor {
 		let mut schema_events = Vec::new();
 		match obj {
 			"configuration" => {
-				vermilion::get_config_schema().render(HeadingLevel::H1, &mut schema_events)?;
+				schema::SchemaTomlizer::new(vermilion::get_config_schema())
+					.render(HeadingLevel::H1, &mut schema_events)?;
 				events.extend(schema_events);
 				Ok(())
 			},
 			"workspace" => {
-				vermilion::get_workspace_schema().render(HeadingLevel::H1, &mut schema_events)?;
+				schema::SchemaTomlizer::new(vermilion::get_workspace_schema())
+					.render(HeadingLevel::H1, &mut schema_events)?;
 				events.extend(schema_events);
 				Ok(())
 			},
