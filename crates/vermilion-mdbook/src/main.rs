@@ -7,6 +7,7 @@ use mdbook_preprocessor::Preprocessor;
 use crate::preprocessor::VermilionPreprocessor;
 
 mod preprocessor;
+pub(crate) mod render;
 
 fn init_cli() -> Command {
 	Command::new(env!("CARGO_PKG_NAME"))

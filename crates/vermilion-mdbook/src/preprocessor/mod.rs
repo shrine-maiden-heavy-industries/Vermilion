@@ -8,6 +8,8 @@ use mdbook_preprocessor::{
 };
 use pulldown_cmark::{CodeBlockKind, Event, Parser, Tag, TagEnd};
 
+use crate::render::RenderPulldown;
+
 pub(crate) struct VermilionPreprocessor;
 
 impl VermilionPreprocessor {
