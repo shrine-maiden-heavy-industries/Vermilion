@@ -1,5 +1,4 @@
 // SPDX-License-Identifier: BSD-3-Clause
-// SPDX-License-Identifier: BSD-3-Clause
 
 use eyre::eyre;
 use mdbook_preprocessor::{
