@@ -1,9 +1,11 @@
 {
 	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
-	"name": "Synopsys Design Constraints",
+	"name": "TCL-Based Design Constraints (Synopsys, Lattice, Xilinx)",
 	"scopeName": "source.sdc",
 	"fileTypes": [
-		"sdc"
+		"pdc",
+		"sdc",
+		"xdc"
 	],
 	"patterns": [
 

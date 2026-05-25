@@ -90,11 +90,6 @@
 				"path": "./lang/lpf/base.tmLanguage.json"
 			},
 			{
-				"language": "pdc",
-				"scopeName": "source.pdc",
-				"path": "./lang/pdc/base.tmLanguage.json"
-			},
-			{
 				"language": "rtlil",
 				"scopeName": "source.rtlil",
 				"path": "./lang/rtlil/base.tmLanguage.json"
@@ -128,11 +123,6 @@
 				"language": "vhdl-ams",
 				"scopeName": "source.vhdl_ams",
 				"path": "./lang/vhdl_ams/base.tmLanguage.json"
-			},
-			{
-				"language": "xdc",
-				"scopeName": "source.xdc",
-				"path": "./lang/xdc/base.tmLanguage.json"
 			},
 			{
 				"language": "yosys-script",
@@ -175,20 +165,11 @@
 				}
 			},
 			{
-				"id": "pdc",
-				"extensions": [
-					".pdc"
-				],
-				"configuration": "./lang/pdc/configuration.json",
-				"icon": {
-					"dark": "./lang/pdc/icon_dark.svg",
-					"light": "./lang/pdc/icon_light.svg"
-				}
-			},
-			{
 				"id": "sdc",
 				"extensions": [
-					".sdc"
+					".sdc",
+					".pdc",
+					".xdc"
 				],
 				"configuration": "./lang/sdc/configuration.json",
 				"icon": {
@@ -254,17 +235,6 @@
 				"icon": {
 					"dark": "./lang/vhdl_ams/icon_dark.svg",
 					"light": "./lang/vhdl_ams/icon_light.svg"
-				}
-			},
-			{
-				"id": "xdc",
-				"extensions": [
-					".xdc"
-				],
-				"configuration": "./lang/xdc/configuration.json",
-				"icon": {
-					"dark": "./lang/xdc/icon_dark.svg",
-					"light": "./lang/xdc/icon_light.svg"
 				}
 			},
 			{
