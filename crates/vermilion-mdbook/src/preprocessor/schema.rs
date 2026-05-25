@@ -15,90 +15,113 @@ impl SchemaTomlizer {
 		Self { schema }
 	}
 
-	fn render_property(
+	fn normalize_name(
 		&self,
 		name: &str,
 		parent_name: Option<&str>,
-		property: &Map<String, Value>,
+		grandparent_name: Option<&str>,
+	) -> String {
+		let mut norm_name = String::with_capacity(
+			name.len() +
+				parent_name.map_or(0, |n| n.len() + 1) +
+				grandparent_name.map_or(0, |n| n.len() + 1),
+		);
+
+		if let Some(gname) = grandparent_name {
+			norm_name += gname;
+			norm_name += ".";
+		}
+
+		if let Some(pname) = parent_name {
+			norm_name += pname;
+			norm_name += ".";
+		}
+
+		norm_name += name;
+
+		norm_name
+	}
+
+	fn render_properties(
+		&self,
+		name: Option<&str>,
+		parent_name: Option<&str>,
+		properties: &Map<String, Value>,
 		defs: Option<&Map<String, Value>>,
 		level: HeadingLevel,
 		events: &mut Vec<Event>,
 	) -> eyre::Result<()> {
-		let mut optional = false;
-		match property.get("type").and_then(|v| v.as_str()) {
-			Some("string") => {
-				self.emit_paragraph_simple(name.into(), events);
-			},
-			Some("object") => {
-				let mut obj_name = String::with_capacity(
-					name.len() + parent_name.map_or_else(|| 0, |n| n.len() + 1),
-				);
-				obj_name += name;
-				if let Some(parent_name) = parent_name {
-					obj_name += ".";
-					obj_name += parent_name;
-				}
+		for (prop_name, prop_value) in properties {
+			let prop_obj = prop_value
+				.as_object()
+				.ok_or_eyre(eyre!("Property '{}' is not an object!", prop_name))?;
+			let norm_name = self.normalize_name(prop_name, name, parent_name);
+			let prop_desc = prop_obj.get("description").and_then(|v| v.as_str());
+			let prop_type = prop_obj.get("type").and_then(|v| v.as_str());
+			let prop_alters = prop_obj
+				.get("anyOf")
+				.and_then(|v| v.as_array())
+				.map(|v| v.iter().flat_map(|p| p.as_object()).collect::<Vec<_>>());
 
+			eprintln!("Property: '{}'", norm_name);
+
+			if !matches!(prop_type, Some("string")) {
 				self.emit_header_complex(
 					level,
-					&[Event::Code(format!("[{}]", obj_name).into())],
-					Some(name.into()),
+					&[Event::Code(format!("[{}]", norm_name).into())],
+					Some(norm_name.clone()),
 					events,
 				);
+			}
 
-				if let Some(desc) = property.get("description").and_then(|v| v.as_str()) {
+			if let Some(desc) = prop_desc {
+				for para in desc.split("\n\n") {
+					self.emit_paragraph_simple(para.into(), events);
+				}
+			}
+
+			if let Some(ref_obj) = if let Some(alters) = prop_alters {
+				if let Some(ref_name) = alters
+					.iter()
+					.find(|p| p.contains_key("$ref"))
+					.and_then(|k| k.get("$ref"))
+					.and_then(|v| v.as_str())
+					.and_then(|v| v.split('/').next_back())
+				{
+					defs.and_then(|d| d.get(ref_name))
+						.and_then(|v| v.as_object())
+				} else {
+					None
+				}
+			} else {
+				None
+			} {
+				if prop_desc.is_none() &&
+					let Some(desc) = ref_obj.get("description").and_then(|v| v.as_str())
+				{
 					for para in desc.split("\n\n") {
 						self.emit_paragraph_simple(para.into(), events);
 					}
 				}
 
-				if let Some(obj) = property.get("properties").and_then(|v| v.as_object()) {
-					for (prop_name, prop_value) in obj {
-						self.render_property(
-							prop_name,
-							Some(obj_name.as_str()),
-							prop_value.as_object().ok_or_eyre("!!!")?,
-							defs,
-							self.next_level(level),
-							events,
-						)?;
-					}
-				}
-			},
-			Some("null") => {
-				return Ok(());
-			},
-			Some(prop_type) => {
-				eprintln!("Unhandled property type: '{}'", prop_type)
-			},
-			None => {},
-		}
-
-		if let Some(any_of) = property.get("anyOf").and_then(|v| v.as_array()) {
-			for alteration in any_of.iter().flat_map(|v| v.as_object()) {
-				if let Some(ref_name) = alteration.get("$ref").and_then(|v| v.as_str()) {
-					let def_key = ref_name.split('/').next_back().ok_or_eyre(eyre!(
-						"Property '{}' has invalid '$ref' key: '{}'",
+				if let Some(obj_props) = ref_obj.get("properties").and_then(|v| v.as_object()) {
+					self.render_properties(
+						Some(norm_name.as_str()),
 						name,
-						ref_name
-					))?;
-
-					let def_obj = defs
-						.ok_or_eyre(eyre!("No '$defs' object passed!"))?
-						.get(def_key)
-						.and_then(|v| v.as_object())
-						.ok_or_eyre(eyre!(
-							"Schema '$defs' does not contain an entry for '$ref' key: '{}'",
-							def_key
-						))?;
-
-					self.render_property(name, None, def_obj, defs, level, events)?;
-				} else if let Some(obj_type) = alteration.get("type").and_then(|v| v.as_str()) {
-					if obj_type == "null" {
-						optional = true;
-					} else {
-						self.render_property(name, None, alteration, defs, level, events)?
-					}
+						obj_props,
+						defs,
+						self.next_level(level),
+						events,
+					)?;
+				}
+			} else {
+				match prop_type {
+					Some(typ) => {
+						eprintln!("Unknown property type '{}' in '{}'", typ, prop_name);
+					},
+					None => {
+						eprintln!("????");
+					},
 				}
 			}
 		}
@@ -126,26 +149,20 @@ impl RenderPulldown for SchemaTomlizer {
 			}
 		}
 
-		for (name, value) in schema_obj
-			.get("properties")
-			.and_then(|v| v.as_object())
-			.ok_or_eyre(eyre!(
-				"Schema '{}' is malformed, no 'properties' object in root",
-				schema_title
-			))? {
-			self.render_property(
-				name,
-				None,
-				value.as_object().ok_or_eyre(eyre!(
-					"Property '{}' of schema '{}' is invalid, not an object?",
-					name,
+		self.render_properties(
+			None,
+			None,
+			schema_obj
+				.get("properties")
+				.and_then(|v| v.as_object())
+				.ok_or_eyre(eyre!(
+					"Schema '{}' is malformed, no 'properties' object in root",
 					schema_title
 				))?,
-				schema_defs,
-				self.next_level(level),
-				events,
-			)?;
-		}
+			schema_defs,
+			level,
+			events,
+		)?;
 
 		Ok(())
 	}
