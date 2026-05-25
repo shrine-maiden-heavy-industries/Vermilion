@@ -4,6 +4,12 @@
 [Introduction](./intro.md)
 [Overview](./overview.md)
 
+# Ancillary
+
+- [CLI Reference](./cli.md)
+- [Configuration](./configuration.md)
+- [Workspace](./workspace.md)
+
 # Nya
 
 - [Nya]()

@@ -1,0 +1,4 @@
+# CLI
+
+```vermilion:details:cli
+```
