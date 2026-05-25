@@ -10,6 +10,7 @@ use pulldown_cmark::{CodeBlockKind, Event, HeadingLevel, Parser, Tag, TagEnd};
 use crate::render::RenderPulldown;
 
 mod cli;
+mod schema;
 
 pub(crate) struct VermilionPreprocessor;
 
