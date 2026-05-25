@@ -159,6 +159,11 @@ cfg_build_tooling! {
 		crate::config::Config::dump_default()
 	}
 
+	/// Get the Vermilion workspace schema
+	pub fn get_workspace_schema() -> schemars::Schema {
+		crate::workspace::Workspace::get_schema()
+	}
+
 	/// Dump Vermilion workspace schema to a [`String`]
 	pub fn dump_workspace_schema() -> eyre::Result<String> {
 		crate::workspace::Workspace::dump_schema()

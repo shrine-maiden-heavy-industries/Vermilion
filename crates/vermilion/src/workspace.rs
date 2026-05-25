@@ -56,6 +56,11 @@ pub struct Workspace {
 }
 
 impl Workspace {
+	/// Get the [`schemars::Schema`] object for the Vermilion [`Workspace`] structure
+	pub fn get_schema() -> schemars::Schema {
+		schemars::schema_for!(Self)
+	}
+
 	/// Dump the Vermilion [`Workspace`] schema to a [`String`]
 	pub fn dump_schema() -> eyre::Result<String> {
 		Ok(serde_json::to_string_pretty(&schemars::schema_for!(Self))?)
