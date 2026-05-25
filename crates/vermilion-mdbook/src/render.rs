@@ -3,7 +3,7 @@
 use pulldown_cmark::{BlockQuoteKind, Event, HeadingLevel, Tag, TagEnd};
 
 pub(crate) trait RenderPulldown {
-	fn render(&self, level: HeadingLevel, events: &mut Vec<Event>);
+	fn render(&self, level: HeadingLevel, events: &mut Vec<Event>) -> eyre::Result<()>;
 
 	fn next_level(&self, level: HeadingLevel) -> HeadingLevel {
 		match level {

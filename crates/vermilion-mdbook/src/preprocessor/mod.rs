@@ -99,19 +99,19 @@ impl VermilionPreprocessor {
 
 	fn generate_details(&self, obj: &str, events: &mut Vec<Event>) -> eyre::Result<()> {
 		match obj {
-			"cli" => self.generate_cli_details(events),
+			"cli" => {
+				let cli = vermilion::get_cli()?;
+				let mut cli_events = Vec::new();
+
+				cli.render(HeadingLevel::H1, &mut cli_events)?;
+				events.extend(cli_events);
+
+				Ok(())
+			},
 			"configuration" => Ok(()),
 			"workspace" => Ok(()),
 			obj => Err(eyre!("Unknown object type {}", obj)),
 		}
-	}
-
-	fn generate_cli_details(&self, events: &mut Vec<Event>) -> eyre::Result<()> {
-		let cli = vermilion::get_cli()?;
-
-		cli.render(HeadingLevel::H1, events);
-
-		Ok(())
 	}
 }
 

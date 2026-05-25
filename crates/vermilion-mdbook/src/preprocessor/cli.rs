@@ -7,7 +7,7 @@ use pulldown_cmark::{BlockQuoteKind, Event, HeadingLevel};
 use crate::render::RenderPulldown;
 
 impl RenderPulldown for clap::Arg {
-	fn render(&self, level: HeadingLevel, events: &mut Vec<Event>) {
+	fn render(&self, level: HeadingLevel, events: &mut Vec<Event>) -> eyre::Result<()> {
 		let mut had_short = false;
 		let mut header_events = Vec::new();
 		let mut value_events = Vec::new();
@@ -79,11 +79,13 @@ impl RenderPulldown for clap::Arg {
 
 			self.emit_paragraph_complex(&value_events, events);
 		}
+
+		Ok(())
 	}
 }
 
 impl RenderPulldown for clap::Command {
-	fn render(&self, level: HeadingLevel, events: &mut Vec<Event>) {
+	fn render(&self, level: HeadingLevel, events: &mut Vec<Event>) -> eyre::Result<()> {
 		let name = self.get_name();
 		let mut args = self.get_arguments().collect::<Vec<_>>();
 		let mut subcommands = self.get_subcommands().collect::<Vec<_>>();
@@ -105,13 +107,15 @@ impl RenderPulldown for clap::Command {
 		}
 
 		for arg in args {
-			arg.render(self.next_level(level), events);
+			arg.render(self.next_level(level), events)?;
 		}
 
 		for subcommand in subcommands {
 			if !subcommand.is_hide_set() {
-				subcommand.render(self.next_level(level), events);
+				subcommand.render(self.next_level(level), events)?;
 			}
 		}
+
+		Ok(())
 	}
 }
