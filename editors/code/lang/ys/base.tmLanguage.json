@@ -6,9 +6,288 @@
 		"ys"
 	],
 	"patterns": [
-
+		{ "include": "#yosys-script" }
 	],
 	"repository": {
+		"yosys-script": {
+			"patterns": [
+				{ "include": "#commands" },
+				{ "include": "#common"   }
+			]
+		},
 
+		"common": {
+			"patterns": [
+				{ "name": "comment.line", "match": "#.*$" }
+			]
+		},
+
+		"string": {
+			"name": "string.quoted.double",
+			"begin": "\"",
+			"end": "\"",
+			"patterns": [
+				{ "name": "constant.character.escape", "match": "\\\\." }
+			]
+		},
+
+		"command-argument": {
+			"match": "\\b(-[a-zA-Z0-9][a-zA-Z0-9_]*)(\\s+[a-zA-Z0-9]+)?\\b",
+			"captures": {
+				"1": { "name": "variable.name" },
+				"2": { "name": "variable.parameter" }
+			}
+		},
+
+		"commands": {
+			"name": "keyword",
+			"patterns": [
+				{ "include": "#common" },
+				{ "include": "#commands-complex" },
+				{ "include": "#commands-simple" }
+			]
+		},
+
+		"commands-simple": {
+			"begin": "^([a-zA-Z][a-zA-Z_]+)",
+			"end": "$",
+			"patterns": [
+				{ "include": "#string" },
+				{ "include": "#command-argument" },
+				{ "name": "variable.parameter", "match": "\\b[a-zA-Z0-9_]+\\b" },
+				{ "name": "constant.numeric", "match": "\\b[0-9]+\\b" }
+			]
+		},
+
+		"commands-complex": {
+			"patterns": [
+				{ "include": "#command-read_aiger"   },
+				{ "include": "#command-read_blif"    },
+				{ "include": "#command-read_json"    },
+				{ "include": "#command-read_liberty" },
+				{ "include": "#command-read_rtlil"   },
+				{ "include": "#command-read_verilog" },
+				{ "include": "#command-read_xaiger2" },
+				{ "include": "#command-read"         },
+				{ "include": "#command-select"       },
+				{ "include": "#command-verific"      },
+				{ "include": "#command-write_file"   }
+			]
+		},
+
+		"command-read_aiger": {
+			"begin": "^(read_aiger)\\s+((-[a-zA-Z0-9_]+)(\\s+[a-zA-Z0-9]+)?\\s+)*?(<<)\\s*([a-zA-Z_][a-zA-Z_]*)",
+			"end": "^(?:\\6)(?=\\s*)",
+			"beginCaptures": {
+				"1": { "name": "keyword" },
+				"3": { "name": "variable.name" },
+				"4": { "name": "variable.parameter" },
+				"5": { "name": "keyword.operator.heredoc" },
+				"6": { "name": "variable.name" }
+			},
+			"endCaptures": {
+				"0": { "name": "variable.name" }
+			},
+			"patterns": [
+				{
+					"name": "meta.embedded.block.aiger",
+					"patterns": [
+						{ "include": "source.aiger" }
+					]
+				}
+			]
+		},
+		"command-read_blif": {
+			"begin": "^(read_blif)\\s+((-[a-zA-Z0-9_]+)(\\s+[a-zA-Z0-9]+)?\\s+)*?(<<)\\s*([a-zA-Z_][a-zA-Z_]*)",
+			"end": "^(?:\\6)(?=\\s*)",
+			"beginCaptures": {
+				"1": { "name": "keyword" },
+				"3": { "name": "variable.name" },
+				"4": { "name": "variable.parameter" },
+				"5": { "name": "keyword.operator.heredoc" },
+				"6": { "name": "variable.name" }
+			},
+			"endCaptures": {
+				"0": { "name": "variable.name" }
+			},
+			"patterns": [
+				{
+					"name": "meta.embedded.block.blif",
+					"patterns": [
+						{ "include": "source.blif" }
+					]
+				}
+			]
+		},
+		"command-read_json": {
+			"begin": "^(read_json)\\s+((-[a-zA-Z0-9_]+)(\\s+[a-zA-Z0-9]+)?\\s+)*?(<<)\\s*([a-zA-Z_][a-zA-Z_]*)",
+			"end": "^(?:\\6)(?=\\s*)",
+			"beginCaptures": {
+				"1": { "name": "keyword" },
+				"3": { "name": "variable.name" },
+				"4": { "name": "variable.parameter" },
+				"5": { "name": "keyword.operator.heredoc" },
+				"6": { "name": "variable.name" }
+			},
+			"endCaptures": {
+				"0": { "name": "variable.name" }
+			},
+			"patterns": [
+				{
+					"name": "meta.embedded.block.json",
+					"patterns": [
+						{ "include": "source.json" }
+					]
+				}
+			]
+		},
+		"command-read_liberty": {
+			"begin": "^(read_liberty)\\s+((-[a-zA-Z0-9_]+)(\\s+[a-zA-Z0-9]+)?\\s+)*?(<<)\\s*([a-zA-Z_][a-zA-Z_]*)",
+			"end": "^(?:\\6)(?=\\s*)",
+			"beginCaptures": {
+				"1": { "name": "keyword" },
+				"3": { "name": "variable.name" },
+				"4": { "name": "variable.parameter" },
+				"5": { "name": "keyword.operator.heredoc" },
+				"6": { "name": "variable.name" }
+			},
+			"endCaptures": {
+				"0": { "name": "variable.name" }
+			},
+			"patterns": [
+				{
+					"name": "meta.embedded.block.liberty",
+					"patterns": [
+						{ "include": "source.liberty" }
+					]
+				}
+			]
+		},
+		"command-read_rtlil": {
+			"begin": "^(read_rtlil)\\s+((-[a-zA-Z0-9_]+)(\\s+[a-zA-Z0-9]+)?\\s+)*?(<<)\\s*([a-zA-Z_][a-zA-Z_]*)",
+			"end": "^(?:\\6)(?=\\s*)",
+			"beginCaptures": {
+				"1": { "name": "keyword" },
+				"3": { "name": "variable.name" },
+				"4": { "name": "variable.parameter" },
+				"5": { "name": "keyword.operator.heredoc" },
+				"6": { "name": "variable.name" }
+			},
+			"endCaptures": {
+				"0": { "name": "variable.name" }
+			},
+			"patterns": [
+				{
+					"name": "meta.embedded.block.rtlil",
+					"patterns": [
+						{ "include": "source.rtlil" }
+					]
+				}
+			]
+		},
+		"command-read_verilog": {
+			"begin": "^(read_verilog)\\s+((-[a-zA-Z0-9_]+)(\\s+[a-zA-Z0-9]+)?\\s+)*?(<<)\\s*([a-zA-Z_][a-zA-Z_]*)",
+			"end": "^(?:\\6)(?=\\s*)",
+			"beginCaptures": {
+				"1": { "name": "keyword" },
+				"3": { "name": "variable.name" },
+				"4": { "name": "variable.parameter" },
+				"5": { "name": "keyword.operator.heredoc" },
+				"6": { "name": "variable.name" }
+			},
+			"endCaptures": {
+				"0": { "name": "variable.name" }
+			},
+			"patterns": [
+				{
+					"name": "meta.embedded.block.verilog",
+					"patterns": [
+						{ "include": "source.verilog" }
+					]
+				}
+			]
+		},
+		"command-read_xaiger2": {
+			"begin": "^(read_xaiger2)\\s+((-[a-zA-Z0-9_]+)(\\s+[a-zA-Z0-9]+)?\\s+)*?(<<)\\s*([a-zA-Z_][a-zA-Z_]*)",
+			"end": "^(?:\\6)(?=\\s*)",
+			"beginCaptures": {
+				"1": { "name": "keyword" },
+				"3": { "name": "variable.name" },
+				"4": { "name": "variable.parameter" },
+				"5": { "name": "keyword.operator.heredoc" },
+				"6": { "name": "variable.name" }
+			},
+			"endCaptures": {
+				"0": { "name": "variable.name" }
+			},
+			"patterns": [
+				{
+					"name": "meta.embedded.block.xaiger2",
+					"patterns": [
+						{ "include": "source.xaiger2" }
+					]
+				}
+			]
+		},
+		"command-read": {
+			"begin": "^(read)\\s+((-[a-zA-Z0-9_]+)(\\s+[a-zA-Z0-9]+)?\\s+)*?(<<)\\s*([a-zA-Z_][a-zA-Z_]*)",
+			"end": "^(?:\\6)(?=\\s*)",
+			"beginCaptures": {
+				"1": { "name": "keyword" },
+				"3": { "name": "variable.name" },
+				"4": { "name": "variable.parameter" },
+				"5": { "name": "keyword.operator.heredoc" },
+				"6": { "name": "variable.name" }
+			},
+			"endCaptures": {
+				"0": { "name": "variable.name" }
+			}
+		},
+		"command-select": {
+			"begin": "^(select)\\s+((-[a-zA-Z0-9_]+)(\\s+[a-zA-Z0-9]+)?\\s+)*?",
+			"end": "$",
+			"beginCaptures": {
+				"1": { "name": "keyword" },
+				"3": { "name": "variable.name" },
+				"4": { "name": "variable.parameter" }
+			},
+			"patterns": [
+				{ "include": "#select-syntax" }
+			]
+		},
+		"command-verific": {
+			"begin": "^(verific)\\s+((-[a-zA-Z0-9_]+)(\\s+[a-zA-Z0-9]+)?\\s+)*?(<<)\\s*([a-zA-Z_][a-zA-Z_]*)",
+			"end": "^(?:\\6)(?=\\s*)",
+			"beginCaptures": {
+				"1": { "name": "keyword" },
+				"3": { "name": "variable.name" },
+				"4": { "name": "variable.parameter" },
+				"5": { "name": "keyword.operator.heredoc" },
+				"6": { "name": "variable.name" }
+			},
+			"endCaptures": {
+				"0": { "name": "variable.name" }
+			}
+		},
+		"command-write_file": {
+			"begin": "^(write_file)\\s+((-[a-zA-Z0-9_]+)(\\s+[a-zA-Z0-9]+)?\\s+)*?(<<)\\s*([a-zA-Z_][a-zA-Z_]*)",
+			"end": "^(?:\\6)(?=\\s*)",
+			"beginCaptures": {
+				"1": { "name": "keyword" },
+				"3": { "name": "variable.name" },
+				"4": { "name": "variable.parameter" },
+				"5": { "name": "keyword.operator.heredoc" },
+				"6": { "name": "variable.name" }
+			},
+			"endCaptures": {
+				"0": { "name": "variable.name" }
+			}
+		},
+
+		"select-syntax": {
+			"patterns": [
+				{}
+			]
+		}
 	}
 }
