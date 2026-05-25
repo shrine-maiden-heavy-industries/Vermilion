@@ -127,7 +127,17 @@
 			{
 				"language": "yosys-script",
 				"scopeName": "source.ys",
-				"path": "./lang/ys/base.tmLanguage.json"
+				"path": "./lang/ys/base.tmLanguage.json",
+				"embeddedLanguages": {
+					"meta.embedded.block.aiger": "aiger",
+					"meta.embedded.block.blif": "blif",
+					"meta.embedded.block.json": "json",
+					"meta.embedded.block.liberty": "liberty",
+					"meta.embedded.block.rtlil": "rtlil",
+					"meta.embedded.block.verilog": "verilog",
+					"meta.embedded.block.vhdl": "vhdl",
+					"meta.embedded.block.xaiger2": "xaiger2"
+				}
 			}
 		],
 		"languages": [
