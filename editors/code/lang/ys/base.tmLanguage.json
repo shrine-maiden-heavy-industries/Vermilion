@@ -18,16 +18,16 @@
 
 		"common": {
 			"patterns": [
-				{ "name": "comment.line", "match": "#.*$" }
+				{ "name": "comment.line.ys", "match": "#.*$" }
 			]
 		},
 
 		"string": {
-			"name": "string.quoted.double",
+			"name": "string.quoted.double.ys",
 			"begin": "\"",
 			"end": "\"",
 			"patterns": [
-				{ "name": "constant.character.escape", "match": "\\\\." }
+				{ "name": "constant.character.escape.ys", "match": "\\\\." }
 			]
 		},
 
@@ -43,15 +43,15 @@
 			"begin": "^([a-zA-Z][a-zA-Z_]*)",
 			"end": "$",
 			"beginCaptures": {
-				"0": { "name": "entity.name.function" }
+				"0": { "name": "entity.name.function.ys" }
 			},
 			"patterns": [
 				{ "include": "#string" },
 				{
 					"match": "(-[a-zA-Z0-9][a-zA-Z0-9_]*)(\\s+[a-zA-Z0-9_]*)?",
 					"captures": {
-						"1": { "name": "keyword" },
-						"2": { "name": "variable.parameter" }
+						"1": { "name": "keyword.ys" },
+						"2": { "name": "variable.parameter.ys" }
 					}
 				}
 			]
@@ -77,14 +77,14 @@
 			"begin": "^(read_aiger)\\s+((-[a-zA-Z0-9_]+)(\\s+[a-zA-Z0-9]+)?\\s+)*?(<<)\\s*([a-zA-Z_][a-zA-Z_]*)",
 			"end": "^(?:\\6)(?=\\s*)",
 			"beginCaptures": {
-				"1": { "name": "entity.name.function" },
-				"3": { "name": "variable.name" },
-				"4": { "name": "variable.parameter" },
-				"5": { "name": "keyword.operator.heredoc" },
-				"6": { "name": "variable.name" }
+				"1": { "name": "entity.name.function.ys" },
+				"3": { "name": "variable.name.ys" },
+				"4": { "name": "variable.parameter.ys" },
+				"5": { "name": "keyword.operator.heredoc.ys" },
+				"6": { "name": "variable.name.ys" }
 			},
 			"endCaptures": {
-				"0": { "name": "variable.name" }
+				"0": { "name": "variable.name.ys" }
 			},
 			"patterns": [
 				{
@@ -99,14 +99,14 @@
 			"begin": "^(read_blif)\\s+((-[a-zA-Z0-9_]+)(\\s+[a-zA-Z0-9]+)?\\s+)*?(<<)\\s*([a-zA-Z_][a-zA-Z_]*)",
 			"end": "^(?:\\6)(?=\\s*)",
 			"beginCaptures": {
-				"1": { "name": "entity.name.function" },
-				"3": { "name": "variable.name" },
-				"4": { "name": "variable.parameter" },
-				"5": { "name": "keyword.operator.heredoc" },
-				"6": { "name": "variable.name" }
+				"1": { "name": "entity.name.function.ys" },
+				"3": { "name": "variable.name.ys" },
+				"4": { "name": "variable.parameter.ys" },
+				"5": { "name": "keyword.operator.heredoc.ys" },
+				"6": { "name": "variable.name.ys" }
 			},
 			"endCaptures": {
-				"0": { "name": "variable.name" }
+				"0": { "name": "variable.name.ys" }
 			},
 			"patterns": [
 				{
@@ -121,14 +121,14 @@
 			"begin": "^(read_json)\\s+((-[a-zA-Z0-9_]+)(\\s+[a-zA-Z0-9]+)?\\s+)*?(<<)\\s*([a-zA-Z_][a-zA-Z_]*)",
 			"end": "^(?:\\6)(?=\\s*)",
 			"beginCaptures": {
-				"1": { "name": "entity.name.function" },
-				"3": { "name": "variable.name" },
-				"4": { "name": "variable.parameter" },
-				"5": { "name": "keyword.operator.heredoc" },
-				"6": { "name": "variable.name" }
+				"1": { "name": "entity.name.function.ys" },
+				"3": { "name": "variable.name.ys" },
+				"4": { "name": "variable.parameter.ys" },
+				"5": { "name": "keyword.operator.heredoc.ys" },
+				"6": { "name": "variable.name.ys" }
 			},
 			"endCaptures": {
-				"0": { "name": "variable.name" }
+				"0": { "name": "variable.name.ys" }
 			},
 			"patterns": [
 				{
@@ -143,14 +143,14 @@
 			"begin": "^(read_liberty)\\s+((-[a-zA-Z0-9_]+)(\\s+[a-zA-Z0-9]+)?\\s+)*?(<<)\\s*([a-zA-Z_][a-zA-Z_]*)",
 			"end": "^(?:\\6)(?=\\s*)",
 			"beginCaptures": {
-				"1": { "name": "entity.name.function" },
-				"3": { "name": "variable.name" },
-				"4": { "name": "variable.parameter" },
-				"5": { "name": "keyword.operator.heredoc" },
-				"6": { "name": "variable.name" }
+				"1": { "name": "entity.name.function.ys" },
+				"3": { "name": "variable.name.ys" },
+				"4": { "name": "variable.parameter.ys" },
+				"5": { "name": "keyword.operator.heredoc.ys" },
+				"6": { "name": "variable.name.ys" }
 			},
 			"endCaptures": {
-				"0": { "name": "variable.name" }
+				"0": { "name": "variable.name.ys" }
 			},
 			"patterns": [
 				{
@@ -165,14 +165,14 @@
 			"begin": "^(read_rtlil)\\s+((-[a-zA-Z0-9_]+)(\\s+[a-zA-Z0-9]+)?\\s+)*?(<<)\\s*([a-zA-Z_][a-zA-Z_]*)",
 			"end": "^(?:\\6)(?=\\s*)",
 			"beginCaptures": {
-				"1": { "name": "entity.name.function" },
-				"3": { "name": "variable.name" },
-				"4": { "name": "variable.parameter" },
-				"5": { "name": "keyword.operator.heredoc" },
-				"6": { "name": "variable.name" }
+				"1": { "name": "entity.name.function.ys" },
+				"3": { "name": "variable.name.ys" },
+				"4": { "name": "variable.parameter.ys" },
+				"5": { "name": "keyword.operator.heredoc.ys" },
+				"6": { "name": "variable.name.ys" }
 			},
 			"endCaptures": {
-				"0": { "name": "variable.name" }
+				"0": { "name": "variable.name.ys" }
 			},
 			"patterns": [
 				{
@@ -187,14 +187,14 @@
 			"begin": "^(read_verilog)\\s+((-[a-zA-Z0-9_]+)(\\s+[a-zA-Z0-9]+)?\\s+)*?(<<)\\s*([a-zA-Z_][a-zA-Z_]*)",
 			"end": "^(?:\\6)(?=\\s*)",
 			"beginCaptures": {
-				"1": { "name": "entity.name.function" },
-				"3": { "name": "variable.name" },
-				"4": { "name": "variable.parameter" },
-				"5": { "name": "keyword.operator.heredoc" },
-				"6": { "name": "variable.name" }
+				"1": { "name": "entity.name.function.ys" },
+				"3": { "name": "variable.name.ys" },
+				"4": { "name": "variable.parameter.ys" },
+				"5": { "name": "keyword.operator.heredoc.ys" },
+				"6": { "name": "variable.name.ys" }
 			},
 			"endCaptures": {
-				"0": { "name": "variable.name" }
+				"0": { "name": "variable.name.ys" }
 			},
 			"patterns": [
 				{
@@ -209,14 +209,14 @@
 			"begin": "^(read_xaiger2)\\s+((-[a-zA-Z0-9_]+)(\\s+[a-zA-Z0-9]+)?\\s+)*?(<<)\\s*([a-zA-Z_][a-zA-Z_]*)",
 			"end": "^(?:\\6)(?=\\s*)",
 			"beginCaptures": {
-				"1": { "name": "entity.name.function" },
-				"3": { "name": "variable.name" },
-				"4": { "name": "variable.parameter" },
-				"5": { "name": "keyword.operator.heredoc" },
-				"6": { "name": "variable.name" }
+				"1": { "name": "entity.name.function.ys" },
+				"3": { "name": "variable.name.ys" },
+				"4": { "name": "variable.parameter.ys" },
+				"5": { "name": "keyword.operator.heredoc.ys" },
+				"6": { "name": "variable.name.ys" }
 			},
 			"endCaptures": {
-				"0": { "name": "variable.name" }
+				"0": { "name": "variable.name.ys" }
 			},
 			"patterns": [
 				{
@@ -231,54 +231,54 @@
 			"begin": "^(read)\\s+((-[a-zA-Z0-9_]+)(\\s+[a-zA-Z0-9]+)?\\s+)*?(<<)\\s*([a-zA-Z_][a-zA-Z_]*)",
 			"end": "^(?:\\6)(?=\\s*)",
 			"beginCaptures": {
-				"1": { "name": "entity.name.function" },
-				"3": { "name": "variable.name" },
-				"4": { "name": "variable.parameter" },
-				"5": { "name": "keyword.operator.heredoc" },
-				"6": { "name": "variable.name" }
+				"1": { "name": "entity.name.function.ys" },
+				"3": { "name": "variable.name.ys" },
+				"4": { "name": "variable.parameter.ys" },
+				"5": { "name": "keyword.operator.heredoc.ys" },
+				"6": { "name": "variable.name.ys" }
 			},
 			"endCaptures": {
-				"0": { "name": "variable.name" }
+				"0": { "name": "variable.name.ys" }
 			}
 		},
 		"command-select": {
 			"begin": "^(select)\\s+((-[a-zA-Z0-9_]+)(\\s+[a-zA-Z0-9]+)?\\s+)*?",
 			"end": "$",
 			"beginCaptures": {
-				"1": { "name": "entity.name.function" },
-				"3": { "name": "variable.name" },
-				"4": { "name": "variable.parameter" }
+				"1": { "name": "entity.name.function.ys" },
+				"3": { "name": "variable.name.ys" },
+				"4": { "name": "variable.parameter.ys" }
 			},
 			"patterns": [
-				{ "include": "#select-syntax" }
+				{ "include": "#select-syntax.ys" }
 			]
 		},
 		"command-verific": {
 			"begin": "^(verific)\\s+((-[a-zA-Z0-9_]+)(\\s+[a-zA-Z0-9]+)?\\s+)*?(<<)\\s*([a-zA-Z_][a-zA-Z_]*)",
 			"end": "^(?:\\6)(?=\\s*)",
 			"beginCaptures": {
-				"1": { "name": "entity.name.function" },
-				"3": { "name": "variable.name" },
-				"4": { "name": "variable.parameter" },
-				"5": { "name": "keyword.operator.heredoc" },
-				"6": { "name": "variable.name" }
+				"1": { "name": "entity.name.function.ys" },
+				"3": { "name": "variable.name.ys" },
+				"4": { "name": "variable.parameter.ys" },
+				"5": { "name": "keyword.operator.heredoc.ys" },
+				"6": { "name": "variable.name.ys" }
 			},
 			"endCaptures": {
-				"0": { "name": "variable.name" }
+				"0": { "name": "variable.name.ys" }
 			}
 		},
 		"command-write_file": {
 			"begin": "^(write_file)\\s+((-[a-zA-Z0-9_]+)(\\s+[a-zA-Z0-9]+)?\\s+)*?(<<)\\s*([a-zA-Z_][a-zA-Z_]*)",
 			"end": "^(?:\\6)(?=\\s*)",
 			"beginCaptures": {
-				"1": { "name": "entity.name.function" },
-				"3": { "name": "variable.name" },
-				"4": { "name": "variable.parameter" },
-				"5": { "name": "keyword.operator.heredoc" },
-				"6": { "name": "variable.name" }
+				"1": { "name": "entity.name.function.ys" },
+				"3": { "name": "variable.name.ys" },
+				"4": { "name": "variable.parameter.ys" },
+				"5": { "name": "keyword.operator.heredoc.ys" },
+				"6": { "name": "variable.name.ys" }
 			},
 			"endCaptures": {
-				"0": { "name": "variable.name" }
+				"0": { "name": "variable.name.ys" }
 			}
 		},
 
