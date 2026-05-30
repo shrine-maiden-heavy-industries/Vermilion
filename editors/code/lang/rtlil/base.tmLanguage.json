@@ -6,9 +6,349 @@
 		"il"
 	],
 	"patterns": [
-
+		{ "include": "#rtlil-file" }
 	],
 	"repository": {
-
+		"rtlil-file": {
+			"patterns": [
+				{ "include": "#attribute" },
+				{ "include": "#autoidx" },
+				{ "include": "#comment" },
+				{ "include": "#module" }
+			]
+		},
+		"identifier": {
+			"match": "[\\\\\\$][!-~]+"
+		},
+		"value": {
+			"name": "constant.numeric.rtlil",
+			"match": "[0-9]+'[01xzm\\-]*"
+		},
+		"integer": {
+			"name": "constant.numeric.rtlil",
+			"match": "-?[0-9]+"
+		},
+		"string": {
+			"name": "string.quoted.rtlil",
+			"begin": "\"",
+			"end": "\"",
+			"patterns": [
+				{
+					"name": "constant.character.escape.rtlil",
+					"match": "\\\\[0-7]{3}"
+				},
+				{
+					"name": "constant.character.escape.rtlil",
+					"match": "\\\\[!-~]"
+				}
+			]
+		},
+		"comment": {
+			"name": "comment.line.rtlil",
+			"begin": "#",
+			"end": "$"
+		},
+		"constant": {
+			"patterns": [
+				{ "include": "#value" },
+				{ "include": "#integer" },
+				{ "include": "#string" }
+			]
+		},
+		"sigspec":{
+			"patterns": [
+				{ "include": "#constant" },
+				{
+					"match": "[\\\\\\$][!-~]+"
+				},
+				{
+					"match": "\\b(.*?)\\[(-?[0-9]+)(:-?[0-9]+)?\\]",
+					"captures": {
+						"1": {
+							"patterns": [
+								{ "include": "#sigspec" }
+							]
+						},
+						"2": {
+							"name": "constant.numeric.rtlil"
+						},
+						"3": {
+							"name": "constant.numeric.rtlil"
+						}
+					}
+				},
+				{
+					"begin": "{",
+					"end": "}",
+					"patterns": [
+						{
+							"begin": "\\b",
+							"end": "\\b",
+							"patterns": [
+								{ "include": "#sigspec" }
+							]
+						}
+					]
+				}
+			]
+		},
+		"autoidx": {
+			"match": "^(autoidx)\\s+(-?[0-9]+)$",
+			"captures": {
+				"1": {
+					"name": "keyword.control.rtlil"
+				},
+				"2": {
+					"name": "constant.numeric.rtlil"
+				}
+			}
+		},
+		"attribute": {
+			"match": "\\b(attribute)\\s+(.*?)\\s+(.*?)$",
+			"captures": {
+				"1": {
+					"name": "storage.type.attribute.rtlil"
+				},
+				"2": {
+					"name":"variable.name.attribute.rtlil",
+					"patterns": [
+						{ "include": "#identifier" }
+					]
+				},
+				"3": {
+					"patterns": [
+						{ "include": "#constant" }
+					]
+				}
+			}
+		},
+		"parameter": {
+			"match": "\\b(parameter)\\s+(.*?)(?:\\s+(.*?))?$",
+			"captures": {
+				"1": {
+					"name": "storage.type.parameter.rtlil"
+				},
+				"2": {
+					"name":"variable.other.parameter.rtlil",
+					"patterns": [
+						{ "include": "#identifier" }
+					]
+				},
+				"3": {
+					"patterns": [
+						{ "include": "#constant" }
+					]
+				}
+			}
+		},
+		"cell-parameter": {
+			"match": "\\b(parameter)(?:\\s+(signed|real))?\\s+(.*?)\\s+(.*?)$",
+			"captures": {
+				"1": {
+					"name": "storage.type.parameter.rtlil"
+				},
+				"2": {
+					"name": "support.type.parameter.signed.rtlil"
+				},
+				"3": {
+					"name":"variable.parameter.rtlil",
+					"patterns": [
+						{ "include": "#identifier" }
+					]
+				},
+				"4": {
+					"patterns": [
+						{ "include": "#constant" }
+					]
+				}
+			}
+		},
+		"connect": {
+			"match": "\\b(connect)\\s+(.*?)(?:\\s+(.*?))?$",
+			"captures": {
+				"1": {
+					"name": "storage.type.connect.rtlil"
+				},
+				"2": {
+					"patterns": [
+						{ "include": "#sigspec" }
+					]
+				},
+				"3": {
+					"patterns": [
+						{ "include": "#sigspec" }
+					]
+				}
+			}
+		},
+		"module": {
+			"begin": "^(module)\\s+(.*?)$",
+			"end": "^(end)$",
+			"beginCaptures": {
+				"1": {
+					"name": "storage.type.module.begin.rtlil"
+				},
+				"2": {
+					"name": "support.function.module.rtlil",
+					"patterns": [
+						{ "include": "#identifier" }
+					]
+				}
+			},
+			"endCaptures": {
+				"1": {
+					"name": "storage.type.module.end.rtlil"
+				}
+			},
+			"patterns": [
+				{ "include": "#attribute" },
+				{ "include": "#cell" },
+				{ "include": "#connect" },
+				{ "include": "#memory" },
+				{ "include": "#process" },
+				{ "include": "#wire" }
+			]
+		},
+		"cell": {
+			"begin": "\\b(cell)\\s+(.*?)\\s+(.*?)$",
+			"end": "\\b(end)$",
+			"beginCaptures": {
+				"1": {
+					"name": "storage.type.cell.begin.rtlil"
+				},
+				"2": {
+					"name": "variable.name.cell.rtlil",
+					"patterns": [
+						{ "include": "#identifier" }
+					]
+				},
+				"3": {
+					"name": "variable.other.cell.rtlil",
+					"patterns": [
+						{ "include": "#identifier" }
+					]
+				}
+			},
+			"endCaptures": {
+				"1": {
+					"name": "storage.type.cell.end.rtlil"
+				}
+			},
+			"patterns": [
+				{ "include": "#connect" },
+				{ "include": "#cell-parameter" }
+			]
+		},
+		"assign": {
+			"begin": "\\b(assign)\\s+",
+			"end": "$",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.operator.assign.rtlil"
+				}
+			}
+		},
+		"process": {
+			"begin": "\\b(process)\\s+(.*?)$",
+			"end": "\\b(end)$",
+			"beginCaptures": {
+				"1": {
+					"name": "storage.type.process.begin.rtlil"
+				},
+				"2": {
+					"patterns": [
+						{ "include": "#identifier" }
+					]
+				}
+			},
+			"endCaptures": {
+				"1": {
+					"name": "storage.type.process.end.rtlil"
+				}
+			},
+			"patterns": [
+				{ "include": "#attribute" },
+				{ "include": "#assign" },
+				{ "include": "#switch" },
+				{ "include": "#sync" }
+			]
+		},
+		"wire": {
+			"begin": "\\b(wire)\\s+",
+			"end": "$",
+			"beginCaptures": {
+				"1": {
+					"name": "storage.type.wire.rtlil"
+				}
+			},
+			"patterns": [
+				{
+					"match": "\\b(width|offset)\\s+(-?[0-9]+)\\s+",
+					"captures": {
+						"1": { "name": "keyword.control.wire.rtlil" },
+						"2": { "name": "constant.numeric.rtlil" }
+					}
+				},
+				{
+					"match": "\\b(input|output|inout)\\s+(-?[0-9]+)\\s+",
+					"captures": {
+						"1": { "name": "storage.modifier.wire.rtlil" },
+						"2": { "name": "constant.numeric.rtlil" }
+					}
+				},
+				{
+					"match": "\\b(upto|signed)\\s+",
+					"name": "keyword.operator.wire.rtlil"
+				},
+				{
+					"name": "variable.name.wire.rtlil",
+					"include": "#identifier"
+				}
+			]
+		},
+		"memory": {
+			"begin": "\\b(memory)",
+			"end": "$",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.other.memory.rtlil"
+				}
+			}
+		},
+		"case": {
+			"begin": "\\b(case)\\s+",
+			"end": "$",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.control.switch.case.rtlil"
+				}
+			},
+			"patterns": [
+				{ "include": "#assign" },
+				{ "include": "#switch" }
+			]
+		},
+		"switch": {
+			"begin": "\\b(switch)\\s+",
+			"end": "\\b(end)$",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.control.switch.rtlil"
+				}
+			},
+			"patterns": [
+				{ "include": "#attribute" },
+				{ "include": "#case" }
+			]
+		},
+		"sync": {
+			"begin": "\\b(sync)",
+			"end": "$",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.control.process.sync.rtlil"
+				}
+			}
+		}
 	}
 }
