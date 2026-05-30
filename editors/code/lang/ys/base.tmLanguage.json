@@ -31,16 +31,7 @@
 			]
 		},
 
-		"command-argument": {
-			"match": "\\b(-[a-zA-Z0-9][a-zA-Z0-9_]*)(\\s+[a-zA-Z0-9]+)?\\b",
-			"captures": {
-				"1": { "name": "variable.name" },
-				"2": { "name": "variable.parameter" }
-			}
-		},
-
 		"commands": {
-			"name": "keyword",
 			"patterns": [
 				{ "include": "#common" },
 				{ "include": "#commands-complex" },
@@ -49,13 +40,20 @@
 		},
 
 		"commands-simple": {
-			"begin": "^([a-zA-Z][a-zA-Z_]+)",
+			"begin": "^([a-zA-Z][a-zA-Z_]*)",
 			"end": "$",
+			"beginCaptures": {
+				"0": { "name": "entity.name.function" }
+			},
 			"patterns": [
 				{ "include": "#string" },
-				{ "include": "#command-argument" },
-				{ "name": "variable.parameter", "match": "\\b[a-zA-Z0-9_]+\\b" },
-				{ "name": "constant.numeric", "match": "\\b[0-9]+\\b" }
+				{
+					"match": "(-[a-zA-Z0-9][a-zA-Z0-9_]*)(\\s+[a-zA-Z0-9_]*)?",
+					"captures": {
+						"1": { "name": "keyword" },
+						"2": { "name": "variable.parameter" }
+					}
+				}
 			]
 		},
 
@@ -79,7 +77,7 @@
 			"begin": "^(read_aiger)\\s+((-[a-zA-Z0-9_]+)(\\s+[a-zA-Z0-9]+)?\\s+)*?(<<)\\s*([a-zA-Z_][a-zA-Z_]*)",
 			"end": "^(?:\\6)(?=\\s*)",
 			"beginCaptures": {
-				"1": { "name": "keyword" },
+				"1": { "name": "entity.name.function" },
 				"3": { "name": "variable.name" },
 				"4": { "name": "variable.parameter" },
 				"5": { "name": "keyword.operator.heredoc" },
@@ -101,7 +99,7 @@
 			"begin": "^(read_blif)\\s+((-[a-zA-Z0-9_]+)(\\s+[a-zA-Z0-9]+)?\\s+)*?(<<)\\s*([a-zA-Z_][a-zA-Z_]*)",
 			"end": "^(?:\\6)(?=\\s*)",
 			"beginCaptures": {
-				"1": { "name": "keyword" },
+				"1": { "name": "entity.name.function" },
 				"3": { "name": "variable.name" },
 				"4": { "name": "variable.parameter" },
 				"5": { "name": "keyword.operator.heredoc" },
@@ -123,7 +121,7 @@
 			"begin": "^(read_json)\\s+((-[a-zA-Z0-9_]+)(\\s+[a-zA-Z0-9]+)?\\s+)*?(<<)\\s*([a-zA-Z_][a-zA-Z_]*)",
 			"end": "^(?:\\6)(?=\\s*)",
 			"beginCaptures": {
-				"1": { "name": "keyword" },
+				"1": { "name": "entity.name.function" },
 				"3": { "name": "variable.name" },
 				"4": { "name": "variable.parameter" },
 				"5": { "name": "keyword.operator.heredoc" },
@@ -145,7 +143,7 @@
 			"begin": "^(read_liberty)\\s+((-[a-zA-Z0-9_]+)(\\s+[a-zA-Z0-9]+)?\\s+)*?(<<)\\s*([a-zA-Z_][a-zA-Z_]*)",
 			"end": "^(?:\\6)(?=\\s*)",
 			"beginCaptures": {
-				"1": { "name": "keyword" },
+				"1": { "name": "entity.name.function" },
 				"3": { "name": "variable.name" },
 				"4": { "name": "variable.parameter" },
 				"5": { "name": "keyword.operator.heredoc" },
@@ -167,7 +165,7 @@
 			"begin": "^(read_rtlil)\\s+((-[a-zA-Z0-9_]+)(\\s+[a-zA-Z0-9]+)?\\s+)*?(<<)\\s*([a-zA-Z_][a-zA-Z_]*)",
 			"end": "^(?:\\6)(?=\\s*)",
 			"beginCaptures": {
-				"1": { "name": "keyword" },
+				"1": { "name": "entity.name.function" },
 				"3": { "name": "variable.name" },
 				"4": { "name": "variable.parameter" },
 				"5": { "name": "keyword.operator.heredoc" },
@@ -189,7 +187,7 @@
 			"begin": "^(read_verilog)\\s+((-[a-zA-Z0-9_]+)(\\s+[a-zA-Z0-9]+)?\\s+)*?(<<)\\s*([a-zA-Z_][a-zA-Z_]*)",
 			"end": "^(?:\\6)(?=\\s*)",
 			"beginCaptures": {
-				"1": { "name": "keyword" },
+				"1": { "name": "entity.name.function" },
 				"3": { "name": "variable.name" },
 				"4": { "name": "variable.parameter" },
 				"5": { "name": "keyword.operator.heredoc" },
@@ -211,7 +209,7 @@
 			"begin": "^(read_xaiger2)\\s+((-[a-zA-Z0-9_]+)(\\s+[a-zA-Z0-9]+)?\\s+)*?(<<)\\s*([a-zA-Z_][a-zA-Z_]*)",
 			"end": "^(?:\\6)(?=\\s*)",
 			"beginCaptures": {
-				"1": { "name": "keyword" },
+				"1": { "name": "entity.name.function" },
 				"3": { "name": "variable.name" },
 				"4": { "name": "variable.parameter" },
 				"5": { "name": "keyword.operator.heredoc" },
@@ -233,7 +231,7 @@
 			"begin": "^(read)\\s+((-[a-zA-Z0-9_]+)(\\s+[a-zA-Z0-9]+)?\\s+)*?(<<)\\s*([a-zA-Z_][a-zA-Z_]*)",
 			"end": "^(?:\\6)(?=\\s*)",
 			"beginCaptures": {
-				"1": { "name": "keyword" },
+				"1": { "name": "entity.name.function" },
 				"3": { "name": "variable.name" },
 				"4": { "name": "variable.parameter" },
 				"5": { "name": "keyword.operator.heredoc" },
@@ -247,7 +245,7 @@
 			"begin": "^(select)\\s+((-[a-zA-Z0-9_]+)(\\s+[a-zA-Z0-9]+)?\\s+)*?",
 			"end": "$",
 			"beginCaptures": {
-				"1": { "name": "keyword" },
+				"1": { "name": "entity.name.function" },
 				"3": { "name": "variable.name" },
 				"4": { "name": "variable.parameter" }
 			},
@@ -259,7 +257,7 @@
 			"begin": "^(verific)\\s+((-[a-zA-Z0-9_]+)(\\s+[a-zA-Z0-9]+)?\\s+)*?(<<)\\s*([a-zA-Z_][a-zA-Z_]*)",
 			"end": "^(?:\\6)(?=\\s*)",
 			"beginCaptures": {
-				"1": { "name": "keyword" },
+				"1": { "name": "entity.name.function" },
 				"3": { "name": "variable.name" },
 				"4": { "name": "variable.parameter" },
 				"5": { "name": "keyword.operator.heredoc" },
@@ -273,7 +271,7 @@
 			"begin": "^(write_file)\\s+((-[a-zA-Z0-9_]+)(\\s+[a-zA-Z0-9]+)?\\s+)*?(<<)\\s*([a-zA-Z_][a-zA-Z_]*)",
 			"end": "^(?:\\6)(?=\\s*)",
 			"beginCaptures": {
-				"1": { "name": "keyword" },
+				"1": { "name": "entity.name.function" },
 				"3": { "name": "variable.name" },
 				"4": { "name": "variable.parameter" },
 				"5": { "name": "keyword.operator.heredoc" },
