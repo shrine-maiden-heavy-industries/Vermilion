@@ -143,6 +143,9 @@
 		"languages": [
 			{
 				"id": "liberty",
+				"aliases": [
+					"Liberty", "liberty"
+				],
 				"extensions": [
 					".lib"
 				],
@@ -154,6 +157,9 @@
 			},
 			{
 				"id": "lpf",
+				"aliases": [
+					"Lattice LPF", "lpf"
+				],
 				"extensions": [
 					".lpf"
 				],
@@ -165,6 +171,9 @@
 			},
 			{
 				"id": "rtlil",
+				"aliases": [
+					"Yosys RTLIL", "rtlil"
+				],
 				"extensions": [
 					".il"
 				],
@@ -176,6 +185,12 @@
 			},
 			{
 				"id": "sdc",
+				"aliases": [
+					"Xilinx Design Constraints",
+					"Synopsys Design Constraints",
+					"Lattice Physical Design Constraints",
+					"sdc"
+				],
 				"extensions": [
 					".sdc",
 					".pdc",
@@ -189,6 +204,9 @@
 			},
 			{
 				"id": "system-verilog",
+				"aliases": [
+					"System Verilog", "system-verilog"
+				],
 				"extensions": [
 					".sv",
 					".svh"
@@ -201,6 +219,9 @@
 			},
 			{
 				"id": "verilog",
+				"aliases": [
+					"Verilog", "verilog"
+				],
 				"extensions": [
 					".v",
 					".vh",
@@ -214,6 +235,9 @@
 			},
 			{
 				"id": "verilog-ams",
+				"aliases": [
+					"Verilog-AMS", "verilog-ams"
+				],
 				"extensions": [
 					".vams"
 				],
@@ -225,6 +249,9 @@
 			},
 			{
 				"id": "vhdl",
+				"aliases": [
+					"VHDL", "vhdl"
+				],
 				"extensions": [
 					".vhdl",
 					".vhd"
@@ -237,6 +264,9 @@
 			},
 			{
 				"id": "vhdl-ams",
+				"aliases": [
+					"VHDL-AMS", "vhdl-ams"
+				],
 				"extensions": [
 					".vhdl",
 					".vhd"
@@ -249,6 +279,9 @@
 			},
 			{
 				"id": "yosys-script",
+				"aliases": [
+					"Yosys Script", "yosys-script"
+				],
 				"extensions": [
 					".ys"
 				],
