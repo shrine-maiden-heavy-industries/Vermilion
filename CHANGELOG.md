@@ -22,14 +22,6 @@ Unreleased template stuff
 
 ### Added
 
-### Changed
-
-### Deprecated
-
-### Removed
-
-### Fixed
-
-### Security
+- Initial Release
 
 [unreleased]: https://codeberg.org/shrine-maiden-heavy-industries/Vermilion/compare/main...main
