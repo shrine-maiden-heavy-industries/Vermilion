@@ -71,6 +71,7 @@ quick-xml               = { version = "0.40", features = [ "serde-types", "seria
 ratatui                 = { version = "0.30" }
 rayon                   = { version = "1.12" }
 schemars                = { version = "1.2", features = [ "derive" ] }
+semver                  = { version = "1.0" }
 serde                   = { version = "1.0", features = [ "derive" ] }
 serde_json              = { version = "1.0" }
 serde_repr              = { version = "0.1" }
