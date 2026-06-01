@@ -1,2 +1,5 @@
+[alias]
+xtask  = "run --package xtask --"
+
 [build]
 rustflags = ['-Csymbol-mangling-version=v0', '--cfg', 'tokio_unstable']
