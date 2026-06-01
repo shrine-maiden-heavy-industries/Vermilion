@@ -56,7 +56,6 @@ directories             = { version = "6.0" }
 eyre                    = { version = "0.6", default-features = false }
 flate2                  = { version = "1.1" }
 fluent-uri              = { version = "0.4", features = [ "serde" ] }
-git2                    = { version = "0.21" }
 lz4_flex                = { version = "0.13" }
 mdbook-preprocessor     = { version = "0.5.3" }
 memmap2                 = { version = "0.9" }
@@ -72,7 +71,6 @@ quick-xml               = { version = "0.40", features = [ "serde-types", "seria
 ratatui                 = { version = "0.30" }
 rayon                   = { version = "1.12" }
 schemars                = { version = "1.2", features = [ "derive" ] }
-semver                  = { version = "1.0" }
 serde                   = { version = "1.0", features = [ "derive" ] }
 serde_json              = { version = "1.0" }
 serde_repr              = { version = "0.1" }
@@ -85,12 +83,16 @@ tokio                   = { version = "1.52", features = [ "fs", "io-std", "macr
 tokio-stream            = { version = "0.1", features = [ "full" ] }
 tokio-util              = { version = "0.7", features = [ "tracing" ] }
 toml                    = { version = "1.1" }
-toml_edit               = { version = "0.25" }
 tracing                 = { version = "0.1", features = [ "async-await" ] }
 tracing-subscriber      = { version = "0.3", features = [ "ansi", "env-filter", "fmt", "registry" ] }
 
 # Windows Only deps
-windows-sys = { version = "0.61" }
+windows-sys             = { version = "0.61" }
+
+# `xtask` Only deps
+git2                    = { version = "0.21" }
+semver                  = { version = "1.0" }
+toml_edit               = { version = "0.25" }
 
 [workspace.lints.clippy]
 allow_attributes_without_reason = "warn"
