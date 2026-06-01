@@ -83,6 +83,7 @@ tokio                   = { version = "1.52", features = [ "fs", "io-std", "macr
 tokio-stream            = { version = "0.1", features = [ "full" ] }
 tokio-util              = { version = "0.7", features = [ "tracing" ] }
 toml                    = { version = "1.1" }
+toml_edit               = { version = "0.25" }
 tracing                 = { version = "0.1", features = [ "async-await" ] }
 tracing-subscriber      = { version = "0.3", features = [ "ansi", "env-filter", "fmt", "registry" ] }
 
