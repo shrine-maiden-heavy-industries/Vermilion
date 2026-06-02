@@ -80,7 +80,7 @@ impl Workspace {
 	/// The file is searched for starting from the current working directory,
 	/// and going up a director until the file is found, we hit the FS root, or we
 	/// encounter a FS boundary (e.g. we're invoked in a mounted volume).
-	pub fn load(args: &ArgMatches) -> eyre::Result<Option<Workspace>> {
+	pub fn load(args: &ArgMatches) -> eyre::Result<Option<Self>> {
 		// If we were passed a workspace file on the command line, try that
 		if let Ok(Some(workspace_file)) = args.try_get_one::<String>("workspace") {
 			return Ok(toml::from_slice(&fs::read(workspace_file)?)?);
