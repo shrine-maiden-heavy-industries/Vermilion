@@ -21,3 +21,5 @@ pub mod signal;
 pub mod signal_drivers;
 pub mod simple_types;
 pub mod sub_instances;
+
+pub use simple_types::*;
