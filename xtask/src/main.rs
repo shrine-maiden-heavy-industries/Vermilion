@@ -11,6 +11,7 @@ use tracing_subscriber::{
 };
 
 mod commands;
+mod git;
 mod paths;
 
 const LOG_LEVEL_ENV: &str = "VERMILION_LOG_LEVEL";
