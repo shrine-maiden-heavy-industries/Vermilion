@@ -15,11 +15,7 @@ macro_rules! cache_path {
 				reason = "The `xtask` can't actually do anything useful if we don't have the \
 				          workspace directory, therefore panicking is entirely fine"
 			)]
-			Path::new(&env!("CARGO_MANIFEST_DIR"))
-				.ancestors()
-				.nth(2)
-				.map(Path::to_path_buf)
-				.expect("Unable to get workspace root directory")
+			$dir
 		})
 	};
 }
@@ -37,5 +33,11 @@ pub(crate) fn editors_dir() -> &'static PathBuf {
 }
 
 pub(crate) fn workspace_root() -> &'static PathBuf {
-	cache_path! { env!("CARGO_MANIFEST_DIR") }
+	cache_path! {
+		Path::new(&env!("CARGO_MANIFEST_DIR"))
+			.ancestors()
+			.nth(1)
+			.map(Path::to_path_buf)
+			.expect("Unable to get workspace root directory")
+	}
 }
