@@ -9,6 +9,55 @@
 pub mod deserialize;
 pub mod serialize;
 
+macro_rules! thin_impl {
+	($type:ty,const $inner:ty) => {
+		impl $type {
+			pub const fn new(inner: $inner) -> Self {
+				Self { inner }
+			}
+
+			pub const fn value(self) -> $inner {
+				self.inner
+			}
+		}
+
+		impl From<$inner> for $type {
+			fn from(value: $inner) -> Self {
+				Self { inner: value }
+			}
+		}
+
+		impl From<$type> for $inner {
+			fn from(value: $type) -> Self {
+				value.value()
+			}
+		}
+	};
+	($type:ty, $inner:ty) => {
+		impl $type {
+			pub const fn new(inner: $inner) -> Self {
+				Self { inner }
+			}
+
+			pub fn value(self) -> $inner {
+				self.inner
+			}
+		}
+
+		impl From<$inner> for $type {
+			fn from(value: $inner) -> Self {
+				Self { inner: value }
+			}
+		}
+
+		impl From<$type> for $inner {
+			fn from(value: $type) -> Self {
+				value.value()
+			}
+		}
+	};
+}
+
 /// A type analogous to the XML Schema [`xs:anyURI`] type.
 ///
 /// [`xs:anyURI`]: https://www.w3.org/TR/xmlschema-2/#anyURI
