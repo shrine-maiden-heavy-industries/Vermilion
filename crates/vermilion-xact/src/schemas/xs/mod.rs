@@ -6,8 +6,8 @@
 //!
 //! [XML Schema]: https://www.w3.org/TR/xmlschema-2/
 
-pub mod deserialize;
-pub mod serialize;
+mod deserialize;
+mod serialize;
 
 macro_rules! thin_impl {
 	($type:ty,const $inner:ty) => {
