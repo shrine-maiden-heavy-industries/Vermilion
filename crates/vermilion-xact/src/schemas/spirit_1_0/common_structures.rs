@@ -8,7 +8,19 @@ use crate::schemas::{spirit_1_0 as spirit, xs};
 ///
 /// Supports configurability attributes and a cross reference XPath expression.
 ///
-/// schema-type: `spirit:nameValuePairType`
+/// ## XML Schema
+///
+/// ```xml
+/// <xs:complexType name="nameValuePairType">
+///   <xs:simpleContent>
+///     <xs:extension base="xs:string">
+///       <xs:attribute name="name" type="xs:string" use="required" />
+///       <xs:attribute name="crossRef" type="xs:string"/>
+///       <xs:attributeGroup ref="spirit:autoConfig"/>
+///     </xs:extension>
+///   </xs:simpleContent>
+/// </xs:complexType>
+/// ```
 #[derive(Clone, Debug, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize)]
 #[cfg_attr(feature = "schema", derive(::schemars::JsonSchema))]
 pub struct NameValuePairType {
@@ -23,7 +35,17 @@ pub struct NameValuePairType {
 
 /// Name value pair with data type information.
 ///
-/// schema-type: `spirit:nameValueTypeType`
+/// ## XML Schema
+///
+/// ```xml
+/// <xs:complexType name="nameValueTypeType">
+///   <xs:simpleContent>
+///     <xs:extension base="spirit:nameValuePairType">
+///       <xs:attribute name="dataType" type="xs:string" />
+///     </xs:extension>
+///   </xs:simpleContent>
+/// </xs:complexType>
+/// ```
 #[derive(Clone, Debug, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize)]
 #[cfg_attr(feature = "schema", derive(::schemars::JsonSchema))]
 pub struct NameValueTypeType {
@@ -43,7 +65,11 @@ pub struct NameValueTypeType {
 /// attribute which allows it to be associated with other elements in the document
 /// through an XPath expression.
 ///
-/// schema-type: `spirit:parameter`
+/// ## XML Schema
+///
+/// ```xml
+/// <xs:element name="parameter" type="spirit:nameValuePairType" />
+/// ```
 #[derive(Clone, Debug, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize)]
 #[cfg_attr(feature = "schema", derive(::schemars::JsonSchema))]
 pub struct Parameter {
@@ -55,7 +81,15 @@ pub struct Parameter {
 
 /// A group of parameters.
 ///
-/// schema-type: `spirit:parameterGroup`
+/// ## XML Schema
+///
+/// ```xml
+/// <xs:group name="parameterGroup">
+///   <xs:sequence>
+///     <xs:element ref="spirit:parameter" minOccurs="0" maxOccurs="unbounded"/>
+///   </xs:sequence>
+/// </xs:group>
+/// ```
 #[derive(Clone, Debug, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize)]
 #[cfg_attr(feature = "schema", derive(::schemars::JsonSchema))]
 pub struct ParameterGroup {
@@ -63,7 +97,13 @@ pub struct ParameterGroup {
 	pub(crate) params: Vec<spirit::Parameter>,
 }
 
-/// schema-type: `spirit:persistentDataType`
+/// ## XML Schema
+///
+/// ```xml
+/// <xs:complexType name="persistentDataType">
+///   <xs:attribute ref="spirit:id" use="required"/>
+/// </xs:complexType>
+/// ```
 #[derive(
 	Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize,
 )]
@@ -81,7 +121,11 @@ pub struct PersistentDataType {
 ///
 /// It is intended to be used by generators to store and retrieve instance specific data.
 ///
-/// schema-type: `spirit:persistentInstanceData`
+/// ## XML Schema
+///
+/// ```xml
+/// <xs:element name="persistentInstanceData" type="spirit:persistentDataType" />
+/// ```
 #[derive(
 	Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize,
 )]
@@ -95,7 +139,17 @@ pub struct PersistentInstanceData {
 
 /// Container for vendor specific extensions.
 ///
-/// schema-type: `spirit:vendorExtension`
+/// ## XML Schema
+///
+/// ```xml
+/// <xs:element name="vendorExtensions">
+///   <xs:complexType>
+///     <xs:sequence>
+///       <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded" />
+///     </xs:sequence>
+///   </xs:complexType>
+/// </xs:element>
+/// ```
 #[derive(
 	Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize,
 )]
