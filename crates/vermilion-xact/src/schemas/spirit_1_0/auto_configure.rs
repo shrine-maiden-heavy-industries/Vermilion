@@ -303,6 +303,20 @@ pub struct AutoConfig {
 	pub(crate) prompt: Option<spirit::Prompt>,
 }
 
+/// ## XML Schema
+///
+/// ```xml
+/// <xs:attributeGroup name="general.att">
+///   <xs:attributeGroup ref="spirit:autoConfig"/>
+/// </xs:attributeGroup>
+/// ```
+#[derive(Clone, Debug, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize)]
+#[cfg_attr(feature = "schema", derive(::schemars::JsonSchema))]
+pub struct GeneralAtt {
+	#[serde(flatten)]
+	pub(crate) common: spirit::AutoConfig,
+}
+
 /// Use this attribute group on boolean elements for which the schema supplies a default prompt
 /// attribute.
 ///
