@@ -4051,6 +4051,7 @@ name = "vermilion-xact"
 version = "0.0.0"
 dependencies = [
  "bitmask-enum",
+ "chrono",
  "clap",
  "color-print",
  "criterion",

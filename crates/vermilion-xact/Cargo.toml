@@ -17,6 +17,7 @@ vermilion-loc         = { workspace = true }
 vermilion-macros      = { workspace = true }
 
 bitmask-enum          = { workspace = true }
+chrono                = { workspace = true }
 clap                  = { workspace = true, optional = true }
 color-print           = { workspace = true, optional = true }
 eyre                  = { workspace = true }
