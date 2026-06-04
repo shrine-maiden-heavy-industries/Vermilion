@@ -7,6 +7,8 @@
 //! [XML Schema]: https://www.w3.org/TR/xmlschema-2/
 
 mod deserialize;
+#[cfg(feature = "schema")]
+mod schema;
 mod serialize;
 
 macro_rules! thin_impl {
