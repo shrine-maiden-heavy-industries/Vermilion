@@ -1,27 +1,20 @@
 // SPDX-License-Identifier: BSD-3-Clause
 //! Deserialization implementations for XML Schema types
 
-impl<'de> serde::Deserialize<'de> for super::Double {
-	fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-	where
-		D: serde::Deserializer<'de>,
-	{
-		struct ValueVisitor;
-		impl<'de> serde::de::Visitor<'de> for ValueVisitor {
-			type Value = super::Double;
-
-			fn expecting(&self, _f: &mut std::fmt::Formatter) -> std::fmt::Result {
-				todo!()
-			}
-
-			fn visit_f64<E>(self, v: f64) -> Result<Self::Value, E>
+macro_rules! thin_deserialize {
+	($type:ty, $inner:ty) => {
+		impl<'de> serde::Deserialize<'de> for $type {
+			fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
 			where
-				E: serde::de::Error,
+				D: serde::Deserializer<'de>,
 			{
-				Ok(v.into())
+				// Dispatch to the Deserialize impl for our inner type
+				Ok(Self {
+					inner: <$inner as serde::Deserialize>::deserialize(deserializer)?,
+				})
 			}
 		}
-
-		deserializer.deserialize_f64(ValueVisitor)
-	}
+	};
 }
+
+thin_deserialize!(super::Double, f64);
