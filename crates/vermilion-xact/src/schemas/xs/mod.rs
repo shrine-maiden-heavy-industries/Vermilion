@@ -66,7 +66,7 @@ pub struct AnyURI {
 	inner: fluent_uri::Uri<std::string::String>,
 }
 
-impl AnyURI {}
+thin_impl!(AnyURI, fluent_uri::Uri<std::string::String>);
 
 /// A type analogous to the XML Schema [`xs:base64Binary`] type.
 ///
@@ -76,7 +76,7 @@ pub struct Base64Binary {
 	inner: Vec<u8>,
 }
 
-impl Base64Binary {}
+thin_impl!(Base64Binary, Vec<u8>);
 
 /// A type analogous to the XML Schema [`xs:boolean`] type.
 ///
@@ -86,7 +86,7 @@ pub struct Boolean {
 	inner: bool,
 }
 
-impl Boolean {}
+thin_impl!(Boolean, const bool);
 
 /// A type analogous to the XML Schema [`xs:byte`] type.
 ///
@@ -96,7 +96,7 @@ pub struct Byte {
 	inner: i8,
 }
 
-impl Byte {}
+thin_impl!(Byte, const i8);
 
 /// A type analogous to the XML Schema [`xs:date`] type.
 ///
@@ -106,7 +106,7 @@ pub struct Date {
 	inner: chrono::NaiveDate,
 }
 
-impl Date {}
+thin_impl!(Date, const chrono::NaiveDate);
 
 /// A type analogous to the XML Schema [`xs:dateTime`] type.
 ///
@@ -116,7 +116,7 @@ pub struct DateTime {
 	inner: chrono::DateTime<chrono::Utc>,
 }
 
-impl DateTime {}
+thin_impl!(DateTime, const chrono::DateTime<chrono::Utc>);
 
 /// A type analogous to the XML Schema [`xs:decimal`] type.
 ///
@@ -132,7 +132,7 @@ pub struct Decimal {
 	inner: f64,
 }
 
-impl Decimal {}
+thin_impl!(Decimal, const f64);
 
 /// A type analogous to the XML Schema [`xs:double`] type.
 ///
@@ -142,7 +142,7 @@ pub struct Double {
 	inner: f64,
 }
 
-impl Double {}
+thin_impl!(Double, const f64);
 
 /// A type analogous to the XML Schema [`xs:duration`] type.
 ///
@@ -152,7 +152,7 @@ pub struct Duration {
 	inner: chrono::TimeDelta,
 }
 
-impl Duration {}
+thin_impl!(Duration, const chrono::TimeDelta);
 
 /// A type analogous to the XML Schema [`xs:ENTITIES`] type.
 ///
@@ -162,7 +162,7 @@ pub struct ENTITIES {
 	inner: Vec<std::string::String>,
 }
 
-impl ENTITIES {}
+thin_impl!(ENTITIES, Vec<std::string::String>);
 
 /// A type analogous to the XML Schema [`xs:ENTITY`] type.
 ///
@@ -172,7 +172,7 @@ pub struct ENTITY {
 	inner: std::string::String,
 }
 
-impl ENTITY {}
+thin_impl!(ENTITY, std::string::String);
 
 /// A type analogous to the XML Schema [`xs:float`] type.
 ///
@@ -182,7 +182,7 @@ pub struct Float {
 	inner: f32,
 }
 
-impl Float {}
+thin_impl!(Float, const f32);
 
 /// A type analogous to the XML Schema [`xs:gDay`] type.
 ///
@@ -192,7 +192,7 @@ pub struct GDay {
 	inner: (),
 }
 
-impl GDay {}
+thin_impl!(GDay, ());
 
 /// A type analogous to the XML Schema [`xs:gMonth`] type.
 ///
@@ -202,7 +202,7 @@ pub struct GMonth {
 	inner: (),
 }
 
-impl GMonth {}
+thin_impl!(GMonth, ());
 
 /// A type analogous to the XML Schema [`xs:gMonthDay`] type.
 ///
@@ -212,7 +212,7 @@ pub struct GMonthDay {
 	inner: (),
 }
 
-impl GMonthDay {}
+thin_impl!(GMonthDay, ());
 
 /// A type analogous to the XML Schema [`xs:gYear`] type.
 ///
@@ -222,7 +222,7 @@ pub struct GYear {
 	inner: (),
 }
 
-impl GYear {}
+thin_impl!(GYear, ());
 
 /// A type analogous to the XML Schema [`xs:gYearMonth`] type.
 ///
@@ -232,7 +232,7 @@ pub struct GYearMonth {
 	inner: (),
 }
 
-impl GYearMonth {}
+thin_impl!(GYearMonth, ());
 
 /// A type analogous to the XML Schema [`xs:hexBinary`] type.
 ///
@@ -242,7 +242,7 @@ pub struct HexBinary {
 	inner: Vec<u8>,
 }
 
-impl HexBinary {}
+thin_impl!(HexBinary, Vec<u8>);
 
 /// A type analogous to the XML Schema [`xs:ID`] type.
 ///
@@ -252,7 +252,7 @@ pub struct ID {
 	inner: std::string::String,
 }
 
-impl ID {}
+thin_impl!(ID, std::string::String);
 
 /// A type analogous to the XML Schema [`xs:IDREF`] type.
 ///
@@ -262,7 +262,7 @@ pub struct IDREF {
 	inner: std::string::String,
 }
 
-impl IDREF {}
+thin_impl!(IDREF, std::string::String);
 
 /// A type analogous to the XML Schema [`xs:IDREFS`] type.
 ///
@@ -272,7 +272,7 @@ pub struct IDREFS {
 	inner: Vec<std::string::String>,
 }
 
-impl IDREFS {}
+thin_impl!(IDREFS, Vec<std::string::String>);
 
 /// A type analogous to the XML Schema [`xs:int`] type.
 ///
@@ -282,7 +282,7 @@ pub struct Int {
 	inner: i32,
 }
 
-impl Int {}
+thin_impl!(Int, const i32);
 
 /// A type analogous to the XML Schema [`xs:integer`] type.
 ///
@@ -292,7 +292,7 @@ pub struct Integer {
 	inner: i64,
 }
 
-impl Integer {}
+thin_impl!(Integer, const i64);
 
 /// A type analogous to the XML Schema [`xs:language`] type.
 ///
@@ -302,7 +302,7 @@ pub struct Language {
 	inner: std::string::String,
 }
 
-impl Language {}
+thin_impl!(Language, std::string::String);
 
 /// A type analogous to the XML Schema [`xs:long`] type.
 ///
@@ -312,7 +312,7 @@ pub struct Long {
 	inner: i64,
 }
 
-impl Long {}
+thin_impl!(Long, const i64);
 
 /// A type analogous to the XML Schema [`xs:Name`] type.
 ///
@@ -322,7 +322,7 @@ pub struct Name {
 	inner: std::string::String,
 }
 
-impl Name {}
+thin_impl!(Name, std::string::String);
 
 /// A type analogous to the XML Schema [`xs:NCName`] type.
 ///
@@ -332,7 +332,7 @@ pub struct NCName {
 	inner: std::string::String,
 }
 
-impl NCName {}
+thin_impl!(NCName, std::string::String);
 
 /// A type analogous to the XML Schema [`xs:negativeInteger`] type.
 ///
@@ -342,7 +342,7 @@ pub struct NegativeInteger {
 	inner: i64,
 }
 
-impl NegativeInteger {}
+thin_impl!(NegativeInteger, const i64);
 
 /// A type analogous to the XML Schema [`xs:NMTOKEN`] type.
 ///
@@ -352,7 +352,7 @@ pub struct NMTOKEN {
 	inner: std::string::String,
 }
 
-impl NMTOKEN {}
+thin_impl!(NMTOKEN, std::string::String);
 
 /// A type analogous to the XML Schema [`xs:NMTOKENS`] type.
 ///
@@ -362,7 +362,7 @@ pub struct NMTOKENS {
 	inner: Vec<std::string::String>,
 }
 
-impl NMTOKENS {}
+thin_impl!(NMTOKENS, Vec<std::string::String>);
 
 /// A type analogous to the XML Schema [`xs:nonNegativeInteger`] type.
 ///
@@ -372,7 +372,7 @@ pub struct NonNegativeInteger {
 	inner: u64,
 }
 
-impl NonNegativeInteger {}
+thin_impl!(NonNegativeInteger, const u64);
 
 /// A type analogous to the XML Schema [`xs:nonPositiveInteger`] type.
 ///
@@ -382,7 +382,7 @@ pub struct NonPositiveInteger {
 	inner: i64,
 }
 
-impl NonPositiveInteger {}
+thin_impl!(NonPositiveInteger, const i64);
 
 /// A type analogous to the XML Schema [`xs:normalizedString`] type.
 ///
@@ -392,7 +392,7 @@ pub struct NormalizedString {
 	inner: std::string::String,
 }
 
-impl NormalizedString {}
+thin_impl!(NormalizedString, std::string::String);
 
 /// A type analogous to the XML Schema [`xs:NOTATION`] type.
 ///
@@ -402,7 +402,7 @@ pub struct NOTATION {
 	inner: Vec<std::string::String>,
 }
 
-impl NOTATION {}
+thin_impl!(NOTATION, Vec<std::string::String>);
 
 /// A type analogous to the XML Schema [`xs:positiveInteger`] type.
 ///
@@ -412,7 +412,7 @@ pub struct PositiveInteger {
 	inner: u64,
 }
 
-impl PositiveInteger {}
+thin_impl!(PositiveInteger, const u64);
 
 /// A type analogous to the XML Schema [`xs:QName`] type.
 ///
@@ -422,7 +422,7 @@ pub struct QName {
 	inner: std::string::String,
 }
 
-impl QName {}
+thin_impl!(QName, std::string::String);
 
 /// A type analogous to the XML Schema [`xs:short`] type.
 ///
@@ -432,7 +432,7 @@ pub struct Short {
 	inner: i16,
 }
 
-impl Short {}
+thin_impl!(Short, const i16);
 
 /// A type analogous to the XML Schema [`xs:string`] type.
 ///
@@ -442,7 +442,7 @@ pub struct String {
 	inner: std::string::String,
 }
 
-impl String {}
+thin_impl!(String, std::string::String);
 
 /// A type analogous to the XML Schema [`xs:time`] type.
 ///
@@ -452,7 +452,7 @@ pub struct Time {
 	inner: chrono::NaiveTime,
 }
 
-impl Time {}
+thin_impl!(Time, const chrono::NaiveTime);
 
 /// A type analogous to the XML Schema [`xs:token`] type.
 ///
@@ -462,7 +462,7 @@ pub struct Token {
 	inner: std::string::String,
 }
 
-impl Token {}
+thin_impl!(Token, std::string::String);
 
 /// A type analogous to the XML Schema [`xs:unsignedByte`] type.
 ///
@@ -472,7 +472,7 @@ pub struct UnsignedByte {
 	inner: u8,
 }
 
-impl UnsignedByte {}
+thin_impl!(UnsignedByte, const u8);
 
 /// A type analogous to the XML Schema [`xs:unsignedInt`] type.
 ///
@@ -482,7 +482,7 @@ pub struct UnsignedInt {
 	inner: u32,
 }
 
-impl UnsignedInt {}
+thin_impl!(UnsignedInt, const u32);
 
 /// A type analogous to the XML Schema [`xs:unsignedLong`] type.
 ///
@@ -492,7 +492,7 @@ pub struct UnsignedLong {
 	inner: u64,
 }
 
-impl UnsignedLong {}
+thin_impl!(UnsignedLong, const u64);
 
 /// A type analogous to the XML Schema [`xs:unsignedShort`] type.
 ///
@@ -502,4 +502,4 @@ pub struct UnsignedShort {
 	inner: u16,
 }
 
-impl UnsignedShort {}
+thin_impl!(UnsignedShort, const u16);
