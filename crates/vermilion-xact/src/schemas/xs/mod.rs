@@ -160,21 +160,21 @@ thin_impl!(Duration, const chrono::TimeDelta);
 ///
 /// [`xs:ENTITIES`]: https://www.w3.org/TR/xmlschema-2/#ENTITIES
 #[derive(Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
-pub struct ENTITIES {
+pub struct Entities {
 	inner: Vec<std::string::String>,
 }
 
-thin_impl!(ENTITIES, Vec<std::string::String>);
+thin_impl!(Entities, Vec<std::string::String>);
 
 /// A type analogous to the XML Schema [`xs:ENTITY`] type.
 ///
 /// [`xs:ENTITY`]: https://www.w3.org/TR/xmlschema-2/#ENTITY
 #[derive(Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
-pub struct ENTITY {
+pub struct Entity {
 	inner: std::string::String,
 }
 
-thin_impl!(ENTITY, std::string::String);
+thin_impl!(Entity, std::string::String);
 
 /// A type analogous to the XML Schema [`xs:float`] type.
 ///
@@ -250,31 +250,31 @@ thin_impl!(HexBinary, Vec<u8>);
 ///
 /// [`xs:ID`]: https://www.w3.org/TR/xmlschema-2/#ID
 #[derive(Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
-pub struct ID {
+pub struct Id {
 	inner: std::string::String,
 }
 
-thin_impl!(ID, std::string::String);
+thin_impl!(Id, std::string::String);
 
 /// A type analogous to the XML Schema [`xs:IDREF`] type.
 ///
 /// [`xs:IDREF`]: https://www.w3.org/TR/xmlschema-2/#IDREF
 #[derive(Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
-pub struct IDREF {
+pub struct IdRef {
 	inner: std::string::String,
 }
 
-thin_impl!(IDREF, std::string::String);
+thin_impl!(IdRef, std::string::String);
 
 /// A type analogous to the XML Schema [`xs:IDREFS`] type.
 ///
 /// [`xs:IDREFS`]: https://www.w3.org/TR/xmlschema-2/#IDREFS
 #[derive(Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
-pub struct IDREFS {
+pub struct IdRefs {
 	inner: Vec<std::string::String>,
 }
 
-thin_impl!(IDREFS, Vec<std::string::String>);
+thin_impl!(IdRefs, Vec<std::string::String>);
 
 /// A type analogous to the XML Schema [`xs:int`] type.
 ///
@@ -350,21 +350,21 @@ thin_impl!(NegativeInteger, const i64);
 ///
 /// [`xs:NMTOKEN`]: https://www.w3.org/TR/xmlschema-2/#NMTOKEN
 #[derive(Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
-pub struct NMTOKEN {
+pub struct NMToken {
 	inner: std::string::String,
 }
 
-thin_impl!(NMTOKEN, std::string::String);
+thin_impl!(NMToken, std::string::String);
 
 /// A type analogous to the XML Schema [`xs:NMTOKENS`] type.
 ///
 /// [`xs:NMTOKENS`]: https://www.w3.org/TR/xmlschema-2/#NMTOKENS
 #[derive(Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
-pub struct NMTOKENS {
+pub struct NMTokens {
 	inner: Vec<std::string::String>,
 }
 
-thin_impl!(NMTOKENS, Vec<std::string::String>);
+thin_impl!(NMTokens, Vec<std::string::String>);
 
 /// A type analogous to the XML Schema [`xs:nonNegativeInteger`] type.
 ///
@@ -400,11 +400,11 @@ thin_impl!(NormalizedString, std::string::String);
 ///
 /// [`xs:NOTATION`]: https://www.w3.org/TR/xmlschema-2/#NOTATION
 #[derive(Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
-pub struct NOTATION {
+pub struct Notation {
 	inner: Vec<std::string::String>,
 }
 
-thin_impl!(NOTATION, Vec<std::string::String>);
+thin_impl!(Notation, Vec<std::string::String>);
 
 /// A type analogous to the XML Schema [`xs:positiveInteger`] type.
 ///

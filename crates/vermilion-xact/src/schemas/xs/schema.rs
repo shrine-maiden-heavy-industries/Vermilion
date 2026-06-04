@@ -36,8 +36,8 @@ thin_schema!(super::DateTime, "dateTime", "W3C XML Schema dateTime", "");
 thin_schema!(super::Decimal, "decimal", "W3C XML Schema decimal", "");
 thin_schema!(super::Double, "double", "W3C XML Schema double", "number");
 thin_schema!(super::Duration, "duration", "W3C XML Schema duration", "");
-thin_schema!(super::ENTITIES, "ENTITIES", "W3C XML Schema ENTITIES", "");
-thin_schema!(super::ENTITY, "ENTITY", "W3C XML Schema ENTITY", "");
+thin_schema!(super::Entities, "ENTITIES", "W3C XML Schema ENTITIES", "");
+thin_schema!(super::Entity, "ENTITY", "W3C XML Schema ENTITY", "");
 thin_schema!(super::Float, "float", "W3C XML Schema float", "");
 thin_schema!(super::GDay, "gDay", "W3C XML Schema gDay", "");
 thin_schema!(super::GMonth, "gMonth", "W3C XML Schema gMonth", "");
@@ -60,9 +60,9 @@ thin_schema!(
 	"W3C XML Schema hexBinary",
 	""
 );
-thin_schema!(super::ID, "ID", "W3C XML Schema ID", "");
-thin_schema!(super::IDREF, "IDREF", "W3C XML Schema IDREF", "");
-thin_schema!(super::IDREFS, "IDREFS", "W3C XML Schema IDREFS", "");
+thin_schema!(super::Id, "ID", "W3C XML Schema ID", "");
+thin_schema!(super::IdRef, "IDREF", "W3C XML Schema IDREF", "");
+thin_schema!(super::IdRefs, "IDREFS", "W3C XML Schema IDREFS", "");
 thin_schema!(super::Int, "int", "W3C XML Schema int", "");
 thin_schema!(super::Integer, "integer", "W3C XML Schema integer", "");
 thin_schema!(super::Language, "language", "W3C XML Schema language", "");
@@ -75,8 +75,8 @@ thin_schema!(
 	"W3C XML Schema negativeInteger",
 	""
 );
-thin_schema!(super::NMTOKEN, "NMTOKEN", "W3C XML Schema NMTOKEN", "");
-thin_schema!(super::NMTOKENS, "NMTOKENS", "W3C XML Schema NMTOKENS", "");
+thin_schema!(super::NMToken, "NMTOKEN", "W3C XML Schema NMTOKEN", "");
+thin_schema!(super::NMTokens, "NMTOKENS", "W3C XML Schema NMTOKENS", "");
 thin_schema!(
 	super::NonNegativeInteger,
 	"nonNegativeInteger",
@@ -95,7 +95,7 @@ thin_schema!(
 	"W3C XML Schema normalizedString",
 	""
 );
-thin_schema!(super::NOTATION, "NOTATION", "W3C XML Schema NOTATION", "");
+thin_schema!(super::Notation, "NOTATION", "W3C XML Schema NOTATION", "");
 thin_schema!(
 	super::PositiveInteger,
 	"positiveInteger",
