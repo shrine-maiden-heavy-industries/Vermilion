@@ -4,7 +4,19 @@ use crate::schemas::{spirit_1_0 as spirit, xs};
 
 /// This is a hint to the user interface on how to obtain the value for user defined properties.
 ///
-/// schema-type: `spirit:formatType`
+/// ## XML Schema
+///
+/// ```xml
+/// <xs:simpleType name="formatType">
+///   <xs:restriction base="xs:token">
+///     <xs:enumeration value="float"/>
+///     <xs:enumeration value="long"/>
+///     <xs:enumeration value="bool"/>
+///     <xs:enumeration value="choice"/>
+///     <xs:enumeration value="string"/>
+///   </xs:restriction>
+/// </xs:simpleType>
+/// ```
 #[derive(
 	Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize,
 )]
@@ -26,28 +38,56 @@ pub enum FormatType {
 /// This is a hint to the user interface about the data format to require for user resolved
 /// properties.
 ///
-/// schema-type: `spirit:format`
+/// ## XML Schema
+///
+/// ```xml
+/// <xs:attribute name="format" type="spirit:formatType" />
+/// ```
 pub type Format = FormatType; // TODO(aki): Properly new-type and wrap/validate/serde
 
 /// Provides a string used to prompt the user for user-resolved property values.
 ///
-/// schema-type: `spirit:prompt`
+/// ### XML Schema
+///
+/// ```xml
+/// <xs:attribute name="prompt" type="xs:string" />
+/// ```
 pub type Prompt = xs::String; // TODO(aki): Properly new-type and wrap/validate/serde
 
 /// For user-resolved properties with numeric values, this indicates the minimum value allowed.
 ///
-/// schema-type: `spirit:minimum`
+/// ## XML Schema
+///
+/// ```xml
+/// <xs:attribute name="minimum" type="xs:string" />
+/// ```
 pub type Minimum = xs::String; // TODO(aki): Properly new-type and wrap/validate/serde
 
 /// For user-resolved properties with numeric values, this indicates the maximum value allowed.
 ///
-/// schema-type: `spirit:maximum`
+/// ## XML Schema
+///
+/// ```xml
+/// <xs:attribute name="maximum" type="xs:string" />
+/// ```
 pub type Maximum = xs::String; // TODO(aki): Properly new-type and wrap/validate/serde
 
 /// This type is used to indicate how the minimum and maximum attributes values should be
 /// interpreted.
 ///
-/// schema-type: `spirit:rangeTypeType`
+/// ## XML Schema
+///
+/// ```xml
+/// <xs:simpleType name="rangeTypeType">
+///   <xs:restriction base="xs:token">
+///     <xs:enumeration value="float"/>
+///     <xs:enumeration value="int"/>
+///     <xs:enumeration value="unsigned int"/>
+///     <xs:enumeration value="long"/>
+///     <xs:enumeration value="unsigned long"/>
+///   </xs:restriction>
+/// </xs:simpleType>
+/// ```
 #[derive(
 	Clone,
 	Debug,
@@ -82,24 +122,47 @@ pub enum RangeTypeType {
 /// For reasons of backward compatibility, this attribute is assumed to have the value 'double'
 /// if not present.
 ///
-/// schema-type: `spirit:rangeType`
+/// ## XML Schema
+///
+/// ```xml
+/// <xs:attribute name="rangeType" type="spirit:rangeTypeType" />
+/// ```
 pub type RangeType = RangeTypeType; // TODO(aki): Properly new-type and wrap/validate/serde
 
 /// For components with auto-generated configuration forms, the user-resolved properties with order
 /// attributes will be presented in ascending order.
 ///
-/// schema-type: `spirit:order`
+/// ## XML Schema
+///
+/// ```xml
+/// <xs:attribute name="order" type="xs:float" />
+/// ```
 pub type Order = xs::Float; // TODO(aki): Properly new-type and wrap/validate/serde
 
 /// For user defined properties with a "choice" format, refers the choice element enumerating the
 /// values to choose from.
 ///
-/// schema-type: `spirit:choiceRef`
+/// ## XML Schema
+///
+/// ```xml
+/// <xs:attribute name="choiceRef" type="xs:Name" />
+/// ```
 pub type ChoiceRef = xs::Name; // TODO(aki): Properly new-type and wrap/validate/serde
 
 /// For user resolved properties with a "choice" formats.
 ///
-/// schema-type: `spirit:choiceStyle`
+/// ## XML Schema
+///
+/// ```xml
+/// <xs:attribute name="choiceStyle">
+///   <xs:simpleType>
+///     <xs:restriction base="xs:token">
+///       <xs:enumeration value="radio" />
+///       <xs:enumeration value="combo" />
+///     </xs:restriction>
+///   </xs:simpleType>
+/// </xs:attribute>
+/// ```
 #[derive(
 	Clone,
 	Debug,
@@ -124,7 +187,18 @@ pub enum ChoiceStyle {
 
 /// For user resolved properties with a "choice" format and a radio button presentation style.
 ///
-/// schema-type: `spirit:direction`
+/// ## XML Schema
+///
+/// ```xml
+/// <xs:attribute name="direction">
+///   <xs:simpleType>
+///     <xs:restriction base="xs:token">
+///       <xs:enumeration value="vertical" />
+///       <xs:enumeration value="horizontal" />
+///     </xs:restriction>
+///   </xs:simpleType>
+/// </xs:attribute>
+/// ```
 #[derive(
 	Clone,
 	Debug,
@@ -155,10 +229,28 @@ pub enum Direction {
 /// This is a white-space delimited list of groups so a property may be configured by more
 /// than one configurator.
 ///
-/// schema-type: `spirit:configGroups`
+/// ## XML Schema
+///
+/// ```xml
+/// <xs:attribute name="configGroups" type="xs:NMTOKENS" />
+/// ```
 pub type ConfigGroups = xs::NMTokens; // TODO(aki): Properly new-type and wrap/validate/serde
 
-/// schema-type: `spirit:common.att`
+/// ## XML Schema
+///
+/// ```xml
+/// <xs:attributeGroup name="common.att">
+///   <xs:attributeGroup ref="spirit:configurable"/>
+///   <xs:attribute ref="spirit:minimum" />
+///   <xs:attribute ref="spirit:maximum" />
+///   <xs:attribute ref="spirit:rangeType"/>
+///   <xs:attribute ref="spirit:order" />
+///   <xs:attribute ref="spirit:choiceRef" />
+///   <xs:attribute ref="spirit:choiceStyle"/>
+///   <xs:attribute ref="spirit:direction"/>
+///   <xs:attribute ref="spirit:configGroups"/>
+/// </xs:attributeGroup>
+/// ```
 #[derive(Clone, Debug, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize)]
 #[cfg_attr(feature = "schema", derive(::schemars::JsonSchema))]
 pub struct CommonAtt {
@@ -191,7 +283,15 @@ pub struct CommonAtt {
 
 /// Use this attribute group to allow all attributes associated with autoconfigurability.
 ///
-/// schema-type: `spirit:autoConfig | spirit:general.att`
+/// ## XML Schema
+///
+/// ```xml
+/// <xs:attributeGroup name="autoConfig">
+///   <xs:attributeGroup ref="spirit:common.att"/>
+///   <xs:attribute ref="spirit:format"/>
+///   <xs:attribute ref="spirit:prompt"/>
+/// </xs:attributeGroup>
+/// ```
 #[derive(Clone, Debug, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize)]
 #[cfg_attr(feature = "schema", derive(::schemars::JsonSchema))]
 pub struct AutoConfig {
@@ -206,7 +306,14 @@ pub struct AutoConfig {
 /// Use this attribute group on boolean elements for which the schema supplies a default prompt
 /// attribute.
 ///
-/// schema-type: `spirit:bool.att`
+/// ## XML Schema
+///
+/// ```xml
+/// <xs:attributeGroup name="bool.att">
+///   <xs:attribute ref="spirit:format" default="bool" />
+///   <xs:attributeGroup ref="spirit:common.att"/>
+/// </xs:attributeGroup>
+/// ```
 #[derive(Clone, Debug, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize)]
 #[cfg_attr(feature = "schema", derive(::schemars::JsonSchema))]
 pub struct BoolAtt {
@@ -224,7 +331,14 @@ pub struct BoolAtt {
 
 /// Use this attribute group on boolean elements.
 ///
-/// schema-type: `spirit:bool.prompt.att`
+/// ## XML Schema
+///
+/// ```xml
+/// <xs:attributeGroup name="bool.prompt.att">
+///   <xs:attributeGroup ref="spirit:bool.att"/>
+///   <xs:attribute ref="spirit:prompt"/>
+/// </xs:attributeGroup>
+/// ```
 #[derive(Clone, Debug, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize)]
 #[cfg_attr(feature = "schema", derive(::schemars::JsonSchema))]
 pub struct BoolPromptAtt {
@@ -237,7 +351,14 @@ pub struct BoolPromptAtt {
 /// Use this attribute group on long integer elements for which the schema supplies a default prompt
 /// attribute.
 ///
-/// schema-type: `spirit:long.att`
+/// ## XML Schema
+///
+/// ```xml
+/// <xs:attributeGroup name="long.att">
+///   <xs:attribute name="format" type="spirit:formatType" default="long" />
+///   <xs:attributeGroup ref="spirit:common.att"/>
+/// </xs:attributeGroup>
+/// ```
 #[derive(Clone, Debug, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize)]
 #[cfg_attr(feature = "schema", derive(::schemars::JsonSchema))]
 pub struct LongAtt {
@@ -255,7 +376,14 @@ pub struct LongAtt {
 
 /// Use this attribute group on long integer elements.
 ///
-/// schema-type: `spirit:long.prompt.att`
+/// ## XML Schema
+///
+/// ```xml
+/// <xs:attributeGroup name="long.prompt.att">
+///   <xs:attributeGroup ref="spirit:long.att"/>
+///   <xs:attribute ref="spirit:prompt"/>
+/// </xs:attributeGroup>
+/// ```
 #[derive(Clone, Debug, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize)]
 #[cfg_attr(feature = "schema", derive(::schemars::JsonSchema))]
 pub struct LongPromptAtt {
@@ -267,7 +395,18 @@ pub struct LongPromptAtt {
 
 /// A possible value of [`Choice`]
 ///
-/// schema-type: `spirit:enumeration`
+/// ## XML Schema
+///
+/// ```xml
+/// <xs:complexType name="choice.enumeration">
+///   <xs:simpleContent>
+///     <xs:extension base="xs:string">
+///       <xs:attribute name="text" type="xs:string" />
+///       <xs:attribute name="help" type="xs:string" />
+///     </xs:extension>
+///   </xs:simpleContent>
+/// </xs:complexType>
+/// ```
 #[derive(
 	Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize,
 )]
@@ -285,7 +424,18 @@ pub struct ChoiceEnumeration {
 
 /// Non-empty set of legal values for a user defined property of type spirit:formatType="choice" .
 ///
-/// schema-type: `spirit:choice`
+/// ### XML Schema
+///
+/// ```xml
+/// <xs:element name="choice" maxOccurs="unbounded">
+///   <xs:complexType>
+///     <xs:sequence>
+///       <xs:element name="name" type="xs:Name" />
+///       <xs:element name="enumeration" type="spirit:choice.enumeration" maxOccurs="unbounded" />
+///     </xs:sequence>
+///   </xs:complexType>
+/// </xs:element>
+/// ```
 #[derive(
 	Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize,
 )]
@@ -301,7 +451,17 @@ pub enum Choice {
 
 /// Choices used by user defined properties of [`FormatType::Choice`]
 ///
-/// schema-type: `spirit:choices`
+/// ### XML Schema
+///
+/// ```xml
+/// <xs:element name="choices">
+///   <xs:complexType>
+///     <xs:sequence>
+///        <xs:element type="spirit:choice" />
+///     </xs:sequence>
+///   </xs:complexType>
+/// </xs:element>
+/// ```
 #[derive(
 	Clone,
 	Debug,
