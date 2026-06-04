@@ -4055,6 +4055,7 @@ dependencies = [
  "color-print",
  "criterion",
  "eyre",
+ "fluent-uri",
  "paste",
  "phf 0.13.1",
  "proptest",

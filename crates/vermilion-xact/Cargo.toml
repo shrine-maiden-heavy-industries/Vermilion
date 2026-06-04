@@ -20,6 +20,7 @@ bitmask-enum          = { workspace = true }
 clap                  = { workspace = true, optional = true }
 color-print           = { workspace = true, optional = true }
 eyre                  = { workspace = true }
+fluent-uri            = { workspace = true }
 paste                 = { workspace = true }
 phf                   = { workspace = true }
 quick-xml             = { workspace = true }
