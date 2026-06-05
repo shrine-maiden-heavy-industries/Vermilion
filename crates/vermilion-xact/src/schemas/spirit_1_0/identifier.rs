@@ -6,7 +6,17 @@ use crate::schemas::{spirit_1_0 as spirit, xs};
 ///
 /// Identify a SPIRIT document by its by vendor, library and name.
 ///
-/// schema-type: `spirit:baseIdentifier`
+/// ## XML Schema
+///
+/// ```xml
+/// <xs:group name="baseIdentifier">
+///   <xs:sequence>
+///     <xs:element name="vendor" type="xs:Name" />
+///     <xs:element name="library" type="xs:Name" />
+///     <xs:element name="name" type="xs:NMTOKEN" />
+///   </xs:sequence>
+/// </xs:group>
+/// ```
 #[derive(
 	Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize,
 )]
@@ -32,7 +42,16 @@ pub struct BaseIdentifier {
 
 /// Identifies a design and a PMD with an optional version number.
 ///
-/// schema-type: `spirit:identifier`
+/// ## XML Schema
+///
+/// ```xml
+/// <xs:group name="identifier">
+///   <xs:sequence>
+///     <xs:group ref="spirit:baseIdentifier"/>
+///     <xs:element name="version" type="xs:NMTOKEN" minOccurs="0"/>
+///   </xs:sequence>
+/// </xs:group>
+/// ```
 #[derive(
 	Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize,
 )]
@@ -46,7 +65,16 @@ pub struct Identifier {
 
 /// Identifies a component of a bus definition - with a mandatory a version number.
 ///
-/// schema-type: `spirit:versionedIdentifier`
+/// ## XML Schema
+///
+/// ```xml
+/// <xs:group name="versionedIdentifier">
+///   <xs:sequence>
+///     <xs:group ref="spirit:baseIdentifier"/>
+///     <xs:element name="version" type="xs:NMTOKEN"/>
+///   </xs:sequence>
+/// </xs:group>
+/// ```
 #[derive(
 	Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize,
 )]
@@ -62,7 +90,16 @@ pub struct VersionedIdentifier {
 ///
 /// Contains vendor, library, name and optional version attributes.
 ///
-/// schema-type: `spirit:libraryRefGroup`
+/// ## XML Schema
+///
+/// ```xml
+/// <xs:attributeGroup name="libraryRefGroup">
+///   <xs:attribute name="vendor" type="xs:Name" use="required"/>
+///   <xs:attribute name="library" type="xs:Name" use="required"/>
+///   <xs:attribute name="name" type="xs:NMTOKEN" use="required"/>
+///   <xs:attribute name="version" type="xs:NMTOKEN"/>
+/// </xs:attributeGroup>
+/// ```
 #[derive(
 	Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize,
 )]
@@ -82,7 +119,13 @@ pub struct LibraryRefGroup {
 ///
 /// Contains vendor, library, name and optional version attributes.
 ///
-/// schema-type: `spirit:libraryRefType`
+/// ## XML Schema
+///
+/// ```xml
+/// <xs:complexType name="libraryRefType">
+///   <xs:attributeGroup ref="spirit:libraryRefGroup"/>
+/// </xs:complexType>
+/// ```
 #[derive(
 	Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize,
 )]
@@ -97,7 +140,17 @@ pub struct LibraryRefType {
 /// Contains vendor, library, name and optional version attributes and the URI of the referenced
 /// SPIRIT document
 ///
-/// schema-type: `spirit:resolvedLibraryRefType``
+/// ## XML Schema
+///
+/// ```xml
+/// <xs:complexType name="resolvedLibraryRefType">
+///   <xs:simpleContent>
+///     <xs:extension base="xs:anyURI">
+///       <xs:attributeGroup ref="spirit:libraryRefGroup"/>
+///     </xs:extension>
+///   </xs:simpleContent>
+/// </xs:complexType>
+/// ```
 #[derive(
 	Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize,
 )]
