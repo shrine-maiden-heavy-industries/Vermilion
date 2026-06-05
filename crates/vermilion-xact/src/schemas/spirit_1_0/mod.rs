@@ -22,4 +22,12 @@ pub mod signal_drivers;
 pub mod simple_types;
 pub mod sub_instances;
 
+pub use auto_configure::*;
+pub use common_structures::*;
+pub use configurable::*;
+pub use file_type::*;
+pub use identifier::*;
+pub use signal::*;
+pub use signal_drivers::*;
 pub use simple_types::*;
+pub use sub_instances::*;
