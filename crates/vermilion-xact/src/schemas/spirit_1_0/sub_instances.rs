@@ -4,11 +4,21 @@ use crate::schemas::{spirit_1_0 as spirit, xs};
 
 /// All configuration information for a contained component or channel instance.
 ///
-/// schema-type: `spirit:configuration`
+/// ## XML Schema
+///
+/// ```xml
+/// <xs:element name="configuration">
+///   <xs:complexType>
+///     <xs:sequence>
+///       <xs:element ref="spirit:configurableElement" minOccurs="0" maxOccurs="unbounded"/>
+///     </xs:sequence>
+///   </xs:complexType>
+/// </xs:element>
+/// ```
 #[derive(Clone, Debug, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize)]
 #[cfg_attr(feature = "schema", derive(::schemars::JsonSchema))]
 pub struct Configuration {
-	pub(crate) element: Vec<ConfigurableElement>,
+	pub(crate) element: Vec<spirit::ConfigurableElement>,
 }
 
 /// Describes the configurable content of an element in the instance.
@@ -17,7 +27,19 @@ pub struct Configuration {
 ///
 /// The required referenceId attribute refers to the ID attribute of the configurable element.
 ///
-/// schema-type: `spirit:configurableElement`
+/// ## XML Schema
+///
+/// ```xml
+/// <xs:element name="configurableElement">
+///   <xs:complexType mixed="true">
+///     <xs:sequence>
+///       <xs:any namespace="##any" processContents="skip" minOccurs="0" maxOccurs="unbounded"/>
+///     </xs:sequence>
+///     <xs:attribute name="referenceId" type="xs:Name" use="required"/>
+///     <xs:attributeGroup ref="spirit:autoConfig"/>
+///   </xs:complexType>
+/// </xs:element>
+/// ```
 #[derive(Clone, Debug, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize)]
 #[cfg_attr(feature = "schema", derive(::schemars::JsonSchema))]
 pub struct ConfigurableElement {
@@ -32,7 +54,11 @@ pub struct ConfigurableElement {
 /// An instance name assigned to subcomponent instances and contained channels, that is unique
 /// within the parent component.
 ///
-/// schema-type: `spirit:instanceName`
+/// ## XML Schema
+///
+/// ```xml
+/// <xs:element name="instanceName" type="xs:Name" />
+/// ```
 #[derive(
 	Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize,
 )]
@@ -47,7 +73,19 @@ pub struct InstanceName {
 /// The instance name is contained in the unique-value instanceName
 /// attribute.
 ///
-/// schema-type: `spirit:componentInstance`
+/// ## XML Schema
+///
+/// ```xml
+/// <xs:element name="componentInstance">
+///   <xs:complexType>
+///     <xs:sequence>
+///       <xs:element ref="spirit:instanceName"/>
+///       <xs:element name="componentRef" type="spirit:libraryRefType" />
+///       <xs:element ref="spirit:configuration" minOccurs="0"/>
+///     </xs:sequence>
+///   </xs:complexType>
+/// </xs:element>
+/// ```
 #[derive(Clone, Debug, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize)]
 #[cfg_attr(feature = "schema", derive(::schemars::JsonSchema))]
 pub struct ComponentInstance {
@@ -64,14 +102,33 @@ pub struct ComponentInstance {
 
 /// Sub instances of internal components.
 ///
-/// schema-type: `spirit:componentInstances`
+/// ## XML Schema
+///
+/// ```xml
+/// <xs:element name="componentInstances">
+///   <xs:complexType>
+///     <xs:sequence>
+///       <xs:element ref="spirit:componentInstance" minOccurs="0" maxOccurs="unbounded"/>
+///     </xs:sequence>
+///   </xs:complexType>
+/// </xs:element>
+/// ```
 #[derive(Clone, Debug, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize)]
 #[cfg_attr(feature = "schema", derive(::schemars::JsonSchema))]
 pub struct ComponentInstances {
 	pub(crate) instances: Vec<spirit::ComponentInstance>,
 }
 
-/// schema-type: `spirit:pinReference`
+/// ## XML Schema
+///
+/// ```xml
+/// <xs:complexType name="adHocConnection.pinReference">
+///   <xs:attribute name="componentRef" type="xs:Name" use="required"/>
+///   <xs:attribute name="signalRef" type="xs:Name" use="required"/>
+///   <xs:attribute name="left" type="xs:nonNegativeInteger"/>
+///   <xs:attribute name="right" type="xs:nonNegativeInteger"/>
+/// </xs:complexType>
+/// ```
 #[derive(
 	Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize,
 )]
@@ -89,17 +146,41 @@ pub struct PinReference {
 
 /// Specifies whether this ad-hoc connection will be exported out of the design.
 ///
-/// schema-type: `spirit:export`
+/// ## XML Schema
+///
+/// ```xml
+/// <xs:complexType name="adHocConnection.export">
+///   <xs:simpleContent>
+///     <xs:extension base="xs:boolean">
+///       <xs:attributeGroup ref="spirit:bool.prompt.att"/>
+///     </xs:extension>
+///   </xs:simpleContent>
+/// </xs:complexType>
+/// ```
 #[derive(Clone, Debug, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize)]
 #[cfg_attr(feature = "schema", derive(::schemars::JsonSchema))]
 pub struct Export {
+	#[serde(rename = "$text")]
+	pub(crate) value: xs::Boolean,
 	#[serde(flatten)]
 	pub(crate) attrs: spirit::BoolPromptAtt,
 }
 
 /// Represents an ad-hoc connection between component pins.
 ///
-/// schema-type: `spirit:adHocConnection`
+/// ## XML Schema
+///
+/// ```xml
+/// <xs:element name="adHocConnection">
+///   <xs:complexType>
+///     <xs:sequence>
+///       <xs:element name="export" type="spirit:adHocConnection.export" minOccurs="0" />
+///       <xs:element name="pinReference" type="spirit:adHocConnection.pinReference" maxOccurs="unbounded" />
+///     </xs:sequence>
+///     <xs:attribute name="name" type="xs:string" use="optional"/>
+///   </xs:complexType>
+/// </xs:element>
+/// ```
 #[derive(
 	Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize,
 )]
@@ -115,7 +196,17 @@ pub struct AdHocConnection {
 /// as a result of interface connections (i.e.the pin to pin connection was made explicitly and is
 /// represented explicitly).
 ///
-/// schema-type: `spirit:adHocConnections`
+/// ## XML Schema
+///
+/// ```xml
+/// <xs:element name="adHocConnections">
+///   <xs:complexType>
+///     <xs:sequence>
+///       <xs:element ref="spirit:adHocConnection" minOccurs="0" maxOccurs="unbounded"/>
+///     </xs:sequence>
+///   </xs:complexType>
+/// </xs:element>
+/// ```
 #[derive(
 	Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize,
 )]
@@ -133,7 +224,18 @@ pub struct AdHocConnections {
 /// The component2Ref and busInterface2Ref attributes indicate the instance name and bus interface
 /// name of the other end of he connection.
 ///
-/// schema-type: `spirit:interconnection`
+/// ## XML Schema
+///
+/// ```xml
+/// <xs:element name="interconnection">
+///   <xs:complexType>
+///     <xs:attribute name="component1Ref" type="xs:Name" use="required"/>
+///     <xs:attribute name="busInterface1Ref" type="xs:Name" use="required"/>
+///     <xs:attribute name="component2Ref" type="xs:Name" use="required"/>
+///     <xs:attribute name="busInterface2Ref" type="xs:Name" use="required"/>
+///   </xs:complexType>
+/// </xs:element>
+/// ```
 #[derive(
 	Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize,
 )]
@@ -151,7 +253,17 @@ pub struct Interconnection {
 
 /// Connections between internal sub components.
 ///
-/// schema-type: `spirit:interconnections`
+/// ## XML Schema
+///
+/// ```xml
+/// <xs:element name="interconnections">
+///   <xs:complexType>
+///     <xs:sequence>
+///       <xs:element ref="spirit:interconnection" minOccurs="0" maxOccurs="unbounded"/>
+///     </xs:sequence>
+///   </xs:complexType>
+/// </xs:element>
+/// ```
 #[derive(
 	Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize,
 )]
