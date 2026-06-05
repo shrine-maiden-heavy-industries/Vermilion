@@ -17,7 +17,18 @@ use crate::schemas::{spirit_1_0 as spirit, xs};
 ///
 /// Generated means the value will be provided by a generator.
 ///
-/// schema-type: `spirit:resolveType`
+/// ## XML Schema
+///
+/// ```xml
+/// <xs:simpleType name="resolveType">
+///  <xs:restriction base="xs:token">
+///    <xs:enumeration value="immediate" />
+///    <xs:enumeration value="user" />
+///    <xs:enumeration value="dependent" />
+///    <xs:enumeration value="generated" />
+///  </xs:restriction>
+/// </xs:simpleType>
+/// ```
 #[derive(
 	Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize,
 )]
@@ -38,12 +49,20 @@ pub enum ResolveType {
 
 /// Determines how a property value is resolved.
 ///
-/// schema-type: `spirit:resolve`
+/// ## XML Schema
+///
+/// ```xml
+/// <xs:attribute name="resolve" type="spirit:resolveType" />
+/// ```
 pub type Resolve = ResolveType; // TODO(aki): Properly new-type and wrap/validate/serde
 
 /// ID attribute for uniquely identifying an element within its document.
 ///
-/// schema-type: `spirit:id`
+/// ## XML Schema
+///
+/// ```xml
+/// <xs:attribute name="id" type="xs:ID" />
+/// ```
 pub type Id = xs::Id; // TODO(aki): Properly new-type and wrap/validate/serde
 
 /// Required on properties with [`ResolveType::Dependent`].
@@ -51,12 +70,25 @@ pub type Id = xs::Id; // TODO(aki): Properly new-type and wrap/validate/serde
 /// This is an XPath expression supplying the resultant value in terms of other properties
 /// in the component file.
 ///
-/// schema-type: `spirit:dependency`
+/// ## XML Schema
+///
+/// ```xml
+/// <xs:attribute name="dependency" type="xs:string" />
+/// ```
 pub type Dependency = xs::String; // TODO(aki): Properly new-type and wrap/validate/serde
 
 /// Base set of attributes for an element to be configurable.
 ///
-/// schema-type: `spirit:configurable`
+/// ## XML Schema
+///
+/// ```xml
+/// <xs:attributeGroup name="configurable">
+///   <xs:attribute ref="spirit:resolve"/>
+///   <xs:attribute ref="spirit:id"/>
+///   <xs:attribute ref="spirit:dependency"/>
+///   <xs:anyAttribute namespace="##other" processContents="lax"/>
+/// </xs:attributeGroup>
+/// ```
 #[derive(
 	Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize,
 )]
