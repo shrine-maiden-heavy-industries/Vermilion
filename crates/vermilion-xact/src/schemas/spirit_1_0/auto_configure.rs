@@ -516,13 +516,13 @@ pub struct ChoiceEnumeration {
 	Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize,
 )]
 #[cfg_attr(feature = "schema", derive(::schemars::JsonSchema))]
-pub enum Choice {
+pub struct Choice {
 	/// Choice key, available for reference by the spirit:choiceRef attribute of user defined
 	/// properties of type [`Format::Choice`].
 	#[serde(rename = "spirit:name")]
-	Name(xs::Name),
+	pub(crate) name:    xs::Name,
 	#[serde(rename = "spirit:enumeration")]
-	Enumeration(ChoiceEnumeration),
+	pub(crate) options: Vec<spirit::ChoiceEnumeration>,
 }
 
 /// Choices used by user defined properties of [`Format::Choice`]
