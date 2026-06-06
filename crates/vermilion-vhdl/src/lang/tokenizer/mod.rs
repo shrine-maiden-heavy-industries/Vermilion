@@ -89,5 +89,4 @@ impl Iterator for VhdlTokenizer {
 }
 
 #[cfg(test)]
-#[path = "tests.rs"]
 mod tests;
