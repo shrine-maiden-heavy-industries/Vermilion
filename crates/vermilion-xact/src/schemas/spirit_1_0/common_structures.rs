@@ -161,3 +161,9 @@ pub struct VendorExtension {
 	#[serde(rename = "$text")]
 	pub(crate) data: xs::String,
 }
+
+#[cfg(test)]
+mod test {
+	use super::*;
+	use crate::test_xml_serdes;
+}

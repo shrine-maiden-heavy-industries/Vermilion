@@ -102,5 +102,9 @@ pub struct ConfigurableAttributes {
 	#[serde(rename = "@spirit:id", skip_serializing_if = "Option::is_none")]
 	pub(crate) id:         Option<spirit::Id>,
 	#[serde(rename = "@spirit:dependency", skip_serializing_if = "Option::is_none")]
-	pub(crate) dependency: Option<spirit::Dependency>,
+
+#[cfg(test)]
+mod test {
+	use super::*;
+	use crate::test_xml_serdes;
 }

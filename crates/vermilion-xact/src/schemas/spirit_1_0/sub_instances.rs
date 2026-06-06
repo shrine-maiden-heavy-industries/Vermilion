@@ -271,3 +271,9 @@ pub struct Interconnection {
 pub struct Interconnections {
 	pub(crate) connections: Vec<spirit::Interconnection>,
 }
+
+#[cfg(test)]
+mod test {
+	use super::*;
+	use crate::test_xml_serdes;
+}

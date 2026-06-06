@@ -513,3 +513,9 @@ impl LongAtt {
 		Some(spirit::Format::Long)
 	}
 }
+
+#[cfg(test)]
+mod test {
+	use super::*;
+	use crate::test_xml_serdes;
+}

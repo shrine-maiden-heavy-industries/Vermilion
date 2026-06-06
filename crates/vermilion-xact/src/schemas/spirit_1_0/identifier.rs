@@ -159,3 +159,9 @@ pub struct ResolvedLibraryRefType {
 	#[serde(flatten)]
 	pub(crate) attributes: spirit::LibraryRefGroup,
 }
+
+#[cfg(test)]
+mod test {
+	use super::*;
+	use crate::test_xml_serdes;
+}

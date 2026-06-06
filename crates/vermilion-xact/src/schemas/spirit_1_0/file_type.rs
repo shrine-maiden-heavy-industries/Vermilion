@@ -130,3 +130,9 @@ pub enum FileType {
 	#[serde(rename = "spirit:userFileType")]
 	User(UserFileType),
 }
+
+#[cfg(test)]
+mod test {
+	use super::*;
+	use crate::test_xml_serdes;
+}

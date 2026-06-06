@@ -398,3 +398,9 @@ pub enum ValueType {
 	Strength(Box<spirit::Strength>),
 	Both(Box<spirit::Value>, Option<Box<spirit::Strength>>),
 }
+
+#[cfg(test)]
+mod test {
+	use super::*;
+	use crate::test_xml_serdes;
+}

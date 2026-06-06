@@ -31,3 +31,9 @@ pub use signal::*;
 pub use signal_drivers::*;
 pub use simple_types::*;
 pub use sub_instances::*;
+
+#[cfg(test)]
+mod test {
+	use super::*;
+	use crate::test_xml_serdes;
+}

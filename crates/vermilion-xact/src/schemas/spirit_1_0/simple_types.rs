@@ -49,3 +49,9 @@ pub enum ConfigurableDouble {
 	Double(Option<xs::Double>),
 	Text(String),
 }
+
+#[cfg(test)]
+mod test {
+	use super::*;
+	use crate::test_xml_serdes;
+}

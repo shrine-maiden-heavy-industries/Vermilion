@@ -153,3 +153,9 @@ pub struct Signal {
 	#[serde(flatten)]
 	pub(crate) value: spirit::SignalType,
 }
+
+#[cfg(test)]
+mod test {
+	use super::*;
+	use crate::test_xml_serdes;
+}
