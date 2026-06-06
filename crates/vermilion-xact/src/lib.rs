@@ -12,6 +12,9 @@ use vermilion_macros::{cfg_schema, cfg_serde};
 pub mod config;
 pub mod diagnostics;
 pub mod schemas;
+#[cfg(test)]
+#[cfg_attr(test, macro_use)]
+pub(crate) mod tests;
 pub mod workspace;
 
 #[derive(Clone, Copy, Debug, Eq, Ord, PartialEq, PartialOrd)]
