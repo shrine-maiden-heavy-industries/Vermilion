@@ -539,6 +539,12 @@ mod test {
 			skip_serializing_if = "Option::is_none"
 		)]
 		range_type: Option<spirit::RangeType>,
+		#[serde(
+			rename = "@spirit:order",
+			alias = "@order",
+			skip_serializing_if = "Option::is_none"
+		)]
+		order:      Option<spirit::Order>,
 	}
 
 	test_xml_serdes!(
@@ -691,5 +697,12 @@ mod test {
 			range_type: Some(spirit::RangeType::UnsignedLong),
 			..Default::default()
 		}
+	);
+
+	test_xml_serdes!(
+		spirit_1_0,
+		attr_order,
+		"<AttrTest spirit:order=\"1.5\"/>",
+		AttrTest { order: Some(1.5.into()), ..Default::default() }
 	);
 }
