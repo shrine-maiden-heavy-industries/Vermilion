@@ -111,4 +111,56 @@ pub struct ConfigurableAttributes {
 mod test {
 	use super::*;
 	use crate::test_xml_serdes;
+
+	#[derive(
+		Clone, Debug, Default, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize,
+	)]
+	struct AttrTest {
+		#[serde(
+			rename = "@spirit:resolve",
+			alias = "@resolve",
+			skip_serializing_if = "Option::is_none"
+		)]
+		resolve: Option<spirit::Resolve>,
+	}
+
+	test_xml_serdes!(
+		spirit_1_0,
+		attr_resolve_dependent,
+		"<AttrTest spirit:resolve=\"dependent\"/>",
+		AttrTest {
+			resolve: Some(spirit::Resolve::Dependent),
+			..Default::default()
+		}
+	);
+
+	test_xml_serdes!(
+		spirit_1_0,
+		attr_resolve_generated,
+		"<AttrTest spirit:resolve=\"generated\"/>",
+		AttrTest {
+			resolve: Some(spirit::Resolve::Generated),
+			..Default::default()
+		}
+	);
+
+	test_xml_serdes!(
+		spirit_1_0,
+		attr_resolve_immediate,
+		"<AttrTest spirit:resolve=\"immediate\"/>",
+		AttrTest {
+			resolve: Some(spirit::Resolve::Immediate),
+			..Default::default()
+		}
+	);
+
+	test_xml_serdes!(
+		spirit_1_0,
+		attr_resolve_user,
+		"<AttrTest spirit:resolve=\"user\"/>",
+		AttrTest {
+			resolve: Some(spirit::Resolve::User),
+			..Default::default()
+		}
+	);
 }
