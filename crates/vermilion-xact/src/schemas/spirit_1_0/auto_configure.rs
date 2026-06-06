@@ -71,18 +71,23 @@ pub type Maximum = xs::String; // TODO(aki): Properly new-type and wrap/validate
 /// This type is used to indicate how the minimum and maximum attributes values should be
 /// interpreted.
 ///
+/// For reasons of backward compatibility, this attribute is assumed to have the value 'double'
+/// if not present.
+///
 /// ## XML Schema
 ///
 /// ```xml
-/// <xs:simpleType name="rangeTypeType">
-///   <xs:restriction base="xs:token">
-///     <xs:enumeration value="float"/>
-///     <xs:enumeration value="int"/>
-///     <xs:enumeration value="unsigned int"/>
-///     <xs:enumeration value="long"/>
-///     <xs:enumeration value="unsigned long"/>
-///   </xs:restriction>
-/// </xs:simpleType>
+/// <xs:attribute name="rangeType">
+///   <xs:simpleType>
+///     <xs:restriction base="xs:token">
+///       <xs:enumeration value="float"/>
+///       <xs:enumeration value="int"/>
+///       <xs:enumeration value="unsigned int"/>
+///       <xs:enumeration value="long"/>
+///       <xs:enumeration value="unsigned long"/>
+///     </xs:restriction>
+///   </xs:simpleType>
+/// </xs:attribute>
 /// ```
 #[derive(
 	Clone,
@@ -97,7 +102,7 @@ pub type Maximum = xs::String; // TODO(aki): Properly new-type and wrap/validate
 	serde::Serialize,
 )]
 #[cfg_attr(feature = "schema", derive(::schemars::JsonSchema))]
-pub enum RangeTypeType {
+pub enum RangeType {
 	/// A floating point number
 	#[default]
 	#[serde(rename = "float")]
@@ -115,17 +120,6 @@ pub enum RangeTypeType {
 	#[serde(rename = "unsigned long")]
 	UnsignedLong,
 }
-/// Indicates the data type of the range attributes (minimum and maximum).
-///
-/// For reasons of backward compatibility, this attribute is assumed to have the value 'double'
-/// if not present.
-///
-/// ## XML Schema
-///
-/// ```xml
-/// <xs:attribute name="rangeType" type="spirit:rangeTypeType" />
-/// ```
-pub type RangeType = RangeTypeType; // TODO(aki): Properly new-type and wrap/validate/serde
 
 /// For components with auto-generated configuration forms, the user-resolved properties with order
 /// attributes will be presented in ascending order.
