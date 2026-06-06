@@ -477,6 +477,7 @@ pub struct LongPromptAtt {
 	Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize,
 )]
 #[cfg_attr(feature = "schema", derive(::schemars::JsonSchema))]
+#[serde(rename = "spirit:enumeration")]
 pub struct ChoiceEnumeration {
 	#[serde(rename = "$text")]
 	pub(crate) value: xs::String,
