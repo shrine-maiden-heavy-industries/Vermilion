@@ -30,6 +30,7 @@ pub use component::*;
 pub use configurable::*;
 pub use configurator::*;
 pub use design::*;
+pub use file::*;
 pub use file_type::*;
 pub use identifier::*;
 pub use signal::*;
