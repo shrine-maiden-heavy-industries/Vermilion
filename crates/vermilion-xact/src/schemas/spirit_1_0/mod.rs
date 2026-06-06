@@ -32,6 +32,7 @@ pub use configurator::*;
 pub use design::*;
 pub use file::*;
 pub use file_type::*;
+pub use generator::*;
 pub use identifier::*;
 pub use signal::*;
 pub use signal_drivers::*;
