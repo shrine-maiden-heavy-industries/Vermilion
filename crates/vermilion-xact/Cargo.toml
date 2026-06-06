@@ -30,6 +30,7 @@ serde                 = { workspace = true }
 
 [dev-dependencies]
 criterion  = { workspace = true }
+paste      = { workspace = true }
 proptest   = { workspace = true }
 serde_test = { workspace = true }
 test-log   = { workspace = true }
