@@ -545,6 +545,12 @@ mod test {
 			skip_serializing_if = "Option::is_none"
 		)]
 		order:      Option<spirit::Order>,
+		#[serde(
+			rename = "@spirit:choiceRef",
+			alias = "@choiceRef",
+			skip_serializing_if = "Option::is_none"
+		)]
+		choice_ref: Option<spirit::ChoiceRef>,
 	}
 
 	test_xml_serdes!(
@@ -704,5 +710,22 @@ mod test {
 		attr_order,
 		"<AttrTest spirit:order=\"1.5\"/>",
 		AttrTest { order: Some(1.5.into()), ..Default::default() }
+	);
+
+	test_xml_serdes!(
+		spirit_1_0,
+		attr_choice_ref_empty,
+		"<AttrTest spirit:choiceRef=\"\"/>",
+		AttrTest { choice_ref: Some("".into()), ..Default::default() }
+	);
+
+	test_xml_serdes!(
+		spirit_1_0,
+		attr_choice_ref,
+		"<AttrTest spirit:choiceRef=\"Meow!\"/>",
+		AttrTest {
+			choice_ref: Some("Meow!".into()),
+			..Default::default()
+		}
 	);
 }
