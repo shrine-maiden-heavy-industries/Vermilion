@@ -24,6 +24,7 @@ pub mod sub_instances;
 
 pub use auto_configure::*;
 pub use bus_definition::*;
+pub use bus_interface::*;
 pub use common_structures::*;
 pub use configurable::*;
 pub use file_type::*;
