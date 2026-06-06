@@ -48,6 +48,7 @@ macro_rules! test_xml_deserialize {
 			fn [<test_xml_deserialize_ $test_name>] () {
 				let gold = $obj;
 
+				#[inline(always)]
 				fn _assert<'de, 'a, T>(xml: &'de str, gold: &'a T)
 				where
 					T: PartialEq + serde::Deserialize<'de> + std::fmt::Debug
