@@ -245,7 +245,7 @@ pub type ConfigGroups = xs::NMTokens; // TODO(aki): Properly new-type and wrap/v
 ///   <xs:attribute ref="spirit:configGroups"/>
 /// </xs:attributeGroup>
 /// ```
-#[derive(Clone, Debug, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize)]
+#[derive(Clone, Debug, Default, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize)]
 #[cfg_attr(feature = "schema", derive(::schemars::JsonSchema))]
 pub struct CommonAtt {
 	#[serde(flatten)]
