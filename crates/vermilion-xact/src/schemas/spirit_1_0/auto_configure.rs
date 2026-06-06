@@ -445,12 +445,17 @@ pub struct LongAtt {
 ///   <xs:attribute ref="spirit:prompt"/>
 /// </xs:attributeGroup>
 /// ```
-#[derive(Clone, Debug, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize)]
+#[derive(Clone, Debug, Default, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize)]
 #[cfg_attr(feature = "schema", derive(::schemars::JsonSchema))]
 pub struct LongPromptAtt {
 	#[serde(flatten)]
 	pub(crate) base:   spirit::LongAtt,
-	#[serde(rename = "@spirit:prompt", skip_serializing_if = "Option::is_none", default)]
+	#[serde(
+		rename = "@spirit:prompt",
+		alias = "@prompt",
+		skip_serializing_if = "Option::is_none",
+		default
+	)]
 	pub(crate) prompt: Option<spirit::Prompt>,
 }
 
