@@ -121,9 +121,15 @@ mod test {
 			alias = "@resolve",
 			skip_serializing_if = "Option::is_none"
 		)]
-		resolve: Option<spirit::Resolve>,
+		resolve:    Option<spirit::Resolve>,
 		#[serde(rename = "@spirit:id", alias = "@id", skip_serializing_if = "Option::is_none")]
-		id:      Option<spirit::Id>,
+		id:         Option<spirit::Id>,
+		#[serde(
+			rename = "@spirit:dependency",
+			alias = "@dependency",
+			skip_serializing_if = "Option::is_none"
+		)]
+		dependency: Option<spirit::ConfigurableDependency>,
 	}
 
 	test_xml_serdes!(
@@ -178,5 +184,22 @@ mod test {
 		attr_id,
 		"<AttrTest spirit:id=\"nya!\"/>",
 		AttrTest { id: Some("nya!".into()), ..Default::default() }
+	);
+
+	test_xml_serdes!(
+		spirit_1_0,
+		attr_configurable_dependency_empty,
+		"<AttrTest spirit:dependency=\"\"/>",
+		AttrTest { dependency: Some("".into()), ..Default::default() }
+	);
+
+	test_xml_serdes!(
+		spirit_1_0,
+		attr_configurable_dependency,
+		"<AttrTest spirit:dependency=\"nya!\"/>",
+		AttrTest {
+			dependency: Some("nya!".into()),
+			..Default::default()
+		}
 	);
 }
