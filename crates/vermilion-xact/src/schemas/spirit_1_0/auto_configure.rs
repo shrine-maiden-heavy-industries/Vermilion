@@ -250,25 +250,61 @@ pub type ConfigGroups = xs::NMTokens; // TODO(aki): Properly new-type and wrap/v
 pub struct CommonAtt {
 	#[serde(flatten)]
 	pub(crate) configurable:  spirit::ConfigurableAttributes,
-	#[serde(rename = "@spirit:minimum", skip_serializing_if = "Option::is_none", default)]
+	#[serde(
+		rename = "@spirit:minimum",
+		alias = "@minimum",
+		skip_serializing_if = "Option::is_none",
+		default
+	)]
 	pub(crate) minimum:       Option<spirit::Minimum>,
-	#[serde(rename = "@spirit:maximum", skip_serializing_if = "Option::is_none", default)]
+	#[serde(
+		rename = "@spirit:maximum",
+		alias = "@maximum",
+		skip_serializing_if = "Option::is_none",
+		default
+	)]
 	pub(crate) maximum:       Option<spirit::Maximum>,
 	/// Indicates the data type of the range attributes (minimum and maximum). For reasons of
 	/// backward compatibility, this attribute is assumed to have the value 'double' if not
 	/// present.
-	#[serde(rename = "@spirit:rangeType", skip_serializing_if = "Option::is_none", default)]
+	#[serde(
+		rename = "@spirit:rangeType",
+		alias = "@rangeType",
+		skip_serializing_if = "Option::is_none",
+		default
+	)]
 	pub(crate) range_type:    Option<spirit::RangeType>,
-	#[serde(rename = "@spirit:order", skip_serializing_if = "Option::is_none", default)]
+	#[serde(
+		rename = "@spirit:order",
+		alias = "@order",
+		skip_serializing_if = "Option::is_none",
+		default
+	)]
 	pub(crate) order:         Option<spirit::Order>,
-	#[serde(rename = "@spirit:choiceRef", skip_serializing_if = "Option::is_none", default)]
+	#[serde(
+		rename = "@spirit:choiceRef",
+		alias = "@choiceRef",
+		skip_serializing_if = "Option::is_none",
+		default
+	)]
 	pub(crate) choice_ref:    Option<spirit::ChoiceRef>,
-	#[serde(rename = "@spirit:choiceStyle", skip_serializing_if = "Option::is_none", default)]
+	#[serde(
+		rename = "@spirit:choiceStyle",
+		alias = "@choiceStyle",
+		skip_serializing_if = "Option::is_none",
+		default
+	)]
 	pub(crate) choice_style:  Option<spirit::ChoiceStyle>,
-	#[serde(rename = "@spirit:direction", skip_serializing_if = "Option::is_none", default)]
+	#[serde(
+		rename = "@spirit:direction",
+		alias = "@direction",
+		skip_serializing_if = "Option::is_none",
+		default
+	)]
 	pub(crate) direction:     Option<spirit::Direction>,
 	#[serde(
 		rename = "@spirit:configGroups",
+		alias = "@configGroups",
 		skip_serializing_if = "Option::is_none",
 		default
 	)]
