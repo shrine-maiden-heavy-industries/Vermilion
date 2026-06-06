@@ -505,7 +505,9 @@ mod test {
 	use super::*;
 	use crate::test_xml_serdes;
 
-	#[derive(Clone, Debug, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize)]
+	#[derive(
+		Clone, Debug, Default, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize,
+	)]
 	struct AttrTest {
 		#[serde(
 			rename = "@spirit:format",
@@ -544,11 +546,8 @@ mod test {
 		attr_format_type_float,
 		"<AttrTest spirit:format=\"float\"/>",
 		AttrTest {
-			format:     Some(spirit::Format::Float),
-			prompt:     None,
-			minimum:    None,
-			maximum:    None,
-			range_type: None,
+			format: Some(spirit::Format::Float),
+			..Default::default()
 		}
 	);
 
@@ -557,11 +556,8 @@ mod test {
 		attr_format_type_long,
 		"<AttrTest spirit:format=\"long\"/>",
 		AttrTest {
-			format:     Some(spirit::Format::Long),
-			prompt:     None,
-			minimum:    None,
-			maximum:    None,
-			range_type: None,
+			format: Some(spirit::Format::Long),
+			..Default::default()
 		}
 	);
 
@@ -570,11 +566,8 @@ mod test {
 		attr_format_type_bool,
 		"<AttrTest spirit:format=\"bool\"/>",
 		AttrTest {
-			format:     Some(spirit::Format::Bool),
-			prompt:     None,
-			minimum:    None,
-			maximum:    None,
-			range_type: None,
+			format: Some(spirit::Format::Bool),
+			..Default::default()
 		}
 	);
 
@@ -583,11 +576,8 @@ mod test {
 		format_type_choice,
 		"<AttrTest spirit:format=\"choice\"/>",
 		AttrTest {
-			format:     Some(spirit::Format::Choice),
-			prompt:     None,
-			minimum:    None,
-			maximum:    None,
-			range_type: None,
+			format: Some(spirit::Format::Choice),
+			..Default::default()
 		}
 	);
 
@@ -596,11 +586,8 @@ mod test {
 		attr_format_type_string,
 		"<AttrTest spirit:format=\"string\"/>",
 		AttrTest {
-			format:     Some(spirit::Format::String),
-			prompt:     None,
-			minimum:    None,
-			maximum:    None,
-			range_type: None,
+			format: Some(spirit::Format::String),
+			..Default::default()
 		}
 	);
 
@@ -608,78 +595,42 @@ mod test {
 		spirit_1_0,
 		attr_prompt_empty,
 		"<AttrTest spirit:prompt=\"\"/>",
-		AttrTest {
-			format:     None,
-			prompt:     Some("".into()),
-			minimum:    None,
-			maximum:    None,
-			range_type: None,
-		}
+		AttrTest { prompt: Some("".into()), ..Default::default() }
 	);
 
 	test_xml_serdes!(
 		spirit_1_0,
 		attr_prompt,
 		"<AttrTest spirit:prompt=\"Meow!\"/>",
-		AttrTest {
-			format:     None,
-			prompt:     Some("Meow!".into()),
-			minimum:    None,
-			maximum:    None,
-			range_type: None,
-		}
+		AttrTest { prompt: Some("Meow!".into()), ..Default::default() }
 	);
 
 	test_xml_serdes!(
 		spirit_1_0,
 		attr_minimum_empty,
 		"<AttrTest spirit:minimum=\"\"/>",
-		AttrTest {
-			format:     None,
-			prompt:     None,
-			minimum:    Some("".into()),
-			maximum:    None,
-			range_type: None,
-		}
+		AttrTest { minimum: Some("".into()), ..Default::default() }
 	);
 
 	test_xml_serdes!(
 		spirit_1_0,
 		attr_minimum,
 		"<AttrTest spirit:minimum=\"0\"/>",
-		AttrTest {
-			format:     None,
-			prompt:     None,
-			minimum:    Some("0".into()),
-			maximum:    None,
-			range_type: None,
-		}
+		AttrTest { minimum: Some("0".into()), ..Default::default() }
 	);
 
 	test_xml_serdes!(
 		spirit_1_0,
 		attr_maximum_empty,
 		"<AttrTest spirit:maximum=\"\"/>",
-		AttrTest {
-			format:     None,
-			prompt:     None,
-			minimum:    None,
-			maximum:    Some("".into()),
-			range_type: None,
-		}
+		AttrTest { maximum: Some("".into()), ..Default::default() }
 	);
 
 	test_xml_serdes!(
 		spirit_1_0,
 		attr_maximum,
 		"<AttrTest spirit:maximum=\"8008\"/>",
-		AttrTest {
-			format:     None,
-			prompt:     None,
-			minimum:    None,
-			maximum:    Some("8008".into()),
-			range_type: None,
-		}
+		AttrTest { maximum: Some("8008".into()), ..Default::default() }
 	);
 
 	test_xml_serdes!(
@@ -687,11 +638,8 @@ mod test {
 		attr_range_type_default,
 		"<AttrTest spirit:rangeType=\"float\"/>",
 		AttrTest {
-			format:     None,
-			prompt:     None,
-			minimum:    None,
-			maximum:    None,
 			range_type: Some(spirit::RangeType::default()),
+			..Default::default()
 		}
 	);
 
@@ -700,11 +648,8 @@ mod test {
 		attr_range_type_float,
 		"<AttrTest spirit:rangeType=\"float\"/>",
 		AttrTest {
-			format:     None,
-			prompt:     None,
-			minimum:    None,
-			maximum:    None,
 			range_type: Some(spirit::RangeType::Float),
+			..Default::default()
 		}
 	);
 
@@ -713,11 +658,8 @@ mod test {
 		attr_range_type_int,
 		"<AttrTest spirit:rangeType=\"int\"/>",
 		AttrTest {
-			format:     None,
-			prompt:     None,
-			minimum:    None,
-			maximum:    None,
 			range_type: Some(spirit::RangeType::Int),
+			..Default::default()
 		}
 	);
 
@@ -726,11 +668,8 @@ mod test {
 		attr_range_type_unsigned_int,
 		"<AttrTest spirit:rangeType=\"unsigned int\"/>",
 		AttrTest {
-			format:     None,
-			prompt:     None,
-			minimum:    None,
-			maximum:    None,
 			range_type: Some(spirit::RangeType::UnsignedInt),
+			..Default::default()
 		}
 	);
 
@@ -739,11 +678,8 @@ mod test {
 		attr_range_type_long,
 		"<AttrTest spirit:rangeType=\"long\"/>",
 		AttrTest {
-			format:     None,
-			prompt:     None,
-			minimum:    None,
-			maximum:    None,
 			range_type: Some(spirit::RangeType::Long),
+			..Default::default()
 		}
 	);
 
@@ -752,11 +688,8 @@ mod test {
 		attr_range_type_unsigned_long,
 		"<AttrTest spirit:rangeType=\"unsigned long\"/>",
 		AttrTest {
-			format:     None,
-			prompt:     None,
-			minimum:    None,
-			maximum:    None,
 			range_type: Some(spirit::RangeType::UnsignedLong),
+			..Default::default()
 		}
 	);
 }
