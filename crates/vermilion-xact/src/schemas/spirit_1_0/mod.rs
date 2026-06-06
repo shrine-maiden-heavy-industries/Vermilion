@@ -28,6 +28,7 @@ pub use bus_interface::*;
 pub use common_structures::*;
 pub use component::*;
 pub use configurable::*;
+pub use configurator::*;
 pub use file_type::*;
 pub use identifier::*;
 pub use signal::*;
