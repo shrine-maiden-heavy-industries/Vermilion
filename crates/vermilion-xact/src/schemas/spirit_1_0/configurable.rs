@@ -90,12 +90,21 @@ pub type ConfigurableDependency = xs::String; // TODO(aki): Properly new-type an
 )]
 #[cfg_attr(feature = "schema", derive(::schemars::JsonSchema))]
 pub struct ConfigurableAttributes {
-	#[serde(rename = "@spirit:resolve", skip_serializing_if = "Option::is_none")]
+	#[serde(
+		rename = "@spirit:resolve",
+		alias = "@resolve",
+		skip_serializing_if = "Option::is_none"
+	)]
 	pub(crate) resolve:    Option<spirit::Resolve>,
-	#[serde(rename = "@spirit:id", skip_serializing_if = "Option::is_none")]
+	#[serde(rename = "@spirit:id", alias = "@id", skip_serializing_if = "Option::is_none")]
 	pub(crate) id:         Option<spirit::Id>,
-	#[serde(rename = "@spirit:dependency", skip_serializing_if = "Option::is_none")]
+	#[serde(
+		rename = "@spirit:dependency",
+		alias = "@dependency",
+		skip_serializing_if = "Option::is_none"
+	)]
 	pub(crate) dependency: Option<spirit::ConfigurableDependency>,
+	// TODO(aki): Deal with vendor attributes
 }
 
 #[cfg(test)]
