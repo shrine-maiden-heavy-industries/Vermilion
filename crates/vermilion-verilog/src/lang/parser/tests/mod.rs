@@ -180,21 +180,21 @@ macro_rules! parser_test {
 }
 
 // Common Parser Tests
-include!("./tests/all_common.rs");
+mod all_common;
 // Verilog Parser Tests
-include!("./tests/verilog_common.rs");
-include!("./tests/verilog95.rs");
-include!("./tests/verilog05.rs");
-include!("./tests/verilog01.rs");
+mod verilog01;
+mod verilog05;
+mod verilog95;
+mod verilog_common;
 // SystemVerilog Parser Tests
-include!("./tests/system_verilog_common.rs");
-include!("./tests/system_verilog05.rs");
-include!("./tests/system_verilog09.rs");
-include!("./tests/system_verilog12.rs");
-include!("./tests/system_verilog17.rs");
-include!("./tests/system_verilog23.rs");
+mod system_verilog05;
+mod system_verilog09;
+mod system_verilog12;
+mod system_verilog17;
+mod system_verilog23;
+mod system_verilog_common;
 // Verilog-AMS Parser Tests
-include!("./tests/verilog_ams_common.rs");
-include!("./tests/verilog_ams09.rs");
-include!("./tests/verilog_ams14.rs");
-include!("./tests/verilog_ams23.rs");
+mod verilog_ams09;
+mod verilog_ams14;
+mod verilog_ams23;
+mod verilog_ams_common;
