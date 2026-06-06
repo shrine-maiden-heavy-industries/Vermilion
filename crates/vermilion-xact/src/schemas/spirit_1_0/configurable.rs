@@ -86,7 +86,16 @@ pub type ConfigurableDependency = xs::String; // TODO(aki): Properly new-type an
 /// </xs:attributeGroup>
 /// ```
 #[derive(
-	Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize,
+	Clone,
+	Debug,
+	Default,
+	Eq,
+	Hash,
+	Ord,
+	PartialEq,
+	PartialOrd,
+	serde::Deserialize,
+	serde::Serialize,
 )]
 #[cfg_attr(feature = "schema", derive(::schemars::JsonSchema))]
 pub struct ConfigurableAttributes {
