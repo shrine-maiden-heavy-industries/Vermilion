@@ -34,6 +34,7 @@ pub use file::*;
 pub use file_type::*;
 pub use generator::*;
 pub use identifier::*;
+pub use loose_generator_changes::*;
 pub use signal::*;
 pub use signal_drivers::*;
 pub use simple_types::*;
