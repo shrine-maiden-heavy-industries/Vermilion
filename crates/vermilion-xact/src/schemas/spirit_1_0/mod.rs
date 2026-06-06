@@ -38,6 +38,7 @@ pub use loose_generator_changes::*;
 pub use loose_generator_invocation::*;
 pub use memory_map::*;
 pub use model::*;
+pub use pmd::*;
 pub use signal::*;
 pub use signal_drivers::*;
 pub use simple_types::*;
