@@ -464,14 +464,16 @@ pub struct LongPromptAtt {
 /// ## XML Schema
 ///
 /// ```xml
-/// <xs:complexType name="choice.enumeration">
-///   <xs:simpleContent>
-///     <xs:extension base="xs:string">
-///       <xs:attribute name="text" type="xs:string" />
-///       <xs:attribute name="help" type="xs:string" />
-///     </xs:extension>
-///   </xs:simpleContent>
-/// </xs:complexType>
+/// <xs:element name="enumeration">
+///   <xs:complexType>
+///     <xs:simpleContent>
+///       <xs:extension base="xs:string">
+///         <xs:attribute name="text" type="xs:string" />
+///         <xs:attribute name="help" type="xs:string" />
+///       </xs:extension>
+///     </xs:simpleContent>
+///   </xs:complexType>
+/// </xs:element>
 /// ```
 #[derive(
 	Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize,
@@ -504,11 +506,11 @@ pub struct ChoiceEnumeration {
 /// ### XML Schema
 ///
 /// ```xml
-/// <xs:element name="choice" maxOccurs="unbounded">
+/// <xs:element name="choice">
 ///   <xs:complexType>
 ///     <xs:sequence>
 ///       <xs:element name="name" type="xs:Name" />
-///       <xs:element name="enumeration" type="spirit:choice.enumeration" maxOccurs="unbounded" />
+///       <xs:element name="enumeration" ref="spirit:enumeration" maxOccurs="unbounded" />
 ///     </xs:sequence>
 ///   </xs:complexType>
 /// </xs:element>
@@ -534,7 +536,7 @@ pub struct Choice {
 /// <xs:element name="choices">
 ///   <xs:complexType>
 ///     <xs:sequence>
-///        <xs:element type="spirit:choice" />
+///        <xs:element ref="spirit:choice" maxOccurs="unbounded"/>
 ///     </xs:sequence>
 ///   </xs:complexType>
 /// </xs:element>
