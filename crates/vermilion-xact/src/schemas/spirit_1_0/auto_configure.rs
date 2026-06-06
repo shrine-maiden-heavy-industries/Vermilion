@@ -525,6 +525,12 @@ mod test {
 			skip_serializing_if = "Option::is_none"
 		)]
 		minimum: Option<spirit::Minimum>,
+		#[serde(
+			rename = "@spirit:maximum",
+			alias = "@maximum",
+			skip_serializing_if = "Option::is_none"
+		)]
+		maximum: Option<spirit::Maximum>,
 	}
 
 	test_xml_serdes!(
@@ -535,6 +541,7 @@ mod test {
 			format:  Some(spirit::Format::Float),
 			prompt:  None,
 			minimum: None,
+			maximum: None,
 		}
 	);
 
@@ -546,6 +553,7 @@ mod test {
 			format:  Some(spirit::Format::Long),
 			prompt:  None,
 			minimum: None,
+			maximum: None,
 		}
 	);
 
@@ -557,6 +565,7 @@ mod test {
 			format:  Some(spirit::Format::Bool),
 			prompt:  None,
 			minimum: None,
+			maximum: None,
 		}
 	);
 
@@ -568,6 +577,7 @@ mod test {
 			format:  Some(spirit::Format::Choice),
 			prompt:  None,
 			minimum: None,
+			maximum: None,
 		}
 	);
 
@@ -579,6 +589,7 @@ mod test {
 			format:  Some(spirit::Format::String),
 			prompt:  None,
 			minimum: None,
+			maximum: None,
 		}
 	);
 
@@ -590,6 +601,7 @@ mod test {
 			format:  None,
 			prompt:  Some("".into()),
 			minimum: None,
+			maximum: None,
 		}
 	);
 
@@ -601,6 +613,7 @@ mod test {
 			format:  None,
 			prompt:  Some("Meow!".into()),
 			minimum: None,
+			maximum: None,
 		}
 	);
 
@@ -612,6 +625,7 @@ mod test {
 			format:  None,
 			prompt:  None,
 			minimum: Some("".into()),
+			maximum: None,
 		}
 	);
 
@@ -623,6 +637,31 @@ mod test {
 			format:  None,
 			prompt:  None,
 			minimum: Some("0".into()),
+			maximum: None,
+		}
+	);
+
+	test_xml_serdes!(
+		spirit_1_0,
+		attr_maximum_empty,
+		"<AttrTest spirit:maximum=\"\"/>",
+		AttrTest {
+			format:  None,
+			prompt:  None,
+			minimum: None,
+			maximum: Some("".into()),
+		}
+	);
+
+	test_xml_serdes!(
+		spirit_1_0,
+		attr_maximum,
+		"<AttrTest spirit:maximum=\"8008\"/>",
+		AttrTest {
+			format:  None,
+			prompt:  None,
+			minimum: None,
+			maximum: Some("8008".into()),
 		}
 	);
 }
