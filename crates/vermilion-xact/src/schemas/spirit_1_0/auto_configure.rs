@@ -7,21 +7,23 @@ use crate::schemas::{spirit_1_0 as spirit, xs};
 /// ## XML Schema
 ///
 /// ```xml
-/// <xs:simpleType name="formatType">
-///   <xs:restriction base="xs:token">
-///     <xs:enumeration value="float"/>
-///     <xs:enumeration value="long"/>
-///     <xs:enumeration value="bool"/>
-///     <xs:enumeration value="choice"/>
-///     <xs:enumeration value="string"/>
-///   </xs:restriction>
-/// </xs:simpleType>
+/// <xs:attribute name="format">
+///   <xs:simpleType>
+///     <xs:restriction base="xs:token">
+///       <xs:enumeration value="float"/>
+///       <xs:enumeration value="long"/>
+///       <xs:enumeration value="bool"/>
+///       <xs:enumeration value="choice"/>
+///       <xs:enumeration value="string"/>
+///     </xs:restriction>
+///   s</xs:simpleType>
+/// </xs:attribute>
 /// ```
 #[derive(
 	Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize,
 )]
 #[cfg_attr(feature = "schema", derive(::schemars::JsonSchema))]
-pub enum FormatType {
+pub enum Format {
 	/// A floating point value is expected
 	#[serde(rename = "float")]
 	Float,
@@ -38,16 +40,6 @@ pub enum FormatType {
 	#[serde(rename = "string")]
 	String,
 }
-
-/// This is a hint to the user interface about the data format to require for user resolved
-/// properties.
-///
-/// ## XML Schema
-///
-/// ```xml
-/// <xs:attribute name="format" type="spirit:formatType" />
-/// ```
-pub type Format = FormatType; // TODO(aki): Properly new-type and wrap/validate/serde
 
 /// Provides a string used to prompt the user for user-resolved property values.
 ///
@@ -377,7 +369,7 @@ pub struct BoolPromptAtt {
 ///
 /// ```xml
 /// <xs:attributeGroup name="long.att">
-///   <xs:attribute name="format" type="spirit:formatType" default="long" />
+///   <xs:attribute name="format" ref="spirit:format" default="long" />
 ///   <xs:attributeGroup ref="spirit:common.att"/>
 /// </xs:attributeGroup>
 /// ```
@@ -444,7 +436,7 @@ pub struct ChoiceEnumeration {
 	pub(crate) help:  Option<xs::String>,
 }
 
-/// Non-empty set of legal values for a user defined property of type spirit:formatType="choice" .
+/// Non-empty set of legal values for a user defined property of type [`Format::Choice`].
 ///
 /// ### XML Schema
 ///
@@ -464,14 +456,14 @@ pub struct ChoiceEnumeration {
 #[cfg_attr(feature = "schema", derive(::schemars::JsonSchema))]
 pub enum Choice {
 	/// Choice key, available for reference by the spirit:choiceRef attribute of user defined
-	/// properties of type spirit:formatType="choice".
+	/// properties of type [`Format::Choice`].
 	#[serde(rename = "spirit:name")]
 	Name(xs::Name),
 	#[serde(rename = "spirit:enumeration")]
 	Enumeration(ChoiceEnumeration),
 }
 
-/// Choices used by user defined properties of [`FormatType::Choice`]
+/// Choices used by user defined properties of [`Format::Choice`]
 ///
 /// ### XML Schema
 ///
