@@ -507,42 +507,46 @@ mod test {
 
 	#[derive(Clone, Debug, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize)]
 	struct AttrTest {
-		#[serde(rename = "@spirit:format", alias = "@format")]
-		format: Option<Format>,
+		#[serde(
+			rename = "@spirit:format",
+			alias = "@format",
+			skip_serializing_if = "Option::is_none"
+		)]
+		format: Option<spirit::Format>,
 	}
 
 	test_xml_serdes!(
 		spirit_1_0,
-		format_type_float,
+		attr_format_type_float,
 		"<AttrTest spirit:format=\"float\"/>",
-		AttrTest { format: Some(Format::Float) }
+		AttrTest { format: Some(spirit::Format::Float) }
 	);
 
 	test_xml_serdes!(
 		spirit_1_0,
-		format_type_long,
+		attr_format_type_long,
 		"<AttrTest spirit:format=\"long\"/>",
-		AttrTest { format: Some(Format::Long) }
+		AttrTest { format: Some(spirit::Format::Long) }
 	);
 
 	test_xml_serdes!(
 		spirit_1_0,
-		format_type_bool,
+		attr_format_type_bool,
 		"<AttrTest spirit:format=\"bool\"/>",
-		AttrTest { format: Some(Format::Bool) }
+		AttrTest { format: Some(spirit::Format::Bool) }
 	);
 
 	test_xml_serdes!(
 		spirit_1_0,
-		format_type_choice,
+		attr_format_type_choice,
 		"<AttrTest spirit:format=\"choice\"/>",
-		AttrTest { format: Some(Format::Choice) }
+		AttrTest { format: Some(spirit::Format::Choice) }
 	);
 
 	test_xml_serdes!(
 		spirit_1_0,
-		format_type_string,
+		attr_format_type_string,
 		"<AttrTest spirit:format=\"string\"/>",
-		AttrTest { format: Some(Format::String) }
+		AttrTest { format: Some(spirit::Format::String) }
 	);
 }
