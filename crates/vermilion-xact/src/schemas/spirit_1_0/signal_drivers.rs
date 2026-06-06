@@ -245,11 +245,13 @@ pub struct SingleShotDuration {
 	serde::Serialize,
 )]
 #[cfg_attr(feature = "schema", derive(::schemars::JsonSchema))]
-#[serde(rename = "camelCase")]
 pub enum DriverType {
+	#[serde(rename = "clock")]
 	Clock,
+	#[serde(rename = "singleShot")]
 	SingleShot,
 	#[default]
+	#[serde(rename = "any")]
 	Any,
 }
 
@@ -310,10 +312,11 @@ pub struct RequiresDriver {
 	serde::Serialize,
 )]
 #[cfg_attr(feature = "schema", derive(::schemars::JsonSchema))]
-#[serde(rename = "camelCase")]
 pub enum StrengthType {
 	#[default]
+	#[serde(rename = "strong")]
 	Strong,
+	#[serde(rename = "weak")]
 	Weak,
 }
 

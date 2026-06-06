@@ -57,37 +57,52 @@ pub struct UserFileType {
 	Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize,
 )]
 #[cfg_attr(feature = "schema", derive(::schemars::JsonSchema))]
-#[serde(rename = "camelCase")]
 pub enum KnownFileType {
+	#[serde(rename = "unknown")]
 	Unknown,
+	#[serde(rename = "cSource")]
 	CSource,
+	#[serde(rename = "cppSource")]
 	CppSource,
+	#[serde(rename = "asmSource")]
 	AsmSource,
+	#[serde(rename = "vhdlSource")]
 	VhdlSource,
 	#[serde(rename = "vhdlSource-87")]
 	Vhdl87Source,
 	#[serde(rename = "vhdlSource-93")]
 	Vhdl93Source,
+	#[serde(rename = "verilogSource")]
 	VerilogSource,
 	#[serde(rename = "verilogSource-95")]
 	Verilog95Source,
 	#[serde(rename = "verilogSource-2001")]
 	Verilog2kSource,
+	#[serde(rename = "swObject")]
 	SwObject,
+	#[serde(rename = "swObjectLibrary")]
 	SwObjectLibrary,
+	#[serde(rename = "vhdlBinaryLibrary")]
 	VhdlBinaryLibrary,
+	#[serde(rename = "verilogBinaryLibrary")]
 	VerilogBinaryLibrary,
+	#[serde(rename = "unelaboratedHdl")]
 	UnelaboratedHdl,
+	#[serde(rename = "executableHdl")]
 	ExecutableHdl,
+	#[serde(rename = "systemVerilogSource")]
 	SystemVerilogSource,
 	#[serde(rename = "systemVerilogSource-3.0")]
 	SystemVerilog3_0Source,
 	#[serde(rename = "systemVerilogSource-3.1")]
 	SystemVerilog3_1Source,
+	#[serde(rename = "systemCSource")]
 	SystemCSource,
 	#[serde(rename = "systemCSource-2.0")]
 	SystemC2Source,
+	#[serde(rename = "veraSource")]
 	VeraSource,
+	#[serde(rename = "eSource")]
 	ESource,
 }
 

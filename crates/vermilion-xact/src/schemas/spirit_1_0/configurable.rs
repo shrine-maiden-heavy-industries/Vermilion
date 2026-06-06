@@ -33,17 +33,20 @@ use crate::schemas::{spirit_1_0 as spirit, xs};
 	Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize,
 )]
 #[cfg_attr(feature = "schema", derive(::schemars::JsonSchema))]
-#[serde(rename = "camelCase")]
 pub enum ResolveType {
 	/// Property value is included in the XML file. It cannot be configured.
+	#[serde(rename = "immediate")]
 	Immediate,
 	/// Property content can be modified through configuration. Modifications will be saved with the
 	/// design.
+	#[serde(rename = "user")]
 	User,
 	/// Property value is expressed as an XPath expression which may refer to other properties.  The
 	/// expression must appear in the dependency attribute.
+	#[serde(rename = "dependent")]
 	Dependent,
 	/// Generators may modify this property. Modifications do not get saved with the design.
+	#[serde(rename = "generated")]
 	Generated,
 }
 

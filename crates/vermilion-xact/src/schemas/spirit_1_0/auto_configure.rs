@@ -21,17 +21,21 @@ use crate::schemas::{spirit_1_0 as spirit, xs};
 	Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize,
 )]
 #[cfg_attr(feature = "schema", derive(::schemars::JsonSchema))]
-#[serde(rename = "camelCase")]
 pub enum FormatType {
 	/// A floating point value is expected
+	#[serde(rename = "float")]
 	Float,
 	/// An integer is expected
+	#[serde(rename = "long")]
 	Long,
 	/// A boolean is expected
+	#[serde(rename = "bool")]
 	Bool,
 	/// One or more choices from a list are expected
+	#[serde(rename = "choice")]
 	Choice,
 	/// Any value is allowed
+	#[serde(rename = "string")]
 	String,
 }
 
@@ -101,17 +105,19 @@ pub type Maximum = xs::String; // TODO(aki): Properly new-type and wrap/validate
 	serde::Serialize,
 )]
 #[cfg_attr(feature = "schema", derive(::schemars::JsonSchema))]
-#[serde(rename = "camelCase")]
 pub enum RangeTypeType {
 	/// A floating point number
 	#[default]
+	#[serde(rename = "float")]
 	Float,
 	/// A signed 32-bit integer
+	#[serde(rename = "int")]
 	Int,
 	/// An unsigned 32-bit integer
 	#[serde(rename = "unsigned int")]
 	UnsignedInt,
 	/// A signed 64-bit integer
+	#[serde(rename = "long")]
 	Long,
 	/// An unsigned 64-bit integer
 	#[serde(rename = "unsigned long")]
@@ -176,12 +182,13 @@ pub type ChoiceRef = xs::Name; // TODO(aki): Properly new-type and wrap/validate
 	serde::Serialize,
 )]
 #[cfg_attr(feature = "schema", derive(::schemars::JsonSchema))]
-#[serde(rename = "camelCase")]
 pub enum ChoiceStyle {
 	/// Display choice as radio buttons.
 	#[default]
+	#[serde(rename = "radio")]
 	Radio,
 	/// Display choice as combo box.
+	#[serde(rename = "combo")]
 	Combo,
 }
 
@@ -212,12 +219,13 @@ pub enum ChoiceStyle {
 	serde::Serialize,
 )]
 #[cfg_attr(feature = "schema", derive(::schemars::JsonSchema))]
-#[serde(rename = "camelCase")]
 pub enum Direction {
 	/// Display radio buttons vertically
+	#[serde(rename = "vertical")]
 	Vertical,
 	/// Display radio buttons horizontally
 	#[default]
+	#[serde(rename = "horizontal")]
 	Horizontal,
 }
 
@@ -489,7 +497,6 @@ pub enum Choice {
 	serde::Serialize,
 )]
 #[cfg_attr(feature = "schema", derive(::schemars::JsonSchema))]
-#[serde(rename = "camelCase")]
 pub struct Choices {
 	#[serde(rename = "spirit:choice", skip_serializing_if = "Option::is_none")]
 	pub(crate) choices: Option<Vec<spirit::Choice>>,
