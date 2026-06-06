@@ -20,20 +20,22 @@ use crate::schemas::{spirit_1_0 as spirit, xs};
 /// ## XML Schema
 ///
 /// ```xml
-/// <xs:simpleType name="resolveType">
-///  <xs:restriction base="xs:token">
-///    <xs:enumeration value="immediate" />
-///    <xs:enumeration value="user" />
-///    <xs:enumeration value="dependent" />
-///    <xs:enumeration value="generated" />
-///  </xs:restriction>
-/// </xs:simpleType>
+/// <xs:attribute name="resolve"/>
+///   <xs:simpleType>
+///    <xs:restriction base="xs:token">
+///      <xs:enumeration value="immediate" />
+///      <xs:enumeration value="user" />
+///      <xs:enumeration value="dependent" />
+///      <xs:enumeration value="generated" />
+///    </xs:restriction>
+///   </xs:simpleType>
+/// </xs:attribute>
 /// ```
 #[derive(
 	Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize,
 )]
 #[cfg_attr(feature = "schema", derive(::schemars::JsonSchema))]
-pub enum ResolveType {
+pub enum Resolve {
 	/// Property value is included in the XML file. It cannot be configured.
 	#[serde(rename = "immediate")]
 	Immediate,
@@ -49,15 +51,6 @@ pub enum ResolveType {
 	#[serde(rename = "generated")]
 	Generated,
 }
-
-/// Determines how a property value is resolved.
-///
-/// ## XML Schema
-///
-/// ```xml
-/// <xs:attribute name="resolve" type="spirit:resolveType" />
-/// ```
-pub type Resolve = ResolveType; // TODO(aki): Properly new-type and wrap/validate/serde
 
 /// ID attribute for uniquely identifying an element within its document.
 ///
@@ -98,7 +91,7 @@ pub type ConfigurableDependency = xs::String; // TODO(aki): Properly new-type an
 #[cfg_attr(feature = "schema", derive(::schemars::JsonSchema))]
 pub struct ConfigurableAttributes {
 	#[serde(rename = "@spirit:resolve", skip_serializing_if = "Option::is_none")]
-	pub(crate) resolve:    Option<spirit::ResolveType>,
+	pub(crate) resolve:    Option<spirit::Resolve>,
 	#[serde(rename = "@spirit:id", skip_serializing_if = "Option::is_none")]
 	pub(crate) id:         Option<spirit::Id>,
 	#[serde(rename = "@spirit:dependency", skip_serializing_if = "Option::is_none")]
