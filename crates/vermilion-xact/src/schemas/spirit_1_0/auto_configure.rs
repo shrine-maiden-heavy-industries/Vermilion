@@ -557,6 +557,12 @@ mod test {
 			skip_serializing_if = "Option::is_none"
 		)]
 		choice_style: Option<spirit::ChoiceStyle>,
+		#[serde(
+			rename = "@spirit:direction",
+			alias = "@direction",
+			skip_serializing_if = "Option::is_none"
+		)]
+		direction:    Option<spirit::Direction>,
 	}
 
 	test_xml_serdes!(
@@ -751,6 +757,26 @@ mod test {
 		"<AttrTest spirit:choiceStyle=\"combo\"/>",
 		AttrTest {
 			choice_style: Some(spirit::ChoiceStyle::Combo),
+			..Default::default()
+		}
+	);
+
+	test_xml_serdes!(
+		spirit_1_0,
+		attr_direction_vertical,
+		"<AttrTest spirit:direction=\"vertical\"/>",
+		AttrTest {
+			direction: Some(spirit::Direction::Vertical),
+			..Default::default()
+		}
+	);
+
+	test_xml_serdes!(
+		spirit_1_0,
+		attr_direction_horizontal,
+		"<AttrTest spirit:direction=\"horizontal\"/>",
+		AttrTest {
+			direction: Some(spirit::Direction::Horizontal),
 			..Default::default()
 		}
 	);
