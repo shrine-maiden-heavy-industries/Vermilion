@@ -78,7 +78,7 @@ pub type Id = xs::Id; // TODO(aki): Properly new-type and wrap/validate/serde
 /// ```xml
 /// <xs:attribute name="dependency" type="xs:string" />
 /// ```
-pub type Dependency = xs::String; // TODO(aki): Properly new-type and wrap/validate/serde
+pub type ConfigurableDependency = xs::String; // TODO(aki): Properly new-type and wrap/validate/serde
 
 /// Base set of attributes for an element to be configurable.
 ///
@@ -102,6 +102,8 @@ pub struct ConfigurableAttributes {
 	#[serde(rename = "@spirit:id", skip_serializing_if = "Option::is_none")]
 	pub(crate) id:         Option<spirit::Id>,
 	#[serde(rename = "@spirit:dependency", skip_serializing_if = "Option::is_none")]
+	pub(crate) dependency: Option<spirit::ConfigurableDependency>,
+}
 
 #[cfg(test)]
 mod test {
