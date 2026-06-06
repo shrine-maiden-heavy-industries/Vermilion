@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: BSD-3-Clause
 
+use super::*;
+
 tokenizer_test!(
 	verilog01+,
 	operator_arithmetic_shift_right,

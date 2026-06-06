@@ -2,6 +2,8 @@
 
 use proptest::prelude::*;
 
+use super::*;
+
 macro_rules! tokenizer_fuzz {
 	(verilog95, $test_name:ident, $spec:literal) => {
 		paste! { tokenizer_fuzz!(

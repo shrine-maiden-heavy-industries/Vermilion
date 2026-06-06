@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: BSD-3-Clause
 
+use super::*;
+
 tokenizer_test!(
 	system_verilog09,
 	line_text_macro,

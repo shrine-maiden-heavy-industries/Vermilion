@@ -1591,5 +1591,4 @@ impl Iterator for VerilogTokenizer {
 impl Tokenizer for VerilogTokenizer {}
 
 #[cfg(test)]
-#[path = "tests.rs"]
 mod tests;

@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: BSD-3-Clause
 
+use super::*;
+
 tokenizer_test!(
 	verilog05,
 	naked_based_number_hex_signed_lowercase,
