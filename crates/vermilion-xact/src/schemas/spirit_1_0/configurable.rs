@@ -122,6 +122,8 @@ mod test {
 			skip_serializing_if = "Option::is_none"
 		)]
 		resolve: Option<spirit::Resolve>,
+		#[serde(rename = "@spirit:id", alias = "@id", skip_serializing_if = "Option::is_none")]
+		id:      Option<spirit::Id>,
 	}
 
 	test_xml_serdes!(
@@ -162,5 +164,19 @@ mod test {
 			resolve: Some(spirit::Resolve::User),
 			..Default::default()
 		}
+	);
+
+	test_xml_serdes!(
+		spirit_1_0,
+		attr_id_empty,
+		"<AttrTest spirit:id=\"\"/>",
+		AttrTest { id: Some("".into()), ..Default::default() }
+	);
+
+	test_xml_serdes!(
+		spirit_1_0,
+		attr_id,
+		"<AttrTest spirit:id=\"nya!\"/>",
+		AttrTest { id: Some("nya!".into()), ..Default::default() }
 	);
 }
