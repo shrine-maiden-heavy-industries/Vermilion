@@ -887,4 +887,45 @@ mod test {
 			..Default::default()
 		}
 	);
+
+	test_xml_serdes!(
+		spirit_1_0,
+		choice_enumeration,
+		"<spirit:enumeration>mrrp</spirit:enumeration>",
+		spirit::ChoiceEnumeration { value: "mrrp".into(), text: None, help: None }
+	);
+
+	test_xml_serdes!(
+		spirit_1_0,
+		choice_enumeration_text,
+		"<spirit:enumeration spirit:text=\"Mrrp!\">mrrp</spirit:enumeration>",
+		spirit::ChoiceEnumeration {
+			value: "mrrp".into(),
+			text:  Some("Mrrp!".into()),
+			help:  None,
+		}
+	);
+
+	test_xml_serdes!(
+		spirit_1_0,
+		choice_enumeration_help,
+		"<spirit:enumeration spirit:help=\"cat activation sound\">mrrp</spirit:enumeration>",
+		spirit::ChoiceEnumeration {
+			value: "mrrp".into(),
+			text:  None,
+			help:  Some("cat activation sound".into()),
+		}
+	);
+
+	test_xml_serdes!(
+		spirit_1_0,
+		choice_enumeration_text_and_help,
+		"<spirit:enumeration spirit:text=\"Mrrp!\" spirit:help=\"cat activation \
+		 sound\">mrrp</spirit:enumeration>",
+		spirit::ChoiceEnumeration {
+			value: "mrrp".into(),
+			text:  Some("Mrrp!".into()),
+			help:  Some("cat activation sound".into()),
+		}
+	);
 }
