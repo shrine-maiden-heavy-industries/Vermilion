@@ -49,7 +49,7 @@ macro_rules! test_xml_deserialize {
 				let gold = $obj;
 
 				#[inline(always)]
-				fn _assert<'de, 'a, T>(xml: &'de str, gold: &'a T)
+				fn _assert_resolve_type<'de, T>(xml: &'de str, gold: &T)
 				where
 					T: PartialEq + serde::Deserialize<'de> + std::fmt::Debug
 				{
@@ -57,7 +57,7 @@ macro_rules! test_xml_deserialize {
 					assert_eq!(&check, gold);
 				}
 
-				_assert($xml, &gold);
+				_assert_resolve_type($xml, &gold);
 			}
 		}
 	};
