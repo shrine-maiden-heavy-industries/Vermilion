@@ -504,4 +504,45 @@ impl LongAtt {
 mod test {
 	use super::*;
 	use crate::test_xml_serdes;
+
+	#[derive(Clone, Debug, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize)]
+	struct AttrTest {
+		#[serde(rename = "@spirit:format", alias = "@format")]
+		format: Option<Format>,
+	}
+
+	test_xml_serdes!(
+		spirit_1_0,
+		format_type_float,
+		"<AttrTest spirit:format=\"float\"/>",
+		AttrTest { format: Some(Format::Float) }
+	);
+
+	test_xml_serdes!(
+		spirit_1_0,
+		format_type_long,
+		"<AttrTest spirit:format=\"long\"/>",
+		AttrTest { format: Some(Format::Long) }
+	);
+
+	test_xml_serdes!(
+		spirit_1_0,
+		format_type_bool,
+		"<AttrTest spirit:format=\"bool\"/>",
+		AttrTest { format: Some(Format::Bool) }
+	);
+
+	test_xml_serdes!(
+		spirit_1_0,
+		format_type_choice,
+		"<AttrTest spirit:format=\"choice\"/>",
+		AttrTest { format: Some(Format::Choice) }
+	);
+
+	test_xml_serdes!(
+		spirit_1_0,
+		format_type_string,
+		"<AttrTest spirit:format=\"string\"/>",
+		AttrTest { format: Some(Format::String) }
+	);
 }
