@@ -514,43 +514,49 @@ mod test {
 			alias = "@format",
 			skip_serializing_if = "Option::is_none"
 		)]
-		format:     Option<spirit::Format>,
+		format:       Option<spirit::Format>,
 		#[serde(
 			rename = "@spirit:prompt",
 			alias = "@prompt",
 			skip_serializing_if = "Option::is_none"
 		)]
-		prompt:     Option<spirit::Prompt>,
+		prompt:       Option<spirit::Prompt>,
 		#[serde(
 			rename = "@spirit:minimum",
 			alias = "@minimum",
 			skip_serializing_if = "Option::is_none"
 		)]
-		minimum:    Option<spirit::Minimum>,
+		minimum:      Option<spirit::Minimum>,
 		#[serde(
 			rename = "@spirit:maximum",
 			alias = "@maximum",
 			skip_serializing_if = "Option::is_none"
 		)]
-		maximum:    Option<spirit::Maximum>,
+		maximum:      Option<spirit::Maximum>,
 		#[serde(
 			rename = "@spirit:rangeType",
 			alias = "@rangeType",
 			skip_serializing_if = "Option::is_none"
 		)]
-		range_type: Option<spirit::RangeType>,
+		range_type:   Option<spirit::RangeType>,
 		#[serde(
 			rename = "@spirit:order",
 			alias = "@order",
 			skip_serializing_if = "Option::is_none"
 		)]
-		order:      Option<spirit::Order>,
+		order:        Option<spirit::Order>,
 		#[serde(
 			rename = "@spirit:choiceRef",
 			alias = "@choiceRef",
 			skip_serializing_if = "Option::is_none"
 		)]
-		choice_ref: Option<spirit::ChoiceRef>,
+		choice_ref:   Option<spirit::ChoiceRef>,
+		#[serde(
+			rename = "@spirit:choiceStyle",
+			alias = "@choiceStyle",
+			skip_serializing_if = "Option::is_none"
+		)]
+		choice_style: Option<spirit::ChoiceStyle>,
 	}
 
 	test_xml_serdes!(
@@ -725,6 +731,26 @@ mod test {
 		"<AttrTest spirit:choiceRef=\"Meow!\"/>",
 		AttrTest {
 			choice_ref: Some("Meow!".into()),
+			..Default::default()
+		}
+	);
+
+	test_xml_serdes!(
+		spirit_1_0,
+		attr_choice_style_radio,
+		"<AttrTest spirit:choiceStyle=\"radio\"/>",
+		AttrTest {
+			choice_style: Some(spirit::ChoiceStyle::Radio),
+			..Default::default()
+		}
+	);
+
+	test_xml_serdes!(
+		spirit_1_0,
+		attr_choice_style_combo,
+		"<AttrTest spirit:choiceStyle=\"combo\"/>",
+		AttrTest {
+			choice_style: Some(spirit::ChoiceStyle::Combo),
 			..Default::default()
 		}
 	);
