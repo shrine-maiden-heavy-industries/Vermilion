@@ -513,40 +513,60 @@ mod test {
 			skip_serializing_if = "Option::is_none"
 		)]
 		format: Option<spirit::Format>,
+		#[serde(
+			rename = "@spirit:prompt",
+			alias = "@prompt",
+			skip_serializing_if = "Option::is_none"
+		)]
+		prompt: Option<spirit::Prompt>,
 	}
 
 	test_xml_serdes!(
 		spirit_1_0,
 		attr_format_type_float,
 		"<AttrTest spirit:format=\"float\"/>",
-		AttrTest { format: Some(spirit::Format::Float) }
+		AttrTest { format: Some(spirit::Format::Float), prompt: None }
 	);
 
 	test_xml_serdes!(
 		spirit_1_0,
 		attr_format_type_long,
 		"<AttrTest spirit:format=\"long\"/>",
-		AttrTest { format: Some(spirit::Format::Long) }
+		AttrTest { format: Some(spirit::Format::Long), prompt: None }
 	);
 
 	test_xml_serdes!(
 		spirit_1_0,
 		attr_format_type_bool,
 		"<AttrTest spirit:format=\"bool\"/>",
-		AttrTest { format: Some(spirit::Format::Bool) }
+		AttrTest { format: Some(spirit::Format::Bool), prompt: None }
 	);
 
 	test_xml_serdes!(
 		spirit_1_0,
-		attr_format_type_choice,
+		format_type_choice,
 		"<AttrTest spirit:format=\"choice\"/>",
-		AttrTest { format: Some(spirit::Format::Choice) }
+		AttrTest { format: Some(spirit::Format::Choice), prompt: None }
 	);
 
 	test_xml_serdes!(
 		spirit_1_0,
 		attr_format_type_string,
 		"<AttrTest spirit:format=\"string\"/>",
-		AttrTest { format: Some(spirit::Format::String) }
+		AttrTest { format: Some(spirit::Format::String), prompt: None }
+	);
+
+	test_xml_serdes!(
+		spirit_1_0,
+		attr_prompt_empty,
+		"<AttrTest spirit:prompt=\"\"/>",
+		AttrTest { format: None, prompt: Some("".into()) }
+	);
+
+	test_xml_serdes!(
+		spirit_1_0,
+		attr_prompt,
+		"<AttrTest spirit:prompt=\"Meow!\"/>",
+		AttrTest { format: None, prompt: Some("Meow!".into()) }
 	);
 }
