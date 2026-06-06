@@ -552,8 +552,8 @@ pub struct Choice {
 )]
 #[cfg_attr(feature = "schema", derive(::schemars::JsonSchema))]
 pub struct Choices {
-	#[serde(rename = "spirit:choice", skip_serializing_if = "Option::is_none")]
-	pub(crate) choices: Option<Vec<spirit::Choice>>,
+	#[serde(rename = "spirit:choice", skip_serializing_if = "Vec::is_empty")]
+	pub(crate) choices: Vec<spirit::Choice>,
 }
 
 impl BoolAtt {
