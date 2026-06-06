@@ -119,7 +119,7 @@ pub struct ConfigurableAttributes {
 #[cfg(test)]
 mod test {
 	use super::*;
-	use crate::test_xml_serdes;
+	use crate::{test_xml_deserialize, test_xml_serdes};
 
 	#[derive(
 		Clone, Debug, Default, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize,
@@ -209,6 +209,66 @@ mod test {
 		AttrTest {
 			dependency: Some("nya!".into()),
 			..Default::default()
+		}
+	);
+
+	#[derive(Clone, Debug, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize)]
+	struct CfgAttrTest {
+		#[serde(flatten)]
+		attrs: spirit::ConfigurableAttributes,
+	}
+
+	test_xml_deserialize!(
+		spirit_1_0,
+		attr_configurable_attributes_none,
+		"<CfgAttrTest/>",
+		CfgAttrTest { attrs: Default::default() }
+	);
+
+	test_xml_deserialize!(
+		spirit_1_0,
+		attr_configurable_attributes_resolve,
+		"<CfgAttrTest spirit:resolve=\"user\"/>",
+		CfgAttrTest {
+			attrs: spirit::ConfigurableAttributes {
+				resolve: Some(spirit::Resolve::User),
+				..Default::default()
+			},
+		}
+	);
+
+	test_xml_deserialize!(
+		spirit_1_0,
+		attr_configurable_attributes_id,
+		"<CfgAttrTest spirit:id=\"nya!\"/>",
+		CfgAttrTest {
+			attrs: spirit::ConfigurableAttributes { id: Some("nya!".into()), ..Default::default() },
+		}
+	);
+
+	test_xml_deserialize!(
+		spirit_1_0,
+		attr_configurable_attributes_dependency,
+		"<CfgAttrTest spirit:dependency=\"meow!\"/>",
+		CfgAttrTest {
+			attrs: spirit::ConfigurableAttributes {
+				dependency: Some("meow!".into()),
+				..Default::default()
+			},
+		}
+	);
+
+	test_xml_deserialize!(
+		spirit_1_0,
+		attr_configurable_attributes_all,
+		"<CfgAttrTest spirit:resolve=\"generated\" spirit:id=\"nya!\" \
+		 spirit:dependency=\"meow!\"/>",
+		CfgAttrTest {
+			attrs: spirit::ConfigurableAttributes {
+				resolve:    Some(spirit::Resolve::Generated),
+				id:         Some("nya!".into()),
+				dependency: Some("meow!".into()),
+			},
 		}
 	);
 }
