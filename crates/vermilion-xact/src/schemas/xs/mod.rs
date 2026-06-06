@@ -35,6 +35,35 @@ macro_rules! thin_impl {
 			}
 		}
 	};
+	($type:ty,std::string::String) => {
+		impl $type {
+			pub const fn new(inner: std::string::String) -> Self {
+				Self { inner }
+			}
+
+			pub fn value(self) -> std::string::String {
+				self.inner
+			}
+		}
+
+		impl From<std::string::String> for $type {
+			fn from(value: std::string::String) -> Self {
+				Self { inner: value }
+			}
+		}
+
+		impl From<$type> for std::string::String {
+			fn from(value: $type) -> Self {
+				value.value()
+			}
+		}
+
+		impl From<&str> for $type {
+			fn from(value: &str) -> Self {
+				Self { inner: value.to_string() }
+			}
+		}
+	};
 	($type:ty, $inner:ty) => {
 		impl $type {
 			pub const fn new(inner: $inner) -> Self {
@@ -59,7 +88,6 @@ macro_rules! thin_impl {
 		}
 	};
 }
-
 /// A type analogous to the XML Schema [`xs:anyURI`] type.
 ///
 /// [`xs:anyURI`]: https://www.w3.org/TR/xmlschema-2/#anyURI
