@@ -260,19 +260,19 @@ macro_rules! parser_test {
 }
 
 // VHDL Parser Tests
-include!("./tests/vhdl87.rs");
-include!("./tests/vhdl93.rs");
-include!("./tests/vhdl2k.rs");
-include!("./tests/vhdl02.rs");
-include!("./tests/vhdl04.rs");
-include!("./tests/vhdl07.rs");
-include!("./tests/vhdl08.rs");
-include!("./tests/vhdl11.rs");
-include!("./tests/vhdl19.rs");
-include!("./tests/vhdl23.rs");
+mod vhdl02;
+mod vhdl04;
+mod vhdl07;
+mod vhdl08;
+mod vhdl11;
+mod vhdl19;
+mod vhdl23;
+mod vhdl2k;
+mod vhdl87;
+mod vhdl93;
 // VHDL-AMS Parser Tests
-include!("./tests/vhdl_ams99.rs");
-include!("./tests/vhdl_ams07.rs");
-include!("./tests/vhdl_ams09.rs");
-include!("./tests/vhdl_ams17.rs");
-include!("./tests/vhdl_ams21.rs");
+mod vhdl_ams07;
+mod vhdl_ams09;
+mod vhdl_ams17;
+mod vhdl_ams21;
+mod vhdl_ams99;
