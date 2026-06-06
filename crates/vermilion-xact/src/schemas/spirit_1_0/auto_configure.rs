@@ -481,10 +481,20 @@ pub struct ChoiceEnumeration {
 	#[serde(rename = "$text")]
 	pub(crate) value: xs::String,
 	/// When specified, displayed in place of the spirit:enumeration value
-	#[serde(rename = "@spirit:text", skip_serializing_if = "Option::is_none", default)]
+	#[serde(
+		rename = "@spirit:text",
+		alias = "@text",
+		skip_serializing_if = "Option::is_none",
+		default
+	)]
 	pub(crate) text:  Option<xs::String>,
 	/// Text that may be displayed if the user requests help about the meaning of an element
-	#[serde(rename = "@spirit:help", skip_serializing_if = "Option::is_none", default)]
+	#[serde(
+		rename = "@spirit:help",
+		alias = "@help",
+		skip_serializing_if = "Option::is_none",
+		default
+	)]
 	pub(crate) help:  Option<xs::String>,
 }
 
