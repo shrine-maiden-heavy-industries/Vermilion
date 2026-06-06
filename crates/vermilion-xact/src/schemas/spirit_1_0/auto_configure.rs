@@ -514,55 +514,61 @@ mod test {
 			alias = "@format",
 			skip_serializing_if = "Option::is_none"
 		)]
-		format:       Option<spirit::Format>,
+		format:        Option<spirit::Format>,
 		#[serde(
 			rename = "@spirit:prompt",
 			alias = "@prompt",
 			skip_serializing_if = "Option::is_none"
 		)]
-		prompt:       Option<spirit::Prompt>,
+		prompt:        Option<spirit::Prompt>,
 		#[serde(
 			rename = "@spirit:minimum",
 			alias = "@minimum",
 			skip_serializing_if = "Option::is_none"
 		)]
-		minimum:      Option<spirit::Minimum>,
+		minimum:       Option<spirit::Minimum>,
 		#[serde(
 			rename = "@spirit:maximum",
 			alias = "@maximum",
 			skip_serializing_if = "Option::is_none"
 		)]
-		maximum:      Option<spirit::Maximum>,
+		maximum:       Option<spirit::Maximum>,
 		#[serde(
 			rename = "@spirit:rangeType",
 			alias = "@rangeType",
 			skip_serializing_if = "Option::is_none"
 		)]
-		range_type:   Option<spirit::RangeType>,
+		range_type:    Option<spirit::RangeType>,
 		#[serde(
 			rename = "@spirit:order",
 			alias = "@order",
 			skip_serializing_if = "Option::is_none"
 		)]
-		order:        Option<spirit::Order>,
+		order:         Option<spirit::Order>,
 		#[serde(
 			rename = "@spirit:choiceRef",
 			alias = "@choiceRef",
 			skip_serializing_if = "Option::is_none"
 		)]
-		choice_ref:   Option<spirit::ChoiceRef>,
+		choice_ref:    Option<spirit::ChoiceRef>,
 		#[serde(
 			rename = "@spirit:choiceStyle",
 			alias = "@choiceStyle",
 			skip_serializing_if = "Option::is_none"
 		)]
-		choice_style: Option<spirit::ChoiceStyle>,
+		choice_style:  Option<spirit::ChoiceStyle>,
 		#[serde(
 			rename = "@spirit:direction",
 			alias = "@direction",
 			skip_serializing_if = "Option::is_none"
 		)]
-		direction:    Option<spirit::Direction>,
+		direction:     Option<spirit::Direction>,
+		#[serde(
+			rename = "@spirit:configGroups",
+			alias = "@configGroups",
+			skip_serializing_if = "Option::is_none"
+		)]
+		config_groups: Option<spirit::ConfigGroups>,
 	}
 
 	test_xml_serdes!(
@@ -777,6 +783,38 @@ mod test {
 		"<AttrTest spirit:direction=\"horizontal\"/>",
 		AttrTest {
 			direction: Some(spirit::Direction::Horizontal),
+			..Default::default()
+		}
+	);
+
+	test_xml_serdes!(
+		spirit_1_0,
+		attr_config_groups_empty,
+		"<AttrTest spirit:configGroups=\"\"/>",
+		AttrTest {
+			config_groups: Some(vec![].into()),
+			..Default::default()
+		}
+	);
+
+	test_xml_serdes!(
+		spirit_1_0,
+		attr_config_groups_single,
+		"<AttrTest spirit:configGroups=\"meow\"/>",
+		AttrTest {
+			config_groups: Some(vec!["meow".to_string()].into()),
+			..Default::default()
+		}
+	);
+
+	test_xml_serdes!(
+		spirit_1_0,
+		attr_config_groups_multiple,
+		"<AttrTest spirit:configGroups=\"meow mrrp nya\"/>",
+		AttrTest {
+			config_groups: Some(
+				vec!["meow".to_string(), "mrrp".to_string(), "nya".to_string()].into()
+			),
 			..Default::default()
 		}
 	);
