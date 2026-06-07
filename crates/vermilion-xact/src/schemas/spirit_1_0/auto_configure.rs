@@ -1033,4 +1033,80 @@ mod test {
 			],
 		}
 	);
+
+	test_xml_serdes!(
+		spirit_1_0,
+		choices_one_choice,
+		"\
+<spirit:choices>
+  <spirit:choice>
+    <spirit:name>meow</spirit:name>
+    <spirit:enumeration>0</spirit:enumeration>
+    <spirit:enumeration spirit:text=\"Nya!\">1</spirit:enumeration>
+  </spirit:choice>
+</spirit:choices>",
+		spirit::Choices {
+			choices: vec![spirit::Choice {
+				name:    "meow".into(),
+				options: vec![
+					spirit::ChoiceEnumeration { value: "0".into(), text: None, help: None },
+					spirit::ChoiceEnumeration {
+						value: "1".into(),
+						text:  Some("Nya!".into()),
+						help:  None,
+					}
+				],
+			}],
+		}
+	);
+
+	test_xml_serdes!(
+		spirit_1_0,
+		choices_two_choices,
+		"\
+<spirit:choices>
+  <spirit:choice>
+    <spirit:name>meow</spirit:name>
+    <spirit:enumeration>0</spirit:enumeration>
+    <spirit:enumeration spirit:text=\"Nya!\">1</spirit:enumeration>
+  </spirit:choice>
+  <spirit:choice>
+    <spirit:name>meow2</spirit:name>
+    <spirit:enumeration>0</spirit:enumeration>
+    <spirit:enumeration spirit:text=\"Nya!\">1</spirit:enumeration>
+    <spirit:enumeration spirit:help=\"Mrrp!\">2</spirit:enumeration>
+  </spirit:choice>
+</spirit:choices>",
+		spirit::Choices {
+			choices: vec![
+				spirit::Choice {
+					name:    "meow".into(),
+					options: vec![
+						spirit::ChoiceEnumeration { value: "0".into(), text: None, help: None },
+						spirit::ChoiceEnumeration {
+							value: "1".into(),
+							text:  Some("Nya!".into()),
+							help:  None,
+						}
+					],
+				},
+				spirit::Choice {
+					name:    "meow2".into(),
+					options: vec![
+						spirit::ChoiceEnumeration { value: "0".into(), text: None, help: None },
+						spirit::ChoiceEnumeration {
+							value: "1".into(),
+							text:  Some("Nya!".into()),
+							help:  None,
+						},
+						spirit::ChoiceEnumeration {
+							value: "2".into(),
+							text:  None,
+							help:  Some("Mrrp!".into()),
+						}
+					],
+				}
+			],
+		}
+	);
 }
