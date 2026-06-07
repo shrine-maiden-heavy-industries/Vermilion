@@ -110,7 +110,13 @@ macro_rules! test_xml_serialize {
 			#[test]
 			fn [<test_xml_serialize_ $test_name>] () {
 				let gold = $obj;
-				assert_eq!(quick_xml::se::to_string(&gold).unwrap(), $xml);
+				let mut buff = String::new();
+				let mut ser = quick_xml::se::Serializer::new(&mut buff);
+				ser.indent(' ', 2);
+
+				serde::Serialize::serialize(&gold, ser).unwrap();
+
+				assert_eq!(buff.as_str(), $xml);
 			}
 		}
 	};
