@@ -555,8 +555,9 @@ pub struct Choice {
 	serde::Serialize,
 )]
 #[cfg_attr(feature = "schema", derive(::schemars::JsonSchema))]
+#[serde(rename = "spirit:choices")]
 pub struct Choices {
-	#[serde(rename = "spirit:choice", skip_serializing_if = "Vec::is_empty")]
+	#[serde(rename = "$value", skip_serializing_if = "Vec::is_empty")]
 	pub(crate) choices: Vec<spirit::Choice>,
 }
 
