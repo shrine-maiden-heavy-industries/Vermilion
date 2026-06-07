@@ -930,4 +930,106 @@ mod test {
 			help:  Some("cat activation sound".into()),
 		}
 	);
+
+	test_xml_serdes!(
+		spirit_1_0,
+		choice_one_option,
+		"\
+<spirit:choice>
+  <spirit:name>meow</spirit:name>
+  <spirit:enumeration>0</spirit:enumeration>
+</spirit:choice>",
+		spirit::Choice {
+			name:    "meow".into(),
+			options: vec![spirit::ChoiceEnumeration {
+				value: "0".into(),
+				text:  None,
+				help:  None,
+			}],
+		}
+	);
+
+	test_xml_serdes!(
+		spirit_1_0,
+		choice_two_options,
+		"\
+<spirit:choice>
+  <spirit:name>meow</spirit:name>
+  <spirit:enumeration>0</spirit:enumeration>
+  <spirit:enumeration spirit:text=\"Nya!\">1</spirit:enumeration>
+</spirit:choice>",
+		spirit::Choice {
+			name:    "meow".into(),
+			options: vec![
+				spirit::ChoiceEnumeration { value: "0".into(), text: None, help: None },
+				spirit::ChoiceEnumeration {
+					value: "1".into(),
+					text:  Some("Nya!".into()),
+					help:  None,
+				}
+			],
+		}
+	);
+
+	test_xml_serdes!(
+		spirit_1_0,
+		choice_three_options,
+		"\
+<spirit:choice>
+  <spirit:name>meow</spirit:name>
+  <spirit:enumeration>0</spirit:enumeration>
+  <spirit:enumeration spirit:text=\"Nya!\">1</spirit:enumeration>
+  <spirit:enumeration spirit:help=\"Mrrp!\">2</spirit:enumeration>
+</spirit:choice>",
+		spirit::Choice {
+			name:    "meow".into(),
+			options: vec![
+				spirit::ChoiceEnumeration { value: "0".into(), text: None, help: None },
+				spirit::ChoiceEnumeration {
+					value: "1".into(),
+					text:  Some("Nya!".into()),
+					help:  None,
+				},
+				spirit::ChoiceEnumeration {
+					value: "2".into(),
+					text:  None,
+					help:  Some("Mrrp!".into()),
+				}
+			],
+		}
+	);
+
+	test_xml_serdes!(
+		spirit_1_0,
+		choice_four_options,
+		"\
+<spirit:choice>
+  <spirit:name>meow</spirit:name>
+  <spirit:enumeration>0</spirit:enumeration>
+  <spirit:enumeration spirit:text=\"Nya!\">1</spirit:enumeration>
+  <spirit:enumeration spirit:help=\"Mrrp!\">2</spirit:enumeration>
+  <spirit:enumeration spirit:text=\"Kon!\" spirit:help=\"What?\">3</spirit:enumeration>
+</spirit:choice>",
+		spirit::Choice {
+			name:    "meow".into(),
+			options: vec![
+				spirit::ChoiceEnumeration { value: "0".into(), text: None, help: None },
+				spirit::ChoiceEnumeration {
+					value: "1".into(),
+					text:  Some("Nya!".into()),
+					help:  None,
+				},
+				spirit::ChoiceEnumeration {
+					value: "2".into(),
+					text:  None,
+					help:  Some("Mrrp!".into()),
+				},
+				spirit::ChoiceEnumeration {
+					value: "3".into(),
+					text:  Some("Kon!".into()),
+					help:  Some("What?".into()),
+				}
+			],
+		}
+	);
 }
