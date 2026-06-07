@@ -645,7 +645,7 @@ mod test {
 	test_xml_serdes!(
 		spirit_1_0,
 		attr_format_type_float,
-		"<AttrTest spirit:format=\"float\"/>",
+		r#"<AttrTest spirit:format="float"/>"#,
 		AttrTest {
 			format: Some(spirit::Format::Float),
 			..Default::default()
@@ -655,7 +655,7 @@ mod test {
 	test_xml_serdes!(
 		spirit_1_0,
 		attr_format_type_long,
-		"<AttrTest spirit:format=\"long\"/>",
+		r#"<AttrTest spirit:format="long"/>"#,
 		AttrTest {
 			format: Some(spirit::Format::Long),
 			..Default::default()
@@ -665,7 +665,7 @@ mod test {
 	test_xml_serdes!(
 		spirit_1_0,
 		attr_format_type_bool,
-		"<AttrTest spirit:format=\"bool\"/>",
+		r#"<AttrTest spirit:format="bool"/>"#,
 		AttrTest {
 			format: Some(spirit::Format::Bool),
 			..Default::default()
@@ -675,7 +675,7 @@ mod test {
 	test_xml_serdes!(
 		spirit_1_0,
 		format_type_choice,
-		"<AttrTest spirit:format=\"choice\"/>",
+		r#"<AttrTest spirit:format="choice"/>"#,
 		AttrTest {
 			format: Some(spirit::Format::Choice),
 			..Default::default()
@@ -685,7 +685,7 @@ mod test {
 	test_xml_serdes!(
 		spirit_1_0,
 		attr_format_type_string,
-		"<AttrTest spirit:format=\"string\"/>",
+		r#"<AttrTest spirit:format="string"/>"#,
 		AttrTest {
 			format: Some(spirit::Format::String),
 			..Default::default()
@@ -695,49 +695,49 @@ mod test {
 	test_xml_serdes!(
 		spirit_1_0,
 		attr_prompt_empty,
-		"<AttrTest spirit:prompt=\"\"/>",
+		r#"<AttrTest spirit:prompt=""/>"#,
 		AttrTest { prompt: Some("".into()), ..Default::default() }
 	);
 
 	test_xml_serdes!(
 		spirit_1_0,
 		attr_prompt,
-		"<AttrTest spirit:prompt=\"Meow!\"/>",
+		r#"<AttrTest spirit:prompt="Meow!"/>"#,
 		AttrTest { prompt: Some("Meow!".into()), ..Default::default() }
 	);
 
 	test_xml_serdes!(
 		spirit_1_0,
 		attr_minimum_empty,
-		"<AttrTest spirit:minimum=\"\"/>",
+		r#"<AttrTest spirit:minimum=""/>"#,
 		AttrTest { minimum: Some("".into()), ..Default::default() }
 	);
 
 	test_xml_serdes!(
 		spirit_1_0,
 		attr_minimum,
-		"<AttrTest spirit:minimum=\"0\"/>",
+		r#"<AttrTest spirit:minimum="0"/>"#,
 		AttrTest { minimum: Some("0".into()), ..Default::default() }
 	);
 
 	test_xml_serdes!(
 		spirit_1_0,
 		attr_maximum_empty,
-		"<AttrTest spirit:maximum=\"\"/>",
+		r#"<AttrTest spirit:maximum=""/>"#,
 		AttrTest { maximum: Some("".into()), ..Default::default() }
 	);
 
 	test_xml_serdes!(
 		spirit_1_0,
 		attr_maximum,
-		"<AttrTest spirit:maximum=\"8008\"/>",
+		r#"<AttrTest spirit:maximum="8008"/>"#,
 		AttrTest { maximum: Some("8008".into()), ..Default::default() }
 	);
 
 	test_xml_serdes!(
 		spirit_1_0,
 		attr_range_type_default,
-		"<AttrTest spirit:rangeType=\"float\"/>",
+		r#"<AttrTest spirit:rangeType="float"/>"#,
 		AttrTest {
 			range_type: Some(spirit::RangeType::default()),
 			..Default::default()
@@ -747,7 +747,7 @@ mod test {
 	test_xml_serdes!(
 		spirit_1_0,
 		attr_range_type_float,
-		"<AttrTest spirit:rangeType=\"float\"/>",
+		r#"<AttrTest spirit:rangeType="float"/>"#,
 		AttrTest {
 			range_type: Some(spirit::RangeType::Float),
 			..Default::default()
@@ -757,7 +757,7 @@ mod test {
 	test_xml_serdes!(
 		spirit_1_0,
 		attr_range_type_int,
-		"<AttrTest spirit:rangeType=\"int\"/>",
+		r#"<AttrTest spirit:rangeType="int"/>"#,
 		AttrTest {
 			range_type: Some(spirit::RangeType::Int),
 			..Default::default()
@@ -767,7 +767,7 @@ mod test {
 	test_xml_serdes!(
 		spirit_1_0,
 		attr_range_type_unsigned_int,
-		"<AttrTest spirit:rangeType=\"unsigned int\"/>",
+		r#"<AttrTest spirit:rangeType="unsigned int"/>"#,
 		AttrTest {
 			range_type: Some(spirit::RangeType::UnsignedInt),
 			..Default::default()
@@ -777,7 +777,7 @@ mod test {
 	test_xml_serdes!(
 		spirit_1_0,
 		attr_range_type_long,
-		"<AttrTest spirit:rangeType=\"long\"/>",
+		r#"<AttrTest spirit:rangeType="long"/>"#,
 		AttrTest {
 			range_type: Some(spirit::RangeType::Long),
 			..Default::default()
@@ -787,7 +787,7 @@ mod test {
 	test_xml_serdes!(
 		spirit_1_0,
 		attr_range_type_unsigned_long,
-		"<AttrTest spirit:rangeType=\"unsigned long\"/>",
+		r#"<AttrTest spirit:rangeType="unsigned long"/>"#,
 		AttrTest {
 			range_type: Some(spirit::RangeType::UnsignedLong),
 			..Default::default()
@@ -797,21 +797,21 @@ mod test {
 	test_xml_serdes!(
 		spirit_1_0,
 		attr_order,
-		"<AttrTest spirit:order=\"1.5\"/>",
+		r#"<AttrTest spirit:order="1.5"/>"#,
 		AttrTest { order: Some(1.5.into()), ..Default::default() }
 	);
 
 	test_xml_serdes!(
 		spirit_1_0,
 		attr_choice_ref_empty,
-		"<AttrTest spirit:choiceRef=\"\"/>",
+		r#"<AttrTest spirit:choiceRef=""/>"#,
 		AttrTest { choice_ref: Some("".into()), ..Default::default() }
 	);
 
 	test_xml_serdes!(
 		spirit_1_0,
 		attr_choice_ref,
-		"<AttrTest spirit:choiceRef=\"Meow!\"/>",
+		r#"<AttrTest spirit:choiceRef="Meow!"/>"#,
 		AttrTest {
 			choice_ref: Some("Meow!".into()),
 			..Default::default()
@@ -821,7 +821,7 @@ mod test {
 	test_xml_serdes!(
 		spirit_1_0,
 		attr_choice_style_radio,
-		"<AttrTest spirit:choiceStyle=\"radio\"/>",
+		r#"<AttrTest spirit:choiceStyle="radio"/>"#,
 		AttrTest {
 			choice_style: Some(spirit::ChoiceStyle::Radio),
 			..Default::default()
@@ -831,7 +831,7 @@ mod test {
 	test_xml_serdes!(
 		spirit_1_0,
 		attr_choice_style_combo,
-		"<AttrTest spirit:choiceStyle=\"combo\"/>",
+		r#"<AttrTest spirit:choiceStyle="combo"/>"#,
 		AttrTest {
 			choice_style: Some(spirit::ChoiceStyle::Combo),
 			..Default::default()
@@ -841,7 +841,7 @@ mod test {
 	test_xml_serdes!(
 		spirit_1_0,
 		attr_direction_vertical,
-		"<AttrTest spirit:direction=\"vertical\"/>",
+		r#"<AttrTest spirit:direction="vertical"/>"#,
 		AttrTest {
 			direction: Some(spirit::Direction::Vertical),
 			..Default::default()
@@ -851,7 +851,7 @@ mod test {
 	test_xml_serdes!(
 		spirit_1_0,
 		attr_direction_horizontal,
-		"<AttrTest spirit:direction=\"horizontal\"/>",
+		r#"<AttrTest spirit:direction="horizontal"/>"#,
 		AttrTest {
 			direction: Some(spirit::Direction::Horizontal),
 			..Default::default()
@@ -861,7 +861,7 @@ mod test {
 	test_xml_serdes!(
 		spirit_1_0,
 		attr_config_groups_empty,
-		"<AttrTest spirit:configGroups=\"\"/>",
+		r#"<AttrTest spirit:configGroups=""/>"#,
 		AttrTest {
 			config_groups: Some(vec![].into()),
 			..Default::default()
@@ -871,7 +871,7 @@ mod test {
 	test_xml_serdes!(
 		spirit_1_0,
 		attr_config_groups_single,
-		"<AttrTest spirit:configGroups=\"meow\"/>",
+		r#"<AttrTest spirit:configGroups="meow"/>"#,
 		AttrTest {
 			config_groups: Some(vec!["meow".to_string()].into()),
 			..Default::default()
@@ -881,7 +881,7 @@ mod test {
 	test_xml_serdes!(
 		spirit_1_0,
 		attr_config_groups_multiple,
-		"<AttrTest spirit:configGroups=\"meow mrrp nya\"/>",
+		r#"<AttrTest spirit:configGroups="meow mrrp nya"/>"#,
 		AttrTest {
 			config_groups: Some(
 				vec!["meow".to_string(), "mrrp".to_string(), "nya".to_string()].into()
@@ -900,7 +900,7 @@ mod test {
 	test_xml_serdes!(
 		spirit_1_0,
 		choice_enumeration_text,
-		"<spirit:enumeration spirit:text=\"Mrrp!\">mrrp</spirit:enumeration>",
+		r#"<spirit:enumeration spirit:text="Mrrp!">mrrp</spirit:enumeration>"#,
 		spirit::ChoiceEnumeration {
 			value: "mrrp".into(),
 			text:  Some("Mrrp!".into()),
@@ -911,7 +911,7 @@ mod test {
 	test_xml_serdes!(
 		spirit_1_0,
 		choice_enumeration_help,
-		"<spirit:enumeration spirit:help=\"cat activation sound\">mrrp</spirit:enumeration>",
+		r#"<spirit:enumeration spirit:help="cat activation sound">mrrp</spirit:enumeration>"#,
 		spirit::ChoiceEnumeration {
 			value: "mrrp".into(),
 			text:  None,
@@ -922,8 +922,7 @@ mod test {
 	test_xml_serdes!(
 		spirit_1_0,
 		choice_enumeration_text_and_help,
-		"<spirit:enumeration spirit:text=\"Mrrp!\" spirit:help=\"cat activation \
-		 sound\">mrrp</spirit:enumeration>",
+		r#"<spirit:enumeration spirit:text="Mrrp!" spirit:help="cat activation sound">mrrp</spirit:enumeration>"#,
 		spirit::ChoiceEnumeration {
 			value: "mrrp".into(),
 			text:  Some("Mrrp!".into()),
