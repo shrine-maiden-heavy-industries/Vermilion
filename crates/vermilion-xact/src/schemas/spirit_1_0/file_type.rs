@@ -297,4 +297,12 @@ mod test {
 		"<spirit:fileType>eSource</spirit:fileType>",
 		spirit::KnownFileType::ESource
 	);
+
+	test_xml_serdes!(
+		spirit_1_0,
+		user_file_type,
+		"<spirit:userFileType>nya!</spirit:userFileType>",
+		spirit::UserFileType { value: "nya!".into() }
+	);
+
 }
