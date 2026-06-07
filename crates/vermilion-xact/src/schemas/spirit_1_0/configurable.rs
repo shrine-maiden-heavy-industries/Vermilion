@@ -144,7 +144,7 @@ mod test {
 	test_xml_serdes!(
 		spirit_1_0,
 		attr_resolve_dependent,
-		"<AttrTest spirit:resolve=\"dependent\"/>",
+		r#"<AttrTest spirit:resolve="dependent"/>"#,
 		AttrTest {
 			resolve: Some(spirit::Resolve::Dependent),
 			..Default::default()
@@ -154,7 +154,7 @@ mod test {
 	test_xml_serdes!(
 		spirit_1_0,
 		attr_resolve_generated,
-		"<AttrTest spirit:resolve=\"generated\"/>",
+		r#"<AttrTest spirit:resolve="generated"/>"#,
 		AttrTest {
 			resolve: Some(spirit::Resolve::Generated),
 			..Default::default()
@@ -164,7 +164,7 @@ mod test {
 	test_xml_serdes!(
 		spirit_1_0,
 		attr_resolve_immediate,
-		"<AttrTest spirit:resolve=\"immediate\"/>",
+		r#"<AttrTest spirit:resolve="immediate"/>"#,
 		AttrTest {
 			resolve: Some(spirit::Resolve::Immediate),
 			..Default::default()
@@ -174,7 +174,7 @@ mod test {
 	test_xml_serdes!(
 		spirit_1_0,
 		attr_resolve_user,
-		"<AttrTest spirit:resolve=\"user\"/>",
+		r#"<AttrTest spirit:resolve="user"/>"#,
 		AttrTest {
 			resolve: Some(spirit::Resolve::User),
 			..Default::default()
@@ -184,28 +184,28 @@ mod test {
 	test_xml_serdes!(
 		spirit_1_0,
 		attr_id_empty,
-		"<AttrTest spirit:id=\"\"/>",
+		r#"<AttrTest spirit:id=""/>"#,
 		AttrTest { id: Some("".into()), ..Default::default() }
 	);
 
 	test_xml_serdes!(
 		spirit_1_0,
 		attr_id,
-		"<AttrTest spirit:id=\"nya!\"/>",
+		r#"<AttrTest spirit:id="nya!"/>"#,
 		AttrTest { id: Some("nya!".into()), ..Default::default() }
 	);
 
 	test_xml_serdes!(
 		spirit_1_0,
 		attr_configurable_dependency_empty,
-		"<AttrTest spirit:dependency=\"\"/>",
+		r#"<AttrTest spirit:dependency=""/>"#,
 		AttrTest { dependency: Some("".into()), ..Default::default() }
 	);
 
 	test_xml_serdes!(
 		spirit_1_0,
 		attr_configurable_dependency,
-		"<AttrTest spirit:dependency=\"nya!\"/>",
+		r#"<AttrTest spirit:dependency="nya!"/>"#,
 		AttrTest {
 			dependency: Some("nya!".into()),
 			..Default::default()
@@ -221,14 +221,14 @@ mod test {
 	test_xml_deserialize!(
 		spirit_1_0,
 		attr_configurable_attributes_none,
-		"<CfgAttrTest/>",
+		r#"<CfgAttrTest/>"#,
 		CfgAttrTest { attrs: Default::default() }
 	);
 
 	test_xml_deserialize!(
 		spirit_1_0,
 		attr_configurable_attributes_resolve,
-		"<CfgAttrTest spirit:resolve=\"user\"/>",
+		r#"<CfgAttrTest spirit:resolve="user"/>"#,
 		CfgAttrTest {
 			attrs: spirit::ConfigurableAttributes {
 				resolve: Some(spirit::Resolve::User),
@@ -240,7 +240,7 @@ mod test {
 	test_xml_deserialize!(
 		spirit_1_0,
 		attr_configurable_attributes_id,
-		"<CfgAttrTest spirit:id=\"nya!\"/>",
+		r#"<CfgAttrTest spirit:id="nya!"/>"#,
 		CfgAttrTest {
 			attrs: spirit::ConfigurableAttributes { id: Some("nya!".into()), ..Default::default() },
 		}
@@ -249,7 +249,7 @@ mod test {
 	test_xml_deserialize!(
 		spirit_1_0,
 		attr_configurable_attributes_dependency,
-		"<CfgAttrTest spirit:dependency=\"meow!\"/>",
+		r#"<CfgAttrTest spirit:dependency="meow!"/>"#,
 		CfgAttrTest {
 			attrs: spirit::ConfigurableAttributes {
 				dependency: Some("meow!".into()),
@@ -261,8 +261,7 @@ mod test {
 	test_xml_deserialize!(
 		spirit_1_0,
 		attr_configurable_attributes_all,
-		"<CfgAttrTest spirit:resolve=\"generated\" spirit:id=\"nya!\" \
-		 spirit:dependency=\"meow!\"/>",
+		r#"<CfgAttrTest spirit:resolve="generated" spirit:id="nya!" spirit:dependency="meow!"/>"#,
 		CfgAttrTest {
 			attrs: spirit::ConfigurableAttributes {
 				resolve:    Some(spirit::Resolve::Generated),
