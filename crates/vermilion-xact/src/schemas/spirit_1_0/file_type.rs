@@ -305,4 +305,17 @@ mod test {
 		spirit::UserFileType { value: "nya!".into() }
 	);
 
+	test_xml_serdes!(
+		spirit_1_0,
+		file_type_known_file_type,
+		"<spirit:fileType>verilogSource</spirit:fileType>",
+		spirit::FileType::Known(spirit::KnownFileType::VerilogSource)
+	);
+
+	test_xml_serdes!(
+		spirit_1_0,
+		file_type_user_file_type,
+		"<spirit:userFileType>nya!</spirit:userFileType>",
+		spirit::FileType::User(spirit::UserFileType { value: "nya!".into() })
+	);
 }
