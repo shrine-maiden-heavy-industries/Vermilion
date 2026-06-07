@@ -136,4 +136,165 @@ pub enum FileType {
 mod test {
 	use super::*;
 	use crate::test_xml_serdes;
+
+	test_xml_serdes!(
+		spirit_1_0,
+		known_file_type_unknown,
+		"<spirit:fileType>unknown</spirit:fileType>",
+		spirit::KnownFileType::Unknown
+	);
+
+	test_xml_serdes!(
+		spirit_1_0,
+		known_file_type_csource,
+		"<spirit:fileType>cSource</spirit:fileType>",
+		spirit::KnownFileType::CSource
+	);
+
+	test_xml_serdes!(
+		spirit_1_0,
+		known_file_type_cppsource,
+		"<spirit:fileType>cppSource</spirit:fileType>",
+		spirit::KnownFileType::CppSource
+	);
+
+	test_xml_serdes!(
+		spirit_1_0,
+		known_file_type_asmsource,
+		"<spirit:fileType>asmSource</spirit:fileType>",
+		spirit::KnownFileType::AsmSource
+	);
+
+	test_xml_serdes!(
+		spirit_1_0,
+		known_file_type_vhdlsource,
+		"<spirit:fileType>vhdlSource</spirit:fileType>",
+		spirit::KnownFileType::VhdlSource
+	);
+
+	test_xml_serdes!(
+		spirit_1_0,
+		known_file_type_vhdl87source,
+		"<spirit:fileType>vhdlSource-87</spirit:fileType>",
+		spirit::KnownFileType::Vhdl87Source
+	);
+
+	test_xml_serdes!(
+		spirit_1_0,
+		known_file_type_vhdl93source,
+		"<spirit:fileType>vhdlSource-93</spirit:fileType>",
+		spirit::KnownFileType::Vhdl93Source
+	);
+
+	test_xml_serdes!(
+		spirit_1_0,
+		known_file_type_verilogsource,
+		"<spirit:fileType>verilogSource</spirit:fileType>",
+		spirit::KnownFileType::VerilogSource
+	);
+
+	test_xml_serdes!(
+		spirit_1_0,
+		known_file_type_verilog95source,
+		"<spirit:fileType>verilogSource-95</spirit:fileType>",
+		spirit::KnownFileType::Verilog95Source
+	);
+
+	test_xml_serdes!(
+		spirit_1_0,
+		known_file_type_verilog2ksource,
+		"<spirit:fileType>verilogSource-2001</spirit:fileType>",
+		spirit::KnownFileType::Verilog2kSource
+	);
+
+	test_xml_serdes!(
+		spirit_1_0,
+		known_file_type_swobject,
+		"<spirit:fileType>swObject</spirit:fileType>",
+		spirit::KnownFileType::SwObject
+	);
+
+	test_xml_serdes!(
+		spirit_1_0,
+		known_file_type_swobjectlibrary,
+		"<spirit:fileType>swObjectLibrary</spirit:fileType>",
+		spirit::KnownFileType::SwObjectLibrary
+	);
+
+	test_xml_serdes!(
+		spirit_1_0,
+		known_file_type_vhdlbinarylibrary,
+		"<spirit:fileType>vhdlBinaryLibrary</spirit:fileType>",
+		spirit::KnownFileType::VhdlBinaryLibrary
+	);
+
+	test_xml_serdes!(
+		spirit_1_0,
+		known_file_type_verilogbinarylibrary,
+		"<spirit:fileType>verilogBinaryLibrary</spirit:fileType>",
+		spirit::KnownFileType::VerilogBinaryLibrary
+	);
+
+	test_xml_serdes!(
+		spirit_1_0,
+		known_file_type_unelaboratedhdl,
+		"<spirit:fileType>unelaboratedHdl</spirit:fileType>",
+		spirit::KnownFileType::UnelaboratedHdl
+	);
+
+	test_xml_serdes!(
+		spirit_1_0,
+		known_file_type_executablehdl,
+		"<spirit:fileType>executableHdl</spirit:fileType>",
+		spirit::KnownFileType::ExecutableHdl
+	);
+
+	test_xml_serdes!(
+		spirit_1_0,
+		known_file_type_systemverilogsource,
+		"<spirit:fileType>systemVerilogSource</spirit:fileType>",
+		spirit::KnownFileType::SystemVerilogSource
+	);
+
+	test_xml_serdes!(
+		spirit_1_0,
+		known_file_type_systemverilog3_0source,
+		"<spirit:fileType>systemVerilogSource-3.0</spirit:fileType>",
+		spirit::KnownFileType::SystemVerilog3_0Source
+	);
+
+	test_xml_serdes!(
+		spirit_1_0,
+		known_file_type_systemverilog3_1source,
+		"<spirit:fileType>systemVerilogSource-3.1</spirit:fileType>",
+		spirit::KnownFileType::SystemVerilog3_1Source
+	);
+
+	test_xml_serdes!(
+		spirit_1_0,
+		known_file_type_systemcsource,
+		"<spirit:fileType>systemCSource</spirit:fileType>",
+		spirit::KnownFileType::SystemCSource
+	);
+
+	test_xml_serdes!(
+		spirit_1_0,
+		known_file_type_systemc2source,
+		"<spirit:fileType>systemCSource-2.0</spirit:fileType>",
+		spirit::KnownFileType::SystemC2Source
+	);
+
+	test_xml_serdes!(
+		spirit_1_0,
+		known_file_type_verasource,
+		"<spirit:fileType>veraSource</spirit:fileType>",
+		spirit::KnownFileType::VeraSource
+	);
+
+	test_xml_serdes!(
+		spirit_1_0,
+		known_file_type_esource,
+		"<spirit:fileType>eSource</spirit:fileType>",
+		spirit::KnownFileType::ESource
+	);
 }
