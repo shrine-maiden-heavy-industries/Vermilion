@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: BSD-3-Clause
 
-use crate::schemas::xs;
+use crate::schemas::{spirit_1_0 as spirit, xs};
 
 /// Free form file type, not yet known by SPIRIT.
 ///
@@ -13,6 +13,7 @@ use crate::schemas::xs;
 	Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize,
 )]
 #[cfg_attr(feature = "schema", derive(::schemars::JsonSchema))]
+#[serde(rename = "spirit:userFileType")]
 pub struct UserFileType {
 	#[serde(rename = "$text")]
 	pub(crate) value: xs::String,
@@ -57,6 +58,7 @@ pub struct UserFileType {
 	Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize,
 )]
 #[cfg_attr(feature = "schema", derive(::schemars::JsonSchema))]
+#[serde(rename = "spirit:fileType", tag = "$text")]
 pub enum KnownFileType {
 	#[serde(rename = "unknown")]
 	Unknown,
@@ -122,13 +124,12 @@ pub enum KnownFileType {
 	Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize,
 )]
 #[cfg_attr(feature = "schema", derive(::schemars::JsonSchema))]
+#[serde(untagged)]
 pub enum FileType {
 	/// A known SPIRIT file type
-	#[serde(rename = "spirit:fileType")]
-	FileType(KnownFileType),
+	Known(spirit::KnownFileType),
 	/// An unknown file type
-	#[serde(rename = "spirit:userFileType")]
-	User(UserFileType),
+	User(spirit::UserFileType),
 }
 
 #[cfg(test)]
