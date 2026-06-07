@@ -17,8 +17,10 @@ use crate::schemas::{spirit_1_0 as spirit, xs};
 /// ```
 #[derive(Clone, Debug, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize)]
 #[cfg_attr(feature = "schema", derive(::schemars::JsonSchema))]
+#[serde(rename = "spirit:configuration")]
 pub struct Configuration {
-	pub(crate) element: Vec<spirit::ConfigurableElement>,
+	#[serde(rename = "$value", skip_serializing_if = "Option::is_none")]
+	pub(crate) elements: Option<Vec<spirit::ConfigurableElement>>,
 }
 
 /// Describes the configurable content of an element in the instance.
@@ -42,10 +44,11 @@ pub struct Configuration {
 /// ```
 #[derive(Clone, Debug, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize)]
 #[cfg_attr(feature = "schema", derive(::schemars::JsonSchema))]
+#[serde(rename = "spirit:configurableElement")]
 pub struct ConfigurableElement {
-	#[serde(rename = "$text")]
-	pub(crate) text:         xs::String,
-	#[serde(rename = "@spirit:referenceId")]
+	#[serde(rename = "$text", skip_serializing_if = "Option::is_none")]
+	pub(crate) text:         Option<Vec<xs::String>>,
+	#[serde(rename = "@spirit:referenceId", alias = "@referenceId")]
 	pub(crate) reference_id: xs::Name,
 	#[serde(flatten)]
 	pub(crate) auto_config:  spirit::AutoConfig,
@@ -63,6 +66,7 @@ pub struct ConfigurableElement {
 	Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize,
 )]
 #[cfg_attr(feature = "schema", derive(::schemars::JsonSchema))]
+#[serde(rename = "spirit:instanceName")]
 pub struct InstanceName {
 	#[serde(rename = "$text")]
 	pub(crate) value: xs::String,
@@ -88,16 +92,16 @@ pub struct InstanceName {
 /// ```
 #[derive(Clone, Debug, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize)]
 #[cfg_attr(feature = "schema", derive(::schemars::JsonSchema))]
+#[serde(rename = "spirit:componentInstance")]
 pub struct ComponentInstance {
-	#[serde(rename = "spirit:instanceName")]
 	pub(crate) name:          spirit::InstanceName,
 	/// References a component to be found in an external library.  The name attribute gives the
 	/// name of the component and the version attribute speicifies which version of the component
 	/// to use.
 	#[serde(rename = "spirit:componentRef")]
 	pub(crate) component_ref: spirit::LibraryRefType,
-	#[serde(rename = "spirit:configuration")]
-	pub(crate) configuration: spirit::Configuration,
+	#[serde(rename = "spirit:configuration", skip_serializing_if = "Option::is_none")]
+	pub(crate) configuration: Option<spirit::Configuration>,
 }
 
 /// Sub instances of internal components.
@@ -115,24 +119,29 @@ pub struct ComponentInstance {
 /// ```
 #[derive(Clone, Debug, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize)]
 #[cfg_attr(feature = "schema", derive(::schemars::JsonSchema))]
+#[serde(rename = "spirit:componentInstances")]
 pub struct ComponentInstances {
-	pub(crate) instances: Vec<spirit::ComponentInstance>,
+	#[serde(rename = "$value", skip_serializing_if = "Option::is_none")]
+	pub(crate) instances: Option<Vec<spirit::ComponentInstance>>,
 }
 
 /// ## XML Schema
 ///
 /// ```xml
-/// <xs:complexType name="adHocConnection.pinReference">
-///   <xs:attribute name="componentRef" type="xs:Name" use="required"/>
-///   <xs:attribute name="signalRef" type="xs:Name" use="required"/>
-///   <xs:attribute name="left" type="xs:nonNegativeInteger"/>
-///   <xs:attribute name="right" type="xs:nonNegativeInteger"/>
-/// </xs:complexType>
+/// <xs:element name="pinReference">
+///   <xs:complexType>
+///     <xs:attribute name="componentRef" type="xs:Name" use="required"/>
+///     <xs:attribute name="signalRef" type="xs:Name" use="required"/>
+///     <xs:attribute name="left" type="xs:nonNegativeInteger"/>
+///     <xs:attribute name="right" type="xs:nonNegativeInteger"/>
+///   </xs:complexType>
+/// </xs:element>
 /// ```
 #[derive(
 	Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize,
 )]
 #[cfg_attr(feature = "schema", derive(::schemars::JsonSchema))]
+#[serde(rename = "spirit:pinReference")]
 pub struct PinReference {
 	#[serde(rename = "@spirit:componentRef")]
 	pub(crate) component_ref: xs::Name,
@@ -149,16 +158,19 @@ pub struct PinReference {
 /// ## XML Schema
 ///
 /// ```xml
-/// <xs:complexType name="adHocConnection.export">
-///   <xs:simpleContent>
-///     <xs:extension base="xs:boolean">
-///       <xs:attributeGroup ref="spirit:bool.prompt.att"/>
-///     </xs:extension>
-///   </xs:simpleContent>
-/// </xs:complexType>
+/// <xs:element name="export">
+///   <xs:complexType>
+///     <xs:simpleContent>
+///       <xs:extension base="xs:boolean">
+///         <xs:attributeGroup ref="spirit:bool.prompt.att"/>
+///       </xs:extension>
+///     </xs:simpleContent>
+///   </xs:complexType>
+/// </xs:element>
 /// ```
 #[derive(Clone, Debug, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize)]
 #[cfg_attr(feature = "schema", derive(::schemars::JsonSchema))]
+#[serde(rename = "spirit:export")]
 pub struct Export {
 	#[serde(rename = "$text")]
 	pub(crate) value: xs::Boolean,
@@ -173,11 +185,11 @@ pub struct Export {
 /// ```xml
 /// <xs:element name="adHocConnection">
 ///   <xs:complexType>
-///     <xs:sequence>
-///       <xs:element name="export" type="spirit:adHocConnection.export" minOccurs="0" />
-///       <xs:element name="pinReference" type="spirit:adHocConnection.pinReference" maxOccurs="unbounded" />
-///     </xs:sequence>
 ///     <xs:attribute name="name" type="xs:string" use="optional"/>
+///     <xs:sequence>
+///       <xs:element name="export" ref="spirit:export" minOccurs="0" />
+///       <xs:element name="pinReference" ref="spirit:pinReference" maxOccurs="unbounded" />
+///     </xs:sequence>
 ///   </xs:complexType>
 /// </xs:element>
 /// ```
@@ -185,8 +197,13 @@ pub struct Export {
 	Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize,
 )]
 #[cfg_attr(feature = "schema", derive(::schemars::JsonSchema))]
+#[serde(rename = "spirit:adHocConnection")]
 pub struct AdHocConnection {
-	#[serde(rename = "@spirit:name", skip_serializing_if = "Option::is_none")]
+	#[serde(
+		rename = "@spirit:name",
+		alias = "@name",
+		skip_serializing_if = "Option::is_none"
+	)]
 	pub(crate) name: Option<xs::String>,
 }
 
@@ -211,8 +228,10 @@ pub struct AdHocConnection {
 	Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize,
 )]
 #[cfg_attr(feature = "schema", derive(::schemars::JsonSchema))]
+#[serde(rename = "spirit:adHocConnections")]
 pub struct AdHocConnections {
-	pub(crate) connections: Vec<spirit::AdHocConnection>,
+	#[serde(rename = "$value", skip_serializing_if = "Option::is_none")]
+	pub(crate) connections: Option<Vec<spirit::AdHocConnection>>,
 }
 
 /// Describes a connection from the interface of one component to the interface of another component
@@ -240,14 +259,15 @@ pub struct AdHocConnections {
 	Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize,
 )]
 #[cfg_attr(feature = "schema", derive(::schemars::JsonSchema))]
+#[serde(rename = "spirit:interconnection")]
 pub struct Interconnection {
-	#[serde(rename = "@spirit:component1Ref")]
+	#[serde(rename = "@spirit:component1Ref", alias = "@component1Ref")]
 	pub(crate) component1_ref:     xs::Name,
-	#[serde(rename = "@spirit:busInterface1Ref")]
+	#[serde(rename = "@spirit:busInterface1Ref", alias = "@busInterface1Ref")]
 	pub(crate) bus_interface1_ref: xs::Name,
-	#[serde(rename = "@spirit:component2Ref")]
+	#[serde(rename = "@spirit:component2Ref", alias = "@component2Ref")]
 	pub(crate) component2_ref:     xs::Name,
-	#[serde(rename = "@spirit:busInterface2Ref")]
+	#[serde(rename = "@spirit:busInterface2Ref", alias = "@busInterface2Ref")]
 	pub(crate) bus_interface2_ref: xs::Name,
 }
 
@@ -268,8 +288,10 @@ pub struct Interconnection {
 	Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd, serde::Deserialize, serde::Serialize,
 )]
 #[cfg_attr(feature = "schema", derive(::schemars::JsonSchema))]
+#[serde(rename = "spirit:interconnections")]
 pub struct Interconnections {
-	pub(crate) connections: Vec<spirit::Interconnection>,
+	#[serde(rename = "$value", skip_serializing_if = "Option::is_none")]
+	pub(crate) connections: Option<Vec<spirit::Interconnection>>,
 }
 
 #[cfg(test)]
