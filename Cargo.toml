@@ -3,8 +3,8 @@
 resolver = '3'
 members  = [
 	"crates/*",
-  "fuzzing",
-  "xtask",
+	"fuzzing",
+	"xtask",
 ]
 
 [workspace.package]
@@ -19,24 +19,24 @@ documentation = "https://codeberg.org/shrine-maiden-heavy-industries/Vermilion"
 
 [workspace.dependencies]
 # Core Vermilion Crates
-cinnabar              = { path = "crates/cinnabar"              }
-mercurous             = { path = "crates/mercurous"             }
-vermilion             = { path = "crates/vermilion"             }
-vermilion-calomel     = { path = "crates/vermilion-calomel"     }
-vermilion-constraints = { path = "crates/vermilion-constraints" }
-vermilion-dap         = { path = "crates/vermilion-dap"         }
-vermilion-diagnostics = { path = "crates/vermilion-diagnostics" }
-vermilion-fmt         = { path = "crates/vermilion-fmt"         }
-vermilion-io          = { path = "crates/vermilion-io"          }
-vermilion-lang        = { path = "crates/vermilion-lang"        }
-vermilion-liberty     = { path = "crates/vermilion-liberty"     }
-vermilion-loc         = { path = "crates/vermilion-loc"         }
-vermilion-lsp         = { path = "crates/vermilion-lsp"         }
-vermilion-macros      = { path = "crates/vermilion-macros"      }
-vermilion-sdf         = { path = "crates/vermilion-sdf"         }
-vermilion-verilog     = { path = "crates/vermilion-verilog"     }
-vermilion-vhdl        = { path = "crates/vermilion-vhdl"        }
-vermilion-xact        = { path = "crates/vermilion-xact"        }
+cinnabar                = { path = "crates/cinnabar"              }
+mercurous               = { path = "crates/mercurous"             }
+vermilion               = { path = "crates/vermilion"             }
+vermilion-calomel       = { path = "crates/vermilion-calomel"     }
+vermilion-constraints   = { path = "crates/vermilion-constraints" }
+vermilion-dap           = { path = "crates/vermilion-dap"         }
+vermilion-diagnostics   = { path = "crates/vermilion-diagnostics" }
+vermilion-fmt           = { path = "crates/vermilion-fmt"         }
+vermilion-io            = { path = "crates/vermilion-io"          }
+vermilion-lang          = { path = "crates/vermilion-lang"        }
+vermilion-liberty       = { path = "crates/vermilion-liberty"     }
+vermilion-loc           = { path = "crates/vermilion-loc"         }
+vermilion-lsp           = { path = "crates/vermilion-lsp"         }
+vermilion-macros        = { path = "crates/vermilion-macros"      }
+vermilion-sdf           = { path = "crates/vermilion-sdf"         }
+vermilion-verilog       = { path = "crates/vermilion-verilog"     }
+vermilion-vhdl          = { path = "crates/vermilion-vhdl"        }
+vermilion-xact          = { path = "crates/vermilion-xact"        }
 
 # External Deps
 afl                     = { version = "0.18" }
@@ -96,16 +96,16 @@ toml_edit               = { version = "0.25" }
 
 [workspace.lints.clippy]
 allow_attributes_without_reason = "warn"
-cast_lossless = "warn"
-use_self = "warn"
-wildcard_dependencies = "warn"
-unwrap_used = "deny"
-expect_used = "deny"
+cast_lossless                   = "warn"
+use_self                        = "warn"
+wildcard_dependencies           = "warn"
+unwrap_used                     = "deny"
+expect_used                     = "deny"
 
 [workspace.lints.rust]
 unexpected_cfgs = { level = "warn", check-cfg = [
-  'cfg(fuzzing)',
-  'cfg(coverage,coverage_nightly)',
+	'cfg(fuzzing)',
+	'cfg(coverage,coverage_nightly)',
 ] }
 
 [profile.dev.package.backtrace]

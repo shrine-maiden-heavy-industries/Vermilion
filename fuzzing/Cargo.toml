@@ -1,5 +1,5 @@
 [package]
-name = "vermilion-fuzz-afl"
+name    = "vermilion-fuzz-afl"
 version = "0.0.0"
 publish = false
 edition = "2024"
@@ -19,8 +19,8 @@ vermilion-xact        = { workspace = true }
 workspace = true
 
 [[bin]]
-name = "fuzz_verilog_tokenizer"
-path = "targets/verilog_tokenizer.rs"
-test = false
-doc = false
+name  = "fuzz_verilog_tokenizer"
+path  = "targets/verilog_tokenizer.rs"
+test  = false
+doc   = false
 bench = false
