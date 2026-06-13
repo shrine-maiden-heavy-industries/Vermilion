@@ -39,6 +39,37 @@ dependencies = [
 ]
 
 [[package]]
+name = "alembic"
+version = "0.0.0"
+dependencies = [
+ "clap",
+ "clap_complete",
+ "color-eyre",
+ "color-print",
+ "colorchoice",
+ "criterion",
+ "eyre",
+ "proptest",
+ "rayon",
+ "schemars",
+ "serde",
+ "serde_json",
+ "test-log",
+ "toml",
+ "tracing",
+ "tracing-subscriber",
+ "vermilion-constraints",
+ "vermilion-diagnostics",
+ "vermilion-io",
+ "vermilion-lang",
+ "vermilion-liberty",
+ "vermilion-loc",
+ "vermilion-macros",
+ "vermilion-verilog",
+ "vermilion-vhdl",
+]
+
+[[package]]
 name = "alloca"
 version = "0.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"

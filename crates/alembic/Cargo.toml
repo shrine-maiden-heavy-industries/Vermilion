@@ -1,0 +1,48 @@
+# SPDX-License-Identifier: BSD-3-Clause
+[package]
+name          = "alembic"
+description   = "Multi HDL minimizer"
+documentation = { workspace = true }
+edition       = { workspace = true }
+homepage      = { workspace = true }
+license       = { workspace = true }
+publish       = { workspace = true }
+repository    = { workspace = true }
+rust-version  = { workspace = true }
+version       = { workspace = true }
+
+[dependencies]
+vermilion-constraints = { workspace = true, features = [ "cli", "color-dbg", "schema" ] }
+vermilion-diagnostics = { workspace = true, features = [ "color-dbg", "pretty", "render", "schema" ] }
+vermilion-io          = { workspace = true, features = [ "color-dbg" ] }
+vermilion-lang        = { workspace = true, features = [ "color-dbg" ] }
+vermilion-liberty     = { workspace = true, features = [ "cli", "color-dbg", "schema" ] }
+vermilion-loc         = { workspace = true, features = [ "color-dbg" ] }
+vermilion-macros      = { workspace = true }
+vermilion-verilog     = { workspace = true, features = [ "cli", "color-dbg", "schema" ] }
+vermilion-vhdl        = { workspace = true, features = [ "cli", "color-dbg", "schema" ] }
+
+clap                  = { workspace = true }
+clap_complete         = { workspace = true }
+color-eyre            = { workspace = true }
+color-print           = { workspace = true }
+colorchoice           = { workspace = true }
+eyre                  = { workspace = true }
+rayon                 = { workspace = true }
+schemars              = { workspace = true }
+serde                 = { workspace = true }
+serde_json            = { workspace = true }
+toml                  = { workspace = true }
+tracing               = { workspace = true }
+tracing-subscriber    = { workspace = true }
+
+[dev-dependencies]
+criterion = { workspace = true }
+proptest  = { workspace = true }
+test-log  = { workspace = true }
+
+[features]
+default = []
+
+[lints]
+workspace = true

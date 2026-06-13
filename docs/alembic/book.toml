@@ -1,0 +1,24 @@
+[book]
+title       = "Alembic"
+description = "The Alembic multi HDL minimizer"
+authors     = [
+	"Aki Van Ness"
+]
+language    = "en"
+src         = "src"
+
+[build]
+build-dir = "../../target/book/alembic"
+
+[output.html]
+default-theme        = "dark"
+preferred-dark-theme = "coal"
+smart-punctuation    = false
+git-repository-url   = "https://codeberg.org/shrine-maiden-heavy-industries/Vermilion"
+git-repository-icon  = "fab-git-alt"
+edit-url-template    = "https://codeberg.org/shrine-maiden-heavy-industries/Vermilion/_edit/main/docs/alembic/{path}"
+
+[preprocessor]
+
+[preprocessor.vermilion]
+command = "cargo r --bin vermilion-mdbook"

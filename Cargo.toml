@@ -19,6 +19,7 @@ documentation = "https://codeberg.org/shrine-maiden-heavy-industries/Vermilion"
 
 [workspace.dependencies]
 # Core Vermilion Crates
+alembic                 = { path = "crates/alembic"               }
 cinnabar                = { path = "crates/cinnabar"              }
 mercurous               = { path = "crates/mercurous"             }
 vermilion               = { path = "crates/vermilion"             }
