@@ -65,6 +65,7 @@ dependencies = [
  "vermilion-liberty",
  "vermilion-loc",
  "vermilion-macros",
+ "vermilion-rtlil",
  "vermilion-verilog",
  "vermilion-vhdl",
 ]
