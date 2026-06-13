@@ -34,6 +34,7 @@ vermilion-liberty       = { path = "crates/vermilion-liberty"     }
 vermilion-loc           = { path = "crates/vermilion-loc"         }
 vermilion-lsp           = { path = "crates/vermilion-lsp"         }
 vermilion-macros        = { path = "crates/vermilion-macros"      }
+vermilion-rtlil         = { path = "crates/vermilion-rtlil"       }
 vermilion-sdf           = { path = "crates/vermilion-sdf"         }
 vermilion-verilog       = { path = "crates/vermilion-verilog"     }
 vermilion-vhdl          = { path = "crates/vermilion-vhdl"        }
