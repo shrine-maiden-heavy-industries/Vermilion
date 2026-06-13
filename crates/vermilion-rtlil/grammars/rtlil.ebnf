@@ -1,2 +1,305 @@
 (* SPDX-License-Identifier: BSD-3-Clause *)
 (* EBNF grammar for Yosys RTLIL *)
+
+whitespace =
+	" " | "\t"
+	;
+
+eol =
+	[ "\r" ], "\n"
+	;
+
+symbol =
+	"!" | '"' | "#" | "$" | "%" | "&" | "'" | "(" | ")" |
+	"*" | "+" | "," | "-" | "." | "/" | ":" | ";" | "<" |
+	"=" | ">" | "[" | "]" | "^" | "_" | "`" | "{" | "|" |
+	"}" | "~" | "?" | "@"
+	;
+
+lower_alpha =
+	"a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "i" | "j" | "k" | "l" | "m" |
+	"n" | "o" | "p" | "q" | "r" | "s" | "t" | "u" | "v" | "w" | "x" | "y" | "z"
+	;
+
+upper_alpha =
+	"A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I" | "J" | "K" | "L" | "M" |
+	"N" | "O" | "P" | "Q" | "R" | "S" | "T" | "U" | "V" | "W" | "X" | "Y" | "Z"
+	;
+
+binary_digit =
+	"0" | "1" | "x" | "z" | "m" | "-"
+	;
+
+octal_digit =
+	"0" | "1" | "2" | "3" | "4" | "5" | "6" | "7"
+	;
+
+decimal_digit =
+	"0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
+	;
+
+identifier_char =
+	symbol | "\\" | lower_alpha | upper_alpha | decimal_digit
+	;
+
+public_identifier =
+	"\\", identifier_char, { identifier_char }
+	;
+
+private_identifier =
+	"$", identifier_char, { identifier_char }
+	;
+
+identifier =
+	public_identifier | private_identifier
+	;
+
+parameter_id =
+	identifier
+	;
+
+wire_id =
+	identifier
+	;
+
+memory_id =
+	identifier
+	;
+
+cell_type =
+	identifier
+	;
+
+cell_id =
+	identifier
+	;
+
+process_id =
+	identifier
+	;
+
+module_id =
+	identifier
+	;
+
+comment_char =
+	symbol | lower_alpha | upper_alpha | decimal_digit | " " | "\t" | "\\"
+	;
+
+comment =
+	"#", { comment_char }, eol
+	;
+
+string_char =
+	symbol | lower_alpha | upper_alpha | decimal_digit | " " | "\t"
+	;
+
+string_escape =
+	"\\", ( "n" | "t" | octal_digit, octal_digit, octal_digit | "\\" | '"' | "r" )
+	;
+
+string =
+	'"', { string_char | string_escape }, '"'
+	;
+
+integer =
+	[ "-" ], decimal_digit, { decimal_digit }
+	;
+
+value =
+	decimal_digit, { decimal_digit }, "'", { binary_digit }
+	;
+
+constant =
+	value | integer | string
+	;
+
+signal_spec =
+	constant |
+	wire_id |
+	signal_spec, "[", integer, ( ":", integer ), "]" |
+	{ signal_spec }
+	;
+
+src_signal_spec =
+	signal_spec
+	;
+
+dest_signal_spec =
+	signal_spec
+	;
+
+switch_scrutinee =
+	signal_spec
+	;
+
+case_comparison =
+	signal_spec
+	;
+
+autoindex =
+	"autoidx", integer, eol
+	;
+
+attribute =
+	"attribute", identifier, constant, eol
+	;
+
+assignment =
+	"assign", dest_signal_spec, src_signal_spec, eol
+	;
+
+connection =
+	"connect", signal_spec, signal_spec, eol
+	;
+
+option_width =
+	"width", integer
+	;
+
+option_offset =
+	"offset", integer
+	;
+
+option_size =
+	"size", integer
+	;
+
+option_input =
+	"input", integer
+	;
+
+option_output =
+	"output", integer
+	;
+
+option_inout =
+	"inout", integer
+	;
+
+wire_option =
+	option_width | option_offset | option_input | option_output | option_inout | "upto" | "signed"
+	;
+
+wire_decl =
+	"wire", { wire_option }, wire_id, eol,
+	;
+
+wire =
+	{ attribute }, wire_decl
+	;
+
+memory_option =
+	option_width | option_size | option_offset
+	;
+
+memory_decl =
+	"memory", { memory_option }, memory_id, eol
+	;
+
+memory =
+	{ attribute }, memory_decl
+	;
+
+cell_decl =
+	"cell", cell_type, cell_id, eol
+	;
+
+cell_parameter =
+	"parameter", [ "signed" | "real" ], parameter_id, constant, eol
+	;
+
+cell_body_item =
+	cell_parameter | connection
+	;
+
+cell =
+	{ attribute }, cell_decl, { cell_body_item }, "end", eol
+	;
+
+
+switch_case_comparison =
+	case_comparison, { ",", case_comparison }
+	;
+
+switch_case_body =
+	{ assignment }, { switch }
+	;
+
+switch_case =
+	{ attribute }, "case", [ switch_case_comparison ], eol, switch_case_body,
+	;
+
+switch_decl =
+	"switch", switch_scrutinee, eol
+	;
+
+switch =
+	{ attribute }, switch_decl, { switch_case }, "end", eol
+	;
+
+sync_type =
+	"low" | "high" | "posedge" | "negedge" | "edge"
+	;
+
+sync_decl =
+	"sync", sync_type, signal_spec |
+	"sync", ( "global" | "init" | "always")
+	;
+
+sync_update =
+	"update", dest_signal_spec, src_signal_spec, eol
+	;
+
+sync_memwr =
+	{ attribute }, "memwr", identifier, signal_spec, signal_spec, signal_spec, constant, eol
+	;
+
+sync_body_statement =
+	sync_update | sync_memwr
+	;
+
+sync =
+	sync_decl, eol, sync_body_statement, { sync_body_statement }
+	;
+
+proc_decl =
+	"process", process_id, eol
+	;
+
+process_body =
+	{ assignment }, { switch }, { sync }
+	;
+
+process =
+	{ attribute }, proc_decl, process_body , "end", eol
+	;
+
+module_decl =
+	"module", module_id, eol
+	;
+
+module_parameter =
+	"parameter", parameter_id, [ constant ], eol
+	;
+
+module_body_item =
+	module_parameter | connection | wire | memory | cell | process
+	;
+
+module =
+	{ attribute }, module_decl, { module_body_item }, "end", eol
+	;
+
+source_text =
+	[ autoindex ], { module }
+;
+
+(*
+	Keywords:
+		always    cell      high      memory    output    signed    upto
+		assign    connect   init      memwr     parameter size      width
+		attribute edge      inout     module    posedge   switch    wire
+		autoidx   end       input     negedge   process   sync
+		case      global    log       offset    real      update
+*)
