@@ -42,7 +42,7 @@ use crate::env::VERMILION_LOG_LEVEL;
 mod cli;
 mod config;
 mod env;
-mod eyre_hook;
+mod hooks;
 mod lang;
 mod lsp;
 mod paths;
@@ -96,7 +96,7 @@ fn initialize_tracing(level: LevelFilter) -> eyre::Result<()> {
 
 /// Main entrypoint for `Vermilion`
 pub fn main() -> eyre::Result<()> {
-	eyre_hook::install()?;
+	hooks::install()?;
 
 	let mut cli = cli::init()?;
 
