@@ -2,6 +2,7 @@
 #![cfg_attr(coverage_nightly, feature(coverage_attribute))]
 
 use eyre::{Context, OptionExt};
+use vermilion_macros::cfg_build_tooling;
 
 mod cli;
 mod env;
@@ -23,5 +24,23 @@ pub fn main() -> eyre::Result<()> {
 			sub_cmd
 		))?(&mut cli, args),
 		_ => cli.print_help().wrap_err("Unable to write CLI help?"),
+	}
+}
+
+// XXX(aki): The methods here are only used with other Alembic internal build tooling
+cfg_build_tooling! {
+	/// Dump Alembic CLI completions for the given [`clap_complete::Shell`] to a [`String`]
+	pub fn dump_completions(shell: clap_complete::Shell) -> eyre::Result<String> {
+		let cli = cli::init()?;
+		cli::dump_completions(&cli, shell)
+	}
+
+	/// Get a constructed copy of the Alembic CLI
+	///
+	/// ## NOTE
+	///
+	/// This should only be used to generate help pages and other metadata.
+	pub fn get_cli() -> eyre::Result<clap::Command> {
+		crate::cli::init()
 	}
 }
