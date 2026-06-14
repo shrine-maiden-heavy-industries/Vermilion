@@ -54,5 +54,8 @@ test-log  = { workspace = true }
 [features]
 default = []
 
+# Used for build related tooling that uses Cinnabar as a library
+_build_tooling = []
+
 [lints]
 workspace = true
