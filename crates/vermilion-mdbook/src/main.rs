@@ -4,7 +4,7 @@ use clap::{Arg, ArgMatches, Command};
 use eyre::eyre;
 use mdbook_preprocessor::Preprocessor;
 
-use crate::preprocessor::{CinnabarPreprocessor, VermilionPreprocessor};
+use crate::preprocessor::{AlembicPreprocessor, CinnabarPreprocessor, VermilionPreprocessor};
 
 mod preprocessor;
 pub(crate) mod render;
@@ -44,11 +44,16 @@ fn process(_args: &ArgMatches) -> eyre::Result<()> {
 	let (ctx, book) =
 		mdbook_preprocessor::parse_input(std::io::stdin()).map_err(|err| eyre!(Box::new(err)))?;
 
+	let alembic_processor = AlembicPreprocessor::new();
 	let cinnabar_processor = CinnabarPreprocessor::new();
 	let vermilion_processor = VermilionPreprocessor::new();
 
-	let processed_book = cinnabar_processor
+	let processed_book = alembic_processor
 		.run(&ctx, book)
+		.map_err(|err| eyre!(Box::new(err)))?;
+
+	let processed_book = cinnabar_processor
+		.run(&ctx, processed_book)
 		.map_err(|err| eyre!(Box::new(err)))?;
 
 	let processed_book = vermilion_processor
