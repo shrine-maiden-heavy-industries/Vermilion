@@ -95,7 +95,7 @@ fn initialize_tracing(level: LevelFilter) -> eyre::Result<()> {
 }
 
 /// Main entrypoint for `Vermilion`
-pub fn vermilion_main() -> eyre::Result<()> {
+pub fn main() -> eyre::Result<()> {
 	eyre_hook::install()?;
 
 	let mut cli = cli::init()?;
