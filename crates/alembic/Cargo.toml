@@ -28,6 +28,8 @@ clap_complete         = { workspace = true }
 color-eyre            = { workspace = true }
 color-print           = { workspace = true }
 colorchoice           = { workspace = true }
+console-subscriber    = { workspace = true }
+crossterm             = { workspace = true }
 eyre                  = { workspace = true }
 rayon                 = { workspace = true }
 schemars              = { workspace = true }
