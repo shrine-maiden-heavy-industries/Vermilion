@@ -12,6 +12,8 @@ rust-version  = { workspace = true }
 version       = { workspace = true }
 
 [dependencies]
+alembic                 = { workspace = true, features = [ "_build_tooling" ] }
+cinnabar                = { workspace = true, features = [ "_build_tooling" ] }
 vermilion               = { workspace = true, features = [ "_build_tooling" ] }
 
 clap                    = { workspace = true }

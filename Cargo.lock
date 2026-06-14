@@ -4048,6 +4048,8 @@ version = "0.0.0"
 name = "vermilion-mdbook"
 version = "0.0.0"
 dependencies = [
+ "alembic",
+ "cinnabar",
  "clap",
  "color-eyre",
  "eyre",
