@@ -5,13 +5,13 @@
 /// Use this rather than `#[cfg(fuzzing)]` to ensure docs are properly generated.
 #[macro_export]
 macro_rules! cfg_fuzzing {
-    ($($item:item)*) => {
-        $(
-            #[cfg(fuzzing)]
+	($($item:item)*) => {
+		$(
+			#[cfg(fuzzing)]
 			#[cfg_attr(docsrs, doc(cfg(fuzzing)))]
-            $item
-        )*
-    }
+			$item
+		)*
+	}
 }
 
 /// Enables serde specific code.
@@ -19,13 +19,13 @@ macro_rules! cfg_fuzzing {
 /// Use this rather than `#[cfg(feature = "serde")]` to ensure docs are properly generated.
 #[macro_export]
 macro_rules! cfg_serde {
-    ($($item:item)*) => {
-        $(
-            #[cfg(feature = "serde")]
+	($($item:item)*) => {
+		$(
+			#[cfg(feature = "serde")]
 			#[cfg_attr(docsrs, doc(cfg(feature = "serde")))]
-            $item
-        )*
-    }
+			$item
+		)*
+	}
 }
 
 /// Enables schema specific code.
@@ -33,13 +33,13 @@ macro_rules! cfg_serde {
 /// Use this rather than `#[cfg(feature = "schema")]` to ensure docs are properly generated.
 #[macro_export]
 macro_rules! cfg_schema {
-    ($($item:item)*) => {
-        $(
-            #[cfg(feature = "schema")]
+	($($item:item)*) => {
+		$(
+			#[cfg(feature = "schema")]
 			#[cfg_attr(docsrs, doc(cfg(feature = "schema")))]
-            $item
-        )*
-    }
+			$item
+		)*
+	}
 }
 
 /// Enables vermilion cli specific code.
@@ -47,13 +47,13 @@ macro_rules! cfg_schema {
 /// Use this rather than `#[cfg(feature = "cli")]` to ensure docs are properly generated.
 #[macro_export]
 macro_rules! cfg_cli {
-    ($($item:item)*) => {
-        $(
-            #[cfg(feature = "cli")]
+	($($item:item)*) => {
+		$(
+			#[cfg(feature = "cli")]
 			#[cfg_attr(docsrs, doc(cfg(feature = "cli")))]
-            $item
-        )*
-    }
+			$item
+		)*
+	}
 }
 
 /// Enables graphviz output specific code.
@@ -61,13 +61,13 @@ macro_rules! cfg_cli {
 /// Use this rather than `#[cfg(feature = "graphviz")]` to ensure docs are properly generated.
 #[macro_export]
 macro_rules! cfg_graphviz {
-    ($($item:item)*) => {
-        $(
-            #[cfg(feature = "graphviz")]
+	($($item:item)*) => {
+		$(
+			#[cfg(feature = "graphviz")]
 			#[cfg_attr(docsrs, doc(cfg(feature = "graphviz")))]
-            $item
-        )*
-    }
+			$item
+		)*
+	}
 }
 
 /// Enables lsp-trace specific code.
@@ -75,13 +75,13 @@ macro_rules! cfg_graphviz {
 /// Use this rather than `#[cfg(feature = "trace")]` to ensure docs are properly generated.
 #[macro_export]
 macro_rules! cfg_trace {
-    ($($item:item)*) => {
-        $(
-            #[cfg(feature = "trace")]
+	($($item:item)*) => {
+		$(
+			#[cfg(feature = "trace")]
 			#[cfg_attr(docsrs, doc(cfg(feature = "trace")))]
-            $item
-        )*
-    }
+			$item
+		)*
+	}
 }
 
 /// Enables lsp-trace server specific code.
@@ -89,13 +89,13 @@ macro_rules! cfg_trace {
 /// Use this rather than `#[cfg(feature = "trace-server")]` to ensure docs are properly generated.
 #[macro_export]
 macro_rules! cfg_trace_server {
-    ($($item:item)*) => {
-        $(
-            #[cfg(feature = "trace-server")]
+	($($item:item)*) => {
+		$(
+			#[cfg(feature = "trace-server")]
 			#[cfg_attr(docsrs, doc(cfg(feature = "trace-server")))]
-            $item
-        )*
-    }
+			$item
+		)*
+	}
 }
 
 /// Enables lsp transport specific code.
@@ -103,13 +103,13 @@ macro_rules! cfg_trace_server {
 /// Use this rather than `#[cfg(feature = "transport")]` to ensure docs are properly generated.
 #[macro_export]
 macro_rules! cfg_transport {
-    ($($item:item)*) => {
-        $(
-            #[cfg(feature = "transport")]
+	($($item:item)*) => {
+		$(
+			#[cfg(feature = "transport")]
 			#[cfg_attr(docsrs, doc(cfg(feature = "transport")))]
-            $item
-        )*
-    }
+			$item
+		)*
+	}
 }
 
 /// Enables diagnostic rendering specific code.
@@ -117,13 +117,13 @@ macro_rules! cfg_transport {
 /// Use this rather than `#[cfg(feature = "render")]` to ensure docs are properly generated.
 #[macro_export]
 macro_rules! cfg_diagnostics_render {
-    ($($item:item)*) => {
-        $(
-            #[cfg(feature = "render")]
+	($($item:item)*) => {
+		$(
+			#[cfg(feature = "render")]
 			#[cfg_attr(docsrs, doc(cfg(feature = "render")))]
-            $item
-        )*
-    }
+			$item
+		)*
+	}
 }
 
 /// Enables pretty diagnostic rendering specific code.
@@ -131,13 +131,13 @@ macro_rules! cfg_diagnostics_render {
 /// Use this rather than `#[cfg(feature = "pretty")]` to ensure docs are properly generated.
 #[macro_export]
 macro_rules! cfg_diagnostics_pretty {
-    ($($item:item)*) => {
-        $(
-            #[cfg(feature = "pretty")]
+	($($item:item)*) => {
+		$(
+			#[cfg(feature = "pretty")]
 			#[cfg_attr(docsrs, doc(cfg(feature = "pretty")))]
-            $item
-        )*
-    }
+			$item
+		)*
+	}
 }
 
 /// Enables ANSI color output from implemented [`Debug`] traits
@@ -145,13 +145,13 @@ macro_rules! cfg_diagnostics_pretty {
 /// Use this rather than `#[cfg(feature = "color-dbg")]` to ensure docs are properly generated.
 #[macro_export]
 macro_rules! cfg_color_dbg {
-    ($($item:item)*) => {
-        $(
-            #[cfg(feature = "color-dbg")]
+	($($item:item)*) => {
+		$(
+			#[cfg(feature = "color-dbg")]
 			#[cfg_attr(docsrs, doc(cfg(feature = "color-dbg")))]
-            $item
-        )*
-    }
+			$item
+		)*
+	}
 }
 
 /// Enables vermilion build tooling specific code.
@@ -159,10 +159,10 @@ macro_rules! cfg_color_dbg {
 /// Use this rather than `#[cfg(feature = "_build_tooling")]` to ensure docs are properly generated.
 #[macro_export]
 macro_rules! cfg_build_tooling {
-    ($($item:item)*) => {
-        $(
-            #[cfg(feature = "_build_tooling")]
-            $item
-        )*
-    }
+	($($item:item)*) => {
+		$(
+			#[cfg(feature = "_build_tooling")]
+			$item
+		)*
+	}
 }
