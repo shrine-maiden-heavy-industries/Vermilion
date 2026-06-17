@@ -1,0 +1,543 @@
+(* SPDX-License-Identifier: BSD-3-Clause *)
+(* EBNF grammar for IEEE 1497-2001 Standard Delay Format *)
+
+decimal_digit =
+	"0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
+	;
+
+special_character =
+	"!" | "#" | "%" | "&" | "«" | "(" | ")" | "*" | "+" | "," | "-" | "." | "/" |
+	":" | ";" | "<" | "=" | ">" | "?" | "@" | "[" | "\\" | "]" | "^" | "'" | "{" |
+	"|" | "}" | "~"
+	;
+
+scalar_constant =
+	"0" | "1" | [ "1" ], ("b" | "B"), ("0" | "1")
+	;
+
+edge_identifier =
+	"posedge" |
+	"negedge" |
+	"0", "1" |
+	"1", "0" |
+	"0", "z" |
+	"z", "1" |
+	"1", "z" |
+	"z", "0"
+	;
+
+unary_operator =
+	"+" | "-" | "!" | "~" | "&" | "~&" | "|" | "~|" | "^" | "^~" | "~^"
+	;
+
+inversion_operator =
+	"!" | "~"
+	;
+
+binary_operator =
+	"+" | "-" | "*" | "/" | "%" | "==" | "!=" | "===" | "!==" | "&&" | "||" |
+	"<" | "<=" | ">" | ">=" | "&" | "|" | "^" | "^~" | "~^" | ">>" | "<<"
+	;
+
+equality_operator =
+	"==" | "!=" | "===" | "!=="
+	;
+
+hchar =
+	"." | "/"
+	;
+
+sign =
+	"+" | "-"
+	;
+
+alphanumeric =
+	"A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I" | "J" | "K" | "L" | "M" |
+	"N" | "O" | "P" | "Q" | "R" | "S" | "T" | "U" | "V" | "W" | "X" | "Y" | "Z" |
+	"a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "i" | "j" | "k" | "l" | "m" |
+	"n" | "o" | "p" | "q" | "r" | "s" | "t" | "u" | "v" | "w" | "x" | "y" | "z" |
+	"_" | "$" | decimal_digit
+	;
+
+timescale_number =
+	"1" | "10" | "100" | "1.0" | "10.0" | "100.0"
+	;
+
+timescale_unit =
+	"s" | "ms" | "us" | "ns" | "ps" | "fs"
+	;
+
+character =
+	alphanumeric | escaped_character
+	;
+
+escaped_character =
+	"\\", character | "\\", special_character | "\\", '"'
+	;
+
+any_character =
+	character | special_character | '"'
+	;
+
+integer =
+	decimal_digit, { decimal_digit }
+	;
+
+real_number =
+	integer, [ ".", integer ], [ "e", [ sign ], integer ]
+	;
+
+signed_real_number =
+	[ sign ], real_number
+	;
+
+qstring =
+	'"', { any_character }, '"'
+	;
+
+identifier =
+	character, { character }
+	;
+
+hierarchical_identifier =
+	identifier, { hchar, identifier }
+	;
+
+scalar_net =
+	hierarchical_identifier
+	;
+
+scalar_port =
+	hierarchical_identifier |
+	hierarchical_identifier, "[", integer, "]"
+	;
+
+scalar_node =
+	scalar_port | scalar_net
+	;
+
+timing_check_condition =
+	scalar_node |
+	inversion_operator, scalar_node |
+	scalar_node, equality_operator, scalar_constant
+	;
+
+triple =
+	real_number, ":", [ real_number ], ":", [ real_number ] |
+	[ real_number ], ":", real_number, ":", [ real_number ] |
+	[ real_number ], ":", [ real_number ], ":", real_number
+	;
+
+value =
+	"(", [ ( real_number | triple ) ], ")"
+	;
+
+rtriple =
+	signed_real_number, ":", [ signed_real_number ], ":", [ signed_real_number ] |
+	[ signed_real_number ], ":", signed_real_number, ":", [ signed_real_number ] |
+	[ signed_real_number ], ":", [ signed_real_number ], ":", signed_real_number
+	;
+
+rvalue =
+	"(", [ ( signed_real_number | rtriple ) ], ")"
+	;
+
+delval =
+	rvalue |
+	"(", rvalue, rvalue, ")" |
+	"(", rvalue, rvalue, rvalue, ")"
+	;
+
+delval_list =
+	delval |
+	delval, delval |
+	delval, delval, delval |
+	delval, delval, delval, delval, [ delval ], [ delval ] |
+	delval, delval, delval, delval, delval, delval |
+	delval, [ delval ], [ delval ], [ delval ], [ delval ], [ delval ]
+	;
+
+retval_list =
+	delval |
+	delval, delval |
+	delval, delval, delval
+	;
+
+bus_net =
+	hierarchical_identifier, "[", integer, ":", integer, "]"
+	;
+
+bus_port =
+	hierarchical_identifier, "[", integer, ":", integer, "]"
+	;
+
+port =
+	scalar_port | bus_port
+	;
+
+net =
+	scalar_net | bus_net
+	;
+
+port_instance =
+	port |
+	hierarchical_identifier, hchar, port
+	;
+
+net_instance =
+	net |
+	hierarchical_identifier, hchar, net
+	;
+
+net_spec =
+	port_instance | net_instance
+	;
+
+port_edge =
+	"(", edge_identifier, port_instance, ")"
+	;
+
+port_spec =
+	port_instance | port_edge
+	;
+
+lbl_def =
+	"(", identifier, delval_list, ")"
+	;
+
+lbl_type =
+	"(", ( "INCREMENT" | "ABSOLUTE" ), lbl_def, { lbl_def }, ")"
+	;
+
+neg_pair =
+	"(", ( "negedge" | "posedge" ), signed_real_number, [ signed_real_number ], ")"
+	;
+
+pos_pair =
+	"(", ( "negedge" | "posedge" ), signed_real_number, [ signed_real_number ], ")"
+	;
+
+edge_list =
+	pos_pair, { pos_pair } |
+	neg_pair, { neg_pair }
+	;
+
+waveform_env =
+	"(", "WAVEFORM", port_instance, real_number, edge_list, ")"
+	;
+
+slack_env =
+	"(", "SLACK", port_instance, rvalue, rvalue, rvalue, rvalue, [ real_number ], ")"
+	;
+
+departure_env =
+	"(", "DEPARTURE", [ port_edge ], port_instance, rvalue, rvalue, rvalue, rvalue, ")"
+	;
+
+arrival_env =
+	"(", "ARRIVAL", [ port_edge ], port_instance, rvalue, rvalue, rvalue, rvalue, ")"
+	;
+
+tenv_def =
+	arrival_env | departure_env | slack_env | waveform_env
+	;
+
+constraint_path =
+	"(", port_instance, port_instance, ")"
+	;
+
+name =
+	"(", "NAME", [ qstring ], ")"
+	;
+
+exception =
+	"(", "EXCEPTION", cell_instance, { cell_instance }, ")"
+	;
+
+skew_constraint =
+	"(", "SKEWCONSTRAINT", port_spec, value, ")"
+	;
+
+diff_constraint =
+	"(", "DIFF", constraint_path, constraint_path, value, [ value ], ")"
+	;
+
+sum_constraint =
+	"(", "SUM", constraint_path, constraint_path, { constraint_path }, rvalue, [ rvalue ], ")"
+	;
+
+period_constraint =
+	"(", "PERIODCONSTRAINT", port_instance, value, [ exception ], ")"
+	;
+
+path_constraint =
+	"(", "PATHCONSTRAINT", [ name ], port_instance, port_instance, { port_instance }, rvalue, rvalue, ")"
+	;
+
+cns_def =
+	path_constraint |
+	period_constraint |
+	sum_constraint |
+	diff_constraint |
+	skew_constraint
+	;
+
+te_def =
+	cns_def |
+	tenv_def
+	;
+
+ccond =
+	"(", "CCOND", [ qstring ], timing_check_condition, ")"
+	;
+
+scond =
+	"(", "SCOND", [ qstring ], timing_check_condition, ")"
+	;
+
+port_tchk =
+	port_spec |
+	"(", "COND", [ qstring ], timing_check_condition, port_spec, ")"
+	;
+
+nochange_timing_check =
+	"(", "NOCHANGE", port_tchk, port_tchk, rvalue, rvalue, ")"
+	;
+
+period_timing_check =
+	"(", "PERIOD", port_tchk, value, ")"
+	;
+
+width_timing_check =
+	"(", "WIDTH", port_tchk, value, ")"
+	;
+
+bidirectskew_timing_check =
+	"(", "BIDIRECTSKEW", port_tchk, port_tchk, value, value, ")"
+	;
+
+skew_timing_check =
+	"(", "SKEW", port_tchk, port_tchk, rvalue, ")"
+	;
+
+recrem_timing_check =
+	"(", "RECREM", port_tchk, port_tchk, rvalue, rvalue, ")" |
+	"(", "RECREM", port_spec, port_spec, rvalue, rvalue, [ scond ], [ ccond ], ")"
+	;
+
+removal_timing_check =
+	"(", "REMOVAL", port_tchk, port_tchk, value, ")"
+	;
+
+recovery_timing_check =
+	"(", "RECOVERY", port_tchk, port_tchk, value, ")"
+	;
+
+setuphold_timing_check =
+	"(", "SETUPHOLD", port_tchk, port_tchk, rvalue, rvalue, ")" |
+	"(", "SETUPHOLD", port_spec, port_spec, rvalue, rvalue, [ scond, ], [ ccond ], ")"
+	;
+
+hold_timing_check =
+	"(", "HOLD", port_tchk, port_tchk, value, ")"
+	;
+
+setup_timing_check =
+	"(", "SETUP", port_tchk, port_tchk, value, ")"
+	;
+
+tchk_def =
+	setup_timing_check |
+	hold_timing_check |
+	setuphold_timing_check |
+	recovery_timing_check |
+	removal_timing_check |
+	recrem_timing_check |
+	skew_timing_check |
+	bidirectskew_timing_check |
+	width_timing_check |
+	period_timing_check |
+	nochange_timing_check
+	;
+
+device_def =
+	"(", "DEVCIE", [ port_instance ], delval_list, ")"
+	;
+
+netdelay_def =
+	"(", "NETDELY", net_spec, delval_list, ")"
+	;
+
+interconnect_def =
+	"(", "INTERCONECT", port_instance, port_instance, delval_list, ")"
+	;
+
+port_def =
+	"(", "PORT", port_instance, delval_list, ")"
+	;
+
+
+retain_def =
+	"(", "RETAIN", retval_list, ")"
+	;
+
+iopath_def =
+	"(", "IOPATH", port_spec, port_instance, { retain_def }, delval_list, ")"
+	;
+
+condelse_def =
+	"(", "CONDELSE", iopath_def, ")"
+	;
+
+cond_def =
+	"(", "COND", [ qstring ], conditional_port_expr, iopath_def, ")"
+	;
+
+del_def =
+	iopath_def |
+	cond_def |
+	condelse_def |
+	port_def |
+	interconnect_def |
+	netdelay_def |
+	device_def
+	;
+
+input_output_path =
+	port_instance, port_instance
+	;
+
+increment_deltype =
+	"(", "INCREMENT", del_def, { del_def }, ")"
+	;
+
+absolute_deltype =
+	"(", "ABSOLUTE", del_def, { del_def }, ")"
+	;
+
+pathpulsepercent_deltype =
+	"(", "PATHPULSEPERCENT", [ input_output_path ], value, [ value ], ")"
+	;
+
+pathpulse_deltype =
+	"(", "PATHPULSE", [ input_output_path ], value, [ value ], ")"
+	;
+
+deltype =
+	absolute_deltype |
+	increment_deltype |
+	pathpulse_deltype |
+	pathpulsepercent_deltype
+	;
+
+lbl_spec =
+	"(", "LABEL", lbl_type, { lbl_type }, ")"
+	;
+
+te_spec =
+	"(", "TIMINGENV", te_def, { te_def }, ")"
+	;
+
+tc_spec =
+	"(", "TIMINGCHECK", tchk_def, { tchk_def }, ")"
+	;
+
+del_spec =
+	"(", "DELAY", deltype, { deltype }, ")"
+	;
+
+timing_spec =
+	del_spec |
+	tc_spec |
+	lbl_spec |
+	te_spec
+	;
+
+cell_instance =
+	"(", "INSTANCE", [ hierarchical_identifier ], ")" |
+	"(", "INSTANCE", "*", ")"
+	;
+
+celltype =
+	"(", "CELLTYPE", qstring, ")"
+	;
+
+cell =
+	"(", "CELL", celltype, cell_instance, { timing_spec }, ")"
+	;
+
+time_scale =
+	"(", "TIMESCALE", timescale_number, timescale_unit, ")"
+	;
+
+temperature =
+	"(", "TEMPERATURE", ( rtriple | signed_real_number ), ")"
+	;
+
+process =
+	"(", "PROCESS", qstring, ")"
+	;
+
+voltage =
+	"(", "VOLTAGE", ( rtriple | signed_real_number ), ")"
+	;
+
+hierarchy_divier =
+	"(", "DIVIDER", hchar, ")"
+	;
+
+program_version =
+	"(", "VERSION", qstirng, ")"
+	;
+
+program_name =
+	"(", "PROGRAM", qstirng, ")"
+	;
+
+vendor =
+	"(", "VENDOR", qstring, ")"
+	;
+
+date =
+	"(", "DATE", qstring, ")"
+	;
+
+design_name =
+	"(", "DESIGN", qstring, ")"
+	;
+
+sdf_version =
+	"(", "SDFVERSION", qstring, ")"
+	;
+
+sdf_header =
+	sdf_version, [ design_name ], [ date ], [ vendor ], [ program_name ], [ program_version ],
+		[ hierarchy_divier ], [ voltage ], [ process ], [ temperature ], [ time_scale ]
+	;
+
+delay_file =
+	"(", "DELAYFILE", sdf_header, cell, { cell }, ")"
+	;
+
+source_text =
+	delay_file
+	;
+
+(*
+	Keywords:
+		absolute         divider          period           skewconstraint
+		arrival          exception        periodconstraint slack
+		bidirectskew     hold             port             sum
+		ccond            increment        posedge          temperature
+		cell             instance         process          timescale
+		celltype         interconnect     program          timingcheck
+		cond             iopath           recovery         timinggenv
+		condelse         label            recrem           vendor
+		date             name             removval         version
+		delay            negedge          retain           voltage
+		delayfile        netdelay         scond            waveform
+		departure        nochange         sdfversion       width
+		design           pathconstraint   setup
+		device           pathpulse        setuphold
+		diff             pathpulsepercent skew
+*)
