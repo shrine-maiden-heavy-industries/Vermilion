@@ -6,9 +6,9 @@
 		"lpf"
 	],
 	"patterns": [
-
+		{ "include": "#lpf-file" }
 	],
 	"repository": {
-
+		"lpf-file": {}
 	}
 }
