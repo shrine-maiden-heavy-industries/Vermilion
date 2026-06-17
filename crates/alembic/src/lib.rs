@@ -4,4 +4,4 @@
 mod commands;
 mod env;
 
-vermilion_exec::new!(Alembic, "ALEMBIC_LOG_LEVEL");
+vermilion_exec::new!(Alembic, env::ALEMBIC_LOG_LEVEL);
