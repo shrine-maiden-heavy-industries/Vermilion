@@ -5,6 +5,7 @@
 // #![warn(missing_docs)]
 // #![warn(clippy::missing_docs_in_private_items)]
 
+pub mod cli;
 mod hooks;
 
 /// Create a new [`Executable`] with the given name and log-level
@@ -71,12 +72,40 @@ pub trait Executable {
 	///
 	/// Should be set to `env!("CARGO_PKG_VERSION")`
 	fn version(&self) -> &'static str;
+
+	/// Additional root-level CLI arguments
+	fn args(&self) -> eyre::Result<Vec<clap::Arg>> {
+		Ok(vec![])
+	}
+}
+
+fn setup_cli(exec: &dyn Executable) -> eyre::Result<clap::Command> {
+	let cli = cli::init(
+		exec.name(),
+		exec.version(),
+		exec.description(),
+		exec.log_level_var(),
+	)?;
+
+	let additional_args = exec.args()?;
+	let cli = cli.args(additional_args);
+
+	// TODO(aki): Subcommands
+
+	Ok(cli)
 }
 
 /// Setup and run the given [`Executable`]
 pub fn _run(exec: &dyn Executable) -> eyre::Result<()> {
 	// Set-up the eyre and panic hooks
 	hooks::install(exec.name(), exec.version())?;
+
+	let cli = setup_cli(exec)?;
+
+	// XXX(aki): We need to clone the Command here because we need it still
+	let args = cli.clone().get_matches();
+
+	// TODO(aki): Subcommand parsing
 
 	Ok(())
 }
