@@ -7,9 +7,9 @@
 		"vhdl"
 	],
 	"patterns": [
-
+		{ "include": "#vhdl-ams-file" }
 	],
 	"repository": {
-
+		"vhdl-ams-file": {}
 	}
 }
