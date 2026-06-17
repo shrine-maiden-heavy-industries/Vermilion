@@ -7,6 +7,7 @@
 
 use std::io;
 
+use chrono::Datelike;
 use tracing_subscriber::{
 	Layer,
 	filter::{EnvFilter, LevelFilter},
@@ -213,4 +214,23 @@ pub fn _dump_completions(
 	clap_complete::generate(shell, &mut cli, exec.name(), &mut completion_buffer);
 
 	Ok(String::from_utf8(completion_buffer)?)
+}
+
+pub fn banner_message() {
+	let date = chrono::Local::now().date_naive();
+	match (date.month(), date.day()) {
+		// TDoV
+		(3, 31) => {},
+		// Lesbian Visibility Day
+		(4, 26) => {},
+		// Pride Month
+		(6, _) => {},
+		// International Lesbian Day
+		(10, 8) => {},
+		// Trans Awareness Week
+		(11, 13..=19) => {},
+		// TDoR
+		(11, 20) => {},
+		_ => {},
+	}
 }
