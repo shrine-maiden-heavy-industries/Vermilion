@@ -3,12 +3,13 @@
 	"name": "System Verilog",
 	"scopeName": "source.system_verilog",
 	"fileTypes": [
-		"sv"
+		"sv",
+		"svh"
 	],
 	"patterns": [
-
+		{ "include": "#system-verilog-file" }
 	],
 	"repository": {
-
+		"system-verilog-file": {}
 	}
 }
