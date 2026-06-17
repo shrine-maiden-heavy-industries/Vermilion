@@ -27,6 +27,7 @@ vermilion-calomel       = { path = "crates/vermilion-calomel"     }
 vermilion-constraints   = { path = "crates/vermilion-constraints" }
 vermilion-dap           = { path = "crates/vermilion-dap"         }
 vermilion-diagnostics   = { path = "crates/vermilion-diagnostics" }
+vermilion-exec          = { path = "crates/vermilion-exec"        }
 vermilion-fmt           = { path = "crates/vermilion-fmt"         }
 vermilion-io            = { path = "crates/vermilion-io"          }
 vermilion-lang          = { path = "crates/vermilion-lang"        }

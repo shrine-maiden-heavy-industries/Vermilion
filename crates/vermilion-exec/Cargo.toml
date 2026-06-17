@@ -1,0 +1,30 @@
+# SPDX-License-Identifier: BSD-3-Clause
+[package]
+name          = "vermilion-exec"
+description   = "Common executable entrypoint library for Vermillion, Cinnabar, Alembic, and other associated executable crates"
+documentation = { workspace = true }
+edition       = { workspace = true }
+homepage      = { workspace = true }
+license       = { workspace = true }
+publish       = { workspace = true }
+repository    = { workspace = true }
+rust-version  = { workspace = true }
+version       = { workspace = true }
+
+[dependencies]
+vermilion-macros      = { workspace = true }
+
+chrono                = { workspace = true }
+clap                  = { workspace = true }
+clap_complete         = { workspace = true }
+color-eyre            = { workspace = true }
+color-print           = { workspace = true }
+colorchoice           = { workspace = true }
+console-subscriber    = { workspace = true }
+crossterm             = { workspace = true }
+eyre                  = { workspace = true }
+tracing               = { workspace = true }
+tracing-subscriber    = { workspace = true }
+
+[lints]
+workspace = true

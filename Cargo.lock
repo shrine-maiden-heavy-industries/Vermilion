@@ -3918,6 +3918,24 @@ dependencies = [
 ]
 
 [[package]]
+name = "vermilion-exec"
+version = "0.0.0"
+dependencies = [
+ "chrono",
+ "clap",
+ "clap_complete",
+ "color-eyre",
+ "color-print",
+ "colorchoice",
+ "console-subscriber",
+ "crossterm",
+ "eyre",
+ "tracing",
+ "tracing-subscriber",
+ "vermilion-macros",
+]
+
+[[package]]
 name = "vermilion-fmt"
 version = "0.0.0"
 dependencies = [
