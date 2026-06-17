@@ -51,24 +51,29 @@ macro_rules! new {
 			pub fn new() -> Self {
 				Self
 			}
-
-			/// Run this executable
-			#[inline]
-			pub fn run(&self) -> eyre::Result<()> {
-				$crate::_run(self)
-			}
-
-			/// Dump shell completions for this executable
-			#[inline]
-			pub fn dump_completions(&self, shell: clap_complete::Shell) -> eyre::Result<String> {
-				$crate::_dump_completions(self, shell)
-			}
 		}
 
 		#[inline]
 		pub fn main() -> eyre::Result<()> {
-			let exec = $name::new();
-			exec.run()
+			$crate::_run(&$name::new())
+		}
+
+		vermilion_macros::cfg_build_tooling! {
+			/// Dump Cinnabar CLI completions for the given [`clap_complete::Shell`] to a [`String`]
+			#[inline]
+			pub fn dump_completions(shell: clap_complete::Shell) -> eyre::Result<String> {
+				$crate::_dump_completions(&$name::new(), shell)
+			}
+
+			/// Get a constructed copy of executables CLI
+			///
+			/// ## NOTE
+			///
+			/// This should only be used to generate help pages and other metadata.
+			#[inline]
+			pub fn get_cli() -> eyre::Result<clap::Command> {
+				$crate::_setup_cli(&$name::new())
+			}
 		}
 	};
 }
