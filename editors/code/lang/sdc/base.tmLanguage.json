@@ -8,9 +8,9 @@
 		"xdc"
 	],
 	"patterns": [
-
+		{ "include": "#sdc-file" }
 	],
 	"repository": {
-
+		"sdc-file": {}
 	}
 }
