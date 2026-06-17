@@ -100,6 +100,11 @@
 				"path": "./lang/sdc/base.tmLanguage.json"
 			},
 			{
+				"language": "sdf",
+				"scopeName": "source.sdf",
+				"path": "./lang/sdf/base.tmLanguage.json"
+			},
+			{
 				"language": "system-verilog",
 				"scopeName": "source.system_verilog",
 				"path": "./lang/system_verilog/base.tmLanguage.json"
@@ -200,6 +205,21 @@
 				"icon": {
 					"dark": "./lang/sdc/icon_dark.svg",
 					"light": "./lang/sdc/icon_light.svg"
+				}
+			},
+			{
+				"id": "sdf",
+				"aliases": [
+					"Standard Delay Format",
+					"sdf"
+				],
+				"extensions": [
+					".sdf"
+				],
+				"configuration": "./lang/sdf/configuration.json",
+				"icon": {
+					"dark": "./lang/sdf/icon_dark.svg",
+					"light": "./lang/sdf/icon_light.svg"
 				}
 			},
 			{
