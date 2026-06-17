@@ -3815,6 +3815,7 @@ dependencies = [
  "vermilion-constraints",
  "vermilion-dap",
  "vermilion-diagnostics",
+ "vermilion-exec",
  "vermilion-fmt",
  "vermilion-io",
  "vermilion-lang",
