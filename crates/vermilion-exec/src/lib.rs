@@ -141,7 +141,7 @@ fn initialize_tracing(level: LevelFilter, env_var: &'static str) -> eyre::Result
 		.try_init()?)
 }
 
-fn setup_cli(exec: &dyn Executable) -> eyre::Result<clap::Command> {
+pub fn _setup_cli(exec: &dyn Executable) -> eyre::Result<clap::Command> {
 	let cli = cli::init(
 		exec.name(),
 		exec.version(),
@@ -162,7 +162,7 @@ pub fn _run(exec: &dyn Executable) -> eyre::Result<()> {
 	// Set-up the eyre and panic hooks
 	hooks::install(exec.name(), exec.version())?;
 
-	let cli = setup_cli(exec)?;
+	let cli = _setup_cli(exec)?;
 
 	// XXX(aki): We need to clone the Command here because we need it still
 	let args = cli.clone().get_matches();
@@ -203,7 +203,7 @@ pub fn _dump_completions(
 	shell: clap_complete::Shell,
 ) -> eyre::Result<String> {
 	let mut completion_buffer = Vec::new();
-	let mut cli = setup_cli(exec)?;
+	let mut cli = _setup_cli(exec)?;
 
 	clap_complete::generate(shell, &mut cli, exec.name(), &mut completion_buffer);
 
