@@ -14,6 +14,7 @@ version       = { workspace = true }
 [dependencies]
 vermilion-constraints = { workspace = true, features = [ "cli", "color-dbg", "schema" ] }
 vermilion-diagnostics = { workspace = true, features = [ "color-dbg", "pretty", "render", "schema" ] }
+vermilion-exec        = { workspace = true }
 vermilion-io          = { workspace = true, features = [ "color-dbg" ] }
 vermilion-lang        = { workspace = true, features = [ "color-dbg" ] }
 vermilion-liberty     = { workspace = true, features = [ "cli", "color-dbg", "schema" ] }

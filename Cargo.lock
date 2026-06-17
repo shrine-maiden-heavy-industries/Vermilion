@@ -62,6 +62,7 @@ dependencies = [
  "tracing-subscriber",
  "vermilion-constraints",
  "vermilion-diagnostics",
+ "vermilion-exec",
  "vermilion-io",
  "vermilion-lang",
  "vermilion-liberty",
