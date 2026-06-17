@@ -47,6 +47,12 @@ macro_rules! new {
 			pub fn run(&self) -> eyre::Result<()> {
 				$crate::_run(self)
 			}
+
+			/// Dump shell completions for this executable
+			#[inline]
+			pub fn dump_completions(&self, shell: clap_complete::Shell) -> eyre::Result<String> {
+				$crate::_dump_completions(self, shell)
+			}
 		}
 
 		#[inline]
@@ -108,4 +114,16 @@ pub fn _run(exec: &dyn Executable) -> eyre::Result<()> {
 	// TODO(aki): Subcommand parsing
 
 	Ok(())
+}
+
+pub fn _dump_completions(
+	exec: &dyn Executable,
+	shell: clap_complete::Shell,
+) -> eyre::Result<String> {
+	let mut completion_buffer = Vec::new();
+	let mut cli = setup_cli(exec)?;
+
+	clap_complete::generate(shell, &mut cli, exec.name(), &mut completion_buffer);
+
+	Ok(String::from_utf8(completion_buffer)?)
 }
