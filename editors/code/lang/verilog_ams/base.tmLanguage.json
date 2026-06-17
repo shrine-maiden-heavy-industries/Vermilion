@@ -6,9 +6,9 @@
 		"vams"
 	],
 	"patterns": [
-
+		{ "include": "#verilog-ams-file" }
 	],
 	"repository": {
-
+		"verilog-ams-file": {}
 	}
 }
