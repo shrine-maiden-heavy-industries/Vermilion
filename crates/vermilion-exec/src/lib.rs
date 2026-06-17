@@ -5,6 +5,8 @@
 // #![warn(missing_docs)]
 // #![warn(clippy::missing_docs_in_private_items)]
 
+mod hooks;
+
 /// Create a new [`Executable`] with the given name and log-level
 #[macro_export]
 macro_rules! new {
@@ -73,5 +75,8 @@ pub trait Executable {
 
 /// Setup and run the given [`Executable`]
 pub fn _run(exec: &dyn Executable) -> eyre::Result<()> {
+	// Set-up the eyre and panic hooks
+	hooks::install(exec.name(), exec.version())?;
+
 	Ok(())
 }
