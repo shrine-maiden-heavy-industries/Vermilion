@@ -508,6 +508,7 @@ dependencies = [
  "vermilion-constraints",
  "vermilion-dap",
  "vermilion-diagnostics",
+ "vermilion-exec",
  "vermilion-io",
  "vermilion-lang",
  "vermilion-liberty",
