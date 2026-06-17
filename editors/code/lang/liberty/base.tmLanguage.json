@@ -6,9 +6,9 @@
 		"lib"
 	],
 	"patterns": [
-
+		{ "include": "#liberty-file" }
 	],
 	"repository": {
-
+		"liberty-file": {}
 	}
 }
