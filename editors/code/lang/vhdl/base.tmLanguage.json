@@ -7,9 +7,9 @@
 		"vhdl"
 	],
 	"patterns": [
-
+		{ "include": "#vhdl-file" }
 	],
 	"repository": {
-
+		"vhdl-file": {}
 	}
 }
