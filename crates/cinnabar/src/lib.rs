@@ -4,4 +4,4 @@
 mod commands;
 mod env;
 
-vermilion_exec::new!(Cinnabar, "CINNABAR_LOG_LEVEL");
+vermilion_exec::new!(Cinnabar, env::CINNABAR_LOG_LEVEL);
