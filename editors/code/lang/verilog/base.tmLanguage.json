@@ -8,9 +8,9 @@
 		"vm"
 	],
 	"patterns": [
-
+		{ "include": "#verilog-file" }
 	],
 	"repository": {
-
+		"verilog-file": {}
 	}
 }
