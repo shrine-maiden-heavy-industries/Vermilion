@@ -21,7 +21,7 @@ mod hooks;
 /// Create a new [`Executable`] with the given name and log-level
 #[macro_export]
 macro_rules! new {
-	($name:ident, $env:literal) => {
+	($name:ident, $env:stmt) => {
 		pub(crate) struct $name;
 
 		impl $crate::Executable for $name {
