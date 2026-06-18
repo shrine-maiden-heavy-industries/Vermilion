@@ -1,0 +1,10 @@
+[
+	{
+		"caption": "Preferences: Vermilion Settings",
+		"command": "edit_settings",
+		"args": {
+			"base_file": "${packages}/vermilion/vermilion.sublime-settings",
+			"default": "// Settings in here override those in \"vermilion/vermilion.sublime-settings\"\n\n{\n\t$0\n}\n"
+		}
+	}
+]

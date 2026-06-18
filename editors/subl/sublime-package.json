@@ -1,0 +1,45 @@
+{
+	"contributions": {
+	  "settings": [
+		{
+		  "file_patterns": [
+			"/vermilion.sublime-settings"
+		  ],
+		  "schema": {
+			"$id": "sublime://settings/vermilion",
+			"allOf": [
+			  {
+				"$ref": "sublime://settings/LSP-plugin-base"
+			  },
+			  {
+				"$ref": "sublime://settings/vermilion#/definitions/PluginConfig"
+			  }
+			],
+			"definitions": {
+
+			}
+		  }
+		},
+		{
+		  "file_patterns": [
+			"/*.sublime-project"
+		  ],
+		  "schema": {
+			"properties": {
+			  "settings": {
+				"properties": {
+				  "LSP": {
+					"properties": {
+					  "vermilion": {
+						"$ref": "sublime://settings/vermilion#/definitions/PluginConfig"
+					  }
+					}
+				  }
+				}
+			  }
+			}
+		  }
+		}
+	  ]
+	}
+  }
