@@ -8,3 +8,10 @@
 		  As such, this is likely very brittle and might need to be turned into a full TCL grammar
 		  in the future based on any edge cases found.
 *)
+
+source_text =
+	;
+
+(*
+	Keywords:
+*)
