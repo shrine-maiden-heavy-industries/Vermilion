@@ -86,8 +86,8 @@ tracing-subscriber      = { version = "0.3", features = [ "ansi", "env-filter", 
 windows-sys             = { version = "0.61" }
 
 # Build Only Deps
-mdbook-preprocessor     = { version = "0.5.3" }
-pulldown-cmark-to-cmark = { version = "22.0.0" }
+mdbook-preprocessor     = { version = "0.5" }
+pulldown-cmark-to-cmark = { version = "22.0" }
 
 # Development/Testing Only deps
 afl                     = { version = "0.18" }
