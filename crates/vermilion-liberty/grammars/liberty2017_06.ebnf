@@ -1,2 +1,9 @@
 (* SPDX-License-Identifier: BSD-3-Clause *)
 (* EBNF grammar for Synopsys Liberty 2017.06 *)
+
+source_text =
+	;
+
+(*
+	Keywords:
+*)
