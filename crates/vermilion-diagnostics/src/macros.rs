@@ -60,7 +60,7 @@ macro_rules! define_diagnostics_table {
 			#[allow(clippy::zero_prefixed_literal, reason = "Diagnostic codes are zero-padded to 4 digits")]
 			pub static [<$name _DIAGNOSTICS>] : phf::Map<u32, $crate::StrDiagnostic<'static>> = phf::phf_map! {
 				$(
-					$code => $crate::StrDiagnostic::init(
+					[<$code u32>] => $crate::StrDiagnostic::init(
 						[<$code_prefix $code>],
 						include_str!(concat!($code_path, "/", stringify!($code_prefix), stringify!($code), ".md"))
 					),
