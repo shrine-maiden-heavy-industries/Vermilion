@@ -1,7 +1,37 @@
 (* SPDX-License-Identifier: BSD-3-Clause *)
 (* EBNF grammar for Synopsys Design Constraints *)
 
+decimal_number =
+	"0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
+	;
+
+hex_digit =
+	"0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" |
+	"A" | "B" | "C" | "D" | "E" | "F" |
+	"a" | "b" | "c" | "d" | "e" | "f"
+	;
+
+unicode_escape =
+	"\\", "U", hex_digit, [
+		hex_digit, [ hex_digit, [ hex_digit, [ hex_digit, [ hex_digit, [ hex_digit, [ hex_digit ] ] ] ] ] ]
+	]
+	;
+
+escaped_character =
+
+	;
+
+comment =
+	"#", ? Anything ?, "\n"
+	;
+
+command =
+	"", ( "\n" | ";")
+	;
+
+
 source_text =
+	{ command | comment }
 	;
 
 (*
