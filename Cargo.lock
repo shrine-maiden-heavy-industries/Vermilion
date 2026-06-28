@@ -4113,6 +4113,23 @@ dependencies = [
 ]
 
 [[package]]
+name = "vermilion-temagamite"
+version = "0.0.0"
+dependencies = [
+ "chrono",
+ "clap",
+ "color-print",
+ "criterion",
+ "eyre",
+ "proptest",
+ "schemars",
+ "serde",
+ "vermilion-diagnostics",
+ "vermilion-loc",
+ "vermilion-macros",
+]
+
+[[package]]
 name = "vermilion-verilog"
 version = "0.0.0"
 dependencies = [
