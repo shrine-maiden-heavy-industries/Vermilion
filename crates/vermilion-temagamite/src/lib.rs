@@ -5,7 +5,10 @@
 // #![warn(missing_docs)]
 // #![warn(clippy::missing_docs_in_private_items)]
 
+pub mod blocks;
 pub mod config;
+pub mod decryption;
+pub mod encryption;
 pub mod workspace;
 
 pub enum Version {
