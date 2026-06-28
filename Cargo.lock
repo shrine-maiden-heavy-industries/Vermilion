@@ -69,6 +69,7 @@ dependencies = [
  "vermilion-loc",
  "vermilion-macros",
  "vermilion-rtlil",
+ "vermilion-temagamite",
  "vermilion-verilog",
  "vermilion-vhdl",
 ]
