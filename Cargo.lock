@@ -4155,6 +4155,7 @@ dependencies = [
  "vermilion-lang",
  "vermilion-loc",
  "vermilion-macros",
+ "vermilion-temagamite",
 ]
 
 [[package]]
